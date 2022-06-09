@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Part;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class PartController extends Controller
 {
@@ -33,8 +34,12 @@ class PartController extends Controller
 
     public function store(Request $request)
     {
-        // Validation form data
-        $data = $this->validateData($request);
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'unit' => 'required|string|max:255',
+            'code' => 'required|numeric|unique:parts',
+            'price' => 'nullable'
+        ]);
 
         Part::create($data);
 
@@ -55,8 +60,12 @@ class PartController extends Controller
 
     public function update(Request $request, Part $part)
     {
-        // Validation form data
-        $data = $this->validateData($request);
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'unit' => 'required|string|max:255',
+            'code' => ['required','numeric',Rule::unique('parts')->ignore($part->id)],
+            'price' => 'nullable'
+        ]);
 
         $part->update($data);
 
@@ -72,18 +81,5 @@ class PartController extends Controller
         alert()->success('حذف موفق', 'حذف قطعه با موفقیت انجام شد');
 
         return back();
-    }
-
-    /*
-     * Validation form data
-     */
-    public function validateData(Request $request)
-    {
-        return $request->validate([
-            'name' => 'required|string|max:255',
-            'unit' => 'required|string|max:255',
-            'code' => 'required|numeric',
-            'price' => 'nullable'
-        ]);
     }
 }
