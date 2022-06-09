@@ -1,0 +1,71 @@
+@import url('/fonts/font.css');
+
+@tailwind base;
+@tailwind components;
+
+.input-text {
+    @apply w-full border border-gray-300 rounded-md px-4 py-1.5 md:text-sm text-xs focus:outline-none focus:ring
+    focus:ring-violet-400 focus:ring-opacity-60;
+}
+
+.form-submit-btn {
+    @apply px-4 py-2 bg-green-500 text-white md:text-sm text-xs rounded-md active:bg-green-700 hover:bg-green-600
+    focus:outline-none focus:ring focus:ring-green-600 focus:ring-opacity-70
+}
+
+.form-detail-btn {
+    @apply px-4 py-2 bg-yellow-500 text-white md:text-sm text-xs rounded-md active:bg-yellow-700 hover:bg-yellow-600
+    focus:outline-none focus:ring focus:ring-yellow-600 focus:ring-opacity-70
+}
+
+.form-cancel-btn {
+    @apply px-4 py-2 bg-red-500 text-white md:text-sm text-xs rounded-md active:bg-red-700 hover:bg-red-600
+    focus:outline-none focus:ring focus:ring-red-600 focus:ring-opacity-70
+}
+
+.form-edit-btn {
+    @apply px-4 py-2 bg-indigo-500 text-white md:text-sm text-xs rounded-md active:bg-indigo-700 hover:bg-indigo-600
+    focus:outline-none focus:ring focus:ring-indigo-600 focus:ring-opacity-70
+}
+
+.form-disabled-btn {
+    @apply px-4 py-2 bg-gray-400 text-white md:text-sm text-xs rounded-md focus:outline-none cursor-not-allowed
+}
+
+@tailwind utilities;
+
+@layer utilities {
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    .menu-active {
+        background-color: #f3f4f6;
+        color: #000000 !important;
+    }
+
+    .select2-container {
+        font-size: 0.75rem;
+    }
+
+    .select2-container[dir="rtl"] .select2-selection--single .select2-selection__rendered {
+        padding-right: 2.5rem !important;
+        padding-left: 0;
+    }
+
+    .select2-container--default .select2-search--dropdown .select2-search__field {
+        font-size: 0.75rem !important;
+    }
+
+    .select2-container .select2-selection--single {
+        height: 34px !important;
+        display: flex !important;
+        align-items: center !important;
+    }
+}
