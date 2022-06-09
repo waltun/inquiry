@@ -118,7 +118,7 @@
                 <div class="bg-white rounded-md p-4 border border-gray-200 shadow-sm mb-4 relative z-30">
                 <span
                     class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
-                    {{ $loop->index+1 }}
+                    {{ $group->code }}
                 </span>
                     <div class="space-y-4">
                         @if($group->image)
