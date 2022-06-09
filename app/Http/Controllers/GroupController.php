@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Group;
-use App\Models\Part;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Validation\Rule;
 
 class GroupController extends Controller
 {
@@ -25,7 +25,7 @@ class GroupController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'code' => 'required|numeric'
+            'code' => 'required|numeric|unique:groups'
         ]);
 
         $fileNewName = null;
@@ -61,7 +61,7 @@ class GroupController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'code' => 'required|numeric'
+            'code' => ['required', 'numeric', Rule::unique('groups')->ignore($group->id)]
         ]);
 
         if ($request->has('image')) {
