@@ -72,7 +72,6 @@ class InquiryController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'manager' => 'required|string|max:255',
             'model_id' => 'required|integer',
             'group_id' => 'required|integer',
         ]);
