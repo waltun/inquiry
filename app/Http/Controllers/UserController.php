@@ -43,7 +43,7 @@ class UserController extends Controller
 
         User::create($data);
 
-        alert()->success('افزودن کاربر جدید با موفقیت انجام شد', 'ثبت موفق');
+        alert()->success('ثبت موفق', 'افزودن کاربر جدید با موفقیت انجام شد');
 
         return redirect()->route('users.index');
     }
@@ -80,7 +80,7 @@ class UserController extends Controller
 
         $user->update($data);
 
-        alert()->success('بروزرسانی کاربر با موفقیت انجام شد', 'بروزسانی موفق');
+        alert()->success('بروزرسانی موفق', 'بروزرسانی کاربر با موفقیت انجام شد');
 
         return redirect()->route('users.index');
     }
@@ -89,7 +89,7 @@ class UserController extends Controller
     {
         $user->delete();
 
-        alert()->success('حذف کاربر با موفقیت انجام شد', 'حذف موفق');
+        alert()->success('حذف موفق', 'حذف کاربر با موفقیت انجام شد');
 
         return back();
     }
@@ -106,7 +106,7 @@ class UserController extends Controller
 
         $user->restore();
 
-        alert()->success('بازگردانی کاربر با موفقیت انجام شد', 'بازگردانی موفق');
+        alert()->success('بازگردانی موفق', 'بازگردانی کاربر با موفقیت انجام شد');
 
         return redirect()->route('users.index');
     }
@@ -117,7 +117,7 @@ class UserController extends Controller
 
         $user->forceDelete();
 
-        alert()->success('حذف کامل کاربر با موفقیت انجام شد', 'حذف کامل موفق');
+        alert()->success('حذف کامل موفق', 'حذف کامل کاربر با موفقیت انجام شد');
 
         return redirect()->route('users.deleted');
     }
