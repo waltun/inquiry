@@ -128,11 +128,6 @@
                 <input type="text" id="inputName" name="name" class="input-text" value="{{ $inquiry->name }}">
             </div>
 
-            <div class="mt-4">
-                <label for="inputManager" class="block mb-2 md:text-sm text-xs text-black">مسئول پروژه</label>
-                <input type="text" id="inputManager" name="manager" class="input-text" value="{{ $inquiry->manager }}">
-            </div>
-
         </div>
 
         <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
