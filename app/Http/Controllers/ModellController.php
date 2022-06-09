@@ -13,7 +13,7 @@ class ModellController extends Controller
     public function index($id)
     {
         $group = Group::find($id);
-        $modells = $group->modells;
+        $modells = $group->modells()->latest()->paginate(25);
         return view('modells.index', compact('modells', 'group'));
     }
 
@@ -74,6 +74,17 @@ class ModellController extends Controller
         $modell->delete();
 
         alert()->success('حذف موفق', 'حذف مدل با موفقیت انجام شد');
+
+        return back();
+    }
+
+    public function replicate(Modell $modell)
+    {
+        $newModell = $modell->replicate();
+        $newModell->code = $newModell->code + 10;
+        $newModell->save();
+
+        alert()->success('کپی موفق', 'کپی مدل با موفقیت انجام شد');
 
         return back();
     }

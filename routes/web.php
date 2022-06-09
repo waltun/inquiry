@@ -35,6 +35,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/models/{modell}/edit', [ModellController::class, 'edit'])->name('modells.edit');
     Route::patch('/models/{modell}', [ModellController::class, 'update'])->name('modells.update');
     Route::delete('/models/{modell}', [ModellController::class, 'destroy'])->name('modells.destroy');
+    Route::post('/models/{modell}/replicate', [ModellController::class, 'replicate'])->name('modells.replicate');
 
     //Group part routes
     Route::get('/groups/{group}/all-parts', [PartOfGroupController::class, 'index'])->name('group.parts.index');

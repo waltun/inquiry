@@ -85,6 +85,13 @@
                                     حذف
                                 </button>
                             </form>
+                            <form action="{{ route('modells.replicate',$modell->id) }}" method="POST"
+                                  class="inline">
+                                @csrf
+                                <button class="form-detail-btn text-xs">
+                                    کپی
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach
