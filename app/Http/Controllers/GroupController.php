@@ -6,6 +6,7 @@ use App\Models\Group;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 
 class GroupController extends Controller
@@ -18,11 +19,19 @@ class GroupController extends Controller
 
     public function create()
     {
+        if (!Gate::allows('create-group')) {
+            abort(403, 'You dont have access to this page');
+        }
+
         return view('groups.create');
     }
 
     public function store(Request $request)
     {
+        if (!Gate::allows('create-group')) {
+            abort(403, 'You dont have access to this page');
+        }
+
         $request->validate([
             'name' => 'required|string|max:255',
             'code' => 'required|numeric|unique:groups'
