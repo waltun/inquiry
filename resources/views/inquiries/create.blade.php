@@ -125,7 +125,7 @@
             <div class="mt-4">
                 <label for="inputName" class="block mb-2 md:text-sm text-xs text-black">نام پروژه</label>
                 <input type="text" id="inputName" name="name" class="input-text"
-                       placeholder="مثال : پروژه نفتی جنوب">
+                       placeholder="مثال : پروژه نفتی جنوب" value="{{ old('name') }}">
             </div>
 
         </div>
@@ -138,13 +138,16 @@
                 <select name="group_id" id="inputGroup" class="input-text" onchange="changeModel(event)">
                     <option value="">انتخاب گروه</option>
                     @foreach($groups as $group)
-                        <option value="{{ $group->id }}">{{ $group->name }}</option>
+                        <option value="{{ $group->id }}" {{ old('group_id') == $group ? 'selected' : '' }}>
+                            {{ $group->name }}
+                        </option>
                     @endforeach
                 </select>
             </div>
 
             <div class="mt-4">
-                <label for="inputModell" class="block mb-2 md:text-sm text-xs text-black">انتخاب مدل (بر اساس گروه)</label>
+                <label for="inputModell" class="block mb-2 md:text-sm text-xs text-black">انتخاب مدل (بر اساس
+                    گروه)</label>
                 <select name="model_id" id="inputModell" class="input-text">
                     <option value="">لطفا ابتدا گروه را انتخاب کنید</option>
                 </select>
