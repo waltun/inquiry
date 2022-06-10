@@ -117,6 +117,18 @@
                                     @case('admin')
                                         مدیر
                                         @break
+                                    @case('co-sales-expert')
+                                        کارشناس ارشد فروش
+                                        @break
+                                    @case('sales-expert')
+                                        کارشناس فروش
+                                        @break
+                                    @case('accounting')
+                                        حسابداری
+                                        @break
+                                    @case('inventory')
+                                        انبار داری
+                                        @break
                                 @endswitch
                             </span>
                         </td>
@@ -153,26 +165,26 @@
                         <p class="text-xs text-black text-center">ایمیل : {{ $user->email }}</p>
                         <p class="text-xs text-black text-center">
                             @switch($user->role)
+                                @case('user')
+                                    کاربر عادی - ثبت نام جدید
+                                    @break
                                 @case('it')
-                                    نقش : مدیر آی تی (IT)
+                                    مدیر آی تی (IT)
                                     @break
                                 @case('admin')
-                                    نقش : مدیر
+                                    مدیر
                                     @break
-                                @case('secretariat')
-                                    نقش : کارمند بخش دبیرخانه
+                                @case('co-sales-expert')
+                                    کارشناس ارشد فروش
                                     @break
-                                @case('administrative')
-                                    نقش : کارمند بخش اداری
+                                @case('sales-expert')
+                                    کارشناس فروش
                                     @break
-                                @case('financial')
-                                    نقش : کارمند بخش مالی
+                                @case('accounting')
+                                    حسابداری
                                     @break
-                                @case('sale')
-                                    نقش : کارمند بخش فروش
-                                    @break
-                                @case('commercial')
-                                    نقش : کارمند بخش بازرگانی
+                                @case('inventory')
+                                    انبار داری
                                     @break
                             @endswitch
                         </p>
