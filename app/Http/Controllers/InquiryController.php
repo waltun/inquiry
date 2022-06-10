@@ -108,11 +108,22 @@ class InquiryController extends Controller
         ]);
 
         foreach ($group->parts as $index => $part) {
-            Amount::create([
-                'value' => $request->amounts[$index],
-                'inquiry_id' => $inquiry->id,
-                'part_id' => $part->id
-            ]);
+            $amount = Amount::where('part_id', $part->id)->where('inquiry_id', $inquiry->id)->first();
+
+            if ($amount) {
+                if ($amount->value != $request->amounts[$index]) {
+                    $amount->update([
+                        'value' => $request->amounts[$index]
+                    ]);
+                }
+            } else {
+                Amount::create([
+                    'value' => $request->amounts[$index],
+                    'inquiry_id' => $inquiry->id,
+                    'part_id' => $part->id
+                ]);
+            }
+
         }
 
         alert()->success('ثبت موفق', 'ثبت مقادیر با موفقیت انجام شد');
