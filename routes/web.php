@@ -56,5 +56,6 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/inquiries/create/change-model', [InquiryController::class, 'changeModelAjax'])->name('inquiries.create.changeModel');
     Route::get('/inquiries/{inquiry}/amounts', [InquiryController::class, 'amounts'])->name('inquiries.amounts');
     Route::post('/inquiries/{inquiry}/amounts', [InquiryController::class, 'storeAmounts'])->name('inquiries.storeAmounts');
+    Route::patch('/inquiries/{inquiry}/submit', [InquiryController::class, 'submit'])->name('inquiries.submit');
     Route::resource('inquiries', InquiryController::class);
 });

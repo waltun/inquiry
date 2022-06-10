@@ -56,8 +56,11 @@
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                         مدل
                     </th>
-                    <th scope="col" class="relative px-4 py-3 rounded-l-md">
+                    <th scope="col" class="relative px-4 py-3">
                         <span class="sr-only">اقدامات</span>
+                    </th>
+                    <th scope="col" class="relative px-4 py-3 rounded-l-md">
+                        <span class="sr-only">ثبت نهایی</span>
                     </th>
                 </tr>
                 </thead>
@@ -97,8 +100,19 @@
                                   class="inline">
                                 @csrf
                                 @method('DELETE')
-                                <button class="form-cancel-btn text-xs" onclick="return confirm('قطعه حذف شود ؟')">
+                                <button class="form-cancel-btn text-xs" onclick="return confirm('استعلام حذف شود ؟')">
                                     حذف
+                                </button>
+                            </form>
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <form action="{{ route('inquiries.submit',$inquiry->id) }}" method="POST"
+                                  class="inline">
+                                @csrf
+                                @method('PATCH')
+                                <button class="form-submit-btn text-xs"
+                                        onclick="return confirm('استعلام ثبت نهایی شود ؟')">
+                                    ثبت نهایی
                                 </button>
                             </form>
                         </td>

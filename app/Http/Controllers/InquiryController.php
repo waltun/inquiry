@@ -130,6 +130,17 @@ class InquiryController extends Controller
         return redirect()->route('inquiries.index');
     }
 
+    public function submit(Inquiry $inquiry)
+    {
+        $inquiry->update([
+            'submit' => true
+        ]);
+
+        alert()->success('ثبت نهایی موفق', 'ثبت نهایی با موفقیت انجام شد و برای مدیریت ارسال شد');
+
+        return back();
+    }
+
     public function changeModelAjax(Request $request)
     {
         $group = Group::find($request->group_id);
