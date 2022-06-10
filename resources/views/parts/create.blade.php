@@ -94,12 +94,13 @@
             <div class="mt-4">
                 <label for="inputName" class="block mb-2 md:text-sm text-xs text-black">نام قطعه</label>
                 <input type="text" id="inputName" name="name" class="input-text"
-                       placeholder="مثال : ورق گالوانیزه به ضخامت 0.3">
+                       placeholder="مثال : ورق گالوانیزه به ضخامت 0.3" value="{{ old('name') }}">
             </div>
 
             <div class="mt-4">
                 <label for="inputUnit" class="block mb-2 md:text-sm text-xs text-black">واحد قطعه</label>
-                <input type="text" id="inputUnit" name="unit" class="input-text" placeholder="مثال : میلی متر">
+                <input type="text" id="inputUnit" name="unit" class="input-text" placeholder="مثال : میلی متر"
+                       value="{{ old('unit') }}">
             </div>
 
         </div>
@@ -109,7 +110,8 @@
 
             <div class="mt-4">
                 <label for="inputCode" class="block mb-2 md:text-sm text-xs text-black">کد قطعه</label>
-                <input type="text" id="inputCode" name="code" class="input-text" placeholder="مثال : 5">
+                <input type="text" id="inputCode" name="code" class="input-text" placeholder="مثال : 5"
+                       value="{{ old('code') }}">
             </div>
         </div>
 
@@ -120,7 +122,7 @@
                 <div class="mt-4">
                     <label for="inputPrice" class="block mb-2 md:text-sm text-xs text-black">قیمت قطعه</label>
                     <input type="text" id="inputPrice" name="price" class="input-text" placeholder="مثال : 150000"
-                           onkeyup="showPrice(event)">
+                           onkeyup="showPrice(event)" value="{{ old('price') }}">
                 </div>
 
                 <div class="mt-2">
