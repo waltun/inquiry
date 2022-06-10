@@ -84,11 +84,13 @@
 
             <div class="mt-4">
                 <label for="inputName" class="block mb-2 md:text-sm text-xs text-black">نام گروه</label>
-                <input type="text" id="inputName" name="name" class="input-text" placeholder="مثال : هواساز">
+                <input type="text" id="inputName" name="name" class="input-text" placeholder="مثال : هواساز"
+                       value="{{ old('name') }}">
             </div>
             <div class="mt-4">
                 <label for="inputCode" class="block mb-2 md:text-sm text-xs text-black">کد گروه</label>
-                <input type="text" id="inputCode" name="code" class="input-text" placeholder="مثال : 12">
+                <input type="text" id="inputCode" name="code" class="input-text" placeholder="مثال : 12"
+                       value="{{ old('code') }}">
             </div>
 
         </div>
@@ -98,7 +100,7 @@
 
             <div class="mt-4">
                 <label for="inputImage" class="block mb-2 md:text-sm text-xs text-black">تصویر گروه</label>
-                <input type="file" id="inputImage" name="image" class="input-text">
+                <input type="file" id="inputImage" name="image" class="input-text" value="{{ old('image') }}">
             </div>
 
         </div>
