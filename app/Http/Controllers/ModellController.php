@@ -81,7 +81,7 @@ class ModellController extends Controller
     public function replicate(Modell $modell)
     {
         $newModell = $modell->replicate();
-        $newModell->code = $newModell->code + 10;
+        $newModell->code = random_int(100, 99999);
         $newModell->save();
 
         alert()->success('کپی موفق', 'کپی مدل با موفقیت انجام شد');
