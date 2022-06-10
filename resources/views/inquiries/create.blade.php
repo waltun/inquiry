@@ -138,7 +138,7 @@
                 <select name="group_id" id="inputGroup" class="input-text" onchange="changeModel(event)">
                     <option value="">انتخاب گروه</option>
                     @foreach($groups as $group)
-                        <option value="{{ $group->id }}" {{ old('group_id') == $group ? 'selected' : '' }}>
+                        <option value="{{ $group->id }}" {{ old('group_id') == $group->id ? 'selected' : '' }}>
                             {{ $group->name }}
                         </option>
                     @endforeach
