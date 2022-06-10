@@ -21,7 +21,7 @@ return new class extends Migration {
             $table->string('phone');
             $table->enum('gender', ['male', 'female'])->nullable();
             $table->string('nation')->nullable();
-            $table->enum('role', ['user', 'it', 'admin']);
+            $table->enum('role', ['user', 'it', 'admin', 'co-sales-expert', 'sales-expert', 'accounting', 'inventory']);
             $table->integer('active')->default(0);
 
             $table->softDeletes();
