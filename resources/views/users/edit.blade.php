@@ -155,11 +155,23 @@
             <div class="mt-4">
                 <label for="inputRole" class="block mb-2 md:text-sm text-xs text-black">نقش (سِمَت)</label>
                 <select name="role" id="inputRole" class="input-text">
-                    <option value="it" {{ $user->role == 'it' ? 'selected' : '' }}>
-                        مدیر آی تی (IT)
-                    </option>
                     <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>
                         مدیر
+                    </option>
+                    <option value="co-sales-expert" {{ $user->role == 'co-sales-expert' ? 'selected' : '' }}>
+                        کارشناس ارشد فروش
+                    </option>
+                    <option value="sales-expert" {{ $user->role == 'sales-expert' ? 'selected' : '' }}>
+                        کارشناس فروش
+                    </option>
+                    <option value="accounting" {{ $user->role == 'accounting' ? 'selected' : '' }}>
+                        حسابداری
+                    </option>
+                    <option value="inventory" {{ $user->role == 'inventory' ? 'selected' : '' }}>
+                        انبار داری
+                    </option>
+                    <option value="it" {{ $user->role == 'it' ? 'selected' : '' }}>
+                        مدیر آی تی (IT)
                     </option>
                     <option value="user" {{ $user->role == 'user' ? 'selected' : '' }}>
                         کاربر عادی - ثبت نام جدید

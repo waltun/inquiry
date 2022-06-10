@@ -145,9 +145,27 @@
                 <label for="inputRole" class="block mb-2 md:text-sm text-xs text-black">نقش (سِمَت)</label>
                 <select name="role" id="inputRole" class="input-text">
                     <option value="">انتخاب کنید</option>
-                    <option value="it" {{ old('role') == 'it' ? 'selected' : '' }}>مدیر آی تی (IT)</option>
-                    <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>مدیر</option>
-                    <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>کاربر عادی</option>
+                    <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>
+                        مدیر
+                    </option>
+                    <option value="co-sales-expert" {{ old('role') == 'co-sales-expert' ? 'selected' : '' }}>
+                        کارشناس ارشد فروش
+                    </option>
+                    <option value="sales-expert" {{ old('role') == 'sales-expert' ? 'selected' : '' }}>
+                        کارشناس فروش
+                    </option>
+                    <option value="accounting" {{ old('role') == 'accounting' ? 'selected' : '' }}>
+                        حسابداری
+                    </option>
+                    <option value="inventory" {{ old('role') == 'inventory' ? 'selected' : '' }}>
+                        انبار داری
+                    </option>
+                    <option value="it" {{ old('role') == 'it' ? 'selected' : '' }}>
+                        مدیر آی تی (IT)
+                    </option>
+                    <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>
+                        کاربر عادی
+                    </option>
                 </select>
             </div>
 
