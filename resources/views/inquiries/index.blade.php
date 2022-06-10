@@ -166,6 +166,17 @@
                                 </button>
                             </form>
                         </div>
+                        <div class="flex w-full justify-center">
+                            <form action="{{ route('inquiries.submit',$inquiry->id) }}" method="POST"
+                                  class="inline">
+                                @csrf
+                                @method('PATCH')
+                                <button class="form-submit-btn text-xs"
+                                        onclick="return confirm('استعلام ثبت نهایی شود ؟')">
+                                    ثبت نهایی
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             @endforeach
