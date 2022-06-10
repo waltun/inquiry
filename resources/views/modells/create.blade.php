@@ -82,7 +82,8 @@
         <div class="col-span-2 flex justify-center">
             <span
                 class="text-lg text-center font-bold text-black bg-white p-4 rounded-md shadow-md border border-gray-200">
-                شما در حال ایجاد مدل جدید برای گروه <span class="text-red-600">{{ $group->name }}</span> با کد <span class="text-red-600">{{ $group->code }}</span> می باشید
+                شما در حال ایجاد مدل جدید برای گروه <span class="text-red-600">{{ $group->name }}</span> با کد <span
+                    class="text-red-600">{{ $group->code }}</span> می باشید
             </span>
         </div>
 
@@ -91,7 +92,8 @@
 
             <div class="mt-4">
                 <label for="inputName" class="block mb-2 md:text-sm text-xs text-black">نام مدل</label>
-                <input type="text" id="inputName" name="name" class="input-text" placeholder="مثال : 200">
+                <input type="text" id="inputName" name="name" class="input-text" placeholder="مثال : 200"
+                       value="{{ old('name') }}">
             </div>
 
         </div>
@@ -101,7 +103,8 @@
 
             <div class="mt-4">
                 <label for="inputCode" class="block mb-2 md:text-sm text-xs text-black">کد مدل</label>
-                <input type="text" id="inputCode" name="code" class="input-text" placeholder="مثال : 15">
+                <input type="text" id="inputCode" name="code" class="input-text" placeholder="مثال : 15"
+                       value="{{ old('code') }}">
             </div>
 
         </div>
