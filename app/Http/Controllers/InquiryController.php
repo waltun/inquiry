@@ -123,7 +123,6 @@ class InquiryController extends Controller
                     'part_id' => $part->id
                 ]);
             }
-
         }
 
         alert()->success('ثبت موفق', 'ثبت مقادیر با موفقیت انجام شد');

@@ -18,6 +18,8 @@ return new class extends Migration {
             $table->string('name');
             $table->string('manager');
 
+            $table->boolean('submit')->default(false);
+
             $table->unsignedBigInteger('group_id');
             $table->unsignedBigInteger('model_id');
 
