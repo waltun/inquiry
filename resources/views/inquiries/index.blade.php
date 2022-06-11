@@ -158,34 +158,44 @@
                             مدل : {{ $modell->name }}
                         </p>
                         <div class="flex w-full justify-between">
-                            <a href="{{ route('inquiries.edit',$inquiry->id) }}" class="form-edit-btn text-xs">
-                                ویرایش
-                            </a>
-                            <a href="{{ route('inquiries.show',$inquiry->id) }}" class="form-detail-btn text-xs">
-                                جزئیات
-                            </a>
-                            <a href="{{ route('inquiries.amounts',$inquiry->id) }}" class="form-submit-btn text-xs">
-                                مقادیر
-                            </a>
-                            <form action="" method="POST"
-                                  class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <button class="form-cancel-btn text-xs" onclick="return confirm('قطعه حذف شود ؟')">
-                                    حذف
-                                </button>
-                            </form>
+                            @can('create-inquiry')
+                                <a href="{{ route('inquiries.edit',$inquiry->id) }}" class="form-edit-btn text-xs">
+                                    ویرایش
+                                </a>
+                            @endcan
+                            @can('inquiry-detail')
+                                <a href="{{ route('inquiries.show',$inquiry->id) }}" class="form-detail-btn text-xs">
+                                    جزئیات
+                                </a>
+                            @endcan
+                            @can('inquiry-amounts')
+                                <a href="{{ route('inquiries.amounts',$inquiry->id) }}" class="form-submit-btn text-xs">
+                                    مقادیر
+                                </a>
+                            @endcan
+                            @can('create-inquiry')
+                                <form action="" method="POST"
+                                      class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="form-cancel-btn text-xs" onclick="return confirm('قطعه حذف شود ؟')">
+                                        حذف
+                                    </button>
+                                </form>
+                            @endcan
                         </div>
                         <div class="flex w-full justify-center">
-                            <form action="{{ route('inquiries.submit',$inquiry->id) }}" method="POST"
-                                  class="inline">
-                                @csrf
-                                @method('PATCH')
-                                <button class="form-submit-btn text-xs"
-                                        onclick="return confirm('استعلام ثبت نهایی شود ؟')">
-                                    ثبت نهایی
-                                </button>
-                            </form>
+                            @can('inquiry-amounts')
+                                <form action="{{ route('inquiries.submit',$inquiry->id) }}" method="POST"
+                                      class="inline">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button class="form-submit-btn text-xs"
+                                            onclick="return confirm('استعلام ثبت نهایی شود ؟')">
+                                        ثبت نهایی
+                                    </button>
+                                </form>
+                            @endcan
                         </div>
                     </div>
                 </div>
