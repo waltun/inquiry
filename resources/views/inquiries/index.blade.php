@@ -87,23 +87,31 @@
                             <p class="text-sm text-black text-center">{{ $modell->name }}</p>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse">
-                            <a href="{{ route('inquiries.edit',$inquiry->id) }}" class="form-edit-btn text-xs">
-                                ویرایش
-                            </a>
-                            <a href="{{ route('inquiries.show',$inquiry->id) }}" class="form-detail-btn text-xs">
-                                جزئیات
-                            </a>
-                            <a href="{{ route('inquiries.amounts',$inquiry->id) }}" class="form-submit-btn text-xs">
-                                مقادیر
-                            </a>
-                            <form action="" method="POST"
-                                  class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <button class="form-cancel-btn text-xs" onclick="return confirm('استعلام حذف شود ؟')">
-                                    حذف
-                                </button>
-                            </form>
+                            @can('create-inquiry')
+                                <a href="{{ route('inquiries.edit',$inquiry->id) }}" class="form-edit-btn text-xs">
+                                    ویرایش
+                                </a>
+                            @endcan
+                            @can('inquiry-detail')
+                                <a href="{{ route('inquiries.show',$inquiry->id) }}" class="form-detail-btn text-xs">
+                                    جزئیات
+                                </a>
+                            @endcan
+                            @can('inquiry-amounts')
+                                <a href="{{ route('inquiries.amounts',$inquiry->id) }}" class="form-submit-btn text-xs">
+                                    مقادیر
+                                </a>
+                            @endcan
+                            @can('create-inquiry')
+                                <form action="" method="POST" class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="form-cancel-btn text-xs"
+                                            onclick="return confirm('استعلام حذف شود ؟')">
+                                        حذف
+                                    </button>
+                                </form>
+                            @endcan
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <form action="{{ route('inquiries.submit',$inquiry->id) }}" method="POST"

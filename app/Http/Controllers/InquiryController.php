@@ -111,7 +111,7 @@ class InquiryController extends Controller
 
     public function amounts(Inquiry $inquiry)
     {
-        Gate::authorize('inquiry-value');
+        Gate::authorize('inquiry-amounts');
 
         $group = Group::find($inquiry->group_id);
         $modell = Modell::find($inquiry->model_id);
@@ -120,7 +120,7 @@ class InquiryController extends Controller
 
     public function storeAmounts(Request $request, Inquiry $inquiry)
     {
-        Gate::authorize('inquiry-value');
+        Gate::authorize('inquiry-amounts');
 
         $group = Group::find($inquiry->group_id);
 

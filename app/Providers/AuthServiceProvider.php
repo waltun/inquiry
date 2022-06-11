@@ -56,7 +56,7 @@ class AuthServiceProvider extends ServiceProvider
             return $user->role === 'sales-expert';
         });
 
-        Gate::define('inquiry-value', function (User $user) {
+        Gate::define('inquiry-amounts', function (User $user) {
             return $user->role === 'inventory';
         });
 
