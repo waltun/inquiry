@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Part;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class PartPriceController extends Controller
 {
     public function index()
     {
+        Gate::authorize('part-price');
+
         $parts = Part::query();
 
         if ($keyword = request('search')) {
@@ -28,11 +31,15 @@ class PartPriceController extends Controller
 
     public function edit(Part $part)
     {
+        Gate::authorize('part-price');
+
         return view('part-price.edit', compact('part'));
     }
 
     public function update(Request $request, Part $part)
     {
+        Gate::authorize('part-price');
+
         $request->validate([
             'price' => 'required|numeric'
         ]);
