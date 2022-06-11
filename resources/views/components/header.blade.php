@@ -55,6 +55,18 @@
                             @case('user')
                                 کاربر عادی
                                 @break
+                            @case('co-sales-expert')
+                                کارشناس ارشد فروش
+                                @break
+                            @case('sales-expert')
+                                کارشناس فروش
+                                @break
+                            @case('accounting')
+                                حسابداری
+                                @break
+                            @case('inventory')
+                                انبار داری
+                                @break
                         @endswitch
                     </span>
                 </div>
