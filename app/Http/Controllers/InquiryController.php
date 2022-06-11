@@ -13,6 +13,8 @@ class InquiryController extends Controller
 {
     public function index()
     {
+        Gate::authorize('inquiries');
+
         $inquiries = Inquiry::latest()->paginate(25);
 
         return view('inquiries.index', compact('inquiries'));

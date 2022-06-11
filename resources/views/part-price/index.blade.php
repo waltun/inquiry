@@ -89,7 +89,7 @@
 
             @if(request()->has('code') || request()->has('search'))
                 <div class="mt-4">
-                    <a href="{{ route('parts.index') }}" class="form-detail-btn text-xs">
+                    <a href="{{ route('parts.price.index') }}" class="form-detail-btn text-xs">
                         پاکسازی جستجو
                     </a>
                 </div>
