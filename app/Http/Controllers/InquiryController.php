@@ -15,7 +15,7 @@ class InquiryController extends Controller
     {
         Gate::authorize('inquiries');
 
-        $inquiries = Inquiry::latest()->paginate(25);
+        $inquiries = Inquiry::where('submit', 0)->latest()->paginate(25);
 
         return view('inquiries.index', compact('inquiries'));
     }
@@ -149,6 +149,13 @@ class InquiryController extends Controller
         alert()->success('ثبت موفق', 'ثبت مقادیر با موفقیت انجام شد');
 
         return redirect()->route('inquiries.index');
+    }
+
+    public function submitted()
+    {
+        $inquiries = Inquiry::where('submit', 0)->latest()->paginate(25);
+
+        return view('inquiries.submitted', compact('inquiries'));
     }
 
     public function submit(Inquiry $inquiry)

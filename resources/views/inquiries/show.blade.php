@@ -29,8 +29,15 @@
     </nav>
 
     <!-- Navigation Btn -->
-    <div class="mt-4 flex md:justify-end justify-center space-x-4 space-x-reverse">
-        <a href="{{ route('inquiries.index') }}" class="form-detail-btn text-xs">لیست استعلام ها</a>
+    <div class="mt-4 flex md:justify-between justify-center space-x-4 space-x-reverse">
+        <div>
+            <span class="text-black font-bold bg-indigo-200 px-6 py-1 rounded-md shadow">
+                شماره استعلام :{{ $inquiry->inquiry_number }}
+            </span>
+        </div>
+        <div>
+            <a href="{{ route('inquiries.index') }}" class="form-detail-btn text-xs">لیست استعلام ها</a>
+        </div>
     </div>
 
     <!-- Content -->
