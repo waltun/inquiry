@@ -36,9 +36,11 @@ class InquiryController extends Controller
             'name' => 'required|string|max:255',
             'model_id' => 'required|integer',
             'group_id' => 'required|integer',
+            'inquiry_number' => 'numeric|nullable'
         ]);
 
         $data['manager'] = auth()->user()->name;
+        $data['inquiry_number'] = random_int(999, 999999);
 
         Inquiry::create($data);
 
