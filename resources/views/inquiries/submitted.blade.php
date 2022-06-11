@@ -110,6 +110,11 @@
                                     مقادیر
                                 </a>
                             @endcan
+                            @can('inquiry-percent')
+                                <a href="{{ route('inquiries.percent',$inquiry->id) }}" class="form-edit-btn text-xs">
+                                    ثبت ضریب
+                                </a>
+                            @endcan
                         </td>
                     </tr>
                 @endforeach

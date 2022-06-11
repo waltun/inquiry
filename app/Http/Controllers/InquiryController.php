@@ -173,6 +173,25 @@ class InquiryController extends Controller
         return back();
     }
 
+    public function percent(Inquiry $inquiry)
+    {
+        Gate::authorize('inquiry-percent');
+
+        $totalPrice = 0;
+
+        $group = Group::find($inquiry->group_id);
+        $modell = Modell::find($inquiry->model_id);
+
+        foreach ($group->parts as $part) {
+            $amount = $inquiry->amounts()->where('part_id', $part->id)->first();
+            if ($amount) {
+                $totalPrice += ($part->price * $amount->value);
+            }
+        }
+
+        return view('inquiries.percent', compact('inquiry', 'group', 'modell', 'totalPrice'));
+    }
+
     public function changeModelAjax(Request $request)
     {
         $group = Group::find($request->group_id);
