@@ -18,6 +18,10 @@ return new class extends Migration {
             $table->string('name');
             $table->string('manager');
             $table->string('inquiry_number');
+            $table->bigInteger('price')->default(0);
+            $table->float('percent')->default(0);
+
+            $table->timestamp('archive_at')->nullable();
 
             $table->boolean('submit')->default(false);
 

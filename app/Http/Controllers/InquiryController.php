@@ -155,7 +155,7 @@ class InquiryController extends Controller
     {
         Gate::authorize('inquiry-percent');
 
-        $inquiries = Inquiry::where('submit', 0)->latest()->paginate(25);
+        $inquiries = Inquiry::where('submit', 1)->latest()->paginate(25);
 
         return view('inquiries.submitted', compact('inquiries'));
     }
