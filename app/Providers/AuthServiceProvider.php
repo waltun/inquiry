@@ -63,5 +63,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('inquiry-detail', function (User $user) {
             return $user->role === 'it' || $user->role === 'admin';
         });
+
+        Gate::define('inquiry-percent', function (User $user) {
+            return $user->role === 'it' || $user->role === 'admin';
+        });
     }
 }
