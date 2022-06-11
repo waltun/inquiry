@@ -13,24 +13,22 @@ class GroupController extends Controller
 {
     public function index()
     {
+        Gate::authorize('groups');
+
         $groups = Group::latest()->paginate(25);
         return view('groups.index', compact('groups'));
     }
 
     public function create()
     {
-        if (!Gate::allows('create-group')) {
-            abort(403, 'You dont have access to this page');
-        }
+        Gate::authorize('groups');
 
         return view('groups.create');
     }
 
     public function store(Request $request)
     {
-        if (!Gate::allows('create-group')) {
-            abort(403, 'You dont have access to this page');
-        }
+        Gate::authorize('groups');
 
         $request->validate([
             'name' => 'required|string|max:255',
@@ -63,11 +61,15 @@ class GroupController extends Controller
 
     public function edit(Group $group)
     {
+        Gate::authorize('groups');
+
         return view('groups.edit', compact('group'));
     }
 
     public function update(Request $request, Group $group)
     {
+        Gate::authorize('groups');
+
         $request->validate([
             'name' => 'required|string|max:255',
             'code' => ['required', 'numeric', Rule::unique('groups')->ignore($group->id)]
@@ -95,6 +97,8 @@ class GroupController extends Controller
 
     public function destroy(Group $group)
     {
+        Gate::authorize('groups');
+
         if ($group->image) {
             File::delete(public_path('/files/groups/' . $group->image));
         }
@@ -108,11 +112,15 @@ class GroupController extends Controller
 
     public function parts(Group $group)
     {
+        Gate::authorize('groups');
+
         return view('groups.parts', compact('group'));
     }
 
     public function destroyPart(Group $group, $partId)
     {
+        Gate::authorize('groups');
+
         $group->parts()->detach($partId);
 
         alert()->success('حذف موفق', 'حذف قطعه از گروه با موفقیت انجام شد');

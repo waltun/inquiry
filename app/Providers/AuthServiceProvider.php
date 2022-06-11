@@ -26,11 +26,11 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('create-group', function (User $user) {
+        Gate::define('groups', function (User $user) {
             return $user->role === 'it' || $user->role === 'admin';
         });
 
-        Gate::define('create-part', function (User $user) {
+        Gate::define('parts', function (User $user) {
             return $user->role === 'inventory';
         });
 
@@ -43,7 +43,11 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('inquiry-value', function (User $user) {
-            return $user->role === 'sales-expert';
+            return $user->role === 'inventory';
+        });
+
+        Gate::define('inquiry-detail', function (User $user) {
+            return $user->role === 'it' || $user->role === 'admin';
         });
     }
 }
