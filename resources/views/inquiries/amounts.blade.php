@@ -100,7 +100,6 @@
                         </td>
                         <td class="border border-gray-300 p-4 text-sm text-center font-bold">
                             <select name="amounts[]" id="inputAmount{{ $part->id }}" class="inputAmount w-64">
-                                <option value="">انتخاب کنید</option>
                                 @foreach($values as $value)
                                     <option value="{{ $value->value }}">
                                         {{ $value->value }}

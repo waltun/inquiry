@@ -114,15 +114,17 @@
                             @endcan
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <form action="{{ route('inquiries.submit',$inquiry->id) }}" method="POST"
-                                  class="inline">
-                                @csrf
-                                @method('PATCH')
-                                <button class="form-submit-btn text-xs"
-                                        onclick="return confirm('استعلام ثبت نهایی شود ؟')">
-                                    ثبت نهایی
-                                </button>
-                            </form>
+                            @can('inquiry-amounts')
+                                <form action="{{ route('inquiries.submit',$inquiry->id) }}" method="POST"
+                                      class="inline">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button class="form-submit-btn text-xs"
+                                            onclick="return confirm('استعلام ثبت نهایی شود ؟')">
+                                        ثبت نهایی
+                                    </button>
+                                </form>
+                            @endcan
                         </td>
                     </tr>
                 @endforeach
