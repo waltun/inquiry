@@ -7,6 +7,7 @@ use App\Models\Group;
 use App\Models\Inquiry;
 use App\Models\Modell;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class InquiryController extends Controller
 {
@@ -19,12 +20,16 @@ class InquiryController extends Controller
 
     public function create()
     {
+        Gate::authorize('create-inquiry');
+
         $groups = Group::select(['name', 'id'])->get();
         return view('inquiries.create', compact('groups'));
     }
 
     public function store(Request $request)
     {
+        Gate::authorize('create-inquiry');
+
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'model_id' => 'required|integer',
@@ -42,6 +47,8 @@ class InquiryController extends Controller
 
     public function show(Inquiry $inquiry)
     {
+        Gate::authorize('inquiry-detail');
+
         if ($inquiry->amounts->isEmpty()) {
             alert()->error('مقادیر', 'لطفا ابتدا مقادیر را مشخص کنید');
             return back();
@@ -62,6 +69,8 @@ class InquiryController extends Controller
 
     public function edit(Inquiry $inquiry)
     {
+        Gate::authorize('create-inquiry');
+
         $group = Group::find($inquiry->group_id);
         $modells = $group->modells;
         $groups = Group::select(['name', 'id'])->get();
@@ -70,6 +79,8 @@ class InquiryController extends Controller
 
     public function update(Request $request, Inquiry $inquiry)
     {
+        Gate::authorize('create-inquiry');
+
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'model_id' => 'required|integer',
@@ -85,6 +96,8 @@ class InquiryController extends Controller
 
     public function destroy(Inquiry $inquiry)
     {
+        Gate::authorize('create-inquiry');
+
         $inquiry->delete();
 
         alert()->success('حذف موفق', 'حذف استعلام با موفقیت انجام شد');
@@ -94,6 +107,8 @@ class InquiryController extends Controller
 
     public function amounts(Inquiry $inquiry)
     {
+        Gate::authorize('inquiry-value');
+
         $group = Group::find($inquiry->group_id);
         $modell = Modell::find($inquiry->model_id);
         return view('inquiries.amounts', compact('inquiry', 'group', 'modell'));
@@ -101,6 +116,8 @@ class InquiryController extends Controller
 
     public function storeAmounts(Request $request, Inquiry $inquiry)
     {
+        Gate::authorize('inquiry-value');
+
         $group = Group::find($inquiry->group_id);
 
         $request->validate([
@@ -132,6 +149,8 @@ class InquiryController extends Controller
 
     public function submit(Inquiry $inquiry)
     {
+        Gate::authorize('create-inquiry');
+
         $inquiry->update([
             'submit' => true
         ]);
