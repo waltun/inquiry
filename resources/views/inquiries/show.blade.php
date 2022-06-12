@@ -192,7 +192,7 @@
                     </p>
                 @else
                     <p class="text-sm font-bold text-red-600 text-center">
-                        هنوز ثبت نشده !
+                        آرشیو استعلام : هنوز ثبت نشده!
                     </p>
                 @endif
             </div>
