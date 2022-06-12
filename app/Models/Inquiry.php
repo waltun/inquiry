@@ -10,7 +10,8 @@ class Inquiry extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'manager', 'group_id', 'model_id', 'submit', 'inquiry_number', 'price', 'percent', 'archive_at'
+        'name', 'manager', 'group_id', 'model_id', 'submit', 'inquiry_number', 'price', 'percent', 'archive_at',
+        'user_id'
     ];
 
     public function amounts()

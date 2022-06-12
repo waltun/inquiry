@@ -25,6 +25,7 @@ return new class extends Migration {
 
             $table->boolean('submit')->default(false);
 
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('group_id');
             $table->unsignedBigInteger('model_id');
 

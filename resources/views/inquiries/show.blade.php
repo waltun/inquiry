@@ -116,6 +116,24 @@
                         {{ number_format($totalPrice) }} تومان
                     </td>
                 </tr>
+                @if($inquiry->percent)
+                    <tr>
+                        <td class="border border-gray-300 p-4 text-lg text-center font-bold" colspan="5">
+                            ضریب ثبت شده
+                        </td>
+                        <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
+                            {{ $inquiry->percent }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-gray-300 p-4 text-lg text-center font-bold" colspan="5">
+                            قیمت نهایی
+                        </td>
+                        <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
+                            {{ number_format($inquiry->price) }} تومان
+                        </td>
+                    </tr>
+                @endif
                 </tbody>
             </table>
         </div>
