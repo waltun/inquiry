@@ -193,6 +193,7 @@ return [
         'sender' => 'فرستنده',
         'sender_letter_number' => 'شماره نامه فرستنده',
         'urgency_level' => 'سطح اهمیت',
-        'code' => 'کد'
+        'code' => 'کد',
+        'percent' => 'ضریب',
     ],
 ];

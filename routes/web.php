@@ -59,5 +59,6 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::patch('/inquiries/{inquiry}/submit', [InquiryController::class, 'submit'])->name('inquiries.submit');
     Route::get('/inquiries/submitted', [InquiryController::class, 'submitted'])->name('inquiries.submitted');
     Route::get('/inquiries/{inquiry}/percent', [InquiryController::class, 'percent'])->name('inquiries.percent');
+    Route::patch('/inquiries/{inquiry}/percent', [InquiryController::class, 'storePercent'])->name('inquiries.storePercent');
     Route::resource('inquiries', InquiryController::class);
 });

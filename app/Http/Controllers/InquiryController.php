@@ -6,6 +6,7 @@ use App\Models\Amount;
 use App\Models\Group;
 use App\Models\Inquiry;
 use App\Models\Modell;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -190,6 +191,39 @@ class InquiryController extends Controller
         }
 
         return view('inquiries.percent', compact('inquiry', 'group', 'modell', 'totalPrice'));
+    }
+
+    public function storePercent(Request $request, Inquiry $inquiry)
+    {
+        Gate::authorize('inquiry-percent');
+
+        $request->validate([
+            'percent' => 'required|numeric|between:0,1'
+        ]);
+
+        $totalPrice = 0;
+        $finalPrice = 0;
+
+        $group = Group::find($inquiry->group_id);
+
+        foreach ($group->parts as $part) {
+            $amount = $inquiry->amounts()->where('part_id', $part->id)->first();
+            if ($amount) {
+                $totalPrice += ($part->price * $amount->value);
+            }
+        }
+
+        $finalPrice = $totalPrice / $request['percent'];
+
+        $inquiry->update([
+            'price' => $finalPrice,
+            'percent' => $request['percent'],
+            'archive_at' => now()
+        ]);
+
+        alert()->success('ثبت ضریب موفق', 'ثبت ضریب با موفقیت انجام شد و برای کاربر ارسال شد');
+
+        return redirect()->route('inquiries.submitted');
     }
 
     public function changeModelAjax(Request $request)

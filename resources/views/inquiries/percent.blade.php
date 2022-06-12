@@ -88,8 +88,10 @@
     </div>
 
     <!-- Form -->
-    <form method="POST" action="" class="md:grid grid-cols-3 gap-4 mt-4">
+    <form method="POST" action="{{ route('inquiries.storePercent',$inquiry->id) }}"
+          class="md:grid grid-cols-3 gap-4 mt-4">
         @csrf
+        @method('PATCH')
 
         <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
             <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">قیمت فعلی استعلام</p>
