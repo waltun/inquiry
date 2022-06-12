@@ -174,7 +174,7 @@
                 <div x-data="{open:false}">
                     <div
                         class="flex items-center text-gray-500 p-2 hover:bg-gray-100 rounded-md hover:text-black cursor-pointer
-                            {{ isActive(['inquiries.index','inquiries.create','inquiries.edit','inquiries.show','inquiries.amounts','inquiries.submitted'],'menu-active') }}"
+                            {{ isActive(['inquiries.index','inquiries.create','inquiries.edit','inquiries.show','inquiries.amounts','inquiries.submitted','inquiries.priced'],'menu-active') }}"
                         @click="open = !open">
                         <div>
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -209,6 +209,12 @@
                             <a href="{{ route('inquiries.submitted') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
                             hover:text-black rounded-md {{ isActive('inquiries.submitted','menu-active') }}">
                                 استعلام های منتظر قیمت
+                            </a>
+                        @endcan
+                        @can('create-inquiry')
+                            <a href="{{ route('inquiries.priced') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
+                            hover:text-black rounded-md {{ isActive('inquiries.priced','menu-active') }}">
+                                استعلام های قیمت گذاری شده
                             </a>
                         @endcan
                     </div>
