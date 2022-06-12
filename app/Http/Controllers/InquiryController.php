@@ -206,7 +206,6 @@ class InquiryController extends Controller
         ]);
 
         $totalPrice = 0;
-        $finalPrice = 0;
 
         $group = Group::find($inquiry->group_id);
 
@@ -228,6 +227,15 @@ class InquiryController extends Controller
         alert()->success('ثبت ضریب موفق', 'ثبت ضریب با موفقیت انجام شد و برای کاربر ارسال شد');
 
         return redirect()->route('inquiries.submitted');
+    }
+
+    public function priced()
+    {
+        Gate::authorize('create-inquiry');
+
+        $inquiries = Inquiry::where('archive_at', '!=', null)->where('user_id', auth()->user()->id)->latest()->paginate(25);
+
+        return view('inquiries.priced', compact('inquiries'));
     }
 
     public function changeModelAjax(Request $request)
