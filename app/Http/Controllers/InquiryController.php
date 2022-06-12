@@ -16,7 +16,7 @@ class InquiryController extends Controller
     {
         Gate::authorize('inquiries');
 
-        $inquiries = Inquiry::where('submit', 0)->latest()->paginate(25);
+        $inquiries = Inquiry::where('submit', 0)->where('user_id', auth()->user()->id)->latest()->paginate(25);
 
         return view('inquiries.index', compact('inquiries'));
     }
@@ -147,6 +147,9 @@ class InquiryController extends Controller
                 ]);
             }
         }
+
+        $inquiry->updated_at = now();
+        $inquiry->save();
 
         alert()->success('ثبت موفق', 'ثبت مقادیر با موفقیت انجام شد');
 
