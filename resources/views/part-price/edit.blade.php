@@ -89,11 +89,20 @@
         @csrf
         @method('PATCH')
 
-        <div class="col-span-2 flex justify-center">
-            <span
-                class="text-lg text-center font-bold text-black bg-white p-4 rounded-md shadow-md border border-gray-200">
+        <div class="col-span-2 flex justify-center my-4">
+            <div>
+                <span
+                    class="text-lg text-center font-bold text-black bg-white p-4 rounded-md shadow-md border border-gray-200">
                 شما در حال ایجاد قیمت جدید برای قطعه <span class="text-red-600">{{ $part->name }}</span> می باشید
-            </span>
+                </span>
+            </div>
+        </div>
+        <div class="col-span-2 flex justify-center">
+            <div>
+                <p class="text-sm text-black font-bold">
+                    لطفا توجه داشته باشید واحد قطعه مورد نظر <span class="text-red-600">{{ $part->unit }}</span> می باشد
+                </p>
+            </div>
         </div>
 
         <div class="col-span-2">
