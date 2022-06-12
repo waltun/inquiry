@@ -13,6 +13,19 @@
                     داشبورد
                 </a>
             </li>
+            <li>
+                <div class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                              clip-rule="evenodd"/>
+                    </svg>
+                    <a href="{{ route('groups.index') }}"
+                       class="mr-2 text-xs md:text-sm font-medium text-gray-500 hover:text-gray-900">
+                        مدیریت گروه ها
+                    </a>
+                </div>
+            </li>
             <li aria-current="page">
                 <div class="flex items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -21,7 +34,7 @@
                               clip-rule="evenodd"/>
                     </svg>
                     <span class="mr-2 text-xs md:text-sm font-medium text-gray-400">
-                        مدیریت گروه ها
+                        ایجاد قطعه برای گروه {{ $group->name }}
                     </span>
                 </div>
             </li>
@@ -29,8 +42,15 @@
     </nav>
 
     <!-- Navigation Btn -->
-    <div class="mt-4 flex md:justify-end justify-center space-x-4 space-x-reverse">
-        <a href="{{ route('groups.index') }}" class="form-detail-btn text-xs">لیست گروه ها</a>
+    <div class="mt-4 flex justify-between space-x-4 space-x-reverse">
+        <div>
+            <p class="text-lg font-bold text-black">
+                افزودن قطعه به گروه <span class="text-red-600">{{ $group->name }}</span>
+            </p>
+        </div>
+        <div>
+            <a href="{{ route('groups.index') }}" class="form-detail-btn text-xs">لیست گروه ها</a>
+        </div>
     </div>
 
     <!-- Search -->
