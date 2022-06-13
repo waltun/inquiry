@@ -128,7 +128,7 @@ class InquiryController extends Controller
 
         $request->validate([
             'amounts' => 'required|array',
-            'amounts.*' => 'numeric'
+            'amounts.*' => 'required|numeric'
         ]);
 
         foreach ($group->parts as $index => $part) {
