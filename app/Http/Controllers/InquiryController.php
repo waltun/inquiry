@@ -127,7 +127,7 @@ class InquiryController extends Controller
         $group = Group::find($inquiry->group_id);
 
         $request->validate([
-            'amounts' => 'required'
+            'amounts' => 'required|numeric'
         ]);
 
         foreach ($group->parts as $index => $part) {
