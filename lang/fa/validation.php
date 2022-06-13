@@ -195,5 +195,6 @@ return [
         'urgency_level' => 'سطح اهمیت',
         'code' => 'کد',
         'percent' => 'ضریب',
+        'amounts' => 'مقادیر'
     ],
 ];
