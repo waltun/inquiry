@@ -58,6 +58,11 @@
         <a href="{{ route('inquiries.index') }}" class="form-detail-btn text-xs">لیست استعلام ها</a>
     </div>
 
+    <!-- Errors -->
+    <div class="mt-4">
+        <x-errors/>
+    </div>
+
     <!-- Content -->
     <form method="POST" action="{{ route('inquiries.storeAmounts',$inquiry->id) }}" class="mt-4">
         @csrf
