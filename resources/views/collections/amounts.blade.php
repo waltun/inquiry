@@ -75,6 +75,9 @@
                 </thead>
                 <tbody>
                 @foreach($collection->parts as $part)
+                    @php
+                        $amount = \App\Models\CollectionAmount::where('part_id', $part->id)->where('collection_id', $collection->id)->first();
+                    @endphp
                     <tr>
                         <td class="border border-gray-300 p-4 text-sm text-center">
                             {{ $part->code }}
@@ -86,7 +89,8 @@
                             {{ $part->unit }}
                         </td>
                         <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                            <input name="amounts[]" id="inputAmount{{ $part->id }}" class="input-text">
+                            <input name="amounts[]" id="inputAmount{{ $part->id }}" class="input-text"
+                                   value="{{ $amount ? $amount->value : '' }}">
                         </td>
                     </tr>
                 @endforeach
