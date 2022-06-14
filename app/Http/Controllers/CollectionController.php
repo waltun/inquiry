@@ -112,7 +112,9 @@ class CollectionController extends Controller
 
     public function amounts(Collection $collection)
     {
-        //
+        Gate::authorize('inquiry-amounts');
+
+        return view('collections.amounts', compact('collection'));
     }
 
     public function storeAmounts(Request $request, Collection $collection)
