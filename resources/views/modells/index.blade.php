@@ -113,40 +113,39 @@
         </div>
 
         <!-- Mobile List -->
-        {{--        <div class="block md:hidden">--}}
-        {{--            @foreach($groups as $group)--}}
-        {{--                <div class="bg-white rounded-md p-4 border border-gray-200 shadow-sm mb-4 relative z-30">--}}
-        {{--                <span--}}
-        {{--                    class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">--}}
-        {{--                    {{ $loop->index+1 }}--}}
-        {{--                </span>--}}
-        {{--                    <div class="space-y-4">--}}
-        {{--                        @if($group->image)--}}
-        {{--                            <img src="/files/groups/{{ $group->image }}" alt="" class="mx-auto h-20 rounded-md">--}}
-        {{--                        @else--}}
-        {{--                            <p class="text-xs text-black text-center">تصویر ندارد</p>--}}
-        {{--                        @endif--}}
-        {{--                        <p class="text-xs text-black text-center">نام : {{ $group->name }}</p>--}}
-        {{--                        <p class="text-xs text-black text-center">تعداد مدل ها : 10</p>--}}
-        {{--                        <div class="flex w-full justify-between">--}}
-        {{--                            <a href="{{ route('groups.edit',$group->id) }}" class="form-edit-btn text-xs">--}}
-        {{--                                ویرایش--}}
-        {{--                            </a>--}}
-        {{--                            <a href="{{ route('modells.index',$group->id) }}" class="form-detail-btn text-xs">--}}
-        {{--                                مدل ها--}}
-        {{--                            </a>--}}
-        {{--                            <form action="{{ route('groups.destroy',$group->id) }}" method="POST"--}}
-        {{--                                  class="inline">--}}
-        {{--                                @csrf--}}
-        {{--                                @method('DELETE')--}}
-        {{--                                <button class="form-cancel-btn text-xs" onclick="return confirm('گروه حذف شود ؟')">--}}
-        {{--                                    حذف--}}
-        {{--                                </button>--}}
-        {{--                            </form>--}}
-        {{--                        </div>--}}
-        {{--                    </div>--}}
-        {{--                </div>--}}
-        {{--            @endforeach--}}
-        {{--        </div>--}}
+        <div class="block md:hidden">
+            @foreach($modells as $modell)
+                <div class="bg-white rounded-md p-4 border border-gray-200 shadow-sm mb-4 relative z-30">
+                        <span
+                            class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
+                            {{ $loop->index+1 }}
+                        </span>
+                    <div class="space-y-4">
+                        <p class="text-xs text-black text-center">نام : {{ $modell->name }}</p>
+                        <p class="text-xs text-black text-center">کد : {{ $modell->code }}</p>
+                        <div class="flex w-full justify-between">
+                            <a href="{{ route('modells.edit',$modell->id) }}" class="form-edit-btn text-xs">
+                                ویرایش
+                            </a>
+                            <form action="{{ route('modells.replicate',$modell->id) }}" method="POST"
+                                  class="inline">
+                                @csrf
+                                <button class="form-detail-btn text-xs">
+                                    کپی
+                                </button>
+                            </form>
+                            <form action="{{ route('modells.destroy',$modell->id) }}" method="POST"
+                                  class="inline">
+                                @csrf
+                                @method('DELETE')
+                                <button class="form-cancel-btn text-xs" onclick="return confirm('مدل حذف شود ؟')">
+                                    حذف
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
     </div>
 </x-layout>

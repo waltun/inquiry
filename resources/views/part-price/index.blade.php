@@ -134,7 +134,7 @@
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center">
                                 @if($part->price)
-                                    {{ number_format($part->price) }}
+                                    {{ number_format($part->price) }} تومان
                                 @else
                                     منتظر قیمت گذاری
                                 @endif
@@ -169,7 +169,10 @@
                             نام : {{ $part->name }}
                         </p>
                         <p class="text-xs text-black text-center">
-                            قیمت : {{ number_format($part->price) }}
+                            قیمت : {{ number_format($part->price) }} تومان
+                        </p>
+                        <p class="text-xs text-black text-center">
+                            اخرین بروزرسانی : {{ jdate($part->updated_at)->format('%A, %d %B %Y') }}
                         </p>
                         <div class="flex w-full justify-between">
                             <a href="{{ route('parts.price.edit',$part->id) }}" class="form-detail-btn text-xs">

@@ -36,7 +36,9 @@
             </p>
         </div>
         <div class="space-x-2 space-x-reverse flex items-center">
-            <a href="{{ route('inquiries.create') }}" class="form-submit-btn text-xs">ایجاد استعلام جدید</a>
+            @can('create-inquiry')
+                <a href="{{ route('inquiries.create') }}" class="form-submit-btn text-xs">ایجاد استعلام جدید</a>
+            @endcan
             <a href="{{ route('inquiries.priced') }}" class="form-detail-btn text-xs">استعلام های قیمت گذاری شده</a>
         </div>
 
@@ -113,16 +115,6 @@
                                     مقادیر
                                 </a>
                             @endcan
-                            @can('create-inquiry')
-                                <form action="" method="POST" class="inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="form-cancel-btn text-xs"
-                                            onclick="return confirm('استعلام حذف شود ؟')">
-                                        حذف
-                                    </button>
-                                </form>
-                            @endcan
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             @can('inquiry-amounts')
@@ -183,16 +175,6 @@
                                 <a href="{{ route('inquiries.amounts',$inquiry->id) }}" class="form-submit-btn text-xs">
                                     مقادیر
                                 </a>
-                            @endcan
-                            @can('create-inquiry')
-                                <form action="" method="POST"
-                                      class="inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="form-cancel-btn text-xs" onclick="return confirm('قطعه حذف شود ؟')">
-                                        حذف
-                                    </button>
-                                </form>
                             @endcan
                         </div>
                         <div class="flex w-full justify-center">

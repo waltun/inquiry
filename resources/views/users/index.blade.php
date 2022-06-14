@@ -29,9 +29,16 @@
     </nav>
 
     <!-- Navigation Btn -->
-    <div class="mt-4 flex md:justify-end justify-center space-x-4 space-x-reverse">
-        <a href="{{ route('users.create') }}" class="form-submit-btn text-xs">ایجاد کاربر جدید</a>
-        <a href="{{ route('users.deleted') }}" class="form-cancel-btn text-xs">کاربران حذف شده</a>
+    <div class="mt-4 flex justify-between items-center space-x-4 space-x-reverse">
+        <div>
+            <p class="text-lg text-black font-bold">
+                لیست کاربران
+            </p>
+        </div>
+        <div class="flex items-center space-x-2 space-x-reverse">
+            <a href="{{ route('users.create') }}" class="form-submit-btn text-xs">ایجاد کاربر جدید</a>
+            <a href="{{ route('users.deleted') }}" class="form-cancel-btn text-xs">کاربران حذف شده</a>
+        </div>
     </div>
 
     <!-- Navigation links -->

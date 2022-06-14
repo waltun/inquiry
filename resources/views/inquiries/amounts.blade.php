@@ -91,7 +91,7 @@
                 <tbody>
                 @foreach($group->parts as $part)
                     @php
-                        $values = DB::table('amounts')->select('value')->where('part_id',$part->id)->distinct()->get();
+                        $amount = \App\Models\Amount::where('part_id', $part->id)->where('inquiry_id', $inquiry->id)->first();
                     @endphp
                     <tr>
                         <td class="border border-gray-300 p-4 text-sm text-center">
@@ -104,13 +104,8 @@
                             {{ $part->unit }}
                         </td>
                         <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                            <select name="amounts[]" id="inputAmount{{ $part->id }}" class="inputAmount w-64">
-                                @foreach($values as $value)
-                                    <option value="{{ $value->value }}">
-                                        {{ $value->value }}
-                                    </option>
-                                @endforeach
-                            </select>
+                            <input type="number" name="amounts[]" id="inputAmount{{ $part->id }}" class="input-text"
+                                   value="{{ $amount ? $amount->value : '' }}">
                         </td>
                     </tr>
                 @endforeach

@@ -29,8 +29,15 @@
     </nav>
 
     <!-- Navigation Btn -->
-    <div class="mt-4 flex md:justify-end justify-center space-x-4 space-x-reverse">
-        <a href="{{ route('collections.create') }}" class="form-submit-btn text-xs">ایجاد مجموعه جدید</a>
+    <div class="mt-4 flex justify-between items-center space-x-4 space-x-reverse">
+        <div>
+            <p class="text-lg text-black font-bold">
+                لیست مجموعه ها
+            </p>
+        </div>
+        <div>
+            <a href="{{ route('collections.create') }}" class="form-submit-btn text-xs">ایجاد مجموعه جدید</a>
+        </div>
     </div>
 
     <!-- Search -->
@@ -138,7 +145,7 @@
                         <td class="px-4 py-3 whitespace-nowrap">
                             @if($collection->price)
                                 <p class="text-sm text-black text-center">
-                                    {{ number_format($collection->price) }}
+                                    {{ number_format($collection->price) }} تومان
                                 </p>
                             @else
                                 <p class="text-sm text-red-600 text-center">
@@ -183,13 +190,6 @@
             </table>
         </div>
 
-        <!-- Parts count -->
-        <div class="mt-4 mb-4">
-            <p class="text-sm font-bold text-indigo-600 underline underline-offset-4">
-                تعداد کل قطعات : {{ \App\Models\Part::count() }}
-            </p>
-        </div>
-
         <!-- Mobile List -->
         <div class="block md:hidden">
             @foreach($collections as $collection)
@@ -207,7 +207,7 @@
                         </p>
                         @if($collection->price)
                             <p class="text-xs text-black text-center">
-                                قیمت : {{ number_format($collection->price) }}
+                                قیمت : {{ number_format($collection->price) }} تومان
                             </p>
                         @else
                             <p class="text-xs text-red-600 text-center">
@@ -220,6 +220,15 @@
                         <div class="flex w-full justify-between">
                             <a href="{{ route('collections.edit',$collection->id) }}" class="form-edit-btn text-xs">
                                 ویرایش
+                            </a>
+                            <a href="{{ route('collections.parts.index',$collection->id) }}" class="form-submit-btn text-xs">
+                                افزودن قطعه
+                            </a>
+                            <a href="{{ route('collections.parts',$collection->id) }}" class="form-detail-btn text-xs">
+                                قطعات
+                            </a>
+                            <a href="{{ route('collections.amounts',$collection->id) }}" class="form-edit-btn text-xs">
+                                مقادیر
                             </a>
                             <form action="{{ route('collections.destroy',$collection->id) }}" method="POST"
                                   class="inline">

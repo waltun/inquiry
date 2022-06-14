@@ -29,8 +29,15 @@
     </nav>
 
     <!-- Navigation Btn -->
-    <div class="mt-4 flex md:justify-end justify-center space-x-4 space-x-reverse">
-        <a href="{{ route('groups.create') }}" class="form-submit-btn text-xs">ایجاد گروه جدید</a>
+    <div class="mt-4 flex justify-between items-center space-x-4 space-x-reverse">
+        <div>
+            <p class="text-lg text-black font-bold">
+                لیست گروه ها
+            </p>
+        </div>
+        <div>
+            <a href="{{ route('groups.create') }}" class="form-submit-btn text-xs">ایجاد گروه جدید</a>
+        </div>
     </div>
 
     <!-- Content -->
@@ -131,14 +138,22 @@
                             تعداد مدل ها : {{ count($group->model_ids ?? []) }}
                         </p>
                         <div class="flex w-full justify-between">
-                            <a href="{{ route('groups.edit',$group->id) }}" class="form-edit-btn text-xs">
-                                ویرایش
-                            </a>
                             <a href="{{ route('modells.index',$group->id) }}" class="form-detail-btn text-xs">
                                 مدل ها
                             </a>
+                            <a href="{{ route('modells.create',$group->id) }}" class="form-submit-btn text-xs">
+                                افزودن مدل
+                            </a>
+                            <a href="{{ route('group.parts',$group->id) }}" class="form-detail-btn text-xs">
+                                قطعات
+                            </a>
                             <a href="{{ route('group.parts.index',$group->id) }}" class="form-submit-btn text-xs">
                                 افزودن قطعه
+                            </a>
+                        </div>
+                        <div class="flex w-full justify-between">
+                            <a href="{{ route('groups.edit',$group->id) }}" class="form-edit-btn text-xs">
+                                ویرایش
                             </a>
                             <form action="{{ route('groups.destroy',$group->id) }}" method="POST"
                                   class="inline">

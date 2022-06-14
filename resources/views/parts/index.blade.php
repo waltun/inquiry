@@ -29,8 +29,15 @@
     </nav>
 
     <!-- Navigation Btn -->
-    <div class="mt-4 flex md:justify-end justify-center space-x-4 space-x-reverse">
-        <a href="{{ route('parts.create') }}" class="form-submit-btn text-xs">ایجاد قطعه جدید</a>
+    <div class="mt-4 flex justify-between items-center space-x-4 space-x-reverse">
+        <div>
+            <p class="text-lg text-black font-bold">
+                لیست قطعات ها
+            </p>
+        </div>
+        <div>
+            <a href="{{ route('parts.create') }}" class="form-submit-btn text-xs">ایجاد قطعه جدید</a>
+        </div>
     </div>
 
     <!-- Search -->
@@ -63,7 +70,7 @@
                         </button>
                     </div>
                 </form>
-                <form class="bg-white rounded-md p-4 shadow-sm border border-gray-200 mb-4">
+                <form class="bg-white rounded-md p-4 shadow-sm border border-gray-200 mb-4 md:mb-0">
                     <div class="mb-4">
                         <label for="inputSearch" class="block mb-2 md:text-sm text-xs text-black">
                             جستجو براساس نام، واحد یا قیمت
@@ -130,7 +137,9 @@
                             <p class="text-sm text-black text-center">{{ $part->unit }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ number_format($part->price) }}</p>
+                            <p class="text-sm text-black text-center">
+                                {{ number_format($part->price) }} تومان
+                            </p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center">{{ $part->code }}</p>
