@@ -10,7 +10,23 @@ class CollectionController extends Controller
 {
     public function index()
     {
-        //
+        Gate::authorize('collections');
+
+        $collections = Collection::query();
+
+        if ($keyword = request('search')) {
+            $collections->where('name', 'LIKE', "%{$keyword}%")
+                ->orWhere('unit', 'LIKE', "%{$keyword}%")
+                ->orWhere('price', 'LIKE', "%{$keyword}%");
+        }
+
+        if ($keyword = request('code')) {
+            $collections = $collections->where('code', 'LIKE', $keyword);
+        }
+
+        $collections = $collections->latest()->paginate(25);
+
+        return view('collections.index', compact('collections'));
     }
 
     public function create()

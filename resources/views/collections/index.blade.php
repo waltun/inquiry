@@ -21,7 +21,7 @@
                               clip-rule="evenodd"/>
                     </svg>
                     <span class="mr-2 text-xs md:text-sm font-medium text-gray-400">
-                        مدیریت قطعات
+                        مدیریت مجموعه ها
                     </span>
                 </div>
             </li>
@@ -30,7 +30,7 @@
 
     <!-- Navigation Btn -->
     <div class="mt-4 flex md:justify-end justify-center space-x-4 space-x-reverse">
-        <a href="{{ route('parts.create') }}" class="form-submit-btn text-xs">ایجاد قطعه جدید</a>
+        <a href="{{ route('collections.create') }}" class="form-submit-btn text-xs">ایجاد مجموعه جدید</a>
     </div>
 
     <!-- Search -->
@@ -39,7 +39,7 @@
         <div class="bg-white p-4 shadow-md rounded-md border border-gray-200">
             <div class="flex justify-between items-center cursor-pointer" @click="open = !open">
                 <p class="font-bold text-black">
-                    جستجو بین قطعات
+                    جستجو بین مجموعه ها
                 </p>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transform transition-transform" fill="none"
                      viewBox="0 0 24 24" :class="{'rotate-180' : open}"
@@ -55,7 +55,7 @@
                             جستجو براساس کد قطعه
                         </label>
                         <input type="text" id="inputSearchCode" name="code" class="input-text"
-                               placeholder="مثال : 45" value="{{ request('code') }}">
+                               placeholder="مثال : 500" value="{{ request('code') }}">
                     </div>
                     <div class="flex justify-end">
                         <button class="form-submit-btn" type="submit">
@@ -81,7 +81,7 @@
 
             @if(request()->has('code') || request()->has('search'))
                 <div class="mt-4">
-                    <a href="{{ route('parts.index') }}" class="form-detail-btn text-xs">
+                    <a href="{{ route('collections.index') }}" class="form-detail-btn text-xs">
                         پاکسازی جستجو
                     </a>
                 </div>
@@ -118,32 +118,40 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($parts as $part)
+                @foreach($collections as $collection)
                     <tr>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-gray-500 text-center">{{ $loop->index + 1 }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ $part->name }}</p>
+                            <p class="text-sm text-black text-center">{{ $collection->name }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ $part->unit }}</p>
+                            <p class="text-sm text-black text-center">{{ $collection->unit }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ number_format($part->price) }}</p>
+                            @if($collection->price)
+                                <p class="text-sm text-black text-center">
+                                    {{ number_format($collection->price) }}
+                                </p>
+                            @else
+                                <p class="text-sm text-red-600 text-center">
+                                    منتظر ثبت قطعات
+                                </p>
+                            @endif
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ $part->code }}</p>
+                            <p class="text-sm text-black text-center">{{ $collection->code }}</p>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse">
-                            <a href="{{ route('parts.edit',$part->id) }}" class="form-edit-btn text-xs">
+                            <a href="{{ route('collections.edit',$collection->id) }}" class="form-edit-btn text-xs">
                                 ویرایش
                             </a>
-                            <form action="{{ route('parts.destroy',$part->id) }}" method="POST"
+                            <form action="{{ route('collections.destroy',$collection->id) }}" method="POST"
                                   class="inline">
                                 @csrf
                                 @method('DELETE')
-                                <button class="form-cancel-btn text-xs" onclick="return confirm('قطعه حذف شود ؟')">
+                                <button class="form-cancel-btn text-xs" onclick="return confirm('مجموعه حذف شود ؟')">
                                     حذف
                                 </button>
                             </form>
@@ -163,7 +171,7 @@
 
         <!-- Mobile List -->
         <div class="block md:hidden">
-            @foreach($parts as $part)
+            @foreach($collections as $collection)
                 <div class="bg-white rounded-md p-4 border border-gray-200 shadow-sm mb-4 relative z-30">
                     <span
                         class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
@@ -171,26 +179,32 @@
                     </span>
                     <div class="space-y-4">
                         <p class="text-xs text-black text-center">
-                            نام : {{ $part->name }}
+                            نام : {{ $collection->name }}
                         </p>
                         <p class="text-xs text-black text-center">
-                            واحد : {{ $part->unit }}
+                            واحد : {{ $collection->unit }}
                         </p>
+                        @if($collection->price)
+                            <p class="text-xs text-black text-center">
+                                قیمت : {{ number_format($collection->price) }}
+                            </p>
+                        @else
+                            <p class="text-xs text-red-600 text-center">
+                                قیمت : منتظر ثبت قطعات
+                            </p>
+                        @endif
                         <p class="text-xs text-black text-center">
-                            قیمت : {{ number_format($part->price) }}
-                        </p>
-                        <p class="text-xs text-black text-center">
-                            کد : {{ $part->code }}
+                            کد : {{ $collection->code }}
                         </p>
                         <div class="flex w-full justify-between">
-                            <a href="{{ route('parts.edit',$part->id) }}" class="form-edit-btn text-xs">
+                            <a href="{{ route('collections.edit',$collection->id) }}" class="form-edit-btn text-xs">
                                 ویرایش
                             </a>
-                            <form action="{{ route('parts.destroy',$part->id) }}" method="POST"
+                            <form action="{{ route('collections.destroy',$collection->id) }}" method="POST"
                                   class="inline">
                                 @csrf
                                 @method('DELETE')
-                                <button class="form-cancel-btn text-xs" onclick="return confirm('قطعه حذف شود ؟')">
+                                <button class="form-cancel-btn text-xs" onclick="return confirm('مجموعه حذف شود ؟')">
                                     حذف
                                 </button>
                             </form>
