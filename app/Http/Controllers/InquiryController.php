@@ -239,6 +239,22 @@ class InquiryController extends Controller
         return view('inquiries.priced', compact('inquiries'));
     }
 
+    public function restore(Inquiry $inquiry)
+    {
+        Gate::authorize('inquiry-restore');
+
+        $inquiry->update([
+            'price' => 0,
+            'percent' => 0,
+            'archive_at' => null,
+            'submit' => false,
+        ]);
+
+        alert()->success('ثبت اصلاح موفق', 'ثبت اصلاح با موفقیت انجام شد و برای کاربر ارسال شد');
+
+        return back();
+    }
+
     public function changeModelAjax(Request $request)
     {
         $group = Group::find($request->group_id);

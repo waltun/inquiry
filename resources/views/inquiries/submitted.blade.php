@@ -115,6 +115,16 @@
                                     ثبت ضریب
                                 </a>
                             @endcan
+                            @can('inquiry-restore')
+                                <form action="{{ route('inquiries.restore',$inquiry->id) }}" method="POST"
+                                      class="inline">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button class="form-cancel-btn text-xs" onclick="return confirm('استعلام اصلاح شود ؟')">
+                                        اصلاح
+                                    </button>
+                                </form>
+                            @endcan
                         </td>
                     </tr>
                 @endforeach
