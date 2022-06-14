@@ -1,14 +1,4 @@
 <x-layout>
-    <x-slot name="js">
-        <script>
-            function showPrice(event) {
-                let value = event.target.value;
-                let priceSection = document.getElementById('price');
-                priceSection.innerText = Intl.NumberFormat('fa-IR').format(value);
-            }
-        </script>
-    </x-slot>
-
     <!-- Breadcrumb -->
     <nav class="flex bg-gray-100 p-4 rounded-md" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-2 space-x-reverse">
@@ -30,9 +20,9 @@
                               d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
                               clip-rule="evenodd"/>
                     </svg>
-                    <a href="{{ route('parts.index') }}"
+                    <a href="{{ route('collections.index') }}"
                        class="mr-2 text-xs md:text-sm font-medium text-gray-500 hover:text-gray-900">
-                        مدیریت قطعات
+                        مدیریت مجموعه ها
                     </a>
                 </div>
             </li>
@@ -44,7 +34,7 @@
                               clip-rule="evenodd"/>
                     </svg>
                     <span class="mr-2 text-xs md:text-sm font-medium text-gray-400">
-                        ویرایش قطعه {{ $part->name }}
+                        ویرایش مجموعه {{ $collection->name }}
                     </span>
                 </div>
             </li>
@@ -85,7 +75,7 @@
     </div>
 
     <!-- Form -->
-    <form method="POST" action="{{ route('parts.update',$part->id) }}" class="md:grid grid-cols-2 gap-4 mt-4">
+    <form method="POST" action="{{ route('collections.update',$collection->id) }}" class="md:grid grid-cols-2 gap-4 mt-4">
         @csrf
         @method('PATCH')
 
@@ -93,14 +83,14 @@
             <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">مشخصات کلی</p>
 
             <div class="mt-4">
-                <label for="inputName" class="block mb-2 md:text-sm text-xs text-black">نام قطعه</label>
+                <label for="inputName" class="block mb-2 md:text-sm text-xs text-black">نام مجموعه</label>
                 <input type="text" id="inputName" name="name" class="input-text"
-                       value="{{ $part->name }}">
+                       value="{{ $collection->name }}">
             </div>
 
             <div class="mt-4">
-                <label for="inputUnit" class="block mb-2 md:text-sm text-xs text-black">واحد قطعه</label>
-                <input type="text" id="inputUnit" name="unit" class="input-text" value="{{ $part->unit }}">
+                <label for="inputUnit" class="block mb-2 md:text-sm text-xs text-black">واحد مجموعه</label>
+                <input type="text" id="inputUnit" name="unit" class="input-text" value="{{ $collection->unit }}">
             </div>
 
         </div>
@@ -109,35 +99,16 @@
             <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">کد</p>
 
             <div class="mt-4">
-                <label for="inputCode" class="block mb-2 md:text-sm text-xs text-black">کد قطعه</label>
-                <input type="text" id="inputCode" name="code" class="input-text" value="{{ $part->code }}">
-            </div>
-        </div>
-
-        <div class="col-span-2">
-            <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
-                <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">قیمت</p>
-
-                <div class="mt-4">
-                    <label for="inputPrice" class="block mb-2 md:text-sm text-xs text-black">قیمت قطعه</label>
-                    <input type="text" id="inputPrice" name="price" class="input-text" value="{{ $part->price }}"
-                           onkeyup="showPrice(event)">
-                </div>
-
-                <div class="mt-2">
-                    <p class="text-center text-lg font-bold">
-                        <span id="price">{{ number_format($part->price) }}</span>
-                        تومان
-                    </p>
-                </div>
+                <label for="inputCode" class="block mb-2 md:text-sm text-xs text-black">کد مجموعه</label>
+                <input type="text" id="inputCode" name="code" class="input-text" value="{{ $collection->code }}">
             </div>
         </div>
 
         <div class="col-span-2 space-x-2 space-x-reverse">
             <button type="submit" class="form-edit-btn">
-                بروزرسانی قطعه
+                بروزرسانی مجموعه
             </button>
-            <a href="{{ route('groups.index') }}" class="form-cancel-btn">
+            <a href="{{ route('collections.index') }}" class="form-cancel-btn">
                 انصراف
             </a>
         </div>

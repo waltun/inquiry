@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rule;
 
 class CollectionController extends Controller
 {
@@ -58,12 +59,24 @@ class CollectionController extends Controller
 
     public function edit(Collection $collection)
     {
-        //
+        return view('collections.edit', compact('collection'));
     }
 
     public function update(Request $request, Collection $collection)
     {
-        //
+        Gate::authorize('collections');
+
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'code' => ['required', 'numeric', Rule::unique('collections')->ignore($collection->id)],
+            'unit' => 'required|string|max:255'
+        ]);
+
+        $collection->update($data);
+
+        alert()->success('ویرایش موفق', 'ویرایش مجموعه با موفقیت انجام شد');
+
+        return redirect()->route('collections.index');
     }
 
     public function destroy(Collection $collection)
