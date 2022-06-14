@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class CollectionController extends Controller
 {
@@ -14,12 +15,24 @@ class CollectionController extends Controller
 
     public function create()
     {
-        //
+        return view('collections.create');
     }
 
     public function store(Request $request)
     {
-        //
+        Gate::authorize('collections');
+
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'code' => 'required|numeric|unique:collections',
+            'unit' => 'required|string|max:255'
+        ]);
+
+        Collection::create($data);
+
+        alert()->success('ثبت موفق', 'ثبت مجموعه با موفقیت انجام شد');
+
+        return redirect()->route('collections.index');
     }
 
     public function show(Collection $collection)
