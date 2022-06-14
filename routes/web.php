@@ -63,6 +63,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/inquiries/{inquiry}/percent', [InquiryController::class, 'percent'])->name('inquiries.percent');
     Route::patch('/inquiries/{inquiry}/percent', [InquiryController::class, 'storePercent'])->name('inquiries.storePercent');
     Route::get('/inquiries/priced', [InquiryController::class, 'priced'])->name('inquiries.priced');
+    Route::patch('/inquiries/{inquiry}/restore', [InquiryController::class, 'restore'])->name('inquiries.restore');
     Route::resource('inquiries', InquiryController::class);
 
     //Collection routes
