@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\InquiryController;
@@ -62,4 +63,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::patch('/inquiries/{inquiry}/percent', [InquiryController::class, 'storePercent'])->name('inquiries.storePercent');
     Route::get('/inquiries/priced', [InquiryController::class, 'priced'])->name('inquiries.priced');
     Route::resource('inquiries', InquiryController::class);
+
+    //Collection routes
+    Route::resource('collections',CollectionController::class);
 });
