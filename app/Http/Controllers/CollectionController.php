@@ -101,6 +101,12 @@ class CollectionController extends Controller
 
     public function destroyPart(Collection $collection, $partId)
     {
-        //
+        Gate::authorize('collections');
+
+        $collection->parts()->detach($partId);
+
+        alert()->success('حذف موفق', 'حذف قطعه از مجموعه با موفقیت انجام شد');
+
+        return back();
     }
 }
