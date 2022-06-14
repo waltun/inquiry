@@ -12,4 +12,9 @@ class CollectionAmount extends Model
     protected $fillable = [
         'value', 'part_id', 'collection_id'
     ];
+
+    public function collection()
+    {
+        return $this->belongsTo(Collection::class);
+    }
 }

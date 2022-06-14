@@ -17,4 +17,9 @@ class Collection extends Model
     {
         return $this->belongsToMany(Part::class);
     }
+
+    public function amounts()
+    {
+        return $this->hasMany(CollectionAmount::class);
+    }
 }
