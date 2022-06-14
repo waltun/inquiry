@@ -59,6 +59,8 @@ class CollectionController extends Controller
 
     public function edit(Collection $collection)
     {
+        Gate::authorize('collections');
+
         return view('collections.edit', compact('collection'));
     }
 
@@ -81,6 +83,8 @@ class CollectionController extends Controller
 
     public function destroy(Collection $collection)
     {
+        Gate::authorize('collections');
+
         $collection->delete();
 
         alert()->success('حذف موفق', 'حذف مجموعه با موفقیت انجام شد');
@@ -90,7 +94,9 @@ class CollectionController extends Controller
 
     public function parts(Collection $collection)
     {
-        //
+        Gate::authorize('collections');
+
+        return view('collections.parts', compact('collection'));
     }
 
     public function destroyPart(Collection $collection, $partId)
