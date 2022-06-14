@@ -65,5 +65,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::resource('inquiries', InquiryController::class);
 
     //Collection routes
-    Route::resource('collections',CollectionController::class);
+    Route::get('/collections/{collection}/parts', [CollectionController::class, 'parts'])->name('collections.parts');
+    Route::delete('/collections/{collection}/{part}/destroy-part', [CollectionController::class, 'destroyPart'])->name('collections.destroyPart');
+    Route::resource('collections', CollectionController::class);
 });
