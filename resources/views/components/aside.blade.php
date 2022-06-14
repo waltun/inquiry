@@ -169,6 +169,46 @@
                 </div>
             @endcanany
 
+            <!-- Parts -->
+            @can('collections')
+                <div x-data="{open:false}">
+                    <div
+                        class="flex items-center text-gray-500 p-2 hover:bg-gray-100 rounded-md hover:text-black cursor-pointer
+                            {{ isActive(['collections.index','collections.create','collections.edit','collections.parts','collections.amounts'],'menu-active') }}"
+                        @click="open = !open">
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                 stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                            </svg>
+                        </div>
+                        <div class="flex justify-between w-full items-center">
+                            <span class="text-sm px-2">بخش مجموعه ها</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
+                                 viewBox="0 0 20 20" fill="currentColor"
+                                 :class="{'rotate-180' : open}">
+                                <path fill-rule="evenodd"
+                                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="mt-1 bg-gray-50 rounded-md p-2" x-show="open" x-cloak>
+                        @can('parts')
+                            <a href="{{ route('collections.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
+                            hover:text-black rounded-md {{ isActive('collections.index','menu-active') }}">
+                                مدیریت مجموعه ها
+                            </a>
+                            <a href="{{ route('collections.create') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
+                            hover:text-black rounded-md {{ isActive('collections.create','menu-active') }}">
+                                ایجاد مجموعه
+                            </a>
+                        @endcan
+                    </div>
+                </div>
+            @endcan
+
             <!-- Inquiries -->
             @canany(['inquiries','create-inquiry','inquiry-value','inquiry-detail'])
                 <div x-data="{open:false}">
@@ -180,7 +220,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                                  stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                                      d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                             </svg>
                         </div>
                         <div class="flex justify-between w-full items-center">
