@@ -112,6 +112,9 @@
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                         کد
                     </th>
+                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                        قطعات
+                    </th>
                     <th scope="col" class="relative px-4 py-3 rounded-l-md">
                         <span class="sr-only">اقدامات</span>
                     </th>
@@ -142,6 +145,15 @@
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center">{{ $collection->code }}</p>
+                        </td>
+                        <td class="px-4 py-3 space-x-3 space-x-reverse">
+                            <a href="{{ route('collections.parts.index',$collection->id) }}"
+                               class="form-submit-btn text-xs">
+                                افزودن قطعه
+                            </a>
+                            <a href="{{ route('collections.parts',$collection->id) }}" class="form-detail-btn text-xs">
+                                قطعات
+                            </a>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse">
                             <a href="{{ route('collections.edit',$collection->id) }}" class="form-edit-btn text-xs">

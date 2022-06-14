@@ -47,7 +47,7 @@
                               clip-rule="evenodd"/>
                     </svg>
                     <span class="mr-2 text-xs md:text-sm font-medium text-gray-400">
-                        افزودن قطعه به گروه {{ $group->name }}
+                        افزودن قطعه به گروه {{ $collection->name }}
                     </span>
                 </div>
             </li>
