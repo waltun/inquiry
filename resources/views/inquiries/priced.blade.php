@@ -80,6 +80,9 @@
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                         قیمت نهایی
                     </th>
+                    <th scope="col" class="relative px-4 py-3 rounded-l-md">
+                        <span class="sr-only">اقدامات</span>
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
@@ -106,10 +109,23 @@
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center">{{ $modell->name }}</p>
                         </td>
-                        <td class="px-4 py-3 space-x-3 space-x-reverse">
+                        <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-green-600 font-bold text-center">
                                 {{ number_format($inquiry->price) }} تومان
                             </p>
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            @can('inquiry-restore')
+                                <form action="{{ route('inquiries.restore',$inquiry->id) }}" method="POST"
+                                      class="inline">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button class="form-cancel-btn text-xs"
+                                            onclick="return confirm('استعلام اصلاح شود ؟')">
+                                        اصلاح
+                                    </button>
+                                </form>
+                            @endcan
                         </td>
                     </tr>
                 @endforeach
