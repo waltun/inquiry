@@ -81,6 +81,10 @@ class CollectionController extends Controller
 
     public function destroy(Collection $collection)
     {
-        //
+        $collection->delete();
+
+        alert()->success('حذف موفق', 'حذف مجموعه با موفقیت انجام شد');
+
+        return back();
     }
 }
