@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Collection;
+use App\Models\CollectionAmount;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
@@ -119,6 +120,36 @@ class CollectionController extends Controller
 
     public function storeAmounts(Request $request, Collection $collection)
     {
-        //
+        Gate::authorize('collection-amounts');
+
+        $request->validate([
+            'amounts' => 'required|array',
+            'amounts.*' => 'required|numeric'
+        ]);
+
+        foreach ($collection->parts as $index => $part) {
+            $amount = CollectionAmount::where('part_id', $part->id)->where('collection_id', $collection->id)->first();
+
+            if ($amount) {
+                if ($amount->value != $request->amounts[$index]) {
+                    $amount->update([
+                        'value' => $request->amounts[$index]
+                    ]);
+                }
+            } else {
+                CollectionAmount::create([
+                    'value' => $request->amounts[$index],
+                    'collection_id' => $collection->id,
+                    'part_id' => $part->id
+                ]);
+            }
+        }
+
+        $collection->updated_at = now();
+        $collection->save();
+
+        alert()->success('ثبت موفق', 'ثبت مقادیر با موفقیت انجام شد');
+
+        return redirect()->route('collections.index');
     }
 }
