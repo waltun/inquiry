@@ -68,6 +68,8 @@ Route::middleware(['auth', 'web'])->group(function () {
     //Collection routes
     Route::get('/collections/{collection}/parts', [CollectionController::class, 'parts'])->name('collections.parts');
     Route::delete('/collections/{collection}/{part}/destroy-part', [CollectionController::class, 'destroyPart'])->name('collections.destroyPart');
+    Route::get('/collections/{collection}/amounts', [CollectionController::class, 'amounts'])->name('collections.amounts');
+    Route::post('/collections/{collection}/amounts', [CollectionController::class, 'storeAmounts'])->name('collections.storeAmounts');
     Route::resource('collections', CollectionController::class);
 
     //Collection part routes

@@ -109,4 +109,14 @@ class CollectionController extends Controller
 
         return back();
     }
+
+    public function amounts(Collection $collection)
+    {
+        //
+    }
+
+    public function storeAmounts(Request $request, Collection $collection)
+    {
+        //
+    }
 }
