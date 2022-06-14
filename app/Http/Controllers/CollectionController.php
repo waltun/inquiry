@@ -127,6 +127,8 @@ class CollectionController extends Controller
             'amounts.*' => 'required|numeric'
         ]);
 
+        $totalPrice = 0;
+
         foreach ($collection->parts as $index => $part) {
             $amount = CollectionAmount::where('part_id', $part->id)->where('collection_id', $collection->id)->first();
 
@@ -136,16 +138,19 @@ class CollectionController extends Controller
                         'value' => $request->amounts[$index]
                     ]);
                 }
+                $totalPrice += ($part->price * $amount->value);
             } else {
-                CollectionAmount::create([
+                $collectionAmount = CollectionAmount::create([
                     'value' => $request->amounts[$index],
                     'collection_id' => $collection->id,
                     'part_id' => $part->id
                 ]);
+                $totalPrice += ($part->price * $collectionAmount->value);
             }
         }
 
         $collection->updated_at = now();
+        $collection->price = $totalPrice;
         $collection->save();
 
         alert()->success('ثبت موفق', 'ثبت مقادیر با موفقیت انجام شد');
