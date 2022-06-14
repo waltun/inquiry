@@ -12,4 +12,9 @@ class Collection extends Model
     protected $fillable = [
         'name', 'code', 'unit', 'price'
     ];
+
+    public function parts()
+    {
+        return $this->belongsToMany(Part::class);
+    }
 }

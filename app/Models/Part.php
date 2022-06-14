@@ -17,4 +17,9 @@ class Part extends Model
     {
         return $this->belongsToMany(Group::class);
     }
+
+    public function collections()
+    {
+        return $this->belongsToMany(Collection::class);
+    }
 }
