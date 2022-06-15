@@ -20,6 +20,8 @@ return new class extends Migration {
             $table->bigInteger('price')->nullable();
             $table->string('code');
 
+            $table->boolean('collection')->default(false);
+
             $table->timestamps();
         });
     }
