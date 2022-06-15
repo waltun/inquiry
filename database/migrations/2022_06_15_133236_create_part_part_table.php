@@ -17,6 +17,8 @@ return new class extends Migration {
 
             $table->unsignedBigInteger('part_id');
             $table->unsignedBigInteger('part_collection_id');
+
+            $table->integer('value')->nullable();
         });
 
         Schema::table('part_part', function (Blueprint $table) {
