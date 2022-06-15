@@ -42,7 +42,7 @@
             </a>
 
             <!-- Parts -->
-            @canany(['parts','part-price'])
+            @canany(['parts','part-price','part-collection'])
                 <div x-data="{open:false}">
                     <div
                         class="flex items-center text-gray-500 p-2 hover:bg-gray-100 rounded-md hover:text-black cursor-pointer
@@ -74,13 +74,15 @@
                             hover:text-black rounded-md {{ isActive('parts.index') }}">
                                 مدیریت قطعات
                             </a>
-                            <a href="{{ route('parts.collection') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive('parts.collection') }}">
-                                مدیریت قطعات مجموعه ای
-                            </a>
                             <a href="{{ route('parts.create') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
                             hover:text-black rounded-md {{ isActive('parts.create') }}">
                                 ایجاد قطعه
+                            </a>
+                        @endcan
+                        @can('part-collection')
+                            <a href="{{ route('parts.collection') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
+                            hover:text-black rounded-md {{ isActive('parts.collection') }}">
+                                مدیریت قطعات مجموعه ای
                             </a>
                         @endcan
                         @can('part-price')
