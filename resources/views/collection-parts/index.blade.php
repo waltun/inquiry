@@ -153,6 +153,9 @@
                             <a href="{{ route('collections.create',$part->id) }}" class="form-submit-btn text-xs">
                                 افزودن قطعه
                             </a>
+                            <a href="{{ route('collections.parts',$part->id) }}" class="form-detail-btn text-xs">
+                                قطعات
+                            </a>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse">
                             <a href="{{ route('parts.edit',$part->id) }}" class="form-edit-btn text-xs">

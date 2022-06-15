@@ -67,7 +67,9 @@ class CollectionPartController extends Controller
 
     public function parts(Part $collectionPart)
     {
-        dd($collectionPart);
+        $collectionParts = DB::table('part_part')->where('part_collection_id', $collectionPart->id)->get();
+
+        return view('collection-parts.parts', compact('collectionPart', 'collectionParts'));
     }
 
     public function destroy(Part $collectionPart, Part $part)
