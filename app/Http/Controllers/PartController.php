@@ -16,16 +16,17 @@ class PartController extends Controller
         $parts = Part::query();
 
         if ($keyword = request('search')) {
-            $parts->where('name', 'LIKE', "%{$keyword}%")
+            $parts->where('collection', false)
+                ->where('name', 'LIKE', "%{$keyword}%")
                 ->orWhere('unit', 'LIKE', "%{$keyword}%")
                 ->orWhere('price', 'LIKE', "%{$keyword}%");
         }
 
         if ($keyword = request('code')) {
-            $parts = $parts->where('code', 'LIKE', $keyword);
+            $parts = $parts->where('code', 'LIKE', $keyword)->where('collection', false);
         }
 
-        $parts = $parts->latest()->paginate(25);
+        $parts = $parts->where('collection', false)->latest()->paginate(25);
 
         return view('parts.index', compact('parts'));
     }
@@ -108,5 +109,27 @@ class PartController extends Controller
         alert()->success('حذف موفق', 'حذف قطعه با موفقیت انجام شد');
 
         return back();
+    }
+
+    public function collectionIndex()
+    {
+        Gate::authorize('parts');
+
+        $parts = Part::query();
+
+        if ($keyword = request('search')) {
+            $parts->where('collection', true)
+                ->where('name', 'LIKE', "%{$keyword}%")
+                ->orWhere('unit', 'LIKE', "%{$keyword}%")
+                ->orWhere('price', 'LIKE', "%{$keyword}%");
+        }
+
+        if ($keyword = request('code')) {
+            $parts = $parts->where('code', 'LIKE', $keyword)->where('collection', true);
+        }
+
+        $parts = $parts->where('collection', true)->latest()->paginate(25);
+
+        return view('parts.collections', compact('parts'));
     }
 }

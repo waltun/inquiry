@@ -21,7 +21,7 @@
                               clip-rule="evenodd"/>
                     </svg>
                     <span class="mr-2 text-xs md:text-sm font-medium text-gray-400">
-                        مدیریت قطعات
+                        مدیریت قطعات مجموعه ای
                     </span>
                 </div>
             </li>
@@ -32,12 +32,12 @@
     <div class="mt-4 flex justify-between items-center space-x-4 space-x-reverse">
         <div>
             <p class="text-lg text-black font-bold">
-                لیست قطعات
+                لیست قطعات مجموعه ای
             </p>
         </div>
         <div>
             <a href="{{ route('parts.create') }}" class="form-submit-btn text-xs">ایجاد قطعه جدید</a>
-            <a href="{{ route('parts.collection') }}" class="form-detail-btn text-xs">لیست قطعات مجموعه ای</a>
+            <a href="{{ route('parts.index') }}" class="form-detail-btn text-xs">لیست قطعات</a>
         </div>
     </div>
 
@@ -89,7 +89,7 @@
 
             @if(request()->has('code') || request()->has('search'))
                 <div class="mt-4">
-                    <a href="{{ route('parts.index') }}" class="form-detail-btn text-xs">
+                    <a href="{{ route('parts.collection') }}" class="form-detail-btn text-xs">
                         پاکسازی جستجو
                     </a>
                 </div>
@@ -168,7 +168,7 @@
         <!-- Parts count -->
         <div class="mt-4 mb-4">
             <p class="text-sm font-bold text-indigo-600 underline underline-offset-4">
-                تعداد کل قطعات : {{ \App\Models\Part::where('collection',false)->count() }}
+                تعداد کل قطعات مجموعه ای : {{ \App\Models\Part::where('collection',true)->count() }}
             </p>
         </div>
 
