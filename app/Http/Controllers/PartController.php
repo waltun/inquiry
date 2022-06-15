@@ -113,7 +113,7 @@ class PartController extends Controller
 
     public function collectionIndex()
     {
-        Gate::authorize('parts');
+        Gate::authorize('part-collection');
 
         $parts = Part::query();
 
