@@ -98,14 +98,21 @@ class CollectionPartController extends Controller
 
         $collectionParts = DB::table('part_part')->where('part_collection_id', $collectionPart->id)->get();
 
+        $totalPrice = 0;
+
         foreach ($collectionParts as $index => $collectionPart2) {
             $part = Part::where('id', $collectionPart2->part_id)->first();
 
-            DB::table('part_part')->where('part_id', $part->id)
+            $value = DB::table('part_part')->where('part_id', $part->id)
                 ->where('part_collection_id', $collectionPart->id)->update([
                     'value' => $request->values[$index]
                 ]);
+
+            $totalPrice += ($part->price * $request->values[$index]);
         }
+
+        $collectionPart->price = $totalPrice;
+        $collectionPart->save();
 
         alert()->success('ثبت موفق', 'ثبت مقادیر با موفقیت انجام شد');
 
