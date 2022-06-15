@@ -82,8 +82,15 @@ class PartController extends Controller
             'name' => 'required|string|max:255',
             'unit' => 'required|string|max:255',
             'code' => ['required', 'numeric', Rule::unique('parts')->ignore($part->id)],
-            'price' => 'nullable'
+            'price' => 'nullable',
+            'collection' => 'required|in:true,false'
         ]);
+
+        if ($data['collection'] == 'true') {
+            $data['collection'] = true;
+        } else {
+            $data['collection'] = false;
+        }
 
         $part->update($data);
 
