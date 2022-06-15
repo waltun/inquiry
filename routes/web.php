@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CollectionPartController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\InquiryController;
@@ -50,10 +51,12 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/parts/price', [PartPriceController::class, 'index'])->name('parts.price.index');
     Route::get('/parts/{part}/price', [PartPriceController::class, 'edit'])->name('parts.price.edit');
     Route::patch('/parts/{part}/price', [PartPriceController::class, 'update'])->name('parts.price.update');
-    Route::get('/collection-parts', [PartController::class, 'collectionIndex'])->name('parts.collection');
-    Route::get('/collection-parts/{collectionPart}/add-parts', [PartController::class, 'collectionAddParts'])->name('parts.collection.add');
-    Route::post('/collection-parts/{collectionPart}/{part}/parts', [PartController::class, 'collectionStoreParts'])->name('parts.collection.store');
     Route::resource('parts', PartController::class);
+
+    //Collection Part routes
+    Route::get('/collection-parts', [CollectionPartController::class, 'index'])->name('collections.index');
+    Route::get('/collection-parts/{collectionPart}/add-parts', [CollectionPartController::class, 'create'])->name('collections.create');
+    Route::post('/collection-parts/{collectionPart}/{part}/parts', [CollectionPartController::class, 'store'])->name('collections.store');
 
     //Inquiry routes
     Route::post('/inquiries/create/change-model', [InquiryController::class, 'changeModelAjax'])->name('inquiries.create.changeModel');

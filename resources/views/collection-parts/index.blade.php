@@ -21,7 +21,7 @@
                               clip-rule="evenodd"/>
                     </svg>
                     <span class="mr-2 text-xs md:text-sm font-medium text-gray-400">
-                        مدیریت قطعات مجموعه ای
+                        مدیریت مجموعه ها
                     </span>
                 </div>
             </li>
@@ -32,7 +32,7 @@
     <div class="mt-4 flex justify-between items-center space-x-4 space-x-reverse">
         <div>
             <p class="text-lg text-black font-bold">
-                لیست قطعات مجموعه ای
+                لیست مجموعه ها
             </p>
         </div>
         <div>
@@ -47,7 +47,7 @@
         <div class="bg-white p-4 shadow-md rounded-md border border-gray-200">
             <div class="flex justify-between items-center cursor-pointer" @click="open = !open">
                 <p class="font-bold text-black">
-                    جستجو بین قطعات
+                    جستجو بین مجموعه ها
                 </p>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transform transition-transform" fill="none"
                      viewBox="0 0 24 24" :class="{'rotate-180' : open}"
@@ -89,7 +89,7 @@
 
             @if(request()->has('code') || request()->has('search'))
                 <div class="mt-4">
-                    <a href="{{ route('parts.collection') }}" class="form-detail-btn text-xs">
+                    <a href="{{ route('collections.index') }}" class="form-detail-btn text-xs">
                         پاکسازی جستجو
                     </a>
                 </div>
@@ -150,7 +150,7 @@
                             <p class="text-sm text-black text-center">{{ $part->code }}</p>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse">
-                            <a href="{{ route('parts.collection.add',$part->id) }}" class="form-submit-btn text-xs">
+                            <a href="{{ route('collections.create',$part->id) }}" class="form-submit-btn text-xs">
                                 افزودن قطعه
                             </a>
                         </td>

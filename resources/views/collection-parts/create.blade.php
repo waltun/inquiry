@@ -20,7 +20,7 @@
                               d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
                               clip-rule="evenodd"/>
                     </svg>
-                    <a href="{{ route('parts.collection') }}"
+                    <a href="{{ route('collections.index') }}"
                        class="mr-2 text-xs md:text-sm font-medium text-gray-500 hover:text-gray-900">
                         مدیریت مجموعه ها
                     </a>
@@ -62,7 +62,7 @@
             </p>
         </div>
         <div>
-            <a href="{{ route('parts.collection') }}" class="form-detail-btn text-xs">لیست مجموعه ها</a>
+            <a href="{{ route('collections.index') }}" class="form-detail-btn text-xs">لیست مجموعه ها</a>
         </div>
     </div>
 
@@ -114,7 +114,7 @@
 
             @if(request()->has('code') || request()->has('search'))
                 <div class="mt-4">
-                    <a href="{{ route('group.parts.index',$group->id) }}" class="form-detail-btn text-xs">
+                    <a href="{{ route('collections.create',$group->id) }}" class="form-detail-btn text-xs">
                         پاکسازی جستجو
                     </a>
                 </div>
@@ -169,7 +169,7 @@
                             <p class="text-sm text-black text-center">{{ $part->code }}</p>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse">
-                            <form action="{{ route('parts.collection.store',[$collectionPart->id,$part->id]) }}" method="POST"
+                            <form action="{{ route('collections.store',[$collectionPart->id,$part->id]) }}" method="POST"
                                   class="inline">
                                 @csrf
                                 <button class="form-submit-btn text-xs">
@@ -205,7 +205,7 @@
                             کد : {{ $part->code }}
                         </p>
                         <div class="flex w-full justify-between">
-                            <form action="{{ route('parts.collection.store',[$collectionPart->id,$part->id]) }}" method="POST"
+                            <form action="{{ route('collections.store',[$collectionPart->id,$part->id]) }}" method="POST"
                                   class="inline">
                                 @csrf
                                 <button class="form-submit-btn text-xs">

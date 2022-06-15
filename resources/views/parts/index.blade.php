@@ -37,7 +37,7 @@
         </div>
         <div>
             <a href="{{ route('parts.create') }}" class="form-submit-btn text-xs">ایجاد قطعه جدید</a>
-            <a href="{{ route('parts.collection') }}" class="form-detail-btn text-xs">لیست قطعات مجموعه ای</a>
+            <a href="{{ route('collections.index') }}" class="form-detail-btn text-xs">لیست مجموعه ها</a>
         </div>
     </div>
 
