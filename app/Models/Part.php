@@ -10,16 +10,11 @@ class Part extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'unit', 'price', 'code'
+        'name', 'unit', 'price', 'code', 'collection'
     ];
 
     public function groups()
     {
         return $this->belongsToMany(Group::class);
-    }
-
-    public function collections()
-    {
-        return $this->belongsToMany(Collection::class);
     }
 }
