@@ -124,6 +124,9 @@
                     <th scope="col" class="relative px-4 py-3">
                         <span class="sr-only">قطعات</span>
                     </th>
+                    <th scope="col" class="relative px-4 py-3">
+                        <span class="sr-only">مقادیر</span>
+                    </th>
                     <th scope="col" class="relative px-4 py-3 rounded-l-md">
                         <span class="sr-only">اقدامات</span>
                     </th>
@@ -155,6 +158,11 @@
                             </a>
                             <a href="{{ route('collections.parts',$part->id) }}" class="form-detail-btn text-xs">
                                 قطعات
+                            </a>
+                        </td>
+                        <td class="px-4 py-3 space-x-3 space-x-reverse">
+                            <a href="{{ route('collections.amounts',$part->id) }}" class="form-submit-btn text-xs">
+                                مقادیر
                             </a>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse">

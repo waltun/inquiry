@@ -84,7 +84,7 @@
                 <tbody>
                 @foreach($collectionParts as $collectionPart2)
                     @php
-                        $part = \App\Models\Part::where('id',$collectionPart2->id)->first();
+                        $part = \App\Models\Part::where('id',$collectionPart2->part_id)->first();
                     @endphp
                     <tr>
                         <td class="px-4 py-3 whitespace-nowrap">

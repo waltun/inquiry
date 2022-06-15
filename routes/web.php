@@ -59,7 +59,8 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/collection-parts/{collectionPart}/{part}/parts', [CollectionPartController::class, 'store'])->name('collections.store');
     Route::get('/collection-parts/{collectionPart}/parts', [CollectionPartController::class, 'parts'])->name('collections.parts');
     Route::delete('/collection-parts/{collectionPart}/{part}/destroy', [CollectionPartController::class, 'destroy'])->name('collections.destroy');
-    Route::get('/collection-parts/{collectionPart}/amounts', [CollectionPartController::class, 'amounts'])->name('collection.amounts');
+    Route::get('/collection-parts/{collectionPart}/amounts', [CollectionPartController::class, 'amounts'])->name('collections.amounts');
+    Route::patch('/collection-parts/{collectionPart}/store-amounts', [CollectionPartController::class, 'storeAmounts'])->name('collections.storeAmounts');
 
     //Inquiry routes
     Route::post('/inquiries/create/change-model', [InquiryController::class, 'changeModelAjax'])->name('inquiries.create.changeModel');

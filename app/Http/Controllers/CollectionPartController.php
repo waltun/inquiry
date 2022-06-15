@@ -81,4 +81,34 @@ class CollectionPartController extends Controller
 
         return back();
     }
+
+    public function amounts(Part $collectionPart)
+    {
+        $collectionParts = DB::table('part_part')->where('part_collection_id', $collectionPart->id)->get();
+
+        return view('collection-parts.amounts', compact('collectionPart', 'collectionParts'));
+    }
+
+    public function storeAmounts(Request $request, Part $collectionPart)
+    {
+        $request->validate([
+            'values' => 'required|array',
+            'values.*' => 'required|numeric'
+        ]);
+
+        $collectionParts = DB::table('part_part')->where('part_collection_id', $collectionPart->id)->get();
+
+        foreach ($collectionParts as $index => $collectionPart2) {
+            $part = Part::where('id', $collectionPart2->part_id)->first();
+
+            DB::table('part_part')->where('part_id', $part->id)
+                ->where('part_collection_id', $collectionPart->id)->update([
+                    'value' => $request->values[$index]
+                ]);
+        }
+
+        alert()->success('ثبت موفق', 'ثبت مقادیر با موفقیت انجام شد');
+
+        return redirect()->route('collections.index');
+    }
 }
