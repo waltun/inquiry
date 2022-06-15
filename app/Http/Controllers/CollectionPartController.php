@@ -45,7 +45,7 @@ class CollectionPartController extends Controller
         }
 
         //$parts = $parts->latest()->paginate(25)->except($group->parts->pluck('id')->toArray());
-        $parts = $parts->latest()->paginate(25);
+        $parts = $parts->latest()->paginate(25)->except([$collectionPart->id]);
 
         return view('collection-parts.create', compact('parts', 'collectionPart'));
     }
