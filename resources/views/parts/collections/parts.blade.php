@@ -13,6 +13,32 @@
                     داشبورد
                 </a>
             </li>
+            <li>
+                <div class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                              clip-rule="evenodd"/>
+                    </svg>
+                    <a href="{{ route('parts.collection') }}"
+                       class="mr-2 text-xs md:text-sm font-medium text-gray-500 hover:text-gray-900">
+                        مدیریت مجموعه ها
+                    </a>
+                </div>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                              clip-rule="evenodd"/>
+                    </svg>
+                    <a href="#"
+                       class="mr-2 text-xs md:text-sm font-medium text-gray-500 hover:text-gray-900">
+                        لیست قطعات مجموعه {{ $part->name }}
+                    </a>
+                </div>
+            </li>
             <li aria-current="page">
                 <div class="flex items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -21,7 +47,7 @@
                               clip-rule="evenodd"/>
                     </svg>
                     <span class="mr-2 text-xs md:text-sm font-medium text-gray-400">
-                        مدیریت قطعات مجموعه ای
+                        افزودن قطعه به مجموعه {{ $part->name }}
                     </span>
                 </div>
             </li>
@@ -29,15 +55,14 @@
     </nav>
 
     <!-- Navigation Btn -->
-    <div class="mt-4 flex justify-between items-center space-x-4 space-x-reverse">
+    <div class="mt-4 flex justify-between space-x-4 space-x-reverse">
         <div>
-            <p class="text-lg text-black font-bold">
-                لیست قطعات مجموعه ای
+            <p class="text-lg font-bold text-black">
+                افزودن قطعه به مجموعه <span class="text-red-600">{{ $part->name }}</span>
             </p>
         </div>
         <div>
-            <a href="{{ route('parts.create') }}" class="form-submit-btn text-xs">ایجاد قطعه جدید</a>
-            <a href="{{ route('parts.index') }}" class="form-detail-btn text-xs">لیست قطعات</a>
+            <a href="{{ route('parts.collection') }}" class="form-detail-btn text-xs">لیست مجموعه ها</a>
         </div>
     </div>
 
@@ -89,7 +114,7 @@
 
             @if(request()->has('code') || request()->has('search'))
                 <div class="mt-4">
-                    <a href="{{ route('parts.collection') }}" class="form-detail-btn text-xs">
+                    <a href="{{ route('group.parts.index',$group->id) }}" class="form-detail-btn text-xs">
                         پاکسازی جستجو
                     </a>
                 </div>
@@ -98,10 +123,9 @@
     </div>
 
     <!-- Content -->
-    <div class="mt-4 space-y-4">
-
+    <div class="mt-4">
         <!-- Laptop List -->
-        <div class="shadow overflow-x-auto rounded-lg hidden md:block">
+        <div class="bg-white shadow overflow-x-auto rounded-lg hidden md:block">
             <table class="min-w-full">
                 <thead>
                 <tr class="bg-sky-200">
@@ -121,49 +145,35 @@
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                         کد
                     </th>
-                    <th scope="col" class="relative px-4 py-3">
-                        <span class="sr-only">قطعات</span>
-                    </th>
                     <th scope="col" class="relative px-4 py-3 rounded-l-md">
                         <span class="sr-only">اقدامات</span>
                     </th>
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($parts as $part)
+                @foreach($parts as $part2)
                     <tr>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-gray-500 text-center">{{ $loop->index + 1 }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ $part->name }}</p>
+                            <p class="text-sm text-black text-center">{{ $part2->name }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ $part->unit }}</p>
+                            <p class="text-sm text-black text-center">{{ $part2->unit }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">
-                                {{ number_format($part->price) }} تومان
-                            </p>
+                            <p class="text-sm text-black text-center">{{ number_format($part2->price) }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ $part->code }}</p>
+                            <p class="text-sm text-black text-center">{{ $part2->code }}</p>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse">
-                            <a href="{{ route('parts.collection.add',$part->id) }}" class="form-submit-btn text-xs">
-                                افزودن قطعه
-                            </a>
-                        </td>
-                        <td class="px-4 py-3 space-x-3 space-x-reverse">
-                            <a href="{{ route('parts.edit',$part->id) }}" class="form-edit-btn text-xs">
-                                ویرایش
-                            </a>
-                            <form action="{{ route('parts.destroy',$part->id) }}" method="POST"
+                            <form action="{{ route('parts.collection.store',[$part->id,$part2->id]) }}" method="POST"
                                   class="inline">
                                 @csrf
-                                @method('DELETE')
-                                <button class="form-cancel-btn text-xs" onclick="return confirm('قطعه حذف شود ؟')">
-                                    حذف
+                                <button class="form-submit-btn text-xs">
+                                    افزودن به مجموعه {{ $part->name }}
                                 </button>
                             </form>
                         </td>
@@ -173,44 +183,33 @@
             </table>
         </div>
 
-        <!-- Parts count -->
-        <div class="mt-4 mb-4">
-            <p class="text-sm font-bold text-indigo-600 underline underline-offset-4">
-                تعداد کل قطعات مجموعه ای : {{ \App\Models\Part::where('collection',true)->count() }}
-            </p>
-        </div>
-
         <!-- Mobile List -->
         <div class="block md:hidden">
-            @foreach($parts as $part)
+            @foreach($parts as $part2)
                 <div class="bg-white rounded-md p-4 border border-gray-200 shadow-sm mb-4 relative z-30">
-                    <span
-                        class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
-                        {{ $loop->index+1 }}
-                    </span>
+                <span
+                    class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
+                    {{ $loop->index+1 }}
+                </span>
                     <div class="space-y-4">
                         <p class="text-xs text-black text-center">
-                            نام : {{ $part->name }}
+                            نام : {{ $part2->name }}
                         </p>
                         <p class="text-xs text-black text-center">
-                            واحد : {{ $part->unit }}
+                            واحد : {{ $part2->unit }}
                         </p>
                         <p class="text-xs text-black text-center">
-                            قیمت : {{ number_format($part->price) }}
+                            قیمت : {{ number_format($part2->price) }}
                         </p>
                         <p class="text-xs text-black text-center">
-                            کد : {{ $part->code }}
+                            کد : {{ $part2->code }}
                         </p>
                         <div class="flex w-full justify-between">
-                            <a href="{{ route('parts.edit',$part->id) }}" class="form-edit-btn text-xs">
-                                ویرایش
-                            </a>
-                            <form action="{{ route('parts.destroy',$part->id) }}" method="POST"
+                            <form action="{{ route('parts.collection.store',[$part->id,$part2->id]) }}" method="POST"
                                   class="inline">
                                 @csrf
-                                @method('DELETE')
-                                <button class="form-cancel-btn text-xs" onclick="return confirm('قطعه حذف شود ؟')">
-                                    حذف
+                                <button class="form-submit-btn text-xs">
+                                    افزودن به مجموعه {{ $part->name }}
                                 </button>
                             </form>
                         </div>

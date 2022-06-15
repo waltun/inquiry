@@ -132,4 +132,24 @@ class PartController extends Controller
 
         return view('parts.collections', compact('parts'));
     }
+
+    public function collectionAddParts(Part $part)
+    {
+        $parts = Part::query();
+
+        if ($keyword = request('search')) {
+            $parts->where('name', 'LIKE', "%{$keyword}%")
+                ->orWhere('unit', 'LIKE', "%{$keyword}%")
+                ->orWhere('price', 'LIKE', "%{$keyword}%");
+        }
+
+        if ($keyword = request('code')) {
+            $parts = $parts->where('code', 'LIKE', $keyword);
+        }
+
+        //$parts = $parts->latest()->paginate(25)->except($group->parts->pluck('id')->toArray());
+        $parts = $parts->latest()->paginate(25);
+
+        return view('parts.collections.parts', compact('parts', 'part'));
+    }
 }
