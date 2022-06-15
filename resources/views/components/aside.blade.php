@@ -30,7 +30,7 @@
             <!-- Dashboard -->
             <a href="{{ route('dashboard') }}"
                class="flex items-center text-gray-500 p-2 hover:bg-gray-100 rounded-md hover:text-black
-                        {{ isActive(['dashboard'],'menu-active') }}">
+                        {{ isActive(['dashboard']) }}">
                 <div>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                          stroke="currentColor">
@@ -46,7 +46,7 @@
                 <div x-data="{open:false}">
                     <div
                         class="flex items-center text-gray-500 p-2 hover:bg-gray-100 rounded-md hover:text-black cursor-pointer
-                            {{ isActive(['parts.index','parts.create','parts.edit','parts.price.index','parts.price.edit'],'menu-active') }}"
+                            {{ isActive(['parts.index','parts.create','parts.edit','parts.price.index','parts.price.edit']) }}"
                         @click="open = !open">
                         <div>
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -71,17 +71,17 @@
                     <div class="mt-1 bg-gray-50 rounded-md p-2" x-show="open" x-cloak>
                         @can('parts')
                             <a href="{{ route('parts.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive('parts.index','menu-active') }}">
+                            hover:text-black rounded-md {{ isActive('parts.index') }}">
                                 مدیریت قطعات
                             </a>
                             <a href="{{ route('parts.create') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive('parts.create','menu-active') }}">
+                            hover:text-black rounded-md {{ isActive('parts.create') }}">
                                 ایجاد قطعه
                             </a>
                         @endcan
                         @can('part-price')
                             <a href="{{ route('parts.price.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive(['parts.price.index','parts.price.edit'],'menu-active') }}">
+                            hover:text-black rounded-md {{ isActive(['parts.price.index','parts.price.edit']) }}">
                                 بخش قیمت گذاری
                             </a>
                         @endcan
@@ -89,52 +89,12 @@
                 </div>
             @endcanany
 
-            <!-- Collections -->
-            @can('collections')
-                <div x-data="{open:false}">
-                    <div
-                        class="flex items-center text-gray-500 p-2 hover:bg-gray-100 rounded-md hover:text-black cursor-pointer
-                            {{ isActive(['collections.index','collections.create','collections.edit','collections.parts','collections.amounts'],'menu-active') }}"
-                        @click="open = !open">
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                 stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
-                            </svg>
-                        </div>
-                        <div class="flex justify-between w-full items-center">
-                            <span class="text-sm px-2">بخش مجموعه ها</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
-                                 viewBox="0 0 20 20" fill="currentColor"
-                                 :class="{'rotate-180' : open}">
-                                <path fill-rule="evenodd"
-                                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                      clip-rule="evenodd"/>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="mt-1 bg-gray-50 rounded-md p-2" x-show="open" x-cloak>
-                        @can('parts')
-                            <a href="{{ route('collections.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive('collections.index','menu-active') }}">
-                                مدیریت مجموعه ها
-                            </a>
-                            <a href="{{ route('collections.create') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive('collections.create','menu-active') }}">
-                                ایجاد مجموعه
-                            </a>
-                        @endcan
-                    </div>
-                </div>
-            @endcan
-
             <!-- Groups -->
             @can('groups')
                 <div x-data="{open:false}">
                     <div
                         class="flex items-center text-gray-500 p-2 hover:bg-gray-100 rounded-md hover:text-black cursor-pointer
-                            {{ isActive(['groups.index','groups.create','groups.edit','modells.index','modells.create','modells.edit'],'menu-active') }}"
+                            {{ isActive(['groups.index','groups.create','groups.edit','modells.index','modells.create','modells.edit']) }}"
                         @click="open = !open">
                         <div>
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -156,11 +116,11 @@
                     </div>
                     <div class="mt-1 bg-gray-50 rounded-md p-2" x-show="open" x-cloak>
                         <a href="{{ route('groups.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive('groups.index','menu-active') }}">
+                            hover:text-black rounded-md {{ isActive('groups.index') }}">
                             مدیریت گروه ها
                         </a>
                         <a href="{{ route('groups.create') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive('groups.create','menu-active') }}">
+                            hover:text-black rounded-md {{ isActive('groups.create') }}">
                             ایجاد گروه جدید
                         </a>
                     </div>
@@ -172,7 +132,7 @@
                 <div x-data="{open:false}">
                     <div
                         class="flex items-center text-gray-500 p-2 hover:bg-gray-100 rounded-md hover:text-black cursor-pointer
-                            {{ isActive(['inquiries.index','inquiries.create','inquiries.edit','inquiries.show','inquiries.amounts','inquiries.submitted','inquiries.priced'],'menu-active') }}"
+                            {{ isActive(['inquiries.index','inquiries.create','inquiries.edit','inquiries.show','inquiries.amounts','inquiries.submitted','inquiries.priced']) }}"
                         @click="open = !open">
                         <div>
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -194,24 +154,24 @@
                     </div>
                     <div class="mt-1 bg-gray-50 rounded-md p-2" x-show="open" x-cloak>
                         <a href="{{ route('inquiries.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive('inquiries.index','menu-active') }}">
+                            hover:text-black rounded-md {{ isActive('inquiries.index') }}">
                             مدیریت استعلام ها
                         </a>
                         @can('create-inquiry')
                             <a href="{{ route('inquiries.create') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive('inquiries.create','menu-active') }}">
+                            hover:text-black rounded-md {{ isActive('inquiries.create') }}">
                                 ایجاد استعلام
                             </a>
                         @endcan
                         @can('inquiry-percent')
                             <a href="{{ route('inquiries.submitted') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive('inquiries.submitted','menu-active') }}">
+                            hover:text-black rounded-md {{ isActive('inquiries.submitted') }}">
                                 استعلام های منتظر قیمت
                             </a>
                         @endcan
                         @can('create-inquiry')
                             <a href="{{ route('inquiries.priced') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive('inquiries.priced','menu-active') }}">
+                            hover:text-black rounded-md {{ isActive('inquiries.priced') }}">
                                 استعلام های قیمت گذاری شده
                             </a>
                         @endcan
@@ -224,7 +184,7 @@
                 <div x-data="{open:false}">
                     <div
                         class="flex items-center text-gray-500 p-2 hover:bg-gray-100 rounded-md hover:text-black cursor-pointer
-                            {{ isActive(['users.index','users.create','users.edit','users.deleted'],'menu-active') }}"
+                            {{ isActive(['users.index','users.create','users.edit','users.deleted']) }}"
                         @click="open = !open">
                         <div>
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -246,15 +206,15 @@
                     </div>
                     <div class="mt-1 bg-gray-50 rounded-md p-2" x-show="open" x-cloak>
                         <a href="{{ route('users.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive('users.index','menu-active') }}">
+                            hover:text-black rounded-md {{ isActive('users.index') }}">
                             مدیریت کاربران
                         </a>
                         <a href="{{ route('users.create') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive('users.create','menu-active') }}">
+                            hover:text-black rounded-md {{ isActive('users.create') }}">
                             ایجاد کاربر جدید
                         </a>
                         <a href="{{ route('users.deleted') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive('users.deleted','menu-active') }}">
+                            hover:text-black rounded-md {{ isActive('users.deleted') }}">
                             کاربران حذف شده
                         </a>
                     </div>
