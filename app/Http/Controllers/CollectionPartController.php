@@ -64,4 +64,14 @@ class CollectionPartController extends Controller
 
         return back();
     }
+
+    public function parts(Part $collectionPart)
+    {
+        dd($collectionPart);
+    }
+
+    public function destroy(Part $collectionPart, Part $part)
+    {
+        dd($collectionPart, $part);
+    }
 }
