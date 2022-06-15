@@ -51,8 +51,8 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/parts/{part}/price', [PartPriceController::class, 'edit'])->name('parts.price.edit');
     Route::patch('/parts/{part}/price', [PartPriceController::class, 'update'])->name('parts.price.update');
     Route::get('/collection-parts', [PartController::class, 'collectionIndex'])->name('parts.collection');
-    Route::get('/collection-parts/{part}/add-parts', [PartController::class, 'collectionAddParts'])->name('parts.collection.add');
-    Route::post('/collection-parts/{part}/{part2}/parts', [PartController::class, 'collectionStoreParts'])->name('parts.collection.store');
+    Route::get('/collection-parts/{collectionPart}/add-parts', [PartController::class, 'collectionAddParts'])->name('parts.collection.add');
+    Route::post('/collection-parts/{collectionPart}/{part}/parts', [PartController::class, 'collectionStoreParts'])->name('parts.collection.store');
     Route::resource('parts', PartController::class);
 
     //Inquiry routes

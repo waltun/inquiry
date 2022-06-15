@@ -133,7 +133,7 @@ class PartController extends Controller
         return view('parts.collections', compact('parts'));
     }
 
-    public function collectionAddParts(Part $part)
+    public function collectionAddParts(Part $collectionPart)
     {
         $parts = Part::query();
 
@@ -150,6 +150,11 @@ class PartController extends Controller
         //$parts = $parts->latest()->paginate(25)->except($group->parts->pluck('id')->toArray());
         $parts = $parts->latest()->paginate(25);
 
-        return view('parts.collections.parts', compact('parts', 'part'));
+        return view('parts.collections.parts', compact('parts', 'collectionPart'));
+    }
+
+    public function collectionStoreParts(Part $collectionPart, Part $part)
+    {
+        dd($collectionPart, $part);
     }
 }

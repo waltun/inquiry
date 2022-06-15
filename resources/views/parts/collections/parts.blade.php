@@ -35,7 +35,7 @@
                     </svg>
                     <a href="#"
                        class="mr-2 text-xs md:text-sm font-medium text-gray-500 hover:text-gray-900">
-                        لیست قطعات مجموعه {{ $part->name }}
+                        لیست قطعات مجموعه {{ $collectionPart->name }}
                     </a>
                 </div>
             </li>
@@ -47,7 +47,7 @@
                               clip-rule="evenodd"/>
                     </svg>
                     <span class="mr-2 text-xs md:text-sm font-medium text-gray-400">
-                        افزودن قطعه به مجموعه {{ $part->name }}
+                        افزودن قطعه به مجموعه {{ $collectionPart->name }}
                     </span>
                 </div>
             </li>
@@ -58,7 +58,7 @@
     <div class="mt-4 flex justify-between space-x-4 space-x-reverse">
         <div>
             <p class="text-lg font-bold text-black">
-                افزودن قطعه به مجموعه <span class="text-red-600">{{ $part->name }}</span>
+                افزودن قطعه به مجموعه <span class="text-red-600">{{ $collectionPart->name }}</span>
             </p>
         </div>
         <div>
@@ -151,29 +151,29 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($parts as $part2)
+                @foreach($parts as $part)
                     <tr>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-gray-500 text-center">{{ $loop->index + 1 }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ $part2->name }}</p>
+                            <p class="text-sm text-black text-center">{{ $part->name }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ $part2->unit }}</p>
+                            <p class="text-sm text-black text-center">{{ $part->unit }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ number_format($part2->price) }}</p>
+                            <p class="text-sm text-black text-center">{{ number_format($part->price) }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ $part2->code }}</p>
+                            <p class="text-sm text-black text-center">{{ $part->code }}</p>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse">
-                            <form action="{{ route('parts.collection.store',[$part->id,$part2->id]) }}" method="POST"
+                            <form action="{{ route('parts.collection.store',[$collectionPart->id,$part->id]) }}" method="POST"
                                   class="inline">
                                 @csrf
                                 <button class="form-submit-btn text-xs">
-                                    افزودن به مجموعه {{ $part->name }}
+                                    افزودن به مجموعه {{ $collectionPart->name }}
                                 </button>
                             </form>
                         </td>
@@ -185,7 +185,7 @@
 
         <!-- Mobile List -->
         <div class="block md:hidden">
-            @foreach($parts as $part2)
+            @foreach($parts as $part)
                 <div class="bg-white rounded-md p-4 border border-gray-200 shadow-sm mb-4 relative z-30">
                 <span
                     class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
@@ -193,23 +193,23 @@
                 </span>
                     <div class="space-y-4">
                         <p class="text-xs text-black text-center">
-                            نام : {{ $part2->name }}
+                            نام : {{ $part->name }}
                         </p>
                         <p class="text-xs text-black text-center">
-                            واحد : {{ $part2->unit }}
+                            واحد : {{ $part->unit }}
                         </p>
                         <p class="text-xs text-black text-center">
-                            قیمت : {{ number_format($part2->price) }}
+                            قیمت : {{ number_format($part->price) }}
                         </p>
                         <p class="text-xs text-black text-center">
-                            کد : {{ $part2->code }}
+                            کد : {{ $part->code }}
                         </p>
                         <div class="flex w-full justify-between">
-                            <form action="{{ route('parts.collection.store',[$part->id,$part2->id]) }}" method="POST"
+                            <form action="{{ route('parts.collection.store',[$collectionPart->id,$part->id]) }}" method="POST"
                                   class="inline">
                                 @csrf
                                 <button class="form-submit-btn text-xs">
-                                    افزودن به مجموعه {{ $part->name }}
+                                    افزودن به مجموعه {{ $collectionPart->name }}
                                 </button>
                             </form>
                         </div>
