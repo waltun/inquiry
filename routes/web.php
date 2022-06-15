@@ -1,13 +1,11 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\ModellController;
 use App\Http\Controllers\PartController;
-use App\Http\Controllers\PartOfCollectionController;
 use App\Http\Controllers\PartOfGroupController;
 use App\Http\Controllers\PartPriceController;
 use App\Http\Controllers\UserController;
@@ -65,15 +63,4 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/inquiries/priced', [InquiryController::class, 'priced'])->name('inquiries.priced');
     Route::patch('/inquiries/{inquiry}/restore', [InquiryController::class, 'restore'])->name('inquiries.restore');
     Route::resource('inquiries', InquiryController::class);
-
-    //Collection routes
-    Route::get('/collections/{collection}/parts', [CollectionController::class, 'parts'])->name('collections.parts');
-    Route::delete('/collections/{collection}/{part}/destroy-part', [CollectionController::class, 'destroyPart'])->name('collections.destroyPart');
-    Route::get('/collections/{collection}/amounts', [CollectionController::class, 'amounts'])->name('collections.amounts');
-    Route::post('/collections/{collection}/amounts', [CollectionController::class, 'storeAmounts'])->name('collections.storeAmounts');
-    Route::resource('collections', CollectionController::class);
-
-    //Collection part routes
-    Route::get('/collections/{collection}/all-parts', [PartOfCollectionController::class, 'index'])->name('collections.parts.index');
-    Route::post('/collections/{collection}/{part}/parts', [PartOfCollectionController::class, 'store'])->name('collections.parts.store');
 });
