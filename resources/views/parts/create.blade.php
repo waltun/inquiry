@@ -106,12 +106,20 @@
         </div>
 
         <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
-            <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">کد</p>
+            <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">کد و مجموعه</p>
 
             <div class="mt-4">
                 <label for="inputCode" class="block mb-2 md:text-sm text-xs text-black">کد قطعه</label>
                 <input type="text" id="inputCode" name="code" class="input-text" placeholder="مثال : 5"
                        value="{{ old('code') }}">
+            </div>
+
+            <div class="mt-4">
+                <label for="inputCollection" class="block mb-2 md:text-sm text-xs text-black">قطعه مجموعه ای</label>
+                <select name="collection" id="inputCollection" class="input-text">
+                    <option value="false">نباشد</option>
+                    <option value="true">باشد</option>
+                </select>
             </div>
         </div>
 
