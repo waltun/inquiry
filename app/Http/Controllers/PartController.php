@@ -45,8 +45,15 @@ class PartController extends Controller
             'name' => 'required|string|max:255',
             'unit' => 'required|string|max:255',
             'code' => 'required|numeric|unique:parts',
-            'price' => 'nullable'
+            'price' => 'nullable',
+            'collection' => 'required|in:true,false'
         ]);
+
+        if ($data['collection'] == 'true') {
+            $data['collection'] = true;
+        } else {
+            $data['collection'] = false;
+        }
 
         Part::create($data);
 
