@@ -74,6 +74,11 @@ class CollectionPartController extends Controller
 
     public function destroy(Part $collectionPart, Part $part)
     {
-        dd($collectionPart, $part);
+        DB::table('part_part')->where('part_id', $part->id)
+            ->where('part_collection_id', $collectionPart->id)->delete();
+
+        alert()->success('حذف موفق', 'حذف قطعه از مجموعه با موفقیت انجام شد');
+
+        return back();
     }
 }
