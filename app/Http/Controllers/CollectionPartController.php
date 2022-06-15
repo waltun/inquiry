@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Part;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
 class CollectionPartController extends Controller
@@ -44,14 +45,23 @@ class CollectionPartController extends Controller
             $parts = $parts->where('code', 'LIKE', $keyword);
         }
 
-        //$parts = $parts->latest()->paginate(25)->except($group->parts->pluck('id')->toArray());
-        $parts = $parts->latest()->paginate(25)->except([$collectionPart->id]);
+        $collectionParts = DB::table('part_part')->where('part_collection_id', $collectionPart->id)->get();
+
+        $parts = $parts->latest()->paginate(25)->except($collectionParts->pluck('part_id')->toArray())
+            ->except($collectionPart->id);
 
         return view('collection-parts.create', compact('parts', 'collectionPart'));
     }
 
     public function store(Part $collectionPart, Part $part)
     {
-        dd($collectionPart, $part);
+        DB::table('part_part')->insert([
+            'part_id' => $part->id,
+            'part_collection_id' => $collectionPart->id
+        ]);
+
+        alert()->success('ثبت موفق', 'افزودن قطعه به مجموعه با موفقیت انجام شد');
+
+        return back();
     }
 }
