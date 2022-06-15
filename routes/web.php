@@ -38,7 +38,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/models/{modell}/replicate', [ModellController::class, 'replicate'])->name('modells.replicate');
 
     //Group part routes
-    Route::get('/groups/{group}/all-parts', [PartOfGroupController::class, 'index'])->name('group.parts.index');
+    Route::get('/groups/{group}/add-parts', [PartOfGroupController::class, 'index'])->name('group.parts.index');
     Route::post('/groups/{group}/{part}/parts', [PartOfGroupController::class, 'store'])->name('group.parts.store');
 
     //Group routes
@@ -50,7 +50,8 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/parts/price', [PartPriceController::class, 'index'])->name('parts.price.index');
     Route::get('/parts/{part}/price', [PartPriceController::class, 'edit'])->name('parts.price.edit');
     Route::patch('/parts/{part}/price', [PartPriceController::class, 'update'])->name('parts.price.update');
-    Route::get('/collection-parts',[PartController::class,'collectionIndex'])->name('parts.collection');
+    Route::get('/collection-parts', [PartController::class, 'collectionIndex'])->name('parts.collection');
+    Route::get('/collection-parts/{part}/add-parts', [PartController::class, 'collectionAddParts'])->name('parts.collection.add');
     Route::resource('parts', PartController::class);
 
     //Inquiry routes
