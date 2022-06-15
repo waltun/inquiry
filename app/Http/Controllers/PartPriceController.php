@@ -15,16 +15,17 @@ class PartPriceController extends Controller
         $parts = Part::query();
 
         if ($keyword = request('search')) {
-            $parts->where('name', 'LIKE', "%{$keyword}%")
+            $parts->where('collection', false)
+                ->where('name', 'LIKE', "%{$keyword}%")
                 ->orWhere('unit', 'LIKE', "%{$keyword}%")
                 ->orWhere('price', 'LIKE', "%{$keyword}%");
         }
 
         if ($keyword = request('code')) {
-            $parts = $parts->where('code', 'LIKE', $keyword);
+            $parts = $parts->where('collection', false)->where('code', 'LIKE', $keyword);
         }
 
-        $parts = $parts->latest()->paginate(25);
+        $parts = $parts->where('collection', false)->latest()->paginate(25);
 
         return view('part-price.index', compact('parts'));
     }
