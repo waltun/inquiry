@@ -97,9 +97,10 @@
     </div>
 
     <!-- Content -->
-    <div class="mt-4">
+    <div class="mt-4 space-y-4">
+
         <!-- Laptop List -->
-        <div class="bg-white shadow overflow-x-auto rounded-lg hidden md:block">
+        <div class="shadow overflow-x-auto rounded-lg hidden md:block">
             <table class="min-w-full">
                 <thead>
                 <tr class="bg-sky-200">
