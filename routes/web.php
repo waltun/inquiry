@@ -50,7 +50,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/parts/price', [PartPriceController::class, 'index'])->name('parts.price.index');
     Route::get('/parts/{part}/price', [PartPriceController::class, 'edit'])->name('parts.price.edit');
     Route::patch('/parts/{part}/price', [PartPriceController::class, 'update'])->name('parts.price.update');
-    Route::get('/collection-parts',[PartController::class,'collectionIndex'])->name('parts.collections');
+    Route::get('/collection-parts',[PartController::class,'collectionIndex'])->name('parts.collection');
     Route::resource('parts', PartController::class);
 
     //Inquiry routes
