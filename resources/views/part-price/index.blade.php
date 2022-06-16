@@ -204,7 +204,10 @@
         </form>
 
         <!-- Mobile List -->
-        <div class="block md:hidden">
+        <form action="{{ route('parts.price.update') }}" class="block md:hidden">
+            @csrf
+            @method('PATCH')
+
             @foreach($parts as $part)
                 <div class="bg-white rounded-md p-4 border border-gray-200 shadow-sm mb-4 relative z-30">
                     <span
@@ -216,19 +219,21 @@
                             نام : {{ $part->name }}
                         </p>
                         <p class="text-xs text-black text-center">
-                            قیمت : {{ number_format($part->price) }} تومان
+                            <input type="text" name="prices[]" class="input-text" id="inputPrice{{ $part->id }}"
+                                   value="{{ $part->price ?? '' }}">
                         </p>
                         <p class="text-xs text-black text-center">
                             اخرین بروزرسانی : {{ jdate($part->updated_at)->format('%A, %d %B %Y') }}
                         </p>
-                        <div class="flex w-full justify-between">
-                            <a href="{{ route('parts.price.edit',$part->id) }}" class="form-detail-btn text-xs">
-                                قیمت گذاری
-                            </a>
-                        </div>
                     </div>
                 </div>
             @endforeach
-        </div>
+
+            <div class="mt-4">
+                <button type="submit" class="form-submit-btn">
+                    ثبت قیمت
+                </button>
+            </div>
+        </form>
     </div>
 </x-layout>
