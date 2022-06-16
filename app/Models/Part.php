@@ -22,4 +22,14 @@ class Part extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    public function parents()
+    {
+        return $this->belongsToMany(Part::class, 'part_child', 'parent_part_id', 'child_part_id');
+    }
+
+    public function children()
+    {
+        return $this->belongsToMany(Part::class, 'part_child', 'child_part_id', 'parent_part_id');
+    }
 }
