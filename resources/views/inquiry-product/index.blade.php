@@ -106,8 +106,8 @@
                             <p class="text-sm text-black text-center">{{ $product->quantity }}</p>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse">
-                            @can('inquiry-detail')
-                                <a href="{{ route('inquiries.show',$inquiry->id) }}" class="form-detail-btn text-xs">
+                            @can('inquiry-product')
+                                <a href="{{ route('inquiries.product.show',$product->id) }}" class="form-detail-btn text-xs">
                                     جزئیات
                                 </a>
                             @endcan

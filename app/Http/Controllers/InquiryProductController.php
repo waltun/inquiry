@@ -42,6 +42,15 @@ class InquiryProductController extends Controller
         return redirect()->route('inquiries.index');
     }
 
+    public function show(Product $product)
+    {
+        $group = Group::find($product->group_id);
+        $modell = Modell::find($product->model_id);
+        $inquiry = Inquiry::find($product->inquiry_id);
+        $totalPrice = 0;
+        return view('inquiry-product.show', compact('product', 'inquiry', 'group', 'modell', 'totalPrice'));
+    }
+
     public function amounts(Product $product)
     {
         $group = Group::find($product->group_id);
