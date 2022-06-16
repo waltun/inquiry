@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->id();
 
             $table->float('percent')->default(0);
+            $table->integer('quantity')->default(0);
 
             $table->unsignedBigInteger('group_id');
             $table->unsignedBigInteger('model_id');
