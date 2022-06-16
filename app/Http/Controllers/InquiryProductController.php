@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Group;
 use App\Models\Inquiry;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class InquiryProductController extends Controller
@@ -26,8 +27,10 @@ class InquiryProductController extends Controller
             'model_id' => 'required|integer',
         ]);
 
-        $inquiry->groups()->attach($request['group_id'], [
-            'model_id' => $request['model_id']
+        Product::create([
+            'group_id' => $request['group_id'],
+            'model_id' => $request['model_id'],
+            'inquiry_id' => $inquiry->id
         ]);
 
         alert()->success('ثبت موفق', 'ثبت محصول برای استعلام با موفقیت انجام شد');

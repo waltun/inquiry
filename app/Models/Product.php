@@ -12,4 +12,9 @@ class Product extends Model
     protected $fillable = [
         'percent', 'price', 'quantity', 'group_id', 'model_id', 'inquiry_id'
     ];
+
+    public function inquiry()
+    {
+        return $this->belongsTo(Inquiry::class);
+    }
 }

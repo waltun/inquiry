@@ -17,4 +17,9 @@ class Inquiry extends Model
     {
         return $this->hasMany(Amount::class);
     }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }
