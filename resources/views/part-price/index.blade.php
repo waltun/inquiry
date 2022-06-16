@@ -204,7 +204,7 @@
         </form>
 
         <!-- Mobile List -->
-        <form action="{{ route('parts.price.update') }}" class="block md:hidden">
+        <form action="{{ route('parts.price.update') }}" class="block md:hidden" method="POST">
             @csrf
             @method('PATCH')
 
