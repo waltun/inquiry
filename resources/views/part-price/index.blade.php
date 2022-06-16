@@ -135,7 +135,7 @@
                 </form>
             </div>
 
-            @if(request()->has('code') || request()->has('search'))
+            @if(request()->has('category'))
                 <div class="mt-4">
                     <a href="{{ route('parts.price.index') }}" class="form-detail-btn text-xs">
                         پاکسازی جستجو
@@ -164,7 +164,7 @@
                         نام
                     </th>
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
-                        قیمت
+                        قیمت (تومان)
                     </th>
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                         آخرین بروزرسانی
@@ -221,6 +221,7 @@
                         <p class="text-xs text-black text-center">
                             <input type="text" name="prices[]" class="input-text" id="inputPrice{{ $part->id }}"
                                    value="{{ $part->price ?? '' }}">
+                            <input type="hidden" value="{{ $part->id }}" name="parts[]">
                         </p>
                         <p class="text-xs text-black text-center">
                             اخرین بروزرسانی : {{ jdate($part->updated_at)->format('%A, %d %B %Y') }}
