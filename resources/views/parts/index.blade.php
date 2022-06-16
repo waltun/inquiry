@@ -139,9 +139,15 @@
                             <p class="text-sm text-black text-center">{{ $part->unit }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">
-                                {{ number_format($part->price) }} تومان
-                            </p>
+                            @if($part->price)
+                                <p class="text-sm text-black text-center">
+                                    {{ number_format($part->price) }} تومان
+                                </p>
+                            @else
+                                <p class="text-sm text-red-600 text-center">
+                                    منتظر قیمت گذاری
+                                </p>
+                            @endif
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center">{{ $part->code }}</p>
@@ -187,9 +193,15 @@
                         <p class="text-xs text-black text-center">
                             واحد : {{ $part->unit }}
                         </p>
-                        <p class="text-xs text-black text-center">
-                            قیمت : {{ number_format($part->price) }}
-                        </p>
+                        @if($part->price)
+                            <p class="text-xs text-black text-center">
+                                قیمت : {{ number_format($part->price) }}
+                            </p>
+                        @else
+                            <p class="text-xs text-red-600 text-center">
+                                منتظر قیمت گذاری
+                            </p>
+                        @endif
                         <p class="text-xs text-black text-center">
                             کد : {{ $part->code }}
                         </p>
