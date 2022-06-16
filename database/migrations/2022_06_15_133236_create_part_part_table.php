@@ -12,18 +12,18 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('part_part', function (Blueprint $table) {
+        Schema::create('part_child', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('part_id');
-            $table->unsignedBigInteger('part_collection_id');
+            $table->unsignedBigInteger('child_part_id');
+            $table->unsignedBigInteger('parent_part_id');
 
             $table->integer('value')->nullable();
         });
 
-        Schema::table('part_part', function (Blueprint $table) {
-            $table->foreign('part_id')->references('id')->on('parts');
-            $table->foreign('part_collection_id')->references('id')->on('parts');
+        Schema::table('part_child', function (Blueprint $table) {
+            $table->foreign('child_part_id')->references('id')->on('parts');
+            $table->foreign('parent_part_id')->references('id')->on('parts');
         });
     }
 
