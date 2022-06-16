@@ -187,6 +187,9 @@
                             نام : {{ $part->name }}
                         </p>
                         <p class="text-xs text-black text-center">
+                            واحد : {{ $part->unit }}
+                        </p>
+                        <p class="text-xs text-black text-center">
                             <input type="text" name="prices[]" class="input-text" id="inputPrice{{ $part->id }}"
                                    value="{{ $part->price ?? '' }}">
                             <input type="hidden" value="{{ $part->id }}" name="parts[]">
