@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class InquiryProductController extends Controller
 {
+    public function index(Inquiry $inquiry)
+    {
+        return view('inquiry-product.index', compact('inquiry'));
+    }
+
     public function create(Inquiry $inquiry)
     {
         $groups = Group::all();
