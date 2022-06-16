@@ -50,8 +50,7 @@ Route::middleware(['auth', 'web'])->group(function () {
 
     //Part routes
     Route::get('/parts/price', [PartPriceController::class, 'index'])->name('parts.price.index');
-    Route::get('/parts/{part}/price', [PartPriceController::class, 'edit'])->name('parts.price.edit');
-    Route::patch('/parts/{part}/price', [PartPriceController::class, 'update'])->name('parts.price.update');
+    Route::patch('/parts/update-price', [PartPriceController::class, 'update'])->name('parts.price.update');
     Route::resource('parts', PartController::class);
 
     //Collection Part routes

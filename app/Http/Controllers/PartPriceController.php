@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Part;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -13,6 +14,7 @@ class PartPriceController extends Controller
         Gate::authorize('part-price');
 
         $parts = Part::query();
+        $categories = Category::all();
 
         if ($keyword = request('search')) {
             $parts->where('collection', false)
@@ -25,29 +27,31 @@ class PartPriceController extends Controller
             $parts = $parts->where('collection', false)->where('code', 'LIKE', $keyword);
         }
 
+        if (request()->has('category')) {
+            $parts = $parts->where('collection', false)->where('category_id', request('category'));
+        }
+
         $parts = $parts->where('collection', false)->latest()->paginate(25);
 
-        return view('part-price.index', compact('parts'));
+        return view('part-price.index', compact('parts', 'categories'));
     }
 
-    public function edit(Part $part)
-    {
-        Gate::authorize('part-price');
-
-        return view('part-price.edit', compact('part'));
-    }
-
-    public function update(Request $request, Part $part)
+    public function update(Request $request)
     {
         Gate::authorize('part-price');
 
         $request->validate([
-            'price' => 'required|numeric'
+            'prices' => 'required|array',
+            'prices.*' => 'required|numeric'
         ]);
 
-        $part->update([
-            'price' => $request['price']
-        ]);
+        foreach ($request->parts as $index => $part) {
+            $updatedPart = Part::where('id', $part)->first();
+            $updatedPart->update([
+                'price' => $request->prices[$index],
+                'updated_at' => now()
+            ]);
+        }
 
         alert()->success('ثبت موفق', 'ثبت قیمت گذاری با موفقیت انجام شد');
 

@@ -97,11 +97,63 @@
         </div>
     </div>
 
+    <!-- Category Search -->
+    <div
+        class="mt-4" {{ request()->has('category') ? "x-data={open:true}" : "x-data={open:false}" }}>
+        <div class="bg-white p-4 shadow-md rounded-md border border-gray-200">
+            <div class="flex justify-between items-center cursor-pointer" @click="open = !open">
+                <p class="font-bold text-black">
+                    انتخاب دسته بندی
+                </p>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transform transition-transform" fill="none"
+                     viewBox="0 0 24 24" :class="{'rotate-180' : open}"
+                     stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </div>
+
+            <div class="mt-4" x-show="open" x-cloak>
+                <form class="bg-white rounded-md p-4 shadow-sm border border-gray-200 mb-4 md:mb-0">
+                    <div class="mb-4">
+                        <label for="inputCategory" class="block mb-2 md:text-sm text-xs text-black">
+                            جستجو براساس دسته بندی
+                        </label>
+                        <select name="category" id="inputCategory" class="input-text">
+                            @foreach($categories as $category)
+                                <option
+                                    value="{{ $category->id }}" {{ $category->id == request('category') ? 'selected' : '' }}>
+                                    {{ $category->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="flex justify-end">
+                        <button class="form-submit-btn" type="submit">
+                            جستجو
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            @if(request()->has('code') || request()->has('search'))
+                <div class="mt-4">
+                    <a href="{{ route('parts.price.index') }}" class="form-detail-btn text-xs">
+                        پاکسازی جستجو
+                    </a>
+                </div>
+            @endif
+        </div>
+    </div>
+
     <!-- Content -->
     <div class="mt-4">
         <!-- Laptop List -->
-        <div class="bg-white shadow overflow-x-auto rounded-lg hidden md:block">
-            <table class="min-w-full">
+        <form action="{{ route('parts.price.update') }}" method="POST"
+              class="overflow-x-auto rounded-lg hidden md:block">
+            @csrf
+            @method('PATCH')
+
+            <table class="min-w-full bg-white shadow">
                 <thead>
                 <tr class="bg-sky-200">
                     <th scope="col"
@@ -117,9 +169,6 @@
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                         آخرین بروزرسانی
                     </th>
-                    <th scope="col" class="relative px-4 py-3 rounded-l-md">
-                        <span class="sr-only">اقدامات</span>
-                    </th>
                 </tr>
                 </thead>
                 <tbody>
@@ -132,29 +181,27 @@
                             <p class="text-sm text-black text-center">{{ $part->name }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">
-                                @if($part->price)
-                                    {{ number_format($part->price) }} تومان
-                                @else
-                                    منتظر قیمت گذاری
-                                @endif
-                            </p>
+                            <input type="text" class="input-text" id="inputPrice{{ $part->id }}" name="prices[]"
+                                   value="{{ $part->price ?? '' }}">
+                            <input type="hidden" name="parts[]" value="{{ $part->id }}">
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center">
                                 {{ jdate($part->updated_at)->format('%A, %d %B %Y') }}
                             </p>
                         </td>
-                        <td class="px-4 py-3 space-x-3 space-x-reverse">
-                            <a href="{{ route('parts.price.edit',$part->id) }}" class="form-detail-btn text-xs">
-                                قیمت گذاری
-                            </a>
-                        </td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
-        </div>
+
+            <div class="mt-4">
+                <button type="submit" class="form-submit-btn">
+                    ثبت قیمت
+                </button>
+            </div>
+
+        </form>
 
         <!-- Mobile List -->
         <div class="block md:hidden">
