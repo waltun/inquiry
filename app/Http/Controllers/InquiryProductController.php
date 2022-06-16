@@ -27,10 +27,9 @@ class InquiryProductController extends Controller
             'model_id' => 'required|integer',
         ]);
 
-        Product::create([
+        $inquiry->products()->create([
             'group_id' => $request['group_id'],
             'model_id' => $request['model_id'],
-            'inquiry_id' => $inquiry->id
         ]);
 
         alert()->success('ثبت موفق', 'ثبت محصول برای استعلام با موفقیت انجام شد');
