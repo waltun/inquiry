@@ -85,9 +85,10 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($inquiry->groups as $group)
+                @foreach($inquiry->products as $product)
                     @php
-                        $modell = \App\Models\Modell::find($group->pivot->model_id);
+                        $group = \App\Models\Group::find($product->group_id);
+                        $modell = \App\Models\Modell::find($product->model_id);
                     @endphp
                     <tr>
                         <td class="px-4 py-3 whitespace-nowrap">
@@ -102,14 +103,9 @@
                             <p class="text-sm text-black text-center">{{ $modell->name }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ $group->pivot->quantity }}</p>
+                            <p class="text-sm text-black text-center">{{ $product->quantity }}</p>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse">
-                            @can('create-inquiry')
-                                <a href="{{ route('inquiries.edit',$inquiry->id) }}" class="form-edit-btn text-xs">
-                                    ویرایش
-                                </a>
-                            @endcan
                             @can('inquiry-detail')
                                 <a href="{{ route('inquiries.show',$inquiry->id) }}" class="form-detail-btn text-xs">
                                     جزئیات
@@ -129,9 +125,10 @@
 
         <!-- Mobile List -->
         <div class="block md:hidden">
-            @foreach($inquiry->groups as $group)
+            @foreach($inquiry->products as $product)
                 @php
-                    $modell = \App\Models\Modell::find($group->pivot->model_id);
+                    $group = \App\Models\Group::find($product->group_id);
+                    $modell = \App\Models\Modell::find($product->model_id);
                 @endphp
                 <div class="bg-white rounded-md p-4 border border-gray-200 shadow-sm mb-4 relative z-30">
                     <span
@@ -146,14 +143,9 @@
                             مدل : {{ $modell->name }}
                         </p>
                         <p class="text-xs text-black text-center">
-                            تعداد : {{ $group->pivot->quantity }}
+                            تعداد : {{ $product->quantity }}
                         </p>
                         <div class="flex w-full justify-between">
-                            @can('create-inquiry')
-                                <a href="{{ route('inquiries.edit',$inquiry->id) }}" class="form-edit-btn text-xs">
-                                    ویرایش
-                                </a>
-                            @endcan
                             @can('inquiry-detail')
                                 <a href="{{ route('inquiries.show',$inquiry->id) }}" class="form-detail-btn text-xs">
                                     جزئیات
@@ -163,19 +155,6 @@
                                 <a href="{{ route('inquiries.amounts',$inquiry->id) }}" class="form-submit-btn text-xs">
                                     مقادیر
                                 </a>
-                            @endcan
-                        </div>
-                        <div class="flex w-full justify-center">
-                            @can('inquiry-amounts')
-                                <form action="{{ route('inquiries.submit',$inquiry->id) }}" method="POST"
-                                      class="inline">
-                                    @csrf
-                                    @method('PATCH')
-                                    <button class="form-submit-btn text-xs"
-                                            onclick="return confirm('استعلام ثبت نهایی شود ؟')">
-                                        ثبت نهایی
-                                    </button>
-                                </form>
                             @endcan
                         </div>
                     </div>

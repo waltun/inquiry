@@ -98,6 +98,10 @@
                                    class="form-submit-btn text-xs">
                                     افزودن محصول
                                 </a>
+                                <a href="{{ route('inquiries.product.index',$inquiry->id) }}"
+                                   class="form-detail-btn text-xs">
+                                    محصولات
+                                </a>
                             @endcan
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse">
