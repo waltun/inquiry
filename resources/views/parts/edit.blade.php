@@ -103,6 +103,17 @@
                 <input type="text" id="inputUnit" name="unit" class="input-text" value="{{ $part->unit }}">
             </div>
 
+            <div class="mt-4">
+                <label for="inputCategory" class="block mb-2 md:text-sm text-xs text-black">دسته بندی قطعه</label>
+                <select name="category_id" id="inputCategory" class="input-text">
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}" {{ $category->id == $part->category_id ? 'selected' : '' }}>
+                            {{ $category->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
         </div>
 
         <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
@@ -145,7 +156,7 @@
             <button type="submit" class="form-edit-btn">
                 بروزرسانی قطعه
             </button>
-            <a href="{{ route('groups.index') }}" class="form-cancel-btn">
+            <a href="{{ route('parts.index') }}" class="form-cancel-btn">
                 انصراف
             </a>
         </div>
