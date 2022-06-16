@@ -138,7 +138,7 @@
         </div>
 
         <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
-            <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">مدل</p>
+            <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">مدل و تعداد</p>
 
             <div class="mt-4">
                 <label for="inputModell" class="block mb-2 md:text-sm text-xs text-black">انتخاب مدل (بر اساس
@@ -146,6 +146,12 @@
                 <select name="model_id" id="inputModell" class="input-text">
                     <option value="">لطفا ابتدا گروه را انتخاب کنید</option>
                 </select>
+            </div>
+
+            <div class="mt-4">
+                <label for="inputQuantity" class="block mb-2 md:text-sm text-xs text-black">تعداد</label>
+                <input type="number" id="inputQuantity" name="quantity" class="input-text" placeholder="حداقل تعداد : 1"
+                       value="{{ old('quantity') }}">
             </div>
         </div>
 

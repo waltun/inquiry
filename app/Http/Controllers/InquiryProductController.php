@@ -28,11 +28,13 @@ class InquiryProductController extends Controller
         $request->validate([
             'group_id' => 'required|integer',
             'model_id' => 'required|integer',
+            'quantity' => 'required|numeric|min:1'
         ]);
 
         $inquiry->products()->create([
             'group_id' => $request['group_id'],
             'model_id' => $request['model_id'],
+            'quantity' => $request['quantity']
         ]);
 
         alert()->success('ثبت موفق', 'ثبت محصول برای استعلام با موفقیت انجام شد');
@@ -53,6 +55,7 @@ class InquiryProductController extends Controller
         Gate::authorize('inquiry-amounts');
 
         $group = Group::find($product->group_id);
+        $inquiry = Inquiry::find($product->inquiry_id);
 
         $request->validate([
             'amounts' => 'required|array',
@@ -82,6 +85,6 @@ class InquiryProductController extends Controller
 
         alert()->success('ثبت موفق', 'ثبت مقادیر با موفقیت انجام شد');
 
-        return redirect()->route('inquiries.product.index', $product->id);
+        return redirect()->route('inquiries.product.index', $inquiry->id);
     }
 }
