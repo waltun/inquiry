@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CollectionPartController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GroupController;
@@ -73,4 +74,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/inquiries/priced', [InquiryController::class, 'priced'])->name('inquiries.priced');
     Route::patch('/inquiries/{inquiry}/restore', [InquiryController::class, 'restore'])->name('inquiries.restore');
     Route::resource('inquiries', InquiryController::class);
+
+    //Category routes
+    Route::resource('categories', CategoryController::class);
 });
