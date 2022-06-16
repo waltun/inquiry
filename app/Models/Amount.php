@@ -10,11 +10,11 @@ class Amount extends Model
     use HasFactory;
 
     protected $fillable = [
-        'value', 'part_id', 'inquiry_id'
+        'value', 'part_id', 'product_id'
     ];
 
-    public function inquiry()
+    public function product()
     {
-        return $this->belongsTo(Inquiry::class);
+        return $this->belongsTo(Product::class);
     }
 }

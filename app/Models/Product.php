@@ -17,4 +17,9 @@ class Product extends Model
     {
         return $this->belongsTo(Inquiry::class);
     }
+
+    public function amounts()
+    {
+        return $this->hasMany(Amount::class);
+    }
 }

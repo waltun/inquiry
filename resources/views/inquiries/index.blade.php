@@ -164,11 +164,6 @@
                                     جزئیات
                                 </a>
                             @endcan
-                            @can('inquiry-amounts')
-                                <a href="{{ route('inquiries.amounts',$inquiry->id) }}" class="form-submit-btn text-xs">
-                                    مقادیر
-                                </a>
-                            @endcan
                         </div>
                         <div class="flex w-full justify-center">
                             @can('inquiry-amounts')

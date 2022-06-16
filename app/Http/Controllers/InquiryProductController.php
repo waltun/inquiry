@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Amount;
 use App\Models\Group;
 use App\Models\Inquiry;
 use App\Models\Modell;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class InquiryProductController extends Controller
 {
@@ -48,6 +50,38 @@ class InquiryProductController extends Controller
 
     public function storeAmounts(Request $request, Product $product)
     {
+        Gate::authorize('inquiry-amounts');
 
+        $group = Group::find($product->group_id);
+
+        $request->validate([
+            'amounts' => 'required|array',
+            'amounts.*' => 'required|numeric'
+        ]);
+
+        foreach ($group->parts as $index => $part) {
+            $amount = Amount::where('part_id', $part->id)->where('product_id', $product->id)->first();
+
+            if ($amount) {
+                if ($amount->value != $request->amounts[$index]) {
+                    $amount->update([
+                        'value' => $request->amounts[$index]
+                    ]);
+                }
+            } else {
+                Amount::create([
+                    'value' => $request->amounts[$index],
+                    'product_id' => $product->id,
+                    'part_id' => $part->id
+                ]);
+            }
+        }
+
+        $product->updated_at = now();
+        $product->save();
+
+        alert()->success('ثبت موفق', 'ثبت مقادیر با موفقیت انجام شد');
+
+        return redirect()->route('inquiries.product.index', $product->id);
     }
 }

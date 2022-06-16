@@ -46,7 +46,7 @@
                               clip-rule="evenodd"/>
                     </svg>
                     <span class="mr-2 text-xs md:text-sm font-medium text-gray-400">
-                        تعیین مقادیر محصول {{ $product->name }}
+                        تعیین مقادیر استعلام {{ $inquiry->name }}
                     </span>
                 </div>
             </li>
@@ -55,9 +55,7 @@
 
     <!-- Navigation Btn -->
     <div class="mt-4 flex md:justify-end justify-center space-x-4 space-x-reverse">
-        <a href="{{ route('inquiries.product.index',$inquiry->id) }}" class="form-detail-btn text-xs">
-            لیست محصولات استعلام
-        </a>
+        <a href="{{ route('inquiries.index') }}" class="form-detail-btn text-xs">لیست استعلام ها</a>
     </div>
 
     <!-- Errors -->
@@ -66,7 +64,7 @@
     </div>
 
     <!-- Content -->
-    <form method="POST" action="{{ route('inquiries.product.storeAmounts',$product->id) }}" class="mt-4">
+    <form method="POST" action="{{ route('inquiries.storeAmounts',$inquiry->id) }}" class="mt-4">
         @csrf
 
         <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4">
@@ -93,7 +91,7 @@
                 <tbody>
                 @foreach($group->parts as $part)
                     @php
-                        $amount = \App\Models\Amount::where('part_id', $part->id)->where('product_id', $product->id)->first();
+                        $amount = \App\Models\Amount::where('part_id', $part->id)->where('inquiry_id', $inquiry->id)->first();
                     @endphp
                     <tr>
                         <td class="border border-gray-300 p-4 text-sm text-center">

@@ -18,13 +18,13 @@ return new class extends Migration {
             $table->integer('value');
 
             $table->unsignedBigInteger('part_id');
-            $table->unsignedBigInteger('inquiry_id');
+            $table->unsignedBigInteger('product_id');
 
             $table->timestamps();
         });
 
         Schema::table('amounts', function (Blueprint $table) {
-            $table->foreign('inquiry_id')->references('id')->on('inquiries')->onDelete('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->foreign('part_id')->references('id')->on('parts')->onDelete('cascade');
         });
     }
