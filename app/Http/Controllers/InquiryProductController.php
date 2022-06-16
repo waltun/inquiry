@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Group;
 use App\Models\Inquiry;
+use App\Models\Modell;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -35,5 +36,18 @@ class InquiryProductController extends Controller
         alert()->success('ثبت موفق', 'ثبت محصول برای استعلام با موفقیت انجام شد');
 
         return redirect()->route('inquiries.index');
+    }
+
+    public function amounts(Product $product)
+    {
+        $group = Group::find($product->group_id);
+        $modell = Modell::find($product->model_id);
+        $inquiry = Inquiry::find($product->inquiry_id);
+        return view('inquiry-product.amounts', compact('product', 'group', 'modell', 'inquiry'));
+    }
+
+    public function storeAmounts(Request $request, Product $product)
+    {
+
     }
 }

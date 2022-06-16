@@ -112,7 +112,8 @@
                                 </a>
                             @endcan
                             @can('inquiry-amounts')
-                                <a href="{{ route('inquiries.amounts',$inquiry->id) }}" class="form-submit-btn text-xs">
+                                <a href="{{ route('inquiries.product.amounts',$product->id) }}"
+                                   class="form-submit-btn text-xs">
                                     مقادیر
                                 </a>
                             @endcan
@@ -152,7 +153,8 @@
                                 </a>
                             @endcan
                             @can('inquiry-amounts')
-                                <a href="{{ route('inquiries.amounts',$inquiry->id) }}" class="form-submit-btn text-xs">
+                                <a href="{{ route('inquiries.product.amounts',$product->id) }}"
+                                   class="form-submit-btn text-xs">
                                     مقادیر
                                 </a>
                             @endcan
