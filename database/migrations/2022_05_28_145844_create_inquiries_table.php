@@ -17,6 +17,7 @@ return new class extends Migration {
 
             $table->string('name');
             $table->string('manager');
+            $table->string('marketer');
             $table->string('inquiry_number');
             $table->bigInteger('price')->default(0);
 

@@ -125,40 +125,24 @@
 
             <div class="mt-4">
                 <label for="inputName" class="block mb-2 md:text-sm text-xs text-black">نام پروژه</label>
-                <input type="text" id="inputName" name="name" class="input-text" value="{{ $inquiry->name }}">
+                <input type="text" id="inputName" name="name" class="input-text"
+                       placeholder="مثال : پروژه نفتی جنوب" value="{{ $inquiry->name }}">
             </div>
 
         </div>
 
         <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
-            <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">انتخاب محصول</p>
+            <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">بازاریاب</p>
 
             <div class="mt-4">
-                <label for="inputGroup" class="block mb-2 md:text-sm text-xs text-black">انتخاب گروه</label>
-                <select name="group_id" id="inputGroup" class="input-text" onchange="changeModel(event)">
-                    @foreach($groups as $group)
-                        <option value="{{ $group->id }}" {{ $group->id == $inquiry->group_id ? 'selected' : '' }}>
-                            {{ $group->name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-
-            <div class="mt-4">
-                <label for="inputModell" class="block mb-2 md:text-sm text-xs text-black">انتخاب مدل (بر اساس
-                    گروه)</label>
-                <select name="model_id" id="inputModell" class="input-text">
-                    @foreach($modells as $model)
-                        <option value="{{ $model->id }}" {{ $model->id == $inquiry->model_id ? 'selected' : '' }}>
-                            {{ $model->name }}
-                        </option>
-                    @endforeach
-                </select>
+                <label for="inputMarketer" class="block mb-2 md:text-sm text-xs text-black">نام بازاریاب</label>
+                <input type="text" id="inputMarketer" name="marketer" class="input-text"
+                       placeholder="مثال : احمد رضایی" value="{{ $inquiry->marketer }}">
             </div>
         </div>
 
         <div class="col-span-2 space-x-2 space-x-reverse">
-            <button type="submit" class="form-edit-btn text-sm px-4 py-2">
+            <button type="submit" class="form-edit-btn px-4 py-2 text-sm">
                 بروزرسانی استعلام
             </button>
             <a href="{{ route('inquiries.index') }}" class="form-cancel-btn">

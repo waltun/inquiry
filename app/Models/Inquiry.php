@@ -10,8 +10,7 @@ class Inquiry extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'manager', 'group_id', 'model_id', 'submit', 'inquiry_number', 'price', 'percent', 'archive_at',
-        'user_id'
+        'name', 'manager', 'submit', 'inquiry_number', 'price', 'archive_at', 'user_id', 'marketer',
     ];
 
     public function amounts()
@@ -21,11 +20,7 @@ class Inquiry extends Model
 
     public function groups()
     {
-        return $this->belongsToMany(Group::class, 'group_model_inquiry', 'inquiry_id', 'group_id');
-    }
-
-    public function modells()
-    {
-        return $this->belongsToMany(Modell::class, 'group_model_inquiry', 'inquiry_id', 'model_id');
+        return $this->belongsToMany(Group::class, 'group_model_inquiry', 'inquiry_id', 'group_id')
+            ->withPivot('model_id', 'percent', 'quantity', 'price');
     }
 }

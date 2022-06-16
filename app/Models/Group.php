@@ -26,6 +26,7 @@ class Group extends Model
 
     public function inquiries()
     {
-        return $this->belongsToMany(Inquiry::class, 'group_model_inquiry', 'group_id', 'inquiry_id');
+        return $this->belongsToMany(Inquiry::class, 'group_model_inquiry', 'group_id', 'inquiry_id')
+            ->withPivot('model_id', 'percent', 'price', 'quantity');
     }
 }

@@ -75,7 +75,7 @@
                               clip-rule="evenodd"/>
                     </svg>
                     <span class="mr-2 text-xs md:text-sm font-medium text-gray-400">
-                        ایجاد استعلام جدید
+                        افزودن محصول به استعلام {{ $inquiry->name }} - {{ $inquiry->inquiry_number }}
                     </span>
                 </div>
             </li>
@@ -116,27 +116,36 @@
     </div>
 
     <!-- Form -->
-    <form method="POST" action="{{ route('inquiries.store') }}" class="md:grid grid-cols-2 gap-4 mt-4">
+    <form method="POST" action="{{ route('inquiries.product.store',$inquiry->id) }}"
+          class="md:grid grid-cols-2 gap-4 mt-4">
         @csrf
 
         <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
-            <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">مشخصات کلی</p>
+            <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">گروه</p>
 
             <div class="mt-4">
-                <label for="inputName" class="block mb-2 md:text-sm text-xs text-black">نام پروژه</label>
-                <input type="text" id="inputName" name="name" class="input-text"
-                       placeholder="مثال : پروژه نفتی جنوب" value="{{ old('name') }}">
+                <label for="inputGroup" class="block mb-2 md:text-sm text-xs text-black">انتخاب گروه</label>
+                <select name="group_id" id="inputGroup" class="input-text" onchange="changeModel(event)">
+                    <option value="">انتخاب گروه</option>
+                    @foreach($groups as $group)
+                        <option value="{{ $group->id }}" {{ old('group_id') == $group->id ? 'selected' : '' }}>
+                            {{ $group->name }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
 
         </div>
 
         <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
-            <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">بازاریاب</p>
+            <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">مدل</p>
 
             <div class="mt-4">
-                <label for="inputMarketer" class="block mb-2 md:text-sm text-xs text-black">نام بازاریاب</label>
-                <input type="text" id="inputMarketer" name="marketer" class="input-text"
-                       placeholder="مثال : احمد رضایی" value="{{ old('marketer') }}">
+                <label for="inputModell" class="block mb-2 md:text-sm text-xs text-black">انتخاب مدل (بر اساس
+                    گروه)</label>
+                <select name="model_id" id="inputModell" class="input-text">
+                    <option value="">لطفا ابتدا گروه را انتخاب کنید</option>
+                </select>
             </div>
         </div>
 

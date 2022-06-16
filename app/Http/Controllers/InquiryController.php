@@ -24,8 +24,7 @@ class InquiryController extends Controller
     {
         Gate::authorize('create-inquiry');
 
-        $groups = Group::select(['name', 'id'])->get();
-        return view('inquiries.create', compact('groups'));
+        return view('inquiries.create');
     }
 
     public function store(Request $request)
@@ -34,8 +33,7 @@ class InquiryController extends Controller
 
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'model_id' => 'required|integer',
-            'group_id' => 'required|integer',
+            'marketer' => 'required|string|max:255',
             'inquiry_number' => 'numeric|nullable'
         ]);
 
@@ -76,10 +74,7 @@ class InquiryController extends Controller
     {
         Gate::authorize('create-inquiry');
 
-        $group = Group::find($inquiry->group_id);
-        $modells = $group->modells;
-        $groups = Group::select(['name', 'id'])->get();
-        return view('inquiries.edit', compact('inquiry', 'modells', 'groups'));
+        return view('inquiries.edit', compact('inquiry'));
     }
 
     public function update(Request $request, Inquiry $inquiry)
@@ -88,8 +83,7 @@ class InquiryController extends Controller
 
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'model_id' => 'required|integer',
-            'group_id' => 'required|integer',
+            'marketer' => 'required|string|max:255',
         ]);
 
         $inquiry->update($data);

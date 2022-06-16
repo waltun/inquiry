@@ -17,6 +17,7 @@ return new class extends Migration {
 
             $table->float('percent')->default(0);
             $table->integer('quantity')->default(0);
+            $table->bigInteger('price')->default(0);
 
             $table->unsignedBigInteger('group_id');
             $table->unsignedBigInteger('model_id');
@@ -27,7 +28,6 @@ return new class extends Migration {
 
         Schema::table('group_model_inquiry', function (Blueprint $table) {
             $table->foreign('group_id')->references('id')->on('groups');
-            $table->foreign('model_id')->references('id')->on('modells');
             $table->foreign('inquiry_id')->references('id')->on('inquiries');
         });
     }

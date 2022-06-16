@@ -6,6 +6,7 @@ use App\Http\Controllers\CollectionPartController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\InquiryController;
+use App\Http\Controllers\InquiryProductController;
 use App\Http\Controllers\ModellController;
 use App\Http\Controllers\PartController;
 use App\Http\Controllers\PartOfGroupController;
@@ -72,6 +73,11 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::patch('/inquiries/{inquiry}/percent', [InquiryController::class, 'storePercent'])->name('inquiries.storePercent');
     Route::get('/inquiries/priced', [InquiryController::class, 'priced'])->name('inquiries.priced');
     Route::patch('/inquiries/{inquiry}/restore', [InquiryController::class, 'restore'])->name('inquiries.restore');
+
+    //Inquiry Product routes
+    Route::get('/inquiries/{inquiry}/create-product', [InquiryProductController::class, 'create'])->name('inquiries.product.create');
+    Route::post('/inquiries/{inquiry}/store-product', [InquiryProductController::class, 'store'])->name('inquiries.product.store');
+
     Route::resource('inquiries', InquiryController::class);
 
     //Category routes
