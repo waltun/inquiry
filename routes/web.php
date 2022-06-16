@@ -55,12 +55,12 @@ Route::middleware(['auth', 'web'])->group(function () {
 
     //Collection Part routes
     Route::get('/collection-parts', [CollectionPartController::class, 'index'])->name('collections.index');
-    Route::get('/collection-parts/{collectionPart}/add-parts', [CollectionPartController::class, 'create'])->name('collections.create');
-    Route::post('/collection-parts/{collectionPart}/{part}/parts', [CollectionPartController::class, 'store'])->name('collections.store');
-    Route::get('/collection-parts/{collectionPart}/parts', [CollectionPartController::class, 'parts'])->name('collections.parts');
-    Route::delete('/collection-parts/{collectionPart}/{part}/destroy', [CollectionPartController::class, 'destroy'])->name('collections.destroy');
-    Route::get('/collection-parts/{collectionPart}/amounts', [CollectionPartController::class, 'amounts'])->name('collections.amounts');
-    Route::patch('/collection-parts/{collectionPart}/store-amounts', [CollectionPartController::class, 'storeAmounts'])->name('collections.storeAmounts');
+    Route::get('/collection-parts/{parentPart}/add-parts', [CollectionPartController::class, 'create'])->name('collections.create');
+    Route::post('/collection-parts/{parentPart}/{childPart}/parts', [CollectionPartController::class, 'store'])->name('collections.store');
+    Route::get('/collection-parts/{parentPart}/parts', [CollectionPartController::class, 'parts'])->name('collections.parts');
+    Route::delete('/collection-parts/{parentPart}/{childPart}/destroy', [CollectionPartController::class, 'destroy'])->name('collections.destroy');
+    Route::get('/collection-parts/{parentPart}/amounts', [CollectionPartController::class, 'amounts'])->name('collections.amounts');
+    Route::patch('/collection-parts/{parentPart}/store-amounts', [CollectionPartController::class, 'storeAmounts'])->name('collections.storeAmounts');
 
     //Inquiry routes
     Route::post('/inquiries/create/change-model', [InquiryController::class, 'changeModelAjax'])->name('inquiries.create.changeModel');

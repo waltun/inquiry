@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Part;
+use Dflydev\DotAccessData\Data;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -31,7 +32,7 @@ class CollectionPartController extends Controller
         return view('collection-parts.index', compact('parts'));
     }
 
-    public function create(Part $collectionPart)
+    public function create(Part $parentPart)
     {
         $parts = Part::query();
 
@@ -45,74 +46,58 @@ class CollectionPartController extends Controller
             $parts = $parts->where('code', 'LIKE', $keyword);
         }
 
-        $collectionParts = DB::table('part_part')->where('part_collection_id', $collectionPart->id)->get();
+        $parts = $parts->latest()->paginate(25)->except($parentPart->id)
+            ->except($parentPart->children()->pluck('parent_part_id')->toArray());
 
-        $parts = $parts->latest()->paginate(25)->except($collectionParts->pluck('part_id')->toArray())
-            ->except($collectionPart->id);
-
-        return view('collection-parts.create', compact('parts', 'collectionPart'));
+        return view('collection-parts.create', compact('parts', 'parentPart'));
     }
 
-    public function store(Part $collectionPart, Part $part)
+    public function store(Part $parentPart, Part $childPart)
     {
-        DB::table('part_part')->insert([
-            'part_id' => $part->id,
-            'part_collection_id' => $collectionPart->id
-        ]);
+        $parentPart->children()->syncWithoutDetaching($childPart->id);
 
         alert()->success('ثبت موفق', 'افزودن قطعه به مجموعه با موفقیت انجام شد');
 
         return back();
     }
 
-    public function parts(Part $collectionPart)
+    public function parts(Part $parentPart)
     {
-        $collectionParts = DB::table('part_part')->where('part_collection_id', $collectionPart->id)->get();
-
-        return view('collection-parts.parts', compact('collectionPart', 'collectionParts'));
+        return view('collection-parts.parts', compact('parentPart'));
     }
 
-    public function destroy(Part $collectionPart, Part $part)
+    public function destroy(Part $parentPart, Part $childPart)
     {
-        DB::table('part_part')->where('part_id', $part->id)
-            ->where('part_collection_id', $collectionPart->id)->delete();
+        $parentPart->children()->detach($childPart->id);
 
         alert()->success('حذف موفق', 'حذف قطعه از مجموعه با موفقیت انجام شد');
 
         return back();
     }
 
-    public function amounts(Part $collectionPart)
+    public function amounts(Part $parentPart)
     {
-        $collectionParts = DB::table('part_part')->where('part_collection_id', $collectionPart->id)->get();
-
-        return view('collection-parts.amounts', compact('collectionPart', 'collectionParts'));
+        return view('collection-parts.amounts', compact('parentPart'));
     }
 
-    public function storeAmounts(Request $request, Part $collectionPart)
+    public function storeAmounts(Request $request, Part $parentPart)
     {
         $request->validate([
             'values' => 'required|array',
             'values.*' => 'required|numeric'
         ]);
 
-        $collectionParts = DB::table('part_part')->where('part_collection_id', $collectionPart->id)->get();
-
         $totalPrice = 0;
 
-        foreach ($collectionParts as $index => $collectionPart2) {
-            $part = Part::where('id', $collectionPart2->part_id)->first();
+        foreach ($parentPart->children as $index => $childPart) {
+            $childPart->pivot->value = $request->values[$index];
+            $childPart->pivot->save();
 
-            $value = DB::table('part_part')->where('part_id', $part->id)
-                ->where('part_collection_id', $collectionPart->id)->update([
-                    'value' => $request->values[$index]
-                ]);
-
-            $totalPrice += ($part->price * $request->values[$index]);
+            $totalPrice += ($childPart->price * $request->values[$index]);
         }
 
-        $collectionPart->price = $totalPrice;
-        $collectionPart->save();
+        $parentPart->price = $totalPrice;
+        $parentPart->save();
 
         alert()->success('ثبت موفق', 'ثبت مقادیر با موفقیت انجام شد');
 

@@ -35,7 +35,7 @@
                     </svg>
                     <a href="#"
                        class="mr-2 text-xs md:text-sm font-medium text-gray-500 hover:text-gray-900">
-                        لیست قطعات مجموعه {{ $collectionPart->name }}
+                        لیست قطعات مجموعه {{ $parentPart->name }}
                     </a>
                 </div>
             </li>
@@ -47,7 +47,7 @@
                               clip-rule="evenodd"/>
                     </svg>
                     <span class="mr-2 text-xs md:text-sm font-medium text-gray-400">
-                        افزودن قطعه به مجموعه {{ $collectionPart->name }}
+                        افزودن قطعه به مجموعه {{ $parentPart->name }}
                     </span>
                 </div>
             </li>
@@ -58,7 +58,7 @@
     <div class="mt-4 flex justify-between space-x-4 space-x-reverse">
         <div>
             <p class="text-lg font-bold text-black">
-                افزودن قطعه به مجموعه <span class="text-red-600">{{ $collectionPart->name }}</span>
+                افزودن قطعه به مجموعه <span class="text-red-600">{{ $parentPart->name }}</span>
             </p>
         </div>
         <div>
@@ -169,11 +169,11 @@
                             <p class="text-sm text-black text-center">{{ $part->code }}</p>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse">
-                            <form action="{{ route('collections.store',[$collectionPart->id,$part->id]) }}" method="POST"
+                            <form action="{{ route('collections.store',[$parentPart->id,$part->id]) }}" method="POST"
                                   class="inline">
                                 @csrf
                                 <button class="form-submit-btn text-xs">
-                                    افزودن به مجموعه {{ $collectionPart->name }}
+                                    افزودن به مجموعه {{ $parentPart->name }}
                                 </button>
                             </form>
                         </td>
@@ -205,11 +205,11 @@
                             کد : {{ $part->code }}
                         </p>
                         <div class="flex w-full justify-between">
-                            <form action="{{ route('collections.store',[$collectionPart->id,$part->id]) }}" method="POST"
+                            <form action="{{ route('collections.store',[$parentPart->id,$part->id]) }}" method="POST"
                                   class="inline">
                                 @csrf
                                 <button class="form-submit-btn text-xs">
-                                    افزودن به مجموعه {{ $collectionPart->name }}
+                                    افزودن به مجموعه {{ $parentPart->name }}
                                 </button>
                             </form>
                         </div>

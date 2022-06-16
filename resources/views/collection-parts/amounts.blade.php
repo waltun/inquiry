@@ -34,7 +34,7 @@
                               clip-rule="evenodd"/>
                     </svg>
                     <span class="mr-2 text-xs md:text-sm font-medium text-gray-400">
-                        تعیین مقادیر مجموعه {{ $collectionPart->name }}
+                        تعیین مقادیر مجموعه {{ $parentPart->name }}
                     </span>
                 </div>
             </li>
@@ -52,7 +52,7 @@
     </div>
 
     <!-- Content -->
-    <form method="POST" action="{{ route('collections.storeAmounts',$collectionPart->id) }}" class="mt-4">
+    <form method="POST" action="{{ route('collections.storeAmounts',$parentPart->id) }}" class="mt-4">
         @csrf
         @method('PATCH')
 
@@ -67,23 +67,20 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($collectionParts as $collectionPart2)
-                    @php
-                        $part = \App\Models\Part::where('id',$collectionPart2->part_id)->first();
-                    @endphp
+                @foreach($parentPart->children as $childPart)
                     <tr>
                         <td class="border border-gray-300 p-4 text-sm text-center">
-                            {{ $part->code }}
+                            {{ $childPart->code }}
                         </td>
                         <td class="border border-gray-300 p-4 text-sm text-center">
-                            {{ $part->name }}
+                            {{ $childPart->name }}
                         </td>
                         <td class="border border-gray-300 p-4 text-sm text-center">
-                            {{ $part->unit }}
+                            {{ $childPart->unit }}
                         </td>
                         <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                            <input type="number" name="values[]" id="inputValue{{ $part->id }}" class="input-text"
-                                   value="{{ $collectionPart2->value ?? '' }}">
+                            <input type="number" name="values[]" id="inputValue{{ $childPart->id }}" class="input-text"
+                                   value="{{ $childPart->value ?? '' }}">
                         </td>
                     </tr>
                 @endforeach

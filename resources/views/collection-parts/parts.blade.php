@@ -34,7 +34,7 @@
                               clip-rule="evenodd"/>
                     </svg>
                     <span class="mr-2 text-xs md:text-sm font-medium text-gray-400">
-                        لیست قطعات مجموعه {{ $collectionPart->name }}
+                        لیست قطعات مجموعه {{ $parentPart->name }}
                     </span>
                 </div>
             </li>
@@ -45,7 +45,7 @@
     <div class="mt-4 flex justify-between items-center space-x-4 space-x-reverse">
         <div>
             <p class="text-lg font-bold text-black">
-                لیست قطعات مجموعه <span class="text-red-600">{{ $collectionPart->name }}</span>
+                لیست قطعات مجموعه <span class="text-red-600">{{ $parentPart->name }}</span>
             </p>
         </div>
         <div>
@@ -82,36 +82,32 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($collectionParts as $collectionPart2)
-                    @php
-                        $part = \App\Models\Part::where('id',$collectionPart2->part_id)->first();
-                    @endphp
+                @foreach($parentPart->children as $child)
                     <tr>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-gray-500 text-center">{{ $loop->index + 1 }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ $part->name }}</p>
+                            <p class="text-sm text-black text-center">{{ $child->name }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ $part->unit }}</p>
+                            <p class="text-sm text-black text-center">{{ $child->unit }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ number_format($part->price) }}</p>
+                            <p class="text-sm text-black text-center">{{ number_format($child->price) }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ $part->code }}</p>
+                            <p class="text-sm text-black text-center">{{ $child->code }}</p>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse">
-                            <form action="{{ route('collections.destroy',[$collectionPart->id,$part->id]) }}"
+                            <form action="{{ route('collections.destroy',[$parentPart->id,$child->id]) }}"
                                   method="POST"
                                   class="inline">
                                 @csrf
                                 @method('DELETE')
-
                                 <button class="form-cancel-btn text-xs"
                                         onclick="return confirm('قطعه از مجموعه حذف شود ؟')">
-                                    حذف از مجموعه {{ $collectionPart->name }}
+                                    حذف از مجموعه {{ $parentPart->name }}
                                 </button>
                             </form>
                         </td>
@@ -123,30 +119,27 @@
 
         <!-- Mobile List -->
         <div class="block md:hidden">
-            @foreach($collectionParts as $collectionPart2)
-                @php
-                    $part = \App\Models\Part::where('id',$collectionPart2->id)->first();
-                @endphp
+            @foreach($parentPart->children as $childPart)
                 <div class="bg-white rounded-md p-4 border border-gray-200 shadow-sm mb-4 relative z-30">
-                <span
-                    class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
-                    {{ $loop->index+1 }}
-                </span>
+                    <span
+                        class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
+                        {{ $loop->index+1 }}
+                    </span>
                     <div class="space-y-4">
                         <p class="text-xs text-black text-center">
-                            نام : {{ $part->name }}
+                            نام : {{ $childPart->name }}
                         </p>
                         <p class="text-xs text-black text-center">
-                            واحد : {{ $part->unit }}
+                            واحد : {{ $childPart->unit }}
                         </p>
                         <p class="text-xs text-black text-center">
-                            قیمت : {{ number_format($part->price) }}
+                            قیمت : {{ number_format($childPart->price) }}
                         </p>
                         <p class="text-xs text-black text-center">
-                            کد : {{ $part->code }}
+                            کد : {{ $childPart->code }}
                         </p>
                         <div class="flex w-full justify-between">
-                            <form action="{{ route('collections.destroy',[$collectionPart->id,$part->id]) }}"
+                            <form action="{{ route('collections.destroy',[$parentPart->id,$childPart->id]) }}"
                                   method="POST"
                                   class="inline">
                                 @csrf
@@ -154,7 +147,7 @@
 
                                 <button class="form-cancel-btn text-xs"
                                         onclick="return confirm('قطعه از مجموعه حذف شود ؟')">
-                                    حذف از مجموعه {{ $collectionPart->name }}
+                                    حذف از مجموعه {{ $parentPart->name }}
                                 </button>
                             </form>
                         </div>
