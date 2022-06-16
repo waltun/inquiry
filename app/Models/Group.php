@@ -23,4 +23,9 @@ class Group extends Model
     {
         return $this->belongsToMany(Part::class);
     }
+
+    public function inquiries()
+    {
+        return $this->belongsToMany(Inquiry::class, 'group_model_inquiry', 'group_id', 'inquiry_id');
+    }
 }

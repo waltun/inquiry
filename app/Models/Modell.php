@@ -18,4 +18,9 @@ class Modell extends Model
     {
         return $this->belongsTo(Group::class);
     }
+
+    public function inquiries()
+    {
+        return $this->belongsToMany(Inquiry::class, 'group_model_inquiry', 'model_id', 'inquiry_id');
+    }
 }
