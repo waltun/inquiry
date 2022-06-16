@@ -55,7 +55,7 @@
             @endif
         </div>
         <div>
-            <a href="{{ route('inquiries.product.index',$product->id) }}" class="form-detail-btn text-xs">
+            <a href="{{ route('inquiries.product.index',$inquiry->id) }}" class="form-detail-btn text-xs">
                 لیست محصولات استعلام
             </a>
         </div>
@@ -143,6 +143,22 @@
                     </td>
                     <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
                         {{ number_format($totalPrice) }} تومان
+                    </td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 p-4 text-lg text-center font-bold" colspan="5">
+                        تعداد
+                    </td>
+                    <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
+                        {{ $product->quantity }}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 p-4 text-lg text-center font-bold" colspan="5">
+                        قیمت نهایی
+                    </td>
+                    <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
+                        {{ number_format($totalPrice * $product->quantity) }}
                     </td>
                 </tr>
                 @if($product->percent)
