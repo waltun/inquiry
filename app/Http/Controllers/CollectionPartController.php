@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Part;
-use Dflydev\DotAccessData\Data;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
 class CollectionPartController extends Controller
