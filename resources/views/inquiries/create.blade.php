@@ -1,45 +1,4 @@
 <x-layout>
-    <x-slot name="js">
-        <script src="{{ asset('plugins/jquery.min.js') }}"></script>
-        <script src="{{ asset('plugins/select2/select2.min.js') }}"></script>
-        <script>
-            $("#inputGroup").select2();
-        </script>
-        <script>
-            function changeModel(event) {
-                let group_id = event.target.value;
-                let modelSection = $("#inputModell");
-
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-
-                $.ajax({
-                    type: 'POST',
-                    url: '{{ route('inquiries.create.changeModel') }}',
-                    data: {
-                        group_id: group_id,
-                    },
-                    success: function (res) {
-                        let modells = res.data;
-                        modelSection.html(
-                            modells.map(function (item) {
-                                return `
-                                    <option value="${item['id']}">${item['name']}</option>
-                                `
-                            })
-                        )
-                    }
-                });
-
-            }
-        </script>
-    </x-slot>
-    <x-slot name="css">
-        <link rel="stylesheet" href="{{ asset('plugins/select2/select2.min.css') }}">
-    </x-slot>
     <!-- Breadcrumb -->
     <nav class="flex bg-gray-100 p-4 rounded-md" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-2 space-x-reverse">
