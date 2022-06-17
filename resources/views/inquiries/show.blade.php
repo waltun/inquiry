@@ -61,7 +61,6 @@
 
     <!-- Content -->
     <div class="mt-4">
-
         <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4">
             <div class="md:flex justify-between items-center space-y-4 md:space-y-0">
                 <p class="font-bold text-black md:text-lg text-sm text-center">
@@ -75,81 +74,78 @@
                 </p>
             </div>
         </div>
-
-        <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4">
-            <div class="md:flex justify-around items-center space-y-4 md:space-y-0">
-                <p class="font-bold text-red-600 md:text-lg text-sm text-center">
-                    گروه : {{ $group->name }} با کد {{ $group->code }}
-                </p>
-                <p class="font-bold text-red-600 md:text-lg text-sm text-center">
-                    مدل : {{ $modell->name }} با کد {{ $modell->code }}
-                </p>
-            </div>
-        </div>
-
-        <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4">
-
-            <div class="mb-4">
-                <p class="text-center text-sm font-black font-bold">
-                    لیست قطعات و قیمت
-                </p>
-            </div>
-
-            <table class="border-collapse border border-gray-400 w-full">
-                <thead>
-                <tr>
-                    <th class="border border-gray-300 p-4 text-sm">کد قطعه</th>
-                    <th class="border border-gray-300 p-4 text-sm">نام قطعه</th>
-                    <th class="border border-gray-300 p-4 text-sm">واحد قطعه</th>
-                    <th class="border border-gray-300 p-4 text-sm">قیمت واحد</th>
-                    <th class="border border-gray-300 p-4 text-sm">مقادیر</th>
-                    <th class="border border-gray-300 p-4 text-sm">جمع کل</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($group->parts as $part)
-                    @php
-                        $amount = $inquiry->amounts()->where('part_id',$part->id)->first();
-                        if ($amount){
-                            $totalPrice += ($part->price * $amount->value);
-                        }
-                    @endphp
+        @php
+            $finalPrice = 0;
+        @endphp
+        @foreach($inquiry->products as $product)
+            @php
+                $group = \App\Models\Group::find($product->group_id);
+                $modell = \App\Models\Modell::find($product->model_id);
+                $finalPrice += $product->price;
+            @endphp
+            <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4">
+                <div class="mb-4">
+                    <p class="text-center text-lg font-black font-bold">
+                        لیست قطعات و قیمت محصول {{ $group->name }} - {{ $modell->name }}
+                    </p>
+                </div>
+                <table class="border-collapse border border-gray-400 w-full">
+                    <thead>
                     <tr>
-                        <td class="border border-gray-300 p-4 text-sm text-center">
-                            {{ $part->code }}
-                        </td>
-                        <td class="border border-gray-300 p-4 text-sm text-center">
-                            {{ $part->name }}
-                        </td>
-                        <td class="border border-gray-300 p-4 text-sm text-center">
-                            {{ $part->unit }}
-                        </td>
-                        <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                            {{ number_format($part->price) }} تومان
-                        </td>
-                        <td class="border border-gray-300 p-4 text-sm text-center">
-                            {{ $amount->value }}
-                        </td>
-                        <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                            {{ number_format($part->price * $amount->value) }} تومان
-                        </td>
+                        <th class="border border-gray-300 p-4 text-sm">کد قطعه</th>
+                        <th class="border border-gray-300 p-4 text-sm">نام قطعه</th>
+                        <th class="border border-gray-300 p-4 text-sm">واحد قطعه</th>
+                        <th class="border border-gray-300 p-4 text-sm">قیمت واحد</th>
+                        <th class="border border-gray-300 p-4 text-sm">مقادیر</th>
+                        <th class="border border-gray-300 p-4 text-sm">جمع کل</th>
                     </tr>
-                @endforeach
-                <tr>
-                    <td class="border border-gray-300 p-4 text-lg text-center font-bold" colspan="5">
-                        قیمت کل
-                    </td>
-                    <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
-                        {{ number_format($totalPrice) }} تومان
-                    </td>
-                </tr>
-                @if($inquiry->percent)
+                    </thead>
+                    <tbody>
+                    @php
+                        $totalPrice = 0;
+                    @endphp
+                    @foreach($group->parts as $part)
+                        @php
+                            $amount = $product->amounts()->where('part_id',$part->id)->first();
+                            if ($amount){
+                                $totalPrice += ($part->price * $amount->value);
+                            }
+                        @endphp
+                        <tr>
+                            <td class="border border-gray-300 p-4 text-sm text-center">
+                                {{ $part->code }}
+                            </td>
+                            <td class="border border-gray-300 p-4 text-sm text-center">
+                                {{ $part->name }}
+                            </td>
+                            <td class="border border-gray-300 p-4 text-sm text-center">
+                                {{ $part->unit }}
+                            </td>
+                            <td class="border border-gray-300 p-4 text-sm text-center font-bold">
+                                {{ number_format($part->price) }} تومان
+                            </td>
+                            <td class="border border-gray-300 p-4 text-sm text-center">
+                                {{ $amount->value }}
+                            </td>
+                            <td class="border border-gray-300 p-4 text-sm text-center font-bold">
+                                {{ number_format($part->price * $amount->value) }} تومان
+                            </td>
+                        </tr>
+                    @endforeach
                     <tr>
                         <td class="border border-gray-300 p-4 text-lg text-center font-bold" colspan="5">
-                            ضریب ثبت شده
+                            قیمت کل
                         </td>
                         <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
-                            {{ $inquiry->percent }}
+                            {{ number_format($totalPrice) }} تومان
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-gray-300 p-4 text-lg text-center font-bold" colspan="5">
+                            تعداد
+                        </td>
+                        <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
+                            {{ $product->quantity }}
                         </td>
                     </tr>
                     <tr>
@@ -157,15 +153,39 @@
                             قیمت نهایی
                         </td>
                         <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
-                            {{ number_format($inquiry->price) }} تومان
+                            {{ number_format($totalPrice * $product->quantity) }} تومان
                         </td>
                     </tr>
-                @endif
-                </tbody>
-            </table>
+                    @if($product->percent)
+                        <tr>
+                            <td class="border border-gray-300 p-4 text-lg text-center font-bold" colspan="5">
+                                ضریب ثبت شده
+                            </td>
+                            <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
+                                {{ $product->percent }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="border border-gray-300 p-4 text-lg text-center font-bold" colspan="5">
+                                قیمت نهایی پس از ضریب
+                            </td>
+                            <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
+                                {{ number_format($product->price) }} تومان
+                            </td>
+                        </tr>
+                    @endif
+                    </tbody>
+                </table>
+            </div>
+        @endforeach
+
+        <div class="bg-green-500 p-4 rounded-md shadow-md mt-4">
+            <p class="text-xl text-black font-bold text-center">
+                قیمت نهایی کل استعلام : {{ number_format($finalPrice) }} تومان
+            </p>
         </div>
 
-        <div class="grid grid-cols-3 gap-4">
+        <div class="grid grid-cols-3 gap-4 mt-4">
             <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4 space-y-2">
                 <p class="text-sm font-bold text-black text-center">
                     ایجاد استعلام : {{ jdate($inquiry->created_at)->format('%A, %d %B %Y') }}

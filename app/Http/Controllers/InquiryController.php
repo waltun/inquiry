@@ -52,22 +52,20 @@ class InquiryController extends Controller
     {
         Gate::authorize('inquiry-detail');
 
-        if ($inquiry->amounts->isEmpty()) {
-            alert()->error('مقادیر', 'لطفا ابتدا مقادیر را مشخص کنید');
+        if ($inquiry->products->isEmpty()) {
+            alert()->error('محصولات', 'لطفا ابتدا محصولات را مشخص کنید');
             return back();
         }
 
-        $group = Group::find($inquiry->group_id);
-
-        if ($group->parts->pluck('price')->contains(null) || $group->parts->pluck('price')->contains(0)) {
-            alert()->error('قیمت گذاری', 'لطفا ابتدا قیمت قطعات را مشخص کنید');
-            return back();
+        foreach ($inquiry->products as $product) {
+            if ($product->amounts->isEmpty()) {
+                alert()->error('مقادیر محصولات', 'لطفا ابتدا مقادیر محصولات را مشخص کنید');
+                return back();
+            }
         }
 
-        $modell = Modell::find($inquiry->model_id);
-        $totalPrice = 0;
 
-        return view('inquiries.show', compact('inquiry', 'group', 'modell', 'totalPrice'));
+        return view('inquiries.show', compact('inquiry'));
     }
 
     public function edit(Inquiry $inquiry)
@@ -140,11 +138,17 @@ class InquiryController extends Controller
         Gate::authorize('inquiry-restore');
 
         $inquiry->update([
-            'price' => 0,
-            'percent' => 0,
             'archive_at' => null,
             'submit' => false,
+            'price' => 0
         ]);
+
+        foreach ($inquiry->products as $product) {
+            $product->update([
+                'price' => 0,
+                'percent' => 0.00
+            ]);
+        }
 
         alert()->success('ثبت اصلاح موفق', 'ثبت اصلاح با موفقیت انجام شد و برای کاربر ارسال شد');
 

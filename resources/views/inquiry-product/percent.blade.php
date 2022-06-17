@@ -109,7 +109,8 @@
                     ضریب استعلام را مشخص کنید
                 </label>
                 <input type="text" id="inputPercent" name="percent" class="input-text"
-                       placeholder="مثال : 0.3" value="{{ old('percent') }}" onkeyup="showPrice(event)">
+                       placeholder="مثال : 0.3" value="{{ $product->percent ?? old('percent') }}"
+                       onkeyup="showPrice(event)">
             </div>
         </div>
 
