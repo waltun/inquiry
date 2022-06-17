@@ -2,7 +2,7 @@
 
     <x-slot name="js">
         <script>
-            let totalPrice = parseInt('{{ $totalPrice }}')
+            let totalPrice = parseInt('{{ $totalPrice * $product->quantity }}')
 
             function showPrice(event) {
                 let value = totalPrice / event.target.value;
@@ -47,7 +47,7 @@
                               clip-rule="evenodd"/>
                     </svg>
                     <span class="mr-2 text-xs md:text-sm font-medium text-gray-400">
-                        ایجاد ضریب برای استعلام
+                        ایجاد ضریب برای محصول
                     </span>
                 </div>
             </li>
@@ -88,7 +88,7 @@
     </div>
 
     <!-- Form -->
-    <form method="POST" action="{{ route('inquiries.storePercent',$inquiry->id) }}"
+    <form method="POST" action="{{ route('inquiries.product.storePercent',$product->id) }}"
           class="md:grid grid-cols-3 gap-4 mt-4">
         @csrf
         @method('PATCH')
@@ -97,7 +97,7 @@
             <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">قیمت فعلی استعلام</p>
             <div class="mt-4">
                 <p class="text-center text-lg font-bold text-green-600">
-                    {{ number_format($totalPrice) }} تومان
+                    {{ number_format($totalPrice * $product->quantity) }} تومان
                 </p>
             </div>
         </div>
@@ -124,7 +124,7 @@
 
         <div class="col-span-3 space-x-2 space-x-reverse">
             <button type="submit" class="form-submit-btn">
-                ثبت ضریب استعلام
+                ثبت ضریب محصول
             </button>
             <a href="{{ route('inquiries.submitted') }}" class="form-cancel-btn">
                 انصراف

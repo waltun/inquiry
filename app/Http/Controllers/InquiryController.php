@@ -104,52 +104,6 @@ class InquiryController extends Controller
         return back();
     }
 
-    public function amounts(Inquiry $inquiry)
-    {
-        Gate::authorize('inquiry-amounts');
-
-        $group = Group::find($inquiry->group_id);
-        $modell = Modell::find($inquiry->model_id);
-        return view('inquiries.amounts', compact('inquiry', 'group', 'modell'));
-    }
-
-    public function storeAmounts(Request $request, Inquiry $inquiry)
-    {
-        Gate::authorize('inquiry-amounts');
-
-        $group = Group::find($inquiry->group_id);
-
-        $request->validate([
-            'amounts' => 'required|array',
-            'amounts.*' => 'required|numeric'
-        ]);
-
-        foreach ($group->parts as $index => $part) {
-            $amount = Amount::where('part_id', $part->id)->where('inquiry_id', $inquiry->id)->first();
-
-            if ($amount) {
-                if ($amount->value != $request->amounts[$index]) {
-                    $amount->update([
-                        'value' => $request->amounts[$index]
-                    ]);
-                }
-            } else {
-                Amount::create([
-                    'value' => $request->amounts[$index],
-                    'inquiry_id' => $inquiry->id,
-                    'part_id' => $part->id
-                ]);
-            }
-        }
-
-        $inquiry->updated_at = now();
-        $inquiry->save();
-
-        alert()->success('ثبت موفق', 'ثبت مقادیر با موفقیت انجام شد');
-
-        return redirect()->route('inquiries.index');
-    }
-
     public function submitted()
     {
         Gate::authorize('inquiry-percent');
@@ -170,57 +124,6 @@ class InquiryController extends Controller
         alert()->success('ثبت نهایی موفق', 'ثبت نهایی با موفقیت انجام شد و برای مدیریت ارسال شد');
 
         return back();
-    }
-
-    public function percent(Inquiry $inquiry)
-    {
-        Gate::authorize('inquiry-percent');
-
-        $totalPrice = 0;
-
-        $group = Group::find($inquiry->group_id);
-        $modell = Modell::find($inquiry->model_id);
-
-        foreach ($group->parts as $part) {
-            $amount = $inquiry->amounts()->where('part_id', $part->id)->first();
-            if ($amount) {
-                $totalPrice += ($part->price * $amount->value);
-            }
-        }
-
-        return view('inquiries.percent', compact('inquiry', 'group', 'modell', 'totalPrice'));
-    }
-
-    public function storePercent(Request $request, Inquiry $inquiry)
-    {
-        Gate::authorize('inquiry-percent');
-
-        $request->validate([
-            'percent' => 'required|numeric|between:0,1'
-        ]);
-
-        $totalPrice = 0;
-
-        $group = Group::find($inquiry->group_id);
-
-        foreach ($group->parts as $part) {
-            $amount = $inquiry->amounts()->where('part_id', $part->id)->first();
-            if ($amount) {
-                $totalPrice += ($part->price * $amount->value);
-            }
-        }
-
-        $finalPrice = $totalPrice / $request['percent'];
-
-        $inquiry->update([
-            'price' => $finalPrice,
-            'percent' => $request['percent'],
-            'archive_at' => now()
-        ]);
-
-        alert()->success('ثبت ضریب موفق', 'ثبت ضریب با موفقیت انجام شد و برای کاربر ارسال شد');
-
-        return redirect()->route('inquiries.submitted');
     }
 
     public function priced()

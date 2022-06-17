@@ -96,4 +96,62 @@ class InquiryProductController extends Controller
 
         return redirect()->route('inquiries.product.index', $inquiry->id);
     }
+
+    public function percent(Product $product)
+    {
+        Gate::authorize('inquiry-percent');
+
+        $totalPrice = 0;
+
+        $group = Group::find($product->group_id);
+        $modell = Modell::find($product->model_id);
+        $inquiry = Inquiry::find($product->inquiry_id);
+
+        foreach ($group->parts as $part) {
+            $amount = $product->amounts()->where('part_id', $part->id)->first();
+            if ($amount) {
+                $totalPrice += ($part->price * $amount->value);
+            }
+        }
+
+        return view('inquiry-product.percent', compact('inquiry', 'group', 'modell', 'totalPrice', 'product'));
+    }
+
+    public function storePercent(Request $request, Product $product)
+    {
+        Gate::authorize('inquiry-percent');
+
+        $request->validate([
+            'percent' => 'required|numeric|between:0,1'
+        ]);
+
+        $totalPrice = 0;
+
+        $group = Group::find($product->group_id);
+        $inquiry = Inquiry::find($product->inquiry_id);
+
+        foreach ($group->parts as $part) {
+            $amount = $product->amounts()->where('part_id', $part->id)->first();
+            if ($amount) {
+                $totalPrice += ($part->price * $amount->value);
+            }
+        }
+
+        $finalPrice = ($totalPrice * $product->quantity) / $request['percent'];
+
+        $product->update([
+            'price' => $finalPrice,
+            'percent' => $request['percent'],
+        ]);
+
+        if (!$inquiry->products->pluck('percent')->contains(0)) {
+            $inquiry->archive_at = now();
+            $inquiry->price = $inquiry->products->sum('price');
+            $inquiry->save();
+        }
+
+        alert()->success('ثبت ضریب موفق', 'ثبت ضریب با موفقیت انجام شد و برای کاربر ارسال شد');
+
+        return redirect()->route('inquiries.product.index', $inquiry->id);
+    }
 }

@@ -59,13 +59,10 @@
                         مسئول پروژه
                     </th>
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
-                        گروه
+                        بازاریاب
                     </th>
-                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
-                        مدل
-                    </th>
-                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
-                        تاریخ استعلام
+                    <th scope="col" class="relative px-4 py-3">
+                        <span class="sr-only">محصولات</span>
                     </th>
                     <th scope="col" class="relative px-4 py-3 rounded-l-md">
                         <span class="sr-only">اقدامات</span>
@@ -74,10 +71,6 @@
                 </thead>
                 <tbody>
                 @foreach($inquiries as $inquiry)
-                    @php
-                        $modell = \App\Models\Modell::find($inquiry->model_id);
-                        $group = \App\Models\Group::find($inquiry->group_id);
-                    @endphp
                     <tr>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-gray-500 text-center">{{ $inquiry->inquiry_number }}</p>
@@ -89,15 +82,19 @@
                             <p class="text-sm text-black text-center">{{ $inquiry->manager }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ $group->name }}</p>
+                            <p class="text-sm text-black text-center">{{ $inquiry->marketer }}</p>
                         </td>
-                        <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ $modell->name }}</p>
-                        </td>
-                        <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">
-                                {{ jdate($inquiry->created_at)->format('%A, %d %B %Y') }}
-                            </p>
+                        <td class="px-4 py-3 space-x-3 space-x-reverse">
+                            @can('inquiry-products')
+                                <a href="{{ route('inquiries.product.create',$inquiry->id) }}"
+                                   class="form-submit-btn text-xs">
+                                    افزودن محصول
+                                </a>
+                                <a href="{{ route('inquiries.product.index',$inquiry->id) }}"
+                                   class="form-detail-btn text-xs">
+                                    محصولات
+                                </a>
+                            @endcan
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse">
                             @can('inquiry-detail')
@@ -105,22 +102,13 @@
                                     جزئیات
                                 </a>
                             @endcan
-                            @can('inquiry-amounts')
-                                <a href="{{ route('inquiries.amounts',$inquiry->id) }}" class="form-submit-btn text-xs">
-                                    مقادیر
-                                </a>
-                            @endcan
-                            @can('inquiry-percent')
-                                <a href="{{ route('inquiries.percent',$inquiry->id) }}" class="form-edit-btn text-xs">
-                                    ثبت ضریب
-                                </a>
-                            @endcan
                             @can('inquiry-restore')
                                 <form action="{{ route('inquiries.restore',$inquiry->id) }}" method="POST"
                                       class="inline">
                                     @csrf
                                     @method('PATCH')
-                                    <button class="form-cancel-btn text-xs" onclick="return confirm('استعلام اصلاح شود ؟')">
+                                    <button class="form-cancel-btn text-xs"
+                                            onclick="return confirm('استعلام اصلاح شود ؟')">
                                         اصلاح
                                     </button>
                                 </form>
@@ -135,10 +123,6 @@
         <!-- Mobile List -->
         <div class="block md:hidden">
             @foreach($inquiries as $inquiry)
-                @php
-                    $modell = \App\Models\Modell::find($inquiry->model_id);
-                    $group = \App\Models\Group::find($inquiry->group_id);
-                @endphp
                 <div class="bg-white rounded-md p-4 border border-gray-200 shadow-sm mb-4 relative z-30">
                     <span
                         class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
@@ -152,23 +136,12 @@
                             مسئول پروژه : {{ $inquiry->manager }}
                         </p>
                         <p class="text-xs text-black text-center">
-                            گروه : {{ $group->name }}
-                        </p>
-                        <p class="text-xs text-black text-center">
-                            مدل : {{ $modell->name }}
-                        </p>
-                        <p class="text-xs text-black text-center">
-                            تاریخ : {{ jdate($inquiry->created_at)->format('%A, %d %B %Y') }}
+                            بازاریاب : {{ $inquiry->marketer }}
                         </p>
                         <div class="flex w-full justify-between">
                             @can('inquiry-detail')
                                 <a href="{{ route('inquiries.show',$inquiry->id) }}" class="form-detail-btn text-xs">
                                     جزئیات
-                                </a>
-                            @endcan
-                            @can('inquiry-amounts')
-                                <a href="{{ route('inquiries.amounts',$inquiry->id) }}" class="form-submit-btn text-xs">
-                                    مقادیر
                                 </a>
                             @endcan
                         </div>

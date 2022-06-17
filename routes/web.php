@@ -67,8 +67,6 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/inquiries/create/change-model', [InquiryController::class, 'changeModelAjax'])->name('inquiries.create.changeModel');
     Route::patch('/inquiries/{inquiry}/submit', [InquiryController::class, 'submit'])->name('inquiries.submit');
     Route::get('/inquiries/submitted', [InquiryController::class, 'submitted'])->name('inquiries.submitted');
-    Route::get('/inquiries/{inquiry}/percent', [InquiryController::class, 'percent'])->name('inquiries.percent');
-    Route::patch('/inquiries/{inquiry}/percent', [InquiryController::class, 'storePercent'])->name('inquiries.storePercent');
     Route::get('/inquiries/priced', [InquiryController::class, 'priced'])->name('inquiries.priced');
     Route::patch('/inquiries/{inquiry}/restore', [InquiryController::class, 'restore'])->name('inquiries.restore');
 
@@ -79,6 +77,8 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/inquiries/{product}/product-amounts', [InquiryProductController::class, 'amounts'])->name('inquiries.product.amounts');
     Route::post('/inquiries/{product}/product-amounts', [InquiryProductController::class, 'storeAmounts'])->name('inquiries.product.storeAmounts');
     Route::get('/inquiries/{product}/product-details', [InquiryProductController::class, 'show'])->name('inquiries.product.show');
+    Route::get('/inquiries/{product}/product-percent', [InquiryProductController::class, 'percent'])->name('inquiries.product.percent');
+    Route::patch('/inquiries/{product}/product-percent', [InquiryProductController::class, 'storePercent'])->name('inquiries.product.storePercent');
 
     Route::resource('inquiries', InquiryController::class);
 

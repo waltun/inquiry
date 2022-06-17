@@ -107,7 +107,8 @@
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse">
                             @can('inquiry-product')
-                                <a href="{{ route('inquiries.product.show',$product->id) }}" class="form-detail-btn text-xs">
+                                <a href="{{ route('inquiries.product.show',$product->id) }}"
+                                   class="form-detail-btn text-xs">
                                     جزئیات
                                 </a>
                             @endcan
@@ -115,6 +116,12 @@
                                 <a href="{{ route('inquiries.product.amounts',$product->id) }}"
                                    class="form-submit-btn text-xs">
                                     مقادیر
+                                </a>
+                            @endcan
+                            @can('inquiry-percent')
+                                <a href="{{ route('inquiries.product.percent',$product->id) }}"
+                                   class="form-edit-btn text-xs">
+                                    ثبت ضریب
                                 </a>
                             @endcan
                         </td>
