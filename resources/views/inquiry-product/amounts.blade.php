@@ -91,7 +91,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($group->parts as $part)
+                @foreach($group->parts as $index => $part)
                     @php
                         $amount = \App\Models\Amount::where('part_id', $part->id)->where('product_id', $product->id)->first();
                     @endphp
@@ -107,7 +107,7 @@
                         </td>
                         <td class="border border-gray-300 p-4 text-sm text-center font-bold">
                             <input type="number" name="amounts[]" id="inputAmount{{ $part->id }}" class="input-text"
-                                   value="{{ $amount ? $amount->value : '' }}">
+                                   value="{{ $amount ? $amount->value : old("amounts." . $index) }}">
                         </td>
                     </tr>
                 @endforeach
