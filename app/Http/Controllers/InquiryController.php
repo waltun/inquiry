@@ -93,6 +93,8 @@ class InquiryController extends Controller
 
     public function destroy(Inquiry $inquiry)
     {
+        dd($inquiry);
+
         Gate::authorize('create-inquiry');
 
         $inquiry->delete();

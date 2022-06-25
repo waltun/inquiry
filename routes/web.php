@@ -69,6 +69,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/inquiries/submitted', [InquiryController::class, 'submitted'])->name('inquiries.submitted');
     Route::get('/inquiries/priced', [InquiryController::class, 'priced'])->name('inquiries.priced');
     Route::patch('/inquiries/{inquiry}/restore', [InquiryController::class, 'restore'])->name('inquiries.restore');
+    Route::delete('/inquiries/{inquiry}', [InquiryController::class, 'destroy'])->name('inquiries.destroy');
 
     //Inquiry Product routes
     Route::get('/inquiries/{inquiry}/products', [InquiryProductController::class, 'index'])->name('inquiries.product.index');
