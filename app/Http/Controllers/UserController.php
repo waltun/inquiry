@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -37,10 +38,10 @@ class UserController extends Controller
 
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255'],
-            'phone' => ['required', 'digits:11', 'regex:/(09)[0-9]{9}/', 'numeric'],
+            'email' => ['required', 'email', 'max:255', 'unique:users'],
+            'phone' => ['required', 'digits:11', 'regex:/(09)[0-9]{9}/', 'numeric', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'nation' => ['required', 'digits:10', 'numeric'],
+            'nation' => ['required', 'digits:10', 'numeric', 'unique:users'],
             'gender' => ['required', 'in:male,female'],
             'role' => ['required', 'in:it,admin,user,co-sales-expert,sales-expert,accounting,inventory'],
             'active' => ['required', 'integer', 'in:0,1']
@@ -73,9 +74,9 @@ class UserController extends Controller
 
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255'],
-            'phone' => ['required', 'digits:11', 'regex:/(09)[0-9]{9}/', 'numeric'],
-            'nation' => ['required', 'digits:10', 'numeric'],
+            'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
+            'phone' => ['required', 'digits:11', 'regex:/(09)[0-9]{9}/', 'numeric', Rule::unique('users')->ignore($user->id)],
+            'nation' => ['required', 'digits:10', 'numeric', Rule::unique('users')->ignore($user->id)],
             'gender' => ['required', 'in:male,female'],
             'role' => ['required', 'in:it,admin,user,co-sales-expert,sales-expert,accounting,inventory'],
             'active' => ['required', 'integer', 'in:0,1']
