@@ -105,7 +105,7 @@
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center">{{ $product->quantity }}</p>
                         </td>
-                        <td class="px-4 py-3 space-x-3 space-x-reverse">
+                        <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
                             @can('inquiry-product')
                                 <a href="{{ route('inquiries.product.show',$product->id) }}"
                                    class="form-detail-btn text-xs">

@@ -84,7 +84,7 @@
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center">{{ $inquiry->marketer }}</p>
                         </td>
-                        <td class="px-4 py-3 space-x-3 space-x-reverse">
+                        <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
                             @can('inquiry-products')
                                 <a href="{{ route('inquiries.product.create',$inquiry->id) }}"
                                    class="form-submit-btn text-xs">
@@ -96,7 +96,7 @@
                                 </a>
                             @endcan
                         </td>
-                        <td class="px-4 py-3 space-x-3 space-x-reverse">
+                        <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
                             @can('inquiry-detail')
                                 <a href="{{ route('inquiries.show',$inquiry->id) }}" class="form-detail-btn text-xs">
                                     جزئیات
@@ -143,6 +143,27 @@
                                 <a href="{{ route('inquiries.show',$inquiry->id) }}" class="form-detail-btn text-xs">
                                     جزئیات
                                 </a>
+                            @endcan
+                            @can('inquiry-products')
+                                <a href="{{ route('inquiries.product.create',$inquiry->id) }}"
+                                   class="form-submit-btn text-xs">
+                                    افزودن محصول
+                                </a>
+                                <a href="{{ route('inquiries.product.index',$inquiry->id) }}"
+                                   class="form-detail-btn text-xs">
+                                    محصولات
+                                </a>
+                            @endcan
+                            @can('inquiry-restore')
+                                <form action="{{ route('inquiries.restore',$inquiry->id) }}" method="POST"
+                                      class="inline">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button class="form-cancel-btn text-xs"
+                                            onclick="return confirm('استعلام اصلاح شود ؟')">
+                                        اصلاح
+                                    </button>
+                                </form>
                             @endcan
                         </div>
                     </div>

@@ -86,7 +86,7 @@
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center">{{ $modell->code }}</p>
                         </td>
-                        <td class="px-4 py-3 space-x-3 space-x-reverse">
+                        <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
                             <a href="{{ route('modells.edit',$modell->id) }}" class="form-edit-btn text-xs">
                                 ویرایش
                             </a>

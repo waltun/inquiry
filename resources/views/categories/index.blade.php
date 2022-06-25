@@ -76,7 +76,7 @@
                                 {{ jdate($category->create_at)->format('%A, %d %B %Y') }}
                             </p>
                         </td>
-                        <td class="px-4 py-3 space-x-3 space-x-reverse">
+                        <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
                             <a href="{{ route('categories.edit',$category->id) }}" class="form-edit-btn text-xs">
                                 ویرایش
                             </a>

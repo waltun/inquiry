@@ -152,7 +152,7 @@
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center">{{ $part->code }}</p>
                         </td>
-                        <td class="px-4 py-3 space-x-3 space-x-reverse">
+                        <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
                             <a href="{{ route('collections.create',$part->id) }}" class="form-submit-btn text-xs">
                                 افزودن قطعه
                             </a>
@@ -160,12 +160,12 @@
                                 قطعات
                             </a>
                         </td>
-                        <td class="px-4 py-3 space-x-3 space-x-reverse">
+                        <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
                             <a href="{{ route('collections.amounts',$part->id) }}" class="form-submit-btn text-xs">
                                 مقادیر
                             </a>
                         </td>
-                        <td class="px-4 py-3 space-x-3 space-x-reverse">
+                        <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
                             <a href="{{ route('parts.edit',$part->id) }}" class="form-edit-btn text-xs">
                                 ویرایش
                             </a>

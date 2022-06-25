@@ -84,7 +84,7 @@
                                 <p class="text-sm text-black text-center">-</p>
                             @endif
                         </td>
-                        <td class="px-4 py-3 space-x-3 space-x-reverse">
+                        <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
                             <a href="{{ route('modells.create',$group->id) }}" class="form-submit-btn text-xs">
                                 افزودن مدل
                             </a>
@@ -92,7 +92,7 @@
                                 مدل ها
                             </a>
                         </td>
-                        <td class="px-4 py-3 space-x-3 space-x-reverse">
+                        <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
                             <a href="{{ route('group.parts.index',$group->id) }}" class="form-submit-btn text-xs">
                                 افزودن قطعه
                             </a>
@@ -100,7 +100,7 @@
                                 قطعات
                             </a>
                         </td>
-                        <td class="px-4 py-3 space-x-3 space-x-reverse">
+                        <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
                             <a href="{{ route('groups.edit',$group->id) }}" class="form-edit-btn text-xs">
                                 ویرایش
                             </a>

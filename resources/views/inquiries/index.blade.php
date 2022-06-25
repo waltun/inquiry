@@ -92,7 +92,7 @@
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center">{{ $inquiry->marketer }}</p>
                         </td>
-                        <td class="px-4 py-3 space-x-3 space-x-reverse">
+                        <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
                             @can('inquiry-products')
                                 <a href="{{ route('inquiries.product.create',$inquiry->id) }}"
                                    class="form-submit-btn text-xs">
@@ -104,7 +104,7 @@
                                 </a>
                             @endcan
                         </td>
-                        <td class="px-4 py-3 space-x-3 space-x-reverse">
+                        <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
                             @can('create-inquiry')
                                 <a href="{{ route('inquiries.edit',$inquiry->id) }}" class="form-edit-btn text-xs">
                                     ویرایش
