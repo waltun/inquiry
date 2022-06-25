@@ -158,7 +158,7 @@
                         قیمت نهایی
                     </td>
                     <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
-                        {{ number_format($totalPrice * $product->quantity) }}
+                        {{ number_format($totalPrice * $product->quantity) }} تومان
                     </td>
                 </tr>
                 @if($product->percent)

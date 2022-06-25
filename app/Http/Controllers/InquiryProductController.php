@@ -44,10 +44,17 @@ class InquiryProductController extends Controller
 
     public function show(Product $product)
     {
+        if ($product->amounts->isEmpty()) {
+            alert()->error('مقادیر محصولات', 'لطفا ابتدا مقادیر محصولات را مشخص کنید');
+            return back();
+        }
+
         $group = Group::find($product->group_id);
         $modell = Modell::find($product->model_id);
         $inquiry = Inquiry::find($product->inquiry_id);
+
         $totalPrice = 0;
+
         return view('inquiry-product.show', compact('product', 'inquiry', 'group', 'modell', 'totalPrice'));
     }
 
