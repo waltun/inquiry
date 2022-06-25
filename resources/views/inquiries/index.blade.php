@@ -115,6 +115,17 @@
                                     جزئیات
                                 </a>
                             @endcan
+                            @can('inquiry-destroy')
+                                <form action="{{ route('inquiries.destroy',$inquiry->id) }}" method="POST"
+                                      class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="form-cancel-btn text-xs"
+                                            onclick="return confirm('استعلام حذف شود ؟')">
+                                        حذف
+                                    </button>
+                                </form>
+                            @endcan
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             @can('inquiry-amounts')

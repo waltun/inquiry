@@ -75,5 +75,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('inquiry-restore', function (User $user) {
             return $user->role === 'it' || $user->role === 'admin';
         });
+
+        Gate::define('inquiry-destroy', function (User $user) {
+            return $user->role === 'it' || $user->role === 'admin';
+        });
     }
 }
