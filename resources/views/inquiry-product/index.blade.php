@@ -118,12 +118,14 @@
                                     مقادیر
                                 </a>
                             @endcan
-                            @can('inquiry-percent')
-                                <a href="{{ route('inquiries.product.percent',$product->id) }}"
-                                   class="form-edit-btn text-xs">
-                                    ثبت ضریب
-                                </a>
-                            @endcan
+                            @if($inquiry->submit)
+                                @can('inquiry-percent')
+                                    <a href="{{ route('inquiries.product.percent',$product->id) }}"
+                                       class="form-edit-btn text-xs">
+                                        ثبت ضریب
+                                    </a>
+                                @endcan
+                            @endif
                         </td>
                     </tr>
                 @endforeach
