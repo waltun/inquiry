@@ -126,6 +126,17 @@
                                     </a>
                                 @endcan
                             @endif
+                            @can('inquiry-product')
+                                <form action="{{ route('inquiries.product.destroy',$product->id) }}" method="POST"
+                                      class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="form-cancel-btn text-xs"
+                                            onclick="return confirm('محصول حذف شود ؟')">
+                                        حذف
+                                    </button>
+                                </form>
+                            @endcan
                         </td>
                     </tr>
                 @endforeach

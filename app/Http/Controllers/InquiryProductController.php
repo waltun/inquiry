@@ -161,4 +161,17 @@ class InquiryProductController extends Controller
 
         return redirect()->route('inquiries.product.index', $inquiry->id);
     }
+
+    public function destroy(Product $product)
+    {
+        if (!$product->amounts->isEmpty()) {
+            $product->amounts()->delete();
+        }
+
+        $product->delete();
+
+        alert()->success('حذف موفق', 'حذف محصول با موفقیت انجام شد');
+
+        return back();
+    }
 }
