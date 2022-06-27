@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Part;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -13,6 +14,7 @@ class CollectionPartController extends Controller
         Gate::authorize('part-collection');
 
         $parts = Part::query();
+        $categories = Category::all();
 
         if ($keyword = request('search')) {
             $parts->where('collection', true)
@@ -27,7 +29,7 @@ class CollectionPartController extends Controller
 
         $parts = $parts->where('collection', true)->latest()->paginate(25);
 
-        return view('collection-parts.index', compact('parts'));
+        return view('collection-parts.index', compact('parts', 'categories'));
     }
 
     public function create(Part $parentPart)

@@ -15,6 +15,7 @@ class PartController extends Controller
         Gate::authorize('parts');
 
         $parts = Part::query();
+        $categories = Category::all();
 
         if ($keyword = request('search')) {
             $parts->where('collection', false)
@@ -29,7 +30,7 @@ class PartController extends Controller
 
         $parts = $parts->where('collection', false)->latest()->paginate(25);
 
-        return view('parts.index', compact('parts'));
+        return view('parts.index', compact('parts', 'categories'));
     }
 
     public function create()

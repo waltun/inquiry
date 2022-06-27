@@ -42,7 +42,7 @@ class PartPriceController extends Controller
 
         $request->validate([
             'prices' => 'required|array',
-            'prices.*' => 'required|numeric'
+            'prices.*' => 'nullable|numeric'
         ]);
 
         foreach ($request->parts as $index => $part) {

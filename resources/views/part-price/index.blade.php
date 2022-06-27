@@ -1,4 +1,13 @@
 <x-layout>
+    <x-slot name="js">
+        <script>
+            function showPrice(id) {
+                let input = document.getElementById("inputPrice" + id);
+                let section = document.getElementById("priceSection" + id);
+                section.innerText = new Intl.NumberFormat().format(input.value) + ' تومان ';
+            }
+        </script>
+    </x-slot>
     <!-- Breadcrumb -->
     <nav class="flex bg-gray-100 p-4 rounded-md" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-2 space-x-reverse">
@@ -132,6 +141,9 @@
                         قیمت (تومان)
                     </th>
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                        نمایش قیمت (تومان)
+                    </th>
+                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                         آخرین بروزرسانی
                     </th>
                 </tr>
@@ -150,8 +162,13 @@
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <input type="text" class="input-text" id="inputPrice{{ $part->id }}" name="prices[]"
-                                   value="{{ $part->price ?? '' }}">
+                                   value="{{ $part->price ?? '' }}" onkeyup="showPrice({{ $part->id }})">
                             <input type="hidden" name="parts[]" value="{{ $part->id }}">
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <p class="text-sm text-black text-center" id="priceSection{{ $part->id }}">
+                                {{ number_format($part->price) ?? '0' }} تومان
+                            </p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center">
