@@ -21,7 +21,7 @@ class PartOfGroupController extends Controller
             $parts = $parts->where('code', 'LIKE', $keyword);
         }
 
-        $parts = $parts->latest()->paginate(25)->except($group->parts->pluck('id')->toArray());
+        $parts = $parts->latest()->get()->except($group->parts->pluck('id')->toArray());
 
         return view('group-parts.index', compact('parts', 'group'));
     }

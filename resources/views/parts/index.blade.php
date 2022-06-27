@@ -171,8 +171,13 @@
             </table>
         </div>
 
+        <!-- Pagination -->
+        <div class="my-4">
+            {{ $parts->links() }}
+        </div>
+
         <!-- Parts count -->
-        <div class="mt-4 mb-4">
+        <div class="my-4">
             <p class="text-sm font-bold text-indigo-600 underline underline-offset-4">
                 تعداد کل قطعات : {{ \App\Models\Part::where('collection',false)->count() }}
             </p>
@@ -221,6 +226,12 @@
                     </div>
                 </div>
             @endforeach
+
+            <!-- Pagination -->
+            <div class="mt-4">
+                {{ $parts->links() }}
+            </div>
+
         </div>
     </div>
 </x-layout>
