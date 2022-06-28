@@ -18,6 +18,11 @@ class Part extends Model
         return $this->belongsToMany(Group::class);
     }
 
+    public function modells()
+    {
+        return $this->belongsToMany(Modell::class);
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);

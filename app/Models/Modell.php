@@ -18,4 +18,9 @@ class Modell extends Model
     {
         return $this->belongsTo(Group::class);
     }
+
+    public function parts()
+    {
+        return $this->belongsToMany(Part::class);
+    }
 }
