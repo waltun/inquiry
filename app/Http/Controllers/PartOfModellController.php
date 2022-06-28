@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Group;
 use App\Models\Modell;
 use App\Models\Part;
 use Illuminate\Http\Request;
@@ -11,6 +12,7 @@ class PartOfModellController extends Controller
     public function index(Modell $modell)
     {
         $parts = Part::query();
+        $group = Group::find($modell->group_id);
 
         if ($keyword = request('search')) {
             $parts->where('name', 'LIKE', "%{$keyword}%")
@@ -24,7 +26,7 @@ class PartOfModellController extends Controller
 
         $parts = $parts->latest()->get()->except($modell->parts->pluck('id')->toArray());
 
-        return view('modell-parts.index', compact('parts', 'modell'));
+        return view('modell-parts.index', compact('parts', 'modell', 'group'));
     }
 
     public function store(Modell $modell, $partId)

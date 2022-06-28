@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Group;
 use App\Models\Modell;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 
 class ModellController extends Controller
@@ -85,6 +86,26 @@ class ModellController extends Controller
         $newModell->save();
 
         alert()->success('کپی موفق', 'کپی مدل با موفقیت انجام شد');
+
+        return back();
+    }
+
+    public function parts(Modell $modell)
+    {
+        Gate::authorize('modells');
+
+        $group = Group::find($modell->group_id);
+
+        return view('modells.parts', compact('modell', 'group'));
+    }
+
+    public function destroyPart(Modell $modell, $partId)
+    {
+        Gate::authorize('modells');
+
+        $modell->parts()->detach($partId);
+
+        alert()->success('حذف موفق', 'حذف قطعه از مدل با موفقیت انجام شد');
 
         return back();
     }
