@@ -106,7 +106,27 @@
                             {{ $part->unit }}
                         </td>
                         <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                            <input type="text" name="amounts[]" id="inputAmount{{ $part->id }}" class="input-text"
+                            <input type="text" name="groupAmounts[]" id="inputAmount{{ $part->id }}" class="input-text"
+                                   value="{{ $amount ? $amount->value : old("amounts." . $index) }}">
+                        </td>
+                    </tr>
+                @endforeach
+                @foreach($modell->parts as $index => $part)
+                    @php
+                        $amount = \App\Models\Amount::where('part_id', $part->id)->where('product_id', $product->id)->first();
+                    @endphp
+                    <tr>
+                        <td class="border border-gray-300 p-4 text-sm text-center">
+                            {{ $part->code }}
+                        </td>
+                        <td class="border border-gray-300 p-4 text-sm text-center">
+                            {{ $part->name }}
+                        </td>
+                        <td class="border border-gray-300 p-4 text-sm text-center">
+                            {{ $part->unit }}
+                        </td>
+                        <td class="border border-gray-300 p-4 text-sm text-center font-bold">
+                            <input type="text" name="modellAmounts[]" id="inputAmount{{ $part->id }}" class="input-text"
                                    value="{{ $amount ? $amount->value : old("amounts." . $index) }}">
                         </td>
                     </tr>

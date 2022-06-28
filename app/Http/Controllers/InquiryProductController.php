@@ -72,24 +72,51 @@ class InquiryProductController extends Controller
 
         $group = Group::find($product->group_id);
         $inquiry = Inquiry::find($product->inquiry_id);
+        $modell = Modell::find($product->model_id);
 
         $request->validate([
-            'amounts' => 'required|array',
-            'amounts.*' => 'required|numeric'
+            'groupAmounts' => 'required|array',
+            'groupAmounts.*' => 'required|numeric'
         ]);
+
+        if (!$modell->parts->isEmpty()) {
+
+            $request->validate([
+                'modellAmounts' => 'required|array',
+                'modellAmounts.*' => 'required|numeric'
+            ]);
+
+            foreach ($modell->parts as $index => $part) {
+                $amount = Amount::where('part_id', $part->id)->where('product_id', $product->id)->first();
+
+                if ($amount) {
+                    if ($amount->value != $request->modellAmounts[$index]) {
+                        $amount->update([
+                            'value' => $request->modellAmounts[$index]
+                        ]);
+                    }
+                } else {
+                    Amount::create([
+                        'value' => $request->modellAmounts[$index],
+                        'product_id' => $product->id,
+                        'part_id' => $part->id
+                    ]);
+                }
+            }
+        }
 
         foreach ($group->parts as $index => $part) {
             $amount = Amount::where('part_id', $part->id)->where('product_id', $product->id)->first();
 
             if ($amount) {
-                if ($amount->value != $request->amounts[$index]) {
+                if ($amount->value != $request->groupAmounts[$index]) {
                     $amount->update([
-                        'value' => $request->amounts[$index]
+                        'value' => $request->groupAmounts[$index]
                     ]);
                 }
             } else {
                 Amount::create([
-                    'value' => $request->amounts[$index],
+                    'value' => $request->groupAmounts[$index],
                     'product_id' => $product->id,
                     'part_id' => $part->id
                 ]);
