@@ -39,7 +39,7 @@ class InquiryProductController extends Controller
 
         alert()->success('ثبت موفق', 'ثبت محصول برای استعلام با موفقیت انجام شد');
 
-        return redirect()->route('inquiries.index');
+        return redirect()->route('inquiries.product.index', $inquiry->id);
     }
 
     public function show(Product $product)
