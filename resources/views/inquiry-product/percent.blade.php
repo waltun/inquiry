@@ -7,7 +7,7 @@
             function showPrice(event) {
                 let value = totalPrice * event.target.value;
                 let priceSection = document.getElementById('finalPrice');
-                priceSection.innerText = Intl.NumberFormat('fa-IR').format(value) + ' ' + 'تومان';
+                priceSection.innerText = Intl.NumberFormat().format(value) + ' ' + 'تومان';
             }
         </script>
     </x-slot>

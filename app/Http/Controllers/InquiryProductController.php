@@ -138,18 +138,30 @@ class InquiryProductController extends Controller
     {
         Gate::authorize('inquiry-percent');
 
-        $totalPrice = 0;
+        $totalGroupPrice = 0;
+        $totalModellPrice = 0;
 
         $group = Group::find($product->group_id);
         $modell = Modell::find($product->model_id);
         $inquiry = Inquiry::find($product->inquiry_id);
 
+        if (!$modell->parts->isEmpty()) {
+            foreach ($modell->parts as $part) {
+                $amount = $product->amounts()->where('part_id', $part->id)->first();
+                if ($amount) {
+                    $totalModellPrice += ($part->price * $amount->value);
+                }
+            }
+        }
+
         foreach ($group->parts as $part) {
             $amount = $product->amounts()->where('part_id', $part->id)->first();
             if ($amount) {
-                $totalPrice += ($part->price * $amount->value);
+                $totalGroupPrice += ($part->price * $amount->value);
             }
         }
+
+        $totalPrice = $totalGroupPrice + $totalModellPrice;
 
         return view('inquiry-product.percent', compact('inquiry', 'group', 'modell', 'totalPrice', 'product'));
     }
@@ -162,18 +174,30 @@ class InquiryProductController extends Controller
             'percent' => 'required|numeric|between:1,3'
         ]);
 
-        $totalPrice = 0;
+        $totalGroupPrice = 0;
+        $totalModellPrice = 0;
 
         $group = Group::find($product->group_id);
+        $modell = Modell::find($product->model_id);
         $inquiry = Inquiry::find($product->inquiry_id);
+
+        if (!$modell->parts->isEmpty()) {
+            foreach ($modell->parts as $part) {
+                $amount = $product->amounts()->where('part_id', $part->id)->first();
+                if ($amount) {
+                    $totalModellPrice += ($part->price * $amount->value);
+                }
+            }
+        }
 
         foreach ($group->parts as $part) {
             $amount = $product->amounts()->where('part_id', $part->id)->first();
             if ($amount) {
-                $totalPrice += ($part->price * $amount->value);
+                $totalGroupPrice += ($part->price * $amount->value);
             }
         }
 
+        $totalPrice = $totalGroupPrice + $totalModellPrice;
         $finalPrice = ($totalPrice * $product->quantity) * $request['percent'];
 
         $product->update([
