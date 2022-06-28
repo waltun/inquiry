@@ -113,7 +113,7 @@
                     @php
                         $amount = $product->amounts()->where('part_id',$part->id)->first();
                         if ($amount){
-                            $totalPrice += ($part->price * $amount->value);
+                            $totalGroupPrice += ($part->price * $amount->value);
                         }
                     @endphp
                     <tr>
@@ -137,6 +137,40 @@
                         </td>
                     </tr>
                 @endforeach
+
+                @if(!$modell->parts->isEmpty())
+                    @foreach($modell->parts as $part)
+                        @php
+                            $amount = $product->amounts()->where('part_id',$part->id)->first();
+                            if ($amount){
+                                $totalModellPrice += ($part->price * $amount->value);
+                            }
+                        @endphp
+                        <tr>
+                            <td class="border border-gray-300 p-4 text-sm text-center">
+                                {{ $part->code }}
+                            </td>
+                            <td class="border border-gray-300 p-4 text-sm text-center">
+                                {{ $part->name }}
+                            </td>
+                            <td class="border border-gray-300 p-4 text-sm text-center">
+                                {{ $part->unit }}
+                            </td>
+                            <td class="border border-gray-300 p-4 text-sm text-center font-bold">
+                                {{ number_format($part->price) }} تومان
+                            </td>
+                            <td class="border border-gray-300 p-4 text-sm text-center">
+                                {{ $amount->value }}
+                            </td>
+                            <td class="border border-gray-300 p-4 text-sm text-center font-bold">
+                                {{ number_format($part->price * $amount->value) }} تومان
+                            </td>
+                        </tr>
+                    @endforeach
+                @endif
+                @php
+                    $totalPrice = $totalGroupPrice + $totalModellPrice;
+                @endphp
                 <tr>
                     <td class="border border-gray-300 p-4 text-lg text-center font-bold" colspan="5">
                         قیمت کل
@@ -161,7 +195,7 @@
                         {{ number_format($totalPrice * $product->quantity) }} تومان
                     </td>
                 </tr>
-                @if($product->percent)
+                @if($product->percent > 0)
                     <tr>
                         <td class="border border-gray-300 p-4 text-lg text-center font-bold" colspan="5">
                             ضریب ثبت شده

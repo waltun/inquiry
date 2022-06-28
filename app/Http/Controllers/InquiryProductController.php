@@ -54,8 +54,11 @@ class InquiryProductController extends Controller
         $inquiry = Inquiry::find($product->inquiry_id);
 
         $totalPrice = 0;
+        $totalGroupPrice = 0;
+        $totalModellPrice = 0;
 
-        return view('inquiry-product.show', compact('product', 'inquiry', 'group', 'modell', 'totalPrice'));
+        return view('inquiry-product.show', compact('product', 'inquiry', 'group', 'modell', 'totalPrice'
+            , 'totalGroupPrice', 'totalModellPrice'));
     }
 
     public function amounts(Product $product)
