@@ -5,7 +5,7 @@
             let totalPrice = parseInt('{{ $totalPrice * $product->quantity }}')
 
             function showPrice(event) {
-                let value = totalPrice / event.target.value;
+                let value = totalPrice * event.target.value;
                 let priceSection = document.getElementById('finalPrice');
                 priceSection.innerText = Intl.NumberFormat('fa-IR').format(value) + ' ' + 'تومان';
             }
