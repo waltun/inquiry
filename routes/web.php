@@ -10,6 +10,7 @@ use App\Http\Controllers\InquiryProductController;
 use App\Http\Controllers\ModellController;
 use App\Http\Controllers\PartController;
 use App\Http\Controllers\PartOfGroupController;
+use App\Http\Controllers\PartOfModellController;
 use App\Http\Controllers\PartPriceController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -39,6 +40,8 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::patch('/models/{modell}', [ModellController::class, 'update'])->name('modells.update');
     Route::delete('/models/{modell}', [ModellController::class, 'destroy'])->name('modells.destroy');
     Route::post('/models/{modell}/replicate', [ModellController::class, 'replicate'])->name('modells.replicate');
+    Route::get('/models/{modell}/add-parts', [PartOfModellController::class, 'index'])->name('modells.parts.index');
+    Route::post('/models/{modell}/{part}/parts', [PartOfModellController::class, 'store'])->name('modells.parts.store');
 
     //Group part routes
     Route::get('/groups/{group}/add-parts', [PartOfGroupController::class, 'index'])->name('group.parts.index');
