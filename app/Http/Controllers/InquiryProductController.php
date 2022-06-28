@@ -129,7 +129,7 @@ class InquiryProductController extends Controller
         Gate::authorize('inquiry-percent');
 
         $request->validate([
-            'percent' => 'required|numeric|between:0,1'
+            'percent' => 'required|numeric|between:1,3'
         ]);
 
         $totalPrice = 0;
@@ -144,7 +144,7 @@ class InquiryProductController extends Controller
             }
         }
 
-        $finalPrice = ($totalPrice * $product->quantity) / $request['percent'];
+        $finalPrice = ($totalPrice * $product->quantity) * $request['percent'];
 
         $product->update([
             'price' => $finalPrice,
