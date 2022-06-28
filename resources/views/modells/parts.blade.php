@@ -50,7 +50,7 @@
         </div>
         <div>
             <a href="{{ route('modells.index',$group->id) }}" class="form-detail-btn text-xs">
-                لیست مدل های گروه{{ $group->name }}
+                لیست مدل های گروه {{ $group->name }}
             </a>
         </div>
     </div>

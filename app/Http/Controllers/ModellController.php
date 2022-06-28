@@ -10,7 +10,6 @@ use Illuminate\Validation\Rule;
 
 class ModellController extends Controller
 {
-
     public function index($id)
     {
         $group = Group::find($id);
