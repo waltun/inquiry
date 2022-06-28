@@ -15,7 +15,7 @@ return new class extends Migration {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
 
-            $table->decimal('percent', 2, 4)->default(0);
+            $table->decimal('percent', 5, 4)->default(0);
             $table->integer('quantity')->default(0);
             $table->bigInteger('price')->default(0);
 
