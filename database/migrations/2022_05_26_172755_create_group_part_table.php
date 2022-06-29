@@ -18,7 +18,9 @@ return new class extends Migration {
             $table->unsignedBigInteger('group_id');
             $table->unsignedBigInteger('part_id');
 
-            $table->index(['group_id','part_id']);
+            $table->decimal('value', 8, 5)->nullable();
+
+            $table->index(['group_id', 'part_id']);
         });
 
         Schema::table('group_part', function (Blueprint $table) {

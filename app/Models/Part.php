@@ -15,12 +15,12 @@ class Part extends Model
 
     public function groups()
     {
-        return $this->belongsToMany(Group::class);
+        return $this->belongsToMany(Group::class)->withPivot('value');
     }
 
     public function modells()
     {
-        return $this->belongsToMany(Modell::class);
+        return $this->belongsToMany(Modell::class)->withPivot('value');
     }
 
     public function category()

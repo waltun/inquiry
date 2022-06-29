@@ -21,6 +21,6 @@ class Group extends Model
 
     public function parts()
     {
-        return $this->belongsToMany(Part::class);
+        return $this->belongsToMany(Part::class)->withPivot('value');
     }
 }

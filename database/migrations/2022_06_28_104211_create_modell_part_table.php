@@ -18,6 +18,8 @@ return new class extends Migration {
             $table->unsignedBigInteger('model_id');
             $table->unsignedBigInteger('part_id');
 
+            $table->decimal('value', 8, 5)->nullable();
+
             $table->index(['model_id', 'part_id']);
         });
 
