@@ -121,7 +121,7 @@
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap">
                                 <input type="text" class="input-text" name="values[]" id="partValue{{ $part->id }}"
-                                       value="{{ round($part->pivot->value) }}">
+                                       value="{{ $part->pivot->value }}">
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap">
                                 <p class="text-sm text-black text-center">{{ $part->unit }}</p>

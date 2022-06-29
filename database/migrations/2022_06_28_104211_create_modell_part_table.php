@@ -15,7 +15,7 @@ return new class extends Migration {
         Schema::create('modell_part', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedBigInteger('model_id');
+            $table->unsignedBigInteger('modell_id');
             $table->unsignedBigInteger('part_id');
 
             $table->decimal('value', 8, 5)->nullable();
