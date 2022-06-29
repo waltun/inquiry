@@ -28,6 +28,10 @@ class PartController extends Controller
             $parts = $parts->where('code', 'LIKE', $keyword)->where('collection', false);
         }
 
+        if (request()->has('category')) {
+            $parts = $parts->where('collection', false)->where('category_id', request('category'));
+        }
+
         $parts = $parts->where('collection', false)->latest()->paginate(25);
 
         return view('parts.index', compact('parts', 'categories'));

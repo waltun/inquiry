@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Group;
 use App\Models\Part;
 
@@ -10,6 +11,7 @@ class PartOfGroupController extends Controller
     public function index(Group $group)
     {
         $parts = Part::query();
+        $categories = Category::all();
 
         if ($keyword = request('search')) {
             $parts->where('name', 'LIKE', "%{$keyword}%")
@@ -21,9 +23,13 @@ class PartOfGroupController extends Controller
             $parts = $parts->where('code', 'LIKE', $keyword);
         }
 
+        if (request()->has('category')) {
+            $parts = $parts->where('collection', false)->where('category_id', request('category'));
+        }
+
         $parts = $parts->latest()->get()->except($group->parts->pluck('id')->toArray());
 
-        return view('group-parts.index', compact('parts', 'group'));
+        return view('group-parts.index', compact('parts', 'group', 'categories'));
     }
 
     public function store(Group $group, $partId)
