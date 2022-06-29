@@ -44,6 +44,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/models/{modell}/{part}/parts', [PartOfModellController::class, 'store'])->name('modells.parts.store');
     Route::get('/models/{modell}/parts', [ModellController::class, 'parts'])->name('modells.parts');
     Route::delete('/models/{modell}/{part}/destroy-part', [ModellController::class, 'destroyPart'])->name('modells.destroyPart');
+    Route::post('/models/{modell}/part-value', [ModellController::class, 'partValues'])->name('modells.partValues');
 
     //Group part routes
     Route::get('/groups/{group}/add-parts', [PartOfGroupController::class, 'index'])->name('group.parts.index');

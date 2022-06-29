@@ -107,7 +107,7 @@
                         </td>
                         <td class="border border-gray-300 p-4 text-sm text-center font-bold">
                             <input type="text" name="groupAmounts[]" id="inputAmount{{ $part->id }}" class="input-text"
-                                   value="{{ $part->pivot->value }}">
+                                   value="{{ $amount ? $amount->value : $part->pivot->value }}">
                         </td>
                     </tr>
                 @endforeach
@@ -127,7 +127,7 @@
                         </td>
                         <td class="border border-gray-300 p-4 text-sm text-center font-bold">
                             <input type="text" name="modellAmounts[]" id="inputAmount{{ $part->id }}" class="input-text"
-                                   value="{{ $amount ? $amount->value : old("amounts." . $index) }}">
+                                   value="{{ $part->pivot->value }}">
                         </td>
                     </tr>
                 @endforeach

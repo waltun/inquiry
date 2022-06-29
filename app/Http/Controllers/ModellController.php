@@ -105,6 +105,22 @@ class ModellController extends Controller
         $modell->parts()->detach($partId);
 
         alert()->success('حذف موفق', 'حذف قطعه از مدل با موفقیت انجام شد');
+    }
+
+    public function partValues(Request $request, Modell $modell)
+    {
+        $request->validate([
+            'values' => 'array|required',
+            'values.*' => 'numeric|nullable'
+        ]);
+
+        foreach ($modell->parts as $index => $part) {
+            $part->pivot->update([
+                'value' => $request->values[$index]
+            ]);
+        }
+
+        alert()->success('مقادیر', 'مقدار قطعات برای مدل با موفقیت ثبت شد');
 
         return back();
     }

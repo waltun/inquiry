@@ -1,4 +1,25 @@
 <x-layout>
+    <x-slot name="js">
+        <script src="{{ asset('plugins/jquery.min.js') }}"></script>
+        <script>
+            function deletePartFromModell(modell, part) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'DELETE',
+                    url: '/models/' + modell + '/' + part + '/' + 'destroy-part',
+                    success: function () {
+                        location.reload();
+                    }
+                });
+            }
+        </script>
+    </x-slot>
+
     <!-- Breadcrumb -->
     <nav class="flex bg-gray-100 p-4 rounded-md" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-2 space-x-reverse">
@@ -61,66 +82,76 @@
     <!-- Content -->
     <div class="mt-4">
         <!-- Laptop List -->
-        <div class="bg-white shadow overflow-x-auto rounded-lg hidden md:block">
-            <table class="min-w-full">
-                <thead>
-                <tr class="bg-sky-200">
-                    <th scope="col"
-                        class="px-4 py-3 text-sm font-bold text-gray-800 text-center rounded-r-md">
-                        #
-                    </th>
-                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
-                        نام
-                    </th>
-                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
-                        واحد
-                    </th>
-                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
-                        قیمت
-                    </th>
-                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
-                        کد
-                    </th>
-                    <th scope="col" class="relative px-4 py-3 rounded-l-md">
-                        <span class="sr-only">اقدامات</span>
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($modell->parts as $part)
-                    <tr>
-                        <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-gray-500 text-center">{{ $loop->index + 1 }}</p>
-                        </td>
-                        <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ $part->name }}</p>
-                        </td>
-                        <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ $part->unit }}</p>
-                        </td>
-                        <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ number_format($part->price) }}</p>
-                        </td>
-                        <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ $part->code }}</p>
-                        </td>
-                        <td class="px-4 py-3 space-x-3 space-x-reverse">
-                            <form action="{{ route('modells.destroyPart',[$modell->id,$part->id]) }}" method="POST"
-                                  class="inline">
-                                @csrf
-                                @method('DELETE')
-
+        <form method="POST" action="{{ route('modells.partValues',$modell->id) }}"
+              class="hidden md:block">
+            @csrf
+            <div class="bg-white shadow overflow-x-auto rounded-lg">
+                <table class="min-w-full">
+                    <thead>
+                    <tr class="bg-sky-200">
+                        <th scope="col"
+                            class="px-4 py-3 text-sm font-bold text-gray-800 text-center rounded-r-md">
+                            #
+                        </th>
+                        <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                            نام
+                        </th>
+                        <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                            مقدار
+                        </th>
+                        <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                            واحد
+                        </th>
+                        <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                            قیمت
+                        </th>
+                        <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                            کد
+                        </th>
+                        <th scope="col" class="relative px-4 py-3 rounded-l-md">
+                            <span class="sr-only">اقدامات</span>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($modell->parts as $part)
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                <p class="text-sm text-gray-500 text-center">{{ $loop->index + 1 }}</p>
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                <p class="text-sm text-black text-center">{{ $part->name }}</p>
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                <input type="text" class="input-text" name="values[]" id="partValue{{ $part->id }}"
+                                       value="{{ $part->pivot->value }}">
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                <p class="text-sm text-black text-center">{{ $part->unit }}</p>
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                <p class="text-sm text-black text-center">{{ number_format($part->price) }}</p>
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                <p class="text-sm text-black text-center">{{ $part->code }}</p>
+                            </td>
+                            <td class="px-4 py-3 space-x-3 space-x-reverse">
                                 <button class="form-cancel-btn text-xs"
-                                        onclick="return confirm('قطعه از مدل حذف شود ؟')">
+                                        onclick="deletePartFromModell({{ $modell->id }},{{ $part->id }})">
                                     حذف از مدل {{ $modell->name }}
                                 </button>
-                            </form>
-                        </td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
-        </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="my-4">
+                <button type="submit" class="form-submit-btn">
+                    ثبت مقادیر
+                </button>
+            </div>
+        </form>
 
         <!-- Mobile List -->
         <div class="block md:hidden">
