@@ -87,7 +87,7 @@
                         <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
                             @can('inquiry-products')
                                 <a href="{{ route('inquiries.product.index',$inquiry->id) }}"
-                                   class="form-detail-btn text-xs">
+                                   class="form-submit-btn text-xs">
                                     محصولات
                                 </a>
                             @endcan

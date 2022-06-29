@@ -48,7 +48,7 @@
                 لیست قطعات مدل <span class="text-red-600">{{ $modell->name }}</span>
             </p>
         </div>
-        <div>
+        <div class="space-x-2 space-x-reverse">
             <a href="{{ route('modells.index',$group->id) }}" class="form-detail-btn text-xs">
                 لیست مدل های گروه {{ $group->name }}
             </a>
