@@ -1,14 +1,4 @@
 <x-layout>
-    <x-slot name="js">
-        <script>
-            function showPrice(event) {
-                let value = event.target.value;
-                let priceSection = document.getElementById('price');
-                priceSection.innerText = Intl.NumberFormat('fa-IR').format(value);
-            }
-        </script>
-    </x-slot>
-
     <!-- Breadcrumb -->
     <nav class="flex bg-gray-100 p-4 rounded-md" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-2 space-x-reverse">
@@ -131,25 +121,6 @@
                     <option value="false">نباشد</option>
                     <option value="true">باشد</option>
                 </select>
-            </div>
-        </div>
-
-        <div class="col-span-2">
-            <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
-                <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">قیمت</p>
-
-                <div class="mt-4">
-                    <label for="inputPrice" class="block mb-2 md:text-sm text-xs text-black">قیمت قطعه</label>
-                    <input type="text" id="inputPrice" name="price" class="input-text" placeholder="مثال : 150000"
-                           onkeyup="showPrice(event)" value="{{ old('price') }}">
-                </div>
-
-                <div class="mt-2">
-                    <p class="text-center text-lg font-bold">
-                        <span id="price">0</span>
-                        تومان
-                    </p>
-                </div>
             </div>
         </div>
 
