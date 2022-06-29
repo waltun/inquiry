@@ -102,6 +102,11 @@
                                     جزئیات
                                 </a>
                             @endcan
+                            @can('inquiry-detail')
+                                <a href="{{ route('inquiries.products',$inquiry->id) }}" class="form-submit-btn text-xs">
+                                    مشاهده قیمت محصولات
+                                </a>
+                            @endcan
                             @can('inquiry-restore')
                                 <form action="{{ route('inquiries.restore',$inquiry->id) }}" method="POST"
                                       class="inline">

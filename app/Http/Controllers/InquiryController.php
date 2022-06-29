@@ -157,6 +157,11 @@ class InquiryController extends Controller
         return back();
     }
 
+    public function products(Inquiry $inquiry)
+    {
+        return view('inquiries.products', compact('inquiry'));
+    }
+
     public function changeModelAjax(Request $request)
     {
         $group = Group::find($request->group_id);
