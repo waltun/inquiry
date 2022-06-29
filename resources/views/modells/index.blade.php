@@ -46,7 +46,7 @@
         <div>
             <p class="text-lg font-bold">لیست مدل های گروه <span class="text-red-600">{{ $group->name }}</span></p>
         </div>
-        <div class="flex md:justify-end justify-center space-x-4 space-x-reverse">
+        <div class="flex md:justify-end justify-center space-x-2 space-x-reverse">
             <a href="{{ route('groups.index') }}" class="form-detail-btn text-xs">لیست گروه ها</a>
             <a href="{{ route('modells.create',$group->id) }}" class="form-submit-btn text-xs">ایجاد مدل جدید</a>
         </div>
@@ -90,16 +90,13 @@
                             <p class="text-sm text-black text-center">{{ $modell->code }}</p>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
-                            <a href="{{ route('modells.parts.index',$modell->id) }}" class="form-submit-btn text-xs">
-                                افزودن قطعه
-                            </a>
                             <a href="{{ route('modells.parts',$modell->id) }}" class="form-detail-btn text-xs">
-                                قطعات
+                                قطعات مدل
                             </a>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
                             <a href="{{ route('modells.edit',$modell->id) }}" class="form-edit-btn text-xs">
-                                ویرایش
+                                ویرایش مدل
                             </a>
                             <form action="{{ route('modells.destroy',$modell->id) }}" method="POST"
                                   class="inline">

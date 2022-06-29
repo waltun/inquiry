@@ -86,10 +86,6 @@
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
                             @can('inquiry-products')
-                                <a href="{{ route('inquiries.product.create',$inquiry->id) }}"
-                                   class="form-submit-btn text-xs">
-                                    افزودن محصول
-                                </a>
                                 <a href="{{ route('inquiries.product.index',$inquiry->id) }}"
                                    class="form-detail-btn text-xs">
                                     محصولات
@@ -108,8 +104,8 @@
                                     @csrf
                                     @method('PATCH')
                                     <button class="form-cancel-btn text-xs"
-                                            onclick="return confirm('استعلام اصلاح شود ؟')">
-                                        اصلاح
+                                            onclick="return confirm('استعلام بازنگری شود ؟')">
+                                        بازنگری
                                     </button>
                                 </form>
                             @endcan

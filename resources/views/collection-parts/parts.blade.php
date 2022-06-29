@@ -48,8 +48,11 @@
                 لیست قطعات مجموعه <span class="text-red-600">{{ $parentPart->name }}</span>
             </p>
         </div>
-        <div>
+        <div class="space-x-2 space-x-reverse">
             <a href="{{ route('collections.index') }}" class="form-detail-btn text-xs">لیست مجموعه ها</a>
+            <a href="{{ route('collections.create',$parentPart->id) }}" class="form-submit-btn text-xs">
+                افزودن قطعه
+            </a>
         </div>
     </div>
 

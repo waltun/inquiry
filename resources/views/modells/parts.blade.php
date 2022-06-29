@@ -52,6 +52,9 @@
             <a href="{{ route('modells.index',$group->id) }}" class="form-detail-btn text-xs">
                 لیست مدل های گروه {{ $group->name }}
             </a>
+            <a href="{{ route('modells.parts.index',$modell->id) }}" class="form-submit-btn text-xs">
+                افزودن قطعه
+            </a>
         </div>
     </div>
 

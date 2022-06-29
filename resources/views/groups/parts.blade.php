@@ -48,8 +48,11 @@
                 لیست قطعات گروه <span class="text-red-600">{{ $group->name }}</span>
             </p>
         </div>
-        <div>
+        <div class="space-x-2 space-x-reverse">
             <a href="{{ route('groups.index') }}" class="form-detail-btn text-xs">لیست گروه ها</a>
+            <a href="{{ route('group.parts.index',$group->id) }}" class="form-submit-btn text-xs">
+                افزودن قطعه
+            </a>
         </div>
     </div>
 

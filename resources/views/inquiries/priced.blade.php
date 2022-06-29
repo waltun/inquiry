@@ -74,9 +74,6 @@
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                         بازاریاب
                     </th>
-                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
-                        قیمت نهایی
-                    </th>
                     <th scope="col" class="relative px-4 py-3 rounded-l-md">
                         <span class="sr-only">اقدامات</span>
                     </th>
@@ -98,11 +95,6 @@
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center">{{ $inquiry->marketer }}</p>
-                        </td>
-                        <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-green-600 font-bold text-center">
-                                {{ number_format($inquiry->price) }} تومان
-                            </p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap space-x-2 space-x-reverse">
                             @can('inquiry-detail')

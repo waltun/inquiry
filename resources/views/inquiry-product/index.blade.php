@@ -106,16 +106,10 @@
                             <p class="text-sm text-black text-center">{{ $product->quantity }}</p>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
-                            @can('inquiry-product')
-                                <a href="{{ route('inquiries.product.show',$product->id) }}"
-                                   class="form-detail-btn text-xs">
-                                    جزئیات
-                                </a>
-                            @endcan
                             @can('inquiry-amounts')
                                 <a href="{{ route('inquiries.product.amounts',$product->id) }}"
                                    class="form-submit-btn text-xs">
-                                    مقادیر
+                                    جزئیات
                                 </a>
                             @endcan
                             @if($inquiry->submit)
@@ -137,6 +131,11 @@
                                     </button>
                                 </form>
                             @endcan
+                            @if($product->percent > 0)
+                                    <p class="text-sm font-bold text-green-600 inline">
+                                        ضریب ثبت شده
+                                    </p>
+                            @endif
                         </td>
                     </tr>
                 @endforeach

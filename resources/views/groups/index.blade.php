@@ -85,24 +85,18 @@
                             @endif
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
-                            <a href="{{ route('modells.create',$group->id) }}" class="form-submit-btn text-xs">
-                                افزودن مدل
-                            </a>
                             <a href="{{ route('modells.index',$group->id) }}" class="form-detail-btn text-xs">
                                 مدل ها
                             </a>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
-                            <a href="{{ route('group.parts.index',$group->id) }}" class="form-submit-btn text-xs">
-                                افزودن قطعه
-                            </a>
-                            <a href="{{ route('group.parts',$group->id) }}" class="form-detail-btn text-xs">
-                                قطعات
+                            <a href="{{ route('group.parts',$group->id) }}" class="form-submit-btn text-xs">
+                                قطعات در گروه
                             </a>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
                             <a href="{{ route('groups.edit',$group->id) }}" class="form-edit-btn text-xs">
-                                ویرایش
+                                ویرایش نام گروه
                             </a>
                             <form action="{{ route('groups.destroy',$group->id) }}" method="POST"
                                   class="inline">

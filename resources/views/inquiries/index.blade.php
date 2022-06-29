@@ -94,10 +94,6 @@
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
                             @can('inquiry-products')
-                                <a href="{{ route('inquiries.product.create',$inquiry->id) }}"
-                                   class="form-submit-btn text-xs">
-                                    افزودن محصول
-                                </a>
                                 <a href="{{ route('inquiries.product.index',$inquiry->id) }}"
                                    class="form-detail-btn text-xs">
                                     محصولات
@@ -107,12 +103,7 @@
                         <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
                             @can('create-inquiry')
                                 <a href="{{ route('inquiries.edit',$inquiry->id) }}" class="form-edit-btn text-xs">
-                                    ویرایش
-                                </a>
-                            @endcan
-                            @can('inquiry-detail')
-                                <a href="{{ route('inquiries.show',$inquiry->id) }}" class="form-detail-btn text-xs">
-                                    جزئیات
+                                    ویرایش اطلاعات پروژه
                                 </a>
                             @endcan
                             @can('inquiry-destroy')

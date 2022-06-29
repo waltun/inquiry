@@ -41,6 +41,44 @@
                 <span class="text-sm px-2">داشبورد</span>
             </a>
 
+            <!-- Categories -->
+            @can('categories')
+                <div x-data="{open:false}">
+                    <div
+                        class="flex items-center text-gray-500 p-2 hover:bg-gray-100 rounded-md hover:text-black cursor-pointer
+                            {{ isActive(['categories.index','categories.create','categories.edit']) }}"
+                        @click="open = !open">
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                 stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                            </svg>
+                        </div>
+                        <div class="flex justify-between w-full items-center">
+                            <span class="text-sm px-2">بخش دسته بندی ها</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
+                                 viewBox="0 0 20 20" fill="currentColor"
+                                 :class="{'rotate-180' : open}">
+                                <path fill-rule="evenodd"
+                                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="mt-1 bg-gray-50 rounded-md p-2" x-show="open" x-cloak>
+                        <a href="{{ route('categories.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
+                            hover:text-black rounded-md {{ isActive('categories.index') }}">
+                            مدیریت دسته بندی ها
+                        </a>
+                        <a href="{{ route('categories.create') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
+                            hover:text-black rounded-md {{ isActive('categories.create') }}">
+                            ایجاد دسته بندی جدید
+                        </a>
+                    </div>
+                </div>
+            @endcan
+
             <!-- Parts -->
             @canany(['parts','part-price','part-collection'])
                 <div x-data="{open:false}">
@@ -58,7 +96,7 @@
                             </svg>
                         </div>
                         <div class="flex justify-between w-full items-center">
-                            <span class="text-sm px-2">بخش قطعات</span>
+                            <span class="text-sm px-2">قطعات و مجموعه ها</span>
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
                                  viewBox="0 0 20 20" fill="currentColor"
                                  :class="{'rotate-180' : open}">
@@ -110,7 +148,7 @@
                             </svg>
                         </div>
                         <div class="flex justify-between w-full items-center">
-                            <span class="text-sm px-2">بخش گروه ها</span>
+                            <span class="text-sm px-2">بخش گروه و مدل ها</span>
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
                                  viewBox="0 0 20 20" fill="currentColor"
                                  :class="{'rotate-180' : open}">
@@ -222,44 +260,6 @@
                         <a href="{{ route('users.deleted') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
                             hover:text-black rounded-md {{ isActive('users.deleted') }}">
                             کاربران حذف شده
-                        </a>
-                    </div>
-                </div>
-            @endcan
-
-            <!-- Categories -->
-            @can('categories')
-                <div x-data="{open:false}">
-                    <div
-                        class="flex items-center text-gray-500 p-2 hover:bg-gray-100 rounded-md hover:text-black cursor-pointer
-                            {{ isActive(['categories.index','categories.create','categories.edit']) }}"
-                        @click="open = !open">
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                 stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
-                            </svg>
-                        </div>
-                        <div class="flex justify-between w-full items-center">
-                            <span class="text-sm px-2">بخش دسته بندی ها</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
-                                 viewBox="0 0 20 20" fill="currentColor"
-                                 :class="{'rotate-180' : open}">
-                                <path fill-rule="evenodd"
-                                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                      clip-rule="evenodd"/>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="mt-1 bg-gray-50 rounded-md p-2" x-show="open" x-cloak>
-                        <a href="{{ route('categories.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive('categories.index') }}">
-                            مدیریت دسته بندی ها
-                        </a>
-                        <a href="{{ route('categories.create') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive('categories.create') }}">
-                            ایجاد دسته بندی جدید
                         </a>
                     </div>
                 </div>
