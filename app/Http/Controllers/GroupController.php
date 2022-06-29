@@ -124,6 +124,22 @@ class GroupController extends Controller
         $group->parts()->detach($partId);
 
         alert()->success('حذف موفق', 'حذف قطعه از گروه با موفقیت انجام شد');
+    }
+
+    public function partValues(Request $request, Group $group)
+    {
+        $request->validate([
+            'values' => 'array|required',
+            'values.*' => 'numeric|nullable'
+        ]);
+
+        foreach ($group->parts as $index => $part) {
+            $part->pivot->update([
+                'value' => $request->values[$index]
+            ]);
+        }
+
+        alert()->success('مقادیر', 'مقدار قطعات برای گروه با موفقیت ثبت شد');
 
         return back();
     }

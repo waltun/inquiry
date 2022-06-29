@@ -79,7 +79,7 @@
                             {{ $childPart->unit }}
                         </td>
                         <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                            <input type="number" name="values[]" id="inputValue{{ $childPart->id }}" class="input-text"
+                            <input type="text" name="values[]" id="inputValue{{ $childPart->id }}" class="input-text"
                                    value="{{ $childPart->pivot->value ?? '' }}">
                         </td>
                     </tr>

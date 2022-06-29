@@ -52,6 +52,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     //Group routes
     Route::get('/groups/{group}/parts', [GroupController::class, 'parts'])->name('group.parts');
     Route::delete('/groups/{group}/{part}/destroy-part', [GroupController::class, 'destroyPart'])->name('group.destroyPart');
+    Route::post('/groups/{group}/part-value', [GroupController::class, 'partValues'])->name('group.partValues');
     Route::resource('groups', GroupController::class);
 
     //Part routes
