@@ -69,6 +69,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::delete('/collection-parts/{parentPart}/{childPart}/destroy', [CollectionPartController::class, 'destroy'])->name('collections.destroy');
     Route::get('/collection-parts/{parentPart}/amounts', [CollectionPartController::class, 'amounts'])->name('collections.amounts');
     Route::patch('/collection-parts/{parentPart}/store-amounts', [CollectionPartController::class, 'storeAmounts'])->name('collections.storeAmounts');
+    Route::post('/collection-parts/{parentPart}/replicate', [CollectionPartController::class, 'replicate'])->name('collections.replicate');
 
     //Inquiry routes
     Route::post('/inquiries/create/change-model', [InquiryController::class, 'changeModelAjax'])->name('inquiries.create.changeModel');

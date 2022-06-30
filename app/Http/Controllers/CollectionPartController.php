@@ -103,4 +103,18 @@ class CollectionPartController extends Controller
 
         return redirect()->route('collections.index');
     }
+
+    public function replicate(Part $parentPart)
+    {
+        $newPart = $parentPart->replicate();
+        $newPart->code = random_int(100, 99999);
+        $newPart->name = $parentPart->name . " کپی شده ";
+        $newPart->save();
+
+        foreach ($parentPart->children as $child) {
+            $newPart->children()->attach($child->id);
+        }
+
+        return back();
+    }
 }

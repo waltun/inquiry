@@ -176,6 +176,13 @@
                             <a href="{{ route('parts.edit',$part->id) }}" class="form-edit-btn text-xs">
                                 ویرایش
                             </a>
+                            <form action="{{ route('collections.replicate',$part->id) }}" method="POST"
+                                  class="inline">
+                                @csrf
+                                <button class="form-detail-btn text-xs">
+                                    کپی
+                                </button>
+                            </form>
                             <form action="{{ route('parts.destroy',$part->id) }}" method="POST"
                                   class="inline">
                                 @csrf
