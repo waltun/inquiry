@@ -183,7 +183,7 @@
                                     کپی
                                 </button>
                             </form>
-                            <form action="{{ route('parts.destroy',$part->id) }}" method="POST"
+                            <form action="{{ route('collections.destroy',$part->id) }}" method="POST"
                                   class="inline">
                                 @csrf
                                 @method('DELETE')

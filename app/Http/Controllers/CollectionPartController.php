@@ -66,9 +66,10 @@ class CollectionPartController extends Controller
         return view('collection-parts.parts', compact('parentPart'));
     }
 
-    public function destroy(Part $parentPart, Part $childPart)
+    public function destroy(Part $parentPart)
     {
-        $parentPart->children()->detach($childPart->id);
+        $parentPart->children()->detach();
+        $parentPart->delete();
 
         alert()->success('حذف موفق', 'حذف قطعه از مجموعه با موفقیت انجام شد');
 
