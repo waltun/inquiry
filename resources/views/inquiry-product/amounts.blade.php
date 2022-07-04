@@ -91,26 +91,96 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($group->parts as $index => $part)
-                    @php
-                        $amount = \App\Models\Amount::where('part_id', $part->id)->where('product_id', $product->id)->first();
-                    @endphp
-                    <tr>
-                        <td class="border border-gray-300 p-4 text-sm text-center">
-                            {{ $part->code }}
-                        </td>
-                        <td class="border border-gray-300 p-4 text-sm text-center">
-                            {{ $part->name }}
-                        </td>
-                        <td class="border border-gray-300 p-4 text-sm text-center">
-                            {{ $part->unit }}
-                        </td>
-                        <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                            <input type="text" name="groupAmounts[]" id="inputAmount{{ $part->id }}" class="input-text"
-                                   value="{{ $amount ? $amount->value : $part->pivot->value }}">
-                        </td>
-                    </tr>
-                @endforeach
+                @php
+                    $amounts = \App\Models\Amount::where('product_id', $product->id)->get();
+                @endphp
+                @if(!$amounts->isEmpty())
+                    @foreach($amounts as $amount)
+                        @php
+                            $part = \App\Models\Part::find($amount->part_id);
+                        @endphp
+                        <tr>
+                            <td class="border border-gray-300 p-4 text-sm text-center">
+                                {{ $part->code }}
+                            </td>
+                            <td class="border border-gray-300 p-4 text-sm text-center">
+                                @if($part->name == "کویل DX")
+                                    <a href="{{ route('calculate.index',$part->id) }}" class="form-submit-btn">
+                                        محاسبه {{ $part->name }}
+                                    </a>
+                                @else
+                                    <select name="part_ids[]" id="" class="input-text">
+                                        @foreach(\App\Models\Part::all() as $part2)
+                                            @if($amount)
+                                                <option
+                                                    value="{{ $part2->id }}" {{ $part2->id == $amount->part_id ? 'selected' : '' }}>
+                                                    {{ $part2->name }}
+                                                </option>
+                                            @else
+                                                <option
+                                                    value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
+                                                    {{ $part2->name }}
+                                                </option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                @endif
+
+                            </td>
+                            <td class="border border-gray-300 p-4 text-sm text-center">
+                                {{ $part->unit }}
+                            </td>
+                            <td class="border border-gray-300 p-4 text-sm text-center font-bold">
+                                <input type="text" name="groupAmounts[]" id="inputAmount{{ $part->id }}"
+                                       class="input-text"
+                                       value="{{ $amount ? $amount->value : $part->pivot->value }}">
+                            </td>
+                        </tr>
+                    @endforeach
+                @else
+                    @foreach($group->parts as $part)
+                        @php
+                            $amount = \App\Models\Amount::where('product_id',$product->id)->where('part_id',$part->id)->first();
+                        @endphp
+                        <tr>
+                            <td class="border border-gray-300 p-4 text-sm text-center">
+                                {{ $part->code }}
+                            </td>
+                            <td class="border border-gray-300 p-4 text-sm text-center">
+                                @if($part->name == "کویل DX")
+                                    <a href="{{ route('calculate.index',$part->id) }}" class="form-submit-btn">
+                                        محاسبه {{ $part->name }}
+                                    </a>
+                                @else
+                                    <select name="part_ids[]" id="" class="input-text">
+                                        @foreach(\App\Models\Part::all() as $part2)
+                                            @if($amount)
+                                                <option
+                                                    value="{{ $part2->id }}" {{ $part2->id == $amount->part_id ? 'selected' : '' }}>
+                                                    {{ $part2->name }}
+                                                </option>
+                                            @else
+                                                <option
+                                                    value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
+                                                    {{ $part2->name }}
+                                                </option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                @endif
+
+                            </td>
+                            <td class="border border-gray-300 p-4 text-sm text-center">
+                                {{ $part->unit }}
+                            </td>
+                            <td class="border border-gray-300 p-4 text-sm text-center font-bold">
+                                <input type="text" name="groupAmounts[]" id="inputAmount{{ $part->id }}"
+                                       class="input-text"
+                                       value="{{ $amount ? $amount->value : $part->pivot->value }}">
+                            </td>
+                        </tr>
+                    @endforeach
+                @endif
                 @foreach($modell->parts as $index => $part)
                     @php
                         $amount = \App\Models\Amount::where('part_id', $part->id)->where('product_id', $product->id)->first();
@@ -126,8 +196,8 @@
                             {{ $part->unit }}
                         </td>
                         <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                            <input type="text" name="modellAmounts[]" id="inputAmount{{ $part->id }}" class="input-text"
-                                   value="{{ $part->pivot->value }}">
+                            <input type="text" name="modellAmounts[]" id="inputAmount{{ $part->id }}"
+                                   class="input-text" value="{{ $part->pivot->value }}">
                         </td>
                     </tr>
                 @endforeach

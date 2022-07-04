@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CalculateController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CollectionPartController;
 use App\Http\Controllers\DashboardController;
@@ -95,4 +96,7 @@ Route::middleware(['auth', 'web'])->group(function () {
 
     //Category routes
     Route::resource('categories', CategoryController::class);
+
+    //Calculate coil routes
+    Route::get('/calculate/{part}', [CalculateController::class, 'index'])->name('calculate.index');
 });

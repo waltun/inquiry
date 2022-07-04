@@ -6,6 +6,7 @@ use App\Models\Amount;
 use App\Models\Group;
 use App\Models\Inquiry;
 use App\Models\Modell;
+use App\Models\Part;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -108,20 +109,33 @@ class InquiryProductController extends Controller
             }
         }
 
-        foreach ($group->parts as $index => $part) {
-            $amount = Amount::where('part_id', $part->id)->where('product_id', $product->id)->first();
+        $amounts = Amount::where('product_id', $product->id)->get();
 
-            if ($amount) {
-                if ($amount->value != $request->groupAmounts[$index]) {
+        if ($amounts->isEmpty()) {
+            foreach ($request['part_ids'] as $index => $part) {
+                $amount = Amount::where('part_id', $part)->where('product_id', $product->id)->first();
+
+                if ($amount) {
                     $amount->update([
                         'value' => $request->groupAmounts[$index]
                     ]);
+                } else {
+                    Amount::create([
+                        'value' => $request->groupAmounts[$index],
+                        'product_id' => $product->id,
+                        'part_id' => $part
+                    ]);
                 }
-            } else {
+            }
+        } else {
+            foreach ($amounts as $index => $amount) {
+                $amount->delete();
+            }
+            foreach ($request['part_ids'] as $index => $part) {
                 Amount::create([
                     'value' => $request->groupAmounts[$index],
                     'product_id' => $product->id,
-                    'part_id' => $part->id
+                    'part_id' => $part
                 ]);
             }
         }
