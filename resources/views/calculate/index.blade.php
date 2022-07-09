@@ -1,134 +1,155 @@
 <x-layout>
 
     <x-slot name="js">
+        <script src="{{ asset('plugins/jquery.min.js') }}"></script>
         <script>
-            //constants
-            let gam_dar_radif = parseFloat(document.getElementById("gamDarRadif").value);
-            let gam_dar_ertefa = parseFloat(document.getElementById("gamDarErtefa").value);
-            let toole_header = parseFloat(document.getElementById("tooleHeader").value);
-            let shire_havagiri = parseFloat(document.getElementById("shireHavagiri").value);
-            let picho_mohre = parseFloat(document.getElementById("pichoMohre").value);
-            let baste_bandi = parseFloat(document.getElementById("basteBandi").value);
-            let roghane_tabkhir_shavande = parseFloat(document.getElementById("roghaneTabkhirShavande").value);
-            let abe_shostoshoo = parseFloat(document.getElementById("abeShostoshoo").value);
-            let gaze_kapsool = parseFloat(document.getElementById("gazeKapsool").value);
-            let connection_berenji_fancoil = parseFloat(document.getElementById("connectionBerenjiFancoil").value);
-            let tedade_soorakhe_pakhsh = parseFloat(document.getElementById("tedadeSoorakhePakhsh").value);
-
-            //values section
-            let meghdarLoole58Section = document.getElementById("meghdarLoole58");
-            let tedadUSection = document.getElementById("tedadU");
-            let vaznFinAlSection = document.getElementById("vaznFinAl");
-            let vaznFinCuSection = document.getElementById("vaznFinCu");
-            let vaznFinBlueSection = document.getElementById("vaznFinBlue");
-            let ertefaFinSection = document.getElementById("ertefaFin");
-            let tedadMadarSection = document.getElementById("tedadMadar");
-            let tooleVaraghSheetSection = document.getElementById("tooleVaraghSheet");
-            let arzVaraghSheetSection = document.getElementById("arzVaraghSheet");
-            let masahatSheetSection = document.getElementById("masahatSheet");
-            let toolVaraghFrameSection = document.getElementById("toolVaraghFrame");
-            let arzVaraghFrameSection = document.getElementById("arzVaraghFrame");
-            let masahatFrameBalaPayinSection = document.getElementById("masahatFrameBalaPayin");
-            let vaznVaraghMasrafiSection = document.getElementById("vaznVaraghMasrafi");
-            let toolCollectorSection = document.getElementById("toolCollector");
-            let vaznNoghreMasrafiSection = document.getElementById("vaznNoghreMasrafi");
-            let vaznBerenjMasrafiSection = document.getElementById("vaznBerenjMasrafi");
-            let ozotMasrafiSection = document.getElementById("ozotMasrafi");
-            let oxygenMasrafiSection = document.getElementById("oxygenMasrafi");
-            let flaksMayeMasrafiSection = document.getElementById("flaksMayeMasrafi");
-            let poosheshZedeKhordegiSection = document.getElementById("poosheshZedeKhordegi");
-            let tinerSection = document.getElementById("tiner");
-            let tedadFineMasrafiSection = document.getElementById("tedadFineMasrafi");
-            let looleMessiPakhshKonSection = document.getElementById("looleMessiPakhshKon");
+            //Value sections
+            let valueSection = [];
+            for (let i = 0; i < 18; i++) {
+                valueSection[i] = document.getElementById('valueSection' + i);
+            }
 
             function calculate() {
-                //inputs
-                //let zekhamat_loole = parseInt(document.getElementById("zekhamatLoole").value);
-                let zekhamat_fin = parseFloat(document.getElementById("zekhamatFin").value);
-                let tedad_radif = parseFloat(document.getElementById("tedadRadif").value);
-                let fin_dar_inch = parseFloat(document.getElementById("finDarInch").value);
-                let toole_fine_khorde = parseFloat(document.getElementById("tooleFineKhorde").value);
-                let tedad_loole_dar_yek_radif = parseFloat(document.getElementById("tedadLooleDarYekRadif").value);
-                let zekhamat_tioop_sheet_frame = parseFloat(document.getElementById("zekhamatTioopSheetFrame").value);
-                //let soozan_volv = parseInt(document.getElementById("soozanVolv").value);
+                let tooleCoil = parseFloat(document.getElementById('inputTooleCoil').value);
+                let tedadRadif = parseFloat(document.getElementById('inputTedadRadif').value);
+                let tedadLooleDarRadif = parseFloat(document.getElementById('inputTedadLooleDarRadif').value);
+                let looleMessiId = document.getElementById('inputLooleMessi').value;
+                let tedadMadarLoole = parseFloat(document.getElementById('inputTedadMadarLoole').value);
+                let finCoilId = document.getElementById('inputFin').value;
+                let finDarInch = parseFloat(document.getElementById('inputFinDarInch').value);
+                let zekhamatFrame = parseFloat(document.getElementById('inputZekhamatFrame').value);
+                let tedadSoorakhPakhshKon = parseFloat(document.getElementById('inputTedadSoorakhPakhshKon').value);
+                let noePoosheshZedeKhordegi = document.getElementById('inputNoePoosheshZedeKhordegi').value
 
-                //values inputs
-                let meghdar_loole_58;
-                let tedad_u;
-                let vazn_fin_al;
-                let vazn_fin_cu;
-                let vazn_fin_blue;
-                let ertefa_fin;
-                let tedad_madar;
-                let toole_varagh_sheet;
-                let arz_varagh_sheet;
-                let masahat_sheet;
-                let tool_varagh_frame;
-                let arz_varagh_frame;
-                let masahat_frame_bala_payin;
-                let vazn_varagh_masrafi;
-                let tool_collector;
-                let vazn_noghre_masrafi;
-                let vazn_berenj_masrafi;
-                let ozot_masrafi = parseInt(document.getElementById("ozot_masrafi").value);
-                let oxygen_masrafi = parseInt(document.getElementById("oxygen_masrafi").value);
-                let flaks_maye_masrafi;
-                let pooshesh_zede_khordegi;
-                let tiner;
-                let tedad_fine_masrafi;
-                let loole_messi_pakhsh_kon;
+                //-----------------
+                sendDataLooleMessi(looleMessiId);
+                sendDataFinCoil(finCoilId);
+                //-----------------
 
-                //formulas
-                tedad_fine_masrafi = (toole_fine_khorde / 25.4) * fin_dar_inch + 10;
-                ertefa_fin = tedad_loole_dar_yek_radif * 37.5;
-                tedad_madar = tedad_loole_dar_yek_radif;
-                toole_varagh_sheet = ertefa_fin + 70;
-                arz_varagh_sheet = (tedad_radif * gam_dar_radif) + 130;
-                masahat_sheet = toole_varagh_sheet * arz_varagh_sheet / 1000000;
-                tool_varagh_frame = toole_fine_khorde + 70;
-                arz_varagh_frame = (tedad_radif * gam_dar_radif) + 130;
-                meghdar_loole_58 = (toole_fine_khorde + 100) / 1000 * tedad_radif * tedad_loole_dar_yek_radif * 0.217;
-                tedad_u = (tedad_radif * tedad_loole_dar_yek_radif) - tedad_madar;
-                vazn_fin_al = ((ertefa_fin * (gam_dar_radif * tedad_radif) * zekhamat_fin) * 2.7 * tedad_fine_masrafi) / 1000000;
-                vazn_fin_cu = ((ertefa_fin * (gam_dar_radif * tedad_radif) * zekhamat_fin) * 9.78 * tedad_fine_masrafi) / 1000000;
-                vazn_fin_blue = ((ertefa_fin * (gam_dar_radif * tedad_radif) * zekhamat_fin) * 2.7 * tedad_fine_masrafi) / 1000000;
-                masahat_frame_bala_payin = tool_varagh_frame * arz_varagh_frame / 1000000;
-                vazn_varagh_masrafi = (((masahat_frame_bala_payin) + (masahat_sheet)) * zekhamat_tioop_sheet_frame * 7.8 * 2);
-                tool_collector = tedad_loole_dar_yek_radif * gam_dar_ertefa * 2;
-                toole_header = 150 * 2;
-                vazn_noghre_masrafi = (2.7 * tedad_loole_dar_yek_radif * tedad_radif * 2) / 1000;
-                vazn_berenj_masrafi = ((tedad_madar * 2) * 4.2) / 1000;
-                flaks_maye_masrafi = ((tedad_radif * tedad_loole_dar_yek_radif * 2) + (tedad_madar * 2)) * 0.002;
-                pooshesh_zede_khordegi = ((ertefa_fin * toole_fine_khorde / 1000000) * tedad_radif) * 0.2;
-                tiner = pooshesh_zede_khordegi * 2;
-                tedade_soorakhe_pakhsh = tedad_loole_dar_yek_radif;
-                loole_messi_pakhsh_kon = tedade_soorakhe_pakhsh * 0.8 * 74 / 1000;
+                //TODO:: put if for each loole messi zekhamat
+                let gamDarRadif = 32.5;
+                //TODO:: put if for each loole messi zekhamat
+                let gamDarErtefa = 37.5;
+                //TODO: find zekhamat fin
+                let zekhamatFin = 0.15;
 
-                //fill values section
-                meghdarLoole58Section.innerText = meghdar_loole_58.toFixed(4);
-                tedadUSection.innerText = tedad_u.toFixed(4);
-                vaznFinAlSection.innerText = vazn_fin_al.toFixed(4);
-                vaznFinCuSection.innerText = vazn_fin_cu.toFixed(4);
-                vaznFinBlueSection.innerText = vazn_fin_blue.toFixed(4);
-                ertefaFinSection.innerText = ertefa_fin.toFixed(4);
-                tedadMadarSection.innerText = tedad_madar.toFixed(4);
-                tooleVaraghSheetSection.innerText = toole_varagh_sheet.toFixed(4);
-                arzVaraghSheetSection.innerText = arz_varagh_sheet.toFixed(4);
-                masahatSheetSection.innerText = masahat_sheet.toFixed(4);
-                toolVaraghFrameSection.innerText = tool_varagh_frame.toFixed(4);
-                arzVaraghFrameSection.innerText = arz_varagh_frame.toFixed(4);
-                masahatFrameBalaPayinSection.innerText = masahat_frame_bala_payin.toFixed(4);
-                vaznVaraghMasrafiSection.innerText = vazn_varagh_masrafi.toFixed(4);
-                toolCollectorSection.innerText = tool_collector.toFixed(4);
-                vaznNoghreMasrafiSection.innerText = vazn_noghre_masrafi.toFixed(4);
-                vaznBerenjMasrafiSection.innerText = vazn_berenj_masrafi.toFixed(4);
-                ozotMasrafiSection.innerText = ozot_masrafi.toFixed(4);
-                oxygenMasrafiSection.innerText = oxygen_masrafi.toFixed(4);
-                flaksMayeMasrafiSection.innerText = flaks_maye_masrafi.toFixed(4);
-                poosheshZedeKhordegiSection.innerText = pooshesh_zede_khordegi.toFixed(4);
-                tinerSection.innerText = tiner.toFixed(4);
-                tedadFineMasrafiSection.innerText = tedad_fine_masrafi.toFixed(4);
-                looleMessiPakhshKonSection.innerText = loole_messi_pakhsh_kon.toFixed(4);
+                let looleMessiResult = (tooleCoil + 100) / 1000 * tedadRadif * tedadLooleDarRadif * 0.217;
+
+                //TODO: put if for each coil type and change formula
+                let tedadUResult = (tedadRadif * tedadLooleDarRadif) - tedadMadarLoole;
+
+                let ertefaFinResult = tedadLooleDarRadif * 37.5;
+
+                //TODO: check 25.4 and 10
+                let tedadFinMasrafiResult = (tooleCoil / 25.4) * finDarInch + 10;
+
+                let vaznFinAlResult = ((ertefaFinResult * (gamDarRadif * tedadRadif) * zekhamatFin) * 2.7 * tedadFinMasrafiResult) / 1000000;
+
+                let vaznFinCuResult = ((ertefaFinResult * (gamDarRadif * tedadRadif) * zekhamatFin) * 9.78 * tedadFinMasrafiResult) / 1000000;
+
+                let vaznFinGoldResult = vaznFinAlResult;
+
+                //TODO: check 70
+                let toolVaraghSheetResult = ertefaFinResult + 70;
+
+                //TODO: check 130
+                let arzVaraghSheetResult = (tedadRadif * gamDarRadif) + 130
+
+                let masahatSheetResult = toolVaraghSheetResult * arzVaraghSheetResult / 1000000;
+
+                let toolVaraghFrameResult = tooleCoil + 70;
+
+                let arzVaraghFrameResult = arzVaraghSheetResult;
+
+                let masahatFrameBalaPayinResult = toolVaraghFrameResult * arzVaraghFrameResult / 1000000;
+
+                let vaznVaraghMasrafiResult = (masahatFrameBalaPayinResult + masahatSheetResult) * zekhamatFrame * 7.8 * 2;
+
+                //TODO: check 2
+                let toolCollectorResult = tedadLooleDarRadif * gamDarErtefa * 2;
+
+                //TODO: check 150 and 2
+                let toolHeaderResult = 150 * 2;
+
+                //TODO: check 2.7 and 2
+                let vaznNoghreMasrafiResult = (2.7 * tedadLooleDarRadif * tedadRadif * 2) / 1000;
+
+                //TODO: check 2 and 4.2
+                let vaznBerenjMasrafiResult = ((tedadMadarLoole * 2) * 4.2) / 1000;
+
+                //TODO: check 2 and 0.002
+                let flaksMayeMasrafiResult = ((tedadRadif * tedadLooleDarRadif * 2) + (tedadMadarLoole * 2)) * 0.002;
+
+                //TODO: check 0.2
+                let poosheshZedeKhordegiResult;
+                if (noePoosheshZedeKhordegi === 1) {
+                    poosheshZedeKhordegiResult = ((ertefaFinResult * tooleCoil / 1000000) * tedadRadif) * 0.2;
+                } else {
+                    poosheshZedeKhordegiResult = 0;
+                }
+
+                let tinerResult = poosheshZedeKhordegiResult * 2;
+
+                //TODO: check 0.8 and 74
+                let looleMesiMortabetPakhshKonResult = tedadSoorakhPakhshKon * 0.8 * 74 / 1000;
+
+                //--------------------
+                valueSection[16].innerText = looleMessiResult;
+                valueSection[0].innerText = tedadUResult;
+                valueSection[7].innerText = tinerResult;
+                valueSection[9].innerText = flaksMayeMasrafiResult;
+                valueSection[1].innerText = looleMesiMortabetPakhshKonResult;
+                valueSection[17].innerText = vaznFinAlResult;
+            }
+
+            function sendDataLooleMessi(id) {
+                let looleMessiNameSection = document.getElementById('nameSection16');
+                let looleMessiPriceSection = document.getElementById('priceSection16');
+                let looleMessiUnitSection = document.getElementById('unitSection16');
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('calculate.getData') }}',
+                    data: {
+                        id: id,
+                    },
+                    success: function (res) {
+                        looleMessiNameSection.innerText = res.data.name;
+                        looleMessiPriceSection.innerText = Intl.NumberFormat().format(res.data.price);
+                        looleMessiUnitSection.innerText = res.data.unit;
+                    }
+                });
+            }
+
+            function sendDataFinCoil(id) {
+                let finCoilNameSection = document.getElementById('nameSection17');
+                let finCoilPriceSection = document.getElementById('priceSection17');
+                let finCoilUnitSection = document.getElementById('unitSection17');
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('calculate.getData') }}',
+                    data: {
+                        id: id,
+                    },
+                    success: function (res) {
+                        finCoilNameSection.innerText = res.data.name;
+                        finCoilPriceSection.innerText = Intl.NumberFormat().format(res.data.price);
+                        finCoilUnitSection.innerText = res.data.unit;
+                    }
+                });
             }
         </script>
     </x-slot>
@@ -167,8 +188,198 @@
         <x-errors/>
     </div>
 
+    <div class="my-4">
+        <div class="bg-white rounded-md shadow-md border border-gray-200 py-4 px-6">
+            <div class="mb-4 border-b border-gray-300 pb-3">
+                <p class="text-lg text-black">
+                    اطلاعات ورودی {{ $part->name }}
+                </p>
+            </div>
+            <div class="grid grid-cols-4 gap-4">
+                <div>
+                    <label class="block mb-2 text-sm font-bold" for="inputLooleMessi">لوله مسی کویل</label>
+                    <select name="" id="inputLooleMessi" class="input-text" onchange="calculate()">
+                        <option value="">انتخاب کنید</option>
+                        <option value="{{ \App\Models\Part::where('code','5805')->first()->id }}">
+                            {{ \App\Models\Part::where('code','5805')->first()->name }}
+                        </option>
+                        <option value="{{ \App\Models\Part::where('code','58063')->first()->id }}">
+                            {{ \App\Models\Part::where('code','58063')->first()->name }}
+                        </option>
+                        <option value="{{ \App\Models\Part::where('code','3804')->first()->id }}">
+                            {{ \App\Models\Part::where('code','3804')->first()->name }}
+                        </option>
+                        <option value="{{ \App\Models\Part::where('code','3805')->first()->id }}">
+                            {{ \App\Models\Part::where('code','3805')->first()->name }}
+                        </option>
+                        <option value="{{ \App\Models\Part::where('code','38035')->first()->id }}">
+                            {{ \App\Models\Part::where('code','38035')->first()->name }}
+                        </option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block mb-2 text-sm font-bold" for="inputFin">فین کویل</label>
+                    <select name="" id="inputFin" class="input-text" onchange="calculate()">
+                        <option value="">انتخاب کنید</option>
+                        <option value="{{ \App\Models\Part::where('code','130130')->first()->id }}">
+                            {{ \App\Models\Part::where('code','130130')->first()->name }}
+                        </option>
+                        <option value="{{ \App\Models\Part::where('code','140140')->first()->id }}">
+                            {{ \App\Models\Part::where('code','140140')->first()->name }}
+                        </option>
+                        <option value="{{ \App\Models\Part::where('code','150150')->first()->id }}">
+                            {{ \App\Models\Part::where('code','150150')->first()->name }}
+                        </option>
+                        <option value="{{ \App\Models\Part::where('code','1301301')->first()->id }}">
+                            {{ \App\Models\Part::where('code','1301301')->first()->name }}
+                        </option>
+                        <option value="{{ \App\Models\Part::where('code','1501501')->first()->id }}">
+                            {{ \App\Models\Part::where('code','1501501')->first()->name }}
+                        </option>
+                        <option value="{{ \App\Models\Part::where('code','1001001')->first()->id }}">
+                            {{ \App\Models\Part::where('code','1001001')->first()->name }}
+                        </option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block mb-2 text-sm font-bold" for="inputTedadRadif">تعداد ردیف کویل</label>
+                    <select name="" id="inputTedadRadif" class="input-text" onchange="calculate()">
+                        <option value="">انتخاب کنید</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="6">6</option>
+                        <option value="8">8</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block mb-2 text-sm font-bold" for="inputFinDarInch">فین در اینچ</label>
+                    <select name="" id="inputFinDarInch" class="input-text" onchange="calculate()">
+                        <option value="">انتخاب کنید</option>
+                        <option value="8">8</option>
+                        <option value="10">10</option>
+                        <option value="12">12</option>
+                        <option value="14">14</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block mb-2 text-sm font-bold" for="inputKham">خم کویل</label>
+                    <select name="" id="inputKham" class="input-text">
+                        <option value="">انتخاب کنید</option>
+                        <option value="0">ندارد</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block mb-2 text-sm font-bold" for="inputTedadMadar">تعداد مدار کویل</label>
+                    <select name="" id="inputTedadMadar" class="input-text">
+                        <option value="">انتخاب کنید</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="6">6</option>
+                        <option value="8">8</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block mb-2 text-sm font-bold" for="inputZekhamatFrame">ضخامت فریم کویل</label>
+                    <select name="" id="inputZekhamatFrame" class="input-text" onchange="calculate()">
+                        <option value="">انتخاب کنید</option>
+                        <option value="1">ورق گالوانیزه به ضخامت 1 میلیمتر</option>
+                        <option value="1.25">ورق گالوانیزه به ضخامت 1.25 میلیمتر</option>
+                        <option value="1.5">ورق گالوانیزه به ضخامت 1.5 میلیمتر</option>
+                        <option value="2">ورق گالوانیزه به ضخامت 2 میلیمتر</option>
+                        <option value="2.5">ورق گالوانیزه به ضخامت 2.5 میلیمتر</option>
+                        <option value="3">ورق گالوانیزه به ضخامت 3 میلیمتر</option>
+                        <option value="4">ورق گالوانیزه به ضخامت 4 میلیمتر</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block mb-2 text-sm font-bold" for="inputNoePoosheshZedeKhordegi">نوع پوشش ضد
+                        خوردگی</label>
+                    <select name="" id="inputNoePoosheshZedeKhordegi" class="input-text" onchange="calculate()">
+                        <option value="">انتخاب کنید</option>
+                        <option value="0">ندارد</option>
+                        <option value="1">هرسایت</option>
+                    </select>
+                </div>
+
+                <div class="col-span-2">
+                    <label class="block mb-2 text-sm font-bold" for="inputCollectorAhani">هدر و کلکتور آهنی</label>
+                    <select name="" id="inputCollectorAhani" class="input-text">
+                        <option value="">انتخاب کنید</option>
+                        <option value="0">کلکتور آهنی سایز 1 اینچ</option>
+                        <option value="1">کلکتور آهنی سایز 1/4-1 اینچ</option>
+                        <option value="2">کلکتور آهنی سایز 1/2-1 اینچ</option>
+                        <option value="3">کلکتور آهنی سایز 2 اینچ</option>
+                        <option value="4">کلکتور آهنی سایز 1/2-2 اینچ</option>
+                        <option value="5">کلکتور آهنی سایز 3 اینچ</option>
+                        <option value="6">کلکتور آهنی سایز 4 اینچ</option>
+                    </select>
+                </div>
+
+                <div class="col-span-2">
+                    <label class="block mb-2 text-sm font-bold" for="inputCollectorMessi">هدر و کلکتور مسی</label>
+                    <select name="" id="inputCollectorMessi" class="input-text">
+                        <option value="">انتخاب کنید</option>
+                        <option value="0">کلکتور مسی سایز 3/8 اینچ</option>
+                        <option value="1">کلکتور مسی سایز 1/2 اینچ</option>
+                        <option value="2">کلکتور مسی سایز 5/8 اینچ</option>
+                        <option value="3">کلکتور مسی سایز 7/8 اینچ</option>
+                        <option value="4">کلکتور مسی سایز 1/8-1 اینچ</option>
+                        <option value="5">کلکتور مسی سایز 3/8-1 اینچ</option>
+                        <option value="6">کلکتور مسی سایز 5/8-1 اینچ</option>
+                        <option value="7">کلکتور مسی سایز 1/8-2 اینچ</option>
+                        <option value="8">کلکتور مسی سایز 5/8-2 اینچ</option>
+                        <option value="9">کلکتور مسی سایز 1/8-3 اینچ</option>
+                        <option value="10">کلکتور مسی سایز 5/8-3 اینچ</option>
+                        <option value="11">کلکتور مسی سایز 1/8-4 اینچ</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block mb-2 text-sm font-bold" for="inputTooleCoil">طول کویل (اینچ)</label>
+                    <input type="text" class="input-text" id="inputTooleCoil" value="0" onkeyup="calculate()">
+                </div>
+
+                <div>
+                    <label class="block mb-2 text-sm font-bold" for="inputTedadLooleDarRadif">تعداد لوله در ردیف</label>
+                    <input type="text" class="input-text" id="inputTedadLooleDarRadif" value="0" onkeyup="calculate()">
+                </div>
+
+                <div>
+                    <label class="block mb-2 text-sm font-bold" for="inputTedadMogheyiatLooleDarRadif">
+                        تعداد موقعیت یک لوله در ردیف
+                    </label>
+                    <input type="text" class="input-text" id="inputTedadMogheyiatLooleDarRadif">
+                </div>
+
+                <div>
+                    <label class="block mb-2 text-sm font-bold" for="inputTedadMadarLoole">تعداد مدار لوله</label>
+                    <input type="text" class="input-text" id="inputTedadMadarLoole" value="0" onkeyup="calculate()">
+                </div>
+
+                <div class="col-span-4">
+                    <label class="block mb-2 text-sm font-bold" for="inputTedadSoorakhPakhshKon">
+                        تعداد سوراخ پخش کن
+                    </label>
+                    <input type="text" class="input-text" id="inputTedadSoorakhPakhshKon" value="0"
+                           onkeyup="calculate()">
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Content -->
-    <form method="POST" action="" class="mt-4">
+    <form method="POST" action="{{ route('calculate.store',$part->id) }}" class="mt-4">
         @csrf
 
         <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4">
@@ -184,191 +395,21 @@
                 </tr>
                 </thead>
                 <tbody>
-
-                <!-- Changeable values -->
-                <tr class="bg-yellow-200">
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-                        1
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-                        ضخامت لوله
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-                        <input type="text" name="zekhamat_loole" id="zekhamatLoole" class="input-text" value="0"
-                               onkeyup="calculate()">
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-                        MM
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-
-                    </td>
-                </tr>
-                <tr class="bg-yellow-200">
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-                        2
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-                        ضخامت فین
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-                        <input type="text" name="zekhamat_fin" id="zekhamatFin" class="input-text" value="0"
-                               onkeyup="calculate()">
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-                        MM
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-
-                    </td>
-                </tr>
-                <tr class="bg-yellow-200">
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-                        3
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-                        تعداد ردیف
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-                        <input type="text" name="tedad_radif" id="tedadRadif" class="input-text" value="0"
-                               onkeyup="calculate()">
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-                        عدد
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-
-                    </td>
-                </tr>
-                <tr class="bg-yellow-200">
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-                        4
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-                        فین در اینچ
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-                        <input type="text" name="fin_dar_inch" id="finDarInch" class="input-text" value="0"
-                               onkeyup="calculate()">
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-                        fpi
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-
-                    </td>
-                </tr>
-                <tr class="bg-yellow-200">
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-                        5
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-                        طول فین خورده
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-                        <input type="text" name="toole_fine_khorde" id="tooleFineKhorde" class="input-text" value="0"
-                               onkeyup="calculate()">
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-                        MM
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-
-                    </td>
-                </tr>
-                <tr class="bg-yellow-200">
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-                        6
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-                        تعداد لوله در یک ردیف
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-                        <input type="text" name="tedad_loole_dar_yek_radif" id="tedadLooleDarYekRadif"
-                               class="input-text" value="0" onkeyup="calculate()">
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-                        عدد
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-
-                    </td>
-                </tr>
-                <tr class="bg-yellow-200">
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-                        7
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-                        ضخامت تیوپ شیت و فریم
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-                        <input type="text" name="zekhamat_tioop_sheet_frame" id="zekhamatTioopSheetFrame"
-                               class="input-text" value="0" onkeyup="calculate()">
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-                        MM
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-
-                    </td>
-                </tr>
-                <tr class="bg-yellow-200">
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-                        8
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-                        سوزن والو
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-                        <input type="text" name="soozan_volv" id="soozanVolv" class="input-text" value="0"
-                               onkeyup="calculate()">
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-                        عدد
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-                    </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center">
-                    </td>
-                </tr>
-
-                @foreach($part->children as $child)
+                @foreach($part->children as $index => $child)
                     <tr>
                         <td class="border border-gray-300 p-4 text-sm text-center">
-                            {{ $loop->index + 9 }}
+                            {{ $loop->index + 1 }}
                         </td>
-                        <td class="border border-gray-300 p-4 text-sm text-center">
+                        <td class="border border-gray-300 p-4 text-sm text-center" id="nameSection{{ $index }}">
                             {{ $child->name }}
                         </td>
-                        <td class="border border-gray-300 p-4 text-sm text-center">
-                            <input type="text" name="soozan_volv" id="soozanVolv" class="input-text" value="0"
-                                   onkeyup="calculate()">
+                        <td class="border border-gray-300 p-4 text-sm text-center" id="valueSection{{ $index }}">
+                            0
                         </td>
-                        <td class="border border-gray-300 p-4 text-sm text-center">
+                        <td class="border border-gray-300 p-4 text-sm text-center" id="unitSection{{ $index }}">
                             {{ $child->unit }}
                         </td>
-                        <td class="border border-gray-300 p-4 text-sm text-center">
+                        <td class="border border-gray-300 p-4 text-sm text-center" id="priceSection{{ $index }}">
                             {{ number_format($child->price) }}
                         </td>
                         <td class="border border-gray-300 p-4 text-sm text-center">

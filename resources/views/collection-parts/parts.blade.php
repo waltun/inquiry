@@ -103,7 +103,7 @@
                             <p class="text-sm text-black text-center">{{ $child->code }}</p>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse">
-                            <form action="{{ route('collections.destroy',[$parentPart->id,$child->id]) }}"
+                            <form action="{{ route('collections.destroyPart',[$parentPart->id,$child->id]) }}"
                                   method="POST"
                                   class="inline">
                                 @csrf

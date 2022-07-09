@@ -11,4 +11,17 @@ class CalculateController extends Controller
     {
         return view('calculate.index', compact('part'));
     }
+
+    public function store(Request $request, Part $part)
+    {
+        $request->session()->put('price' . $part->id, $request->price);
+
+        return back();
+    }
+
+    public function getData(Request $request)
+    {
+        $part = Part::find($request->id);
+        return response(['data' => $part]);
+    }
 }

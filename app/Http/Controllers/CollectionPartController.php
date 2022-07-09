@@ -76,6 +76,17 @@ class CollectionPartController extends Controller
         return back();
     }
 
+    public function destroyPart(Part $parentPart, $childId)
+    {
+        Gate::authorize('groups');
+
+        $parentPart->children()->detach($childId);
+
+        alert()->success('حذف موفق', 'حذف قطعه از مجموعه با موفقیت انجام شد');
+
+        return back();
+    }
+
     public function amounts(Part $parentPart)
     {
         return view('collection-parts.amounts', compact('parentPart'));

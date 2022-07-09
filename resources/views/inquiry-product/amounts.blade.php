@@ -103,7 +103,7 @@
                             <td class="border border-gray-300 p-4 text-sm text-center">
                                 {{ $part->code }}
                             </td>
-                            <td class="border border-gray-300 p-4 text-sm text-center">
+                            <td class="border border-gray-300 p-4 text-sm text-center flex items-center">
                                 @if($part->name == "کویل DX")
                                     <a href="{{ route('calculate.index',$part->id) }}" class="form-submit-btn">
                                         محاسبه {{ $part->name }}
@@ -124,6 +124,13 @@
                                             @endif
                                         @endforeach
                                     </select>
+                                    @if($part->code == 100 || $part->code == 101 || $part->code == 102 || $part->code == 103)
+                                        <div class="whitespace-nowrap mr-2">
+                                            <a href="{{ route('calculate.index',$part->id) }}" class="form-submit-btn">
+                                                محاسبه {{ $part->name }}
+                                            </a>
+                                        </div>
+                                    @endif
                                 @endif
 
                             </td>
@@ -146,29 +153,29 @@
                             <td class="border border-gray-300 p-4 text-sm text-center">
                                 {{ $part->code }}
                             </td>
-                            <td class="border border-gray-300 p-4 text-sm text-center">
-                                @if($part->name == "کویل DX")
-                                    <a href="{{ route('calculate.index',$part->id) }}" class="form-submit-btn">
-                                        محاسبه {{ $part->name }}
-                                    </a>
-                                @else
-                                    <select name="part_ids[]" id="" class="input-text">
-                                        @foreach(\App\Models\Part::all() as $part2)
-                                            @if($amount)
-                                                <option
-                                                    value="{{ $part2->id }}" {{ $part2->id == $amount->part_id ? 'selected' : '' }}>
-                                                    {{ $part2->name }}
-                                                </option>
-                                            @else
-                                                <option
-                                                    value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
-                                                    {{ $part2->name }}
-                                                </option>
-                                            @endif
-                                        @endforeach
-                                    </select>
+                            <td class="border border-gray-300 p-4 text-sm text-center flex items-center">
+                                <select name="part_ids[]" id="" class="input-text">
+                                    @foreach(\App\Models\Part::all() as $part2)
+                                        @if($amount)
+                                            <option
+                                                value="{{ $part2->id }}" {{ $part2->id == $amount->part_id ? 'selected' : '' }}>
+                                                {{ $part2->name }}
+                                            </option>
+                                        @else
+                                            <option
+                                                value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
+                                                {{ $part2->name }}
+                                            </option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                                @if($part->code == 100 || $part->code == 101 || $part->code == 102 || $part->code == 103)
+                                    <div class="whitespace-nowrap mr-2">
+                                        <a href="{{ route('calculate.index',$part->id) }}" class="form-submit-btn">
+                                            محاسبه {{ $part->name }}
+                                        </a>
+                                    </div>
                                 @endif
-
                             </td>
                             <td class="border border-gray-300 p-4 text-sm text-center">
                                 {{ $part->unit }}

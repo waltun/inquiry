@@ -66,6 +66,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/collection-parts', [CollectionPartController::class, 'index'])->name('collections.index');
     Route::get('/collection-parts/{parentPart}/add-parts', [CollectionPartController::class, 'create'])->name('collections.create');
     Route::post('/collection-parts/{parentPart}/{childPart}/parts', [CollectionPartController::class, 'store'])->name('collections.store');
+    Route::delete('/collection-parts/{parentPart}/{childPart}/destroy-part', [CollectionPartController::class, 'destroyPart'])->name('collections.destroyPart');
     Route::get('/collection-parts/{parentPart}/parts', [CollectionPartController::class, 'parts'])->name('collections.parts');
     Route::delete('/collection-parts/{parentPart}/destroy', [CollectionPartController::class, 'destroy'])->name('collections.destroy');
     Route::get('/collection-parts/{parentPart}/amounts', [CollectionPartController::class, 'amounts'])->name('collections.amounts');
@@ -99,4 +100,6 @@ Route::middleware(['auth', 'web'])->group(function () {
 
     //Calculate coil routes
     Route::get('/calculate/{part}', [CalculateController::class, 'index'])->name('calculate.index');
+    Route::post('/calculate/{part}/post', [CalculateController::class, 'store'])->name('calculate.store');
+    Route::post('/calculate/getData', [CalculateController::class, 'getData'])->name('calculate.getData');
 });
