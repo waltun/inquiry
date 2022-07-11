@@ -14,9 +14,11 @@ class CalculateController extends Controller
 
     public function store(Request $request, Part $part)
     {
-        $request->session()->put('price' . $part->id, $request->price);
+        $request->session()->put('price' . $part->id, $request->final_price);
 
-        return back();
+        alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');
+
+        return redirect()->route('inquiries.index');
     }
 
     public function getData(Request $request)

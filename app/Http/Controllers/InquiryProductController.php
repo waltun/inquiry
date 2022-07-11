@@ -76,77 +76,60 @@ class InquiryProductController extends Controller
     {
         Gate::authorize('inquiry-amounts');
 
-        //$group = Group::find($product->group_id);
         $inquiry = Inquiry::find($product->inquiry_id);
-        //$modell = Modell::find($product->model_id);
+        $modell = Modell::find($product->model_id);
 
         $request->validate([
             'groupAmounts' => 'required|array',
             'groupAmounts.*' => 'required|numeric'
         ]);
 
-        //if (!$modell->parts->isEmpty()) {
-//
-//            $request->validate([
-//                'modellAmounts' => 'required|array',
-//                'modellAmounts.*' => 'required|numeric'
-//            ]);
-//
-//            foreach ($modell->parts as $index => $part) {
-//                $amount = Amount::where('part_id', $part->id)->where('product_id', $product->id)->first();
-//
-//                if ($amount) {
-//                    if ($amount->value != $request->modellAmounts[$index]) {
-//                        $amount->update([
-//                            'value' => $request->modellAmounts[$index]
-//                        ]);
-//                    }
-//                } else {
-//                    Amount::create([
-//                        'value' => $request->modellAmounts[$index],
-//                        'product_id' => $product->id,
-//                        'part_id' => $part->id
-//                    ]);
-//                }
-//            }
-//        }
+        if (!$modell->parts->isEmpty()) {
+
+            $request->validate([
+                'modellAmounts' => 'required|array',
+                'modellAmounts.*' => 'required|numeric'
+            ]);
+
+            foreach ($modell->parts as $index => $part) {
+                $amount = Amount::where('part_id', $part->id)->where('product_id', $product->id)->first();
+
+                if ($amount) {
+                    if ($amount->value != $request->modellAmounts[$index]) {
+                        $amount->update([
+                            'value' => $request->modellAmounts[$index]
+                        ]);
+                    }
+                } else {
+                    Amount::create([
+                        'value' => $request->modellAmounts[$index],
+                        'product_id' => $product->id,
+                        'part_id' => $part->id
+                    ]);
+                }
+            }
+        }
 
         $amounts = Amount::where('product_id', $product->id)->get();
 
-        if ($amounts->isEmpty()) {
-            foreach ($request['part_ids'] as $index => $part) {
-                $createdAmount = Amount::create([
-                    'value' => $request->groupAmounts[$index],
-                    'product_id' => $product->id,
-                    'part_id' => $part
-                ]);
-
-                $special = Special::where('part_id', $part)->first();
-
-                if (!is_null($special)) {
-                    $createdAmount->price = session('price' . $part);
-                    $createdAmount->save();
-                    session()->forget('price' . $part);
-                }
-            }
-        } else {
+        if (!$amounts->isEmpty()) {
             foreach ($amounts as $index => $amount) {
                 $amount->delete();
             }
-            foreach ($request['part_ids'] as $index => $part) {
-                $createdAmount = Amount::create([
-                    'value' => $request->groupAmounts[$index],
-                    'product_id' => $product->id,
-                    'part_id' => $part
-                ]);
+        }
+        foreach ($request['part_ids'] as $index => $part) {
+            $createdAmount = Amount::create([
+                'value' => $request->groupAmounts[$index],
+                'product_id' => $product->id,
+                'part_id' => $part
+            ]);
 
-                $special = Special::where('part_id', $part)->first();
+            $special = Special::where('part_id', $part)->first();
 
-                if (!is_null($special)) {
-                    $createdAmount->price = session('price' . $part);
-                    $createdAmount->save();
-                    session()->forget('price' . $part);
-                }
+            if (!is_null($special)) {
+                $createdAmount->price = session('price' . $part);
+                $createdAmount->save();
+                session()->forget('price' . $part);
             }
         }
 
@@ -172,7 +155,9 @@ class InquiryProductController extends Controller
         if (!$modell->parts->isEmpty()) {
             foreach ($modell->parts as $part) {
                 $amount = $product->amounts()->where('part_id', $part->id)->first();
-                if ($amount) {
+                if ($amount->price > 0) {
+                    $totalModellPrice += ($part->price * $amount->value) + ($amount->price * $amount->value);
+                } else {
                     $totalModellPrice += ($part->price * $amount->value);
                 }
             }
@@ -212,7 +197,9 @@ class InquiryProductController extends Controller
         if (!$modell->parts->isEmpty()) {
             foreach ($modell->parts as $part) {
                 $amount = $product->amounts()->where('part_id', $part->id)->first();
-                if ($amount) {
+                if ($amount->price > 0) {
+                    $totalModellPrice += ($part->price * $amount->value) + ($amount->price * $amount->value);
+                } else {
                     $totalModellPrice += ($part->price * $amount->value);
                 }
             }

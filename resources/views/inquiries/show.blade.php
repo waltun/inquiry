@@ -109,7 +109,9 @@
                     @foreach($group->parts as $part)
                         @php
                             $amount = $product->amounts()->where('part_id',$part->id)->first();
-                            if ($amount){
+                            if ($amount->price > 0){
+                                $totalGroupPrice += ($part->price * $amount->value) + ($amount->price * $amount->value);
+                            } else {
                                 $totalGroupPrice += ($part->price * $amount->value);
                             }
                         @endphp
@@ -124,13 +126,21 @@
                                 {{ $part->unit }}
                             </td>
                             <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                                {{ number_format($part->price) }} تومان
+                                @if($amount->price > 0)
+                                    {{ number_format($amount->price * $amount->value) }}
+                                @else
+                                    {{ number_format($part->price) }} تومان
+                                @endif
                             </td>
                             <td class="border border-gray-300 p-4 text-sm text-center">
                                 {{ $amount->value }}
                             </td>
                             <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                                {{ number_format($part->price * $amount->value) }} تومان
+                                @if($amount->price > 0)
+                                    {{ number_format($amount->price * $amount->value) }} تومان
+                                @else
+                                    {{ number_format($part->price * $amount->value) }} تومان
+                                @endif
                             </td>
                         </tr>
                     @endforeach

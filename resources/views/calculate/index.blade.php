@@ -5,9 +5,15 @@
         <script>
             //Value sections
             let valueSection = [];
+            let totalPriceSection = [];
+            let inputTotalPrice = [];
             for (let i = 0; i < 18; i++) {
                 valueSection[i] = document.getElementById('valueSection' + i);
+                totalPriceSection[i] = document.getElementById('totalPriceSection' + i);
+                inputTotalPrice[i] = document.getElementById('inputTotalPrice' + i);
             }
+
+            let finalPrice = 0;
 
             function calculate() {
                 let tooleCoil = parseFloat(document.getElementById('inputTooleCoil').value);
@@ -82,7 +88,7 @@
 
                 //TODO: check 0.2
                 let poosheshZedeKhordegiResult;
-                if (noePoosheshZedeKhordegi === 1) {
+                if (noePoosheshZedeKhordegi === '1') {
                     poosheshZedeKhordegiResult = ((ertefaFinResult * tooleCoil / 1000000) * tedadRadif) * 0.2;
                 } else {
                     poosheshZedeKhordegiResult = 0;
@@ -94,12 +100,70 @@
                 let looleMesiMortabetPakhshKonResult = tedadSoorakhPakhshKon * 0.8 * 74 / 1000;
 
                 //--------------------
-                valueSection[16].innerText = looleMessiResult;
-                valueSection[0].innerText = tedadUResult;
-                valueSection[7].innerText = tinerResult;
-                valueSection[9].innerText = flaksMayeMasrafiResult;
-                valueSection[1].innerText = looleMesiMortabetPakhshKonResult;
-                valueSection[17].innerText = vaznFinAlResult;
+                valueSection[0].innerText = tedadUResult.toFixed(4);
+                totalPriceSection[0].innerText = Intl.NumberFormat().format(inputTotalPrice[0].value * tedadUResult);
+                let price0 = inputTotalPrice[0].value * tedadUResult;
+
+                valueSection[1].innerText = looleMesiMortabetPakhshKonResult.toFixed(4);
+                totalPriceSection[1].innerText = Intl.NumberFormat().format(inputTotalPrice[1].value * looleMesiMortabetPakhshKonResult);
+                let price1 = inputTotalPrice[1].value * looleMesiMortabetPakhshKonResult;
+
+                valueSection[2].innerText = vaznVaraghMasrafiResult.toFixed(4);
+                totalPriceSection[2].innerText = Intl.NumberFormat().format(inputTotalPrice[2].value * vaznVaraghMasrafiResult);
+                let price2 = inputTotalPrice[2].value * vaznVaraghMasrafiResult;
+
+                valueSection[4].innerText = 2;
+                totalPriceSection[4].innerText = Intl.NumberFormat().format(inputTotalPrice[4].value * 2);
+                let price4 = inputTotalPrice[4].value * 2;
+
+                valueSection[5].innerText = 2;
+                totalPriceSection[5].innerText = Intl.NumberFormat().format(inputTotalPrice[5].value * 2);
+                let price5 = inputTotalPrice[5].value * 2;
+
+                valueSection[6].innerText = poosheshZedeKhordegiResult.toFixed(4);
+                totalPriceSection[6].innerText = Intl.NumberFormat().format(inputTotalPrice[6].value * poosheshZedeKhordegiResult);
+                let price6 = inputTotalPrice[6].value * poosheshZedeKhordegiResult;
+
+                valueSection[7].innerText = tinerResult.toFixed(4);
+                totalPriceSection[7].innerText = Intl.NumberFormat().format(inputTotalPrice[7].value * tinerResult);
+                let price7 = inputTotalPrice[7].value * tinerResult;
+
+                valueSection[8].innerText = 1;
+                totalPriceSection[8].innerText = Intl.NumberFormat().format(inputTotalPrice[8].value * 1);
+                let price8 = inputTotalPrice[8].value * 1;
+
+                valueSection[9].innerText = flaksMayeMasrafiResult.toFixed(4);
+                totalPriceSection[9].innerText = Intl.NumberFormat().format(inputTotalPrice[9].value * flaksMayeMasrafiResult);
+                let price9 = inputTotalPrice[9].value * flaksMayeMasrafiResult;
+
+                valueSection[10].innerText = 0.2;
+                totalPriceSection[10].innerText = Intl.NumberFormat().format(inputTotalPrice[10].value * 0.2);
+                let price10 = inputTotalPrice[10].value * 0.2;
+
+                valueSection[11].innerText = 1;
+                totalPriceSection[11].innerText = Intl.NumberFormat().format(inputTotalPrice[11].value * 1);
+                let price11 = inputTotalPrice[11].value * 1;
+
+                valueSection[14].innerText = 20;
+                totalPriceSection[14].innerText = Intl.NumberFormat().format(inputTotalPrice[14].value * 20);
+                let price14 = inputTotalPrice[14].value * 20;
+
+                valueSection[16].innerText = looleMessiResult.toFixed(4);
+                totalPriceSection[16].innerText = Intl.NumberFormat().format(inputTotalPrice[16].value * looleMessiResult);
+                let price16 = inputTotalPrice[16].value * looleMessiResult;
+
+                valueSection[17].innerText = vaznFinAlResult.toFixed(4);
+                totalPriceSection[17].innerText = Intl.NumberFormat().format(inputTotalPrice[17].value * vaznFinAlResult);
+                let price17 = inputTotalPrice[17].value * vaznFinAlResult;
+
+                let finalPriceSection = document.getElementById('finalPriceSection');
+                let inputFinalPrice = document.getElementById('inputFinalPrice');
+
+                finalPrice = price0 + price1 + price2 + price4 + price5 + price6 + price7 + price8 + price9
+                    + price10 + price11 + price14 + price16 + price17;
+
+                finalPriceSection.innerText = Intl.NumberFormat().format(finalPrice);
+                inputFinalPrice.value = finalPrice;
             }
 
             function sendDataLooleMessi(id) {
@@ -123,6 +187,7 @@
                         looleMessiNameSection.innerText = res.data.name;
                         looleMessiPriceSection.innerText = Intl.NumberFormat().format(res.data.price);
                         looleMessiUnitSection.innerText = res.data.unit;
+                        document.getElementById('inputTotalPrice16').value = res.data.price
                     }
                 });
             }
@@ -148,6 +213,7 @@
                         finCoilNameSection.innerText = res.data.name;
                         finCoilPriceSection.innerText = Intl.NumberFormat().format(res.data.price);
                         finCoilUnitSection.innerText = res.data.unit;
+                        document.getElementById('inputTotalPrice17').value = res.data.price
                     }
                 });
             }
@@ -409,10 +475,11 @@
                         <td class="border border-gray-300 p-4 text-sm text-center" id="unitSection{{ $index }}">
                             {{ $child->unit }}
                         </td>
-                        <td class="border border-gray-300 p-4 text-sm text-center" id="priceSection{{ $index }}">
-                            {{ number_format($child->price) }}
-                        </td>
                         <td class="border border-gray-300 p-4 text-sm text-center">
+                            <span id="priceSection{{ $index }}">{{ number_format($child->price) }}</span>
+                            <input type="hidden" name="" id="inputTotalPrice{{ $index }}" value="{{ $child->price }}">
+                        </td>
+                        <td class="border border-gray-300 p-4 text-sm text-center" id="totalPriceSection{{ $index }}">
 
                         </td>
                     </tr>
@@ -423,7 +490,8 @@
                         قیمت نهایی
                     </td>
                     <td class="border border-gray-300 p-4 text-lg font-bold text-center text-green-600" colspan="2">
-                        1,569,000 تومان
+                        <span id="finalPriceSection"></span>
+                        <input type="hidden" name="final_price" id="inputFinalPrice">
                     </td>
                 </tr>
 
