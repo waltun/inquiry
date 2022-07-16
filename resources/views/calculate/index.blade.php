@@ -7,114 +7,276 @@
             let valueSection = [];
             let totalPriceSection = [];
             let inputTotalPrice = [];
-            for (let i = 0; i < 18; i++) {
+            for (let i = 0; i < 22; i++) {
                 valueSection[i] = document.getElementById('valueSection' + i);
                 totalPriceSection[i] = document.getElementById('totalPriceSection' + i);
                 inputTotalPrice[i] = document.getElementById('inputTotalPrice' + i);
             }
 
             let finalPrice = 0;
+            let zekhamatFin;
+            let looleMessiResult;
+            let vaznFinAlResult;
+            let ertefaFinResult;
+            let satheCoilResult;
+            let vaznNoghreMasrafiResult;
+            let azotResult;
+            let vaznBerenjMasrafiResult;
 
             function calculate() {
                 let tooleCoil = parseFloat(document.getElementById('inputTooleCoil').value);
                 let tedadRadif = parseFloat(document.getElementById('inputTedadRadif').value);
+                let tedadMogheyiatLooleDarRadif = parseFloat(document.getElementById('inputTedadMogheyiatLooleDarRadif').value);
                 let tedadLooleDarRadif = parseFloat(document.getElementById('inputTedadLooleDarRadif').value);
                 let looleMessiId = document.getElementById('inputLooleMessi').value;
                 let tedadMadarLoole = parseFloat(document.getElementById('inputTedadMadarLoole').value);
                 let finCoilId = document.getElementById('inputFin').value;
+                let collectorAhaniId = document.getElementById('inputCollectorAhani').value;
+                let collectorMessiId = document.getElementById('inputCollectorMessi').value;
+                let zekhamatFrameId = document.getElementById('inputZekhamatFrame').value;
                 let finDarInch = parseFloat(document.getElementById('inputFinDarInch').value);
-                let zekhamatFrame = parseFloat(document.getElementById('inputZekhamatFrame').value);
                 let tedadSoorakhPakhshKon = parseFloat(document.getElementById('inputTedadSoorakhPakhshKon').value);
-                let noePoosheshZedeKhordegi = document.getElementById('inputNoePoosheshZedeKhordegi').value
+                let noePoosheshZedeKhordegi = document.getElementById('inputNoePoosheshZedeKhordegi').value;
+                let satheCoilSection = document.getElementById('satheCoil');
+
+                let khamCoilResult = parseFloat(document.getElementById('inputKham').value);
+
+                //tedadLooleDarRadif = tedadMogheyiatLooleDarRadif;
+                //tedadMadarLoole = tedadMogheyiatLooleDarRadif;
+                //tedadSoorakhPakhshKon = tedadMadarLoole;
 
                 //-----------------
-                sendDataLooleMessi(looleMessiId);
-                sendDataFinCoil(finCoilId);
+                if (looleMessiId) {
+                    sendDataLooleMessi(looleMessiId);
+                }
+                if (finCoilId) {
+                    sendDataFinCoil(finCoilId);
+                }
+                if (collectorAhaniId) {
+                    sendDataCollectorAhani(collectorAhaniId);
+                }
+                if (collectorMessiId) {
+                    sendDataCollectorMessi(collectorMessiId);
+                }
+                if (zekhamatFrameId) {
+                    sendDataVaraghGalvanize(zekhamatFrameId)
+                }
                 //-----------------
 
-                //TODO:: put if for each loole messi zekhamat
-                let gamDarRadif = 32.5;
-                //TODO:: put if for each loole messi zekhamat
-                let gamDarErtefa = 37.5;
-                //TODO: find zekhamat fin
-                let zekhamatFin = 0.15;
+                let tedadFinMasrafiResult = tooleCoil * finDarInch;
 
-                let looleMessiResult = (tooleCoil + 100) / 1000 * tedadRadif * tedadLooleDarRadif * 0.217;
-
-                //TODO: put if for each coil type and change formula
-                let tedadUResult = (tedadRadif * tedadLooleDarRadif) - tedadMadarLoole;
-
-                let ertefaFinResult = tedadLooleDarRadif * 37.5;
-
-                //TODO: check 25.4 and 10
-                let tedadFinMasrafiResult = (tooleCoil / 25.4) * finDarInch + 10;
-
-                let vaznFinAlResult = ((ertefaFinResult * (gamDarRadif * tedadRadif) * zekhamatFin) * 2.7 * tedadFinMasrafiResult) / 1000000;
-
-                let vaznFinCuResult = ((ertefaFinResult * (gamDarRadif * tedadRadif) * zekhamatFin) * 9.78 * tedadFinMasrafiResult) / 1000000;
-
-                let vaznFinGoldResult = vaznFinAlResult;
-
-                //TODO: check 70
-                let toolVaraghSheetResult = ertefaFinResult + 70;
-
-                //TODO: check 130
-                let arzVaraghSheetResult = (tedadRadif * gamDarRadif) + 130
-
-                let masahatSheetResult = toolVaraghSheetResult * arzVaraghSheetResult / 1000000;
-
-                let toolVaraghFrameResult = tooleCoil + 70;
-
-                let arzVaraghFrameResult = arzVaraghSheetResult;
-
-                let masahatFrameBalaPayinResult = toolVaraghFrameResult * arzVaraghFrameResult / 1000000;
-
-                let vaznVaraghMasrafiResult = (masahatFrameBalaPayinResult + masahatSheetResult) * zekhamatFrame * 7.8 * 2;
-
-                //TODO: check 2
-                let toolCollectorResult = tedadLooleDarRadif * gamDarErtefa * 2;
-
-                //TODO: check 150 and 2
-                let toolHeaderResult = 150 * 2;
-
-                //TODO: check 2.7 and 2
-                let vaznNoghreMasrafiResult = (2.7 * tedadLooleDarRadif * tedadRadif * 2) / 1000;
-
-                //TODO: check 2 and 4.2
-                let vaznBerenjMasrafiResult = ((tedadMadarLoole * 2) * 4.2) / 1000;
-
-                //TODO: check 2 and 0.002
-                let flaksMayeMasrafiResult = ((tedadRadif * tedadLooleDarRadif * 2) + (tedadMadarLoole * 2)) * 0.002;
-
-                //TODO: check 0.2
-                let poosheshZedeKhordegiResult;
-                if (noePoosheshZedeKhordegi === '1') {
-                    poosheshZedeKhordegiResult = ((ertefaFinResult * tooleCoil / 1000000) * tedadRadif) * 0.2;
-                } else {
-                    poosheshZedeKhordegiResult = 0;
+                if (finCoilId === '51' || finCoilId === '53' || finCoilId === '53') {
+                    zekhamatFin = 0.13;
+                }
+                if (finCoilId === '7' || finCoilId === '58') {
+                    zekhamatFin = 0.14;
+                }
+                if (finCoilId === '52' || finCoilId === '54' || finCoilId === '59') {
+                    zekhamatFin = 0.15;
+                }
+                if (finCoilId === '55' || finCoilId === '28') {
+                    zekhamatFin = 0.10;
                 }
 
-                let tinerResult = poosheshZedeKhordegiResult * 2;
+                let tedadUResult = (tedadRadif * tedadLooleDarRadif) - tedadMadarLoole;
 
-                //TODO: check 0.8 and 74
-                let looleMesiMortabetPakhshKonResult = tedadSoorakhPakhshKon * 0.8 * 74 / 1000;
+                let gamDarRadif;
+                let gamDarErtefa;
+                let sabetVaznVaragh;
+
+                if (looleMessiId === '3') {
+                    gamDarRadif = 32.5;
+                    gamDarErtefa = 37.5;
+                    sabetVaznVaragh = 130;
+                    looleMessiResult = (tooleCoil + 4) * tedadRadif * tedadLooleDarRadif * 0.0055118;
+                    ertefaFinResult = tedadMogheyiatLooleDarRadif * gamDarErtefa;
+                    satheCoilResult = (tedadMogheyiatLooleDarRadif * 1.5 * tooleCoil) / 144;
+                    vaznNoghreMasrafiResult = tedadUResult * 3.2;
+                    azotResult = tedadRadif * satheCoilResult * 0.23;
+                    vaznBerenjMasrafiResult = (tedadMadarLoole * 2) * 11;
+                }
+                if (looleMessiId === '47') {
+                    gamDarRadif = 32.5;
+                    gamDarErtefa = 37.5;
+                    sabetVaznVaragh = 130;
+                    looleMessiResult = (tooleCoil + 4) * tedadRadif * tedadLooleDarRadif * 0.006858;
+                    ertefaFinResult = tedadMogheyiatLooleDarRadif * gamDarErtefa;
+                    satheCoilResult = (tedadMogheyiatLooleDarRadif * 1.5 * tooleCoil) / 144;
+                    vaznNoghreMasrafiResult = tedadUResult * 3.2;
+                    azotResult = tedadRadif * satheCoilResult * 0.23;
+                    vaznBerenjMasrafiResult = (tedadMadarLoole * 2) * 11;
+                }
+                if (looleMessiId === '8') {
+                    gamDarRadif = 21.6;
+                    gamDarErtefa = 25;
+                    sabetVaznVaragh = 110;
+                    looleMessiResult = (tooleCoil + 4) * tedadRadif * tedadLooleDarRadif * 0.002286;
+                    ertefaFinResult = tedadMogheyiatLooleDarRadif * gamDarErtefa;
+                    satheCoilResult = (tedadMogheyiatLooleDarRadif * 0.984 * tooleCoil) / 144;
+                    vaznNoghreMasrafiResult = tedadUResult * 2;
+                    azotResult = tedadRadif * satheCoilResult * 0.15;
+                    vaznBerenjMasrafiResult = (tedadMadarLoole * 2) * 7.6;
+                }
+                if (looleMessiId === '48') {
+                    gamDarRadif = 21.6;
+                    gamDarErtefa = 25;
+                    sabetVaznVaragh = 110;
+                    looleMessiResult = (tooleCoil + 4) * tedadRadif * tedadLooleDarRadif * 0.0026162;
+                    ertefaFinResult = tedadMogheyiatLooleDarRadif * gamDarErtefa;
+                    satheCoilResult = (tedadMogheyiatLooleDarRadif * 0.984 * tooleCoil) / 144;
+                    vaznNoghreMasrafiResult = tedadUResult * 2;
+                    azotResult = tedadRadif * satheCoilResult * 0.15;
+                    vaznBerenjMasrafiResult = (tedadMadarLoole * 2) * 7.6;
+                }
+                if (looleMessiId === '49') {
+                    gamDarRadif = 21.6;
+                    gamDarErtefa = 25;
+                    sabetVaznVaragh = 110;
+                    looleMessiResult = (tooleCoil + 4) * tedadRadif * tedadLooleDarRadif * 0.0032258;
+                    ertefaFinResult = tedadMogheyiatLooleDarRadif * gamDarErtefa;
+                    satheCoilResult = (tedadMogheyiatLooleDarRadif * 0.984 * tooleCoil) / 144;
+                    vaznNoghreMasrafiResult = tedadUResult * 2;
+                    azotResult = tedadRadif * satheCoilResult * 0.15;
+                    vaznBerenjMasrafiResult = (tedadMadarLoole * 2) * 7.6;
+                }
+
+                if (finCoilId === '51' || finCoilId === '52' || finCoilId === '53' || finCoilId === '54' || finCoilId === '55' || finCoilId === '7') {
+                    vaznFinAlResult = ((ertefaFinResult * (gamDarRadif * tedadRadif) * zekhamatFin) * 2.7 * tedadFinMasrafiResult) / 1000000;
+                } else {
+                    vaznFinAlResult = ((ertefaFinResult * (gamDarRadif * tedadRadif) * zekhamatFin) * 8.96 * tedadFinMasrafiResult) / 1000000;
+                }
+
+                satheCoilSection.innerText = satheCoilResult.toFixed(2);
+
+                let masahatTubSheet = (2 * ((ertefaFinResult + 70) * (sabetVaznVaragh + (gamDarRadif * tedadRadif)))) / 1000000;
+                let masahatFrameBalaPayin = (2 * (((tooleCoil * 25.4) + 70) * (sabetVaznVaragh + (gamDarRadif * tedadRadif)))) / 1000000;
+                let masahatVaraghMasrafi = masahatFrameBalaPayin + masahatTubSheet;
+
+                let vaznVaraghMasrafiResult;
+
+                if (zekhamatFrameId === '2') {
+                    vaznVaraghMasrafiResult = masahatVaraghMasrafi * 7.874;
+                }
+                if (zekhamatFrameId === '82') {
+                    vaznVaraghMasrafiResult = masahatVaraghMasrafi * 1.25 * 7.874;
+                }
+                if (zekhamatFrameId === '83') {
+                    vaznVaraghMasrafiResult = masahatVaraghMasrafi * 1.5 * 7.874;
+                }
+                if (zekhamatFrameId === '84') {
+                    vaznVaraghMasrafiResult = masahatVaraghMasrafi * 2 * 7.874;
+                }
+                if (zekhamatFrameId === '85') {
+                    vaznVaraghMasrafiResult = masahatVaraghMasrafi * 2.5 * 7.874;
+                }
+                if (zekhamatFrameId === '86') {
+                    vaznVaraghMasrafiResult = masahatVaraghMasrafi * 3 * 7.874;
+                }
+                if (zekhamatFrameId === '87') {
+                    vaznVaraghMasrafiResult = masahatVaraghMasrafi * 4 * 7.874;
+                }
+
+                let flaksMayeMasrafiResult = tedadUResult * 0.002;
+
+                let poosheshZedeKhordegiResult;
+                let tinerResult;
+                if (noePoosheshZedeKhordegi === '1') {
+                    poosheshZedeKhordegiResult = satheCoilResult * tedadRadif * 0.05;
+                    tinerResult = satheCoilResult * tedadRadif * 0.1;
+                } else {
+                    poosheshZedeKhordegiResult = 0;
+                    tinerResult = 0;
+                }
+
+                let abeMasrafiResult = satheCoilResult * tedadRadif * 0.7;
+
+                let oxygenMasrafiResult = tedadUResult * 0.006;
+
+                let looleMessi316Result = tedadSoorakhPakhshKon * 0.0365;
+
+                let roghaneTabkhirShavandeResult = tedadRadif * satheCoilResult * 0.015;
+
+                let collectorAhaniResult;
+                if (collectorAhaniId === '62') {
+                    collectorAhaniResult = ((ertefaFinResult + 250) / 1000) * 1.94;
+                }
+                if (collectorAhaniId === '63') {
+                    collectorAhaniResult = ((ertefaFinResult + 250) / 1000) * 2.48;
+                }
+                if (collectorAhaniId === '64') {
+                    collectorAhaniResult = ((ertefaFinResult + 250) / 1000) * 2.81;
+                }
+                if (collectorAhaniId === '65') {
+                    collectorAhaniResult = ((ertefaFinResult + 250) / 1000) * 4.32;
+                }
+                if (collectorAhaniId === '66') {
+                    collectorAhaniResult = ((ertefaFinResult + 250) / 1000) * 5.48;
+                }
+                if (collectorAhaniId === '67') {
+                    collectorAhaniResult = ((ertefaFinResult + 250) / 1000) * 7.56;
+                }
+                if (collectorAhaniId === '68') {
+                    collectorAhaniResult = ((ertefaFinResult + 250) / 1000) * 11.18;
+                }
+
+                let collectorMessiResult;
+                if (collectorMessiId === '69') {
+                    collectorMessiResult = ((ertefaFinResult + 250) / 1000) * 0.196;
+                }
+                if (collectorMessiId === '70') {
+                    collectorMessiResult = ((ertefaFinResult + 250) / 1000) * 0.299;
+                }
+                if (collectorMessiId === '71') {
+                    collectorMessiResult = ((ertefaFinResult + 250) / 1000) * 0.419;
+                }
+                if (collectorMessiId === '72') {
+                    collectorMessiResult = ((ertefaFinResult + 250) / 1000) * 0.734;
+                }
+                if (collectorMessiId === '73') {
+                    collectorMessiResult = ((ertefaFinResult + 250) / 1000) * 0.975;
+                }
+                if (collectorMessiId === '74') {
+                    collectorMessiResult = ((ertefaFinResult + 250) / 1000) * 1.410;
+                }
+                if (collectorMessiId === '75') {
+                    collectorMessiResult = ((ertefaFinResult + 250) / 1000) * 1.685;
+                }
+                if (collectorMessiId === '76') {
+                    collectorMessiResult = ((ertefaFinResult + 250) / 1000) * 2.205;
+                }
+                if (collectorMessiId === '77') {
+                    collectorMessiResult = ((ertefaFinResult + 250) / 1000) * 3.616;
+                }
+                if (collectorMessiId === '78') {
+                    collectorMessiResult = ((ertefaFinResult + 250) / 1000) * 4.95;
+                }
+                if (collectorMessiId === '79') {
+                    collectorMessiResult = ((ertefaFinResult + 250) / 1000) * 6.9;
+                }
+                if (collectorMessiId === '80') {
+                    collectorMessiResult = ((ertefaFinResult + 250) / 1000) * 7.89;
+                }
 
                 //--------------------
                 valueSection[0].innerText = tedadUResult.toFixed(4);
                 totalPriceSection[0].innerText = Intl.NumberFormat().format(inputTotalPrice[0].value * tedadUResult);
                 let price0 = inputTotalPrice[0].value * tedadUResult;
 
-                valueSection[1].innerText = looleMesiMortabetPakhshKonResult.toFixed(4);
-                totalPriceSection[1].innerText = Intl.NumberFormat().format(inputTotalPrice[1].value * looleMesiMortabetPakhshKonResult);
-                let price1 = inputTotalPrice[1].value * looleMesiMortabetPakhshKonResult;
+                valueSection[1].innerText = tedadSoorakhPakhshKon.toFixed(4);
+                totalPriceSection[1].innerText = Intl.NumberFormat().format(inputTotalPrice[1].value * tedadSoorakhPakhshKon);
+                let price1 = inputTotalPrice[1].value * tedadSoorakhPakhshKon;
 
                 valueSection[2].innerText = vaznVaraghMasrafiResult.toFixed(4);
                 totalPriceSection[2].innerText = Intl.NumberFormat().format(inputTotalPrice[2].value * vaznVaraghMasrafiResult);
                 let price2 = inputTotalPrice[2].value * vaznVaraghMasrafiResult;
 
-                valueSection[4].innerText = 2;
-                totalPriceSection[4].innerText = Intl.NumberFormat().format(inputTotalPrice[4].value * 2);
-                let price4 = inputTotalPrice[4].value * 2;
+                valueSection[3].innerText = vaznNoghreMasrafiResult.toFixed(4);
+                totalPriceSection[3].innerText = Intl.NumberFormat().format(inputTotalPrice[3].value * vaznNoghreMasrafiResult);
+                let price3 = inputTotalPrice[3].value * vaznNoghreMasrafiResult;
+
+                valueSection[4].innerText = vaznBerenjMasrafiResult;
+                totalPriceSection[4].innerText = Intl.NumberFormat().format(inputTotalPrice[4].value * vaznBerenjMasrafiResult);
+                let price4 = inputTotalPrice[4].value * vaznBerenjMasrafiResult;
 
                 valueSection[5].innerText = 2;
                 totalPriceSection[5].innerText = Intl.NumberFormat().format(inputTotalPrice[5].value * 2);
@@ -128,9 +290,9 @@
                 totalPriceSection[7].innerText = Intl.NumberFormat().format(inputTotalPrice[7].value * tinerResult);
                 let price7 = inputTotalPrice[7].value * tinerResult;
 
-                valueSection[8].innerText = 1;
-                totalPriceSection[8].innerText = Intl.NumberFormat().format(inputTotalPrice[8].value * 1);
-                let price8 = inputTotalPrice[8].value * 1;
+                valueSection[8].innerText = 12;
+                totalPriceSection[8].innerText = Intl.NumberFormat().format(inputTotalPrice[8].value * 12);
+                let price8 = inputTotalPrice[8].value * 12;
 
                 valueSection[9].innerText = flaksMayeMasrafiResult.toFixed(4);
                 totalPriceSection[9].innerText = Intl.NumberFormat().format(inputTotalPrice[9].value * flaksMayeMasrafiResult);
@@ -140,13 +302,25 @@
                 totalPriceSection[10].innerText = Intl.NumberFormat().format(inputTotalPrice[10].value * 0.2);
                 let price10 = inputTotalPrice[10].value * 0.2;
 
-                valueSection[11].innerText = 1;
-                totalPriceSection[11].innerText = Intl.NumberFormat().format(inputTotalPrice[11].value * 1);
-                let price11 = inputTotalPrice[11].value * 1;
+                valueSection[11].innerText = roghaneTabkhirShavandeResult;
+                totalPriceSection[11].innerText = Intl.NumberFormat().format(inputTotalPrice[11].value * roghaneTabkhirShavandeResult);
+                let price11 = inputTotalPrice[11].value * roghaneTabkhirShavandeResult;
 
-                valueSection[14].innerText = 20;
-                totalPriceSection[14].innerText = Intl.NumberFormat().format(inputTotalPrice[14].value * 20);
-                let price14 = inputTotalPrice[14].value * 20;
+                valueSection[12].innerText = oxygenMasrafiResult;
+                totalPriceSection[12].innerText = Intl.NumberFormat().format(inputTotalPrice[12].value * oxygenMasrafiResult);
+                let price12 = inputTotalPrice[12].value * oxygenMasrafiResult;
+
+                valueSection[13].innerText = azotResult;
+                totalPriceSection[13].innerText = Intl.NumberFormat().format(inputTotalPrice[13].value * azotResult);
+                let price13 = inputTotalPrice[13].value * azotResult;
+
+                valueSection[14].innerText = abeMasrafiResult;
+                totalPriceSection[14].innerText = Intl.NumberFormat().format(inputTotalPrice[14].value * abeMasrafiResult);
+                let price14 = inputTotalPrice[14].value * abeMasrafiResult;
+
+                valueSection[15].innerText = 0.11;
+                totalPriceSection[15].innerText = Intl.NumberFormat().format(inputTotalPrice[15].value * 0.11);
+                let price15 = inputTotalPrice[15].value * 0.11;
 
                 valueSection[16].innerText = looleMessiResult.toFixed(4);
                 totalPriceSection[16].innerText = Intl.NumberFormat().format(inputTotalPrice[16].value * looleMessiResult);
@@ -156,11 +330,28 @@
                 totalPriceSection[17].innerText = Intl.NumberFormat().format(inputTotalPrice[17].value * vaznFinAlResult);
                 let price17 = inputTotalPrice[17].value * vaznFinAlResult;
 
+                valueSection[18].innerText = looleMessi316Result.toFixed(4);
+                totalPriceSection[18].innerText = Intl.NumberFormat().format(inputTotalPrice[18].value * looleMessi316Result);
+                let price18 = inputTotalPrice[18].value * looleMessi316Result;
+
+                valueSection[19].innerText = collectorMessiResult.toFixed(4);
+                totalPriceSection[19].innerText = Intl.NumberFormat().format(inputTotalPrice[19].value * collectorMessiResult);
+                let price19 = inputTotalPrice[19].value * collectorMessiResult;
+
+                valueSection[20].innerText = collectorAhaniResult.toFixed(4);
+                totalPriceSection[20].innerText = Intl.NumberFormat().format(inputTotalPrice[20].value * collectorAhaniResult);
+                let price20 = inputTotalPrice[20].value * collectorAhaniResult;
+
+                valueSection[21].innerText = khamCoilResult.toFixed(4);
+                totalPriceSection[21].innerText = Intl.NumberFormat().format(inputTotalPrice[21].value * khamCoilResult);
+                let price21 = inputTotalPrice[21].value * khamCoilResult;
+
                 let finalPriceSection = document.getElementById('finalPriceSection');
                 let inputFinalPrice = document.getElementById('inputFinalPrice');
 
-                finalPrice = price0 + price1 + price2 + price4 + price5 + price6 + price7 + price8 + price9
-                    + price10 + price11 + price14 + price16 + price17;
+                finalPrice = price0 + price1 + price2 + price3 + price4 + price5 + price6 + price7 + price8 + price9
+                    + price10 + price11 + price12 + price13 + price14 + price15 + price16 + price17 + price18 + price19
+                    + price20 + price21;
 
                 finalPriceSection.innerText = Intl.NumberFormat().format(finalPrice);
                 inputFinalPrice.value = finalPrice;
@@ -170,6 +361,8 @@
                 let looleMessiNameSection = document.getElementById('nameSection16');
                 let looleMessiPriceSection = document.getElementById('priceSection16');
                 let looleMessiUnitSection = document.getElementById('unitSection16');
+                let uMessiNameSection = document.getElementById('nameSection0');
+                let uMessiPriceSection = document.getElementById('priceSection0');
 
                 $.ajaxSetup({
                     headers: {
@@ -187,7 +380,18 @@
                         looleMessiNameSection.innerText = res.data.name;
                         looleMessiPriceSection.innerText = Intl.NumberFormat().format(res.data.price);
                         looleMessiUnitSection.innerText = res.data.unit;
-                        document.getElementById('inputTotalPrice16').value = res.data.price
+
+                        document.getElementById('inputTotalPrice16').value = res.data.price;
+
+                        if (res.data.code === '5805' || res.data.code === '58063') {
+                            uMessiNameSection.innerText = '{{ \App\Models\Part::where('code',58085)->first()->name }}';
+                            uMessiPriceSection.innerText = '{{ number_format(\App\Models\Part::where('code',58085)->first()->price) }}'
+                        }
+
+                        if (res.data.code === '3804' || res.data.code === '3805' || res.data.code === '38035') {
+                            uMessiNameSection.innerText = '{{ \App\Models\Part::where('code',38053)->first()->name }}';
+                            uMessiPriceSection.innerText = '{{ number_format(\App\Models\Part::where('code',38053)->first()->price) }}'
+                        }
                     }
                 });
             }
@@ -214,6 +418,84 @@
                         finCoilPriceSection.innerText = Intl.NumberFormat().format(res.data.price);
                         finCoilUnitSection.innerText = res.data.unit;
                         document.getElementById('inputTotalPrice17').value = res.data.price
+                    }
+                });
+            }
+
+            function sendDataCollectorAhani(id) {
+                let collectorAhaniNameSection = document.getElementById('nameSection20');
+                let collectorAhaniPriceSection = document.getElementById('priceSection20');
+                let collectorAhaniUnitSection = document.getElementById('unitSection20');
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('calculate.getData') }}',
+                    data: {
+                        id: id,
+                    },
+                    success: function (res) {
+                        collectorAhaniNameSection.innerText = res.data.name;
+                        collectorAhaniPriceSection.innerText = Intl.NumberFormat().format(res.data.price);
+                        collectorAhaniUnitSection.innerText = res.data.unit;
+                        document.getElementById('inputTotalPrice20').value = res.data.price
+                    }
+                });
+            }
+
+            function sendDataCollectorMessi(id) {
+                let collectorMessiNameSection = document.getElementById('nameSection19');
+                let collectorMessiPriceSection = document.getElementById('priceSection19');
+                let collectorMessiUnitSection = document.getElementById('unitSection19');
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('calculate.getData') }}',
+                    data: {
+                        id: id,
+                    },
+                    success: function (res) {
+                        collectorMessiNameSection.innerText = res.data.name;
+                        collectorMessiPriceSection.innerText = Intl.NumberFormat().format(res.data.price);
+                        collectorMessiUnitSection.innerText = res.data.unit;
+                        document.getElementById('inputTotalPrice19').value = res.data.price
+                    }
+                });
+            }
+
+            function sendDataVaraghGalvanize(id) {
+                let varaghGalvanizeNameSection = document.getElementById('nameSection2');
+                let varaghGalvanizePriceSection = document.getElementById('priceSection2');
+                let varaghGalvanizeUnitSection = document.getElementById('unitSection2');
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('calculate.getData') }}',
+                    data: {
+                        id: id,
+                    },
+                    success: function (res) {
+                        varaghGalvanizeNameSection.innerText = res.data.name;
+                        varaghGalvanizePriceSection.innerText = Intl.NumberFormat().format(res.data.price);
+                        varaghGalvanizeUnitSection.innerText = res.data.unit;
+                        document.getElementById('inputTotalPrice2').value = res.data.price
                     }
                 });
             }
@@ -256,10 +538,18 @@
 
     <div class="my-4">
         <div class="bg-white rounded-md shadow-md border border-gray-200 py-4 px-6">
-            <div class="mb-4 border-b border-gray-300 pb-3">
-                <p class="text-lg text-black">
-                    اطلاعات ورودی {{ $part->name }}
-                </p>
+            <div class="mb-4 border-b border-gray-300 pb-3 flex justify-between items-center">
+                <div>
+                    <p class="text-lg text-black">
+                        اطلاعات ورودی {{ $part->name }}
+                    </p>
+                </div>
+                <div>
+                    <p class="bg-indigo-500 rounded-md px-6 py-2 text-sm font-bold text-white">
+                        سطح کویل :
+                        <span id="satheCoil"></span>
+                    </p>
+                </div>
             </div>
             <div class="grid grid-cols-4 gap-4">
                 <div>
@@ -305,6 +595,18 @@
                         <option value="{{ \App\Models\Part::where('code','1001001')->first()->id }}">
                             {{ \App\Models\Part::where('code','1001001')->first()->name }}
                         </option>
+                        <option value="{{ \App\Models\Part::where('code','100100100')->first()->id }}">
+                            {{ \App\Models\Part::where('code','100100100')->first()->name }}
+                        </option>
+                        <option value="{{ \App\Models\Part::where('code','130130130')->first()->id }}">
+                            {{ \App\Models\Part::where('code','130130130')->first()->name }}
+                        </option>
+                        <option value="{{ \App\Models\Part::where('code','140140140')->first()->id }}">
+                            {{ \App\Models\Part::where('code','140140140')->first()->name }}
+                        </option>
+                        <option value="{{ \App\Models\Part::where('code','150150150')->first()->id }}">
+                            {{ \App\Models\Part::where('code','150150150')->first()->name }}
+                        </option>
                     </select>
                 </div>
                 <div>
@@ -332,9 +634,8 @@
 
                 <div>
                     <label class="block mb-2 text-sm font-bold" for="inputKham">خم کویل</label>
-                    <select name="" id="inputKham" class="input-text">
-                        <option value="">انتخاب کنید</option>
-                        <option value="0">ندارد</option>
+                    <select name="" id="inputKham" class="input-text" onchange="calculate()">
+                        <option value="0" selected>ندارد</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -358,13 +659,27 @@
                     <label class="block mb-2 text-sm font-bold" for="inputZekhamatFrame">ضخامت فریم کویل</label>
                     <select name="" id="inputZekhamatFrame" class="input-text" onchange="calculate()">
                         <option value="">انتخاب کنید</option>
-                        <option value="1">ورق گالوانیزه به ضخامت 1 میلیمتر</option>
-                        <option value="1.25">ورق گالوانیزه به ضخامت 1.25 میلیمتر</option>
-                        <option value="1.5">ورق گالوانیزه به ضخامت 1.5 میلیمتر</option>
-                        <option value="2">ورق گالوانیزه به ضخامت 2 میلیمتر</option>
-                        <option value="2.5">ورق گالوانیزه به ضخامت 2.5 میلیمتر</option>
-                        <option value="3">ورق گالوانیزه به ضخامت 3 میلیمتر</option>
-                        <option value="4">ورق گالوانیزه به ضخامت 4 میلیمتر</option>
+                        <option value="{{ \App\Models\Part::where('code','1222')->first()->id }}">
+                            {{ \App\Models\Part::where('code','1222')->first()->name }}
+                        </option>
+                        <option value="{{ \App\Models\Part::where('code','125222')->first()->id }}">
+                            {{ \App\Models\Part::where('code','125222')->first()->name }}
+                        </option>
+                        <option value="{{ \App\Models\Part::where('code','15222')->first()->id }}">
+                            {{ \App\Models\Part::where('code','15222')->first()->name }}
+                        </option>
+                        <option value="{{ \App\Models\Part::where('code','2222')->first()->id }}">
+                            {{ \App\Models\Part::where('code','2222')->first()->name }}
+                        </option>
+                        <option value="{{ \App\Models\Part::where('code','25222')->first()->id }}">
+                            {{ \App\Models\Part::where('code','25222')->first()->name }}
+                        </option>
+                        <option value="{{ \App\Models\Part::where('code','3222')->first()->id }}">
+                            {{ \App\Models\Part::where('code','3222')->first()->name }}
+                        </option>
+                        <option value="{{ \App\Models\Part::where('code','4222')->first()->id }}">
+                            {{ \App\Models\Part::where('code','4222')->first()->name }}
+                        </option>
                     </select>
                 </div>
 
@@ -380,34 +695,72 @@
 
                 <div class="col-span-2">
                     <label class="block mb-2 text-sm font-bold" for="inputCollectorAhani">هدر و کلکتور آهنی</label>
-                    <select name="" id="inputCollectorAhani" class="input-text">
+                    <select name="" id="inputCollectorAhani" class="input-text" onchange="calculate()">
                         <option value="">انتخاب کنید</option>
-                        <option value="0">کلکتور آهنی سایز 1 اینچ</option>
-                        <option value="1">کلکتور آهنی سایز 1/4-1 اینچ</option>
-                        <option value="2">کلکتور آهنی سایز 1/2-1 اینچ</option>
-                        <option value="3">کلکتور آهنی سایز 2 اینچ</option>
-                        <option value="4">کلکتور آهنی سایز 1/2-2 اینچ</option>
-                        <option value="5">کلکتور آهنی سایز 3 اینچ</option>
-                        <option value="6">کلکتور آهنی سایز 4 اینچ</option>
+                        <option value="{{ \App\Models\Part::where('code','111000')->first()->id }}">
+                            {{ \App\Models\Part::where('code','111000')->first()->name }}
+                        </option>
+                        <option value="{{ \App\Models\Part::where('code','114000')->first()->id }}">
+                            {{ \App\Models\Part::where('code','114000')->first()->name }}
+                        </option>
+                        <option value="{{ \App\Models\Part::where('code','112000')->first()->id }}">
+                            {{ \App\Models\Part::where('code','112000')->first()->name }}
+                        </option>
+                        <option value="{{ \App\Models\Part::where('code','222000')->first()->id }}">
+                            {{ \App\Models\Part::where('code','222000')->first()->name }}
+                        </option>
+                        <option value="{{ \App\Models\Part::where('code','212000')->first()->id }}">
+                            {{ \App\Models\Part::where('code','212000')->first()->name }}
+                        </option>
+                        <option value="{{ \App\Models\Part::where('code','333000')->first()->id }}">
+                            {{ \App\Models\Part::where('code','333000')->first()->name }}
+                        </option>
+                        <option value="{{ \App\Models\Part::where('code','444000')->first()->id }}">
+                            {{ \App\Models\Part::where('code','444000')->first()->name }}
+                        </option>
                     </select>
                 </div>
 
                 <div class="col-span-2">
                     <label class="block mb-2 text-sm font-bold" for="inputCollectorMessi">هدر و کلکتور مسی</label>
-                    <select name="" id="inputCollectorMessi" class="input-text">
+                    <select name="" id="inputCollectorMessi" class="input-text" onchange="calculate()">
                         <option value="">انتخاب کنید</option>
-                        <option value="0">کلکتور مسی سایز 3/8 اینچ</option>
-                        <option value="1">کلکتور مسی سایز 1/2 اینچ</option>
-                        <option value="2">کلکتور مسی سایز 5/8 اینچ</option>
-                        <option value="3">کلکتور مسی سایز 7/8 اینچ</option>
-                        <option value="4">کلکتور مسی سایز 1/8-1 اینچ</option>
-                        <option value="5">کلکتور مسی سایز 3/8-1 اینچ</option>
-                        <option value="6">کلکتور مسی سایز 5/8-1 اینچ</option>
-                        <option value="7">کلکتور مسی سایز 1/8-2 اینچ</option>
-                        <option value="8">کلکتور مسی سایز 5/8-2 اینچ</option>
-                        <option value="9">کلکتور مسی سایز 1/8-3 اینچ</option>
-                        <option value="10">کلکتور مسی سایز 5/8-3 اینچ</option>
-                        <option value="11">کلکتور مسی سایز 1/8-4 اینچ</option>
+                        <option value="{{ \App\Models\Part::where('code','38000')->first()->id }}">
+                            {{ \App\Models\Part::where('code','38000')->first()->name }}
+                        </option>
+                        <option value="{{ \App\Models\Part::where('code','12000')->first()->id }}">
+                            {{ \App\Models\Part::where('code','12000')->first()->name }}
+                        </option>
+                        <option value="{{ \App\Models\Part::where('code','58000')->first()->id }}">
+                            {{ \App\Models\Part::where('code','58000')->first()->name }}
+                        </option>
+                        <option value="{{ \App\Models\Part::where('code','78000')->first()->id }}">
+                            {{ \App\Models\Part::where('code','78000')->first()->name }}
+                        </option>
+                        <option value="{{ \App\Models\Part::where('code','118000')->first()->id }}">
+                            {{ \App\Models\Part::where('code','118000')->first()->name }}
+                        </option>
+                        <option value="{{ \App\Models\Part::where('code','138000')->first()->id }}">
+                            {{ \App\Models\Part::where('code','138000')->first()->name }}
+                        </option>
+                        <option value="{{ \App\Models\Part::where('code','158000')->first()->id }}">
+                            {{ \App\Models\Part::where('code','158000')->first()->name }}
+                        </option>
+                        <option value="{{ \App\Models\Part::where('code','218000')->first()->id }}">
+                            {{ \App\Models\Part::where('code','218000')->first()->name }}
+                        </option>
+                        <option value="{{ \App\Models\Part::where('code','258000')->first()->id }}">
+                            {{ \App\Models\Part::where('code','258000')->first()->name }}
+                        </option>
+                        <option value="{{ \App\Models\Part::where('code','318000')->first()->id }}">
+                            {{ \App\Models\Part::where('code','318000')->first()->name }}
+                        </option>
+                        <option value="{{ \App\Models\Part::where('code','358000')->first()->id }}">
+                            {{ \App\Models\Part::where('code','358000')->first()->name }}
+                        </option>
+                        <option value="{{ \App\Models\Part::where('code','418000')->first()->id }}">
+                            {{ \App\Models\Part::where('code','418000')->first()->name }}
+                        </option>
                     </select>
                 </div>
 
@@ -425,7 +778,8 @@
                     <label class="block mb-2 text-sm font-bold" for="inputTedadMogheyiatLooleDarRadif">
                         تعداد موقعیت یک لوله در ردیف
                     </label>
-                    <input type="text" class="input-text" id="inputTedadMogheyiatLooleDarRadif">
+                    <input type="text" class="input-text" id="inputTedadMogheyiatLooleDarRadif" onkeyup="calculate()"
+                           value="0">
                 </div>
 
                 <div>

@@ -89,10 +89,12 @@
                         foreach($group->parts as $part)
                         {
                             $amount = $product->amounts()->where('part_id',$part->id)->first();
-                            if ($amount->price > 0){
+                            if ($amount){
+                                if ($amount->price > 0){
                                 $totalGroupPrice += ($part->price * $amount->value) + ($amount->price * $amount->value);
                             } else {
                                 $totalGroupPrice += ($part->price * $amount->value);
+                            }
                             }
                         }
                         if(!$modell->parts->isEmpty())
@@ -100,10 +102,12 @@
                             foreach($modell->parts as $part)
                             {
                                 $amount = $product->amounts()->where('part_id',$part->id)->first();
-                                if ($amount->price > 0){
+                                if ($amount){
+                                    if ($amount->price > 0){
                                     $totalModellPrice += ($part->price * $amount->value) + ($amount->price * $amount->value);
                                 } else {
                                     $totalModellPrice += ($part->price * $amount->value);
+                                }
                                 }
                             }
                         }

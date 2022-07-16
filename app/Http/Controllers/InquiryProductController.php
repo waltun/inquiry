@@ -155,10 +155,12 @@ class InquiryProductController extends Controller
         if (!$modell->parts->isEmpty()) {
             foreach ($modell->parts as $part) {
                 $amount = $product->amounts()->where('part_id', $part->id)->first();
-                if ($amount->price > 0) {
-                    $totalModellPrice += ($part->price * $amount->value) + ($amount->price * $amount->value);
-                } else {
-                    $totalModellPrice += ($part->price * $amount->value);
+                if ($amount) {
+                    if ($amount->price > 0) {
+                        $totalModellPrice += ($part->price * $amount->value) + ($amount->price * $amount->value);
+                    } else {
+                        $totalModellPrice += ($part->price * $amount->value);
+                    }
                 }
             }
         }
@@ -197,10 +199,12 @@ class InquiryProductController extends Controller
         if (!$modell->parts->isEmpty()) {
             foreach ($modell->parts as $part) {
                 $amount = $product->amounts()->where('part_id', $part->id)->first();
-                if ($amount->price > 0) {
-                    $totalModellPrice += ($part->price * $amount->value) + ($amount->price * $amount->value);
-                } else {
-                    $totalModellPrice += ($part->price * $amount->value);
+                if ($amount) {
+                    if ($amount->price > 0) {
+                        $totalModellPrice += ($part->price * $amount->value) + ($amount->price * $amount->value);
+                    } else {
+                        $totalModellPrice += ($part->price * $amount->value);
+                    }
                 }
             }
         }

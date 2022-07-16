@@ -109,10 +109,12 @@
                     @foreach($group->parts as $part)
                         @php
                             $amount = $product->amounts()->where('part_id',$part->id)->first();
-                            if ($amount->price > 0){
-                                $totalGroupPrice += ($part->price * $amount->value) + ($amount->price * $amount->value);
-                            } else {
-                                $totalGroupPrice += ($part->price * $amount->value);
+                            if($amount){
+                                if ($amount->price > 0){
+                                    $totalGroupPrice += ($part->price * $amount->value) + ($amount->price * $amount->value);
+                                } else {
+                                    $totalGroupPrice += ($part->price * $amount->value);
+                                }
                             }
                         @endphp
                         <tr>
@@ -149,8 +151,12 @@
                         @foreach($modell->parts as $part)
                             @php
                                 $amount = $product->amounts()->where('part_id',$part->id)->first();
-                                if ($amount){
-                                    $totalModellPrice += ($part->price * $amount->value);
+                                if($amount){
+                                    if ($amount->price > 0){
+                                        $totalModellPrice += ($part->price * $amount->value) + ($amount->price * $amount->value);
+                                    } else {
+                                        $totalModellPrice += ($part->price * $amount->value);
+                                    }
                                 }
                             @endphp
                             <tr>
@@ -167,7 +173,7 @@
                                     {{ number_format($part->price) }} تومان
                                 </td>
                                 <td class="border border-gray-300 p-4 text-sm text-center">
-                                    {{ $amount->value }}
+                                    {{ $amount->value ?? '' }}
                                 </td>
                                 <td class="border border-gray-300 p-4 text-sm text-center font-bold">
                                     {{ number_format($part->price * $amount->value) }} تومان
