@@ -2,6 +2,115 @@
 
     <x-slot name="js">
         <script src="{{ asset('plugins/jquery.min.js') }}"></script>
+        <script>
+            let valueSection = [];
+            let totalPriceSection = [];
+            let inputTotalPrice = [];
+            for (let i = 0; i < 12; i++) {
+                valueSection[i] = document.getElementById('valueSection' + i);
+                totalPriceSection[i] = document.getElementById('totalPriceSection' + i);
+                inputTotalPrice[i] = document.getElementById('inputTotalPrice' + i);
+            }
+
+            function calculate() {
+                let debiHavaRaft = parseFloat(document.getElementById("inputDebiHavaRaft").value);
+                let debiHavaBargasht = parseFloat(document.getElementById("inputDebiHavaBargasht").value);
+                let debiHavaTaze = parseFloat(document.getElementById("inputDebiHavaTaze").value);
+                let debiHavaExast = parseFloat(document.getElementById("inputDebiHavaExast").value);
+                let soratTazeBargashtExast = parseFloat(document.getElementById("inputSoratTazeBargashtExast").value);
+                let soratHavaDamperRaft = parseFloat(document.getElementById("inputSoratHavaDamperRaft").value);
+                let tedadPare = parseFloat(document.getElementById("inputTedadPare").value);
+
+                let toolePareSection = document.getElementById("toolePare");
+                let finalPriceSection = document.getElementById("finalPriceSection");
+                let inputFinalPrice = document.getElementById('inputFinalPrice');
+
+                //Formula
+                let toolePareResult = (((debiHavaTaze / 800) / 10.7639) / tedadPare) * 1000;
+                toolePareSection.innerText = toolePareResult.toFixed(4);
+
+                let profilPareHaResult = ((tedadPare * toolePareResult) / 100);
+
+                let profilSotoonHaResult = ((2 * (6 + (tedadPare * 10)) + 2 * (6 + toolePareResult)) / 100) * 0.85;
+
+                let profilBalaPayinResult = (((toolePareResult * 2) + 6) / 100) * 0.85;
+
+                let charkhDandeResult;
+                if (toolePareResult <= 120) {
+                    charkhDandeResult = tedadPare
+                } else {
+                    charkhDandeResult = tedadPare * 2;
+                }
+
+                let keshoyiRastResult = charkhDandeResult;
+
+                let keshoyiChapResult = charkhDandeResult;
+
+                let dastgireDamperResult;
+                if (toolePareResult <= 120) {
+                    dastgireDamperResult = 1;
+                } else {
+                    dastgireDamperResult = 2;
+                }
+
+                let kharAhaniDastgireResult = dastgireDamperResult;
+
+                let pvcChapResult = charkhDandeResult;
+
+                let pvcRastResult = charkhDandeResult;
+
+                let pin4PahlooResult = charkhDandeResult * 2;
+
+                let gerdiResult = charkhDandeResult;
+
+                let navarHavaBandiResult = profilPareHaResult + profilSotoonHaResult;
+
+                valueSection[0].innerText = pvcChapResult.toFixed(4);
+                totalPriceSection[0].innerText = Intl.NumberFormat().format(inputTotalPrice[0].value * pvcChapResult);
+                let price0 = inputTotalPrice[0].value * pvcChapResult;
+
+                valueSection[1].innerText = pvcRastResult.toFixed(4);
+                totalPriceSection[1].innerText = Intl.NumberFormat().format(inputTotalPrice[1].value * pvcRastResult);
+                let price1 = inputTotalPrice[1].value * pvcRastResult;
+
+                valueSection[2].innerText = navarHavaBandiResult.toFixed(4);
+                totalPriceSection[2].innerText = Intl.NumberFormat().format(inputTotalPrice[2].value * navarHavaBandiResult);
+                let price2 = inputTotalPrice[2].value * navarHavaBandiResult;
+
+                valueSection[3].innerText = gerdiResult.toFixed(4);
+                totalPriceSection[3].innerText = Intl.NumberFormat().format(inputTotalPrice[3].value * gerdiResult);
+                let price3 = inputTotalPrice[3].value * gerdiResult;
+
+                valueSection[4].innerText = pin4PahlooResult.toFixed(4);
+                totalPriceSection[4].innerText = Intl.NumberFormat().format(inputTotalPrice[4].value * pin4PahlooResult);
+                let price4 = inputTotalPrice[4].value * pin4PahlooResult;
+
+                valueSection[5].innerText = dastgireDamperResult.toFixed(4);
+                totalPriceSection[5].innerText = Intl.NumberFormat().format(inputTotalPrice[5].value * dastgireDamperResult);
+                let price5 = inputTotalPrice[5].value * dastgireDamperResult;
+
+                valueSection[6].innerText = keshoyiChapResult.toFixed(4);
+                totalPriceSection[6].innerText = Intl.NumberFormat().format(inputTotalPrice[6].value * keshoyiChapResult);
+                let price6 = inputTotalPrice[6].value * keshoyiChapResult;
+
+                valueSection[7].innerText = keshoyiRastResult.toFixed(4);
+                totalPriceSection[7].innerText = Intl.NumberFormat().format(inputTotalPrice[7].value * keshoyiRastResult);
+                let price7 = inputTotalPrice[7].value * keshoyiRastResult;
+
+                valueSection[8].innerText = charkhDandeResult.toFixed(4);
+                totalPriceSection[8].innerText = Intl.NumberFormat().format(inputTotalPrice[8].value * charkhDandeResult);
+                let price8 = inputTotalPrice[8].value * charkhDandeResult;
+
+                valueSection[9].innerText = profilBalaPayinResult.toFixed(4);
+                totalPriceSection[9].innerText = Intl.NumberFormat().format(inputTotalPrice[9].value * profilBalaPayinResult);
+                let price9 = inputTotalPrice[9].value * profilBalaPayinResult;
+
+                finalPrice = price0 + price1 + price2 + price3 + price4 + price5 + price6 + price7 + price8 + price9
+
+                finalPriceSection.innerText = Intl.NumberFormat().format(finalPrice);
+                inputFinalPrice.value = finalPrice;
+            }
+        </script>
     </x-slot>
 
     <!-- Breadcrumb -->
@@ -75,14 +184,16 @@
                     <label class="block mb-2 text-sm font-bold" for="inputSoratTazeBargashtExast">
                         سرعت هوا روی دمپر تازه و برگشت و اگزاست
                     </label>
-                    <input type="text" class="input-text" id="inputSoratTazeBargashtExast" onkeyup="calculate()">
+                    <input type="text" class="input-text" id="inputSoratTazeBargashtExast" onkeyup="calculate()"
+                           value="800">
                 </div>
 
                 <div class="col-span-2">
                     <label class="block mb-2 text-sm font-bold" for="inputSoratHavaDamperRaft">
                         سرعت هوا روی دمپر رفت
                     </label>
-                    <input type="text" class="input-text" id="inputSoratHavaDamperRaft" onkeyup="calculate()">
+                    <input type="text" class="input-text" id="inputSoratHavaDamperRaft" onkeyup="calculate()"
+                           value="1000">
                 </div>
 
                 <div class="col-span-4">
