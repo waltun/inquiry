@@ -372,7 +372,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: '{{ route('calculate.getData') }}',
+                    url: '{{ route('calculate.coil.getData') }}',
                     data: {
                         id: id,
                     },
@@ -409,7 +409,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: '{{ route('calculate.getData') }}',
+                    url: '{{ route('calculate.coil.getData') }}',
                     data: {
                         id: id,
                     },
@@ -435,7 +435,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: '{{ route('calculate.getData') }}',
+                    url: '{{ route('calculate.coil.getData') }}',
                     data: {
                         id: id,
                     },
@@ -461,7 +461,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: '{{ route('calculate.getData') }}',
+                    url: '{{ route('calculate.coil.getData') }}',
                     data: {
                         id: id,
                     },
@@ -487,7 +487,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: '{{ route('calculate.getData') }}',
+                    url: '{{ route('calculate.coil.getData') }}',
                     data: {
                         id: id,
                     },
@@ -799,7 +799,7 @@
     </div>
 
     <!-- Content -->
-    <form method="POST" action="{{ route('calculate.store',$part->id) }}" class="mt-4">
+    <form method="POST" action="{{ route('calculate.coil.store',$part->id) }}" class="mt-4">
         @csrf
 
         <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4">
@@ -857,7 +857,7 @@
             <button type="submit" class="form-submit-btn">
                 ثبت مقادیر
             </button>
-            <a href="#" class="form-cancel-btn">
+            <a href="{{ route('inquiries.index') }}" class="form-cancel-btn">
                 انصراف
             </a>
         </div>

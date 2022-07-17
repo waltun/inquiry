@@ -99,7 +99,12 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::resource('categories', CategoryController::class);
 
     //Calculate coil routes
-    Route::get('/calculate/{part}', [CalculateController::class, 'index'])->name('calculate.index');
-    Route::post('/calculate/{part}/post', [CalculateController::class, 'store'])->name('calculate.store');
-    Route::post('/calculate/getData', [CalculateController::class, 'getData'])->name('calculate.getData');
+    Route::get('/calculate/coil/{part}', [CalculateController::class, 'coil'])->name('calculate.coil.index');
+    Route::post('/calculate/coil/{part}/post', [CalculateController::class, 'storeCoil'])->name('calculate.coil.store');
+    Route::post('/calculate/coil/getData', [CalculateController::class, 'getDataCoil'])->name('calculate.coil.getData');
+
+    //Calculate damper routes
+    Route::get('/calculate/damper/{part}', [CalculateController::class, 'damper'])->name('calculate.damper.index');
+    Route::post('/calculate/damper/{part}/post', [CalculateController::class, 'storeDamper'])->name('calculate.damper.store');
+    Route::post('/calculate/damper/getData', [CalculateController::class, 'getDataDamper'])->name('calculate.damper.getData');
 });

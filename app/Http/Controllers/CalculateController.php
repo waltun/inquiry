@@ -7,12 +7,12 @@ use Illuminate\Http\Request;
 
 class CalculateController extends Controller
 {
-    public function index(Part $part)
+    public function coil(Part $part)
     {
-        return view('calculate.index', compact('part'));
+        return view('calculate.coil', compact('part'));
     }
 
-    public function store(Request $request, Part $part)
+    public function storeCoil(Request $request, Part $part)
     {
         $request->session()->put('price' . $part->id, $request->final_price);
 
@@ -21,9 +21,14 @@ class CalculateController extends Controller
         return redirect()->route('inquiries.index');
     }
 
-    public function getData(Request $request)
+    public function getDataCoil(Request $request)
     {
         $part = Part::find($request->id);
         return response(['data' => $part]);
+    }
+
+    public function damper(Part $part)
+    {
+        return view('calculate.damper', compact('part'));
     }
 }

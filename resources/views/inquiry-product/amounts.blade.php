@@ -93,6 +93,7 @@
                 <tbody>
                 @php
                     $amounts = \App\Models\Amount::where('product_id', $product->id)->get();
+                    $specials = \App\Models\Special::all()->pluck('part_id')->toArray();
                 @endphp
                 @if(!$amounts->isEmpty())
                     @foreach($amounts as $amount)
@@ -124,11 +125,20 @@
                                             @endif
                                         @endforeach
                                     </select>
-                                    @if($part->code == 100 || $part->code == 101 || $part->code == 102 || $part->code == 103)
+                                    @if(in_array($part->id,$specials))
                                         <div class="whitespace-nowrap mr-2">
-                                            <a href="{{ route('calculate.index',$part->id) }}" class="form-submit-btn">
-                                                محاسبه {{ $part->name }}
-                                            </a>
+                                            @if($part->code == 100 || $part->code == 101 || $part->code == 102 || $part->code == 103)
+                                                <a href="{{ route('calculate.coil.index',$part->id) }}"
+                                                   class="form-submit-btn">
+                                                    محاسبه {{ $part->name }}
+                                                </a>
+                                            @endif
+                                            @if($part->code == 120135)
+                                                <a href="{{ route('calculate.damper.index',$part->id) }}"
+                                                   class="form-submit-btn">
+                                                    محاسبه {{ $part->name }}
+                                                </a>
+                                            @endif
                                         </div>
                                     @endif
                                 @endif
@@ -169,11 +179,20 @@
                                         @endif
                                     @endforeach
                                 </select>
-                                @if($part->code == 100 || $part->code == 101 || $part->code == 102 || $part->code == 103)
+                                @if(in_array($part->id,$specials))
                                     <div class="whitespace-nowrap mr-2">
-                                        <a href="{{ route('calculate.index',$part->id) }}" class="form-submit-btn">
-                                            محاسبه {{ $part->name }}
-                                        </a>
+                                        @if($part->code == 100 || $part->code == 101 || $part->code == 102 || $part->code == 103)
+                                            <a href="{{ route('calculate.coil.index',$part->id) }}"
+                                               class="form-submit-btn">
+                                                محاسبه {{ $part->name }}
+                                            </a>
+                                        @endif
+                                        @if($part->code == 120135)
+                                            <a href="{{ route('calculate.damper.index',$part->id) }}"
+                                               class="form-submit-btn">
+                                                محاسبه {{ $part->name }}
+                                            </a>
+                                        @endif
                                     </div>
                                 @endif
                             </td>
