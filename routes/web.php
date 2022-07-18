@@ -99,7 +99,10 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::resource('categories', CategoryController::class);
 
     //Calculate coil routes
-    Route::get('/calculate/coil/{part}', [CalculateController::class, 'coil'])->name('calculate.coil.index');
+    Route::get('/calculate/coil/evaperator/{part}', [CalculateController::class, 'coilEvaperator'])->name('calculate.coilEvaperator.index');
+    Route::get('/calculate/coil/abi/{part}', [CalculateController::class, 'coilAbi'])->name('calculate.coilAbi.index');
+    Route::get('/calculate/coil/condensor/{part}', [CalculateController::class, 'coilCondensor'])->name('calculate.coilCondensor.index');
+    Route::get('/calculate/coil/fancoil/{part}', [CalculateController::class, 'coilFancoil'])->name('calculate.coilFancoil.index');
     Route::post('/calculate/coil/{part}/post', [CalculateController::class, 'storeCoil'])->name('calculate.coil.store');
     Route::post('/calculate/coil/getData', [CalculateController::class, 'getDataCoil'])->name('calculate.coil.getData');
 

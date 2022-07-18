@@ -199,8 +199,26 @@
                                 </select>
                                 @if(in_array($part->id,$specials))
                                     <div class="whitespace-nowrap mr-2">
-                                        @if($part->code == 100 || $part->code == 101 || $part->code == 102 || $part->code == 103)
-                                            <a href="{{ route('calculate.coil.index',$part->id) }}"
+                                        @if($part->code == 100)
+                                            <a href="{{ route('calculate.coilEvaperator.index',$part->id) }}"
+                                               class="form-submit-btn">
+                                                محاسبه {{ $part->name }}
+                                            </a>
+                                        @endif
+                                        @if($part->code == 101)
+                                            <a href="{{ route('calculate.coilCondensor.index',$part->id) }}"
+                                               class="form-submit-btn">
+                                                محاسبه {{ $part->name }}
+                                            </a>
+                                        @endif
+                                        @if($part->code == 102)
+                                            <a href="{{ route('calculate.coilAbi.index',$part->id) }}"
+                                               class="form-submit-btn">
+                                                محاسبه {{ $part->name }}
+                                            </a>
+                                        @endif
+                                        @if($part->code == 103)
+                                            <a href="{{ route('calculate.coilFancoil.index',$part->id) }}"
                                                class="form-submit-btn">
                                                 محاسبه {{ $part->name }}
                                             </a>

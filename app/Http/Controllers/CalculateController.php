@@ -7,9 +7,24 @@ use Illuminate\Http\Request;
 
 class CalculateController extends Controller
 {
-    public function coil(Part $part)
+    public function coilEvaperator(Part $part)
     {
-        return view('calculate.coil', compact('part'));
+        return view('calculate.coil.evaperator', compact('part'));
+    }
+
+    public function coilAbi(Part $part)
+    {
+        return view('calculate.coil.abi', compact('part'));
+    }
+
+    public function coilCondensor(Part $part)
+    {
+        return view('calculate.coil.condensor', compact('part'));
+    }
+
+    public function coilFancoil(Part $part)
+    {
+        return view('calculate.coil.fancoil', compact('part'));
     }
 
     public function storeCoil(Request $request, Part $part)
