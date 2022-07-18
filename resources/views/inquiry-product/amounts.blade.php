@@ -139,6 +139,24 @@
                                                     محاسبه {{ $part->name }}
                                                 </a>
                                             @endif
+                                            @if($part->code == 120120)
+                                                <a href="{{ route('calculate.damper.index',$part->id) }}"
+                                                   class="form-submit-btn">
+                                                    محاسبه {{ $part->name }}
+                                                </a>
+                                            @endif
+                                            @if($part->code == 130140)
+                                                <a href="{{ route('calculate.damper.index',$part->id) }}"
+                                                   class="form-submit-btn">
+                                                    محاسبه {{ $part->name }}
+                                                </a>
+                                            @endif
+                                            @if($part->code == 160160)
+                                                <a href="{{ route('calculate.damper.index',$part->id) }}"
+                                                   class="form-submit-btn">
+                                                    محاسبه {{ $part->name }}
+                                                </a>
+                                            @endif
                                         </div>
                                     @endif
                                 @endif
@@ -187,8 +205,27 @@
                                                 محاسبه {{ $part->name }}
                                             </a>
                                         @endif
+
                                         @if($part->code == 120135)
-                                            <a href="{{ route('calculate.damper.index',$part->id) }}"
+                                            <a href="{{ route('calculate.damperTaze.index',$part->id) }}"
+                                               class="form-submit-btn">
+                                                محاسبه {{ $part->name }}
+                                            </a>
+                                        @endif
+                                        @if($part->code == 120120)
+                                            <a href="{{ route('calculate.damperRaft.index',$part->id) }}"
+                                               class="form-submit-btn">
+                                                محاسبه {{ $part->name }}
+                                            </a>
+                                        @endif
+                                        @if($part->code == 130140)
+                                            <a href="{{ route('calculate.damperBargasht.index',$part->id) }}"
+                                               class="form-submit-btn">
+                                                محاسبه {{ $part->name }}
+                                            </a>
+                                        @endif
+                                        @if($part->code == 160160)
+                                            <a href="{{ route('calculate.damperExast.index',$part->id) }}"
                                                class="form-submit-btn">
                                                 محاسبه {{ $part->name }}
                                             </a>

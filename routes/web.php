@@ -104,7 +104,9 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/calculate/coil/getData', [CalculateController::class, 'getDataCoil'])->name('calculate.coil.getData');
 
     //Calculate damper routes
-    Route::get('/calculate/damper/{part}', [CalculateController::class, 'damper'])->name('calculate.damper.index');
+    Route::get('/calculate/damperTaze/{part}', [CalculateController::class, 'damperTaze'])->name('calculate.damperTaze.index');
+    Route::get('/calculate/damperRaft/{part}', [CalculateController::class, 'damperRaft'])->name('calculate.damperRaft.index');
+    Route::get('/calculate/damperBargasht/{part}', [CalculateController::class, 'damperBargasht'])->name('calculate.damperBargasht.index');
+    Route::get('/calculate/damperExast/{part}', [CalculateController::class, 'damperExast'])->name('calculate.damperExast.index');
     Route::post('/calculate/damper/{part}/post', [CalculateController::class, 'storeDamper'])->name('calculate.damper.store');
-    Route::post('/calculate/damper/getData', [CalculateController::class, 'getDataDamper'])->name('calculate.damper.getData');
 });

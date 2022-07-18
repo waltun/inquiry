@@ -13,12 +13,8 @@
             }
 
             function calculate() {
-                let debiHavaRaft = parseFloat(document.getElementById("inputDebiHavaRaft").value);
                 let debiHavaBargasht = parseFloat(document.getElementById("inputDebiHavaBargasht").value);
-                let debiHavaTaze = parseFloat(document.getElementById("inputDebiHavaTaze").value);
-                let debiHavaExast = parseFloat(document.getElementById("inputDebiHavaExast").value);
-                let soratTazeBargashtExast = parseFloat(document.getElementById("inputSoratTazeBargashtExast").value);
-                let soratHavaDamperRaft = parseFloat(document.getElementById("inputSoratHavaDamperRaft").value);
+                let soratBargasht = parseFloat(document.getElementById("inputSoratBargasht").value);
                 let tedadPare = parseFloat(document.getElementById("inputTedadPare").value);
 
                 let toolePareSection = document.getElementById("toolePare");
@@ -26,8 +22,8 @@
                 let inputFinalPrice = document.getElementById('inputFinalPrice');
 
                 //Formula
-                let toolePareResult = (((debiHavaTaze / 800) / 10.7639) / tedadPare) * 1000;
-                toolePareSection.innerText = toolePareResult.toFixed(4);
+                let toolePareResult = (((debiHavaBargasht / 800) / 10.7639) / tedadPare) * 1000;
+                toolePareSection.innerText = toolePareResult.toFixed(1);
 
                 let profilPareHaResult = ((tedadPare * toolePareResult) / 100);
 
@@ -159,44 +155,23 @@
                     <p class="bg-indigo-500 rounded-md px-6 py-2 text-sm font-bold text-white">
                         طول پره :
                         <span id="toolePare"></span>
+                        سانتیمتر
                     </p>
                 </div>
             </div>
-            <div class="grid grid-cols-4 gap-4">
-                <div>
-                    <label class="block mb-2 text-sm font-bold" for="inputDebiHavaRaft">دبی هوای رفت</label>
-                    <input type="text" class="input-text" id="inputDebiHavaRaft" onkeyup="calculate()">
-                </div>
+            <div class="grid grid-cols-3 gap-4">
                 <div>
                     <label class="block mb-2 text-sm font-bold" for="inputDebiHavaBargasht">دبی هوای برگشت</label>
                     <input type="text" class="input-text" id="inputDebiHavaBargasht" onkeyup="calculate()">
                 </div>
                 <div>
-                    <label class="block mb-2 text-sm font-bold" for="inputDebiHavaTaze">دبی هوای تازه</label>
-                    <input type="text" class="input-text" id="inputDebiHavaTaze" onkeyup="calculate()">
-                </div>
-                <div>
-                    <label class="block mb-2 text-sm font-bold" for="inputDebiHavaExast">دبی هوای اگزاست</label>
-                    <input type="text" class="input-text" id="inputDebiHavaExast" onkeyup="calculate()">
-                </div>
-
-                <div class="col-span-2">
-                    <label class="block mb-2 text-sm font-bold" for="inputSoratTazeBargashtExast">
-                        سرعت هوا روی دمپر تازه و برگشت و اگزاست
+                    <label class="block mb-2 text-sm font-bold" for="inputSoratBargasht">
+                        سرعت هوا روی دمپر برگشت
                     </label>
-                    <input type="text" class="input-text" id="inputSoratTazeBargashtExast" onkeyup="calculate()"
+                    <input type="text" class="input-text" id="inputSoratBargasht" onkeyup="calculate()"
                            value="800">
                 </div>
-
-                <div class="col-span-2">
-                    <label class="block mb-2 text-sm font-bold" for="inputSoratHavaDamperRaft">
-                        سرعت هوا روی دمپر رفت
-                    </label>
-                    <input type="text" class="input-text" id="inputSoratHavaDamperRaft" onkeyup="calculate()"
-                           value="1000">
-                </div>
-
-                <div class="col-span-4">
+                <div>
                     <label class="block mb-2 text-sm font-bold" for="inputTedadPare">
                         تعداد پره
                     </label>

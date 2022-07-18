@@ -27,8 +27,23 @@ class CalculateController extends Controller
         return response(['data' => $part]);
     }
 
-    public function damper(Part $part)
+    public function damperTaze(Part $part)
     {
-        return view('calculate.damper', compact('part'));
+        return view('calculate.damper.taze', compact('part'));
+    }
+
+    public function damperRaft(Part $part)
+    {
+        return view('calculate.damper.raft', compact('part'));
+    }
+
+    public function damperBargasht(Part $part)
+    {
+        return view('calculate.damper.bargasht', compact('part'));
+    }
+
+    public function damperExast(Part $part)
+    {
+        return view('calculate.damper.exast', compact('part'));
     }
 }
