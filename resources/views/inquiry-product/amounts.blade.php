@@ -127,36 +127,57 @@
                                     </select>
                                     @if(in_array($part->id,$specials))
                                         <div class="whitespace-nowrap mr-2">
-                                            @if($part->code == 100 || $part->code == 101 || $part->code == 102 || $part->code == 103)
-                                                <a href="{{ route('calculate.coil.index',$part->id) }}"
-                                                   class="form-submit-btn">
-                                                    محاسبه {{ $part->name }}
-                                                </a>
-                                            @endif
-                                            @if($part->code == 120135)
-                                                <a href="{{ route('calculate.damper.index',$part->id) }}"
-                                                   class="form-submit-btn">
-                                                    محاسبه {{ $part->name }}
-                                                </a>
-                                            @endif
-                                            @if($part->code == 120120)
-                                                <a href="{{ route('calculate.damper.index',$part->id) }}"
-                                                   class="form-submit-btn">
-                                                    محاسبه {{ $part->name }}
-                                                </a>
-                                            @endif
-                                            @if($part->code == 130140)
-                                                <a href="{{ route('calculate.damper.index',$part->id) }}"
-                                                   class="form-submit-btn">
-                                                    محاسبه {{ $part->name }}
-                                                </a>
-                                            @endif
-                                            @if($part->code == 160160)
-                                                <a href="{{ route('calculate.damper.index',$part->id) }}"
-                                                   class="form-submit-btn">
-                                                    محاسبه {{ $part->name }}
-                                                </a>
-                                            @endif
+                                            @switch($part->code)
+                                                @case(100)
+                                                    <a href="{{ route('calculateCoil.evaperator.index',$part->id) }}"
+                                                       class="form-submit-btn">
+                                                        محاسبه {{ $part->name }}
+                                                    </a>
+                                                    @break
+                                                @case(101)
+                                                    <a href="{{ route('calculateCoil.condensor.index',$part->id) }}"
+                                                       class="form-submit-btn">
+                                                        محاسبه {{ $part->name }}
+                                                    </a>
+                                                    @break
+                                                @case(102)
+                                                    <a href="{{ route('calculateCoil.abi.index',$part->id) }}"
+                                                       class="form-submit-btn">
+                                                        محاسبه {{ $part->name }}
+                                                    </a>
+                                                    @break
+                                                @case(103)
+                                                    <a href="{{ route('calculateCoil.fancoil.index',$part->id) }}"
+                                                       class="form-submit-btn">
+                                                        محاسبه {{ $part->name }}
+                                                    </a>
+                                                    @break
+
+                                                @case(120135)
+                                                    <a href="{{ route('calculateDamper.taze.index',$part->id) }}"
+                                                       class="form-submit-btn">
+                                                        محاسبه {{ $part->name }}
+                                                    </a>
+                                                    @break
+                                                @case(120120)
+                                                    <a href="{{ route('calculateDamper.raft.index',$part->id) }}"
+                                                       class="form-submit-btn">
+                                                        محاسبه {{ $part->name }}
+                                                    </a>
+                                                    @break
+                                                @case(130140)
+                                                    <a href="{{ route('calculateDamper.bargasht.index',$part->id) }}"
+                                                       class="form-submit-btn">
+                                                        محاسبه {{ $part->name }}
+                                                    </a>
+                                                    @break
+                                                @case(160160)
+                                                    <a href="{{ route('calculateDamper.exast.index',$part->id) }}"
+                                                       class="form-submit-btn">
+                                                        محاسبه {{ $part->name }}
+                                                    </a>
+                                                    @break
+                                            @endswitch
                                         </div>
                                     @endif
                                 @endif
@@ -199,55 +220,57 @@
                                 </select>
                                 @if(in_array($part->id,$specials))
                                     <div class="whitespace-nowrap mr-2">
-                                        @if($part->code == 100)
-                                            <a href="{{ route('calculate.coilEvaperator.index',$part->id) }}"
-                                               class="form-submit-btn">
-                                                محاسبه {{ $part->name }}
-                                            </a>
-                                        @endif
-                                        @if($part->code == 101)
-                                            <a href="{{ route('calculate.coilCondensor.index',$part->id) }}"
-                                               class="form-submit-btn">
-                                                محاسبه {{ $part->name }}
-                                            </a>
-                                        @endif
-                                        @if($part->code == 102)
-                                            <a href="{{ route('calculate.coilAbi.index',$part->id) }}"
-                                               class="form-submit-btn">
-                                                محاسبه {{ $part->name }}
-                                            </a>
-                                        @endif
-                                        @if($part->code == 103)
-                                            <a href="{{ route('calculate.coilFancoil.index',$part->id) }}"
-                                               class="form-submit-btn">
-                                                محاسبه {{ $part->name }}
-                                            </a>
-                                        @endif
+                                        @switch($part->code)
+                                            @case(100)
+                                                <a href="{{ route('calculateCoil.evaperator.index',$part->id) }}"
+                                                   class="form-submit-btn">
+                                                    محاسبه {{ $part->name }}
+                                                </a>
+                                                @break
+                                            @case(101)
+                                                <a href="{{ route('calculateCoil.condensor.index',$part->id) }}"
+                                                   class="form-submit-btn">
+                                                    محاسبه {{ $part->name }}
+                                                </a>
+                                                @break
+                                            @case(102)
+                                                <a href="{{ route('calculateCoil.abi.index',$part->id) }}"
+                                                   class="form-submit-btn">
+                                                    محاسبه {{ $part->name }}
+                                                </a>
+                                                @break
+                                            @case(103)
+                                                <a href="{{ route('calculateCoil.fancoil.index',$part->id) }}"
+                                                   class="form-submit-btn">
+                                                    محاسبه {{ $part->name }}
+                                                </a>
+                                                @break
 
-                                        @if($part->code == 120135)
-                                            <a href="{{ route('calculate.damperTaze.index',$part->id) }}"
-                                               class="form-submit-btn">
-                                                محاسبه {{ $part->name }}
-                                            </a>
-                                        @endif
-                                        @if($part->code == 120120)
-                                            <a href="{{ route('calculate.damperRaft.index',$part->id) }}"
-                                               class="form-submit-btn">
-                                                محاسبه {{ $part->name }}
-                                            </a>
-                                        @endif
-                                        @if($part->code == 130140)
-                                            <a href="{{ route('calculate.damperBargasht.index',$part->id) }}"
-                                               class="form-submit-btn">
-                                                محاسبه {{ $part->name }}
-                                            </a>
-                                        @endif
-                                        @if($part->code == 160160)
-                                            <a href="{{ route('calculate.damperExast.index',$part->id) }}"
-                                               class="form-submit-btn">
-                                                محاسبه {{ $part->name }}
-                                            </a>
-                                        @endif
+                                            @case(120135)
+                                                <a href="{{ route('calculateDamper.taze.index',$part->id) }}"
+                                                   class="form-submit-btn">
+                                                    محاسبه {{ $part->name }}
+                                                </a>
+                                                @break
+                                            @case(120120)
+                                                <a href="{{ route('calculateDamper.raft.index',$part->id) }}"
+                                                   class="form-submit-btn">
+                                                    محاسبه {{ $part->name }}
+                                                </a>
+                                                @break
+                                            @case(130140)
+                                                <a href="{{ route('calculateDamper.bargasht.index',$part->id) }}"
+                                                   class="form-submit-btn">
+                                                    محاسبه {{ $part->name }}
+                                                </a>
+                                                @break
+                                            @case(160160)
+                                                <a href="{{ route('calculateDamper.exast.index',$part->id) }}"
+                                                   class="form-submit-btn">
+                                                    محاسبه {{ $part->name }}
+                                                </a>
+                                                @break
+                                        @endswitch
                                     </div>
                                 @endif
                             </td>

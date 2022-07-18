@@ -1,7 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CalculateController;
+use App\Http\Controllers\CalculateCoilController;
+use App\Http\Controllers\CalculateDamperController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CollectionPartController;
 use App\Http\Controllers\DashboardController;
@@ -99,17 +100,17 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::resource('categories', CategoryController::class);
 
     //Calculate coil routes
-    Route::get('/calculate/coil/evaperator/{part}', [CalculateController::class, 'coilEvaperator'])->name('calculate.coilEvaperator.index');
-    Route::get('/calculate/coil/abi/{part}', [CalculateController::class, 'coilAbi'])->name('calculate.coilAbi.index');
-    Route::get('/calculate/coil/condensor/{part}', [CalculateController::class, 'coilCondensor'])->name('calculate.coilCondensor.index');
-    Route::get('/calculate/coil/fancoil/{part}', [CalculateController::class, 'coilFancoil'])->name('calculate.coilFancoil.index');
-    Route::post('/calculate/coil/{part}/post', [CalculateController::class, 'storeCoil'])->name('calculate.coil.store');
-    Route::post('/calculate/coil/getData', [CalculateController::class, 'getDataCoil'])->name('calculate.coil.getData');
+    Route::get('/calculate/coil/evaperator/{part}', [CalculateCoilController::class, 'evaperator'])->name('calculateCoil.evaperator.index');
+    Route::get('/calculate/coil/abi/{part}', [CalculateCoilController::class, 'abi'])->name('calculateCoil.abi.index');
+    Route::get('/calculate/coil/condensor/{part}', [CalculateCoilController::class, 'condensor'])->name('calculateCoil.condensor.index');
+    Route::get('/calculate/coil/fancoil/{part}', [CalculateCoilController::class, 'fancoil'])->name('calculateCoil.fancoil.index');
+    Route::post('/calculate/coil/{part}/post', [CalculateCoilController::class, 'store'])->name('calculateCoil.store');
+    Route::post('/calculate/coil/getData', [CalculateCoilController::class, 'getData'])->name('calculateCoil.getData');
 
     //Calculate damper routes
-    Route::get('/calculate/damperTaze/{part}', [CalculateController::class, 'damperTaze'])->name('calculate.damperTaze.index');
-    Route::get('/calculate/damperRaft/{part}', [CalculateController::class, 'damperRaft'])->name('calculate.damperRaft.index');
-    Route::get('/calculate/damperBargasht/{part}', [CalculateController::class, 'damperBargasht'])->name('calculate.damperBargasht.index');
-    Route::get('/calculate/damperExast/{part}', [CalculateController::class, 'damperExast'])->name('calculate.damperExast.index');
-    Route::post('/calculate/damper/{part}/post', [CalculateController::class, 'storeDamper'])->name('calculate.damper.store');
+    Route::get('/calculate/damperTaze/{part}', [CalculateDamperController::class, 'taze'])->name('calculateDamper.taze.index');
+    Route::get('/calculate/damperRaft/{part}', [CalculateDamperController::class, 'raft'])->name('calculateDamper.raft.index');
+    Route::get('/calculate/damperBargasht/{part}', [CalculateDamperController::class, 'bargasht'])->name('calculateDamper.bargasht.index');
+    Route::get('/calculate/damperExast/{part}', [CalculateDamperController::class, 'exast'])->name('calculateDamper.exast.index');
+    Route::post('/calculate/damper/{part}/post', [CalculateDamperController::class, 'store'])->name('calculateDamper.store');
 });
