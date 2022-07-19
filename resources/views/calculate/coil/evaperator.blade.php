@@ -259,92 +259,92 @@
 
                 //--------------------
                 valueSection[0].innerText = tedadUResult.toFixed(4);
-                totalPriceSection[0].innerText = Intl.NumberFormat().format(inputTotalPrice[0].value * tedadUResult);
                 let price0 = inputTotalPrice[0].value * tedadUResult;
+                totalPriceSection[0].innerText = Intl.NumberFormat().format(price0);
 
                 valueSection[1].innerText = tedadSoorakhPakhshKon.toFixed(4);
-                totalPriceSection[1].innerText = Intl.NumberFormat().format(inputTotalPrice[1].value * tedadSoorakhPakhshKon);
                 let price1 = inputTotalPrice[1].value * tedadSoorakhPakhshKon;
+                totalPriceSection[1].innerText = Intl.NumberFormat().format(price1);
 
                 valueSection[2].innerText = vaznVaraghMasrafiResult.toFixed(4);
-                totalPriceSection[2].innerText = Intl.NumberFormat().format(inputTotalPrice[2].value * vaznVaraghMasrafiResult);
                 let price2 = inputTotalPrice[2].value * vaznVaraghMasrafiResult;
+                totalPriceSection[2].innerText = Intl.NumberFormat().format(price2);
 
                 valueSection[3].innerText = vaznNoghreMasrafiResult.toFixed(4);
-                totalPriceSection[3].innerText = Intl.NumberFormat().format(inputTotalPrice[3].value * vaznNoghreMasrafiResult);
                 let price3 = inputTotalPrice[3].value * vaznNoghreMasrafiResult;
+                totalPriceSection[3].innerText = Intl.NumberFormat().format(price3);
 
                 valueSection[4].innerText = vaznBerenjMasrafiResult;
-                totalPriceSection[4].innerText = Intl.NumberFormat().format(inputTotalPrice[4].value * vaznBerenjMasrafiResult);
                 let price4 = inputTotalPrice[4].value * vaznBerenjMasrafiResult;
+                totalPriceSection[4].innerText = Intl.NumberFormat().format(price4);
 
                 valueSection[5].innerText = 2;
-                totalPriceSection[5].innerText = Intl.NumberFormat().format(inputTotalPrice[5].value * 2);
                 let price5 = inputTotalPrice[5].value * 2;
+                totalPriceSection[5].innerText = Intl.NumberFormat().format(price5);
 
                 valueSection[6].innerText = poosheshZedeKhordegiResult.toFixed(4);
-                totalPriceSection[6].innerText = Intl.NumberFormat().format(inputTotalPrice[6].value * poosheshZedeKhordegiResult);
                 let price6 = inputTotalPrice[6].value * poosheshZedeKhordegiResult;
+                totalPriceSection[6].innerText = Intl.NumberFormat().format(price6);
 
                 valueSection[7].innerText = tinerResult.toFixed(4);
-                totalPriceSection[7].innerText = Intl.NumberFormat().format(inputTotalPrice[7].value * tinerResult);
                 let price7 = inputTotalPrice[7].value * tinerResult;
+                totalPriceSection[7].innerText = Intl.NumberFormat().format(price7);
 
                 valueSection[8].innerText = 12;
-                totalPriceSection[8].innerText = Intl.NumberFormat().format(inputTotalPrice[8].value * 12);
                 let price8 = inputTotalPrice[8].value * 12;
+                totalPriceSection[8].innerText = Intl.NumberFormat().format(price8);
 
                 valueSection[9].innerText = flaksMayeMasrafiResult.toFixed(4);
-                totalPriceSection[9].innerText = Intl.NumberFormat().format(inputTotalPrice[9].value * flaksMayeMasrafiResult);
                 let price9 = inputTotalPrice[9].value * flaksMayeMasrafiResult;
+                totalPriceSection[9].innerText = Intl.NumberFormat().format(price9);
 
                 valueSection[10].innerText = 0.2;
-                totalPriceSection[10].innerText = Intl.NumberFormat().format(inputTotalPrice[10].value * 0.2);
                 let price10 = inputTotalPrice[10].value * 0.2;
+                totalPriceSection[10].innerText = Intl.NumberFormat().format(price10);
 
                 valueSection[11].innerText = roghaneTabkhirShavandeResult;
-                totalPriceSection[11].innerText = Intl.NumberFormat().format(inputTotalPrice[11].value * roghaneTabkhirShavandeResult);
                 let price11 = inputTotalPrice[11].value * roghaneTabkhirShavandeResult;
+                totalPriceSection[11].innerText = Intl.NumberFormat().format(price11);
 
                 valueSection[12].innerText = oxygenMasrafiResult;
-                totalPriceSection[12].innerText = Intl.NumberFormat().format(inputTotalPrice[12].value * oxygenMasrafiResult);
                 let price12 = inputTotalPrice[12].value * oxygenMasrafiResult;
+                totalPriceSection[12].innerText = Intl.NumberFormat().format(price12);
 
                 valueSection[13].innerText = azotResult;
-                totalPriceSection[13].innerText = Intl.NumberFormat().format(inputTotalPrice[13].value * azotResult);
                 let price13 = inputTotalPrice[13].value * azotResult;
+                totalPriceSection[13].innerText = Intl.NumberFormat().format(price13);
 
                 valueSection[14].innerText = abeMasrafiResult;
-                totalPriceSection[14].innerText = Intl.NumberFormat().format(inputTotalPrice[14].value * abeMasrafiResult);
                 let price14 = inputTotalPrice[14].value * abeMasrafiResult;
+                totalPriceSection[14].innerText = Intl.NumberFormat().format(price14);
 
                 valueSection[15].innerText = 0.11;
-                totalPriceSection[15].innerText = Intl.NumberFormat().format(inputTotalPrice[15].value * 0.11);
                 let price15 = inputTotalPrice[15].value * 0.11;
+                totalPriceSection[15].innerText = Intl.NumberFormat().format(price15);
 
                 valueSection[16].innerText = looleMessiResult.toFixed(4);
-                totalPriceSection[16].innerText = Intl.NumberFormat().format(inputTotalPrice[16].value * looleMessiResult);
                 let price16 = inputTotalPrice[16].value * looleMessiResult;
+                totalPriceSection[16].innerText = Intl.NumberFormat().format(price16);
 
                 valueSection[17].innerText = vaznFinAlResult.toFixed(4);
-                totalPriceSection[17].innerText = Intl.NumberFormat().format(inputTotalPrice[17].value * vaznFinAlResult);
                 let price17 = inputTotalPrice[17].value * vaznFinAlResult;
+                totalPriceSection[17].innerText = Intl.NumberFormat().format(price17);
 
                 valueSection[18].innerText = looleMessi316Result.toFixed(4);
-                totalPriceSection[18].innerText = Intl.NumberFormat().format(inputTotalPrice[18].value * looleMessi316Result);
                 let price18 = inputTotalPrice[18].value * looleMessi316Result;
+                totalPriceSection[18].innerText = Intl.NumberFormat().format(price18);
 
                 valueSection[19].innerText = collectorMessiResult.toFixed(4);
-                totalPriceSection[19].innerText = Intl.NumberFormat().format(inputTotalPrice[19].value * collectorMessiResult);
                 let price19 = inputTotalPrice[19].value * collectorMessiResult;
+                totalPriceSection[19].innerText = Intl.NumberFormat().format(price19);
 
                 valueSection[20].innerText = collectorAhaniResult.toFixed(4);
-                totalPriceSection[20].innerText = Intl.NumberFormat().format(inputTotalPrice[20].value * collectorAhaniResult);
                 let price20 = inputTotalPrice[20].value * collectorAhaniResult;
+                totalPriceSection[20].innerText = Intl.NumberFormat().format(price20);
 
                 valueSection[21].innerText = khamCoilResult.toFixed(4);
-                totalPriceSection[21].innerText = Intl.NumberFormat().format(inputTotalPrice[21].value * khamCoilResult);
                 let price21 = inputTotalPrice[21].value * khamCoilResult;
+                totalPriceSection[21].innerText = Intl.NumberFormat().format(price21);
 
                 let finalPriceSection = document.getElementById('finalPriceSection');
                 let inputFinalPrice = document.getElementById('inputFinalPrice');
