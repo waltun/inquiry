@@ -28,24 +28,29 @@
                 let tedadRadif = parseFloat(document.getElementById('inputTedadRadif').value);
                 let tedadMogheyiatLooleDarRadif = parseFloat(document.getElementById('inputTedadMogheyiatLooleDarRadif').value);
                 let tedadLooleDarRadif = parseFloat(document.getElementById('inputTedadLooleDarRadif').value);
-                let looleMessiId = document.getElementById('inputLooleMessi').value;
                 let tedadMadarLoole = parseFloat(document.getElementById('inputTedadMadarLoole').value);
-                let finCoilId = document.getElementById('inputFin').value;
+                let finDarInch = parseFloat(document.getElementById('inputFinDarInch').value);
+                let tedadSoorakhPakhshKon = parseFloat(document.getElementById('inputTedadSoorakhPakhshKon').value);
+                let khamCoilResult = parseFloat(document.getElementById('inputKham').value);
+
                 let collectorAhaniId = document.getElementById('inputCollectorAhani').value;
                 let collectorMessiId = document.getElementById('inputCollectorMessi').value;
                 let zekhamatFrameId = document.getElementById('inputZekhamatFrame').value;
-                let finDarInch = parseFloat(document.getElementById('inputFinDarInch').value);
-                let tedadSoorakhPakhshKon = parseFloat(document.getElementById('inputTedadSoorakhPakhshKon').value);
+                let looleMessiId = document.getElementById('inputLooleMessi').value;
+                let finCoilId = document.getElementById('inputFin').value;
+
                 let noePoosheshZedeKhordegi = document.getElementById('inputNoePoosheshZedeKhordegi').value;
                 let satheCoilSection = document.getElementById('satheCoil');
 
-                let khamCoilResult = parseFloat(document.getElementById('inputKham').value);
+                let gamDarRadif;
+                let gamDarErtefa;
+                let sabetVaznVaragh;
+                let vaznVaraghMasrafiResult;
+                let poosheshZedeKhordegiResult;
+                let tinerResult;
+                let collectorAhaniResult;
+                let collectorMessiResult;
 
-                //tedadLooleDarRadif = tedadMogheyiatLooleDarRadif;
-                //tedadMadarLoole = tedadMogheyiatLooleDarRadif;
-                //tedadSoorakhPakhshKon = tedadMadarLoole;
-
-                //-----------------
                 if (looleMessiId) {
                     sendDataLooleMessi(looleMessiId);
                 }
@@ -61,7 +66,6 @@
                 if (zekhamatFrameId) {
                     sendDataVaraghGalvanize(zekhamatFrameId)
                 }
-                //-----------------
 
                 let tedadFinMasrafiResult = tooleCoil * finDarInch;
 
@@ -79,10 +83,6 @@
                 }
 
                 let tedadUResult = (tedadRadif * tedadLooleDarRadif) - tedadMadarLoole;
-
-                let gamDarRadif;
-                let gamDarErtefa;
-                let sabetVaznVaragh;
 
                 if (looleMessiId === '3') {
                     gamDarRadif = 32.5;
@@ -152,8 +152,6 @@
                 let masahatFrameBalaPayin = (2 * (((tooleCoil * 25.4) + 70) * (sabetVaznVaragh + (gamDarRadif * tedadRadif)))) / 1000000;
                 let masahatVaraghMasrafi = masahatFrameBalaPayin + masahatTubSheet;
 
-                let vaznVaraghMasrafiResult;
-
                 if (zekhamatFrameId === '2') {
                     vaznVaraghMasrafiResult = masahatVaraghMasrafi * 7.874;
                 }
@@ -178,8 +176,6 @@
 
                 let flaksMayeMasrafiResult = tedadUResult * 0.002;
 
-                let poosheshZedeKhordegiResult;
-                let tinerResult;
                 if (noePoosheshZedeKhordegi === '1') {
                     poosheshZedeKhordegiResult = satheCoilResult * tedadRadif * 0.05;
                     tinerResult = satheCoilResult * tedadRadif * 0.1;
@@ -196,7 +192,6 @@
 
                 let roghaneTabkhirShavandeResult = tedadRadif * satheCoilResult * 0.015;
 
-                let collectorAhaniResult;
                 if (collectorAhaniId === '62') {
                     collectorAhaniResult = ((ertefaFinResult + 250) / 1000) * 1.94;
                 }
@@ -219,7 +214,6 @@
                     collectorAhaniResult = ((ertefaFinResult + 250) / 1000) * 11.18;
                 }
 
-                let collectorMessiResult;
                 if (collectorMessiId === '69') {
                     collectorMessiResult = ((ertefaFinResult + 250) / 1000) * 0.196;
                 }
@@ -257,7 +251,6 @@
                     collectorMessiResult = ((ertefaFinResult + 250) / 1000) * 7.89;
                 }
 
-                //--------------------
                 valueSection[0].innerText = tedadUResult.toFixed(4);
                 let price0 = inputTotalPrice[0].value * tedadUResult;
                 totalPriceSection[0].innerText = Intl.NumberFormat().format(price0);
@@ -361,6 +354,7 @@
                 let looleMessiNameSection = document.getElementById('nameSection16');
                 let looleMessiPriceSection = document.getElementById('priceSection16');
                 let looleMessiUnitSection = document.getElementById('unitSection16');
+
                 let uMessiNameSection = document.getElementById('nameSection0');
                 let uMessiPriceSection = document.getElementById('priceSection0');
 
@@ -499,6 +493,7 @@
                     }
                 });
             }
+
         </script>
     </x-slot>
 
