@@ -127,7 +127,7 @@ class InquiryProductController extends Controller
             $special = Special::where('part_id', $part)->first();
 
             if (!is_null($special)) {
-                $createdAmount->price = session('price' . $part);
+                $createdAmount->price = session('price' . $part) ?? 0;
                 $createdAmount->save();
                 session()->forget('price' . $part);
             }
