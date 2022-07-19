@@ -62,44 +62,45 @@
                 let navarHavaBandiResult = profilPareHaResult + profilSotoonHaResult;
 
                 valueSection[0].innerText = pvcChapResult.toFixed(4);
-                totalPriceSection[0].innerText = Intl.NumberFormat().format(inputTotalPrice[0].value * pvcChapResult);
                 let price0 = inputTotalPrice[0].value * pvcChapResult;
+                totalPriceSection[0].innerText = Intl.NumberFormat().format(price0);
 
                 valueSection[1].innerText = pvcRastResult.toFixed(4);
-                totalPriceSection[1].innerText = Intl.NumberFormat().format(inputTotalPrice[1].value * pvcRastResult);
                 let price1 = inputTotalPrice[1].value * pvcRastResult;
+                totalPriceSection[1].innerText = Intl.NumberFormat().format(price1);
 
                 valueSection[2].innerText = navarHavaBandiResult.toFixed(4);
-                totalPriceSection[2].innerText = Intl.NumberFormat().format(inputTotalPrice[2].value * navarHavaBandiResult);
                 let price2 = inputTotalPrice[2].value * navarHavaBandiResult;
+                totalPriceSection[2].innerText = Intl.NumberFormat().format(price2);
 
                 valueSection[3].innerText = gerdiResult.toFixed(4);
-                totalPriceSection[3].innerText = Intl.NumberFormat().format(inputTotalPrice[3].value * gerdiResult);
                 let price3 = inputTotalPrice[3].value * gerdiResult;
+                totalPriceSection[3].innerText = Intl.NumberFormat().format(price3);
 
                 valueSection[4].innerText = pin4PahlooResult.toFixed(4);
-                totalPriceSection[4].innerText = Intl.NumberFormat().format(inputTotalPrice[4].value * pin4PahlooResult);
                 let price4 = inputTotalPrice[4].value * pin4PahlooResult;
+                totalPriceSection[4].innerText = Intl.NumberFormat().format(price4);
 
                 valueSection[5].innerText = dastgireDamperResult.toFixed(4);
-                totalPriceSection[5].innerText = Intl.NumberFormat().format(inputTotalPrice[5].value * dastgireDamperResult);
                 let price5 = inputTotalPrice[5].value * dastgireDamperResult;
+                totalPriceSection[5].innerText = Intl.NumberFormat().format(price5);
 
                 valueSection[6].innerText = keshoyiChapResult.toFixed(4);
-                totalPriceSection[6].innerText = Intl.NumberFormat().format(inputTotalPrice[6].value * keshoyiChapResult);
                 let price6 = inputTotalPrice[6].value * keshoyiChapResult;
+                totalPriceSection[6].innerText = Intl.NumberFormat().format(price6);
 
                 valueSection[7].innerText = keshoyiRastResult.toFixed(4);
-                totalPriceSection[7].innerText = Intl.NumberFormat().format(inputTotalPrice[7].value * keshoyiRastResult);
                 let price7 = inputTotalPrice[7].value * keshoyiRastResult;
+                totalPriceSection[7].innerText = Intl.NumberFormat().format(price7);
 
                 valueSection[8].innerText = charkhDandeResult.toFixed(4);
-                totalPriceSection[8].innerText = Intl.NumberFormat().format(inputTotalPrice[8].value * charkhDandeResult);
                 let price8 = inputTotalPrice[8].value * charkhDandeResult;
+                totalPriceSection[8].innerText = Intl.NumberFormat().format(price8);
 
                 valueSection[9].innerText = profilBalaPayinResult.toFixed(4);
-                totalPriceSection[9].innerText = Intl.NumberFormat().format(inputTotalPrice[9].value * profilBalaPayinResult);
                 let price9 = inputTotalPrice[9].value * profilBalaPayinResult;
+                totalPriceSection[9].innerText = Intl.NumberFormat().format(price9);
+
 
                 finalPrice = price0 + price1 + price2 + price3 + price4 + price5 + price6 + price7 + price8 + price9
 
