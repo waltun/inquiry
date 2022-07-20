@@ -143,9 +143,15 @@
                     <td class="border border-gray-300 p-4 text-lg text-center font-bold" colspan="6">
                         قیمت کل
                     </td>
-                    <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
-                        {{ number_format($finalPrice) }} تومان
-                    </td>
+                    @if($inquiry->price > 0)
+                        <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
+                            {{ number_format($inquiry->price) }} تومان
+                        </td>
+                    @else
+                        <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
+                            {{ number_format($finalPrice) }} تومان
+                        </td>
+                    @endif
                 </tr>
             </table>
         </div>

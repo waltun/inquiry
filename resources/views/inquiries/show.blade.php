@@ -232,9 +232,15 @@
         @endforeach
 
         <div class="bg-green-500 p-4 rounded-md shadow-md mt-4">
-            <p class="text-xl text-black font-bold text-center">
-                قیمت نهایی کل استعلام : {{ number_format($finalPrice) }} تومان
-            </p>
+            @if($inquiry->price > 0)
+                <p class="text-xl text-black font-bold text-center">
+                    قیمت نهایی کل استعلام : {{ number_format($inquiry->price) }} تومان
+                </p>
+            @else
+                <p class="text-xl text-black font-bold text-center">
+                    قیمت نهایی کل استعلام : {{ number_format($finalPrice) }} تومان
+                </p>
+            @endif
         </div>
 
         <div class="grid grid-cols-3 gap-4 mt-4">
