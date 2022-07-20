@@ -6,7 +6,6 @@ use App\Models\Category;
 use App\Models\Part;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Validation\Rule;
 
 class PartController extends Controller
 {
@@ -53,11 +52,12 @@ class PartController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'unit' => 'required|string|max:255',
-            'code' => 'required|numeric|unique:parts',
             'price' => 'nullable',
             'collection' => 'required|in:true,false',
             'category_id' => 'required|integer'
         ]);
+
+        $data = $this->getLastCode($data);
 
         if ($data['collection'] == 'true') {
             $data['collection'] = true;
@@ -93,7 +93,6 @@ class PartController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'unit' => 'required|string|max:255',
-            'code' => ['required', 'numeric', Rule::unique('parts')->ignore($part->id)],
             'price' => 'nullable',
             'collection' => 'required|in:true,false',
             'category_id' => 'required|integer'
@@ -121,5 +120,22 @@ class PartController extends Controller
         alert()->success('حذف موفق', 'حذف قطعه با موفقیت انجام شد');
 
         return back();
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    public function getLastCode(array $data): array
+    {
+        $category = Category::find($data['category_id']);
+        $lastPart = Part::where('category_id', $category->id)->latest()->first();
+        if ($lastPart) {
+            $lastPartCode = str_pad($lastPart->code + 1, 4, "0", STR_PAD_LEFT);
+            $data['code'] = $lastPartCode;
+        } else {
+            $data['code'] = '0001';
+        }
+        return $data;
     }
 }

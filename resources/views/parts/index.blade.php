@@ -138,6 +138,9 @@
                 </thead>
                 <tbody>
                 @foreach($parts as $part)
+                    @php
+                        $category = \App\Models\Category::find($part->category_id);
+                    @endphp
                     <tr>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-gray-500 text-center">{{ $loop->index + 1 }}</p>
@@ -160,7 +163,7 @@
                             @endif
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ $part->code }}</p>
+                            <p class="text-sm text-black text-center">{{ $category->code . "-" . $part->code }}</p>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
                             <a href="{{ route('parts.edit',$part->id) }}" class="form-edit-btn text-xs">
@@ -182,7 +185,7 @@
         </div>
 
         <!-- Pagination -->
-        <div class="my-4">
+        <div class="my-4 md:block hidden">
             {{ $parts->links() }}
         </div>
 
@@ -196,6 +199,9 @@
         <!-- Mobile List -->
         <div class="block md:hidden">
             @foreach($parts as $part)
+                @php
+                    $category = \App\Models\Category::find($part->category_id);
+                @endphp
                 <div class="bg-white rounded-md p-4 border border-gray-200 shadow-sm mb-4 relative z-30">
                     <span
                         class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
@@ -209,7 +215,7 @@
                             واحد : {{ $part->unit }}
                         </p>
                         @if($part->price)
-                            <p class="text-xs text-black text-center">
+                            <p class="text-xs text-green-600 text-center font-bold">
                                 قیمت : {{ number_format($part->price) }}
                             </p>
                         @else
@@ -218,7 +224,7 @@
                             </p>
                         @endif
                         <p class="text-xs text-black text-center">
-                            کد : {{ $part->code }}
+                            کد : {{ $category->code . "-" . $part->code }}
                         </p>
                         <div class="flex w-full justify-between">
                             <a href="{{ route('parts.edit',$part->id) }}" class="form-edit-btn text-xs">
@@ -236,12 +242,10 @@
                     </div>
                 </div>
             @endforeach
-
             <!-- Pagination -->
             <div class="mt-4">
                 {{ $parts->links() }}
             </div>
-
         </div>
     </div>
 </x-layout>
