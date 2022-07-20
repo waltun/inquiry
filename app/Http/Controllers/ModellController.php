@@ -27,12 +27,13 @@ class ModellController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'code' => 'required|numeric|unique:modells'
         ]);
+
+        $lastModellCode = $this->getLastCode($id);
 
         Modell::create([
             'name' => $request['name'],
-            'code' => $request['code'],
+            'code' => $lastModellCode,
             'group_id' => $id
         ]);
 
@@ -56,12 +57,10 @@ class ModellController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:2550',
-            'code' => ['required', 'numeric', Rule::unique('modells')->ignore($modell->id)]
         ]);
 
         $modell->update([
             'name' => $request['name'],
-            'code' => $request['code']
         ]);
 
         alert()->success('ویرایش موفق', 'ویرایش مدل با موفقیت انجام شد');
@@ -123,5 +122,17 @@ class ModellController extends Controller
         alert()->success('مقادیر', 'مقدار قطعات برای مدل با موفقیت ثبت شد');
 
         return back();
+    }
+
+    public function getLastCode($id)
+    {
+        $group = Group::find($id);
+        $lastModell = Modell::where('group_id', $group->id)->latest()->first();
+        if ($lastModell) {
+            $lastModellCode = str_pad($lastModell->code + 1, 4, "0", STR_PAD_LEFT);
+        } else {
+            $lastModellCode = '0001';
+        }
+        return $lastModellCode;
     }
 }

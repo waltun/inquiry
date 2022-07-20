@@ -87,7 +87,7 @@
                             <p class="text-sm text-black text-center">{{ $modell->name }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ $modell->code }}</p>
+                            <p class="text-sm text-black text-center">{{ $group->code . "-" . $modell->code }}</p>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
                             <a href="{{ route('modells.parts',$modell->id) }}" class="form-detail-btn text-xs">
