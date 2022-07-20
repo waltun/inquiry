@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Group;
 use App\Models\Inquiry;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -139,17 +140,20 @@ class InquiryController extends Controller
     {
         Gate::authorize('inquiry-restore');
 
-        $inquiry->update([
+        $newInquiry = $inquiry->replicate()->fill([
             'archive_at' => null,
             'submit' => false,
-            'price' => 0
+            'price' => 0,
         ]);
+        $newInquiry->save();
 
         foreach ($inquiry->products as $product) {
-            $product->update([
+            $newProduct = $product->replicate()->fill([
+                'percent' => 0,
+                'inquiry_id' => $newInquiry->id,
                 'price' => 0,
-                'percent' => 0.00
             ]);
+            $newProduct->save();
         }
 
         alert()->success('ثبت اصلاح موفق', 'ثبت اصلاح با موفقیت انجام شد و برای کاربر ارسال شد');
