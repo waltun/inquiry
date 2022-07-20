@@ -78,13 +78,24 @@
     <form method="POST" action="{{ route('categories.store') }}" class="md:grid grid-cols-2 gap-4 mt-4">
         @csrf
 
-        <div class="col-span-2">
+        <div>
             <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
                 <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">مشخصات کلی</p>
                 <div class="mt-4">
                     <label for="inputName" class="block mb-2 md:text-sm text-xs text-black">نام دسته بندی</label>
                     <input type="text" id="inputName" name="name" class="input-text" placeholder="مثال : پیچ"
                            value="{{ old('name') }}">
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
+                <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">کد</p>
+                <div class="mt-4">
+                    <label for="inputCode" class="block mb-2 md:text-sm text-xs text-black">کد دسته بندی</label>
+                    <input type="text" id="inputCode" name="code" class="input-text" placeholder="مثال : 1010 (4 رقم)"
+                           value="{{ old('code') }}">
                 </div>
             </div>
         </div>

@@ -55,7 +55,7 @@
                         نام
                     </th>
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
-                        تاریخ ایجاد
+                        کد
                     </th>
                     <th scope="col" class="relative px-4 py-3 rounded-l-md">
                         <span class="sr-only">اقدامات</span>
@@ -73,7 +73,7 @@
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center">
-                                {{ jdate($category->create_at)->format('%A, %d %B %Y') }}
+                                {{ $category->code }}
                             </p>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
@@ -93,6 +93,10 @@
                 @endforeach
                 </tbody>
             </table>
+        </div>
+
+        <div class="mt-4">
+            {{ $categories->links() }}
         </div>
 
         <!-- Mobile List -->
