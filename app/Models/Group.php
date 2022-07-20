@@ -11,7 +11,7 @@ class Group extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'image', 'code'
+        'name', 'code'
     ];
 
     public function modells()

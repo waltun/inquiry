@@ -32,20 +32,11 @@ class GroupController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
-            'code' => 'required|numeric|unique:groups'
+            'code' => 'required|numeric|digits:4|unique:groups'
         ]);
-
-        $fileNewName = null;
-
-        if ($request->has('image')) {
-            $file = $request['image'];
-            $fileNewName = Carbon::now()->format('Y-m-d_H-i-s_u.') . $file->extension();
-            $file->move(public_path('/files/groups'), $fileNewName);
-        }
 
         Group::create([
             'name' => $request['name'],
-            'image' => $fileNewName,
             'code' => $request['code']
         ]);
 
@@ -72,21 +63,11 @@ class GroupController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
-            'code' => ['required', 'numeric', Rule::unique('groups')->ignore($group->id)]
+            'code' => ['required', 'numeric', 'digits:4', Rule::unique('groups')->ignore($group->id)]
         ]);
-
-        if ($request->has('image')) {
-            File::delete(public_path('/files/groups/' . $group->image));
-            $file = $request['image'];
-            $fileNewName = Carbon::now()->format('Y-m-d_H-i-s_u.') . $file->extension();
-            $file->move(public_path('/files/groups'), $fileNewName);
-        } else {
-            $fileNewName = $group->image;
-        }
 
         $group->update([
             'name' => $request['name'],
-            'image' => $fileNewName,
             'code' => $request['code']
         ]);
 
@@ -98,10 +79,6 @@ class GroupController extends Controller
     public function destroy(Group $group)
     {
         Gate::authorize('groups');
-
-        if ($group->image) {
-            File::delete(public_path('/files/groups/' . $group->image));
-        }
 
         $group->delete();
 
