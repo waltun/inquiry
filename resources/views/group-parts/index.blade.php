@@ -196,6 +196,10 @@
             </table>
         </div>
 
+        <div class="mt-4">
+            {{ $parts->links() }}
+        </div>
+
         <!-- Mobile List -->
         <div class="block md:hidden">
             @foreach($parts as $part)

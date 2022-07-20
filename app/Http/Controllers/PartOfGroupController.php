@@ -27,7 +27,8 @@ class PartOfGroupController extends Controller
             $parts = $parts->where('collection', false)->where('category_id', request('category'));
         }
 
-        $parts = $parts->latest()->get()->except($group->parts->pluck('id')->toArray());
+        //$parts = $parts->latest()->get()->except($group->parts->pluck('id')->toArray());
+        $parts = $parts->whereNotIn('id', $group->parts->pluck('id'))->latest()->paginate(25);
 
         return view('group-parts.index', compact('parts', 'group', 'categories'));
     }
