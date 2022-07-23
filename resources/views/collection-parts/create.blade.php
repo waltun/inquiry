@@ -112,13 +112,13 @@
                 </form>
             </div>
 
-            @if(request()->has('code') || request()->has('search'))
-                <div class="mt-4">
-                    <a href="{{ route('collections.create',$group->id) }}" class="form-detail-btn text-xs">
-                        پاکسازی جستجو
-                    </a>
-                </div>
-            @endif
+{{--            @if(request()->has('code') || request()->has('search'))--}}
+{{--                <div class="mt-4">--}}
+{{--                    <a href="{{ route('collections.create',$group->id) }}" class="form-detail-btn text-xs">--}}
+{{--                        پاکسازی جستجو--}}
+{{--                    </a>--}}
+{{--                </div>--}}
+{{--            @endif--}}
         </div>
     </div>
 

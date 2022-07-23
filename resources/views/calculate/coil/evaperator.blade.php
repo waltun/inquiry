@@ -531,330 +531,344 @@
         <x-errors/>
     </div>
 
-    <div class="my-4">
-        <div class="bg-white rounded-md shadow-md border border-gray-200 py-4 px-6">
-            <div class="mb-4 border-b border-gray-300 pb-3 flex justify-between items-center">
-                <div>
-                    <p class="text-lg text-black">
-                        اطلاعات ورودی {{ $part->name }}
-                    </p>
+    <form method="POST" action="{{ route('calculateCoil.store',[$part->id,$inquiry->id]) }}">
+        @csrf
+        <div class="my-4">
+            <div class="bg-white rounded-md shadow-md border border-gray-200 py-4 px-6">
+                <div class="mb-4 border-b border-gray-300 pb-3 flex justify-between items-center">
+                    <div>
+                        <p class="text-lg text-black">
+                            اطلاعات ورودی {{ $part->name }}
+                        </p>
+                    </div>
+                    <div>
+                        <p class="bg-indigo-500 rounded-md px-6 py-2 text-sm font-bold text-white">
+                            سطح کویل :
+                            <span id="satheCoil"></span>
+                        </p>
+                    </div>
                 </div>
-                <div>
-                    <p class="bg-indigo-500 rounded-md px-6 py-2 text-sm font-bold text-white">
-                        سطح کویل :
-                        <span id="satheCoil"></span>
-                    </p>
-                </div>
-            </div>
-            <div class="grid grid-cols-4 gap-4">
-                <div>
-                    <label class="block mb-2 text-sm font-bold" for="inputLooleMessi">لوله مسی کویل</label>
-                    <select name="" id="inputLooleMessi" class="input-text" onchange="calculate()">
-                        <option value="">انتخاب کنید</option>
-                        <option value="{{ \App\Models\Part::where('code','5805')->first()->id }}">
-                            {{ \App\Models\Part::where('code','5805')->first()->name }}
-                        </option>
-                        <option value="{{ \App\Models\Part::where('code','58063')->first()->id }}">
-                            {{ \App\Models\Part::where('code','58063')->first()->name }}
-                        </option>
-                        <option value="{{ \App\Models\Part::where('code','3804')->first()->id }}">
-                            {{ \App\Models\Part::where('code','3804')->first()->name }}
-                        </option>
-                        <option value="{{ \App\Models\Part::where('code','3805')->first()->id }}">
-                            {{ \App\Models\Part::where('code','3805')->first()->name }}
-                        </option>
-                        <option value="{{ \App\Models\Part::where('code','38035')->first()->id }}">
-                            {{ \App\Models\Part::where('code','38035')->first()->name }}
-                        </option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block mb-2 text-sm font-bold" for="inputFin">فین کویل</label>
-                    <select name="" id="inputFin" class="input-text" onchange="calculate()">
-                        <option value="">انتخاب کنید</option>
-                        <option value="{{ \App\Models\Part::where('code','130130')->first()->id }}">
-                            {{ \App\Models\Part::where('code','130130')->first()->name }}
-                        </option>
-                        <option value="{{ \App\Models\Part::where('code','140140')->first()->id }}">
-                            {{ \App\Models\Part::where('code','140140')->first()->name }}
-                        </option>
-                        <option value="{{ \App\Models\Part::where('code','150150')->first()->id }}">
-                            {{ \App\Models\Part::where('code','150150')->first()->name }}
-                        </option>
-                        <option value="{{ \App\Models\Part::where('code','1301301')->first()->id }}">
-                            {{ \App\Models\Part::where('code','1301301')->first()->name }}
-                        </option>
-                        <option value="{{ \App\Models\Part::where('code','1501501')->first()->id }}">
-                            {{ \App\Models\Part::where('code','1501501')->first()->name }}
-                        </option>
-                        <option value="{{ \App\Models\Part::where('code','1001001')->first()->id }}">
-                            {{ \App\Models\Part::where('code','1001001')->first()->name }}
-                        </option>
-                        <option value="{{ \App\Models\Part::where('code','100100100')->first()->id }}">
-                            {{ \App\Models\Part::where('code','100100100')->first()->name }}
-                        </option>
-                        <option value="{{ \App\Models\Part::where('code','130130130')->first()->id }}">
-                            {{ \App\Models\Part::where('code','130130130')->first()->name }}
-                        </option>
-                        <option value="{{ \App\Models\Part::where('code','140140140')->first()->id }}">
-                            {{ \App\Models\Part::where('code','140140140')->first()->name }}
-                        </option>
-                        <option value="{{ \App\Models\Part::where('code','150150150')->first()->id }}">
-                            {{ \App\Models\Part::where('code','150150150')->first()->name }}
-                        </option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block mb-2 text-sm font-bold" for="inputTedadRadif">تعداد ردیف کویل</label>
-                    <select name="" id="inputTedadRadif" class="input-text" onchange="calculate()">
-                        <option value="">انتخاب کنید</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="6">6</option>
-                        <option value="8">8</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block mb-2 text-sm font-bold" for="inputFinDarInch">فین در اینچ</label>
-                    <select name="" id="inputFinDarInch" class="input-text" onchange="calculate()">
-                        <option value="">انتخاب کنید</option>
-                        <option value="8">8</option>
-                        <option value="10">10</option>
-                        <option value="12">12</option>
-                        <option value="14">14</option>
-                    </select>
-                </div>
+                <div class="grid grid-cols-4 gap-4">
+                    <div>
+                        <label class="block mb-2 text-sm font-bold" for="inputLooleMessi">لوله مسی کویل</label>
+                        <select name="loole_messi" id="inputLooleMessi" class="input-text" onchange="calculate()">
+                            <option value="">انتخاب کنید</option>
+                            <option value="{{ \App\Models\Part::where('code','5805')->first()->id }}">
+                                {{ \App\Models\Part::where('code','5805')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('code','58063')->first()->id }}">
+                                {{ \App\Models\Part::where('code','58063')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('code','3804')->first()->id }}">
+                                {{ \App\Models\Part::where('code','3804')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('code','3805')->first()->id }}">
+                                {{ \App\Models\Part::where('code','3805')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('code','38035')->first()->id }}">
+                                {{ \App\Models\Part::where('code','38035')->first()->name }}
+                            </option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-bold" for="inputFin">فین کویل</label>
+                        <select name="fin_coil" id="inputFin" class="input-text" onchange="calculate()">
+                            <option value="">انتخاب کنید</option>
+                            <option value="{{ \App\Models\Part::where('code','130130')->first()->id }}">
+                                {{ \App\Models\Part::where('code','130130')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('code','140140')->first()->id }}">
+                                {{ \App\Models\Part::where('code','140140')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('code','150150')->first()->id }}">
+                                {{ \App\Models\Part::where('code','150150')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('code','1301301')->first()->id }}">
+                                {{ \App\Models\Part::where('code','1301301')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('code','1501501')->first()->id }}">
+                                {{ \App\Models\Part::where('code','1501501')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('code','1001001')->first()->id }}">
+                                {{ \App\Models\Part::where('code','1001001')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('code','100100100')->first()->id }}">
+                                {{ \App\Models\Part::where('code','100100100')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('code','130130130')->first()->id }}">
+                                {{ \App\Models\Part::where('code','130130130')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('code','140140140')->first()->id }}">
+                                {{ \App\Models\Part::where('code','140140140')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('code','150150150')->first()->id }}">
+                                {{ \App\Models\Part::where('code','150150150')->first()->name }}
+                            </option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-bold" for="inputTedadRadif">تعداد ردیف کویل</label>
+                        <select name="tedad_radif_coil" id="inputTedadRadif" class="input-text" onchange="calculate()">
+                            <option value="">انتخاب کنید</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="6">6</option>
+                            <option value="8">8</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-bold" for="inputFinDarInch">فین در اینچ</label>
+                        <select name="fin_dar_inch" id="inputFinDarInch" class="input-text" onchange="calculate()">
+                            <option value="">انتخاب کنید</option>
+                            <option value="8">8</option>
+                            <option value="10">10</option>
+                            <option value="12">12</option>
+                            <option value="14">14</option>
+                        </select>
+                    </div>
 
-                <div>
-                    <label class="block mb-2 text-sm font-bold" for="inputKham">خم کویل</label>
-                    <select name="" id="inputKham" class="input-text" onchange="calculate()">
-                        <option value="0" selected>ندارد</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                    </select>
-                </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-bold" for="inputKham">خم کویل</label>
+                        <select name="kham" id="inputKham" class="input-text" onchange="calculate()">
+                            <option value="0" selected>ندارد</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>
 
-                <div>
-                    <label class="block mb-2 text-sm font-bold" for="inputTedadMadar">تعداد مدار کویل</label>
-                    <select name="" id="inputTedadMadar" class="input-text">
-                        <option value="">انتخاب کنید</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="6">6</option>
-                        <option value="8">8</option>
-                    </select>
-                </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-bold" for="inputTedadMadar">تعداد مدار کویل</label>
+                        <select name="tedad_madar_coil" id="inputTedadMadar" class="input-text">
+                            <option value="">انتخاب کنید</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="6">6</option>
+                            <option value="8">8</option>
+                        </select>
+                    </div>
 
-                <div>
-                    <label class="block mb-2 text-sm font-bold" for="inputZekhamatFrame">ضخامت فریم کویل</label>
-                    <select name="" id="inputZekhamatFrame" class="input-text" onchange="calculate()">
-                        <option value="">انتخاب کنید</option>
-                        <option value="{{ \App\Models\Part::where('code','1222')->first()->id }}">
-                            {{ \App\Models\Part::where('code','1222')->first()->name }}
-                        </option>
-                        <option value="{{ \App\Models\Part::where('code','125222')->first()->id }}">
-                            {{ \App\Models\Part::where('code','125222')->first()->name }}
-                        </option>
-                        <option value="{{ \App\Models\Part::where('code','15222')->first()->id }}">
-                            {{ \App\Models\Part::where('code','15222')->first()->name }}
-                        </option>
-                        <option value="{{ \App\Models\Part::where('code','2222')->first()->id }}">
-                            {{ \App\Models\Part::where('code','2222')->first()->name }}
-                        </option>
-                        <option value="{{ \App\Models\Part::where('code','25222')->first()->id }}">
-                            {{ \App\Models\Part::where('code','25222')->first()->name }}
-                        </option>
-                        <option value="{{ \App\Models\Part::where('code','3222')->first()->id }}">
-                            {{ \App\Models\Part::where('code','3222')->first()->name }}
-                        </option>
-                        <option value="{{ \App\Models\Part::where('code','4222')->first()->id }}">
-                            {{ \App\Models\Part::where('code','4222')->first()->name }}
-                        </option>
-                    </select>
-                </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-bold" for="inputZekhamatFrame">ضخامت فریم کویل</label>
+                        <select name="zekhamat_frame_coil" id="inputZekhamatFrame" class="input-text"
+                                onchange="calculate()">
+                            <option value="">انتخاب کنید</option>
+                            <option value="{{ \App\Models\Part::where('code','1222')->first()->id }}">
+                                {{ \App\Models\Part::where('code','1222')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('code','125222')->first()->id }}">
+                                {{ \App\Models\Part::where('code','125222')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('code','15222')->first()->id }}">
+                                {{ \App\Models\Part::where('code','15222')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('code','2222')->first()->id }}">
+                                {{ \App\Models\Part::where('code','2222')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('code','25222')->first()->id }}">
+                                {{ \App\Models\Part::where('code','25222')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('code','3222')->first()->id }}">
+                                {{ \App\Models\Part::where('code','3222')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('code','4222')->first()->id }}">
+                                {{ \App\Models\Part::where('code','4222')->first()->name }}
+                            </option>
+                        </select>
+                    </div>
 
-                <div>
-                    <label class="block mb-2 text-sm font-bold" for="inputNoePoosheshZedeKhordegi">نوع پوشش ضد
-                        خوردگی</label>
-                    <select name="" id="inputNoePoosheshZedeKhordegi" class="input-text" onchange="calculate()">
-                        <option value="">انتخاب کنید</option>
-                        <option value="0">ندارد</option>
-                        <option value="1">هرسایت</option>
-                    </select>
-                </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-bold" for="inputNoePoosheshZedeKhordegi">نوع پوشش ضد
+                            خوردگی</label>
+                        <select name="pooshesh_khordegi" id="inputNoePoosheshZedeKhordegi" class="input-text"
+                                onchange="calculate()">
+                            <option value="">انتخاب کنید</option>
+                            <option value="0">ندارد</option>
+                            <option value="1">هرسایت</option>
+                        </select>
+                    </div>
 
-                <div class="col-span-2">
-                    <label class="block mb-2 text-sm font-bold" for="inputCollectorAhani">هدر و کلکتور آهنی</label>
-                    <select name="" id="inputCollectorAhani" class="input-text" onchange="calculate()">
-                        <option value="">انتخاب کنید</option>
-                        <option value="{{ \App\Models\Part::where('code','111000')->first()->id }}">
-                            {{ \App\Models\Part::where('code','111000')->first()->name }}
-                        </option>
-                        <option value="{{ \App\Models\Part::where('code','114000')->first()->id }}">
-                            {{ \App\Models\Part::where('code','114000')->first()->name }}
-                        </option>
-                        <option value="{{ \App\Models\Part::where('code','112000')->first()->id }}">
-                            {{ \App\Models\Part::where('code','112000')->first()->name }}
-                        </option>
-                        <option value="{{ \App\Models\Part::where('code','222000')->first()->id }}">
-                            {{ \App\Models\Part::where('code','222000')->first()->name }}
-                        </option>
-                        <option value="{{ \App\Models\Part::where('code','212000')->first()->id }}">
-                            {{ \App\Models\Part::where('code','212000')->first()->name }}
-                        </option>
-                        <option value="{{ \App\Models\Part::where('code','333000')->first()->id }}">
-                            {{ \App\Models\Part::where('code','333000')->first()->name }}
-                        </option>
-                        <option value="{{ \App\Models\Part::where('code','444000')->first()->id }}">
-                            {{ \App\Models\Part::where('code','444000')->first()->name }}
-                        </option>
-                    </select>
-                </div>
+                    <div class="col-span-2">
+                        <label class="block mb-2 text-sm font-bold" for="inputCollectorAhani">هدر و کلکتور آهنی</label>
+                        <select name="collector_ahani" id="inputCollectorAhani" class="input-text"
+                                onchange="calculate()">
+                            <option value="">انتخاب کنید</option>
+                            <option value="{{ \App\Models\Part::where('code','111000')->first()->id }}">
+                                {{ \App\Models\Part::where('code','111000')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('code','114000')->first()->id }}">
+                                {{ \App\Models\Part::where('code','114000')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('code','112000')->first()->id }}">
+                                {{ \App\Models\Part::where('code','112000')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('code','222000')->first()->id }}">
+                                {{ \App\Models\Part::where('code','222000')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('code','212000')->first()->id }}">
+                                {{ \App\Models\Part::where('code','212000')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('code','333000')->first()->id }}">
+                                {{ \App\Models\Part::where('code','333000')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('code','444000')->first()->id }}">
+                                {{ \App\Models\Part::where('code','444000')->first()->name }}
+                            </option>
+                        </select>
+                    </div>
 
-                <div class="col-span-2">
-                    <label class="block mb-2 text-sm font-bold" for="inputCollectorMessi">هدر و کلکتور مسی</label>
-                    <select name="" id="inputCollectorMessi" class="input-text" onchange="calculate()">
-                        <option value="">انتخاب کنید</option>
-                        <option value="{{ \App\Models\Part::where('code','38000')->first()->id }}">
-                            {{ \App\Models\Part::where('code','38000')->first()->name }}
-                        </option>
-                        <option value="{{ \App\Models\Part::where('code','12000')->first()->id }}">
-                            {{ \App\Models\Part::where('code','12000')->first()->name }}
-                        </option>
-                        <option value="{{ \App\Models\Part::where('code','58000')->first()->id }}">
-                            {{ \App\Models\Part::where('code','58000')->first()->name }}
-                        </option>
-                        <option value="{{ \App\Models\Part::where('code','78000')->first()->id }}">
-                            {{ \App\Models\Part::where('code','78000')->first()->name }}
-                        </option>
-                        <option value="{{ \App\Models\Part::where('code','118000')->first()->id }}">
-                            {{ \App\Models\Part::where('code','118000')->first()->name }}
-                        </option>
-                        <option value="{{ \App\Models\Part::where('code','138000')->first()->id }}">
-                            {{ \App\Models\Part::where('code','138000')->first()->name }}
-                        </option>
-                        <option value="{{ \App\Models\Part::where('code','158000')->first()->id }}">
-                            {{ \App\Models\Part::where('code','158000')->first()->name }}
-                        </option>
-                        <option value="{{ \App\Models\Part::where('code','218000')->first()->id }}">
-                            {{ \App\Models\Part::where('code','218000')->first()->name }}
-                        </option>
-                        <option value="{{ \App\Models\Part::where('code','258000')->first()->id }}">
-                            {{ \App\Models\Part::where('code','258000')->first()->name }}
-                        </option>
-                        <option value="{{ \App\Models\Part::where('code','318000')->first()->id }}">
-                            {{ \App\Models\Part::where('code','318000')->first()->name }}
-                        </option>
-                        <option value="{{ \App\Models\Part::where('code','358000')->first()->id }}">
-                            {{ \App\Models\Part::where('code','358000')->first()->name }}
-                        </option>
-                        <option value="{{ \App\Models\Part::where('code','418000')->first()->id }}">
-                            {{ \App\Models\Part::where('code','418000')->first()->name }}
-                        </option>
-                    </select>
-                </div>
+                    <div class="col-span-2">
+                        <label class="block mb-2 text-sm font-bold" for="inputCollectorMessi">هدر و کلکتور مسی</label>
+                        <select name="collector_messi" id="inputCollectorMessi" class="input-text"
+                                onchange="calculate()">
+                            <option value="">انتخاب کنید</option>
+                            <option value="{{ \App\Models\Part::where('code','38000')->first()->id }}">
+                                {{ \App\Models\Part::where('code','38000')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('code','12000')->first()->id }}">
+                                {{ \App\Models\Part::where('code','12000')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('code','58000')->first()->id }}">
+                                {{ \App\Models\Part::where('code','58000')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('code','78000')->first()->id }}">
+                                {{ \App\Models\Part::where('code','78000')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('code','118000')->first()->id }}">
+                                {{ \App\Models\Part::where('code','118000')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('code','138000')->first()->id }}">
+                                {{ \App\Models\Part::where('code','138000')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('code','158000')->first()->id }}">
+                                {{ \App\Models\Part::where('code','158000')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('code','218000')->first()->id }}">
+                                {{ \App\Models\Part::where('code','218000')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('code','258000')->first()->id }}">
+                                {{ \App\Models\Part::where('code','258000')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('code','318000')->first()->id }}">
+                                {{ \App\Models\Part::where('code','318000')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('code','358000')->first()->id }}">
+                                {{ \App\Models\Part::where('code','358000')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('code','418000')->first()->id }}">
+                                {{ \App\Models\Part::where('code','418000')->first()->name }}
+                            </option>
+                        </select>
+                    </div>
 
-                <div>
-                    <label class="block mb-2 text-sm font-bold" for="inputTooleCoil">طول کویل (اینچ)</label>
-                    <input type="text" class="input-text" id="inputTooleCoil" value="0" onkeyup="calculate()">
-                </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-bold" for="inputTooleCoil">طول کویل (اینچ)</label>
+                        <input name="toole_coil" type="text" class="input-text" id="inputTooleCoil" value="0"
+                               onkeyup="calculate()">
+                    </div>
 
-                <div>
-                    <label class="block mb-2 text-sm font-bold" for="inputTedadLooleDarRadif">تعداد لوله در ردیف</label>
-                    <input type="text" class="input-text" id="inputTedadLooleDarRadif" value="0" onkeyup="calculate()">
-                </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-bold" for="inputTedadLooleDarRadif">تعداد لوله در
+                            ردیف</label>
+                        <input name="tedad_loole_dar_radif" type="text" class="input-text" id="inputTedadLooleDarRadif"
+                               value="0" onkeyup="calculate()">
+                    </div>
 
-                <div>
-                    <label class="block mb-2 text-sm font-bold" for="inputTedadMogheyiatLooleDarRadif">
-                        تعداد موقعیت یک لوله در ردیف
-                    </label>
-                    <input type="text" class="input-text" id="inputTedadMogheyiatLooleDarRadif" onkeyup="calculate()"
-                           value="0">
-                </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-bold" for="inputTedadMogheyiatLooleDarRadif">
+                            تعداد موقعیت یک لوله در ردیف
+                        </label>
+                        <input type="text" class="input-text" id="inputTedadMogheyiatLooleDarRadif"
+                               onkeyup="calculate()"
+                               value="0" name="tedad_mogheyiat_loole">
+                    </div>
 
-                <div>
-                    <label class="block mb-2 text-sm font-bold" for="inputTedadMadarLoole">تعداد مدار لوله</label>
-                    <input type="text" class="input-text" id="inputTedadMadarLoole" value="0" onkeyup="calculate()">
-                </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-bold" for="inputTedadMadarLoole">تعداد مدار لوله</label>
+                        <input type="text" class="input-text" id="inputTedadMadarLoole" value="0" onkeyup="calculate()"
+                               name="tedad_madar_loole">
+                    </div>
 
-                <div class="col-span-4">
-                    <label class="block mb-2 text-sm font-bold" for="inputTedadSoorakhPakhshKon">
-                        تعداد سوراخ پخش کن
-                    </label>
-                    <input type="text" class="input-text" id="inputTedadSoorakhPakhshKon" value="0"
-                           onkeyup="calculate()">
+                    <div class="col-span-4">
+                        <label class="block mb-2 text-sm font-bold" for="inputTedadSoorakhPakhshKon">
+                            تعداد سوراخ پخش کن
+                        </label>
+                        <input type="text" class="input-text" id="inputTedadSoorakhPakhshKon" value="0"
+                               onkeyup="calculate()" name="tedad_soorakh_pakhshkon">
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Content -->
-    <form method="POST" action="{{ route('calculateCoil.store',$part->id) }}" class="mt-4">
-        @csrf
+        <!-- Content -->
+        <div class="mt-4">
 
-        <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4">
-            <table class="border-collapse border border-gray-400 w-full">
-                <thead class="sticky top-1 bg-gray-200 z-50 shadow-md">
-                <tr>
-                    <th class="border border-gray-300 p-4 text-sm">ردیف</th>
-                    <th class="border border-gray-300 p-4 text-sm">شرح</th>
-                    <th class="border border-gray-300 p-4 text-sm">مقدار / سایز</th>
-                    <th class="border border-gray-300 p-4 text-sm">واحد</th>
-                    <th class="border border-gray-300 p-4 text-sm">قیمت واحد</th>
-                    <th class="border border-gray-300 p-4 text-sm">قیمت کل</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($part->children as $index => $child)
+            <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4">
+                <table class="border-collapse border border-gray-400 w-full">
+                    <thead class="sticky top-1 bg-gray-200 z-50 shadow-md">
                     <tr>
-                        <td class="border border-gray-300 p-4 text-sm text-center">
-                            {{ $loop->index + 1 }}
-                        </td>
-                        <td class="border border-gray-300 p-4 text-sm text-center" id="nameSection{{ $index }}">
-                            {{ $child->name }}
-                        </td>
-                        <td class="border border-gray-300 p-4 text-sm text-center" id="valueSection{{ $index }}">
-                            0
-                        </td>
-                        <td class="border border-gray-300 p-4 text-sm text-center" id="unitSection{{ $index }}">
-                            {{ $child->unit }}
-                        </td>
-                        <td class="border border-gray-300 p-4 text-sm text-center">
-                            <span id="priceSection{{ $index }}">{{ number_format($child->price) }}</span>
-                            <input type="hidden" name="" id="inputTotalPrice{{ $index }}" value="{{ $child->price }}">
-                        </td>
-                        <td class="border border-gray-300 p-4 text-sm text-center" id="totalPriceSection{{ $index }}">
+                        <th class="border border-gray-300 p-4 text-sm">ردیف</th>
+                        <th class="border border-gray-300 p-4 text-sm">شرح</th>
+                        <th class="border border-gray-300 p-4 text-sm">مقدار / سایز</th>
+                        <th class="border border-gray-300 p-4 text-sm">واحد</th>
+                        <th class="border border-gray-300 p-4 text-sm">قیمت واحد</th>
+                        <th class="border border-gray-300 p-4 text-sm">قیمت کل</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($part->children as $index => $child)
+                        <tr>
+                            <td class="border border-gray-300 p-4 text-sm text-center">
+                                {{ $loop->index + 1 }}
+                            </td>
+                            <td class="border border-gray-300 p-4 text-sm text-center" id="nameSection{{ $index }}">
+                                {{ $child->name }}
+                            </td>
+                            <td class="border border-gray-300 p-4 text-sm text-center">
+                                <span id="valueSection{{ $index }}">0</span>
+                            </td>
+                            <td class="border border-gray-300 p-4 text-sm text-center" id="unitSection{{ $index }}">
+                                {{ $child->unit }}
+                            </td>
+                            <td class="border border-gray-300 p-4 text-sm text-center">
+                                <span id="priceSection{{ $index }}">{{ number_format($child->price) }}</span>
+                                <input type="hidden" name="" id="inputTotalPrice{{ $index }}"
+                                       value="{{ $child->price }}">
+                            </td>
+                            <td class="border border-gray-300 p-4 text-sm text-center"
+                                id="totalPriceSection{{ $index }}">
 
+                            </td>
+                        </tr>
+                    @endforeach
+
+                    <tr>
+                        <td class="border border-gray-300 p-4 text-lg font-bold text-center" colspan="4">
+                            قیمت نهایی
+                        </td>
+                        <td class="border border-gray-300 p-4 text-lg font-bold text-center text-green-600" colspan="2">
+                            <span id="finalPriceSection"></span>
+                            <input type="hidden" name="final_price" id="inputFinalPrice">
                         </td>
                     </tr>
-                @endforeach
 
-                <tr>
-                    <td class="border border-gray-300 p-4 text-lg font-bold text-center" colspan="4">
-                        قیمت نهایی
-                    </td>
-                    <td class="border border-gray-300 p-4 text-lg font-bold text-center text-green-600" colspan="2">
-                        <span id="finalPriceSection"></span>
-                        <input type="hidden" name="final_price" id="inputFinalPrice">
-                    </td>
-                </tr>
+                    </tbody>
+                </table>
+            </div>
 
-                </tbody>
-            </table>
-        </div>
-
-        <div class="space-x-2 space-x-reverse">
-            <button type="submit" class="form-submit-btn">
-                ثبت مقادیر
-            </button>
-            <a href="{{ route('inquiries.index') }}" class="form-cancel-btn">
-                انصراف
-            </a>
+            <div class="space-x-2 space-x-reverse">
+                <button type="submit" class="form-submit-btn">
+                    ثبت مقادیر
+                </button>
+                <a href="{{ route('inquiries.index') }}" class="form-cancel-btn">
+                    انصراف
+                </a>
+            </div>
         </div>
     </form>
+
 </x-layout>

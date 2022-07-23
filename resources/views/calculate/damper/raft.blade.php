@@ -6,7 +6,7 @@
             let valueSection = [];
             let totalPriceSection = [];
             let inputTotalPrice = [];
-            for (let i = 0; i < 12; i++) {
+            for (let i = 0; i < 13; i++) {
                 valueSection[i] = document.getElementById('valueSection' + i);
                 totalPriceSection[i] = document.getElementById('totalPriceSection' + i);
                 inputTotalPrice[i] = document.getElementById('inputTotalPrice' + i);
@@ -22,14 +22,26 @@
                 let inputFinalPrice = document.getElementById('inputFinalPrice');
 
                 //Formula
-                let toolePareResult = (((debiHavaRaft / 800) / 10.7639) / tedadPare) * 1000;
+                let toolePareResult = (((debiHavaRaft / soratRaft) / 10.7639) / tedadPare) * 1000;
                 toolePareSection.innerText = toolePareResult.toFixed(1);
 
                 let profilPareHaResult = ((tedadPare * toolePareResult) / 100);
 
                 let profilSotoonHaResult = ((2 * (6 + (tedadPare * 10)) + 2 * (6 + toolePareResult)) / 100) * 0.85;
 
-                let profilBalaPayinResult = (((toolePareResult * 2) + 6) / 100) * 0.85;
+                let profilBalaPayinResult;
+                if (toolePareResult <= 120) {
+                    profilBalaPayinResult = (((toolePareResult + 6) * 2) / 100) * 0.85;
+                } else {
+                    profilBalaPayinResult = (((toolePareResult + 9) * 2) / 100) * 0.85;
+                }
+
+                let profilSotoonVasat;
+                if (toolePareResult <= 120) {
+                    profilSotoonVasat = 0;
+                } else {
+                    profilSotoonVasat = (((tedadPare * 10) + 1) / 100) * 0.85;
+                }
 
                 let charkhDandeResult;
                 if (toolePareResult <= 120) {
@@ -101,7 +113,20 @@
                 let price9 = inputTotalPrice[9].value * profilBalaPayinResult;
                 totalPriceSection[9].innerText = Intl.NumberFormat().format(price9);
 
+                valueSection[10].innerText = profilSotoonHaResult.toFixed(4);
+                let price10 = inputTotalPrice[10].value * profilSotoonHaResult;
+                totalPriceSection[10].innerText = Intl.NumberFormat().format(price10);
+
+                valueSection[11].innerText = profilPareHaResult.toFixed(4);
+                let price11 = inputTotalPrice[11].value * profilPareHaResult;
+                totalPriceSection[11].innerText = Intl.NumberFormat().format(price11);
+
+                valueSection[12].innerText = profilSotoonVasat.toFixed(4);
+                let price12 = inputTotalPrice[12].value * profilSotoonVasat;
+                totalPriceSection[12].innerText = Intl.NumberFormat().format(price12);
+
                 finalPrice = price0 + price1 + price2 + price3 + price4 + price5 + price6 + price7 + price8 + price9
+                    + price10 + price11 + price12;
 
                 finalPriceSection.innerText = Intl.NumberFormat().format(finalPrice);
                 inputFinalPrice.value = finalPrice;

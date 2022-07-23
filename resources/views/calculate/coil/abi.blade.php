@@ -41,9 +41,10 @@
 
                 let khamCoilResult = parseFloat(document.getElementById('inputKham').value);
 
-                //tedadLooleDarRadif = tedadMogheyiatLooleDarRadif;
-                //tedadMadarLoole = tedadMogheyiatLooleDarRadif;
-                //tedadSoorakhPakhshKon = tedadMadarLoole;
+
+                document.getElementById('inputTedadLooleDarRadif').value = tedadMogheyiatLooleDarRadif;
+                document.getElementById('inputTedadMadarLoole').value = tedadMogheyiatLooleDarRadif;
+
 
                 //-----------------
                 if (looleMessiId) {
@@ -220,41 +221,80 @@
                 }
 
                 let collectorMessiResult;
-                if (collectorMessiId === '69') {
-                    collectorMessiResult = ((ertefaFinResult + 250) / 1000) * 0.196;
-                }
-                if (collectorMessiId === '70') {
-                    collectorMessiResult = ((ertefaFinResult + 250) / 1000) * 0.299;
-                }
-                if (collectorMessiId === '71') {
-                    collectorMessiResult = ((ertefaFinResult + 250) / 1000) * 0.419;
-                }
-                if (collectorMessiId === '72') {
-                    collectorMessiResult = ((ertefaFinResult + 250) / 1000) * 0.734;
-                }
-                if (collectorMessiId === '73') {
-                    collectorMessiResult = ((ertefaFinResult + 250) / 1000) * 0.975;
-                }
-                if (collectorMessiId === '74') {
-                    collectorMessiResult = ((ertefaFinResult + 250) / 1000) * 1.410;
-                }
-                if (collectorMessiId === '75') {
-                    collectorMessiResult = ((ertefaFinResult + 250) / 1000) * 1.685;
-                }
-                if (collectorMessiId === '76') {
-                    collectorMessiResult = ((ertefaFinResult + 250) / 1000) * 2.205;
-                }
-                if (collectorMessiId === '77') {
-                    collectorMessiResult = ((ertefaFinResult + 250) / 1000) * 3.616;
-                }
-                if (collectorMessiId === '78') {
-                    collectorMessiResult = ((ertefaFinResult + 250) / 1000) * 4.95;
-                }
-                if (collectorMessiId === '79') {
-                    collectorMessiResult = ((ertefaFinResult + 250) / 1000) * 6.9;
-                }
-                if (collectorMessiId === '80') {
-                    collectorMessiResult = ((ertefaFinResult + 250) / 1000) * 7.89;
+                if (tedadSoorakhPakhshKon > 0) {
+                    if (collectorMessiId === '69') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 0.196);
+                    }
+                    if (collectorMessiId === '70') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 0.299);
+                    }
+                    if (collectorMessiId === '71') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 0.419);
+                    }
+                    if (collectorMessiId === '72') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 0.734);
+                    }
+                    if (collectorMessiId === '73') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 0.975);
+                    }
+                    if (collectorMessiId === '74') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 1.410);
+                    }
+                    if (collectorMessiId === '75') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 1.685);
+                    }
+                    if (collectorMessiId === '76') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 2.205);
+                    }
+                    if (collectorMessiId === '77') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 3.616);
+                    }
+                    if (collectorMessiId === '78') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 4.95);
+                    }
+                    if (collectorMessiId === '79') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 6.9);
+                    }
+                    if (collectorMessiId === '80') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 7.89);
+                    }
+                } else {
+                    if (collectorMessiId === '69') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 0.196) * 2;
+                    }
+                    if (collectorMessiId === '70') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 0.299) * 2;
+                    }
+                    if (collectorMessiId === '71') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 0.419) * 2;
+                    }
+                    if (collectorMessiId === '72') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 0.734) * 2;
+                    }
+                    if (collectorMessiId === '73') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 0.975) * 2;
+                    }
+                    if (collectorMessiId === '74') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 1.410) * 2;
+                    }
+                    if (collectorMessiId === '75') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 1.685) * 2;
+                    }
+                    if (collectorMessiId === '76') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 2.205) * 2;
+                    }
+                    if (collectorMessiId === '77') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 3.616) * 2;
+                    }
+                    if (collectorMessiId === '78') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 4.95) * 2;
+                    }
+                    if (collectorMessiId === '79') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 6.9) * 2;
+                    }
+                    if (collectorMessiId === '80') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 7.89) * 2;
+                    }
                 }
 
                 //--------------------
@@ -554,7 +594,7 @@
             <div class="grid grid-cols-4 gap-4">
                 <div>
                     <label class="block mb-2 text-sm font-bold" for="inputLooleMessi">لوله مسی کویل</label>
-                    <select name="" id="inputLooleMessi" class="input-text" onchange="calculate()">
+                    <select name="" id="inputLooleMessi" class="input-text bg-yellow-300" onchange="calculate()">
                         <option value="">انتخاب کنید</option>
                         <option value="{{ \App\Models\Part::where('code','5805')->first()->id }}">
                             {{ \App\Models\Part::where('code','5805')->first()->name }}
@@ -697,6 +737,7 @@
                     <label class="block mb-2 text-sm font-bold" for="inputCollectorAhani">هدر و کلکتور آهنی</label>
                     <select name="" id="inputCollectorAhani" class="input-text" onchange="calculate()">
                         <option value="">انتخاب کنید</option>
+                        <option value="0">ندارد</option>
                         <option value="{{ \App\Models\Part::where('code','111000')->first()->id }}">
                             {{ \App\Models\Part::where('code','111000')->first()->name }}
                         </option>
@@ -771,20 +812,21 @@
 
                 <div>
                     <label class="block mb-2 text-sm font-bold" for="inputTedadLooleDarRadif">تعداد لوله در ردیف</label>
-                    <input type="text" class="input-text" id="inputTedadLooleDarRadif" value="0" onkeyup="calculate()">
+                    <input type="text" class="input-text" id="inputTedadLooleDarRadif" value="" onkeyup="calculate()">
                 </div>
 
                 <div>
                     <label class="block mb-2 text-sm font-bold" for="inputTedadMogheyiatLooleDarRadif">
                         تعداد موقعیت یک لوله در ردیف
                     </label>
-                    <input type="text" class="input-text" id="inputTedadMogheyiatLooleDarRadif" onkeyup="calculate()"
+                    <input type="text" class="input-text bg-yellow-300" id="inputTedadMogheyiatLooleDarRadif"
+                           onkeyup="calculate()"
                            value="0">
                 </div>
 
                 <div>
                     <label class="block mb-2 text-sm font-bold" for="inputTedadMadarLoole">تعداد مدار لوله</label>
-                    <input type="text" class="input-text" id="inputTedadMadarLoole" value="0" onkeyup="calculate()">
+                    <input type="text" class="input-text" id="inputTedadMadarLoole" value="" onkeyup="calculate()">
                 </div>
 
                 <div class="col-span-4">

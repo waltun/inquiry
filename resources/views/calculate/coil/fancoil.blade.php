@@ -7,7 +7,7 @@
             let valueSection = [];
             let totalPriceSection = [];
             let inputTotalPrice = [];
-            for (let i = 0; i < 22; i++) {
+            for (let i = 0; i < 21; i++) {
                 valueSection[i] = document.getElementById('valueSection' + i);
                 totalPriceSection[i] = document.getElementById('totalPriceSection' + i);
                 inputTotalPrice[i] = document.getElementById('inputTotalPrice' + i);
@@ -33,17 +33,15 @@
                 let finCoilId = document.getElementById('inputFin').value;
                 let collectorAhaniId = document.getElementById('inputCollectorAhani').value;
                 let collectorMessiId = document.getElementById('inputCollectorMessi').value;
+                let collectorBerenjiId = document.getElementById('inputCollectorBerenji').value;
                 let zekhamatFrameId = document.getElementById('inputZekhamatFrame').value;
                 let finDarInch = parseFloat(document.getElementById('inputFinDarInch').value);
                 let tedadSoorakhPakhshKon = parseFloat(document.getElementById('inputTedadSoorakhPakhshKon').value);
                 let noePoosheshZedeKhordegi = document.getElementById('inputNoePoosheshZedeKhordegi').value;
                 let satheCoilSection = document.getElementById('satheCoil');
+                let tedadMadarCoil = parseFloat(document.getElementById('inputTedadMadarCoil').value);
 
                 let khamCoilResult = parseFloat(document.getElementById('inputKham').value);
-
-                //tedadLooleDarRadif = tedadMogheyiatLooleDarRadif;
-                //tedadMadarLoole = tedadMogheyiatLooleDarRadif;
-                //tedadSoorakhPakhshKon = tedadMadarLoole;
 
                 //-----------------
                 if (looleMessiId) {
@@ -60,6 +58,9 @@
                 }
                 if (zekhamatFrameId) {
                     sendDataVaraghGalvanize(zekhamatFrameId)
+                }
+                if (collectorBerenjiId) {
+                    sendDataCollectorBerenji(collectorBerenjiId)
                 }
                 //-----------------
 
@@ -149,7 +150,7 @@
                 satheCoilSection.innerText = satheCoilResult.toFixed(2);
 
                 let masahatTubSheet = (2 * ((ertefaFinResult + 70) * (sabetVaznVaragh + (gamDarRadif * tedadRadif)))) / 1000000;
-                let masahatFrameBalaPayin = (2 * (((tooleCoil * 25.4) + 70) * (sabetVaznVaragh + (gamDarRadif * tedadRadif)))) / 1000000;
+                let masahatFrameBalaPayin = 0;
                 let masahatVaraghMasrafi = masahatFrameBalaPayin + masahatTubSheet;
 
                 let vaznVaraghMasrafiResult;
@@ -220,42 +221,83 @@
                 }
 
                 let collectorMessiResult;
-                if (collectorMessiId === '69') {
-                    collectorMessiResult = ((ertefaFinResult + 250) / 1000) * 0.196;
+                if (tedadSoorakhPakhshKon > 0) {
+                    if (collectorMessiId === '69') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 0.196);
+                    }
+                    if (collectorMessiId === '70') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 0.299);
+                    }
+                    if (collectorMessiId === '71') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 0.419);
+                    }
+                    if (collectorMessiId === '72') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 0.734);
+                    }
+                    if (collectorMessiId === '73') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 0.975);
+                    }
+                    if (collectorMessiId === '74') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 1.410);
+                    }
+                    if (collectorMessiId === '75') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 1.685);
+                    }
+                    if (collectorMessiId === '76') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 2.205);
+                    }
+                    if (collectorMessiId === '77') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 3.616);
+                    }
+                    if (collectorMessiId === '78') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 4.95);
+                    }
+                    if (collectorMessiId === '79') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 6.9);
+                    }
+                    if (collectorMessiId === '80') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 7.89);
+                    }
+                } else {
+                    if (collectorMessiId === '69') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 0.196) * 2;
+                    }
+                    if (collectorMessiId === '70') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 0.299) * 2;
+                    }
+                    if (collectorMessiId === '71') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 0.419) * 2;
+                    }
+                    if (collectorMessiId === '72') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 0.734) * 2;
+                    }
+                    if (collectorMessiId === '73') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 0.975) * 2;
+                    }
+                    if (collectorMessiId === '74') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 1.410) * 2;
+                    }
+                    if (collectorMessiId === '75') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 1.685) * 2;
+                    }
+                    if (collectorMessiId === '76') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 2.205) * 2;
+                    }
+                    if (collectorMessiId === '77') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 3.616) * 2;
+                    }
+                    if (collectorMessiId === '78') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 4.95) * 2;
+                    }
+                    if (collectorMessiId === '79') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 6.9) * 2;
+                    }
+                    if (collectorMessiId === '80') {
+                        collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 7.89) * 2;
+                    }
                 }
-                if (collectorMessiId === '70') {
-                    collectorMessiResult = ((ertefaFinResult + 250) / 1000) * 0.299;
-                }
-                if (collectorMessiId === '71') {
-                    collectorMessiResult = ((ertefaFinResult + 250) / 1000) * 0.419;
-                }
-                if (collectorMessiId === '72') {
-                    collectorMessiResult = ((ertefaFinResult + 250) / 1000) * 0.734;
-                }
-                if (collectorMessiId === '73') {
-                    collectorMessiResult = ((ertefaFinResult + 250) / 1000) * 0.975;
-                }
-                if (collectorMessiId === '74') {
-                    collectorMessiResult = ((ertefaFinResult + 250) / 1000) * 1.410;
-                }
-                if (collectorMessiId === '75') {
-                    collectorMessiResult = ((ertefaFinResult + 250) / 1000) * 1.685;
-                }
-                if (collectorMessiId === '76') {
-                    collectorMessiResult = ((ertefaFinResult + 250) / 1000) * 2.205;
-                }
-                if (collectorMessiId === '77') {
-                    collectorMessiResult = ((ertefaFinResult + 250) / 1000) * 3.616;
-                }
-                if (collectorMessiId === '78') {
-                    collectorMessiResult = ((ertefaFinResult + 250) / 1000) * 4.95;
-                }
-                if (collectorMessiId === '79') {
-                    collectorMessiResult = ((ertefaFinResult + 250) / 1000) * 6.9;
-                }
-                if (collectorMessiId === '80') {
-                    collectorMessiResult = ((ertefaFinResult + 250) / 1000) * 7.89;
-                }
+
+                let collectorBerenjiResult = (tedadMadarLoole * tedadMadarCoil * 6) + looleMessiResult;
 
                 //--------------------
                 valueSection[0].innerText = tedadUResult.toFixed(4);
@@ -278,89 +320,85 @@
                 let price4 = inputTotalPrice[4].value * vaznBerenjMasrafiResult;
                 totalPriceSection[4].innerText = Intl.NumberFormat().format(price4);
 
-                valueSection[5].innerText = 2;
-                let price5 = inputTotalPrice[5].value * 2;
+                valueSection[5].innerText = poosheshZedeKhordegiResult.toFixed(4);
+                let price5 = inputTotalPrice[5].value * poosheshZedeKhordegiResult;
                 totalPriceSection[5].innerText = Intl.NumberFormat().format(price5);
 
-                valueSection[6].innerText = poosheshZedeKhordegiResult.toFixed(4);
-                let price6 = inputTotalPrice[6].value * poosheshZedeKhordegiResult;
+                valueSection[6].innerText = tinerResult.toFixed(4);
+                let price6 = inputTotalPrice[6].value * tinerResult;
                 totalPriceSection[6].innerText = Intl.NumberFormat().format(price6);
 
-                valueSection[7].innerText = tinerResult.toFixed(4);
-                let price7 = inputTotalPrice[7].value * tinerResult;
+                valueSection[7].innerText = 12;
+                let price7 = inputTotalPrice[7].value * 12;
                 totalPriceSection[7].innerText = Intl.NumberFormat().format(price7);
 
-                valueSection[8].innerText = 12;
-                let price8 = inputTotalPrice[8].value * 12;
+                valueSection[8].innerText = flaksMayeMasrafiResult.toFixed(4);
+                let price8 = inputTotalPrice[8].value * flaksMayeMasrafiResult;
                 totalPriceSection[8].innerText = Intl.NumberFormat().format(price8);
 
-                valueSection[9].innerText = flaksMayeMasrafiResult.toFixed(4);
-                let price9 = inputTotalPrice[9].value * flaksMayeMasrafiResult;
+                valueSection[9].innerText = 0.2;
+                let price9 = inputTotalPrice[9].value * 0.2;
                 totalPriceSection[9].innerText = Intl.NumberFormat().format(price9);
 
-                valueSection[10].innerText = 0.2;
-                let price10 = inputTotalPrice[10].value * 0.2;
+                valueSection[10].innerText = roghaneTabkhirShavandeResult;
+                let price10 = inputTotalPrice[10].value * roghaneTabkhirShavandeResult;
                 totalPriceSection[10].innerText = Intl.NumberFormat().format(price10);
 
-                valueSection[11].innerText = roghaneTabkhirShavandeResult;
-                let price11 = inputTotalPrice[11].value * roghaneTabkhirShavandeResult;
+                valueSection[11].innerText = oxygenMasrafiResult;
+                let price11 = inputTotalPrice[11].value * oxygenMasrafiResult;
                 totalPriceSection[11].innerText = Intl.NumberFormat().format(price11);
 
-                valueSection[12].innerText = oxygenMasrafiResult;
-                let price12 = inputTotalPrice[12].value * oxygenMasrafiResult;
+                valueSection[12].innerText = azotResult;
+                let price12 = inputTotalPrice[12].value * azotResult;
                 totalPriceSection[12].innerText = Intl.NumberFormat().format(price12);
 
-                valueSection[13].innerText = azotResult;
-                let price13 = inputTotalPrice[13].value * azotResult;
+                valueSection[13].innerText = abeMasrafiResult;
+                let price13 = inputTotalPrice[13].value * abeMasrafiResult;
                 totalPriceSection[13].innerText = Intl.NumberFormat().format(price13);
 
-                valueSection[14].innerText = abeMasrafiResult;
-                let price14 = inputTotalPrice[14].value * abeMasrafiResult;
+                valueSection[14].innerText = looleMessiResult.toFixed(4);
+                let price14 = inputTotalPrice[14].value * looleMessiResult;
                 totalPriceSection[14].innerText = Intl.NumberFormat().format(price14);
 
-                valueSection[15].innerText = 0.11;
-                let price15 = inputTotalPrice[15].value * 0.11;
+                valueSection[15].innerText = vaznFinAlResult.toFixed(4);
+                let price15 = inputTotalPrice[15].value * vaznFinAlResult;
                 totalPriceSection[15].innerText = Intl.NumberFormat().format(price15);
 
-                valueSection[16].innerText = looleMessiResult.toFixed(4);
-                let price16 = inputTotalPrice[16].value * looleMessiResult;
+                valueSection[16].innerText = looleMessi316Result.toFixed(4);
+                let price16 = inputTotalPrice[16].value * looleMessi316Result;
                 totalPriceSection[16].innerText = Intl.NumberFormat().format(price16);
 
-                valueSection[17].innerText = vaznFinAlResult.toFixed(4);
-                let price17 = inputTotalPrice[17].value * vaznFinAlResult;
+                valueSection[17].innerText = collectorMessiResult.toFixed(4);
+                let price17 = inputTotalPrice[17].value * collectorMessiResult;
                 totalPriceSection[17].innerText = Intl.NumberFormat().format(price17);
 
-                valueSection[18].innerText = looleMessi316Result.toFixed(4);
-                let price18 = inputTotalPrice[18].value * looleMessi316Result;
+                valueSection[18].innerText = collectorAhaniResult.toFixed(4);
+                let price18 = inputTotalPrice[18].value * collectorAhaniResult;
                 totalPriceSection[18].innerText = Intl.NumberFormat().format(price18);
 
-                valueSection[19].innerText = collectorMessiResult.toFixed(4);
-                let price19 = inputTotalPrice[19].value * collectorMessiResult;
+                valueSection[19].innerText = khamCoilResult.toFixed(4);
+                let price19 = inputTotalPrice[19].value * khamCoilResult;
                 totalPriceSection[19].innerText = Intl.NumberFormat().format(price19);
 
-                valueSection[20].innerText = collectorAhaniResult.toFixed(4);
-                let price20 = inputTotalPrice[20].value * collectorAhaniResult;
+                valueSection[20].innerText = collectorBerenjiResult.toFixed(4);
+                let price20 = inputTotalPrice[20].value * collectorBerenjiResult;
                 totalPriceSection[20].innerText = Intl.NumberFormat().format(price20);
-
-                valueSection[21].innerText = khamCoilResult.toFixed(4);
-                let price21 = inputTotalPrice[21].value * khamCoilResult;
-                totalPriceSection[21].innerText = Intl.NumberFormat().format(price21);
 
                 let finalPriceSection = document.getElementById('finalPriceSection');
                 let inputFinalPrice = document.getElementById('inputFinalPrice');
 
                 finalPrice = price0 + price1 + price2 + price3 + price4 + price5 + price6 + price7 + price8 + price9
                     + price10 + price11 + price12 + price13 + price14 + price15 + price16 + price17 + price18 + price19
-                    + price20 + price21;
+                    + price20;
 
                 finalPriceSection.innerText = Intl.NumberFormat().format(finalPrice);
                 inputFinalPrice.value = finalPrice;
             }
 
             function sendDataLooleMessi(id) {
-                let looleMessiNameSection = document.getElementById('nameSection16');
-                let looleMessiPriceSection = document.getElementById('priceSection16');
-                let looleMessiUnitSection = document.getElementById('unitSection16');
+                let looleMessiNameSection = document.getElementById('nameSection14');
+                let looleMessiPriceSection = document.getElementById('priceSection14');
+                let looleMessiUnitSection = document.getElementById('unitSection14');
                 let uMessiNameSection = document.getElementById('nameSection0');
                 let uMessiPriceSection = document.getElementById('priceSection0');
 
@@ -397,9 +435,9 @@
             }
 
             function sendDataFinCoil(id) {
-                let finCoilNameSection = document.getElementById('nameSection17');
-                let finCoilPriceSection = document.getElementById('priceSection17');
-                let finCoilUnitSection = document.getElementById('unitSection17');
+                let finCoilNameSection = document.getElementById('nameSection15');
+                let finCoilPriceSection = document.getElementById('priceSection15');
+                let finCoilUnitSection = document.getElementById('unitSection15');
 
                 $.ajaxSetup({
                     headers: {
@@ -423,9 +461,9 @@
             }
 
             function sendDataCollectorAhani(id) {
-                let collectorAhaniNameSection = document.getElementById('nameSection20');
-                let collectorAhaniPriceSection = document.getElementById('priceSection20');
-                let collectorAhaniUnitSection = document.getElementById('unitSection20');
+                let collectorAhaniNameSection = document.getElementById('nameSection18');
+                let collectorAhaniPriceSection = document.getElementById('priceSection18');
+                let collectorAhaniUnitSection = document.getElementById('unitSection18');
 
                 $.ajaxSetup({
                     headers: {
@@ -449,9 +487,9 @@
             }
 
             function sendDataCollectorMessi(id) {
-                let collectorMessiNameSection = document.getElementById('nameSection19');
-                let collectorMessiPriceSection = document.getElementById('priceSection19');
-                let collectorMessiUnitSection = document.getElementById('unitSection19');
+                let collectorMessiNameSection = document.getElementById('nameSection17');
+                let collectorMessiPriceSection = document.getElementById('priceSection17');
+                let collectorMessiUnitSection = document.getElementById('unitSection17');
 
                 $.ajaxSetup({
                     headers: {
@@ -470,6 +508,32 @@
                         collectorMessiPriceSection.innerText = Intl.NumberFormat().format(res.data.price);
                         collectorMessiUnitSection.innerText = res.data.unit;
                         document.getElementById('inputTotalPrice19').value = res.data.price
+                    }
+                });
+            }
+
+            function sendDataCollectorBerenji(id) {
+                let collectorBerenjiNameSection = document.getElementById('nameSection20');
+                let collectorBerenjiPriceSection = document.getElementById('priceSection20');
+                let collectorBerenjiUnitSection = document.getElementById('unitSection20');
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('calculateCoil.getData') }}',
+                    data: {
+                        id: id,
+                    },
+                    success: function (res) {
+                        collectorBerenjiNameSection.innerText = res.data.name;
+                        collectorBerenjiPriceSection.innerText = Intl.NumberFormat().format(res.data.price);
+                        collectorBerenjiUnitSection.innerText = res.data.unit;
+                        document.getElementById('inputTotalPrice20').value = res.data.price
                     }
                 });
             }
@@ -554,7 +618,7 @@
             <div class="grid grid-cols-4 gap-4">
                 <div>
                     <label class="block mb-2 text-sm font-bold" for="inputLooleMessi">لوله مسی کویل</label>
-                    <select name="" id="inputLooleMessi" class="input-text" onchange="calculate()">
+                    <select name="" id="inputLooleMessi" class="input-text bg-yellow-300" onchange="calculate()">
                         <option value="">انتخاب کنید</option>
                         <option value="{{ \App\Models\Part::where('code','5805')->first()->id }}">
                             {{ \App\Models\Part::where('code','5805')->first()->name }}
@@ -575,7 +639,7 @@
                 </div>
                 <div>
                     <label class="block mb-2 text-sm font-bold" for="inputFin">فین کویل</label>
-                    <select name="" id="inputFin" class="input-text" onchange="calculate()">
+                    <select name="" id="inputFin" class="input-text bg-yellow-300" onchange="calculate()">
                         <option value="">انتخاب کنید</option>
                         <option value="{{ \App\Models\Part::where('code','130130')->first()->id }}">
                             {{ \App\Models\Part::where('code','130130')->first()->name }}
@@ -611,7 +675,7 @@
                 </div>
                 <div>
                     <label class="block mb-2 text-sm font-bold" for="inputTedadRadif">تعداد ردیف کویل</label>
-                    <select name="" id="inputTedadRadif" class="input-text" onchange="calculate()">
+                    <select name="" id="inputTedadRadif" class="input-text bg-yellow-300" onchange="calculate()">
                         <option value="">انتخاب کنید</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -623,7 +687,7 @@
                 </div>
                 <div>
                     <label class="block mb-2 text-sm font-bold" for="inputFinDarInch">فین در اینچ</label>
-                    <select name="" id="inputFinDarInch" class="input-text" onchange="calculate()">
+                    <select name="" id="inputFinDarInch" class="input-text bg-yellow-300" onchange="calculate()">
                         <option value="">انتخاب کنید</option>
                         <option value="8">8</option>
                         <option value="10">10</option>
@@ -634,7 +698,7 @@
 
                 <div>
                     <label class="block mb-2 text-sm font-bold" for="inputKham">خم کویل</label>
-                    <select name="" id="inputKham" class="input-text" onchange="calculate()">
+                    <select name="" id="inputKham" class="input-text bg-yellow-300" onchange="calculate()">
                         <option value="0" selected>ندارد</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -643,8 +707,8 @@
                 </div>
 
                 <div>
-                    <label class="block mb-2 text-sm font-bold" for="inputTedadMadar">تعداد مدار کویل</label>
-                    <select name="" id="inputTedadMadar" class="input-text">
+                    <label class="block mb-2 text-sm font-bold" for="inputTedadMadarCoil">تعداد مدار کویل</label>
+                    <select name="" id="inputTedadMadarCoil" class="input-text bg-yellow-300">
                         <option value="">انتخاب کنید</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -657,7 +721,7 @@
 
                 <div>
                     <label class="block mb-2 text-sm font-bold" for="inputZekhamatFrame">ضخامت فریم کویل</label>
-                    <select name="" id="inputZekhamatFrame" class="input-text" onchange="calculate()">
+                    <select name="" id="inputZekhamatFrame" class="input-text bg-yellow-300" onchange="calculate()">
                         <option value="">انتخاب کنید</option>
                         <option value="{{ \App\Models\Part::where('code','1222')->first()->id }}">
                             {{ \App\Models\Part::where('code','1222')->first()->name }}
@@ -686,17 +750,19 @@
                 <div>
                     <label class="block mb-2 text-sm font-bold" for="inputNoePoosheshZedeKhordegi">نوع پوشش ضد
                         خوردگی</label>
-                    <select name="" id="inputNoePoosheshZedeKhordegi" class="input-text" onchange="calculate()">
+                    <select name="" id="inputNoePoosheshZedeKhordegi" class="input-text bg-yellow-300"
+                            onchange="calculate()">
                         <option value="">انتخاب کنید</option>
                         <option value="0">ندارد</option>
                         <option value="1">هرسایت</option>
                     </select>
                 </div>
 
-                <div class="col-span-2">
+                <div>
                     <label class="block mb-2 text-sm font-bold" for="inputCollectorAhani">هدر و کلکتور آهنی</label>
-                    <select name="" id="inputCollectorAhani" class="input-text" onchange="calculate()">
+                    <select name="" id="inputCollectorAhani" class="input-text bg-yellow-300" onchange="calculate()">
                         <option value="">انتخاب کنید</option>
+                        <option value="0">ندارد</option>
                         <option value="{{ \App\Models\Part::where('code','111000')->first()->id }}">
                             {{ \App\Models\Part::where('code','111000')->first()->name }}
                         </option>
@@ -721,9 +787,9 @@
                     </select>
                 </div>
 
-                <div class="col-span-2">
+                <div>
                     <label class="block mb-2 text-sm font-bold" for="inputCollectorMessi">هدر و کلکتور مسی</label>
-                    <select name="" id="inputCollectorMessi" class="input-text" onchange="calculate()">
+                    <select name="" id="inputCollectorMessi" class="input-text bg-yellow-300" onchange="calculate()">
                         <option value="">انتخاب کنید</option>
                         <option value="{{ \App\Models\Part::where('code','38000')->first()->id }}">
                             {{ \App\Models\Part::where('code','38000')->first()->name }}
@@ -764,34 +830,60 @@
                     </select>
                 </div>
 
+                <div class="col-span-2">
+                    <label class="block mb-2 text-sm font-bold" for="inputCollectorBerenji">هدر و کلکتور برنجی</label>
+                    <select name="" id="inputCollectorBerenji" class="input-text bg-yellow-300" onchange="calculate()">
+                        <option value="">انتخاب کنید</option>
+                        <option value="{{ \App\Models\Part::where('code','0102')->first()->id }}">
+                            {{ \App\Models\Part::where('code','0102')->first()->name }}
+                        </option>
+                        <option value="{{ \App\Models\Part::where('code','0103')->first()->id }}">
+                            {{ \App\Models\Part::where('code','0103')->first()->name }}
+                        </option>
+                        <option value="{{ \App\Models\Part::where('code','0104')->first()->id }}">
+                            {{ \App\Models\Part::where('code','0104')->first()->name }}
+                        </option>
+                        <option value="{{ \App\Models\Part::where('code','0105')->first()->id }}">
+                            {{ \App\Models\Part::where('code','0105')->first()->name }}
+                        </option>
+                        <option value="{{ \App\Models\Part::where('code','0106')->first()->id }}">
+                            {{ \App\Models\Part::where('code','0106')->first()->name }}
+                        </option>
+                    </select>
+                </div>
+
                 <div>
                     <label class="block mb-2 text-sm font-bold" for="inputTooleCoil">طول کویل (اینچ)</label>
-                    <input type="text" class="input-text" id="inputTooleCoil" value="0" onkeyup="calculate()">
+                    <input type="text" class="input-text bg-yellow-300" id="inputTooleCoil" value="0"
+                           onkeyup="calculate()">
                 </div>
 
                 <div>
                     <label class="block mb-2 text-sm font-bold" for="inputTedadLooleDarRadif">تعداد لوله در ردیف</label>
-                    <input type="text" class="input-text" id="inputTedadLooleDarRadif" value="0" onkeyup="calculate()">
+                    <input type="text" class="input-text bg-yellow-300" id="inputTedadLooleDarRadif" value="0"
+                           onkeyup="calculate()">
                 </div>
 
                 <div>
                     <label class="block mb-2 text-sm font-bold" for="inputTedadMogheyiatLooleDarRadif">
                         تعداد موقعیت یک لوله در ردیف
                     </label>
-                    <input type="text" class="input-text" id="inputTedadMogheyiatLooleDarRadif" onkeyup="calculate()"
+                    <input type="text" class="input-text bg-yellow-300" id="inputTedadMogheyiatLooleDarRadif"
+                           onkeyup="calculate()"
                            value="0">
                 </div>
 
                 <div>
                     <label class="block mb-2 text-sm font-bold" for="inputTedadMadarLoole">تعداد مدار لوله</label>
-                    <input type="text" class="input-text" id="inputTedadMadarLoole" value="0" onkeyup="calculate()">
+                    <input type="text" class="input-text bg-yellow-300" id="inputTedadMadarLoole" value="0"
+                           onkeyup="calculate()">
                 </div>
 
                 <div class="col-span-4">
                     <label class="block mb-2 text-sm font-bold" for="inputTedadSoorakhPakhshKon">
                         تعداد سوراخ پخش کن
                     </label>
-                    <input type="text" class="input-text" id="inputTedadSoorakhPakhshKon" value="0"
+                    <input type="text" class="input-text bg-yellow-300" id="inputTedadSoorakhPakhshKon" value="0"
                            onkeyup="calculate()">
                 </div>
             </div>
