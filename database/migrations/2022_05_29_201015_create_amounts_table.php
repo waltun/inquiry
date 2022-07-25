@@ -15,7 +15,7 @@ return new class extends Migration {
         Schema::create('amounts', function (Blueprint $table) {
             $table->id();
 
-            $table->decimal('value', 8, 5);
+            $table->decimal('value', 8, 2)->default(0.00);
 
             $table->unsignedBigInteger('part_id');
             $table->unsignedBigInteger('product_id');
