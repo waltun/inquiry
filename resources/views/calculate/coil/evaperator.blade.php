@@ -373,7 +373,7 @@
                 finalPriceSection.innerText = Intl.NumberFormat().format(finalPrice);
                 inputFinalPrice.value = finalPrice;
 
-                document.getElementById('coilName').value = `کویل اواپراتور با سطح ${satheCoilResult} و طول ${tooleCoil}`;
+                document.getElementById('coilName').value = `کویل اواپراتور با سطح ${satheCoilResult.toFixed(2)} و طول ${tooleCoil.toFixed(2)}`;
             }
 
             function sendDataLooleMessi(id) {

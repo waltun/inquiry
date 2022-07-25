@@ -129,25 +129,25 @@
                                         <div class="whitespace-nowrap mr-2">
                                             @switch($part->code)
                                                 @case(100)
-                                                    <a href="{{ route('calculateCoil.evaperator.index',$part->id) }}"
+                                                    <a href="{{ route('calculateCoil.evaperator.index',[$part->id,$inquiry->id]) }}"
                                                        class="form-submit-btn">
                                                         محاسبه {{ $part->name }}
                                                     </a>
                                                     @break
                                                 @case(101)
-                                                    <a href="{{ route('calculateCoil.condensor.index',$part->id) }}"
+                                                    <a href="{{ route('calculateCoil.condensor.index',[$part->id,$inquiry->id]) }}"
                                                        class="form-submit-btn">
                                                         محاسبه {{ $part->name }}
                                                     </a>
                                                     @break
                                                 @case(102)
-                                                    <a href="{{ route('calculateCoil.abi.index',$part->id) }}"
+                                                    <a href="{{ route('calculateCoil.abi.index',[$part->id,$inquiry->id]) }}"
                                                        class="form-submit-btn">
                                                         محاسبه {{ $part->name }}
                                                     </a>
                                                     @break
                                                 @case(103)
-                                                    <a href="{{ route('calculateCoil.fancoil.index',$part->id) }}"
+                                                    <a href="{{ route('calculateCoil.fancoil.index',[$part->id,$inquiry->id]) }}"
                                                        class="form-submit-btn">
                                                         محاسبه {{ $part->name }}
                                                     </a>

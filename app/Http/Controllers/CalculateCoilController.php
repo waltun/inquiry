@@ -75,7 +75,7 @@ class CalculateCoilController extends Controller
 
         alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');
 
-        return redirect()->route('inquiries.index');
+        return redirect()->route('inquiries.product.amounts', $inquiry->id);
     }
 
     public function storeCondensor(Request $request, Part $part, Inquiry $inquiry)
@@ -125,17 +125,17 @@ class CalculateCoilController extends Controller
 
         alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');
 
-        return redirect()->route('inquiries.index');
+        return redirect()->route('inquiries.product.amounts', $inquiry->id);
     }
 
     public function storeFancoil(Request $request, Part $part, Inquiry $inquiry)
     {
-
         $looleMessi = $request['loole_messi'];
         $fin = $request['fin_coil'];
         $zekhamat_frame = $request['zekhamat_frame_coil'];
         $collectorAhani = $request['collector_ahani'];
         $collectorMessi = $request['collector_messi'];
+        $collectorBerenji = $request['collector_berenji'];
 
         $name = $request['name'];
 
@@ -151,20 +151,23 @@ class CalculateCoilController extends Controller
         }
 
         foreach ($newPart->children as $index => $childPart) {
-            if ($index == 18) {
+            if ($index == 16) {
                 $childPart->pivot->parent_part_id = $looleMessi;
             }
-            if ($index == 17) {
+            if ($index == 15) {
                 $childPart->pivot->parent_part_id = $fin;
             }
             if ($index == 2) {
                 $childPart->pivot->parent_part_id = $zekhamat_frame;
             }
-            if ($index == 20) {
+            if ($index == 18) {
                 $childPart->pivot->parent_part_id = $collectorAhani;
             }
-            if ($index == 19) {
+            if ($index == 17) {
                 $childPart->pivot->parent_part_id = $collectorMessi;
+            }
+            if ($index == 20) {
+                $childPart->pivot->parent_part_id = $collectorBerenji;
             }
 
             $childPart->pivot->value = $request->values[$index];
@@ -175,7 +178,7 @@ class CalculateCoilController extends Controller
 
         alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');
 
-        return redirect()->route('inquiries.index');
+        return redirect()->route('inquiries.product.amounts', $inquiry->id);
     }
 
     public function storeWater(Request $request, Part $part, Inquiry $inquiry)
@@ -225,7 +228,7 @@ class CalculateCoilController extends Controller
 
         alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');
 
-        return redirect()->route('inquiries.index');
+        return redirect()->route('inquiries.product.amounts', $inquiry->id);
     }
 
     public function getData(Request $request)

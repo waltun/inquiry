@@ -69,6 +69,9 @@ class PartController extends Controller
 
         alert()->success('ثبت موفق', 'ثبت قطعه با موفقیت انجام شد');
 
+        if ($data['collection']) {
+            return redirect()->route('collections.index');
+        }
         return redirect()->route('parts.index');
     }
 
@@ -108,6 +111,9 @@ class PartController extends Controller
 
         alert()->success('ویرایش موفق', 'ویرایش قطعه با موفقیت انجام شد');
 
+        if ($data['collection']) {
+            return redirect()->route('collections.index');
+        }
         return redirect()->route('parts.index');
     }
 
