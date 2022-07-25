@@ -557,7 +557,7 @@
         <x-errors/>
     </div>
 
-    <form method="POST" action="{{ route('calculateCoil.storeEvaperator',[$part->id,$inquiry->id]) }}">
+    <form method="POST" action="{{ route('calculateCoil.storeEvaperator',[$part->id,$product->id]) }}">
         @csrf
 
         <input type="hidden" name="name" value="" id="coilName">

@@ -55,6 +55,9 @@
                         نام
                     </th>
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                        تعداد قطعات
+                    </th>
+                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                         کد
                     </th>
                     <th scope="col" class="relative px-4 py-3 rounded-l-md">
@@ -70,6 +73,9 @@
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center">{{ $category->name }}</p>
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <p class="text-sm text-green-600 font-bold text-center">{{ count($category->parts) }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center">

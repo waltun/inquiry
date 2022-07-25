@@ -100,17 +100,17 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::resource('categories', CategoryController::class);
 
     //Calculate coil routes
-    Route::get('/calculate/coil/evaperator/{part}/{inquiry}', [CalculateCoilController::class, 'evaperator'])->name('calculateCoil.evaperator.index');
-    Route::get('/calculate/coil/abi/{part}/{inquiry}', [CalculateCoilController::class, 'abi'])->name('calculateCoil.abi.index');
-    Route::get('/calculate/coil/condensor/{part}/{inquiry}', [CalculateCoilController::class, 'condensor'])->name('calculateCoil.condensor.index');
-    Route::get('/calculate/coil/fancoil/{part}/{inquiry}', [CalculateCoilController::class, 'fancoil'])->name('calculateCoil.fancoil.index');
-    Route::post('/calculate/coil/{part}/{inquiry}/post-evaperator', [CalculateCoilController::class, 'storeEvaperator'])
+    Route::get('/calculate/coil/evaperator/{part}/{product}', [CalculateCoilController::class, 'evaperator'])->name('calculateCoil.evaperator.index');
+    Route::get('/calculate/coil/abi/{part}/{product}', [CalculateCoilController::class, 'abi'])->name('calculateCoil.abi.index');
+    Route::get('/calculate/coil/condensor/{part}/{product}', [CalculateCoilController::class, 'condensor'])->name('calculateCoil.condensor.index');
+    Route::get('/calculate/coil/fancoil/{part}/{product}', [CalculateCoilController::class, 'fancoil'])->name('calculateCoil.fancoil.index');
+    Route::post('/calculate/coil/{part}/{product}/post-evaperator', [CalculateCoilController::class, 'storeEvaperator'])
         ->name('calculateCoil.storeEvaperator');
-    Route::post('/calculate/coil/{part}/{inquiry}/post-condensor', [CalculateCoilController::class, 'storeCondensor'])
+    Route::post('/calculate/coil/{part}/{product}/post-condensor', [CalculateCoilController::class, 'storeCondensor'])
         ->name('calculateCoil.storeCondensor');
-    Route::post('/calculate/coil/{part}/{inquiry}/post-fancoil', [CalculateCoilController::class, 'storeFancoil'])
+    Route::post('/calculate/coil/{part}/{product}/post-fancoil', [CalculateCoilController::class, 'storeFancoil'])
         ->name('calculateCoil.storeFancoil');
-    Route::post('/calculate/coil/{part}/{inquiry}/post-water', [CalculateCoilController::class, 'storeWater'])
+    Route::post('/calculate/coil/{part}/{product}/post-water', [CalculateCoilController::class, 'storeWater'])
         ->name('calculateCoil.storeWater');
     Route::post('/calculate/coil/getData', [CalculateCoilController::class, 'getData'])->name('calculateCoil.getData');
 

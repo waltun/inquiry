@@ -601,7 +601,7 @@
         <x-errors/>
     </div>
 
-    <form method="POST" action="{{ route('calculateCoil.storeCondensor',[$part->id,$inquiry->id]) }}">
+    <form method="POST" action="{{ route('calculateCoil.storeCondensor',[$part->id,$product->id]) }}">
         @csrf
 
         <input type="hidden" name="name" value="" id="coilName">
