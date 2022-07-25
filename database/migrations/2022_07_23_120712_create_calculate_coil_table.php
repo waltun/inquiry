@@ -33,6 +33,7 @@ return new class extends Migration {
 
             $table->bigInteger('price')->default(0);
             $table->unsignedBigInteger('inquiry_id');
+            $table->enum('type', ['evaperator', 'condensor', 'water', 'fancoil']);
 
             $table->timestamps();
         });

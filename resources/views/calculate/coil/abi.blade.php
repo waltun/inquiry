@@ -841,8 +841,10 @@
     </div>
 
     <!-- Content -->
-    <form method="POST" action="{{ route('calculateCoil.store',$part->id) }}" class="mt-4">
+    <form method="POST" action="{{ route('calculateCoil.storeWater',[$part->id,$inquiry->id]) }}" class="mt-4">
         @csrf
+
+        <input type="hidden" name="type" value="water">
 
         <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4">
             <table class="border-collapse border border-gray-400 w-full">
