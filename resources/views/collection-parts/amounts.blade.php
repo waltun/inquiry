@@ -42,8 +42,15 @@
     </nav>
 
     <!-- Navigation Btn -->
-    <div class="mt-4 flex md:justify-end justify-center space-x-4 space-x-reverse">
-        <a href="{{ route('collections.index') }}" class="form-detail-btn text-xs">لیست مجموعه ها</a>
+    <div class="mt-4 md:flex justify-between items-center">
+        <div class="mb-4 md:mb-0">
+            <p class="md:text-lg text-sm font-bold text-black">
+                مقادیر مجموعه {{ $parentPart->name }}
+            </p>
+        </div>
+        <div>
+            <a href="{{ route('collections.index') }}" class="form-detail-btn text-xs">لیست مجموعه ها</a>
+        </div>
     </div>
 
     <!-- Errors -->

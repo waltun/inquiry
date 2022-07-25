@@ -560,7 +560,6 @@
     <form method="POST" action="{{ route('calculateCoil.storeEvaperator',[$part->id,$inquiry->id]) }}">
         @csrf
 
-        <input type="hidden" name="type" value="evaperator">
         <input type="hidden" name="name" value="" id="coilName">
 
         <div class="my-4">
