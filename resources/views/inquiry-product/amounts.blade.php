@@ -99,10 +99,11 @@
                     @foreach($amounts as $amount)
                         @php
                             $part = \App\Models\Part::find($amount->part_id);
+                            $category = \App\Models\Category::find($part->category_id);
                         @endphp
                         <tr>
                             <td class="border border-gray-300 p-4 text-sm text-center">
-                                {{ $part->code }}
+                                {{ $category->code . "-" . $part->code }}
                             </td>
                             <td class="border border-gray-300 p-4 text-sm text-center flex items-center">
                                 @if($part->name == "کویل DX")
@@ -203,10 +204,11 @@
                     @foreach($group->parts as $part)
                         @php
                             $amount = \App\Models\Amount::where('product_id',$product->id)->where('part_id',$part->id)->first();
+                            $category = \App\Models\Category::find($part->category_id);
                         @endphp
                         <tr>
                             <td class="border border-gray-300 p-4 text-sm text-center">
-                                {{ $part->code }}
+                                {{ $category->code . "-" . $part->code }}
                             </td>
                             <td class="border border-gray-300 p-4 text-sm text-center flex items-center">
                                 <select name="part_ids[]" id="" class="input-text">
@@ -342,10 +344,11 @@
                 @foreach($modell->parts as $index => $part)
                     @php
                         $amount = \App\Models\Amount::where('part_id', $part->id)->where('product_id', $product->id)->first();
+                        $category = \App\Models\Category::find($part->category_id);
                     @endphp
                     <tr>
                         <td class="border border-gray-300 p-4 text-sm text-center">
-                            {{ $part->code }}
+                            {{ $category->code . "-" . $part->code }}
                         </td>
                         <td class="border border-gray-300 p-4 text-sm text-center">
                             {{ $part->name }}

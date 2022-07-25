@@ -86,6 +86,9 @@
                 </thead>
                 <tbody>
                 @foreach($parentPart->children as $child)
+                    @php
+                        $category = \App\Models\Category::find($child->category_id);
+                    @endphp
                     <tr>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-gray-500 text-center">{{ $loop->index + 1 }}</p>
@@ -100,7 +103,7 @@
                             <p class="text-sm text-black text-center">{{ number_format($child->price) }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ $child->code }}</p>
+                            <p class="text-sm text-black text-center">{{ $category->code . "-" . $child->code }}</p>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse">
                             <form action="{{ route('collections.destroyPart',[$parentPart->id,$child->id]) }}"
@@ -123,6 +126,9 @@
         <!-- Mobile List -->
         <div class="block md:hidden">
             @foreach($parentPart->children as $childPart)
+                @php
+                    $category = \App\Models\Category::find($childPart->category_id);
+                @endphp
                 <div class="bg-white rounded-md p-4 border border-gray-200 shadow-sm mb-4 relative z-30">
                     <span
                         class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
@@ -139,7 +145,7 @@
                             قیمت : {{ number_format($childPart->price) }}
                         </p>
                         <p class="text-xs text-black text-center">
-                            کد : {{ $childPart->code }}
+                            کد : {{ $category->code . "-" . $childPart->code }}
                         </p>
                         <div class="flex w-full justify-between">
                             <form action="{{ route('collections.destroy',[$parentPart->id,$childPart->id]) }}"

@@ -134,8 +134,7 @@ class PartController extends Controller
      */
     public function getLastCode(array $data): array
     {
-        $category = Category::find($data['category_id']);
-        $lastPart = Part::where('category_id', $category->id)->latest()->first();
+        $lastPart = Part::latest()->first();
         if ($lastPart) {
             $lastPartCode = str_pad($lastPart->code + 1, 4, "0", STR_PAD_LEFT);
             $data['code'] = $lastPartCode;

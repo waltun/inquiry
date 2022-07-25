@@ -126,8 +126,7 @@ class ModellController extends Controller
 
     public function getLastCode($id)
     {
-        $group = Group::find($id);
-        $lastModell = Modell::where('group_id', $group->id)->latest()->first();
+        $lastModell = Modell::latest()->first();
         if ($lastModell) {
             $lastModellCode = str_pad($lastModell->code + 1, 4, "0", STR_PAD_LEFT);
         } else {

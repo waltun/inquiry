@@ -119,7 +119,7 @@
                             {{ $loop->index + 1 }}
                         </td>
                         <td class="border border-gray-300 p-4 text-sm text-center">
-                            {{ $group->code }}{{ $modell->code}}
+                            {{ $group->code }}-{{ $modell->code}}
                         </td>
                         <td class="border border-gray-300 p-4 text-sm text-center">
                             {{ $group->name }}

@@ -115,6 +115,9 @@
                     </thead>
                     <tbody>
                     @foreach($modell->parts as $part)
+                        @php
+                            $category = \App\Models\Category::find($part->category_id);
+                        @endphp
                         <tr>
                             <td class="px-4 py-3 whitespace-nowrap">
                                 <p class="text-sm text-gray-500 text-center">{{ $loop->index + 1 }}</p>
@@ -133,7 +136,7 @@
                                 <p class="text-sm text-black text-center">{{ number_format($part->price) }}</p>
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap">
-                                <p class="text-sm text-black text-center">{{ $part->code }}</p>
+                                <p class="text-sm text-black text-center">{{ $category->code . "-" . $part->code }}</p>
                             </td>
                             <td class="px-4 py-3 space-x-3 space-x-reverse">
                                 <button class="form-cancel-btn text-xs"

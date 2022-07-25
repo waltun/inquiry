@@ -130,7 +130,7 @@
                         </span>
                     <div class="space-y-4">
                         <p class="text-xs text-black text-center">نام : {{ $modell->name }}</p>
-                        <p class="text-xs text-black text-center">کد : {{ $modell->code }}</p>
+                        <p class="text-xs text-black text-center">کد : {{ $group->code . "-" . $modell->code }}</p>
                         <div class="flex w-full justify-between">
                             <a href="{{ route('modells.edit',$modell->id) }}" class="form-edit-btn text-xs">
                                 ویرایش

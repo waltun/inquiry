@@ -37,7 +37,7 @@ class InquiryController extends Controller
         ]);
 
         $data['manager'] = auth()->user()->name;
-        $data['inquiry_number'] = random_int(999, 999999);
+        $data['inquiry_number'] = "IQY-" . random_int(111111, 999999);
         $data['user_id'] = $request->user()->id;
 
         Inquiry::create($data);
