@@ -3,6 +3,11 @@
     <x-slot name="js">
         <script src="{{ asset('plugins/jquery.min.js') }}"></script>
         <script>
+            let globalLoole = null;
+            let globalFin = null;
+            let globalCollectorAhani = null;
+            let globalCollectorMessi = null;
+            let globalZekhamat = null;
             //Value sections
             let valueSection = [];
             let totalPriceSection = [];
@@ -43,25 +48,26 @@
 
                 let khamCoilResult = parseFloat(document.getElementById('inputKham').value);
 
-                //tedadLooleDarRadif = tedadMogheyiatLooleDarRadif;
-                //tedadMadarLoole = tedadMogheyiatLooleDarRadif;
-                //tedadSoorakhPakhshKon = tedadMadarLoole;
-
                 //-----------------
-                if (looleMessiId) {
+                if ((looleMessiId && globalLoole !== looleMessiId) || (looleMessiId && globalLoole === null)) {
                     sendDataLooleMessi(looleMessiId);
+                    globalLoole = looleMessiId;
                 }
-                if (finCoilId) {
+                if ((finCoilId && globalFin !== finCoilId) || (finCoilId && globalFin === null)) {
                     sendDataFinCoil(finCoilId);
+                    globalFin = finCoilId;
                 }
-                if (collectorAhaniId) {
+                if ((collectorAhaniId && globalCollectorAhani !== collectorAhaniId) || (collectorAhaniId && globalCollectorAhani === null)) {
                     sendDataCollectorAhani(collectorAhaniId);
+                    globalCollectorAhani = collectorAhaniId;
                 }
-                if (collectorMessiId) {
+                if ((collectorMessiId && globalCollectorMessi !== collectorMessiId) || (collectorMessiId && globalCollectorMessi === null)) {
                     sendDataCollectorMessi(collectorMessiId);
+                    globalCollectorMessi = collectorMessiId;
                 }
-                if (zekhamatFrameId) {
+                if ((zekhamatFrameId && globalZekhamat !== zekhamatFrameId) || (zekhamatFrameId && globalZekhamat === null)) {
                     sendDataVaraghGalvanize(zekhamatFrameId)
+                    globalZekhamat = zekhamatFrameId;
                 }
                 //-----------------
 
@@ -399,10 +405,19 @@
                 let price19 = inputTotalPrice[19].value * collectorMessiResult;
                 totalPriceSection[19].innerText = Intl.NumberFormat().format(price19);
 
-                valueSection[20].innerText = collectorAhaniResult.toFixed(4);
-                inputValues[20].value = collectorAhaniResult.toFixed(4);
-                let price20 = inputTotalPrice[20].value * collectorAhaniResult;
-                totalPriceSection[20].innerText = Intl.NumberFormat().format(price20);
+                let price20;
+                if (collectorAhaniResult) {
+                    valueSection[20].innerText = collectorAhaniResult.toFixed(4);
+                    inputValues[20].value = collectorAhaniResult.toFixed(4);
+                    price20 = inputTotalPrice[20].value * collectorAhaniResult;
+                    totalPriceSection[20].innerText = Intl.NumberFormat().format(price20);
+                } else {
+                    valueSection[20].innerText = 0;
+                    inputValues[20].value = 0;
+                    price20 = 0;
+                    totalPriceSection[20].innerText = 0;
+                }
+
 
                 valueSection[21].innerText = khamCoilResult.toFixed(4);
                 inputValues[21].value = khamCoilResult.toFixed(4);
@@ -418,6 +433,7 @@
 
                 finalPriceSection.innerText = Intl.NumberFormat().format(finalPrice);
                 inputFinalPrice.value = finalPrice;
+                document.getElementById("finalPriceTopSection").innerText = Intl.NumberFormat().format(finalPrice.toFixed(0));
 
                 document.getElementById('coilName').value = `کویل کندانسور با سطح ${satheCoilResult.toFixed(2)} و طول ${tooleCoil.toFixed(2)}`;
             }
@@ -615,17 +631,22 @@
                             اطلاعات ورودی {{ $part->name }}
                         </p>
                     </div>
-                    <div>
+                    <div class="flex items-center space-x-4 space-x-reverse">
                         <p class="bg-indigo-500 rounded-md px-6 py-2 text-sm font-bold text-white">
                             سطح کویل :
-                            <span id="satheCoil"></span>
+                            <span id="satheCoil">0.00</span>
+                        </p>
+                        <p class="bg-green-500 rounded-md px-6 py-2 text-sm font-bold text-white">
+                            قیمت نهایی :
+                            <span id="finalPriceTopSection">0</span>
+                            تومان
                         </p>
                     </div>
                 </div>
                 <div class="grid grid-cols-4 gap-4">
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputLooleMessi">لوله مسی کویل</label>
-                        <select name="loole_messi" id="inputLooleMessi" class="input-text" onchange="calculate()">
+                        <select name="loole_messi" id="inputLooleMessi" class="input-text bg-yellow-300" onchange="calculate()">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::where('code','5805')->first()->id }}">
                                 {{ \App\Models\Part::where('code','5805')->first()->name }}
@@ -646,7 +667,7 @@
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputFin">فین کویل</label>
-                        <select name="fin_coil" id="inputFin" class="input-text" onchange="calculate()">
+                        <select name="fin_coil" id="inputFin" class="input-text bg-yellow-300" onchange="calculate()">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::where('code','130130')->first()->id }}">
                                 {{ \App\Models\Part::where('code','130130')->first()->name }}
@@ -682,7 +703,7 @@
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputTedadRadif">تعداد ردیف کویل</label>
-                        <select name="" id="inputTedadRadif" class="input-text" onchange="calculate()">
+                        <select name="" id="inputTedadRadif" class="input-text bg-yellow-300" onchange="calculate()">
                             <option value="">انتخاب کنید</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -694,7 +715,7 @@
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputFinDarInch">فین در اینچ</label>
-                        <select name="" id="inputFinDarInch" class="input-text" onchange="calculate()">
+                        <select name="" id="inputFinDarInch" class="input-text bg-yellow-300" onchange="calculate()">
                             <option value="">انتخاب کنید</option>
                             <option value="8">8</option>
                             <option value="10">10</option>
@@ -705,7 +726,7 @@
 
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputKham">خم کویل</label>
-                        <select name="" id="inputKham" class="input-text" onchange="calculate()">
+                        <select name="" id="inputKham" class="input-text bg-yellow-300" onchange="calculate()">
                             <option value="0" selected>ندارد</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -715,7 +736,7 @@
 
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputTedadMadar">تعداد مدار کویل</label>
-                        <select name="" id="inputTedadMadar" class="input-text">
+                        <select name="" id="inputTedadMadar" class="input-text bg-yellow-300">
                             <option value="">انتخاب کنید</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -728,7 +749,7 @@
 
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputZekhamatFrame">ضخامت فریم کویل</label>
-                        <select name="zekhamat_frame_coil" id="inputZekhamatFrame" class="input-text"
+                        <select name="zekhamat_frame_coil" id="inputZekhamatFrame" class="input-text bg-yellow-300"
                                 onchange="calculate()">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::where('code','1222')->first()->id }}">
@@ -758,7 +779,7 @@
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputNoePoosheshZedeKhordegi">نوع پوشش ضد
                             خوردگی</label>
-                        <select name="" id="inputNoePoosheshZedeKhordegi" class="input-text" onchange="calculate()">
+                        <select name="" id="inputNoePoosheshZedeKhordegi" class="input-text bg-yellow-300" onchange="calculate()">
                             <option value="">انتخاب کنید</option>
                             <option value="0">ندارد</option>
                             <option value="1">هرسایت</option>
@@ -767,10 +788,9 @@
 
                     <div class="col-span-2">
                         <label class="block mb-2 text-sm font-bold" for="inputCollectorAhani">هدر و کلکتور آهنی</label>
-                        <select name="collector_ahani" id="inputCollectorAhani" class="input-text"
+                        <select name="collector_ahani" id="inputCollectorAhani" class="input-text bg-yellow-300"
                                 onchange="calculate()">
-                            <option value="">انتخاب کنید</option>
-                            <option value="0">ندارد</option>
+                            <option value="">ندارد</option>
                             <option value="{{ \App\Models\Part::where('code','111000')->first()->id }}">
                                 {{ \App\Models\Part::where('code','111000')->first()->name }}
                             </option>
@@ -797,7 +817,7 @@
 
                     <div class="col-span-2">
                         <label class="block mb-2 text-sm font-bold" for="inputCollectorMessi">هدر و کلکتور مسی</label>
-                        <select name="collector_messi" id="inputCollectorMessi" class="input-text"
+                        <select name="collector_messi" id="inputCollectorMessi" class="input-text bg-yellow-300"
                                 onchange="calculate()">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::where('code','38000')->first()->id }}">
@@ -841,13 +861,13 @@
 
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputTooleCoil">طول کویل (اینچ)</label>
-                        <input type="text" class="input-text" id="inputTooleCoil" value="0" onkeyup="calculate()">
+                        <input type="text" class="input-text bg-yellow-300" id="inputTooleCoil" value="0" onkeyup="calculate()">
                     </div>
 
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputTedadLooleDarRadif">تعداد لوله در
                             ردیف</label>
-                        <input type="text" class="input-text" id="inputTedadLooleDarRadif" value="0"
+                        <input type="text" class="input-text bg-yellow-300" id="inputTedadLooleDarRadif" value="0"
                                onkeyup="calculate()">
                     </div>
 
@@ -855,21 +875,21 @@
                         <label class="block mb-2 text-sm font-bold" for="inputTedadMogheyiatLooleDarRadif">
                             تعداد موقعیت یک لوله در ردیف
                         </label>
-                        <input type="text" class="input-text" id="inputTedadMogheyiatLooleDarRadif"
+                        <input type="text" class="input-text bg-yellow-300" id="inputTedadMogheyiatLooleDarRadif"
                                onkeyup="calculate()"
                                value="0">
                     </div>
 
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputTedadMadarLoole">تعداد مدار لوله</label>
-                        <input type="text" class="input-text" id="inputTedadMadarLoole" value="0" onkeyup="calculate()">
+                        <input type="text" class="input-text bg-yellow-300" id="inputTedadMadarLoole" value="0" onkeyup="calculate()">
                     </div>
 
                     <div class="col-span-4">
                         <label class="block mb-2 text-sm font-bold" for="inputTedadSoorakhPakhshKon">
                             تعداد سوراخ پخش کن
                         </label>
-                        <input type="text" class="input-text" id="inputTedadSoorakhPakhshKon" value="0"
+                        <input type="text" class="input-text bg-yellow-300" id="inputTedadSoorakhPakhshKon" value="0"
                                onkeyup="calculate()">
                     </div>
                 </div>

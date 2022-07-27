@@ -31,7 +31,6 @@ class CalculateCoilController extends Controller
 
     public function storeEvaperator(Request $request, Part $part, Product $product)
     {
-
         $looleMessi = $request['loole_messi'];
         $fin = $request['fin_coil'];
         $zekhamat_frame = $request['zekhamat_frame_coil'];
@@ -52,7 +51,7 @@ class CalculateCoilController extends Controller
         }
 
         foreach ($newPart->children as $index => $childPart) {
-            if ($index == 18) {
+            if ($index == 16) {
                 $childPart->pivot->parent_part_id = $looleMessi;
             }
             if ($index == 17) {
@@ -81,7 +80,6 @@ class CalculateCoilController extends Controller
 
     public function storeCondensor(Request $request, Part $part, Product $product)
     {
-
         $looleMessi = $request['loole_messi'];
         $fin = $request['fin_coil'];
         $zekhamat_frame = $request['zekhamat_frame_coil'];

@@ -3,6 +3,12 @@
     <x-slot name="js">
         <script src="{{ asset('plugins/jquery.min.js') }}"></script>
         <script>
+            let globalLoole = null;
+            let globalFin = null;
+            let globalCollectorAhani = null;
+            let globalCollectorMessi = null;
+            let globalZekhamat = null;
+            let globalCollectorBerenji = null;
             //Value sections
             let valueSection = [];
             let totalPriceSection = [];
@@ -46,23 +52,29 @@
                 let khamCoilResult = parseFloat(document.getElementById('inputKham').value);
 
                 //-----------------
-                if (looleMessiId) {
+                if ((looleMessiId && globalLoole !== looleMessiId) || (looleMessiId && globalLoole === null)) {
                     sendDataLooleMessi(looleMessiId);
+                    globalLoole = looleMessiId;
                 }
-                if (finCoilId) {
+                if ((finCoilId && globalFin !== finCoilId) || (finCoilId && globalFin === null)) {
                     sendDataFinCoil(finCoilId);
+                    globalFin = finCoilId;
                 }
-                if (collectorAhaniId) {
+                if ((collectorAhaniId && globalCollectorAhani !== collectorAhaniId) || (collectorAhaniId && globalCollectorAhani === null)) {
                     sendDataCollectorAhani(collectorAhaniId);
+                    globalCollectorAhani = collectorAhaniId;
                 }
-                if (collectorMessiId) {
+                if ((collectorMessiId && globalCollectorMessi !== collectorMessiId) || (collectorMessiId && globalCollectorMessi === null)) {
                     sendDataCollectorMessi(collectorMessiId);
+                    globalCollectorMessi = collectorMessiId;
                 }
-                if (zekhamatFrameId) {
+                if ((zekhamatFrameId && globalZekhamat !== zekhamatFrameId) || (zekhamatFrameId && globalZekhamat === null)) {
                     sendDataVaraghGalvanize(zekhamatFrameId)
+                    globalZekhamat = zekhamatFrameId;
                 }
-                if (collectorBerenjiId) {
+                if ((collectorBerenjiId && globalCollectorBerenji !== collectorBerenjiId) || (collectorBerenjiId && globalCollectorBerenji === null)) {
                     sendDataCollectorBerenji(collectorBerenjiId)
+                    globalCollectorBerenji = collectorBerenjiId;
                 }
                 //-----------------
 
@@ -392,10 +404,18 @@
                 let price17 = inputTotalPrice[17].value * collectorMessiResult;
                 totalPriceSection[17].innerText = Intl.NumberFormat().format(price17);
 
-                valueSection[18].innerText = collectorAhaniResult.toFixed(4);
-                inputValues[18].value = collectorAhaniResult.toFixed(4);
-                let price18 = inputTotalPrice[18].value * collectorAhaniResult;
-                totalPriceSection[18].innerText = Intl.NumberFormat().format(price18);
+                let price18;
+                if (collectorAhaniResult) {
+                    valueSection[18].innerText = collectorAhaniResult.toFixed(4);
+                    inputValues[18].value = collectorAhaniResult.toFixed(4);
+                    price18 = inputTotalPrice[18].value * collectorAhaniResult;
+                    totalPriceSection[18].innerText = Intl.NumberFormat().format(price18);
+                } else {
+                    valueSection[18].innerText = 0;
+                    inputValues[18].value = 0;
+                    price18 = 0;
+                    totalPriceSection[18].innerText = 0;
+                }
 
                 valueSection[19].innerText = khamCoilResult.toFixed(4);
                 inputValues[19].value = khamCoilResult.toFixed(4);
@@ -416,6 +436,7 @@
 
                 finalPriceSection.innerText = Intl.NumberFormat().format(finalPrice);
                 inputFinalPrice.value = finalPrice;
+                document.getElementById("finalPriceTopSection").innerText = Intl.NumberFormat().format(finalPrice.toFixed(0));
 
                 document.getElementById('coilName').value = `کویل فن کویلی با سطح ${satheCoilResult.toFixed(2)} و طول ${tooleCoil.toFixed(2)}`;
             }
@@ -639,17 +660,23 @@
                             اطلاعات ورودی {{ $part->name }}
                         </p>
                     </div>
-                    <div>
+                    <div class="flex items-center space-x-4 space-x-reverse">
                         <p class="bg-indigo-500 rounded-md px-6 py-2 text-sm font-bold text-white">
                             سطح کویل :
-                            <span id="satheCoil"></span>
+                            <span id="satheCoil">0.00</span>
+                        </p>
+                        <p class="bg-green-500 rounded-md px-6 py-2 text-sm font-bold text-white">
+                            قیمت نهایی :
+                            <span id="finalPriceTopSection">0</span>
+                            تومان
                         </p>
                     </div>
                 </div>
                 <div class="grid grid-cols-4 gap-4">
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputLooleMessi">لوله مسی کویل</label>
-                        <select name="loole_messi" id="inputLooleMessi" class="input-text bg-yellow-300" onchange="calculate()">
+                        <select name="loole_messi" id="inputLooleMessi" class="input-text bg-yellow-300"
+                                onchange="calculate()">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::where('code','5805')->first()->id }}">
                                 {{ \App\Models\Part::where('code','5805')->first()->name }}
@@ -752,7 +779,8 @@
 
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputZekhamatFrame">ضخامت فریم کویل</label>
-                        <select name="zekhamat_frame_coil" id="inputZekhamatFrame" class="input-text bg-yellow-300" onchange="calculate()">
+                        <select name="zekhamat_frame_coil" id="inputZekhamatFrame" class="input-text bg-yellow-300"
+                                onchange="calculate()">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::where('code','1222')->first()->id }}">
                                 {{ \App\Models\Part::where('code','1222')->first()->name }}
@@ -791,9 +819,9 @@
 
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputCollectorAhani">هدر و کلکتور آهنی</label>
-                        <select name="collector_ahani" id="inputCollectorAhani" class="input-text bg-yellow-300" onchange="calculate()">
-                            <option value="">انتخاب کنید</option>
-                            <option value="0">ندارد</option>
+                        <select name="collector_ahani" id="inputCollectorAhani" class="input-text bg-yellow-300"
+                                onchange="calculate()">
+                            <option value="">ندارد</option>
                             <option value="{{ \App\Models\Part::where('code','111000')->first()->id }}">
                                 {{ \App\Models\Part::where('code','111000')->first()->name }}
                             </option>
@@ -820,7 +848,8 @@
 
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputCollectorMessi">هدر و کلکتور مسی</label>
-                        <select name="collector_messi" id="inputCollectorMessi" class="input-text bg-yellow-300" onchange="calculate()">
+                        <select name="collector_messi" id="inputCollectorMessi" class="input-text bg-yellow-300"
+                                onchange="calculate()">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::where('code','38000')->first()->id }}">
                                 {{ \App\Models\Part::where('code','38000')->first()->name }}
@@ -862,7 +891,8 @@
                     </div>
 
                     <div class="col-span-2">
-                        <label class="block mb-2 text-sm font-bold" for="inputCollectorBerenji">هدر و کلکتور برنجی</label>
+                        <label class="block mb-2 text-sm font-bold" for="inputCollectorBerenji">هدر و کلکتور
+                            برنجی</label>
                         <select name="collector_berenji" id="inputCollectorBerenji" class="input-text bg-yellow-300"
                                 onchange="calculate()">
                             <option value="">انتخاب کنید</option>
@@ -891,7 +921,8 @@
                     </div>
 
                     <div>
-                        <label class="block mb-2 text-sm font-bold" for="inputTedadLooleDarRadif">تعداد لوله در ردیف</label>
+                        <label class="block mb-2 text-sm font-bold" for="inputTedadLooleDarRadif">تعداد لوله در
+                            ردیف</label>
                         <input type="text" class="input-text bg-yellow-300" id="inputTedadLooleDarRadif" value="0"
                                onkeyup="calculate()">
                     </div>
@@ -923,7 +954,7 @@
         </div>
 
         <!-- Content -->
-        <div  class="mt-4">
+        <div class="mt-4">
             <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4">
                 <table class="border-collapse border border-gray-400 w-full">
                     <thead class="sticky top-1 bg-gray-200 z-50 shadow-md">
@@ -954,9 +985,11 @@
                             </td>
                             <td class="border border-gray-300 p-4 text-sm text-center">
                                 <span id="priceSection{{ $index }}">{{ number_format($child->price) }}</span>
-                                <input type="hidden" name="" id="inputTotalPrice{{ $index }}" value="{{ $child->price }}">
+                                <input type="hidden" name="" id="inputTotalPrice{{ $index }}"
+                                       value="{{ $child->price }}">
                             </td>
-                            <td class="border border-gray-300 p-4 text-sm text-center" id="totalPriceSection{{ $index }}">
+                            <td class="border border-gray-300 p-4 text-sm text-center"
+                                id="totalPriceSection{{ $index }}">
 
                             </td>
                         </tr>
