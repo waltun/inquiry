@@ -225,7 +225,7 @@
     </div>
 
     <!-- Content -->
-    <form method="POST" action="{{ route('calculateDamper.store',$part->id) }}" class="mt-4">
+    <form method="POST" action="{{ route('calculateDamper.store',[$part->id,$product->id]) }}" class="mt-4">
         @csrf
 
         <input type="hidden" name="name" id="damperName">

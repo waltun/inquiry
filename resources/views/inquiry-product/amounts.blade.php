@@ -178,7 +178,7 @@
                                                     محاسبه شد
                                                 </a>
                                             @else
-                                                <a href="{{ route('calculateDamper.taze.index',$part->id) }}"
+                                                <a href="{{ route('calculateDamper.taze.index',[$part->id,$product->id]) }}"
                                                    class="form-submit-btn">
                                                     محاسبه {{ $part->name }}
                                                 </a>
@@ -190,7 +190,7 @@
                                                     محاسبه شد
                                                 </a>
                                             @else
-                                                <a href="{{ route('calculateDamper.raft.index',$part->id) }}"
+                                                <a href="{{ route('calculateDamper.raft.index',[$part->id,$product->id]) }}"
                                                    class="form-submit-btn">
                                                     محاسبه {{ $part->name }}
                                                 </a>
@@ -202,7 +202,7 @@
                                                     محاسبه شد
                                                 </a>
                                             @else
-                                                <a href="{{ route('calculateDamper.bargasht.index',$part->id) }}"
+                                                <a href="{{ route('calculateDamper.bargasht.index',[$part->id,$product->id]) }}"
                                                    class="form-submit-btn">
                                                     محاسبه {{ $part->name }}
                                                 </a>
@@ -214,7 +214,7 @@
                                                     محاسبه شد
                                                 </a>
                                             @else
-                                                <a href="{{ route('calculateDamper.exast.index',$part->id) }}"
+                                                <a href="{{ route('calculateDamper.exast.index',[$part->id,$product->id]) }}"
                                                    class="form-submit-btn">
                                                     محاسبه {{ $part->name }}
                                                 </a>
@@ -318,7 +318,7 @@
                                                     محاسبه شد
                                                 </a>
                                             @else
-                                                <a href="{{ route('calculateDamper.taze.index',$part->id) }}"
+                                                <a href="{{ route('calculateDamper.taze.index',[$part->id,$product->id]) }}"
                                                    class="form-submit-btn">
                                                     محاسبه {{ $part->name }}
                                                 </a>
@@ -330,7 +330,7 @@
                                                     محاسبه شد
                                                 </a>
                                             @else
-                                                <a href="{{ route('calculateDamper.raft.index',$part->id) }}"
+                                                <a href="{{ route('calculateDamper.raft.index',[$part->id,$product->id]) }}"
                                                    class="form-submit-btn">
                                                     محاسبه {{ $part->name }}
                                                 </a>
@@ -342,7 +342,7 @@
                                                     محاسبه شد
                                                 </a>
                                             @else
-                                                <a href="{{ route('calculateDamper.bargasht.index',$part->id) }}"
+                                                <a href="{{ route('calculateDamper.bargasht.index',[$part->id,$product->id]) }}"
                                                    class="form-submit-btn">
                                                     محاسبه {{ $part->name }}
                                                 </a>
@@ -354,7 +354,7 @@
                                                     محاسبه شد
                                                 </a>
                                             @else
-                                                <a href="{{ route('calculateDamper.exast.index',$part->id) }}"
+                                                <a href="{{ route('calculateDamper.exast.index',[$part->id,$product->id]) }}"
                                                    class="form-submit-btn">
                                                     محاسبه {{ $part->name }}
                                                 </a>
