@@ -60,7 +60,7 @@ class CalculateCoilController extends Controller
             if ($index == 2) {
                 $childPart->pivot->parent_part_id = $zekhamat_frame;
             }
-            if ($index == 20) {
+            if ($index == 20 && !is_null($collectorAhani)) {
                 $childPart->pivot->parent_part_id = $collectorAhani;
             }
             if ($index == 19) {
@@ -109,7 +109,7 @@ class CalculateCoilController extends Controller
             if ($index == 2) {
                 $childPart->pivot->parent_part_id = $zekhamat_frame;
             }
-            if ($index == 20) {
+            if ($index == 20 && !is_null($collectorAhani)) {
                 $childPart->pivot->parent_part_id = $collectorAhani;
             }
             if ($index == 19) {
@@ -159,7 +159,7 @@ class CalculateCoilController extends Controller
             if ($index == 2) {
                 $childPart->pivot->parent_part_id = $zekhamat_frame;
             }
-            if ($index == 18) {
+            if ($index == 18 && !is_null($collectorAhani)) {
                 $childPart->pivot->parent_part_id = $collectorAhani;
             }
             if ($index == 17) {
@@ -215,7 +215,7 @@ class CalculateCoilController extends Controller
             if ($index == 20) {
                 $childPart->pivot->parent_part_id = $collectorAhani;
             }
-            if ($index == 19) {
+            if ($index == 19 && !is_null($collectorMessi)) {
                 $childPart->pivot->parent_part_id = $collectorMessi;
             }
 

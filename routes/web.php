@@ -119,5 +119,5 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/calculate/damperRaft/{part}/{product}', [CalculateDamperController::class, 'raft'])->name('calculateDamper.raft.index');
     Route::get('/calculate/damperBargasht/{part}/{product}', [CalculateDamperController::class, 'bargasht'])->name('calculateDamper.bargasht.index');
     Route::get('/calculate/damperExast/{part}/{product}', [CalculateDamperController::class, 'exast'])->name('calculateDamper.exast.index');
-    Route::post('/calculate/damper/{part}/post', [CalculateDamperController::class, 'store'])->name('calculateDamper.store');
+    Route::post('/calculate/damper/{part}/{product}/post', [CalculateDamperController::class, 'store'])->name('calculateDamper.store');
 });

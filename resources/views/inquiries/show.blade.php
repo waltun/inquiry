@@ -130,7 +130,7 @@
                             </td>
                             <td class="border border-gray-300 p-4 text-sm text-center font-bold">
                                 @if($amount->price > 0)
-                                    {{ number_format($amount->price * $amount->value) }}
+                                    {{ number_format($amount->price) }} تومان
                                 @else
                                     {{ number_format($part->price) }} تومان
                                 @endif
@@ -172,13 +172,21 @@
                                     {{ $part->unit }}
                                 </td>
                                 <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                                    {{ number_format($part->price) }} تومان
+                                    @if($amount->price > 0)
+                                        {{ number_format($amount->price) }} تومان
+                                    @else
+                                        {{ number_format($part->price) }} تومان
+                                    @endif
                                 </td>
                                 <td class="border border-gray-300 p-4 text-sm text-center">
                                     {{ $amount->value ?? '' }}
                                 </td>
                                 <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                                    {{ number_format($part->price * $amount->value) }} تومان
+                                    @if($amount->price > 0)
+                                        {{ number_format($amount->price * $amount->value) }} تومان
+                                    @else
+                                        {{ number_format($part->price * $amount->value) }} تومان
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
