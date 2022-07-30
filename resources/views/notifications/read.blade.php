@@ -131,7 +131,7 @@
                         </div>
                     </div>
                     @break
-                @case('App\Notifications\CopyInquiryNotification')
+                @case('App\Notifications\CopyInquiryNotification' || 'App\Notifications\CorrectionInquiryNotification')
                     @php
                         $inquiry = \App\Models\Inquiry::find($notification->data['inquiry_id']);
                     @endphp

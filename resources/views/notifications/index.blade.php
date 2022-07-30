@@ -86,7 +86,7 @@
                             </a>
                         </div>
                     </div>
-                @break
+                    @break
                 @case('App\Notifications\PercentInquiryNotification')
                     @php
                         $inquiry = \App\Models\Inquiry::find($notification->data['inquiry_id']);
@@ -128,8 +128,8 @@
                             </a>
                         </div>
                     </div>
-                @break
-                @case('App\Notifications\CopyInquiryNotification')
+                    @break
+                @case('App\Notifications\CopyInquiryNotification' || 'App\Notifications\CorrectionInquiryNotification')
                     @php
                         $inquiry = \App\Models\Inquiry::find($notification->data['inquiry_id']);
                     @endphp

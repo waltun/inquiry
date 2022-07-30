@@ -7,6 +7,7 @@ use App\Models\Inquiry;
 use App\Models\Product;
 use App\Models\User;
 use App\Notifications\CopyInquiryNotification;
+use App\Notifications\CorrectionInquiryNotification;
 use App\Notifications\NewInquiryNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -152,6 +153,7 @@ class InquiryController extends Controller
             'archive_at' => null,
             'submit' => false,
             'price' => 0,
+            'inquiry_number' => random_int(1111, 9999)
         ]);
         $newInquiry->save();
 
@@ -174,6 +176,8 @@ class InquiryController extends Controller
 
     public function correction(Request $request, Inquiry $inquiry)
     {
+        $user = User::find($inquiry->user_id);
+
         $request->validate([
             'message' => 'required'
         ]);
@@ -184,6 +188,9 @@ class InquiryController extends Controller
             'submit' => false,
             'archive_at' => null,
         ]);
+
+        //Send Notification
+        $user->notify(new CorrectionInquiryNotification($inquiry));
 
         alert()->success('اصلاح موفق', 'اصلاح استعلام با موفقیت انجام شد و برای کاربر ارسال شد');
 
