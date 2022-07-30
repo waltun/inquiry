@@ -140,7 +140,7 @@ class InquiryController extends Controller
         return view('inquiries.priced', compact('inquiries'));
     }
 
-    public function restore(Inquiry $inquiry)
+    public function copy(Inquiry $inquiry)
     {
         Gate::authorize('inquiry-restore');
 
@@ -160,7 +160,7 @@ class InquiryController extends Controller
             $newProduct->save();
         }
 
-        alert()->success('ثبت اصلاح موفق', 'ثبت اصلاح با موفقیت انجام شد و برای کاربر ارسال شد');
+        alert()->success('کپی موفق', 'کپی با موفقیت انجام شد و برای کاربر ارسال شد');
 
         return back();
     }
