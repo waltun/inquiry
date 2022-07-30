@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Group;
 use App\Models\Inquiry;
 use App\Models\Product;
+use App\Notifications\NewInquiryNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -121,6 +122,9 @@ class InquiryController extends Controller
         $inquiry->update([
             'submit' => true
         ]);
+
+        //Send Notification
+        auth()->user()->notify(new NewInquiryNotification($inquiry));
 
         alert()->success('ثبت نهایی موفق', 'ثبت نهایی با موفقیت انجام شد و برای مدیریت ارسال شد');
 

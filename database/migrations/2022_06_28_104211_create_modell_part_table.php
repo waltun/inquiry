@@ -20,11 +20,11 @@ return new class extends Migration {
 
             $table->decimal('value', 8, 2)->default(0.00);
 
-            $table->index(['model_id', 'part_id']);
+            $table->index(['modell_id', 'part_id']);
         });
 
         Schema::table('modell_part', function (Blueprint $table) {
-            $table->foreign('model_id')->references('id')->on('modells')->onDelete('cascade');
+            $table->foreign('modell_id')->references('id')->on('modells')->onDelete('cascade');
             $table->foreign('part_id')->references('id')->on('parts')->onDelete('cascade');
         });
     }
