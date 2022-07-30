@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Group;
 use App\Models\Inquiry;
 use App\Models\Product;
+use App\Models\User;
+use App\Notifications\CopyInquiryNotification;
 use App\Notifications\NewInquiryNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -144,6 +146,8 @@ class InquiryController extends Controller
     {
         Gate::authorize('inquiry-restore');
 
+        $user = User::find($inquiry->user_id);
+
         $newInquiry = $inquiry->replicate()->fill([
             'archive_at' => null,
             'submit' => false,
@@ -159,6 +163,9 @@ class InquiryController extends Controller
             ]);
             $newProduct->save();
         }
+
+        //Send Notification
+        $user->notify(new CopyInquiryNotification($newInquiry));
 
         alert()->success('کپی موفق', 'کپی با موفقیت انجام شد و برای کاربر ارسال شد');
 

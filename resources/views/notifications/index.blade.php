@@ -129,6 +129,45 @@
                         </div>
                     </div>
                 @break
+                @case('App\Notifications\CopyInquiryNotification')
+                    @php
+                        $inquiry = \App\Models\Inquiry::find($notification->data['inquiry_id']);
+                    @endphp
+                    <div class="border border-gray-400 rounded-md p-4 bg-white mb-4">
+                        <div class="flex items-center justify-between mb-4 pb-3 border-b border-gray-200">
+                            <p class="text-sm text-gray-700">
+                                تاریخ اعلان : {{ jdate($notification->created_at)->format('%A, %d %B %Y - ساعت H:i') }}
+                            </p>
+                            <form action="{{ route('notifications.markAsRead',$notification->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="form-submit-btn text-xs">
+                                    تغییر اعلان به خوانده شده
+                                </button>
+                            </form>
+                        </div>
+                        <div class="mb-4">
+                            <p class="text-lg font-bold text-black">
+                                {{ $notification->data['message'] }}
+                            </p>
+                        </div>
+                        <div class="flex items-center space-x-reverse space-x-4 mb-4">
+                            <p class="text-sm">
+                                شماره استعلام : {{ $inquiry->inquiry_number }}
+                            </p>
+                            <p class="text-sm">
+                                نام پروژه : {{ $inquiry->name }}
+                            </p>
+                            <p class="text-sm">
+                                مسئول پروژه : {{ \App\Models\User::find($inquiry->user_id)->name }}
+                            </p>
+                        </div>
+                        <div class="flex justify-end space-x-reverse space-x-4">
+                            <a href="{{ route('inquiries.index') }}" class="form-edit-btn text-xs">
+                                لیست استعلام ها
+                            </a>
+                        </div>
+                    </div>
+                    @break
             @endswitch
         @endforeach
     </div>
