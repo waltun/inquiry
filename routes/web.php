@@ -10,6 +10,7 @@ use App\Http\Controllers\GroupController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\InquiryProductController;
 use App\Http\Controllers\ModellController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PartController;
 use App\Http\Controllers\PartOfGroupController;
 use App\Http\Controllers\PartOfModellController;
@@ -120,4 +121,6 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/calculate/damperBargasht/{part}/{product}', [CalculateDamperController::class, 'bargasht'])->name('calculateDamper.bargasht.index');
     Route::get('/calculate/damperExast/{part}/{product}', [CalculateDamperController::class, 'exast'])->name('calculateDamper.exast.index');
     Route::post('/calculate/damper/{part}/{product}/post', [CalculateDamperController::class, 'store'])->name('calculateDamper.store');
+
+    Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
 });

@@ -25,8 +25,7 @@ class NewInquiryNotification extends Notification
     {
         return [
             'inquiry_id' => $this->inquiry->id,
-            'user_id' => $this->inquiry->user_id,
-            'inquiry_number' => $this->inquiry->inquiry_number
+            'message' => 'شما یک استعلام جدید دارید'
         ];
     }
 }
