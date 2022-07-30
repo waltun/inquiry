@@ -44,48 +44,92 @@
     <!-- Content -->
     <div class="mt-4">
         @foreach($notifications as $notification)
-            @if($notification->type == 'App\Notifications\NewInquiryNotification')
-                @php
-                    $inquiry = \App\Models\Inquiry::find($notification->data['inquiry_id']);
-                @endphp
-                <div class="border border-gray-400 rounded-md p-4 bg-white mb-4">
-                    <div class="flex items-center justify-between mb-4 pb-3 border-b border-gray-200">
-                        <p class="text-sm text-gray-700">
-                            تاریخ اعلان : {{ jdate($notification->created_at)->format('%A, %d %B %Y - ساعت H:i') }}
-                        </p>
-                        <form action="{{ route('notifications.markAsRead',$notification->id) }}" method="POST">
-                            @csrf
-                            <button type="submit" class="form-submit-btn text-xs">
-                                تغییر اعلان به خوانده شده
-                            </button>
-                        </form>
+            @switch($notification->type)
+                @case('App\Notifications\NewInquiryNotification')
+                    @php
+                        $inquiry = \App\Models\Inquiry::find($notification->data['inquiry_id']);
+                    @endphp
+                    <div class="border border-gray-400 rounded-md p-4 bg-white mb-4">
+                        <div class="flex items-center justify-between mb-4 pb-3 border-b border-gray-200">
+                            <p class="text-sm text-gray-700">
+                                تاریخ اعلان : {{ jdate($notification->created_at)->format('%A, %d %B %Y - ساعت H:i') }}
+                            </p>
+                            <form action="{{ route('notifications.markAsRead',$notification->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="form-submit-btn text-xs">
+                                    تغییر اعلان به خوانده شده
+                                </button>
+                            </form>
+                        </div>
+                        <div class="mb-4">
+                            <p class="text-lg font-bold text-black">
+                                {{ $notification->data['message'] }}
+                            </p>
+                        </div>
+                        <div class="flex items-center space-x-reverse space-x-4 mb-4">
+                            <p class="text-sm">
+                                شماره استعلام : {{ $inquiry->inquiry_number }}
+                            </p>
+                            <p class="text-sm">
+                                نام پروژه : {{ $inquiry->name }}
+                            </p>
+                            <p class="text-sm">
+                                مسئول پروژه : {{ \App\Models\User::find($inquiry->user_id)->name }}
+                            </p>
+                        </div>
+                        <div class="flex justify-end space-x-reverse space-x-4">
+                            <a href="{{ route('inquiries.show',$inquiry->id) }}" class="form-edit-btn text-xs">
+                                مشاهده استعلام
+                            </a>
+                            <a href="{{ route('inquiries.submitted') }}" class="form-detail-btn text-xs">
+                                لیست استعلام های منتظر قیمت
+                            </a>
+                        </div>
                     </div>
-                    <div class="mb-4">
-                        <p class="text-lg font-bold text-black">
-                            {{ $notification->data['message'] }}
-                        </p>
+                @break
+                @case('App\Notifications\PercentInquiryNotification')
+                    @php
+                        $inquiry = \App\Models\Inquiry::find($notification->data['inquiry_id']);
+                    @endphp
+                    <div class="border border-gray-400 rounded-md p-4 bg-white mb-4">
+                        <div class="flex items-center justify-between mb-4 pb-3 border-b border-gray-200">
+                            <p class="text-sm text-gray-700">
+                                تاریخ اعلان : {{ jdate($notification->created_at)->format('%A, %d %B %Y - ساعت H:i') }}
+                            </p>
+                            <form action="{{ route('notifications.markAsRead',$notification->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="form-submit-btn text-xs">
+                                    تغییر اعلان به خوانده شده
+                                </button>
+                            </form>
+                        </div>
+                        <div class="mb-4">
+                            <p class="text-lg font-bold text-black">
+                                {{ $notification->data['message'] }}
+                            </p>
+                        </div>
+                        <div class="flex items-center space-x-reverse space-x-4 mb-4">
+                            <p class="text-sm">
+                                شماره استعلام : {{ $inquiry->inquiry_number }}
+                            </p>
+                            <p class="text-sm">
+                                نام پروژه : {{ $inquiry->name }}
+                            </p>
+                            <p class="text-sm">
+                                مسئول پروژه : {{ \App\Models\User::find($inquiry->user_id)->name }}
+                            </p>
+                        </div>
+                        <div class="flex justify-end space-x-reverse space-x-4">
+                            <a href="{{ route('inquiries.products',$inquiry->id) }}" class="form-edit-btn text-xs">
+                                مشاهده استعلام
+                            </a>
+                            <a href="{{ route('inquiries.priced') }}" class="form-detail-btn text-xs">
+                                لیست استعلام های قیمت گذاری شده
+                            </a>
+                        </div>
                     </div>
-                    <div class="flex items-center space-x-reverse space-x-4 mb-4">
-                        <p class="text-sm">
-                            شماره استعلام : {{ $inquiry->inquiry_number }}
-                        </p>
-                        <p class="text-sm">
-                            نام پروژه : {{ $inquiry->name }}
-                        </p>
-                        <p class="text-sm">
-                            مسئول پروژه : {{ \App\Models\User::find($inquiry->user_id)->name }}
-                        </p>
-                    </div>
-                    <div class="flex justify-end space-x-reverse space-x-4">
-                        <a href="{{ route('inquiries.show',$inquiry->id) }}" class="form-edit-btn text-xs">
-                            مشاهده استعلام
-                        </a>
-                        <a href="{{ route('inquiries.submitted') }}" class="form-detail-btn text-xs">
-                            لیست استعلام های منتظر قیمت
-                        </a>
-                    </div>
-                </div>
-            @endif
+                @break
+            @endswitch
         @endforeach
     </div>
 </x-layout>

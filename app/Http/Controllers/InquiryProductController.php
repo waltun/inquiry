@@ -9,6 +9,8 @@ use App\Models\Modell;
 use App\Models\Part;
 use App\Models\Product;
 use App\Models\Special;
+use App\Models\User;
+use App\Notifications\PercentInquiryNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -201,6 +203,7 @@ class InquiryProductController extends Controller
         $group = Group::find($product->group_id);
         $modell = Modell::find($product->model_id);
         $inquiry = Inquiry::find($product->inquiry_id);
+        $user = User::find($inquiry->user_id);
 
         if (!$modell->parts->isEmpty()) {
             foreach ($modell->parts as $part) {
@@ -238,6 +241,9 @@ class InquiryProductController extends Controller
             $inquiry->archive_at = now();
             $inquiry->price = $inquiry->products->sum('price');
             $inquiry->save();
+
+            //Send Notification
+            $user->notify(new PercentInquiryNotification($inquiry));
         }
 
         alert()->success('ثبت ضریب موفق', 'ثبت ضریب با موفقیت انجام شد و برای کاربر ارسال شد');
