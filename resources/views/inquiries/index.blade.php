@@ -149,8 +149,11 @@
                                                                 اصلاح استعلام
                                                             </h3>
                                                             <div class="mt-2">
-                                                                <div class="border border-gray-300 rounded-md p-4 shadow">
-                                                                    {{ $inquiry->message }}
+                                                                <div
+                                                                    class="border border-gray-300 rounded-md p-4 shadow">
+                                                                    <p class="text-sm leading-6 font-bold text-gray-800">
+                                                                        {{ $inquiry->message }}
+                                                                    </p>
                                                                 </div>
                                                             </div>
                                                         </div>

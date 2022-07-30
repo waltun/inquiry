@@ -171,4 +171,8 @@
             @endswitch
         @endforeach
     </div>
+
+    <div class="mt-4">
+        {{ $notifications->links() }}
+    </div>
 </x-layout>

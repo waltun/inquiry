@@ -123,7 +123,8 @@ class InquiryController extends Controller
         Gate::authorize('create-inquiry');
 
         $inquiry->update([
-            'submit' => true
+            'submit' => true,
+            'message' => null,
         ]);
 
         //Send Notification
@@ -188,6 +189,12 @@ class InquiryController extends Controller
             'submit' => false,
             'archive_at' => null,
         ]);
+
+        foreach ($inquiry->products as $product) {
+            $product->price = 0;
+            $product->percent = 0;
+            $product->save();
+        }
 
         //Send Notification
         $user->notify(new CorrectionInquiryNotification($inquiry));

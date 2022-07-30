@@ -8,7 +8,7 @@ class NotificationController extends Controller
 {
     public function index()
     {
-        $notifications = auth()->user()->unreadNotifications;
+        $notifications = auth()->user()->unreadNotifications()->paginate(20);
         return view('notifications.index', compact('notifications'));
     }
 
@@ -24,7 +24,7 @@ class NotificationController extends Controller
 
     public function read()
     {
-        $notifications = auth()->user()->notifications()->where('read_at', '!=', null)->get();
+        $notifications = auth()->user()->notifications()->where('read_at', '!=', null)->paginate(20);
         return view('notifications.read', compact('notifications'));
     }
 
