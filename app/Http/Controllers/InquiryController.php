@@ -154,7 +154,7 @@ class InquiryController extends Controller
             'archive_at' => null,
             'submit' => false,
             'price' => 0,
-            'inquiry_number' => random_int(1111, 9999)
+            'inquiry_number' => "IQY-" . random_int(111111, 999999)
         ]);
         $newInquiry->save();
 
