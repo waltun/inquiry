@@ -21,7 +21,7 @@
                               clip-rule="evenodd"/>
                     </svg>
                     <span class="mr-2 text-xs md:text-sm font-medium text-gray-400">
-                        مدیریت اعلان های خوانده نشده
+                        اعلان های خوانده شده
                     </span>
                 </div>
             </li>
@@ -32,11 +32,11 @@
     <div class="mt-4 flex justify-between items-center">
         <div>
             <p class="text-lg text-black font-bold">
-                لیست اعلان های خوانده نشده
+                لیست اعلان های خوانده شده
             </p>
         </div>
         <div class="space-x-2 space-x-reverse flex items-center">
-            <a href="{{ route('notifications.read') }}" class="form-detail-btn text-xs">اعلان های خوانده شده</a>
+            <a href="{{ route('notifications.index') }}" class="form-detail-btn text-xs">اعلان های خوانده نشده</a>
         </div>
 
     </div>
@@ -53,10 +53,11 @@
                         <p class="text-sm text-gray-700">
                             تاریخ اعلان : {{ jdate($notification->created_at)->format('%A, %d %B %Y - ساعت H:i') }}
                         </p>
-                        <form action="{{ route('notifications.markAsRead',$notification->id) }}" method="POST">
+                        <form action="{{ route('notifications.destroy',$notification->id) }}" method="POST">
                             @csrf
-                            <button type="submit" class="form-submit-btn text-xs">
-                                تغییر اعلان به خوانده شده
+                            @method('DELETE')
+                            <button type="submit" class="form-cancel-btn text-xs">
+                                حذف اعلان
                             </button>
                         </form>
                     </div>

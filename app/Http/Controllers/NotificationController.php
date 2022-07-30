@@ -11,4 +11,30 @@ class NotificationController extends Controller
         $notifications = auth()->user()->unreadNotifications;
         return view('notifications.index', compact('notifications'));
     }
+
+    public function markAsRead($id)
+    {
+        $notification = auth()->user()->unreadNotifications()->where('id', $id)->first();
+        $notification->markAsRead();
+
+        alert()->success('خوانده شده', 'اعلان مورد نظر با موفقیت به خوانده شده تغییر کرد');
+
+        return back();
+    }
+
+    public function read()
+    {
+        $notifications = auth()->user()->notifications()->where('read_at', '!=', null)->get();
+        return view('notifications.read', compact('notifications'));
+    }
+
+    public function destroy($id)
+    {
+        $notification = auth()->user()->notifications()->where('id', $id)->first();
+        $notification->delete();
+
+        alert()->success('خوانده شده', 'اعلان مورد نظر با موفقیت به خوانده شده تغییر کرد');
+
+        return back();
+    }
 }
