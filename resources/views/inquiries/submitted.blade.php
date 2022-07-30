@@ -99,16 +99,26 @@
                                 </a>
                             @endcan
                             @can('inquiry-restore')
-                                <form action="{{ route('inquiries.restore',$inquiry->id) }}" method="POST"
+                                <form action="{{ route('inquiries.copy',$inquiry->id) }}" method="POST"
                                       class="inline">
                                     @csrf
-                                    @method('PATCH')
-                                    <button class="form-cancel-btn text-xs"
-                                            onclick="return confirm('استعلام بازنگری شود ؟')">
-                                        بازنگری
+                                    <button class="form-edit-btn text-xs"
+                                            onclick="return confirm('استعلام کپی شود ؟')">
+                                        کپی
                                     </button>
                                 </form>
                             @endcan
+                                @can('inquiry-correction')
+                                    <form action="{{ route('inquiries.correction',$inquiry->id) }}" method="POST"
+                                          class="inline">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button class="form-cancel-btn text-xs"
+                                                onclick="return confirm('استعلام اصلاح شود ؟')">
+                                            اصلاح
+                                        </button>
+                                    </form>
+                                @endcan
                         </td>
                     </tr>
                 @endforeach
@@ -151,16 +161,26 @@
                                 </a>
                             @endcan
                             @can('inquiry-restore')
-                                <form action="{{ route('inquiries.restore',$inquiry->id) }}" method="POST"
+                                <form action="{{ route('inquiries.copy',$inquiry->id) }}" method="POST"
                                       class="inline">
                                     @csrf
-                                    @method('PATCH')
-                                    <button class="form-cancel-btn text-xs"
-                                            onclick="return confirm('استعلام اصلاح شود ؟')">
-                                        اصلاح
+                                    <button class="form-edit-btn text-xs"
+                                            onclick="return confirm('استعلام کپی شود ؟')">
+                                        کپی
                                     </button>
                                 </form>
                             @endcan
+                                @can('inquiry-correction')
+                                    <form action="{{ route('inquiries.correction',$inquiry->id) }}" method="POST"
+                                          class="inline">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button class="form-cancel-btn text-xs"
+                                                onclick="return confirm('استعلام اصلاح شود ؟')">
+                                            اصلاح
+                                        </button>
+                                    </form>
+                                @endcan
                         </div>
                     </div>
                 </div>
