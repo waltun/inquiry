@@ -21,6 +21,8 @@ return new class extends Migration {
             $table->string('inquiry_number');
             $table->bigInteger('price')->default(0);
 
+            $table->text('message')->nullable();
+
             $table->timestamp('archive_at')->nullable();
 
             $table->boolean('submit')->default(false);

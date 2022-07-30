@@ -172,6 +172,24 @@ class InquiryController extends Controller
         return back();
     }
 
+    public function correction(Request $request, Inquiry $inquiry)
+    {
+        $request->validate([
+            'message' => 'required'
+        ]);
+
+        $inquiry->update([
+            'message' => $request['message'],
+            'price' => 0,
+            'submit' => false,
+            'archive_at' => null,
+        ]);
+
+        alert()->success('اصلاح موفق', 'اصلاح استعلام با موفقیت انجام شد و برای کاربر ارسال شد');
+
+        return back();
+    }
+
     public function products(Inquiry $inquiry)
     {
         return view('inquiries.products', compact('inquiry'));

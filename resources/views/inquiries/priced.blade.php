@@ -103,11 +103,12 @@
                                 </a>
                             @endcan
                             @can('inquiry-detail')
-                                <a href="{{ route('inquiries.products',$inquiry->id) }}" class="form-submit-btn text-xs">
+                                <a href="{{ route('inquiries.products',$inquiry->id) }}"
+                                   class="form-submit-btn text-xs">
                                     مشاهده قیمت محصولات
                                 </a>
                             @endcan
-                            @can('inquiry-restore')
+                            @can('inquiry-copy')
                                 <form action="{{ route('inquiries.copy',$inquiry->id) }}" method="POST"
                                       class="inline">
                                     @csrf
@@ -116,6 +117,51 @@
                                         کپی
                                     </button>
                                 </form>
+                            @endcan
+                            @can('inquiry-correction')
+                                <div x-data="{ open:false }" class="inline-flex">
+                                    <button class="form-cancel-btn text-xs" type="button" @click="open=!open">
+                                        اصلاح
+                                    </button>
+                                    <div class="relative z-10" x-show="open" x-cloak>
+                                        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+                                        <div class="fixed z-10 inset-0 overflow-y-auto">
+                                            <div
+                                                class="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
+                                                <form method="POST"
+                                                      action="{{ route('inquiries.correction',$inquiry->id) }}"
+                                                      class="relative bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full">
+                                                    @csrf
+                                                    @method('PATCH')
+
+                                                    <div class="bg-white p-4">
+                                                        <div class="mt-3 text-center sm:mt-0 sm:text-right">
+                                                            <h3 class="text-lg font-medium text-gray-900 border-b border-gray-300 pb-3">
+                                                                اصلاح استعلام
+                                                            </h3>
+                                                            <div class="mt-2">
+                                                                <label for="inputText" class="text-sm mb-2 block">
+                                                                    علت اصلاح
+                                                                </label>
+                                                                <textarea name="message" id="inputText"
+                                                                          class="input-text resize-none h-32"></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="bg-gray-100 space-x-4 space-x-reverse px-4 py-2">
+                                                        <button type="button" class="form-cancel-btn"
+                                                                @click="open=!open">
+                                                            انصراف
+                                                        </button>
+                                                        <button type="submit" class="form-submit-btn">
+                                                            ثبت
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             @endcan
                         </td>
                     </tr>
@@ -148,12 +194,24 @@
                                     جزئیات
                                 </a>
                             @endcan
-                            @can('inquiry-restore')
+                            @can('inquiry-copy')
                                 <form action="{{ route('inquiries.copy',$inquiry->id) }}" method="POST"
                                       class="inline">
                                     @csrf
-                                    <button class="form-cancel-btn text-xs"
+                                    <button class="form-edit-btn text-xs"
                                             onclick="return confirm('استعلام کپی شود ؟')">
+                                        کپی
+                                    </button>
+                                </form>
+                            @endcan
+                            @can('inquiry-correction')
+                                <form action="{{ route('inquiries.correction',$inquiry->id) }}" method="POST"
+                                      class="inline">
+                                    @csrf
+                                    @method('PATCH')
+
+                                    <button class="form-cancel-btn text-xs"
+                                            onclick="return confirm('استعلام اصلاح شود ؟')">
                                         کپی
                                     </button>
                                 </form>
