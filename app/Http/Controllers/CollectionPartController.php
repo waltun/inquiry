@@ -118,8 +118,11 @@ class CollectionPartController extends Controller
 
     public function replicate(Part $parentPart)
     {
+        $lastPart = Part::latest()->first();
+        $code = str_pad($lastPart->code + 1, 4, "0", STR_PAD_LEFT);
+
         $newPart = $parentPart->replicate();
-        $newPart->code = random_int(100, 99999);
+        $newPart->code = $code;
         $newPart->name = $parentPart->name . " کپی شده ";
         $newPart->save();
 

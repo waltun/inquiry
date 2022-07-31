@@ -79,8 +79,13 @@ class ModellController extends Controller
 
     public function replicate(Modell $modell)
     {
-        $newModell = $modell->replicate();
-        $newModell->code = random_int(100, 99999);
+        $lastModell = Modell::latest()->first();
+        $code = str_pad($lastModell->code + 1, 4, "0", STR_PAD_LEFT);
+
+        $newModell = $modell->replicate()->fill([
+            'code' => $code,
+            'name' => $modell->name . " کپی شده",
+        ]);
         $newModell->save();
 
         alert()->success('کپی موفق', 'کپی مدل با موفقیت انجام شد');

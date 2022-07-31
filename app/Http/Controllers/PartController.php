@@ -128,11 +128,21 @@ class PartController extends Controller
         return back();
     }
 
-    /**
-     * @param array $data
-     * @return array
-     */
-    public function getLastCode(array $data): array
+    public function replicate(Part $part)
+    {
+        $lastPart = Part::latest()->first();
+        $code = str_pad($lastPart->code + 1, 4, "0", STR_PAD_LEFT);
+
+        $newPart = $part->replicate()->fill([
+            'code' => $code,
+            'name' => $part->name . " کپی شده ",
+        ]);
+        $newPart->save();
+
+        return back();
+    }
+
+    public function getLastCode(array $data)
     {
         $lastPart = Part::latest()->first();
         if ($lastPart) {
