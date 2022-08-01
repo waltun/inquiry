@@ -86,6 +86,33 @@
                     <input type="text" id="inputName" name="name" class="input-text" placeholder="مثال : پیچ"
                            value="{{ old('name') }}">
                 </div>
+                @if(request()->has('parent'))
+                    <div class="mt-4">
+                        <label for="inputParent" class="block mb-2 md:text-sm text-xs text-black">
+                            دسته بندی مرتبط
+                        </label>
+                        @php
+                            $category = \App\Models\Category::find(request('parent'));
+                        @endphp
+                        <input type="text" class="input-text bg-gray-200 cursor-not-allowed"
+                               value="{{ $category->name }}" disabled>
+                        <input type="hidden" name="parent_id" value="{{ $category->id }}">
+                    </div>
+                @else
+                    <div class="mt-4">
+                        <label for="inputParent" class="block mb-2 md:text-sm text-xs text-black">دسته بندی
+                            مرتبط</label>
+                        <select name="parent_id" id="inputParent" class="input-text">
+                            <option value="0">خودش</option>
+                            @foreach($categories as $category)
+                                <option
+                                    value="{{ $category->id }}" {{ old('parent_id') == $category->id ? 'selected' : '' }}>
+                                    {{ $category->name }} | {{ $category->code }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                @endif
             </div>
         </div>
 

@@ -10,25 +10,37 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::latest()->paginate(25);
+        $categories = Category::where('parent_id', 0)->with(['children'])->latest()->paginate(25);
         return view('categories.index', compact('categories'));
     }
 
     public function create()
     {
-        return view('categories.create');
+        $categories = Category::all();
+        return view('categories.create', compact('categories'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'code' => 'required|numeric|digits:4|unique:categories'
+            'parent_id' => 'required'
         ]);
+
+        if ($request['parent_id'] == 0) {
+            $request->validate([
+                'code' => 'required|numeric|digits:1'
+            ]);
+        } else {
+            $request->validate([
+                'code' => 'required|numeric|digits:2'
+            ]);
+        }
 
         Category::create([
             'name' => $request['name'],
-            'code' => $request['code']
+            'code' => $request['code'],
+            'parent_id' => $request['parent_id']
         ]);
 
         alert()->success('ثبت موفق', 'ثبت دسته بندی با موفقیت انجام شد');
@@ -38,19 +50,31 @@ class CategoryController extends Controller
 
     public function edit(Category $category)
     {
-        return view('categories.edit', compact('category'));
+        $categories = Category::all();
+        return view('categories.edit', compact('category', 'categories'));
     }
 
     public function update(Request $request, Category $category)
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'code' => ['required', 'numeric', 'digits:4', Rule::unique('categories')->ignore($category->id)]
+            'parent_id' => 'required',
         ]);
+
+        if ($request['parent_id'] == 0) {
+            $request->validate([
+                'code' => "required|numeric|digits:1"
+            ]);
+        } else {
+            $request->validate([
+                'code' => "required|numeric|digits:2"
+            ]);
+        }
 
         $category->update([
             'name' => $request['name'],
-            'code' => $request['code']
+            'code' => $request['code'],
+            'parent_id' => $request['parent_id']
         ]);
 
         alert()->success('ویرایش موفق', 'ویرایش دسته بندی با موفقیت انجام شد');
@@ -60,6 +84,10 @@ class CategoryController extends Controller
 
     public function destroy(Category $category)
     {
+        if (count($category->children) > 0) {
+            $category->children()->delete();
+        }
+
         $category->delete();
 
         alert()->success('حذف موفق', 'حذف دسته بندی با موفقیت انجام شد');

@@ -87,6 +87,17 @@
                     <input type="text" id="inputName" name="name" class="input-text" placeholder="مثال : پیچ"
                            value="{{ $category->name }}">
                 </div>
+                <div class="mt-4">
+                    <label for="inputParent" class="block mb-2 md:text-sm text-xs text-black">دسته بندی مرتبط</label>
+                    <select name="parent_id" id="inputParent" class="input-text">
+                        <option value="0">خودش</option>
+                        @foreach($categories as $cat)
+                            <option value="{{ $cat->id }}" {{ $category->parent_id == $cat->id ? 'selected' : '' }}>
+                                {{ $cat->name }} | {{ $cat->code }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
         </div>
 

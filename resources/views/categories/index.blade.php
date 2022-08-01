@@ -42,98 +42,56 @@
 
     <!-- Content -->
     <div class="mt-4">
-        <!-- Laptop List -->
-        <div class="bg-white shadow overflow-x-auto rounded-lg hidden md:block">
-            <table class="min-w-full">
-                <thead>
-                <tr class="bg-sky-200">
-                    <th scope="col"
-                        class="px-4 py-3 text-sm font-bold text-gray-800 text-center rounded-r-md">
-                        #
-                    </th>
-                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
-                        نام
-                    </th>
-                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
-                        تعداد قطعات
-                    </th>
-                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
-                        کد
-                    </th>
-                    <th scope="col" class="relative px-4 py-3 rounded-l-md">
-                        <span class="sr-only">اقدامات</span>
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($categories as $category)
-                    <tr>
-                        <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-gray-500 text-center">{{ $loop->index + 1 }}</p>
-                        </td>
-                        <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ $category->name }}</p>
-                        </td>
-                        <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-green-600 font-bold text-center">{{ count($category->parts) }}</p>
-                        </td>
-                        <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">
-                                {{ $category->code }}
+        @foreach($categories as $category)
+            <div class="border border-gray-400 rounded-md p-4 bg-white shadow-sm mb-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="ml-4">
+                            <span class="w-5 h-5 text-xs rounded-full bg-gray-200 grid place-content-center">
+                                {{ $loop->index + 1 }}
+                            </span>
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-black">
+                                {{ $category->name }}
                             </p>
-                        </td>
-                        <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
-                            <a href="{{ route('categories.edit',$category->id) }}" class="form-edit-btn text-xs">
-                                ویرایش
-                            </a>
-                            <form action="{{ route('categories.destroy',$category->id) }}" method="POST"
-                                  class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <button class="form-cancel-btn text-xs" onclick="return confirm('دسته بندی حذف شود ؟')">
-                                    حذف
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
-        </div>
-
-        <div class="mt-4">
-            {{ $categories->links() }}
-        </div>
-
-        <!-- Mobile List -->
-        <div class="block md:hidden">
-            @foreach($categories as $category)
-                <div class="bg-white rounded-md p-4 border border-gray-200 shadow-sm mb-4 relative z-30">
-                <span
-                    class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
-                    {{ $loop->index + 1 }}
-                </span>
-                    <div class="space-y-4">
-                        <p class="text-xs text-black text-center">نام : {{ $category->name }}</p>
-                        <p class="text-xs text-black text-center">
-                            تاریخ ایجاد : {{ jdate($category->created_at)->format('%A, %d %B %Y') }}
-                        </p>
-                        <div class="flex w-full justify-between">
-                            <a href="{{ route('categories.edit',$category->id) }}" class="form-edit-btn text-xs">
-                                ویرایش
-                            </a>
-                            <form action="{{ route('categories.destroy',$category->id) }}" method="POST"
-                                  class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <button class="form-cancel-btn text-xs" onclick="return confirm('دسته بندی حذف شود ؟')">
-                                    حذف
-                                </button>
-                            </form>
                         </div>
                     </div>
+                    <div class="flex items-center">
+                        <div>
+                            <p class="text-sm text-gray-700 font-bold">
+                                تعداد قطعات : {{ count($category->parts) }}
+                            </p>
+                        </div>
+                        <div class="mx-4">
+                            <span class="text-gray-400 font-bold text-lg"> | </span>
+                        </div>
+                        <div>
+                            <p class="text-sm text-gray-800 font-bold">
+                                کد : {{ $category->code }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-3 space-x-reverse">
+                        <a href="{{ route('categories.create') }}?parent={{ $category->id }}"
+                           class="form-detail-btn text-xs">
+                            ثبت زیردسته
+                        </a>
+                        <a href="{{ route('categories.edit',$category->id) }}" class="form-edit-btn text-xs">
+                            ویرایش
+                        </a>
+                        <form action="{{ route('categories.destroy',$category->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+
+                            <button class="form-cancel-btn text-xs" onclick="return confirm('دسته بندی حذف شود ؟')">
+                                حذف
+                            </button>
+                        </form>
+                    </div>
                 </div>
-            @endforeach
-        </div>
+                @include('categories.children',['category' => $category])
+            </div>
+        @endforeach
     </div>
 </x-layout>
