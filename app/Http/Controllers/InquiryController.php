@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Notifications\CopyInquiryNotification;
 use App\Notifications\CorrectionInquiryNotification;
 use App\Notifications\NewInquiryNotification;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -41,7 +42,9 @@ class InquiryController extends Controller
         ]);
 
         $data['manager'] = auth()->user()->name;
-        $data['inquiry_number'] = "IQY-" . random_int(111111, 999999);
+
+        $data = $this->getCode($data);
+
         $data['user_id'] = $request->user()->id;
 
         Inquiry::create($data);
@@ -215,5 +218,19 @@ class InquiryController extends Controller
         $modells = $group->modells;
 
         return response(['data' => $modells]);
+    }
+
+    public function getCode(array $data)
+    {
+        $lastInquiry = Inquiry::all()->last();
+        $year = jdate(now())->getYear();
+        if (!is_null($lastInquiry)) {
+            $inquiryNumber = str_pad($lastInquiry->inquiry_number + 1, 5, "0", STR_PAD_LEFT);
+            $data['inquiry_number'] = $inquiryNumber;
+        } else {
+            $inquiryNumber = '00001';
+            $data['inquiry_number'] = $year . $inquiryNumber;
+        }
+        return $data;
     }
 }
