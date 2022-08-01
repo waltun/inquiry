@@ -18,7 +18,9 @@ return new class extends Migration {
             $table->unsignedBigInteger('child_part_id');
             $table->unsignedBigInteger('parent_part_id');
 
-            $table->decimal('value','8','2')->default(0.00);
+            $table->decimal('value', '8', '2')->default(0.00);
+
+            $table->index(['child_part_id', 'parent_part_id']);
         });
 
         Schema::table('part_child', function (Blueprint $table) {
