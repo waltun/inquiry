@@ -75,9 +75,15 @@
                 </thead>
                 <tbody>
                 @foreach($parentPart->children as $childPart)
+                    @php
+                        $code = '';
+                        foreach($childPart->categories as $category){
+                            $code = $code . $category->code;
+                        }
+                    @endphp
                     <tr>
                         <td class="border border-gray-300 p-4 text-sm text-center">
-                            {{ $childPart->code }}
+                            {{ $code . "-" . $childPart->code }}
                         </td>
                         <td class="border border-gray-300 p-4 text-sm text-center">
                             {{ $childPart->name }}
