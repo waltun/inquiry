@@ -22,13 +22,7 @@ return new class extends Migration {
 
             $table->boolean('collection')->default(false);
 
-            $table->unsignedBigInteger('category_id');
-
             $table->timestamps();
-        });
-
-        Schema::table('parts', function (Blueprint $table) {
-            $table->foreign('category_id')->references('id')->on('categories');
         });
     }
 
