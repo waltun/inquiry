@@ -91,34 +91,15 @@
 
         <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
             <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">مشخصات کلی</p>
-
             <div class="mt-4">
                 <label for="inputName" class="block mb-2 md:text-sm text-xs text-black">نام قطعه</label>
                 <input type="text" id="inputName" name="name" class="input-text"
                        value="{{ $part->name }}">
             </div>
-
             <div class="mt-4">
                 <label for="inputUnit" class="block mb-2 md:text-sm text-xs text-black">واحد قطعه</label>
                 <input type="text" id="inputUnit" name="unit" class="input-text" value="{{ $part->unit }}">
             </div>
-
-            <div class="mt-4">
-                <label for="inputCategory" class="block mb-2 md:text-sm text-xs text-black">دسته بندی قطعه</label>
-                <select name="category_id" id="inputCategory" class="input-text">
-                    @foreach($categories as $category)
-                        <option value="{{ $category->id }}" {{ $category->id == $part->category_id ? 'selected' : '' }}>
-                            {{ $category->name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-
-        </div>
-
-        <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
-            <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">مجموعه</p>
-
             <div class="mt-4">
                 <label for="inputCollection" class="block mb-2 md:text-sm text-xs text-black">قطعه مجموعه ای</label>
                 <select name="collection" id="inputCollection" class="input-text">
@@ -126,6 +107,25 @@
                     <option value="true" {{ $part->collection ? 'selected' : '' }}>باشد</option>
                 </select>
             </div>
+        </div>
+
+        <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
+            <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">دسته بندی</p>
+            @foreach($part->categories as $category)
+                <div class="mt-4">
+                    <label for="inputCategory{{ $category->id }}" class="block mb-2 md:text-sm text-xs text-black">
+                        دسته بندی قطعه
+                    </label>
+                    <select name="categories[]" id="inputCategory{{ $category->id }}" class="input-text">
+                        @foreach($categories as $category2)
+                            <option
+                                value="{{ $category2->id }}" {{ $category->id == $category2->id ? 'selected' : '' }}>
+                                {{ $category2->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            @endforeach
         </div>
 
         <div class="col-span-2">

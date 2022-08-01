@@ -63,7 +63,8 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/parts/price', [PartPriceController::class, 'index'])->name('parts.price.index');
     Route::patch('/parts/update-price', [PartPriceController::class, 'update'])->name('parts.price.update');
     Route::post('/parts/{part}/replicate', [PartController::class, 'replicate'])->name('parts.replicate');
-    Route::resource('parts', PartController::class);
+    Route::post('/parts/getCategory', [PartController::class, 'getCategory'])->name('parts.getCategory');
+    Route::resource('parts', PartController::class)->except(['show']);
 
     //Collection Part routes
     Route::get('/collection-parts', [CollectionPartController::class, 'index'])->name('collections.index');

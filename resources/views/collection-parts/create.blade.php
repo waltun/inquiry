@@ -67,21 +67,9 @@
     </div>
 
     <!-- Search -->
-    <div
-        class="mt-4" {{ request()->has('code') || request()->has('search') ? "x-data={open:true}" : "x-data={open:false}" }}>
+    <div class="mt-4">
         <div class="bg-white p-4 shadow-md rounded-md border border-gray-200">
-            <div class="flex justify-between items-center cursor-pointer" @click="open = !open">
-                <p class="font-bold text-black">
-                    جستجو بین قطعات
-                </p>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transform transition-transform" fill="none"
-                     viewBox="0 0 24 24" :class="{'rotate-180' : open}"
-                     stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
-                </svg>
-            </div>
-
-            <div class="mt-4 md:grid grid-cols-2 gap-4" x-show="open" x-cloak>
+            <div class="md:grid grid-cols-3 gap-4">
                 <form class="bg-white rounded-md p-4 shadow-sm border border-gray-200 mb-4 md:mb-0">
                     <div class="mb-4">
                         <label for="inputSearchCode" class="block mb-2 md:text-sm text-xs text-black">
@@ -99,7 +87,7 @@
                 <form class="bg-white rounded-md p-4 shadow-sm border border-gray-200 mb-4 md:mb-0">
                     <div class="mb-4">
                         <label for="inputSearch" class="block mb-2 md:text-sm text-xs text-black">
-                            جستجو براساس نام، واحد یا قیمت
+                            جستجو براساس نام یا قیمت
                         </label>
                         <input type="text" id="inputSearch" name="search" class="input-text" placeholder="مثال : پیچ"
                                value="{{ request('search') }}">
@@ -110,15 +98,37 @@
                         </button>
                     </div>
                 </form>
+
+                <form class="bg-white rounded-md p-4 shadow-sm border border-gray-200 mb-4 md:mb-0">
+                    <div class="mb-4">
+                        <label for="inputCategory" class="block mb-2 md:text-sm text-xs text-black">
+                            جستجو براساس دسته بندی
+                        </label>
+                        <select name="category" id="inputCategory" class="input-text">
+                            <option value="">انتخاب کنید</option>
+                            @foreach($categories as $category)
+                                <option
+                                    value="{{ $category->id }}" {{ $category->id == request('category') ? 'selected' : '' }}>
+                                    {{ $category->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="flex justify-end">
+                        <button class="form-submit-btn" type="submit">
+                            جستجو
+                        </button>
+                    </div>
+                </form>
             </div>
 
-{{--            @if(request()->has('code') || request()->has('search'))--}}
-{{--                <div class="mt-4">--}}
-{{--                    <a href="{{ route('collections.create',$group->id) }}" class="form-detail-btn text-xs">--}}
-{{--                        پاکسازی جستجو--}}
-{{--                    </a>--}}
-{{--                </div>--}}
-{{--            @endif--}}
+            @if(request()->has('code') || request()->has('search') || request()->has('category'))
+                <div class="mt-4">
+                    <a href="{{ route('collections.create',$parentPart->id) }}" class="form-detail-btn text-xs">
+                        پاکسازی جستجو
+                    </a>
+                </div>
+            @endif
         </div>
     </div>
 
@@ -165,8 +175,16 @@
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center">{{ number_format($part->price) }}</p>
                         </td>
+                        @php
+                            $code = '';
+                            foreach($part->categories as $category){
+                                $code = $code . $category->code;
+                            }
+                        @endphp
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ $part->code }}</p>
+                            <p class="text-sm text-black text-center">
+                                {{ $code . "-" . $part->code }}
+                            </p>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse">
                             <form action="{{ route('collections.store',[$parentPart->id,$part->id]) }}" method="POST"

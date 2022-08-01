@@ -115,11 +115,14 @@
                         if ($amount){
                             $totalGroupPrice += ($part->price * $amount->value);
                         }
-                        $category = \App\Models\Category::find($part->category_id);
+                        $code = '';
+                        foreach($part->categories as $category){
+                            $code = $code . $category->code;
+                        }
                     @endphp
                     <tr>
                         <td class="border border-gray-300 p-4 text-sm text-center">
-                            {{ $category->code . "-" . $part->code }}
+                            {{ $code . "-" . $part->code }}
                         </td>
                         <td class="border border-gray-300 p-4 text-sm text-center">
                             {{ $part->name }}
@@ -146,11 +149,14 @@
                             if ($amount){
                                 $totalModellPrice += ($part->price * $amount->value);
                             }
-                            $category = \App\Models\Category::find($part->category_id);
+                            $code = '';
+                            foreach($part->categories as $category){
+                                $code = $code . $category->code;
+                            }
                         @endphp
                         <tr>
                             <td class="border border-gray-300 p-4 text-sm text-center">
-                                {{ $category->code . "-" . $part->code }}
+                                {{ $code . "-" . $part->code }}
                             </td>
                             <td class="border border-gray-300 p-4 text-sm text-center">
                                 {{ $part->name }}

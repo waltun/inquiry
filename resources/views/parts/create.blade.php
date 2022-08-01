@@ -1,4 +1,75 @@
 <x-layout>
+    <x-slot name="js">
+        <script src="{{ asset('plugins/jquery.min.js') }}"></script>
+        <script>
+            function getCategory1() {
+                let id = document.getElementById('inputCategory1').value;
+                let section = document.getElementById('categorySection1');
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('parts.getCategory') }}',
+                    data: {
+                        id: id,
+                    },
+                    success: function (res) {
+                        if (res.data != null) {
+                            section.innerHTML = `
+                            <label for="inputCategory" class="block mb-2 md:text-sm text-xs text-black">زیر دسته</label>
+                            <select class="input-text" onchange="getCategory2()" id="inputCategory2" name="categories[]">
+                                <option value="">انتخاب کنید</option>
+                                    ${
+                                res.data.map(function (category) {
+                                    return `<option value="${category.id}">${category.name}</option>`
+                                })
+                            }
+                            </select>`
+                        }
+                    }
+                });
+            }
+
+            function getCategory2() {
+                let id = document.getElementById('inputCategory2').value;
+                let section = document.getElementById('categorySection2');
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('parts.getCategory') }}',
+                    data: {
+                        id: id,
+                    },
+                    success: function (res) {
+                        if (res.data != null) {
+                            section.innerHTML = `
+                            <label for="inputCategory3" class="block mb-2 md:text-sm text-xs text-black">زیر دسته</label>
+                            <select class="input-text" name="categories[]" id="inputCategory3">
+                                <option value="">انتخاب کنید</option>
+                                    ${
+                                res.data.map(function (category) {
+                                    return `<option value="${category.id}">${category.name}</option>`
+                                })
+                            }
+                            </select>`
+                        }
+                    }
+                });
+            }
+        </script>
+    </x-slot>
+
     <!-- Breadcrumb -->
     <nav class="flex bg-gray-100 p-4 rounded-md" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-2 space-x-reverse">
@@ -94,8 +165,22 @@
             </div>
 
             <div class="mt-4">
-                <label for="inputCategory" class="block mb-2 md:text-sm text-xs text-black">دسته بندی قطعه</label>
-                <select name="category_id" id="inputCategory" class="input-text">
+                <label for="inputCollection" class="block mb-2 md:text-sm text-xs text-black">قطعه مجموعه ای</label>
+                <select name="collection" id="inputCollection" class="input-text">
+                    <option value="false">نباشد</option>
+                    <option value="true">باشد</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
+            <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">دسته بندی</p>
+
+            <div class="mt-4">
+                <label for="inputCategory1" class="block mb-2 md:text-sm text-xs text-black">دسته بندی قطعه</label>
+                <select name="categories[]" id="inputCategory1" class="input-text" onchange="getCategory1()">
+                    <option value="">انتخاب کنید</option>
                     @foreach($categories as $category)
                         <option value="{{ $category->id }}">
                             {{ $category->name }}
@@ -104,17 +189,11 @@
                 </select>
             </div>
 
-        </div>
+            <div class="mt-4" id="categorySection1">
 
-        <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
-            <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">مجموعه</p>
+            </div>
+            <div class="mt-4" id="categorySection2">
 
-            <div class="mt-4">
-                <label for="inputCollection" class="block mb-2 md:text-sm text-xs text-black">قطعه مجموعه ای</label>
-                <select name="collection" id="inputCollection" class="input-text">
-                    <option value="false">نباشد</option>
-                    <option value="true">باشد</option>
-                </select>
             </div>
         </div>
 

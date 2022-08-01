@@ -35,6 +35,7 @@ class CollectionPartController extends Controller
     public function create(Part $parentPart)
     {
         $parts = Part::query();
+        $categories = Category::all();
 
         if ($keyword = request('search')) {
             $parts->where('name', 'LIKE', "%{$keyword}%")
@@ -49,7 +50,7 @@ class CollectionPartController extends Controller
         $parts = $parts->latest()->paginate(25)->except($parentPart->id)
             ->except($parentPart->children()->pluck('parent_part_id')->toArray());
 
-        return view('collection-parts.create', compact('parts', 'parentPart'));
+        return view('collection-parts.create', compact('parts', 'parentPart', 'categories'));
     }
 
     public function store(Part $parentPart, Part $childPart)

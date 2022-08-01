@@ -150,12 +150,15 @@
                 </thead>
                 <tbody>
                 @foreach($parts as $part)
-                    @php
-                        $category = \App\Models\Category::find($part->category_id);
-                    @endphp
                     <tr>
+                        @php
+                            $code = '';
+                            foreach($part->categories as $category){
+                                $code = $code . $category->code;
+                            }
+                        @endphp
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-gray-500 text-center">{{ $category->code . "-" . $part->code }}</p>
+                            <p class="text-sm text-gray-500 text-center">{{ $code . "-" . $part->code }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center">{{ $part->name }}</p>
@@ -198,9 +201,15 @@
 
             @foreach($parts as $part)
                 <div class="bg-white rounded-md p-4 border border-gray-200 shadow-sm mb-4 relative z-30">
+                    @php
+                        $code = '';
+                        foreach($part->categories as $category){
+                            $code = $code . $category->code;
+                        }
+                    @endphp
                     <span
                         class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
-                        {{ $part->code }}
+                        {{ $code . "-" . $part->code }}
                     </span>
                     <div class="space-y-4">
                         <p class="text-xs text-black text-center">
