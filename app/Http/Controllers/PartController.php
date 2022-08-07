@@ -137,6 +137,10 @@ class PartController extends Controller
         ]);
         $newPart->save();
 
+        foreach ($lastPart->categories as $category) {
+            $newPart->categories()->attach($category->id);
+        }
+
         return back();
     }
 

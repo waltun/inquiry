@@ -22,8 +22,8 @@ return new class extends Migration {
         });
 
         Schema::table('category_part', function (Blueprint $table) {
-            $table->foreign('category_id')->references('id')->on('categories');
-            $table->foreign('part_id')->references('id')->on('parts');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('part_id')->references('id')->on('parts')->onDelete('cascade');
         });
     }
 
