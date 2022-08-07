@@ -155,7 +155,7 @@ class PartController extends Controller
     {
         $lastPart = Part::latest()->first();
         if ($lastPart) {
-            $lastPartCode = str_pad($lastPart->code + 1, 3, "0", STR_PAD_LEFT);
+            $lastPartCode = str_pad($lastPart->code + 1, 4, "0", STR_PAD_LEFT);
             $data['code'] = $lastPartCode;
         } else {
             $data['code'] = '001';
