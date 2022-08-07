@@ -24,6 +24,12 @@ class PartOfModellController extends Controller
             $parts = $parts->where('code', 'LIKE', $keyword);
         }
 
+        if (request()->has('category')) {
+            $parts = $parts->whereHas('categories', function ($q) {
+                $q->where('category_id', request('category'));
+            })->where('collection', false);
+        }
+
         $parts = $parts->latest()->get()->except($modell->parts->pluck('id')->toArray());
 
         return view('modell-parts.index', compact('parts', 'modell', 'group'));

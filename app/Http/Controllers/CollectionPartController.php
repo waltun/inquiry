@@ -47,6 +47,12 @@ class CollectionPartController extends Controller
             $parts = $parts->where('code', 'LIKE', $keyword);
         }
 
+        if (request()->has('category')) {
+            $parts = $parts->whereHas('categories', function ($q) {
+                $q->where('category_id', request('category'));
+            })->where('collection', false);
+        }
+
         $parts = $parts->latest()->paginate(25)->except($parentPart->id)
             ->except($parentPart->children()->pluck('parent_part_id')->toArray());
 

@@ -28,7 +28,9 @@ class PartPriceController extends Controller
         }
 
         if (request()->has('category')) {
-            $parts = $parts->where('collection', false)->where('category_id', request('category'));
+            $parts = $parts->whereHas('categories', function ($q) {
+                $q->where('category_id', request('category'));
+            })->where('collection', false);
         }
 
         $parts = $parts->where('collection', false)->latest()->paginate(25);
