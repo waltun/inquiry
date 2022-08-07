@@ -113,7 +113,7 @@ class CategoryController extends Controller
             if (!is_null($lastCategory)) {
                 $code = str_pad($lastCategory->code + 1, 1, "0", STR_PAD_LEFT);
             } else {
-                $code = 1;
+                $code = '1';
             }
         }
         return $code;
