@@ -128,7 +128,8 @@ class PartController extends Controller
 
     public function replicate(Part $part)
     {
-        $lastPart = Part::latest()->first();
+        $category = $part->categories()->latest()->first();
+        $lastPart = $category->parts()->latest()->first();
         $code = str_pad($lastPart->code + 1, 4, "0", STR_PAD_LEFT);
 
         $newPart = $part->replicate()->fill([
@@ -137,7 +138,7 @@ class PartController extends Controller
         ]);
         $newPart->save();
 
-        foreach ($lastPart->categories as $category) {
+        foreach ($part->categories as $category) {
             $newPart->categories()->attach($category->id);
         }
 
