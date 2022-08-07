@@ -1,6 +1,7 @@
 @if(count($category->children) > 0)
     @foreach($category->children as $children)
-        <div class="border border-gray-400 rounded-md p-4 bg-gray-50 my-4">
+        <div class="border border-gray-400 rounded-md p-4 bg-gray-50 my-4" x-data="{open : false}"
+             :class="{'bg-indigo-300' : open}">
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
                     <div class="ml-4">
@@ -45,10 +46,21 @@
                             حذف
                         </button>
                     </form>
+                    @if(count($children->children) > 0)
+                        <button type="button" @click="open = !open">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 transform transition-transform"
+                                 fill="none" viewBox="0 0 24 24" :class="{'rotate-90' : open}"
+                                 stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+                            </svg>
+                        </button>
+                    @endif
                 </div>
             </div>
             @if(count($children->children) > 0)
-                @include('categories.children',['category' => $children])
+                <div x-show="open">
+                    @include('categories.children',['category' => $children])
+                </div>
             @endif
         </div>
     @endforeach
