@@ -20,7 +20,7 @@
                               d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
                               clip-rule="evenodd"/>
                     </svg>
-                    <a href="{{ route('groups.index') }}"
+                    <a href="{{ route('categories.index') }}"
                        class="mr-2 text-xs md:text-sm font-medium text-gray-500 hover:text-gray-900">
                         مدیریت دسته بندی ها
                     </a>
@@ -122,7 +122,7 @@
                 <div class="mt-4">
                     <label for="inputCode" class="block mb-2 md:text-sm text-xs text-black">کد دسته بندی</label>
                     <input type="text" id="inputCode" name="code" class="input-text" placeholder="مثال : 1010 (4 رقم)"
-                           value="{{ old('code') }}">
+                           value="{{ $code }}">
                 </div>
             </div>
         </div>

@@ -17,7 +17,10 @@ class CategoryController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('categories.create', compact('categories'));
+
+        $code = $this->getCode();
+
+        return view('categories.create', compact('categories', 'code'));
     }
 
     public function store(Request $request)
@@ -93,5 +96,27 @@ class CategoryController extends Controller
         alert()->success('حذف موفق', 'حذف دسته بندی با موفقیت انجام شد');
 
         return back();
+    }
+
+    public function getCode()
+    {
+        if (request()->has('parent')) {
+            $parent = request('parent');
+            $lastCategory = Category::where('parent_id', $parent)->latest()->first();
+            if (!is_null($lastCategory)) {
+                $code = str_pad($lastCategory->code + 1, 2, "0", STR_PAD_LEFT);
+            } else {
+                $code = '01';
+            }
+        } else {
+            $lastCategory = Category::where('parent_id', 0)->latest()->first();
+            if (!is_null($lastCategory)) {
+                $code = str_pad($lastCategory->code + 1, 1, "0", STR_PAD_LEFT);
+            } else {
+                $code = 1;
+            }
+
+        }
+        return $code;
     }
 }
