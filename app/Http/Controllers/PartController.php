@@ -144,6 +144,8 @@ class PartController extends Controller
             $newPart->categories()->attach($category->id);
         }
 
+        alert()->success('کپی موفق', 'کپی قطعه با موفقیت انجام شد');
+
         return back();
     }
 

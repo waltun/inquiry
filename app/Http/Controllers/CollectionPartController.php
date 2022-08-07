@@ -125,17 +125,25 @@ class CollectionPartController extends Controller
 
     public function replicate(Part $parentPart)
     {
-        $lastPart = Part::latest()->first();
+        $category = $parentPart->categories()->latest()->first();
+        $lastPart = $category->parts()->latest()->first();
         $code = str_pad($lastPart->code + 1, 4, "0", STR_PAD_LEFT);
 
-        $newPart = $parentPart->replicate();
-        $newPart->code = $code;
-        $newPart->name = $parentPart->name . " کپی شده ";
+        $newPart = $parentPart->replicate()->fill([
+            'code' => $code,
+            'name' => $parentPart->name . " کپی شده "
+        ]);
         $newPart->save();
 
         foreach ($parentPart->children as $child) {
             $newPart->children()->attach($child->id);
         }
+
+        foreach ($parentPart->categories as $category) {
+            $newPart->categories()->attach($category->id);
+        }
+
+        alert()->success('کپی موفق', 'کپی قطعه با موفقیت انجام شد');
 
         return back();
     }
