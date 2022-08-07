@@ -115,7 +115,6 @@ class CategoryController extends Controller
             } else {
                 $code = 1;
             }
-
         }
         return $code;
     }

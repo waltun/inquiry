@@ -151,14 +151,20 @@ class PartController extends Controller
         return response(['data' => null]);
     }
 
-    public function getLastCode(array $data)
+    public function getLastCode($data)
     {
         $lastPart = Part::latest()->first();
         if ($lastPart) {
-            $lastPartCode = str_pad($lastPart->code + 1, 4, "0", STR_PAD_LEFT);
-            $data['code'] = $lastPartCode;
+            $lastPartCategory = $lastPart->categories()->latest()->first();
+            $currentCategory = end($data['categories']);
+            if ($lastPartCategory->id == $currentCategory) {
+                $lastPartCode = str_pad($lastPart->code + 1, 4, "0", STR_PAD_LEFT);
+                $data['code'] = $lastPartCode;
+            } else {
+                $data['code'] = '0001';
+            }
         } else {
-            $data['code'] = '001';
+            $data['code'] = '0001';
         }
         return $data;
     }
