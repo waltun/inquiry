@@ -1,5 +1,20 @@
 @if(count($category->children) > 0)
     @foreach($category->children as $children)
+        @php
+            $status = true;
+            $count = 0;
+            $id = $children->id;
+            while ($status){
+                $cat = \App\Models\Category::where('id',$id)->first();
+                $parent_id = $cat->parent_id;
+                if ($parent_id != 0){
+                    $count++;
+                    $id = $parent_id;
+                } else{
+                    $status = false;
+                }
+            }
+        @endphp
         <div class="border border-gray-400 rounded-md p-4 bg-gray-50 my-4" x-data="{open : false}"
              :class="{'bg-indigo-300' : open}">
             <div class="flex items-center justify-between">
@@ -31,10 +46,12 @@
                     </div>
                 </div>
                 <div class="flex items-center space-x-3 space-x-reverse">
-                    <a href="{{ route('categories.create') }}?parent={{ $children->id }}"
-                       class="form-detail-btn text-xs">
-                        ثبت زیردسته
-                    </a>
+                    @if($count != 2)
+                        <a href="{{ route('categories.create') }}?parent={{ $children->id }}"
+                           class="form-detail-btn text-xs">
+                            ثبت زیردسته
+                        </a>
+                    @endif
                     <a href="{{ route('categories.edit',$children->id) }}" class="form-edit-btn text-xs">
                         ویرایش
                     </a>

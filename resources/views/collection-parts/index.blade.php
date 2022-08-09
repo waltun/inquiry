@@ -155,9 +155,15 @@
                             <p class="text-sm text-black text-center">{{ $part->unit }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">
-                                {{ number_format($part->price) }} تومان
-                            </p>
+                            @if($part->price > 0)
+                                <p class="text-sm text-black text-center">
+                                    {{ number_format($part->price) }} تومان
+                                </p>
+                            @else
+                                <p class="text-sm text-red-600 text-center">
+                                    منتظر قیمت گذاری
+                                </p>
+                            @endif
                         </td>
                         @php
                             $code = '';

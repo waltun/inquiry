@@ -131,7 +131,8 @@ class CollectionPartController extends Controller
 
         $newPart = $parentPart->replicate()->fill([
             'code' => $code,
-            'name' => $parentPart->name . " کپی شده "
+            'name' => $parentPart->name . " کپی شده ",
+            'price' => 0
         ]);
         $newPart->save();
 
