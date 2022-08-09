@@ -108,8 +108,21 @@
                             {{ $code . "-" . $part->code }}
                         </td>
                         <td class="border border-gray-300 p-4 text-sm text-center flex items-center">
+                            @if($amount)
+                                @php
+                                    $selectedPart = \App\Models\Part::find($amount->part_id);
+                                    $lastCategory = $selectedPart->categories()->latest()->first();
+                                    $categoryParts = $lastCategory->parts;
+                                @endphp
+                            @else
+                                @php
+                                    $selectedPart = \App\Models\Part::find($part->id);
+                                    $lastCategory = $selectedPart->categories()->latest()->first();
+                                    $categoryParts = $lastCategory->parts;
+                                @endphp
+                            @endif
                             <select name="part_ids[]" id="" class="input-text">
-                                @foreach(\App\Models\Part::all() as $part2)
+                                @foreach($categoryParts as $part2)
                                     @if($amount)
                                         <option
                                             value="{{ $part2->id }}" {{ $part2->id == $amount->part_id ? 'selected' : '' }}>
@@ -251,8 +264,21 @@
                             {{ $code . "-" . $part->code }}
                         </td>
                         <td class="border border-gray-300 p-4 text-sm text-center flex items-center">
+                            @if($amount)
+                                @php
+                                    $selectedPart = \App\Models\Part::find($amount->part_id);
+                                    $lastCategory = $selectedPart->categories()->latest()->first();
+                                    $categoryParts = $lastCategory->parts;
+                                @endphp
+                            @else
+                                @php
+                                    $selectedPart = \App\Models\Part::find($part->id);
+                                    $lastCategory = $selectedPart->categories()->latest()->first();
+                                    $categoryParts = $lastCategory->parts;
+                                @endphp
+                            @endif
                             <select name="part_ids[]" id="" class="input-text">
-                                @foreach(\App\Models\Part::all() as $part2)
+                                @foreach($categoryParts as $part2)
                                     @if($amount)
                                         <option
                                             value="{{ $part2->id }}" {{ $part2->id == $amount->part_id ? 'selected' : '' }}>
