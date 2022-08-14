@@ -83,7 +83,7 @@ class InquiryProductController extends Controller
         $group = Group::find($product->group_id);
         $amounts = Amount::where('product_id', $product->id)->get();
 
-        if (!$group->parts->isEmpty()) {
+        if (!$group->parts->isEmpty() && $modell->parts->isEmpty()) {
             $request->validate([
                 'groupAmounts' => 'required|array',
                 'groupAmounts.*' => 'required|numeric'
@@ -112,7 +112,7 @@ class InquiryProductController extends Controller
             }
         }
 
-        if (!$modell->parts->isEmpty()) {
+        if (!$modell->parts->isEmpty() && $group->parts->isEmpty()) {
             $request->validate([
                 'modellAmounts' => 'required|array',
                 'modellAmounts.*' => 'required|numeric'
@@ -127,6 +127,39 @@ class InquiryProductController extends Controller
             foreach ($request['part_ids'] as $index => $part) {
                 $createdAmount = Amount::create([
                     'value' => $request->modellAmounts[$index],
+                    'product_id' => $product->id,
+                    'part_id' => $part
+                ]);
+
+                $special = Special::where('part_id', $part)->first();
+
+                if (!is_null($special)) {
+                    $createdAmount->price = session('price' . $part) ?? 0;
+                    $createdAmount->save();
+                    session()->forget('price' . $part);
+                }
+            }
+        }
+
+        if (!$modell->parts->isEmpty() && !$group->parts->isEmpty()) {
+            $request->validate([
+                'groupAmounts' => 'required|array',
+                'groupAmounts.*' => 'required|numeric',
+                'modellAmounts' => 'required|array',
+                'modellAmounts.*' => 'required|numeric'
+            ]);
+
+            if (!$amounts->isEmpty()) {
+                foreach ($amounts as $amount) {
+                    $amount->delete();
+                }
+            }
+
+            $value = array_merge($request['groupAmounts'], $request['modellAmounts']);
+
+            foreach ($request['part_ids'] as $index => $part) {
+                $createdAmount = Amount::create([
+                    'value' => $value[$index],
                     'product_id' => $product->id,
                     'part_id' => $part
                 ]);
@@ -244,9 +277,12 @@ class InquiryProductController extends Controller
 
             //Send Notification
             $user->notify(new PercentInquiryNotification($inquiry));
+
+            alert()->success('آرشیو استعلام', 'آرشیو استعلام با موفقیت انجام شد و برای کاربر ارسال شد');
+            return redirect()->route('inquiries.priced');
         }
 
-        alert()->success('ثبت ضریب موفق', 'ثبت ضریب با موفقیت انجام شد و برای کاربر ارسال شد');
+        alert()->success('ثبت ضریب موفق', 'ثبت ضریب با موفقیت انجام شد');
 
         return redirect()->route('inquiries.product.index', $inquiry->id);
     }

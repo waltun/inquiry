@@ -73,7 +73,9 @@
                 @foreach($inquiries as $inquiry)
                     <tr>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-gray-500 text-center">{{ $inquiry->inquiry_number }}</p>
+                            <p class="text-sm text-gray-500 text-center">
+                                {{ "INQ-" . $inquiry->inquiry_number }}
+                            </p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center">{{ $inquiry->name }}</p>

@@ -70,7 +70,6 @@ class InquiryController extends Controller
             }
         }
 
-
         return view('inquiries.show', compact('inquiry'));
     }
 
@@ -125,14 +124,24 @@ class InquiryController extends Controller
     {
         Gate::authorize('create-inquiry');
 
+        if ($inquiry->products->isEmpty()) {
+            alert()->error('محصولات', 'لطفا ابتدا محصولات را مشخص کنید');
+            return back();
+        }
+
+        foreach ($inquiry->products as $product) {
+            if ($product->amounts->isEmpty()) {
+                alert()->error('مقادیر محصولات', 'لطفا ابتدا مقادیر محصولات را مشخص کنید');
+                return back();
+            }
+        }
+
         $inquiry->update([
             'submit' => true,
             'message' => null,
         ]);
-
         //Send Notification
         auth()->user()->notify(new NewInquiryNotification($inquiry));
-
         alert()->success('ثبت نهایی موفق', 'ثبت نهایی با موفقیت انجام شد و برای مدیریت ارسال شد');
 
         return back();
@@ -153,11 +162,14 @@ class InquiryController extends Controller
 
         $user = User::find($inquiry->user_id);
 
+        $lastInquiry = Inquiry::all()->last();
+        $inquiryNumber = str_pad($lastInquiry->inquiry_number + 1, 5, "0", STR_PAD_LEFT);
+
         $newInquiry = $inquiry->replicate()->fill([
             'archive_at' => null,
             'submit' => false,
             'price' => 0,
-            'inquiry_number' => "IQY-" . random_int(111111, 999999)
+            'inquiry_number' => $inquiryNumber
         ]);
         $newInquiry->save();
 
