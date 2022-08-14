@@ -20,6 +20,8 @@ return new class extends Migration {
 
             $table->unsignedBigInteger('parent_id')->default(0);
 
+            $table->index(['parent_id']);
+
             $table->timestamps();
         });
     }

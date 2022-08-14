@@ -22,6 +22,8 @@ return new class extends Migration {
 
             $table->boolean('collection')->default(false);
 
+            $table->index(['code']);
+
             $table->timestamps();
         });
     }

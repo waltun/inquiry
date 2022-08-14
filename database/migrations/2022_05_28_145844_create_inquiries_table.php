@@ -29,6 +29,8 @@ return new class extends Migration {
 
             $table->unsignedBigInteger('user_id');
 
+            $table->index(['user_id','inquiry_number']);
+
             $table->timestamps();
         });
     }

@@ -19,6 +19,8 @@ return new class extends Migration {
             $table->string('code')->unique();
             $table->unsignedBigInteger('group_id');
 
+            $table->index(['group_id']);
+
             $table->timestamps();
         });
 
