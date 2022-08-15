@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Group;
 use App\Models\Modell;
 use App\Models\Part;
@@ -13,6 +14,7 @@ class PartOfModellController extends Controller
     {
         $parts = Part::query();
         $group = Group::find($modell->group_id);
+        $categories = Category::all();
 
         if ($keyword = request('search')) {
             $parts->where('name', 'LIKE', "%{$keyword}%")
@@ -30,9 +32,10 @@ class PartOfModellController extends Controller
             })->where('collection', false);
         }
 
-        $parts = $parts->latest()->get()->except($modell->parts->pluck('id')->toArray());
+        //$parts = $parts->latest()->get()->except($modell->parts->pluck('id')->toArray());
+        $parts = $parts->whereNotIn('id', $modell->parts->pluck('id'))->latest()->paginate(25);
 
-        return view('modell-parts.index', compact('parts', 'modell', 'group'));
+        return view('modell-parts.index', compact('parts', 'modell', 'group', 'categories'));
     }
 
     public function store(Modell $modell, $partId)

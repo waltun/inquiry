@@ -155,13 +155,13 @@
                             <p class="text-sm text-black text-center">{{ $part->unit }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            @if($part->price > 0)
+                            @if($part->price)
                                 <p class="text-sm text-black text-center">
                                     {{ number_format($part->price) }} تومان
                                 </p>
                             @else
                                 <p class="text-sm text-red-600 text-center">
-                                    منتظر قیمت گذاری
+                                    منتظر ثبت مقادیر
                                 </p>
                             @endif
                         </td>
@@ -222,28 +222,51 @@
         <!-- Mobile List -->
         <div class="block md:hidden">
             @foreach($parts as $part)
-                <div class="bg-white rounded-md p-4 border border-gray-200 shadow-sm mb-4 relative z-30">
+                <div class="bg-white rounded-md p-4 border border-gray-200 shadow-md mb-4 relative z-30">
                     <span
                         class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
                         {{ $loop->index+1 }}
                     </span>
                     <div class="space-y-4">
-                        <p class="text-xs text-black text-center">
-                            نام : {{ $part->name }}
+                        <p class="text-xs text-black text-center font-bold">
+                            {{ $part->name }}
                         </p>
                         <p class="text-xs text-black text-center">
                             واحد : {{ $part->unit }}
                         </p>
-                        <p class="text-xs text-black text-center">
-                            قیمت : {{ number_format($part->price) }}
+                        <p class="text-xs text-green-600 text-center font-medium">
+                            @if($part->price)
+                                قیمت : {{ number_format($part->price) }}
+                            @else
+                                قیمت : منتظر ثبت مقادیر
+                            @endif
                         </p>
+                        @php
+                            $code = '';
+                            foreach($part->categories as $category){
+                                $code = $code . $category->code;
+                            }
+                        @endphp
                         <p class="text-xs text-black text-center">
-                            کد : {{ $part->code }}
+                            کد : {{ $part->code . "-" . $code }}
                         </p>
                         <div class="flex w-full justify-between">
                             <a href="{{ route('parts.edit',$part->id) }}" class="form-edit-btn text-xs">
                                 ویرایش
                             </a>
+                            <a href="{{ route('collections.parts',$part->id) }}" class="form-detail-btn text-xs">
+                                قطعات
+                            </a>
+                            <a href="{{ route('collections.amounts',$part->id) }}" class="form-submit-btn text-xs">
+                                مقادیر
+                            </a>
+                            <form action="{{ route('collections.replicate',$part->id) }}" method="POST"
+                                  class="inline">
+                                @csrf
+                                <button class="form-detail-btn text-xs">
+                                    کپی
+                                </button>
+                            </form>
                             <form action="{{ route('parts.destroy',$part->id) }}" method="POST"
                                   class="inline">
                                 @csrf

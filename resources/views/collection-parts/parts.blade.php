@@ -42,8 +42,8 @@
     </nav>
 
     <!-- Navigation Btn -->
-    <div class="mt-4 flex justify-between items-center space-x-4 space-x-reverse">
-        <div>
+    <div class="mt-4 md:flex justify-between items-center md:space-x-4 space-x-reverse">
+        <div class="mb-4 md:mb-0">
             <p class="text-lg font-bold text-black">
                 لیست قطعات مجموعه <span class="text-red-600">{{ $parentPart->name }}</span>
             </p>
@@ -97,7 +97,15 @@
                             <p class="text-sm text-black text-center">{{ $child->unit }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ number_format($child->price) }}</p>
+                            @if($child->price)
+                                <p class="text-sm text-black font-medium text-center">
+                                    {{ number_format($child->price) }} تومان
+                                </p>
+                            @else
+                                <p class="text-sm text-red-600 font-medium text-center">
+                                    منتظر قیمت گذاری
+                                </p>
+                            @endif
                         </td>
                         @php
                             $code = '';
@@ -131,21 +139,29 @@
         <!-- Mobile List -->
         <div class="block md:hidden">
             @foreach($parentPart->children as $childPart)
-                <div class="bg-white rounded-md p-4 border border-gray-200 shadow-sm mb-4 relative z-30">
+                <div class="bg-white rounded-md p-4 border border-gray-200 shadow-md mb-4 relative z-30">
                     <span
                         class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
                         {{ $loop->index+1 }}
                     </span>
                     <div class="space-y-4">
-                        <p class="text-xs text-black text-center">
-                            نام : {{ $childPart->name }}
+                        <p class="text-xs text-black font-bold text-center">
+                            {{ $childPart->name }}
                         </p>
                         <p class="text-xs text-black text-center">
                             واحد : {{ $childPart->unit }}
                         </p>
-                        <p class="text-xs text-black text-center">
-                            قیمت : {{ number_format($childPart->price) }}
-                        </p>
+
+                        @if($childPart->price)
+                            <p class="text-xs text-black font-medium text-center">
+                                قیمت : {{ number_format($childPart->price) }} تومان
+                            </p>
+                        @else
+                            <p class="text-xs text-red-600 font-medium text-center">
+                                منتظر قیمت گذاری
+                            </p>
+                        @endif
+
                         @php
                             $code = '';
                             foreach($childPart->categories as $category){
@@ -153,9 +169,9 @@
                             }
                         @endphp
                         <p class="text-xs text-black text-center">
-                            کد : {{ $code . "-" . $childPart->code }}
+                            کد : {{ $childPart->code . "-" . $code }}
                         </p>
-                        <div class="flex w-full justify-between">
+                        <div class="flex w-full justify-center">
                             <form action="{{ route('collections.destroy',[$parentPart->id,$childPart->id]) }}"
                                   method="POST"
                                   class="inline">

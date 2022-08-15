@@ -53,7 +53,7 @@ class CollectionPartController extends Controller
             })->where('collection', false);
         }
 
-        $parts = $parts->latest()->paginate(25)->except($parentPart->id)
+        $parts = $parts->where('collection', false)->latest()->paginate(25)->except($parentPart->id)
             ->except($parentPart->children()->pluck('parent_part_id')->toArray());
 
         return view('collection-parts.create', compact('parts', 'parentPart', 'categories'));
@@ -87,7 +87,18 @@ class CollectionPartController extends Controller
     {
         Gate::authorize('groups');
 
+        $totalPrice = 0;
+
         $parentPart->children()->detach($childId);
+
+        foreach ($parentPart->children as $child) {
+            if ($child) {
+                $totalPrice += $child->price * $child->pivot->value;
+            }
+        }
+
+        $parentPart->price = $totalPrice;
+        $parentPart->save();
 
         alert()->success('حذف موفق', 'حذف قطعه از مجموعه با موفقیت انجام شد');
 

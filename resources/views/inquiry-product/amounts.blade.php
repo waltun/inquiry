@@ -54,32 +54,40 @@
     </nav>
 
     <!-- Navigation Btn -->
-    <div class="mt-4 flex md:justify-end justify-center space-x-4 space-x-reverse">
-        <a href="{{ route('inquiries.product.index',$inquiry->id) }}" class="form-detail-btn text-xs">
-            لیست محصولات استعلام
-        </a>
+    <div class="mt-4 md:flex justify-between">
+        <div class="mb-4 md:mb-0">
+            <p class="text-lg font-bold">
+                جزئیات محصول <span class="text-red-600">{{ $group->name }} - {{ $modell->name }}</span>
+            </p>
+        </div>
+        <div class="flex md:justify-end space-x-2 space-x-reverse">
+            <a href="{{ route('inquiries.product.index',$inquiry->id) }}" class="form-detail-btn text-xs">
+                لیست محصولات استعلام
+            </a>
+        </div>
     </div>
 
     <!-- Errors -->
-    <div class="mt-4">
+    <div class="my-4">
         <x-errors/>
     </div>
 
-    <!-- Content -->
-    <form method="POST" action="{{ route('inquiries.product.storeAmounts',$product->id) }}" class="mt-4">
-        @csrf
-
-        <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4">
-            <div class="md:flex justify-around items-center space-y-4 md:space-y-0">
-                <p class="font-bold text-red-600 md:text-lg text-sm text-center">
-                    گروه : {{ $group->name }} با کد {{ $group->code }}
-                </p>
-                <p class="font-bold text-red-600 md:text-lg text-sm text-center">
-                    مدل : {{ $modell->name }} با کد {{ $modell->code }}
-                </p>
-            </div>
+    <!-- Info -->
+    <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4">
+        <div class="md:flex justify-around items-center space-y-4 md:space-y-0">
+            <p class="font-bold text-red-600 md:text-lg text-sm text-center">
+                گروه : {{ $group->name }} با کد {{ $group->code }}
+            </p>
+            <p class="font-bold text-red-600 md:text-lg text-sm text-center">
+                مدل : {{ $modell->name }} با کد {{ $modell->code }}
+            </p>
         </div>
+    </div>
 
+    <!-- Laptop List -->
+    <form method="POST" action="{{ route('inquiries.product.storeAmounts',$product->id) }}"
+          class="mt-4 md:block hidden">
+        @csrf
         <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4">
             <table class="border-collapse border border-gray-400 w-full">
                 <thead>
@@ -408,7 +416,6 @@
                 </tbody>
             </table>
         </div>
-
         <div class="space-x-2 space-x-reverse">
             <button type="submit" class="form-submit-btn">
                 ثبت مقادیر
@@ -418,4 +425,41 @@
             </a>
         </div>
     </form>
+
+    <!-- Mobile List -->
+    <form method="POST" action="{{ route('inquiries.product.storeAmounts',$product->id) }}"
+          class="mt-4 md:hidden block">
+        @csrf
+
+        @php
+            $amounts = \App\Models\Amount::where('product_id', $product->id)->get();
+            $specials = \App\Models\Special::all()->pluck('part_id')->toArray();
+        @endphp
+        @foreach($group->parts as $part)
+            @php
+                $amount = \App\Models\Amount::where('product_id',$product->id)->where('part_id',$part->id)->first();
+                $code = '';
+                foreach($part->categories as $category) {
+                    $code = $code . $category->code;
+                }
+            @endphp
+
+            <div class="bg-white rounded-md p-4 border border-gray-200 shadow-md mb-4 relative z-30">
+                <span
+                    class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
+                    {{ $loop->index+1 }}
+                </span>
+            </div>
+
+        @endforeach
+        <div class="space-x-2 space-x-reverse">
+            <button type="submit" class="form-submit-btn">
+                ثبت مقادیر
+            </button>
+            <a href="{{ route('inquiries.index') }}" class="form-cancel-btn">
+                انصراف
+            </a>
+        </div>
+    </form>
+
 </x-layout>

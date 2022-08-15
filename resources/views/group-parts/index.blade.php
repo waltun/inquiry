@@ -55,8 +55,8 @@
     </nav>
 
     <!-- Navigation Btn -->
-    <div class="mt-4 flex justify-between space-x-4 space-x-reverse">
-        <div>
+    <div class="mt-4 md:flex justify-between space-x-4 space-x-reverse">
+        <div class="mb-4 md:mb-0">
             <p class="text-lg font-bold text-black">
                 افزودن قطعه به گروه <span class="text-red-600">{{ $group->name }}</span>
             </p>
@@ -202,28 +202,35 @@
             </table>
         </div>
 
-        <div class="mt-4">
+        <div class="mt-4 hidden md:block">
             {{ $parts->links() }}
         </div>
 
         <!-- Mobile List -->
         <div class="block md:hidden">
             @foreach($parts as $part)
-                <div class="bg-white rounded-md p-4 border border-gray-200 shadow-sm mb-4 relative z-30">
+                <div class="bg-white rounded-md p-4 border border-gray-200 shadow-md mb-4 relative z-30">
                 <span
                     class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
                     {{ $loop->index+1 }}
                 </span>
                     <div class="space-y-4">
-                        <p class="text-xs text-black text-center">
-                            نام : {{ $part->name }}
+                        <p class="text-xs text-black text-center font-bold">
+                            {{ $part->name }}
                         </p>
                         <p class="text-xs text-black text-center">
                             واحد : {{ $part->unit }}
                         </p>
-                        <p class="text-xs text-black text-center">
-                            قیمت : {{ number_format($part->price) }}
-                        </p>
+                        @if($part->price)
+                            <p class="text-xs text-black text-center font-medium">
+                                قیمت : {{ number_format($part->price) }} تومان
+                            </p>
+                        @else
+                            <p class="text-xs text-red-600 text-center font-medium">
+                                منتظر قیمت گذاری
+                            </p>
+                        @endif
+
                         @php
                             $code = '';
                             foreach($part->categories as $category){
@@ -231,9 +238,9 @@
                             }
                         @endphp
                         <p class="text-xs text-black text-center">
-                            کد : {{ $code . "-" . $part->code }}
+                            کد : {{ $part->code . "-" . $code }}
                         </p>
-                        <div class="flex w-full justify-between">
+                        <div class="flex w-full justify-center">
                             <form action="{{ route('group.parts.store',[$group->id,$part->id]) }}" method="POST"
                                   class="inline">
                                 @csrf
@@ -245,6 +252,10 @@
                     </div>
                 </div>
             @endforeach
+
+            <div class="mt-4 block md:hidden">
+                {{ $parts->links() }}
+            </div>
         </div>
     </div>
 </x-layout>

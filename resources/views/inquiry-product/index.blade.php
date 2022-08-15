@@ -42,8 +42,8 @@
     </nav>
 
     <!-- Navigation Btn -->
-    <div class="mt-4 flex justify-between items-center">
-        <div>
+    <div class="mt-4 md:flex justify-between items-center">
+        <div class="mb-4 md:mb-0">
             <p class="text-lg text-black font-bold">
                 لیست محصولات استعلام {{ $inquiry->name }}
             </p>
@@ -97,44 +97,38 @@
                             </p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ $group->name }}</p>
+                            <p class="text-sm text-black text-center font-medium">{{ $group->name }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ $modell->name }}</p>
+                            <p class="text-sm text-black text-center font-medium">{{ $modell->name }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center">{{ $product->quantity }}</p>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
-                            @can('inquiry-amounts')
-                                <a href="{{ route('inquiries.product.amounts',$product->id) }}"
-                                   class="form-submit-btn text-xs">
-                                    جزئیات
-                                </a>
-                            @endcan
+                            <a href="{{ route('inquiries.product.amounts',$product->id) }}"
+                               class="form-submit-btn text-xs">
+                                جزئیات
+                            </a>
                             @if($inquiry->submit)
-                                @can('inquiry-percent')
-                                    <a href="{{ route('inquiries.product.percent',$product->id) }}"
-                                       class="form-edit-btn text-xs">
-                                        ثبت ضریب
-                                    </a>
-                                @endcan
+                                <a href="{{ route('inquiries.product.percent',$product->id) }}"
+                                   class="form-edit-btn text-xs">
+                                    ثبت ضریب
+                                </a>
                             @endif
-                            @can('inquiry-product')
-                                <form action="{{ route('inquiries.product.destroy',$product->id) }}" method="POST"
-                                      class="inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="form-cancel-btn text-xs"
-                                            onclick="return confirm('محصول حذف شود ؟')">
-                                        حذف
-                                    </button>
-                                </form>
-                            @endcan
+                            <form action="{{ route('inquiries.product.destroy',$product->id) }}" method="POST"
+                                  class="inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="form-cancel-btn text-xs"
+                                        onclick="return confirm('محصول حذف شود ؟')">
+                                    حذف
+                                </button>
+                            </form>
                             @if($product->percent > 0)
-                                    <p class="text-sm font-bold text-green-600 inline">
-                                        ضریب ثبت شده
-                                    </p>
+                                <p class="text-sm font-bold text-green-600 inline">
+                                    ضریب ثبت شده
+                                </p>
                             @endif
                         </td>
                     </tr>
@@ -156,28 +150,43 @@
                         {{ $loop->index+1 }}
                     </span>
                     <div class="space-y-4">
-                        <p class="text-xs text-black text-center">
+                        <p class="text-xs text-black text-center font-bold">
                             گروه : {{ $group->name }}
                         </p>
-                        <p class="text-xs text-black text-center">
+                        <p class="text-xs text-black text-center font-bold">
                             مدل : {{ $modell->name }}
                         </p>
                         <p class="text-xs text-black text-center">
                             تعداد : {{ $product->quantity }}
                         </p>
                         <div class="flex w-full justify-between">
-                            @can('inquiry-detail')
-                                <a href="{{ route('inquiries.show',$inquiry->id) }}" class="form-detail-btn text-xs">
-                                    جزئیات
+                            <a href="{{ route('inquiries.product.amounts',$product->id) }}"
+                               class="form-submit-btn text-xs">
+                                جزئیات
+                            </a>
+                            @if($inquiry->submit)
+                                <a href="{{ route('inquiries.product.percent',$product->id) }}"
+                                   class="form-edit-btn text-xs">
+                                    ثبت ضریب
                                 </a>
-                            @endcan
-                            @can('inquiry-amounts')
-                                <a href="{{ route('inquiries.product.amounts',$product->id) }}"
-                                   class="form-submit-btn text-xs">
-                                    مقادیر
-                                </a>
-                            @endcan
+                            @endif
+                            <form action="{{ route('inquiries.product.destroy',$product->id) }}" method="POST"
+                                  class="inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="form-cancel-btn text-xs"
+                                        onclick="return confirm('محصول حذف شود ؟')">
+                                    حذف
+                                </button>
+                            </form>
                         </div>
+                        @if($product->percent > 0)
+                            <div class="mt-4">
+                                <p class="text-sm font-bold text-green-600 inline">
+                                    ضریب ثبت شده
+                                </p>
+                            </div>
+                        @endif
                     </div>
                 </div>
             @endforeach

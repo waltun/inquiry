@@ -45,7 +45,7 @@
         @foreach($categories as $category)
             <div class="border border-gray-400 rounded-md p-4 bg-white shadow-sm mb-4" x-data="{open:false}"
                  :class="{'bg-indigo-200' : open}">
-                <div class="flex items-center justify-between">
+                <div class="md:flex items-center justify-between space-y-4 md:space-y-0">
                     <div class="flex items-center">
                         <div class="ml-4">
                             <span class="w-5 h-5 text-xs rounded-full bg-gray-200 grid place-content-center">

@@ -58,11 +58,10 @@
         <x-errors/>
     </div>
 
-    <!-- Content -->
-    <form method="POST" action="{{ route('collections.storeAmounts',$parentPart->id) }}" class="mt-4">
+    <!-- Laptop List -->
+    <form method="POST" action="{{ route('collections.storeAmounts',$parentPart->id) }}" class="mt-4 hidden md:block">
         @csrf
         @method('PATCH')
-
         <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4">
             <table class="border-collapse border border-gray-400 w-full">
                 <thead>
@@ -100,7 +99,49 @@
                 </tbody>
             </table>
         </div>
+        <div class="space-x-2 space-x-reverse">
+            <button type="submit" class="form-submit-btn">
+                ثبت مقادیر
+            </button>
+            <a href="{{ route('collections.index') }}" class="form-cancel-btn">
+                انصراف
+            </a>
+        </div>
+    </form>
 
+    <!-- Mobile List -->
+    <form method="POST" action="{{ route('collections.storeAmounts',$parentPart->id) }}" class="mt-4 block md:hidden">
+        @csrf
+        @method('PATCH')
+        <div class="md:hidden block">
+            @foreach($parentPart->children as $childPart)
+                @php
+                    $code = '';
+                    foreach($childPart->categories as $category){
+                        $code = $code . $category->code;
+                    }
+                @endphp
+                <div class="bg-white rounded-md p-4 border border-gray-200 shadow-md mb-4 relative z-30">
+                    <span
+                        class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
+                            {{ $loop->index+1 }}
+                    </span>
+                    <div class="space-y-4">
+                        <p class="text-xs text-black font-bold text-center">
+                            {{ $childPart->name }}
+                        </p>
+                        <p class="text-xs text-black text-center">
+                            واحد : {{ $childPart->unit }}
+                        </p>
+                        <p class="text-xs text-black text-center">
+                            کد : {{ $childPart->code . "-" . $code }}
+                        </p>
+                        <input type="text" name="values[]" id="inputValue{{ $childPart->id }}" class="input-text"
+                               value="{{ $childPart->pivot->value ?? '' }}">
+                    </div>
+                </div>
+            @endforeach
+        </div>
         <div class="space-x-2 space-x-reverse">
             <button type="submit" class="form-submit-btn">
                 ثبت مقادیر

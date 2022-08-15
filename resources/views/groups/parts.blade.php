@@ -62,8 +62,8 @@
     </nav>
 
     <!-- Navigation Btn -->
-    <div class="mt-4 flex justify-between items-center space-x-4 space-x-reverse">
-        <div>
+    <div class="mt-4 md:flex justify-between items-center md:space-x-4 space-x-reverse">
+        <div class="mb-4 md:mb-0">
             <p class="text-lg font-bold text-black">
                 لیست قطعات گروه <span class="text-red-600">{{ $group->name }}</span>
             </p>
@@ -117,7 +117,7 @@
                                 <p class="text-sm text-gray-500 text-center">{{ $loop->index + 1 }}</p>
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap">
-                                <p class="text-sm text-black text-center">{{ $part->name }}</p>
+                                <p class="text-sm text-black text-center font-medium">{{ $part->name }}</p>
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap">
                                 <input type="text" class="input-text" name="values[]" id="partValue{{ $part->id }}"
@@ -127,7 +127,15 @@
                                 <p class="text-sm text-black text-center">{{ $part->unit }}</p>
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap">
-                                <p class="text-sm text-black text-center">{{ number_format($part->price) }}</p>
+                                @if($part->price)
+                                    <p class="text-sm text-black text-center font-medium">
+                                        {{ number_format($part->price) }} تومان
+                                    </p>
+                                @else
+                                    <p class="text-sm text-red-600 text-center font-medium">
+                                        منتظر قیمت گذاری
+                                    </p>
+                                @endif
                             </td>
                             @php
                                 $code = '';
@@ -149,6 +157,61 @@
                     </tbody>
                 </table>
             </div>
+            <div class="my-4">
+                <button type="submit" class="form-submit-btn">
+                    ثبت مقادیر
+                </button>
+            </div>
+        </form>
+
+        <!-- Mobile List -->
+        <form action="{{ route('group.partValues',$group->id) }}" method="POST"
+              class="block md:hidden">
+            @csrf
+            <div>
+                @foreach($group->parts as $part)
+                    <div class="bg-white rounded-md p-4 border border-gray-200 shadow-md mb-4 relative z-30">
+                        <span
+                            class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
+                            {{ $loop->index+1 }}
+                        </span>
+                        <div class="space-y-4">
+                            <p class="text-xs text-black text-center font-bold">
+                                {{ $part->name }}
+                            </p>
+                            <p class="text-xs text-black text-center">
+                                واحد : {{ $part->unit }}
+                            </p>
+                            @if($part->price)
+                                <p class="text-xs text-black text-center font-medium">
+                                    قیمت : {{ number_format($part->price) }} تومان
+                                </p>
+                            @else
+                                <p class="text-xs text-red-600 text-center font-medium">
+                                    منتظر قیمت گذاری
+                                </p>
+                            @endif
+                            @php
+                                $code = '';
+                                foreach($part->categories as $category){
+                                    $code = $code . $category->code;
+                                }
+                            @endphp
+                            <p class="text-xs text-black text-center">
+                                کد : {{ $part->code . "-" . $code }}
+                            </p>
+                            <input type="text" class="input-text" name="values[]" id="partValue{{ $part->id }}"
+                                   value="{{ $part->pivot->value }}">
+                            <div class="flex w-full justify-center">
+                                <button type="button" class="form-cancel-btn text-xs"
+                                        onclick="deletePartFromGroup({{ $group->id }},{{ $part->id }})">
+                                    حذف از گروه {{ $group->name }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
 
             <div class="my-4">
                 <button type="submit" class="form-submit-btn">
@@ -157,49 +220,5 @@
             </div>
 
         </form>
-
-        <!-- Mobile List -->
-        <div class="block md:hidden">
-            @foreach($group->parts as $part)
-                <div class="bg-white rounded-md p-4 border border-gray-200 shadow-sm mb-4 relative z-30">
-                <span
-                    class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
-                    {{ $loop->index+1 }}
-                </span>
-                    <div class="space-y-4">
-                        <p class="text-xs text-black text-center">
-                            نام : {{ $part->name }}
-                        </p>
-                        <p class="text-xs text-black text-center">
-                            واحد : {{ $part->unit }}
-                        </p>
-                        <p class="text-xs text-black text-center">
-                            قیمت : {{ number_format($part->price) }}
-                        </p>
-                        @php
-                            $code = '';
-                            foreach($part->categories as $category){
-                                $code = $code . $category->code;
-                            }
-                        @endphp
-                        <p class="text-xs text-black text-center">
-                            کد : {{ $code . "-" . $part->code }}
-                        </p>
-                        <div class="flex w-full justify-between">
-                            <form action="{{ route('group.destroyPart',[$group->id,$part->id]) }}" method="POST"
-                                  class="inline">
-                                @csrf
-                                @method('DELETE')
-
-                                <button class="form-cancel-btn text-xs"
-                                        onclick="return confirm('قطعه از گروه حذف شود ؟')">
-                                    حذف از گروه {{ $group->name }}
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
-        </div>
     </div>
 </x-layout>

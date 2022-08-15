@@ -49,13 +49,16 @@
                 <tr class="bg-sky-200">
                     <th scope="col"
                         class="px-4 py-3 text-sm font-bold text-gray-800 text-center rounded-r-md">
-                        کد
+                        ردیف
                     </th>
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                         نام
                     </th>
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
-                        تصویر
+                        تعداد مدل ها
+                    </th>
+                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                        کد
                     </th>
                     <th scope="col" class="relative px-4 py-3">
                         <span class="sr-only">مدل ها</span>
@@ -72,17 +75,18 @@
                 @foreach($groups as $group)
                     <tr>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-gray-500 text-center">{{ $group->code }}</p>
+                            <p class="text-sm text-gray-500 text-center">{{ $loop->index + 1 }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ $group->name }}</p>
+                            <p class="text-sm text-black text-center font-medium">{{ $group->name }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            @if($group->image)
-                                <img src="/files/groups/{{ $group->image }}" alt="" class="h-20 mx-auto rounded-md">
-                            @else
-                                <p class="text-sm text-black text-center">-</p>
-                            @endif
+                            <p class="text-sm text-black text-center">
+                                {{ count($group->modells) }}
+                            </p>
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <p class="text-sm text-black text-center">{{ $group->code }}</p>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
                             <a href="{{ route('modells.index',$group->id) }}" class="form-detail-btn text-xs">
@@ -119,35 +123,27 @@
                 <div class="bg-white rounded-md p-4 border border-gray-200 shadow-sm mb-4 relative z-30">
                 <span
                     class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
-                    {{ $group->code }}
+                    {{ $loop->index + 1 }}
                 </span>
                     <div class="space-y-4">
-                        @if($group->image)
-                            <img src="/files/groups/{{ $group->image }}" alt="" class="mx-auto h-20 rounded-md">
-                        @else
-                            <p class="text-xs text-black text-center">تصویر ندارد</p>
-                        @endif
-                        <p class="text-xs text-black text-center">نام : {{ $group->name }}</p>
-                        <p class="text-xs text-black text-center">
-                            تعداد مدل ها : {{ count($group->model_ids ?? []) }}
+                        <p class="text-xs text-black font-bold text-center">
+                            {{ $group->name }}
                         </p>
-                        <div class="flex w-full justify-between">
-                            <a href="{{ route('modells.index',$group->id) }}" class="form-detail-btn text-xs">
-                                مدل ها
-                            </a>
-                            <a href="{{ route('modells.create',$group->id) }}" class="form-submit-btn text-xs">
-                                افزودن مدل
-                            </a>
-                            <a href="{{ route('group.parts',$group->id) }}" class="form-detail-btn text-xs">
-                                قطعات
-                            </a>
-                            <a href="{{ route('group.parts.index',$group->id) }}" class="form-submit-btn text-xs">
-                                افزودن قطعه
-                            </a>
-                        </div>
+                        <p class="text-xs text-black text-center">
+                            تعداد مدل ها : {{ count($group->modells) }}
+                        </p>
+                        <p class="text-xs text-black text-center">
+                            کد : {{ $group->code }}
+                        </p>
                         <div class="flex w-full justify-between">
                             <a href="{{ route('groups.edit',$group->id) }}" class="form-edit-btn text-xs">
                                 ویرایش
+                            </a>
+                            <a href="{{ route('modells.index',$group->id) }}" class="form-detail-btn text-xs">
+                                مدل ها
+                            </a>
+                            <a href="{{ route('group.parts',$group->id) }}" class="form-submit-btn text-xs">
+                                قطعات در گروه
                             </a>
                             <form action="{{ route('groups.destroy',$group->id) }}" method="POST"
                                   class="inline">

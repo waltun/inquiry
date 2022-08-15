@@ -29,19 +29,17 @@
     </nav>
 
     <!-- Navigation Btn -->
-    <div class="mt-4 flex justify-between items-center">
-        <div>
+    <div class="mt-4 md:flex justify-between items-center">
+        <div class="mb-4 md:mb-0">
             <p class="text-lg text-black font-bold">
                 لیست استعلام ها
             </p>
         </div>
-        <div class="space-x-2 space-x-reverse flex items-center">
-            @can('create-inquiry')
-                <a href="{{ route('inquiries.create') }}" class="form-submit-btn text-xs">ایجاد استعلام جدید</a>
-            @endcan
+        <div class="space-x-2 space-x-reverse flex items-center overflow-x-auto whitespace-nowrap">
+            <a href="{{ route('inquiries.create') }}" class="form-submit-btn text-xs">ایجاد استعلام جدید</a>
             <a href="{{ route('inquiries.priced') }}" class="form-detail-btn text-xs">استعلام های قیمت گذاری شده</a>
+            <a href="{{ route('inquiries.submitted') }}" class="form-edit-btn text-xs">استعلام های منتظر قیمت</a>
         </div>
-
     </div>
 
     <!-- Content -->
@@ -84,7 +82,9 @@
                             </p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ $inquiry->name }}</p>
+                            <p class="text-sm text-black text-center font-medium">
+                                {{ $inquiry->name }}
+                            </p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center">{{ $inquiry->manager }}</p>
@@ -186,8 +186,8 @@
                         {{ $loop->index+1 }}
                     </span>
                     <div class="space-y-4">
-                        <p class="text-xs text-black text-center">
-                            نام پروژه : {{ $inquiry->name }}
+                        <p class="text-xs text-black text-center font-bold">
+                            پروژه : {{ $inquiry->name }}
                         </p>
                         <p class="text-xs text-black text-center">
                             مسئول پروژه : {{ $inquiry->manager }}
@@ -196,29 +196,31 @@
                             بازاریاب : {{ $inquiry->marketer }}
                         </p>
                         <div class="flex w-full justify-between">
-                            @can('create-inquiry')
-                                <a href="{{ route('inquiries.edit',$inquiry->id) }}" class="form-edit-btn text-xs">
-                                    ویرایش
-                                </a>
-                            @endcan
-                            @can('inquiry-detail')
-                                <a href="{{ route('inquiries.show',$inquiry->id) }}" class="form-detail-btn text-xs">
-                                    جزئیات
-                                </a>
-                            @endcan
-                        </div>
-                        <div class="flex w-full justify-center">
-                            @can('inquiry-amounts')
-                                <form action="{{ route('inquiries.submit',$inquiry->id) }}" method="POST"
-                                      class="inline">
-                                    @csrf
-                                    @method('PATCH')
-                                    <button class="form-submit-btn text-xs"
-                                            onclick="return confirm('استعلام ثبت نهایی شود ؟')">
-                                        ثبت نهایی
-                                    </button>
-                                </form>
-                            @endcan
+                            <a href="{{ route('inquiries.edit',$inquiry->id) }}" class="form-edit-btn text-xs">
+                                ویرایش
+                            </a>
+                            <a href="{{ route('inquiries.product.index',$inquiry->id) }}"
+                               class="form-detail-btn text-xs">
+                                محصولات
+                            </a>
+                            <form action="{{ route('inquiries.submit',$inquiry->id) }}" method="POST"
+                                  class="inline">
+                                @csrf
+                                @method('PATCH')
+                                <button class="form-submit-btn text-xs"
+                                        onclick="return confirm('استعلام ثبت نهایی شود ؟')">
+                                    ثبت نهایی
+                                </button>
+                            </form>
+                            <form action="{{ route('inquiries.destroy',$inquiry->id) }}" method="POST"
+                                  class="inline">
+                                @csrf
+                                @method('DELETE')
+                                <button class="form-cancel-btn text-xs"
+                                        onclick="return confirm('استعلام حذف شود ؟')">
+                                    حذف
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>

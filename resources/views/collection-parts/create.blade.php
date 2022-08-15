@@ -55,14 +55,17 @@
     </nav>
 
     <!-- Navigation Btn -->
-    <div class="mt-4 flex justify-between space-x-4 space-x-reverse">
-        <div>
+    <div class="mt-4 md:flex justify-between md:space-x-4 space-x-reverse">
+        <div class="mb-4 md:mb-0">
             <p class="text-lg font-bold text-black">
                 افزودن قطعه به مجموعه <span class="text-red-600">{{ $parentPart->name }}</span>
             </p>
         </div>
         <div>
             <a href="{{ route('collections.index') }}" class="form-detail-btn text-xs">لیست مجموعه ها</a>
+            <a href="{{ route('collections.parts',$parentPart->id) }}" class="form-edit-btn text-xs">
+                لیست قطعات مجموعه {{ $parentPart->name }}
+            </a>
         </div>
     </div>
 
@@ -173,7 +176,13 @@
                             <p class="text-sm text-black text-center">{{ $part->unit }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ number_format($part->price) }}</p>
+                            @if($part->price)
+                                <p class="text-sm text-black font-medium text-center">
+                                    {{ number_format($part->price) }} تومان
+                                </p>
+                            @else
+                                <p class="text-sm text-red-600 font-medium text-center">منتظر قیمت گذاری</p>
+                            @endif
                         </td>
                         @php
                             $code = '';
@@ -210,19 +219,31 @@
                     {{ $loop->index+1 }}
                 </span>
                     <div class="space-y-4">
-                        <p class="text-xs text-black text-center">
-                            نام : {{ $part->name }}
+                        <p class="text-xs text-black text-center font-bold">
+                            {{ $part->name }}
                         </p>
                         <p class="text-xs text-black text-center">
                             واحد : {{ $part->unit }}
                         </p>
+                        @if($part->price)
+                            <p class="text-xs text-black font-medium text-center">
+                                قیمت : {{ number_format($part->price) }}
+                            </p>
+                        @else
+                            <p class="text-xs text-red-600 font-medium text-center">
+                                منتظر قیمت گذاری
+                            </p>
+                        @endif
+                        @php
+                            $code = '';
+                            foreach($part->categories as $category){
+                                $code = $code . $category->code;
+                            }
+                        @endphp
                         <p class="text-xs text-black text-center">
-                            قیمت : {{ number_format($part->price) }}
+                            کد : {{ $part->code . "-" . $code }}
                         </p>
-                        <p class="text-xs text-black text-center">
-                            کد : {{ $part->code }}
-                        </p>
-                        <div class="flex w-full justify-between">
+                        <div class="flex w-full justify-center">
                             <form action="{{ route('collections.store',[$parentPart->id,$part->id]) }}" method="POST"
                                   class="inline">
                                 @csrf

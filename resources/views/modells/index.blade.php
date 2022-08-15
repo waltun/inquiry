@@ -42,11 +42,11 @@
     </nav>
 
     <!-- Navigation Btn -->
-    <div class="flex justify-between items-center mt-4">
-        <div>
+    <div class="md:flex justify-between items-center mt-4">
+        <div class="mb-4 md:mb-0">
             <p class="text-lg font-bold">لیست مدل های گروه <span class="text-red-600">{{ $group->name }}</span></p>
         </div>
-        <div class="flex md:justify-end justify-center space-x-2 space-x-reverse">
+        <div class="flex md:justify-end space-x-2 space-x-reverse">
             <a href="{{ route('groups.index') }}" class="form-detail-btn text-xs">لیست گروه ها</a>
             <a href="{{ route('modells.create',$group->id) }}" class="form-submit-btn text-xs">ایجاد مدل جدید</a>
         </div>
@@ -84,7 +84,7 @@
                             <p class="text-sm text-gray-500 text-center">{{ $loop->index + 1 }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ $modell->name }}</p>
+                            <p class="text-sm text-black text-center font-medium">{{ $modell->name }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center">{{ $group->code . "-" . $modell->code }}</p>
@@ -129,11 +129,16 @@
                             {{ $loop->index+1 }}
                         </span>
                     <div class="space-y-4">
-                        <p class="text-xs text-black text-center">نام : {{ $modell->name }}</p>
-                        <p class="text-xs text-black text-center">کد : {{ $group->code . "-" . $modell->code }}</p>
+                        <p class="text-xs text-black text-center font-bold">{{ $modell->name }}</p>
+                        <p class="text-xs text-black text-center">
+                            کد : {{ $group->code . "-" . $modell->code }}
+                        </p>
                         <div class="flex w-full justify-between">
                             <a href="{{ route('modells.edit',$modell->id) }}" class="form-edit-btn text-xs">
                                 ویرایش
+                            </a>
+                            <a href="{{ route('modells.parts',$modell->id) }}" class="form-submit-btn text-xs">
+                                قطعات مدل
                             </a>
                             <form action="{{ route('modells.replicate',$modell->id) }}" method="POST"
                                   class="inline">
