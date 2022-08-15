@@ -124,7 +124,7 @@
             @csrf
             @method('PATCH')
 
-            <table class="min-w-full bg-white shadow">
+            <table class="min-w-full bg-white shadow border border-gray-200">
                 <thead>
                 <tr class="bg-sky-200">
                     <th scope="col"
@@ -190,6 +190,10 @@
                 <button type="submit" class="form-submit-btn">
                     ثبت قیمت
                 </button>
+            </div>
+
+            <div class="mt-4 ml-2">
+                {{ $parts->links() }}
             </div>
 
         </form>
