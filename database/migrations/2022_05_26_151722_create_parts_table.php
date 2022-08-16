@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->string('name');
             $table->string('unit');
             $table->bigInteger('price')->nullable();
-            $table->string('code');
+            $table->string('code')->nullable();
 
             $table->boolean('collection')->default(false);
 

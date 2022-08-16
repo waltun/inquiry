@@ -110,6 +110,7 @@
                         foreach($part->categories as $category) {
                             $code = $code . $category->code;
                         }
+                        $finalCode = $code . $part->code;
                     @endphp
                     <tr>
                         <td class="border border-gray-300 p-4 text-sm text-center">
@@ -146,12 +147,12 @@
                             </select>
                             @if(in_array($part->id,$specials))
                                 <div class="whitespace-nowrap mr-2">
-                                    @switch($part->code)
-                                        @case(100)
+                                    @switch($finalCode)
+                                        @case(111010001)
                                             @if(session()->has('price'.$part->id))
-                                                <a href="#" class="form-detail-btn">
+                                                <span class="form-detail-btn">
                                                     محاسبه شد
-                                                </a>
+                                                </span>
                                             @else
                                                 <a href="{{ route('calculateCoil.evaperator.index',[$part->id,$product->id]) }}"
                                                    class="form-submit-btn">
@@ -159,7 +160,7 @@
                                                 </a>
                                             @endif
                                             @break
-                                        @case(101)
+                                        @case(111020002)
                                             @if(session()->has('price'.$part->id))
                                                 <a href="#" class="form-detail-btn">
                                                     محاسبه شد
@@ -183,7 +184,7 @@
                                                 </a>
                                             @endif
                                             @break
-                                        @case(103)
+                                        @case(111050004)
                                             @if(session()->has('price'.$part->id))
                                                 <a href="#" class="form-detail-btn">
                                                     محاسبه شد
@@ -196,7 +197,7 @@
                                             @endif
                                             @break
 
-                                        @case(120135)
+                                        @case(103020001)
                                             @if(session()->has('price'.$part->id))
                                                 <a href="#" class="form-detail-btn">
                                                     محاسبه شد
@@ -208,7 +209,7 @@
                                                 </a>
                                             @endif
                                             @break
-                                        @case(120120)
+                                        @case(103020003)
                                             @if(session()->has('price'.$part->id))
                                                 <a href="#" class="form-detail-btn">
                                                     محاسبه شد
@@ -220,7 +221,7 @@
                                                 </a>
                                             @endif
                                             @break
-                                        @case(130140)
+                                        @case(103020002)
                                             @if(session()->has('price'.$part->id))
                                                 <a href="#" class="form-detail-btn">
                                                     محاسبه شد
@@ -232,7 +233,7 @@
                                                 </a>
                                             @endif
                                             @break
-                                        @case(160160)
+                                        @case(103020004)
                                             @if(session()->has('price'.$part->id))
                                                 <a href="#" class="form-detail-btn">
                                                     محاسبه شد

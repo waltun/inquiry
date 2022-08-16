@@ -607,20 +607,20 @@
                         <select name="loole_messi" id="inputLooleMessi" class="input-text bg-yellow-300"
                                 onchange="calculate()">
                             <option value="">انتخاب کنید</option>
-                            <option value="{{ \App\Models\Part::where('code','5805')->first()->id }}">
-                                {{ \App\Models\Part::where('code','5805')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('code','0001')->first()->id }}">
+                                {{ \App\Models\Part::where('code','0001')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','58063')->first()->id }}">
-                                {{ \App\Models\Part::where('code','58063')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('code','0002')->first()->id }}">
+                                {{ \App\Models\Part::where('code','0002')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','3804')->first()->id }}">
-                                {{ \App\Models\Part::where('code','3804')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('code','0003')->first()->id }}">
+                                {{ \App\Models\Part::where('code','0003')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','3805')->first()->id }}">
-                                {{ \App\Models\Part::where('code','3805')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('code','0004')->first()->id }}">
+                                {{ \App\Models\Part::where('code','0004')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','38035')->first()->id }}">
-                                {{ \App\Models\Part::where('code','38035')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('code','0005')->first()->id }}">
+                                {{ \App\Models\Part::where('code','0005')->first()->name }}
                             </option>
                         </select>
                     </div>

@@ -59,8 +59,6 @@ class PartController extends Controller
             'categories' => 'required|array'
         ]);
 
-        $data = $this->getLastCode($data);
-
         if ($data['collection'] == 'true') {
             $data['collection'] = true;
         } else {
@@ -69,6 +67,9 @@ class PartController extends Controller
 
         $part = Part::create($data);
         $part->categories()->sync($data['categories']);
+        $code = $this->getLastCode($part);
+        $part->code = $code;
+        $part->save();
 
         alert()->success('ثبت موفق', 'ثبت قطعه با موفقیت انجام شد');
 
@@ -160,21 +161,27 @@ class PartController extends Controller
         return response(['data' => null]);
     }
 
-    public function getLastCode($data)
+    public function getLastCode($part)
     {
-        $lastPart = Part::latest()->first();
-        if ($lastPart) {
-            $lastPartCategory = $lastPart->categories()->latest()->first();
-            $currentCategory = end($data['categories']);
-            if ($lastPartCategory->id == $currentCategory) {
-                $lastPartCode = str_pad($lastPart->code + 1, 4, "0", STR_PAD_LEFT);
-                $data['code'] = $lastPartCode;
-            } else {
-                $data['code'] = '0001';
+        $parts = Part::all();
+        if (!$parts->isEmpty()) {
+            $category = $part->categories()->latest()->first();
+            $categoryPart = $category->parts->toArray();
+
+            if (count($categoryPart) == 1) {
+                $code = '0001';
+            }
+            if (count($categoryPart) == 2) {
+                $lastPart = $categoryPart[0];
+                $code = str_pad($lastPart['code'] + 1, 4, "0", STR_PAD_LEFT);
+            }
+            if (count($categoryPart) > 2) {
+                $lastPart = $categoryPart[count($categoryPart) - 2];
+                $code = str_pad($lastPart['code'] + 1, 4, "0", STR_PAD_LEFT);
             }
         } else {
-            $data['code'] = '0001';
+            $code = '0001';
         }
-        return $data;
+        return $code;
     }
 }
