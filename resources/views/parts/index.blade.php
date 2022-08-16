@@ -218,8 +218,8 @@
                         {{ $loop->index+1 }}
                     </span>
                     <div class="space-y-4">
-                        <p class="text-xs text-black text-center">
-                            نام : {{ $part->name }}
+                        <p class="text-xs text-black text-center font-bold">
+                             {{ $part->name }}
                         </p>
                         <p class="text-xs text-black text-center">
                             واحد : {{ $part->unit }}

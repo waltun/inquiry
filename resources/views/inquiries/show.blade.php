@@ -42,8 +42,8 @@
     </nav>
 
     <!-- Navigation Btn -->
-    <div class="mt-4 flex justify-between space-x-4 space-x-reverse">
-        <div>
+    <div class="my-4 md:flex justify-between">
+        <div class="mb-4 md:mb-0">
             @if($inquiry->archive_at)
                 <span class="bg-red-500 rounded-md px-6 py-1 text-sm text-white">
                     وضعیت استعلام : آرشیو شده
@@ -54,8 +54,10 @@
                 </span>
             @endif
         </div>
-        <div>
+        <div class="whitespace-nowrap">
             <a href="{{ route('inquiries.index') }}" class="form-detail-btn text-xs">لیست استعلام ها</a>
+            <a href="{{ route('inquiries.priced') }}" class="form-submit-btn text-xs">استعلام های قیمت گذاری شده</a>
+            <a href="{{ route('inquiries.submitted') }}" class="form-edit-btn text-xs">استعلام های منتظر قیمت</a>
         </div>
     </div>
 
@@ -67,7 +69,7 @@
                     نام پروژه : {{ $inquiry->name }}
                 </p>
                 <p class="font-bold text-black md:text-lg text-sm text-center">
-                    شماره استعلام : {{ $inquiry->inquiry_number }}
+                    شماره استعلام : {{ "INQ-" . $inquiry->inquiry_number }}
                 </p>
                 <p class="font-bold text-black md:text-lg text-sm text-center">
                     مسئول پروژه : {{ $inquiry->manager }}
@@ -82,8 +84,13 @@
                 $group = \App\Models\Group::find($product->group_id);
                 $modell = \App\Models\Modell::find($product->model_id);
                 $finalPrice += $product->price;
+                $totalPrice = 0;
+                $totalGroupPrice = 0;
+                $totalModellPrice = 0;
             @endphp
-            <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4">
+
+            <!-- Laptop List -->
+            <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4 hidden md:block">
                 <div class="mb-4">
                     <p class="text-center text-lg font-black font-bold">
                         لیست قطعات و قیمت محصول {{ $group->name }} - {{ $modell->name }}
@@ -101,11 +108,6 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @php
-                        $totalPrice = 0;
-                        $totalGroupPrice = 0;
-                        $totalModellPrice = 0;
-                    @endphp
                     @foreach($group->parts as $part)
                         @php
                             $amount = $product->amounts()->where('part_id',$part->id)->first();
@@ -245,6 +247,100 @@
                     </tbody>
                 </table>
             </div>
+
+            <!-- Mobile List -->
+            <div class="block md:hidden shadow-md border border-gray-200 rounded-md p-4 bg-white mb-4">
+                <div class="mb-4 border-b border-gray-200 pb-2">
+                    <p class="text-center text-sm font-black font-bold">
+                        لیست قطعات و قیمت محصول {{ $group->name }} - {{ $modell->name }}
+                    </p>
+                </div>
+                @foreach($group->parts as $part)
+                    @php
+                        $amount = $product->amounts()->where('part_id',$part->id)->first();
+                        if($amount){
+                            if ($amount->price > 0){
+                                $totalGroupPrice += ($part->price * $amount->value) + ($amount->price * $amount->value);
+                            } else {
+                                $totalGroupPrice += ($part->price * $amount->value);
+                            }
+                        }
+                        $code = '';
+                        foreach($part->categories as $category){
+                            $code = $code . $category->code;
+                        }
+                    @endphp
+                    <div class="p-2 border border-gray-300 rounded-md shadow-sm bg-gray-100 mb-4">
+                        <div class="space-y-4">
+                            <p class="text-xs text-black text-center font-bold">
+                                {{ $part->name }}
+                            </p>
+                            <p class="text-xs text-black text-center">
+                                واحد : {{ $part->unit }}
+                            </p>
+                            <p class="text-xs text-black text-center font-medium">
+                                قیمت واحد :
+                                @if($amount->price > 0)
+                                    {{ number_format($amount->price) }} تومان
+                                @else
+                                    {{ number_format($part->price) }} تومان
+                                @endif
+                            </p>
+                            <p class="text-xs text-black text-center font-bold">
+                                مقدار : {{ $amount->value }}
+                            </p>
+                            <p class="text-xs text-black text-center font-medium">
+                                جمع کل :
+                                @if($amount->price > 0)
+                                    {{ number_format($amount->price * $amount->value) }} تومان
+                                @else
+                                    {{ number_format($part->price * $amount->value) }} تومان
+                                @endif
+                            </p>
+                        </div>
+                    </div>
+                @endforeach
+                <div class="flex justify-between items-center mb-2 border border-gray-500 rounded-md p-2">
+                    <p class="text-base font-medium text-black">
+                        قیمت کل
+                    </p>
+                    <p class="text-base font-medium text-green-600">
+                        {{ number_format($totalPrice) }} تومان
+                    </p>
+                </div>
+                <div class="flex justify-between items-center mb-2 border border-gray-500 rounded-md p-2">
+                    <p class="text-base font-medium text-black">
+                        تعداد
+                    </p>
+                    <p class="text-base font-medium text-green-600">
+                        {{ $product->quantity }}
+                    </p>
+                </div>
+                <div class="flex justify-between items-center mb-2 border border-gray-500 rounded-md p-2">
+                    <p class="text-base font-medium text-black">
+                        قیمت نهایی
+                    </p>
+                    <p class="text-base font-medium text-green-600">
+                        {{ number_format($totalPrice * $product->quantity) }} تومان
+                    </p>
+                </div>
+                <div class="flex justify-between items-center mb-2 border border-gray-500 rounded-md p-2">
+                    <p class="text-base font-medium text-black">
+                        ضریب ثبت شده
+                    </p>
+                    <p class="text-base font-medium text-green-600">
+                        {{ $product->percent }}
+                    </p>
+                </div>
+                <div class="flex justify-between items-center mb-2 border border-gray-500 rounded-md p-2">
+                    <p class="text-base font-medium text-black">
+                        قیمت نهایی پس از ضریب
+                    </p>
+                    <p class="text-base font-medium text-green-600">
+                        {{ number_format($product->price) }} تومان
+                    </p>
+                </div>
+            </div>
         @endforeach
 
         <div class="bg-green-500 p-4 rounded-md shadow-md mt-4">
@@ -259,7 +355,7 @@
             @endif
         </div>
 
-        <div class="grid grid-cols-3 gap-4 mt-4">
+        <div class="md:grid grid-cols-3 gap-4 mt-4">
             <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4 space-y-2">
                 <p class="text-sm font-bold text-black text-center">
                     ایجاد استعلام : {{ jdate($inquiry->created_at)->format('%A, %d %B %Y') }}

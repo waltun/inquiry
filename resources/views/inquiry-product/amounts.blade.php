@@ -253,8 +253,7 @@
                         </td>
                         <td class="border border-gray-300 p-4 text-sm text-center font-bold">
                             <input type="text" name="groupAmounts[]" id="inputAmount{{ $part->id }}"
-                                   class="input-text"
-                                   value="{{ $amount ? $amount->value : $part->pivot->value }}">
+                                   class="input-text" value="{{ $amount ? $amount->value : $part->pivot->value }}">
                         </td>
                     </tr>
                 @endforeach
@@ -434,9 +433,11 @@
         @php
             $amounts = \App\Models\Amount::where('product_id', $product->id)->get();
             $specials = \App\Models\Special::all()->pluck('part_id')->toArray();
+            $counter = 0;
         @endphp
         @foreach($group->parts as $part)
             @php
+                $counter++;
                 $amount = \App\Models\Amount::where('product_id',$product->id)->where('part_id',$part->id)->first();
                 $code = '';
                 foreach($part->categories as $category) {
@@ -447,8 +448,127 @@
             <div class="bg-white rounded-md p-4 border border-gray-200 shadow-md mb-4 relative z-30">
                 <span
                     class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
-                    {{ $loop->index+1 }}
+                    {{ $counter }}
                 </span>
+                <div class="space-y-4">
+                    @if($amount)
+                        @php
+                            $selectedPart = \App\Models\Part::find($amount->part_id);
+                            $lastCategory = $selectedPart->categories()->latest()->first();
+                            $categoryParts = $lastCategory->parts;
+                        @endphp
+                    @else
+                        @php
+                            $selectedPart = \App\Models\Part::find($part->id);
+                            $lastCategory = $selectedPart->categories()->latest()->first();
+                            $categoryParts = $lastCategory->parts;
+                        @endphp
+                    @endif
+                    <select name="part_ids[]" id="" class="input-text mt-6">
+                        @foreach($categoryParts as $part2)
+                            @if($amount)
+                                <option
+                                    value="{{ $part2->id }}" {{ $part2->id == $amount->part_id ? 'selected' : '' }}>
+                                    {{ $part2->name }}
+                                </option>
+                            @else
+                                <option
+                                    value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
+                                    {{ $part2->name }}
+                                </option>
+                            @endif
+                        @endforeach
+                    </select>
+                    <p class="text-xs text-black text-center">
+                        واحد : {{ $part->unit }}
+                    </p>
+                    @php
+                        $code = '';
+                        foreach($part->categories as $category){
+                            $code = $code . $category->code;
+                        }
+
+                    @endphp
+                    <p class="text-xs text-black text-center">
+                        کد : {{ $part->code . "-" . $code }}
+                    </p>
+                    <div>
+                        <input type="text" name="groupAmounts[]" id="inputAmount{{ $part->id }}"
+                               class="input-text" value="{{ $amount ? $amount->value : $part->pivot->value }}">
+                    </div>
+                    <div class="flex w-full justify-between">
+
+                    </div>
+                </div>
+            </div>
+
+        @endforeach
+
+        @foreach($modell->parts as $part)
+            @php
+                $counter++;
+                $amount = \App\Models\Amount::where('part_id', $part->id)->where('product_id', $product->id)->first();
+                $code = '';
+                foreach($part->categories as $category){
+                    $code = $code . $category->code;
+                }
+            @endphp
+
+            <div class="bg-white rounded-md p-4 border border-gray-200 shadow-md mb-4 relative z-30">
+                <span
+                    class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
+                    {{ $counter }}
+                </span>
+                <div class="space-y-4">
+                    @if($amount)
+                        @php
+                            $selectedPart = \App\Models\Part::find($amount->part_id);
+                            $lastCategory = $selectedPart->categories()->latest()->first();
+                            $categoryParts = $lastCategory->parts;
+                        @endphp
+                    @else
+                        @php
+                            $selectedPart = \App\Models\Part::find($part->id);
+                            $lastCategory = $selectedPart->categories()->latest()->first();
+                            $categoryParts = $lastCategory->parts;
+                        @endphp
+                    @endif
+                    <select name="part_ids[]" id="" class="input-text mt-6">
+                        @foreach($categoryParts as $part2)
+                            @if($amount)
+                                <option
+                                    value="{{ $part2->id }}" {{ $part2->id == $amount->part_id ? 'selected' : '' }}>
+                                    {{ $part2->name }}
+                                </option>
+                            @else
+                                <option
+                                    value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
+                                    {{ $part2->name }}
+                                </option>
+                            @endif
+                        @endforeach
+                    </select>
+                    <p class="text-xs text-black text-center">
+                        واحد : {{ $part->unit }}
+                    </p>
+                    @php
+                        $code = '';
+                        foreach($part->categories as $category){
+                            $code = $code . $category->code;
+                        }
+
+                    @endphp
+                    <p class="text-xs text-black text-center">
+                        کد : {{ $part->code . "-" . $code }}
+                    </p>
+                    <div>
+                        <input type="text" name="modellAmounts[]" id="inputAmount{{ $part->id }}"
+                               class="input-text" value="{{ $amount ? $amount->value : $part->pivot->value }}">
+                    </div>
+                    <div class="flex w-full justify-between">
+
+                    </div>
+                </div>
             </div>
 
         @endforeach

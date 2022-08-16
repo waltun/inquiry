@@ -195,6 +195,9 @@
                         <p class="text-xs text-black text-center">
                             بازاریاب : {{ $inquiry->marketer }}
                         </p>
+                        <p class="text-xs text-gray-600 text-center">
+                            شماره استعلام : {{ "INQ-" . $inquiry->inquiry_number }}
+                        </p>
                         <div class="flex w-full justify-between">
                             <a href="{{ route('inquiries.edit',$inquiry->id) }}" class="form-edit-btn text-xs">
                                 ویرایش
