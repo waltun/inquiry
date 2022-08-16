@@ -42,7 +42,12 @@
     </nav>
 
     <!-- Navigation Btn -->
-    <div class="mt-4 flex justify-end space-x-4 space-x-reverse">
+    <div class="mt-4 md:flex justify-between md:space-x-4 space-x-reverse">
+        <div class="mb-4 md:mb-0">
+            <p class="text-lg text-black font-bold">
+                مشاهده قیمت محصولات
+            </p>
+        </div>
         <div>
             <a href="{{ route('inquiries.index') }}" class="form-detail-btn text-xs">لیست استعلام ها</a>
         </div>
@@ -63,7 +68,9 @@
                 </p>
             </div>
         </div>
-        <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4">
+
+        <!-- Laptop List -->
+        <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4 hidden md:block">
             <table class="border-collapse border border-gray-400 w-full">
                 <thead>
                 <tr>
@@ -156,7 +163,84 @@
             </table>
         </div>
 
-        <div class="grid grid-cols-3 gap-4 mt-4">
+        <!-- Mobile List -->
+        <div class="block md:hidden shadow-md border border-gray-200 rounded-md p-4 bg-white mb-4">
+            @foreach($inquiry->products as $product)
+                @php
+                    $group = \App\Models\Group::find($product->group_id);
+                    $modell = \App\Models\Modell::find($product->model_id);
+                    $totalGroupPrice = 0;
+                    $totalModellPrice = 0;
+                    foreach($group->parts as $part)
+                    {
+                        $amount = $product->amounts()->where('part_id',$part->id)->first();
+                        if ($amount){
+                            if ($amount->price > 0){
+                            $totalGroupPrice += ($part->price * $amount->value) + ($amount->price * $amount->value);
+                        } else {
+                            $totalGroupPrice += ($part->price * $amount->value);
+                        }
+                        }
+                    }
+                    if(!$modell->parts->isEmpty())
+                    {
+                        foreach($modell->parts as $part)
+                        {
+                            $amount = $product->amounts()->where('part_id',$part->id)->first();
+                            if ($amount){
+                                if ($amount->price > 0){
+                                $totalModellPrice += ($part->price * $amount->value) + ($amount->price * $amount->value);
+                            } else {
+                                $totalModellPrice += ($part->price * $amount->value);
+                            }
+                            }
+                        }
+                    }
+                    $totalPrice = $totalModellPrice + $totalGroupPrice;
+                    $finalPrice += ($totalPrice * $product->percent) * $product->quantity;
+                @endphp
+                <div class="p-2 border border-gray-300 rounded-md shadow-sm bg-gray-100 mb-4">
+                    <div class="space-y-4">
+                        <p class="text-xs text-black text-center font-bold">
+                            گروه : {{ $group->name }}
+                        </p>
+                        <p class="text-xs text-black text-center font-bold">
+                            مدل : {{ $modell->name }}
+                        </p>
+                        <p class="text-xs text-gray-600 text-center">
+                            کد : {{ $modell->code . "-" . $group->code }}
+                        </p>
+                        <p class="text-xs text-black text-center font-medium">
+                            قیمت واحد : {{ number_format($totalPrice * $product->percent) }} تومان
+                        </p>
+                        <p class="text-xs text-black text-center font-bold">
+                            تعداد : {{ $product->quantity }}
+                        </p>
+                        <p class="text-xs text-black text-center font-medium">
+                            قیمت کل : {{ number_format(($totalPrice * $product->percent) * $product->quantity) }} تومان
+                        </p>
+                    </div>
+                </div>
+            @endforeach
+
+            <div class="flex justify-between items-center mb-2 border border-gray-500 rounded-md p-2">
+                <p class="text-base font-medium text-black">
+                    قیمت کل
+                </p>
+                @if($inquiry->price > 0)
+                    <p class="text-base font-medium text-green-600">
+                        {{ number_format($inquiry->price) }} تومان
+                    </p>
+                @else
+                    <p class="text-base font-medium text-green-600">
+                        {{ number_format($finalPrice) }} تومان
+                    </p>
+                @endif
+            </div>
+
+        </div>
+
+        <div class="md:grid grid-cols-3 gap-4 mt-4">
             <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4 space-y-2">
                 <p class="text-sm font-bold text-black text-center">
                     ایجاد استعلام : {{ jdate($inquiry->created_at)->format('%A, %d %B %Y') }}
