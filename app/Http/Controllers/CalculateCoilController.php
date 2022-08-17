@@ -36,37 +36,44 @@ class CalculateCoilController extends Controller
         $zekhamat_frame = $request['zekhamat_frame_coil'];
         $collectorAhani = $request['collector_ahani'];
         $collectorMessi = $request['collector_messi'];
+        $electrodNoghre = $request['electrod_noghre'];
 
         $name = $request['name'];
-
+        $code = $this->getLastCode($part);
         $newPart = $part->replicate()->fill([
             'name' => $name,
-            'code' => random_int(1111, 9999),
+            'code' => $code
         ]);
 
         $newPart->save();
+
+        foreach ($part->categories as $category) {
+            $newPart->categories()->syncWithoutDetaching($category->id);
+        }
 
         foreach ($part->children as $child) {
             $newPart->children()->syncWithoutDetaching($child->id);
         }
 
         foreach ($newPart->children as $index => $childPart) {
-            if ($index == 16) {
-                $childPart->pivot->parent_part_id = $looleMessi;
-            }
-            if ($index == 17) {
-                $childPart->pivot->parent_part_id = $fin;
-            }
-            if ($index == 2) {
+            if ($index == 13) {
                 $childPart->pivot->parent_part_id = $zekhamat_frame;
             }
-            if ($index == 20 && !is_null($collectorAhani)) {
+            if ($index == 14) {
+                $childPart->pivot->parent_part_id = $looleMessi;
+            }
+            if ($index == 15) {
+                $childPart->pivot->parent_part_id = $fin;
+            }
+            if ($index == 16) {
+                $childPart->pivot->parent_part_id = $collectorMessi;
+            }
+            if ($index == 17 && !is_null($collectorAhani)) {
                 $childPart->pivot->parent_part_id = $collectorAhani;
             }
             if ($index == 19) {
-                $childPart->pivot->parent_part_id = $collectorMessi;
+                $childPart->pivot->parent_part_id = $electrodNoghre;
             }
-
             $childPart->pivot->value = $request->values[$index];
             $childPart->pivot->save();
         }
@@ -85,35 +92,44 @@ class CalculateCoilController extends Controller
         $zekhamat_frame = $request['zekhamat_frame_coil'];
         $collectorAhani = $request['collector_ahani'];
         $collectorMessi = $request['collector_messi'];
+        $electrodNoghre = $request['electrod_noghre'];
 
         $name = $request['name'];
+        $code = $this->getLastCode($part);
 
         $newPart = $part->replicate()->fill([
             'name' => $name,
-            'code' => random_int(1111, 9999),
+            'code' => $code,
         ]);
 
         $newPart->save();
+
+        foreach ($part->categories as $category) {
+            $newPart->categories()->syncWithoutDetaching($category->id);
+        }
 
         foreach ($part->children as $child) {
             $newPart->children()->syncWithoutDetaching($child->id);
         }
 
         foreach ($newPart->children as $index => $childPart) {
-            if ($index == 18) {
-                $childPart->pivot->parent_part_id = $looleMessi;
-            }
-            if ($index == 17) {
-                $childPart->pivot->parent_part_id = $fin;
-            }
-            if ($index == 2) {
+            if ($index == 13) {
                 $childPart->pivot->parent_part_id = $zekhamat_frame;
             }
-            if ($index == 20 && !is_null($collectorAhani)) {
+            if ($index == 14) {
+                $childPart->pivot->parent_part_id = $looleMessi;
+            }
+            if ($index == 15) {
+                $childPart->pivot->parent_part_id = $fin;
+            }
+            if ($index == 16) {
+                $childPart->pivot->parent_part_id = $collectorMessi;
+            }
+            if ($index == 17 && !is_null($collectorAhani)) {
                 $childPart->pivot->parent_part_id = $collectorAhani;
             }
             if ($index == 19) {
-                $childPart->pivot->parent_part_id = $collectorMessi;
+                $childPart->pivot->parent_part_id = $electrodNoghre;
             }
 
             $childPart->pivot->value = $request->values[$index];
@@ -182,7 +198,6 @@ class CalculateCoilController extends Controller
 
     public function storeWater(Request $request, Part $part, Product $product)
     {
-
         $looleMessi = $request['loole_messi'];
         $fin = $request['fin_coil'];
         $zekhamat_frame = $request['zekhamat_frame_coil'];
@@ -234,5 +249,16 @@ class CalculateCoilController extends Controller
     {
         $part = Part::find($request->id);
         return response(['data' => $part]);
+    }
+
+    public function getLastCode($part)
+    {
+        $category = $part->categories()->latest()->first();
+        $categoryPart = $category->parts->toArray();
+        if (count($categoryPart) > 0) {
+            $lastPart = $categoryPart[count($categoryPart) - 1];
+            $code = str_pad($lastPart['code'] + 1, 4, "0", STR_PAD_LEFT);
+        }
+        return $code;
     }
 }
