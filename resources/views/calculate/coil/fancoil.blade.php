@@ -8,7 +8,9 @@
             let globalCollectorAhani = null;
             let globalCollectorMessi = null;
             let globalZekhamat = null;
-            let globalCollectorBerenji = null;
+            let globalNoghre = null;
+            //let globalCollectorBerenji = null;
+
             //Value sections
             let valueSection = [];
             let totalPriceSection = [];
@@ -36,22 +38,34 @@
                 let tedadRadif = parseFloat(document.getElementById('inputTedadRadif').value);
                 let tedadMogheyiatLooleDarRadif = parseFloat(document.getElementById('inputTedadMogheyiatLooleDarRadif').value);
                 let tedadLooleDarRadif = parseFloat(document.getElementById('inputTedadLooleDarRadif').value);
-                let looleMessiId = document.getElementById('inputLooleMessi').value;
                 let tedadMadarLoole = parseFloat(document.getElementById('inputTedadMadarLoole').value);
-                let finCoilId = document.getElementById('inputFin').value;
-                let collectorAhaniId = document.getElementById('inputCollectorAhani').value;
-                let collectorMessiId = document.getElementById('inputCollectorMessi').value;
-                let collectorBerenjiId = document.getElementById('inputCollectorBerenji').value;
-                let zekhamatFrameId = document.getElementById('inputZekhamatFrame').value;
                 let finDarInch = parseFloat(document.getElementById('inputFinDarInch').value);
                 let tedadSoorakhPakhshKon = parseFloat(document.getElementById('inputTedadSoorakhPakhshKon').value);
+                let khamCoilResult = parseFloat(document.getElementById('inputKham').value);
                 let noePoosheshZedeKhordegi = document.getElementById('inputNoePoosheshZedeKhordegi').value;
                 let satheCoilSection = document.getElementById('satheCoil');
-                let tedadMadarCoil = parseFloat(document.getElementById('inputTedadMadarCoil').value);
 
-                let khamCoilResult = parseFloat(document.getElementById('inputKham').value);
+                let collectorAhaniId = document.getElementById('inputCollectorAhani').value;
+                let collectorMessiId = document.getElementById('inputCollectorMessi').value;
+                let zekhamatFrameId = document.getElementById('inputZekhamatFrame').value;
+                let looleMessiId = document.getElementById('inputLooleMessi').value;
+                let finCoilId = document.getElementById('inputFin').value;
+                let electrodNoghreId = document.getElementById('inputElectrodNoghre').value;
+
+                let gamDarRadif;
+                let gamDarErtefa;
+                let sabetVaznVaragh;
+                let vaznVaraghMasrafiResult;
+                let poosheshZedeKhordegiResult;
+                let tinerResult;
+                let collectorAhaniResult;
+                let collectorMessiResult;
 
                 //-----------------
+                if ((electrodNoghreId && globalNoghre !== electrodNoghreId) || (electrodNoghreId && globalNoghre === null)) {
+                    sendDataElectrodNoghre(electrodNoghreId);
+                    globalNoghre = electrodNoghreId;
+                }
                 if ((looleMessiId && globalLoole !== looleMessiId) || (looleMessiId && globalLoole === null)) {
                     sendDataLooleMessi(looleMessiId);
                     globalLoole = looleMessiId;
@@ -72,34 +86,31 @@
                     sendDataVaraghGalvanize(zekhamatFrameId)
                     globalZekhamat = zekhamatFrameId;
                 }
-                if ((collectorBerenjiId && globalCollectorBerenji !== collectorBerenjiId) || (collectorBerenjiId && globalCollectorBerenji === null)) {
-                    sendDataCollectorBerenji(collectorBerenjiId)
-                    globalCollectorBerenji = collectorBerenjiId;
-                }
+                // if ((collectorBerenjiId && globalCollectorBerenji !== collectorBerenjiId) || (collectorBerenjiId && globalCollectorBerenji === null)) {
+                //     sendDataCollectorBerenji(collectorBerenjiId)
+                //     globalCollectorBerenji = collectorBerenjiId;
+                // }
                 //-----------------
 
                 let tedadFinMasrafiResult = tooleCoil * finDarInch;
 
-                if (finCoilId === '51' || finCoilId === '53' || finCoilId === '53') {
-                    zekhamatFin = 0.13;
+                if (finCoilId === '60' || finCoilId === '63' || finCoilId === '67') {
+                    zekhamatFin = 0.13; //130 micron
                 }
-                if (finCoilId === '7' || finCoilId === '58') {
-                    zekhamatFin = 0.14;
+                if (finCoilId === '61' || finCoilId === '64' || finCoilId === '68') {
+                    zekhamatFin = 0.14; //140 micron
                 }
-                if (finCoilId === '52' || finCoilId === '54' || finCoilId === '59') {
-                    zekhamatFin = 0.15;
+                if (finCoilId === '62' || finCoilId === '65' || finCoilId === '69') {
+                    zekhamatFin = 0.15; //150 micron
                 }
-                if (finCoilId === '55' || finCoilId === '28') {
-                    zekhamatFin = 0.10;
+                if (finCoilId === '66') {
+                    zekhamatFin = 0.10; //100 micron
                 }
 
                 let tedadUResult = (tedadRadif * tedadLooleDarRadif) - tedadMadarLoole;
 
-                let gamDarRadif;
-                let gamDarErtefa;
-                let sabetVaznVaragh;
-
-                if (looleMessiId === '3') {
+                //Loole Messi 5/8 - Zekhamat 0.5
+                if (looleMessiId === '58') {
                     gamDarRadif = 32.5;
                     gamDarErtefa = 37.5;
                     sabetVaznVaragh = 130;
@@ -110,7 +121,9 @@
                     azotResult = tedadRadif * satheCoilResult * 0.23;
                     vaznBerenjMasrafiResult = (tedadMadarLoole * 2) * 11;
                 }
-                if (looleMessiId === '47') {
+
+                //Loole Messi 5/8 - Zekhamat 0.63
+                if (looleMessiId === '59') {
                     gamDarRadif = 32.5;
                     gamDarErtefa = 37.5;
                     sabetVaznVaragh = 130;
@@ -121,7 +134,9 @@
                     azotResult = tedadRadif * satheCoilResult * 0.23;
                     vaznBerenjMasrafiResult = (tedadMadarLoole * 2) * 11;
                 }
-                if (looleMessiId === '8') {
+
+                //Loole Messi 3/8 - Zekhamat 0.35
+                if (looleMessiId === '53') {
                     gamDarRadif = 21.6;
                     gamDarErtefa = 25;
                     sabetVaznVaragh = 110;
@@ -132,7 +147,9 @@
                     azotResult = tedadRadif * satheCoilResult * 0.15;
                     vaznBerenjMasrafiResult = (tedadMadarLoole * 2) * 7.6;
                 }
-                if (looleMessiId === '48') {
+
+                //Loole Messi 3/8 - Zekhamat 0.4
+                if (looleMessiId === '54') {
                     gamDarRadif = 21.6;
                     gamDarErtefa = 25;
                     sabetVaznVaragh = 110;
@@ -143,7 +160,9 @@
                     azotResult = tedadRadif * satheCoilResult * 0.15;
                     vaznBerenjMasrafiResult = (tedadMadarLoole * 2) * 7.6;
                 }
-                if (looleMessiId === '49') {
+
+                //Loole Messi 3/8 - Zekhamat 0.5
+                if (looleMessiId === '55') {
                     gamDarRadif = 21.6;
                     gamDarErtefa = 25;
                     sabetVaznVaragh = 110;
@@ -155,9 +174,11 @@
                     vaznBerenjMasrafiResult = (tedadMadarLoole * 2) * 7.6;
                 }
 
-                if (finCoilId === '51' || finCoilId === '52' || finCoilId === '53' || finCoilId === '54' || finCoilId === '55' || finCoilId === '7') {
+                //Fin Al & Golden
+                if (finCoilId === '60' || finCoilId === '61' || finCoilId === '62' || finCoilId === '63' || finCoilId === '64' || finCoilId === '65') {
                     vaznFinAlResult = ((ertefaFinResult * (gamDarRadif * tedadRadif) * zekhamatFin) * 2.7 * tedadFinMasrafiResult) / 1000000;
                 } else {
+                    //Fin Messi
                     vaznFinAlResult = ((ertefaFinResult * (gamDarRadif * tedadRadif) * zekhamatFin) * 8.96 * tedadFinMasrafiResult) / 1000000;
                 }
 
@@ -167,34 +188,43 @@
                 let masahatFrameBalaPayin = 0;
                 let masahatVaraghMasrafi = masahatFrameBalaPayin + masahatTubSheet;
 
-                let vaznVaraghMasrafiResult;
-
-                if (zekhamatFrameId === '2') {
+                //Varagh Galvnize - Zekhamat 1
+                if (zekhamatFrameId === '5') {
                     vaznVaraghMasrafiResult = masahatVaraghMasrafi * 7.874;
                 }
-                if (zekhamatFrameId === '82') {
+
+                //Varagh Galvnize - Zekhamat 1.25
+                if (zekhamatFrameId === '7') {
                     vaznVaraghMasrafiResult = masahatVaraghMasrafi * 1.25 * 7.874;
                 }
-                if (zekhamatFrameId === '83') {
+
+                //Varagh Galvnize - Zekhamat 1.5
+                if (zekhamatFrameId === '8') {
                     vaznVaraghMasrafiResult = masahatVaraghMasrafi * 1.5 * 7.874;
                 }
-                if (zekhamatFrameId === '84') {
+
+                //Varagh Galvnize - Zekhamat 2
+                if (zekhamatFrameId === '9') {
                     vaznVaraghMasrafiResult = masahatVaraghMasrafi * 2 * 7.874;
                 }
-                if (zekhamatFrameId === '85') {
+
+                //Varagh Galvnize - Zekhamat 2.5
+                if (zekhamatFrameId === '10') {
                     vaznVaraghMasrafiResult = masahatVaraghMasrafi * 2.5 * 7.874;
                 }
-                if (zekhamatFrameId === '86') {
+
+                //Varagh Galvnize - Zekhamat 3
+                if (zekhamatFrameId === '11') {
                     vaznVaraghMasrafiResult = masahatVaraghMasrafi * 3 * 7.874;
                 }
-                if (zekhamatFrameId === '87') {
+
+                //Varagh Galvnize - Zekhamat 4
+                if (zekhamatFrameId === '12') {
                     vaznVaraghMasrafiResult = masahatVaraghMasrafi * 4 * 7.874;
                 }
 
                 let flaksMayeMasrafiResult = tedadUResult * 0.002;
 
-                let poosheshZedeKhordegiResult;
-                let tinerResult;
                 if (noePoosheshZedeKhordegi === '1') {
                     poosheshZedeKhordegiResult = satheCoilResult * tedadRadif * 0.05;
                     tinerResult = satheCoilResult * tedadRadif * 0.1;
@@ -211,177 +241,178 @@
 
                 let roghaneTabkhirShavandeResult = tedadRadif * satheCoilResult * 0.015;
 
-                let collectorAhaniResult;
-                if (collectorAhaniId === '62') {
+                if (collectorAhaniId === '70') {
                     collectorAhaniResult = ((ertefaFinResult + 250) / 1000) * 1.94;
                 }
-                if (collectorAhaniId === '63') {
+                if (collectorAhaniId === '71') {
                     collectorAhaniResult = ((ertefaFinResult + 250) / 1000) * 2.48;
                 }
-                if (collectorAhaniId === '64') {
+                if (collectorAhaniId === '72') {
                     collectorAhaniResult = ((ertefaFinResult + 250) / 1000) * 2.81;
                 }
-                if (collectorAhaniId === '65') {
+                if (collectorAhaniId === '73') {
                     collectorAhaniResult = ((ertefaFinResult + 250) / 1000) * 4.32;
                 }
-                if (collectorAhaniId === '66') {
+                if (collectorAhaniId === '74') {
                     collectorAhaniResult = ((ertefaFinResult + 250) / 1000) * 5.48;
                 }
-                if (collectorAhaniId === '67') {
+                if (collectorAhaniId === '75') {
                     collectorAhaniResult = ((ertefaFinResult + 250) / 1000) * 7.56;
                 }
-                if (collectorAhaniId === '68') {
+                if (collectorAhaniId === '76') {
                     collectorAhaniResult = ((ertefaFinResult + 250) / 1000) * 11.18;
                 }
 
-                let collectorMessiResult;
                 if (tedadSoorakhPakhshKon > 0) {
-                    if (collectorMessiId === '69') {
+                    if (collectorMessiId === '77') {
                         collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 0.196);
                     }
-                    if (collectorMessiId === '70') {
+                    if (collectorMessiId === '78') {
                         collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 0.299);
                     }
-                    if (collectorMessiId === '71') {
+                    if (collectorMessiId === '79') {
                         collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 0.419);
                     }
-                    if (collectorMessiId === '72') {
+                    if (collectorMessiId === '80') {
                         collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 0.734);
                     }
-                    if (collectorMessiId === '73') {
+                    if (collectorMessiId === '81') {
                         collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 0.975);
                     }
-                    if (collectorMessiId === '74') {
+                    if (collectorMessiId === '82') {
                         collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 1.410);
                     }
-                    if (collectorMessiId === '75') {
+                    if (collectorMessiId === '83') {
                         collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 1.685);
                     }
-                    if (collectorMessiId === '76') {
+                    if (collectorMessiId === '84') {
                         collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 2.205);
                     }
-                    if (collectorMessiId === '77') {
+                    if (collectorMessiId === '85') {
                         collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 3.616);
                     }
-                    if (collectorMessiId === '78') {
+                    if (collectorMessiId === '86') {
                         collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 4.95);
                     }
-                    if (collectorMessiId === '79') {
+                    if (collectorMessiId === '87') {
                         collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 6.9);
                     }
-                    if (collectorMessiId === '80') {
+                    if (collectorMessiId === '88') {
                         collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 7.89);
                     }
                 } else {
-                    if (collectorMessiId === '69') {
+                    if (collectorMessiId === '77') {
                         collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 0.196) * 2;
                     }
-                    if (collectorMessiId === '70') {
+                    if (collectorMessiId === '78') {
                         collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 0.299) * 2;
                     }
-                    if (collectorMessiId === '71') {
+                    if (collectorMessiId === '79') {
                         collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 0.419) * 2;
                     }
-                    if (collectorMessiId === '72') {
+                    if (collectorMessiId === '80') {
                         collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 0.734) * 2;
                     }
-                    if (collectorMessiId === '73') {
+                    if (collectorMessiId === '81') {
                         collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 0.975) * 2;
                     }
-                    if (collectorMessiId === '74') {
+                    if (collectorMessiId === '82') {
                         collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 1.410) * 2;
                     }
-                    if (collectorMessiId === '75') {
+                    if (collectorMessiId === '83') {
                         collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 1.685) * 2;
                     }
-                    if (collectorMessiId === '76') {
+                    if (collectorMessiId === '84') {
                         collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 2.205) * 2;
                     }
-                    if (collectorMessiId === '77') {
+                    if (collectorMessiId === '85') {
                         collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 3.616) * 2;
                     }
-                    if (collectorMessiId === '78') {
+                    if (collectorMessiId === '86') {
                         collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 4.95) * 2;
                     }
-                    if (collectorMessiId === '79') {
+                    if (collectorMessiId === '87') {
                         collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 6.9) * 2;
                     }
-                    if (collectorMessiId === '80') {
+                    if (collectorMessiId === '88') {
                         collectorMessiResult = (((ertefaFinResult + 250) / 1000) * 7.89) * 2;
                     }
                 }
 
-                let collectorBerenjiResult = (tedadMadarLoole * tedadMadarCoil * 6) + looleMessiResult;
+                //let collectorBerenjiResult = (tedadMadarLoole * tedadMadarCoil * 6) + looleMessiResult;
 
                 //--------------------
-                valueSection[0].innerText = tedadUResult.toFixed(4);
-                inputValues[0].value = tedadUResult.toFixed(4);
-                let price0 = inputTotalPrice[0].value * tedadUResult;
+                valueSection[0].innerText = looleMessi316Result.toFixed(4);
+                inputValues[0].value = looleMessi316Result.toFixed(4);
+                let price0 = inputTotalPrice[0].value * looleMessi316Result;
                 totalPriceSection[0].innerText = Intl.NumberFormat().format(price0);
 
-                valueSection[1].innerText = tedadSoorakhPakhshKon.toFixed(4);
-                inputValues[1].value = tedadSoorakhPakhshKon.toFixed(4);
-                let price1 = inputTotalPrice[1].value * tedadSoorakhPakhshKon;
+                valueSection[1].innerText = abeMasrafiResult;
+                inputValues[1].value = abeMasrafiResult;
+                let price1 = inputTotalPrice[1].value * abeMasrafiResult;
                 totalPriceSection[1].innerText = Intl.NumberFormat().format(price1);
 
-                valueSection[2].innerText = vaznVaraghMasrafiResult.toFixed(4);
-                inputValues[2].value = vaznVaraghMasrafiResult.toFixed(4);
-                let price2 = inputTotalPrice[2].value * vaznVaraghMasrafiResult;
+                //Gaze Shahri
+                valueSection[2].innerText = 0.2;
+                inputValues[2].value = 0.2;
+                let price2 = inputTotalPrice[2].value * 0.2;
                 totalPriceSection[2].innerText = Intl.NumberFormat().format(price2);
 
-                valueSection[3].innerText = vaznNoghreMasrafiResult.toFixed(4);
-                inputValues[3].value = vaznNoghreMasrafiResult.toFixed(4);
-                let price3 = inputTotalPrice[3].value * vaznNoghreMasrafiResult;
+                valueSection[3].innerText = khamCoilResult.toFixed(4);
+                inputValues[3].value = khamCoilResult.toFixed(4);
+                let price3 = inputTotalPrice[3].value * khamCoilResult;
                 totalPriceSection[3].innerText = Intl.NumberFormat().format(price3);
 
-                valueSection[4].innerText = vaznBerenjMasrafiResult;
-                inputValues[4].value = vaznBerenjMasrafiResult;
-                let price4 = inputTotalPrice[4].value * vaznBerenjMasrafiResult;
+                valueSection[4].innerText = poosheshZedeKhordegiResult.toFixed(4);
+                inputValues[4].value = poosheshZedeKhordegiResult.toFixed(4);
+                let price4 = inputTotalPrice[4].value * poosheshZedeKhordegiResult;
                 totalPriceSection[4].innerText = Intl.NumberFormat().format(price4);
 
-                valueSection[5].innerText = poosheshZedeKhordegiResult.toFixed(4);
-                inputValues[5].value = poosheshZedeKhordegiResult.toFixed(4);
-                let price5 = inputTotalPrice[5].value * poosheshZedeKhordegiResult;
+                valueSection[5].innerText = tinerResult.toFixed(4);
+                inputValues[5].value = tinerResult.toFixed(4);
+                let price5 = inputTotalPrice[5].value * tinerResult;
                 totalPriceSection[5].innerText = Intl.NumberFormat().format(price5);
 
-                valueSection[6].innerText = tinerResult.toFixed(4);
-                inputValues[6].value = tinerResult.toFixed(4);
-                let price6 = inputTotalPrice[6].value * tinerResult;
+                valueSection[6].innerText = flaksMayeMasrafiResult.toFixed(4);
+                inputValues[6].value = flaksMayeMasrafiResult.toFixed(4);
+                let price6 = inputTotalPrice[6].value * flaksMayeMasrafiResult;
                 totalPriceSection[6].innerText = Intl.NumberFormat().format(price6);
 
-                valueSection[7].innerText = 12;
-                inputValues[7].value = 12;
-                let price7 = inputTotalPrice[7].value * 12;
+                valueSection[7].innerText = azotResult;
+                inputValues[7].value = azotResult;
+                let price7 = inputTotalPrice[7].value * azotResult;
                 totalPriceSection[7].innerText = Intl.NumberFormat().format(price7);
 
-                valueSection[8].innerText = flaksMayeMasrafiResult.toFixed(4);
-                inputValues[8].value = flaksMayeMasrafiResult.toFixed(4);
-                let price8 = inputTotalPrice[8].value * flaksMayeMasrafiResult;
+                valueSection[8].innerText = vaznBerenjMasrafiResult;
+                inputValues[8].value = vaznBerenjMasrafiResult;
+                let price8 = inputTotalPrice[8].value * vaznBerenjMasrafiResult;
                 totalPriceSection[8].innerText = Intl.NumberFormat().format(price8);
 
-                valueSection[9].innerText = 0.2;
-                inputValues[9].value = 0.2;
-                let price9 = inputTotalPrice[9].value * 0.2;
+                //Soozan Volf
+                valueSection[9].innerText = 2;
+                inputValues[9].value = 2;
+                let price9 = inputTotalPrice[9].value * 2;
                 totalPriceSection[9].innerText = Intl.NumberFormat().format(price9);
 
-                valueSection[10].innerText = roghaneTabkhirShavandeResult;
-                inputValues[10].value = roghaneTabkhirShavandeResult;
-                let price10 = inputTotalPrice[10].value * roghaneTabkhirShavandeResult;
+                //Picho Mohre
+                valueSection[10].innerText = 12;
+                inputValues[10].value = 12;
+                let price10 = inputTotalPrice[10].value * 12;
                 totalPriceSection[10].innerText = Intl.NumberFormat().format(price10);
 
-                valueSection[11].innerText = oxygenMasrafiResult;
-                inputValues[11].value = oxygenMasrafiResult;
-                let price11 = inputTotalPrice[11].value * oxygenMasrafiResult;
+                valueSection[11].innerText = tedadSoorakhPakhshKon.toFixed(4);
+                inputValues[11].value = tedadSoorakhPakhshKon.toFixed(4);
+                let price11 = inputTotalPrice[11].value * tedadSoorakhPakhshKon;
                 totalPriceSection[11].innerText = Intl.NumberFormat().format(price11);
 
-                valueSection[12].innerText = azotResult;
-                inputValues[12].value = azotResult;
-                let price12 = inputTotalPrice[12].value * azotResult;
+                valueSection[12].innerText = roghaneTabkhirShavandeResult;
+                inputValues[12].value = roghaneTabkhirShavandeResult;
+                let price12 = inputTotalPrice[12].value * roghaneTabkhirShavandeResult;
                 totalPriceSection[12].innerText = Intl.NumberFormat().format(price12);
 
-                valueSection[13].innerText = abeMasrafiResult;
-                inputValues[13].value = abeMasrafiResult;
-                let price13 = inputTotalPrice[13].value * abeMasrafiResult;
+                valueSection[13].innerText = vaznVaraghMasrafiResult.toFixed(4);
+                inputValues[13].value = vaznVaraghMasrafiResult.toFixed(4);
+                let price13 = inputTotalPrice[13].value * vaznVaraghMasrafiResult;
                 totalPriceSection[13].innerText = Intl.NumberFormat().format(price13);
 
                 valueSection[14].innerText = looleMessiResult.toFixed(4);
@@ -394,37 +425,37 @@
                 let price15 = inputTotalPrice[15].value * vaznFinAlResult;
                 totalPriceSection[15].innerText = Intl.NumberFormat().format(price15);
 
-                valueSection[16].innerText = looleMessi316Result.toFixed(4);
-                inputValues[16].value = looleMessi316Result.toFixed(4);
-                let price16 = inputTotalPrice[16].value * looleMessi316Result;
+                valueSection[16].innerText = collectorMessiResult.toFixed(4);
+                inputValues[16].value = collectorMessiResult.toFixed(4);
+                let price16 = inputTotalPrice[16].value * collectorMessiResult;
                 totalPriceSection[16].innerText = Intl.NumberFormat().format(price16);
 
-                valueSection[17].innerText = collectorMessiResult.toFixed(4);
-                inputValues[17].value = collectorMessiResult.toFixed(4);
-                let price17 = inputTotalPrice[17].value * collectorMessiResult;
-                totalPriceSection[17].innerText = Intl.NumberFormat().format(price17);
-
-                let price18;
+                let price17;
                 if (collectorAhaniResult) {
-                    valueSection[18].innerText = collectorAhaniResult.toFixed(4);
-                    inputValues[18].value = collectorAhaniResult.toFixed(4);
-                    price18 = inputTotalPrice[18].value * collectorAhaniResult;
-                    totalPriceSection[18].innerText = Intl.NumberFormat().format(price18);
+                    valueSection[17].innerText = collectorAhaniResult.toFixed(4);
+                    inputValues[17].value = collectorAhaniResult.toFixed(4);
+                    price17 = inputTotalPrice[17].value * collectorAhaniResult;
+                    totalPriceSection[17].innerText = Intl.NumberFormat().format(price17);
                 } else {
-                    valueSection[18].innerText = 0;
-                    inputValues[18].value = 0;
-                    price18 = 0;
-                    totalPriceSection[18].innerText = 0;
+                    valueSection[17].innerText = 0;
+                    inputValues[17].value = 0;
+                    price17 = 0;
+                    totalPriceSection[17].innerText = 0;
                 }
 
-                valueSection[19].innerText = khamCoilResult.toFixed(4);
-                inputValues[19].value = khamCoilResult.toFixed(4);
-                let price19 = inputTotalPrice[19].value * khamCoilResult;
+                valueSection[18].innerText = tedadUResult.toFixed(4);
+                inputValues[18].value = tedadUResult.toFixed(4);
+                let price18 = inputTotalPrice[18].value * tedadUResult;
+                totalPriceSection[18].innerText = Intl.NumberFormat().format(price18);
+
+                valueSection[19].innerText = vaznNoghreMasrafiResult.toFixed(4);
+                inputValues[19].value = vaznNoghreMasrafiResult.toFixed(4);
+                let price19 = inputTotalPrice[19].value * vaznNoghreMasrafiResult;
                 totalPriceSection[19].innerText = Intl.NumberFormat().format(price19);
 
-                valueSection[20].innerText = collectorBerenjiResult.toFixed(4);
-                inputValues[20].value = collectorBerenjiResult.toFixed(4);
-                let price20 = inputTotalPrice[20].value * collectorBerenjiResult;
+                valueSection[20].innerText = oxygenMasrafiResult;
+                inputValues[20].value = oxygenMasrafiResult;
+                let price20 = inputTotalPrice[20].value * oxygenMasrafiResult;
                 totalPriceSection[20].innerText = Intl.NumberFormat().format(price20);
 
                 let finalPriceSection = document.getElementById('finalPriceSection');
@@ -438,15 +469,16 @@
                 inputFinalPrice.value = finalPrice;
                 document.getElementById("finalPriceTopSection").innerText = Intl.NumberFormat().format(finalPrice.toFixed(0));
 
-                document.getElementById('coilName').value = `کویل فن کویلی با سطح ${satheCoilResult.toFixed(2)} و طول ${tooleCoil.toFixed(2)}`;
+                document.getElementById('coilName').value = `کویل فن کویلی یا سقفی با سطح ${satheCoilResult.toFixed(2)} و طول ${tooleCoil.toFixed(2)}`;
             }
 
             function sendDataLooleMessi(id) {
                 let looleMessiNameSection = document.getElementById('nameSection14');
                 let looleMessiPriceSection = document.getElementById('priceSection14');
                 let looleMessiUnitSection = document.getElementById('unitSection14');
-                let uMessiNameSection = document.getElementById('nameSection0');
-                let uMessiPriceSection = document.getElementById('priceSection0');
+
+                let uMessiNameSection = document.getElementById('nameSection18');
+                let uMessiPriceSection = document.getElementById('priceSection18');
 
                 $.ajaxSetup({
                     headers: {
@@ -465,16 +497,18 @@
                         looleMessiPriceSection.innerText = Intl.NumberFormat().format(res.data.price);
                         looleMessiUnitSection.innerText = res.data.unit;
 
-                        document.getElementById('inputTotalPrice16').value = res.data.price;
+                        document.getElementById('inputTotalPrice14').value = res.data.price;
 
-                        if (res.data.code === '5805' || res.data.code === '58063') {
-                            uMessiNameSection.innerText = '{{ \App\Models\Part::where('code',58085)->first()->name }}';
-                            uMessiPriceSection.innerText = '{{ number_format(\App\Models\Part::where('code',58085)->first()->price) }}'
+                        //Loole Messi 5/8
+                        if (id === '58' || id === '59') {
+                            uMessiNameSection.innerText = '{{ \App\Models\Part::where('id','94')->first()->name }}';
+                            uMessiPriceSection.innerText = '{{ number_format(\App\Models\Part::where('id','94')->first()->price) }}'
                         }
 
-                        if (res.data.code === '3804' || res.data.code === '3805' || res.data.code === '38035') {
-                            uMessiNameSection.innerText = '{{ \App\Models\Part::where('code',38053)->first()->name }}';
-                            uMessiPriceSection.innerText = '{{ number_format(\App\Models\Part::where('code',38053)->first()->price) }}'
+                        //Loole Messi 3/8
+                        if (id === '53' || id === '54' || id === '55') {
+                            uMessiNameSection.innerText = '{{ \App\Models\Part::where('id','89')->first()->name }}';
+                            uMessiPriceSection.innerText = '{{ number_format(\App\Models\Part::where('id','89')->first()->price) }}'
                         }
                     }
                 });
@@ -501,15 +535,15 @@
                         finCoilNameSection.innerText = res.data.name;
                         finCoilPriceSection.innerText = Intl.NumberFormat().format(res.data.price);
                         finCoilUnitSection.innerText = res.data.unit;
-                        document.getElementById('inputTotalPrice17').value = res.data.price
+                        document.getElementById('inputTotalPrice15').value = res.data.price
                     }
                 });
             }
 
             function sendDataCollectorAhani(id) {
-                let collectorAhaniNameSection = document.getElementById('nameSection18');
-                let collectorAhaniPriceSection = document.getElementById('priceSection18');
-                let collectorAhaniUnitSection = document.getElementById('unitSection18');
+                let collectorAhaniNameSection = document.getElementById('nameSection17');
+                let collectorAhaniPriceSection = document.getElementById('priceSection17');
+                let collectorAhaniUnitSection = document.getElementById('unitSection17');
 
                 $.ajaxSetup({
                     headers: {
@@ -527,15 +561,15 @@
                         collectorAhaniNameSection.innerText = res.data.name;
                         collectorAhaniPriceSection.innerText = Intl.NumberFormat().format(res.data.price);
                         collectorAhaniUnitSection.innerText = res.data.unit;
-                        document.getElementById('inputTotalPrice20').value = res.data.price
+                        document.getElementById('inputTotalPrice17').value = res.data.price
                     }
                 });
             }
 
             function sendDataCollectorMessi(id) {
-                let collectorMessiNameSection = document.getElementById('nameSection17');
-                let collectorMessiPriceSection = document.getElementById('priceSection17');
-                let collectorMessiUnitSection = document.getElementById('unitSection17');
+                let collectorMessiNameSection = document.getElementById('nameSection16');
+                let collectorMessiPriceSection = document.getElementById('priceSection16');
+                let collectorMessiUnitSection = document.getElementById('unitSection16');
 
                 $.ajaxSetup({
                     headers: {
@@ -553,41 +587,15 @@
                         collectorMessiNameSection.innerText = res.data.name;
                         collectorMessiPriceSection.innerText = Intl.NumberFormat().format(res.data.price);
                         collectorMessiUnitSection.innerText = res.data.unit;
-                        document.getElementById('inputTotalPrice19').value = res.data.price
-                    }
-                });
-            }
-
-            function sendDataCollectorBerenji(id) {
-                let collectorBerenjiNameSection = document.getElementById('nameSection20');
-                let collectorBerenjiPriceSection = document.getElementById('priceSection20');
-                let collectorBerenjiUnitSection = document.getElementById('unitSection20');
-
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-
-                $.ajax({
-                    type: 'POST',
-                    url: '{{ route('calculateCoil.getData') }}',
-                    data: {
-                        id: id,
-                    },
-                    success: function (res) {
-                        collectorBerenjiNameSection.innerText = res.data.name;
-                        collectorBerenjiPriceSection.innerText = Intl.NumberFormat().format(res.data.price);
-                        collectorBerenjiUnitSection.innerText = res.data.unit;
-                        document.getElementById('inputTotalPrice20').value = res.data.price
+                        document.getElementById('inputTotalPrice16').value = res.data.price
                     }
                 });
             }
 
             function sendDataVaraghGalvanize(id) {
-                let varaghGalvanizeNameSection = document.getElementById('nameSection2');
-                let varaghGalvanizePriceSection = document.getElementById('priceSection2');
-                let varaghGalvanizeUnitSection = document.getElementById('unitSection2');
+                let varaghGalvanizeNameSection = document.getElementById('nameSection13');
+                let varaghGalvanizePriceSection = document.getElementById('priceSection13');
+                let varaghGalvanizeUnitSection = document.getElementById('unitSection13');
 
                 $.ajaxSetup({
                     headers: {
@@ -605,7 +613,33 @@
                         varaghGalvanizeNameSection.innerText = res.data.name;
                         varaghGalvanizePriceSection.innerText = Intl.NumberFormat().format(res.data.price);
                         varaghGalvanizeUnitSection.innerText = res.data.unit;
-                        document.getElementById('inputTotalPrice2').value = res.data.price
+                        document.getElementById('inputTotalPrice13').value = res.data.price
+                    }
+                });
+            }
+
+            function sendDataElectrodNoghre(id) {
+                let electrodNoghreNameSection = document.getElementById('nameSection19');
+                let electrodNoghrePriceSection = document.getElementById('priceSection19');
+                let electrodNoghreUnitSection = document.getElementById('unitSection19');
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('calculateCoil.getData') }}',
+                    data: {
+                        id: id,
+                    },
+                    success: function (res) {
+                        electrodNoghreNameSection.innerText = res.data.name;
+                        electrodNoghrePriceSection.innerText = Intl.NumberFormat().format(res.data.price);
+                        electrodNoghreUnitSection.innerText = res.data.unit;
+                        document.getElementById('inputTotalPrice19').value = res.data.price
                     }
                 });
             }
@@ -678,20 +712,26 @@
                         <select name="loole_messi" id="inputLooleMessi" class="input-text bg-yellow-300"
                                 onchange="calculate()">
                             <option value="">انتخاب کنید</option>
-                            <option value="{{ \App\Models\Part::where('code','5805')->first()->id }}">
-                                {{ \App\Models\Part::where('code','5805')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','53')->first()->id }}">
+                                {{ \App\Models\Part::where('id','53')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','58063')->first()->id }}">
-                                {{ \App\Models\Part::where('code','58063')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','54')->first()->id }}">
+                                {{ \App\Models\Part::where('id','54')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','3804')->first()->id }}">
-                                {{ \App\Models\Part::where('code','3804')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','55')->first()->id }}">
+                                {{ \App\Models\Part::where('id','55')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','3805')->first()->id }}">
-                                {{ \App\Models\Part::where('code','3805')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','56')->first()->id }}">
+                                {{ \App\Models\Part::where('id','56')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','38035')->first()->id }}">
-                                {{ \App\Models\Part::where('code','38035')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','57')->first()->id }}">
+                                {{ \App\Models\Part::where('id','57')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('id','58')->first()->id }}">
+                                {{ \App\Models\Part::where('id','58')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('id','59')->first()->id }}">
+                                {{ \App\Models\Part::where('id','59')->first()->name }}
                             </option>
                         </select>
                     </div>
@@ -699,41 +739,42 @@
                         <label class="block mb-2 text-sm font-bold" for="inputFin">فین کویل</label>
                         <select name="fin_coil" id="inputFin" class="input-text bg-yellow-300" onchange="calculate()">
                             <option value="">انتخاب کنید</option>
-                            <option value="{{ \App\Models\Part::where('code','130130')->first()->id }}">
-                                {{ \App\Models\Part::where('code','130130')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','60')->first()->id }}">
+                                {{ \App\Models\Part::where('id','60')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','140140')->first()->id }}">
-                                {{ \App\Models\Part::where('code','140140')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','61')->first()->id }}">
+                                {{ \App\Models\Part::where('id','61')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','150150')->first()->id }}">
-                                {{ \App\Models\Part::where('code','150150')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','62')->first()->id }}">
+                                {{ \App\Models\Part::where('id','62')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','1301301')->first()->id }}">
-                                {{ \App\Models\Part::where('code','1301301')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','63')->first()->id }}">
+                                {{ \App\Models\Part::where('id','63')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','1501501')->first()->id }}">
-                                {{ \App\Models\Part::where('code','1501501')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','64')->first()->id }}">
+                                {{ \App\Models\Part::where('id','64')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','1001001')->first()->id }}">
-                                {{ \App\Models\Part::where('code','1001001')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','65')->first()->id }}">
+                                {{ \App\Models\Part::where('id','65')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','100100100')->first()->id }}">
-                                {{ \App\Models\Part::where('code','100100100')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','66')->first()->id }}">
+                                {{ \App\Models\Part::where('id','66')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','130130130')->first()->id }}">
-                                {{ \App\Models\Part::where('code','130130130')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','67')->first()->id }}">
+                                {{ \App\Models\Part::where('id','67')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','140140140')->first()->id }}">
-                                {{ \App\Models\Part::where('code','140140140')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','68')->first()->id }}">
+                                {{ \App\Models\Part::where('id','68')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','150150150')->first()->id }}">
-                                {{ \App\Models\Part::where('code','150150150')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','69')->first()->id }}">
+                                {{ \App\Models\Part::where('id','69')->first()->name }}
                             </option>
                         </select>
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputTedadRadif">تعداد ردیف کویل</label>
-                        <select name="" id="inputTedadRadif" class="input-text bg-yellow-300" onchange="calculate()">
+                        <select name="tedad_radif_coil" id="inputTedadRadif" class="input-text bg-yellow-300"
+                                onchange="calculate()">
                             <option value="">انتخاب کنید</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -745,7 +786,8 @@
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputFinDarInch">فین در اینچ</label>
-                        <select name="" id="inputFinDarInch" class="input-text bg-yellow-300" onchange="calculate()">
+                        <select name="fin_dar_inch" id="inputFinDarInch" class="input-text bg-yellow-300"
+                                onchange="calculate()">
                             <option value="">انتخاب کنید</option>
                             <option value="8">8</option>
                             <option value="10">10</option>
@@ -753,20 +795,18 @@
                             <option value="14">14</option>
                         </select>
                     </div>
-
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputKham">خم کویل</label>
-                        <select name="" id="inputKham" class="input-text bg-yellow-300" onchange="calculate()">
+                        <select name="kham" id="inputKham" class="input-text bg-yellow-300" onchange="calculate()">
                             <option value="0" selected>ندارد</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
                         </select>
                     </div>
-
                     <div>
-                        <label class="block mb-2 text-sm font-bold" for="inputTedadMadarCoil">تعداد مدار کویل</label>
-                        <select name="" id="inputTedadMadarCoil" class="input-text bg-yellow-300">
+                        <label class="block mb-2 text-sm font-bold" for="inputTedadMadar">تعداد مدار کویل</label>
+                        <select name="tedad_madar_coil" id="inputTedadMadar" class="input-text bg-yellow-300">
                             <option value="">انتخاب کنید</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -776,178 +816,183 @@
                             <option value="8">8</option>
                         </select>
                     </div>
-
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputZekhamatFrame">ضخامت فریم کویل</label>
                         <select name="zekhamat_frame_coil" id="inputZekhamatFrame" class="input-text bg-yellow-300"
                                 onchange="calculate()">
                             <option value="">انتخاب کنید</option>
-                            <option value="{{ \App\Models\Part::where('code','1222')->first()->id }}">
-                                {{ \App\Models\Part::where('code','1222')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','1')->first()->id }}">
+                                {{ \App\Models\Part::where('id','1')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','125222')->first()->id }}">
-                                {{ \App\Models\Part::where('code','125222')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','2')->first()->id }}">
+                                {{ \App\Models\Part::where('id','2')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','15222')->first()->id }}">
-                                {{ \App\Models\Part::where('code','15222')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','3')->first()->id }}">
+                                {{ \App\Models\Part::where('id','3')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','2222')->first()->id }}">
-                                {{ \App\Models\Part::where('code','2222')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','4')->first()->id }}">
+                                {{ \App\Models\Part::where('id','4')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','25222')->first()->id }}">
-                                {{ \App\Models\Part::where('code','25222')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','5')->first()->id }}">
+                                {{ \App\Models\Part::where('id','5')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','3222')->first()->id }}">
-                                {{ \App\Models\Part::where('code','3222')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','7')->first()->id }}">
+                                {{ \App\Models\Part::where('id','7')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','4222')->first()->id }}">
-                                {{ \App\Models\Part::where('code','4222')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','8')->first()->id }}">
+                                {{ \App\Models\Part::where('id','8')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('id','9')->first()->id }}">
+                                {{ \App\Models\Part::where('id','9')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('id','10')->first()->id }}">
+                                {{ \App\Models\Part::where('id','10')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('id','11')->first()->id }}">
+                                {{ \App\Models\Part::where('id','11')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('id','12')->first()->id }}">
+                                {{ \App\Models\Part::where('id','12')->first()->name }}
                             </option>
                         </select>
                     </div>
-
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputNoePoosheshZedeKhordegi">نوع پوشش ضد
                             خوردگی</label>
-                        <select name="" id="inputNoePoosheshZedeKhordegi" class="input-text bg-yellow-300"
+                        <select name="pooshesh_khordegi" id="inputNoePoosheshZedeKhordegi"
+                                class="input-text bg-yellow-300"
                                 onchange="calculate()">
                             <option value="">انتخاب کنید</option>
                             <option value="0">ندارد</option>
                             <option value="1">هرسایت</option>
                         </select>
                     </div>
-
-                    <div>
+                    <div class="col-span-2">
                         <label class="block mb-2 text-sm font-bold" for="inputCollectorAhani">هدر و کلکتور آهنی</label>
                         <select name="collector_ahani" id="inputCollectorAhani" class="input-text bg-yellow-300"
                                 onchange="calculate()">
                             <option value="">ندارد</option>
-                            <option value="{{ \App\Models\Part::where('code','111000')->first()->id }}">
-                                {{ \App\Models\Part::where('code','111000')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','70')->first()->id }}">
+                                {{ \App\Models\Part::where('id','70')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','114000')->first()->id }}">
-                                {{ \App\Models\Part::where('code','114000')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','71')->first()->id }}">
+                                {{ \App\Models\Part::where('id','71')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','112000')->first()->id }}">
-                                {{ \App\Models\Part::where('code','112000')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','72')->first()->id }}">
+                                {{ \App\Models\Part::where('id','72')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','222000')->first()->id }}">
-                                {{ \App\Models\Part::where('code','222000')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','73')->first()->id }}">
+                                {{ \App\Models\Part::where('id','73')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','212000')->first()->id }}">
-                                {{ \App\Models\Part::where('code','212000')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','74')->first()->id }}">
+                                {{ \App\Models\Part::where('id','74')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','333000')->first()->id }}">
-                                {{ \App\Models\Part::where('code','333000')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','75')->first()->id }}">
+                                {{ \App\Models\Part::where('id','75')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','444000')->first()->id }}">
-                                {{ \App\Models\Part::where('code','444000')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','76')->first()->id }}">
+                                {{ \App\Models\Part::where('id','76')->first()->name }}
                             </option>
                         </select>
                     </div>
-
-                    <div>
+                    <div class="col-span-2">
                         <label class="block mb-2 text-sm font-bold" for="inputCollectorMessi">هدر و کلکتور مسی</label>
                         <select name="collector_messi" id="inputCollectorMessi" class="input-text bg-yellow-300"
                                 onchange="calculate()">
                             <option value="">انتخاب کنید</option>
-                            <option value="{{ \App\Models\Part::where('code','38000')->first()->id }}">
-                                {{ \App\Models\Part::where('code','38000')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','77')->first()->id }}">
+                                {{ \App\Models\Part::where('id','77')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','12000')->first()->id }}">
-                                {{ \App\Models\Part::where('code','12000')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','78')->first()->id }}">
+                                {{ \App\Models\Part::where('id','78')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','58000')->first()->id }}">
-                                {{ \App\Models\Part::where('code','58000')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','79')->first()->id }}">
+                                {{ \App\Models\Part::where('id','79')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','78000')->first()->id }}">
-                                {{ \App\Models\Part::where('code','78000')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','80')->first()->id }}">
+                                {{ \App\Models\Part::where('id','80')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','118000')->first()->id }}">
-                                {{ \App\Models\Part::where('code','118000')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','81')->first()->id }}">
+                                {{ \App\Models\Part::where('id','81')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','138000')->first()->id }}">
-                                {{ \App\Models\Part::where('code','138000')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','82')->first()->id }}">
+                                {{ \App\Models\Part::where('id','82')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','158000')->first()->id }}">
-                                {{ \App\Models\Part::where('code','158000')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','83')->first()->id }}">
+                                {{ \App\Models\Part::where('id','83')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','218000')->first()->id }}">
-                                {{ \App\Models\Part::where('code','218000')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','84')->first()->id }}">
+                                {{ \App\Models\Part::where('id','84')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','258000')->first()->id }}">
-                                {{ \App\Models\Part::where('code','258000')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','85')->first()->id }}">
+                                {{ \App\Models\Part::where('id','85')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','318000')->first()->id }}">
-                                {{ \App\Models\Part::where('code','318000')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','86')->first()->id }}">
+                                {{ \App\Models\Part::where('id','86')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','358000')->first()->id }}">
-                                {{ \App\Models\Part::where('code','358000')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','87')->first()->id }}">
+                                {{ \App\Models\Part::where('id','87')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('code','418000')->first()->id }}">
-                                {{ \App\Models\Part::where('code','418000')->first()->name }}
-                            </option>
-                        </select>
-                    </div>
-
-                    <div class="col-span-2">
-                        <label class="block mb-2 text-sm font-bold" for="inputCollectorBerenji">هدر و کلکتور
-                            برنجی</label>
-                        <select name="collector_berenji" id="inputCollectorBerenji" class="input-text bg-yellow-300"
-                                onchange="calculate()">
-                            <option value="">انتخاب کنید</option>
-                            <option value="{{ \App\Models\Part::where('code','0102')->first()->id }}">
-                                {{ \App\Models\Part::where('code','0102')->first()->name }}
-                            </option>
-                            <option value="{{ \App\Models\Part::where('code','0103')->first()->id }}">
-                                {{ \App\Models\Part::where('code','0103')->first()->name }}
-                            </option>
-                            <option value="{{ \App\Models\Part::where('code','0104')->first()->id }}">
-                                {{ \App\Models\Part::where('code','0104')->first()->name }}
-                            </option>
-                            <option value="{{ \App\Models\Part::where('code','0105')->first()->id }}">
-                                {{ \App\Models\Part::where('code','0105')->first()->name }}
-                            </option>
-                            <option value="{{ \App\Models\Part::where('code','0106')->first()->id }}">
-                                {{ \App\Models\Part::where('code','0106')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','88')->first()->id }}">
+                                {{ \App\Models\Part::where('id','88')->first()->name }}
                             </option>
                         </select>
                     </div>
-
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputTooleCoil">طول کویل (اینچ)</label>
-                        <input type="text" class="input-text bg-yellow-300" id="inputTooleCoil" value="0"
+                        <input name="toole_coil" type="text" class="input-text bg-yellow-300" id="inputTooleCoil"
+                               value="0"
                                onkeyup="calculate()">
                     </div>
-
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputTedadLooleDarRadif">تعداد لوله در
                             ردیف</label>
-                        <input type="text" class="input-text bg-yellow-300" id="inputTedadLooleDarRadif" value="0"
-                               onkeyup="calculate()">
+                        <input name="tedad_loole_dar_radif" type="text" class="input-text bg-yellow-300"
+                               id="inputTedadLooleDarRadif"
+                               value="0" onkeyup="calculate()">
                     </div>
-
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputTedadMogheyiatLooleDarRadif">
                             تعداد موقعیت یک لوله در ردیف
                         </label>
                         <input type="text" class="input-text bg-yellow-300" id="inputTedadMogheyiatLooleDarRadif"
-                               onkeyup="calculate()"
-                               value="0">
+                               onkeyup="calculate()" value="0" name="tedad_mogheyiat_loole">
                     </div>
-
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputTedadMadarLoole">تعداد مدار لوله</label>
                         <input type="text" class="input-text bg-yellow-300" id="inputTedadMadarLoole" value="0"
-                               onkeyup="calculate()">
+                               onkeyup="calculate()"
+                               name="tedad_madar_loole">
                     </div>
-
-                    <div class="col-span-4">
+                    <div class="col-span-2">
                         <label class="block mb-2 text-sm font-bold" for="inputTedadSoorakhPakhshKon">
                             تعداد سوراخ پخش کن
                         </label>
                         <input type="text" class="input-text bg-yellow-300" id="inputTedadSoorakhPakhshKon" value="0"
-                               onkeyup="calculate()">
+                               onkeyup="calculate()" name="tedad_soorakh_pakhshkon">
+                    </div>
+                    <div class="col-span-2">
+                        <label class="block mb-2 text-sm font-bold" for="inputElectrodNoghre">
+                            الکترود نقره
+                        </label>
+                        <select name="electrod_noghre" id="inputElectrodNoghre" class="input-text bg-yellow-300"
+                                onchange="calculate()">
+                            <option value="">
+                                انتخاب کنید
+                            </option>
+                            <option value="{{ \App\Models\Part::where('id','104')->first()->id }}">
+                                {{ \App\Models\Part::where('id','104')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('id','105')->first()->id }}">
+                                {{ \App\Models\Part::where('id','105')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('id','108')->first()->id }}">
+                                {{ \App\Models\Part::where('id','108')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('id','109')->first()->id }}">
+                                {{ \App\Models\Part::where('id','109')->first()->name }}
+                            </option>
+                        </select>
                     </div>
                 </div>
             </div>

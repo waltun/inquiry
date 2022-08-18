@@ -150,39 +150,44 @@ class CalculateCoilController extends Controller
         $zekhamat_frame = $request['zekhamat_frame_coil'];
         $collectorAhani = $request['collector_ahani'];
         $collectorMessi = $request['collector_messi'];
-        $collectorBerenji = $request['collector_berenji'];
+        $electrodNoghre = $request['electrod_noghre'];
 
         $name = $request['name'];
+        $code = $this->getLastCode($part);
 
         $newPart = $part->replicate()->fill([
             'name' => $name,
-            'code' => random_int(1111, 9999),
+            'code' => $code
         ]);
 
         $newPart->save();
+
+        foreach ($part->categories as $category) {
+            $newPart->categories()->syncWithoutDetaching($category->id);
+        }
 
         foreach ($part->children as $child) {
             $newPart->children()->syncWithoutDetaching($child->id);
         }
 
         foreach ($newPart->children as $index => $childPart) {
-            if ($index == 16) {
+            if ($index == 13) {
+                $childPart->pivot->parent_part_id = $zekhamat_frame;
+            }
+            if ($index == 14) {
                 $childPart->pivot->parent_part_id = $looleMessi;
             }
             if ($index == 15) {
                 $childPart->pivot->parent_part_id = $fin;
             }
-            if ($index == 2) {
-                $childPart->pivot->parent_part_id = $zekhamat_frame;
-            }
-            if ($index == 18 && !is_null($collectorAhani)) {
-                $childPart->pivot->parent_part_id = $collectorAhani;
-            }
-            if ($index == 17) {
+            if ($index == 16) {
                 $childPart->pivot->parent_part_id = $collectorMessi;
             }
-            if ($index == 20) {
-                $childPart->pivot->parent_part_id = $collectorBerenji;
+            if ($index == 17 && !is_null($collectorAhani)) {
+                $childPart->pivot->parent_part_id = $collectorAhani;
+            }
+            if ($index == 19) {
+                $childPart->pivot->parent_part_id = $electrodNoghre;
             }
 
             $childPart->pivot->value = $request->values[$index];

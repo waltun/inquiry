@@ -150,48 +150,48 @@
                                     @switch($finalCode)
                                         @case(111010001)
                                             @if(session()->has('price'.$part->id))
-                                                <span class="form-detail-btn">
+                                                <span class="form-detail-btn text-xs">
                                                     محاسبه شد
                                                 </span>
                                             @else
                                                 <a href="{{ route('calculateCoil.evaperator.index',[$part->id,$product->id]) }}"
-                                                   class="form-submit-btn">
+                                                   class="form-submit-btn text-xs">
                                                     محاسبه {{ $part->name }}
                                                 </a>
                                             @endif
                                             @break
                                         @case(111020002)
                                             @if(session()->has('price'.$part->id))
-                                                <a href="#" class="form-detail-btn">
+                                                <a href="#" class="form-detail-btn text-xs">
                                                     محاسبه شد
                                                 </a>
                                             @else
                                                 <a href="{{ route('calculateCoil.condensor.index',[$part->id,$product->id]) }}"
-                                                   class="form-submit-btn">
+                                                   class="form-submit-btn text-xs">
                                                     محاسبه {{ $part->name }}
                                                 </a>
                                             @endif
                                             @break
                                         @case(102)
                                             @if(session()->has('price'.$part->id))
-                                                <a href="#" class="form-detail-btn">
+                                                <a href="#" class="form-detail-btn text-xs">
                                                     محاسبه شد
                                                 </a>
                                             @else
                                                 <a href="{{ route('calculateCoil.abi.index',[$part->id,$product->id]) }}"
-                                                   class="form-submit-btn">
+                                                   class="form-submit-btn text-xs">
                                                     محاسبه {{ $part->name }}
                                                 </a>
                                             @endif
                                             @break
                                         @case(111050004)
                                             @if(session()->has('price'.$part->id))
-                                                <a href="#" class="form-detail-btn">
+                                                <a href="#" class="form-detail-btn text-xs">
                                                     محاسبه شد
                                                 </a>
                                             @else
                                                 <a href="{{ route('calculateCoil.fancoil.index',[$part->id,$product->id]) }}"
-                                                   class="form-submit-btn">
+                                                   class="form-submit-btn text-xs">
                                                     محاسبه {{ $part->name }}
                                                 </a>
                                             @endif
@@ -199,48 +199,48 @@
 
                                         @case(103020001)
                                             @if(session()->has('price'.$part->id))
-                                                <a href="#" class="form-detail-btn">
+                                                <a href="#" class="form-detail-btn text-xs">
                                                     محاسبه شد
                                                 </a>
                                             @else
                                                 <a href="{{ route('calculateDamper.taze.index',[$part->id,$product->id]) }}"
-                                                   class="form-submit-btn">
+                                                   class="form-submit-btn text-xs">
                                                     محاسبه {{ $part->name }}
                                                 </a>
                                             @endif
                                             @break
                                         @case(103020003)
                                             @if(session()->has('price'.$part->id))
-                                                <a href="#" class="form-detail-btn">
+                                                <a href="#" class="form-detail-btn text-xs">
                                                     محاسبه شد
                                                 </a>
                                             @else
                                                 <a href="{{ route('calculateDamper.raft.index',[$part->id,$product->id]) }}"
-                                                   class="form-submit-btn">
+                                                   class="form-submit-btn text-xs">
                                                     محاسبه {{ $part->name }}
                                                 </a>
                                             @endif
                                             @break
                                         @case(103020002)
                                             @if(session()->has('price'.$part->id))
-                                                <a href="#" class="form-detail-btn">
+                                                <a href="#" class="form-detail-btn text-xs">
                                                     محاسبه شد
                                                 </a>
                                             @else
                                                 <a href="{{ route('calculateDamper.bargasht.index',[$part->id,$product->id]) }}"
-                                                   class="form-submit-btn">
+                                                   class="form-submit-btn text-xs">
                                                     محاسبه {{ $part->name }}
                                                 </a>
                                             @endif
                                             @break
                                         @case(103020004)
                                             @if(session()->has('price'.$part->id))
-                                                <a href="#" class="form-detail-btn">
+                                                <a href="#" class="form-detail-btn text-xs">
                                                     محاسبه شد
                                                 </a>
                                             @else
                                                 <a href="{{ route('calculateDamper.exast.index',[$part->id,$product->id]) }}"
-                                                   class="form-submit-btn">
+                                                   class="form-submit-btn text-xs">
                                                     محاسبه {{ $part->name }}
                                                 </a>
                                             @endif
@@ -305,48 +305,48 @@
                                     @switch($part->code)
                                         @case(100)
                                             @if(session()->has('price'.$part->id))
-                                                <a href="#" class="form-detail-btn">
+                                                <a href="#" class="form-detail-btn text-xs">
                                                     محاسبه شد
                                                 </a>
                                             @else
                                                 <a href="{{ route('calculateCoil.evaperator.index',[$part->id,$product->id]) }}"
-                                                   class="form-submit-btn">
+                                                   class="form-submit-btn text-xs">
                                                     محاسبه {{ $part->name }}
                                                 </a>
                                             @endif
                                             @break
                                         @case(101)
                                             @if(session()->has('price'.$part->id))
-                                                <a href="#" class="form-detail-btn">
+                                                <a href="#" class="form-detail-btn text-xs">
                                                     محاسبه شد
                                                 </a>
                                             @else
                                                 <a href="{{ route('calculateCoil.condensor.index',[$part->id,$product->id]) }}"
-                                                   class="form-submit-btn">
+                                                   class="form-submit-btn text-xs">
                                                     محاسبه {{ $part->name }}
                                                 </a>
                                             @endif
                                             @break
                                         @case(102)
                                             @if(session()->has('price'.$part->id))
-                                                <a href="#" class="form-detail-btn">
+                                                <a href="#" class="form-detail-btn text-xs">
                                                     محاسبه شد
                                                 </a>
                                             @else
                                                 <a href="{{ route('calculateCoil.abi.index',[$part->id,$product->id]) }}"
-                                                   class="form-submit-btn">
+                                                   class="form-submit-btn text-xs">
                                                     محاسبه {{ $part->name }}
                                                 </a>
                                             @endif
                                             @break
                                         @case(103)
                                             @if(session()->has('price'.$part->id))
-                                                <a href="#" class="form-detail-btn">
+                                                <a href="#" class="form-detail-btn text-xs">
                                                     محاسبه شد
                                                 </a>
                                             @else
                                                 <a href="{{ route('calculateCoil.fancoil.index',[$part->id,$product->id]) }}"
-                                                   class="form-submit-btn">
+                                                   class="form-submit-btn text-xs">
                                                     محاسبه {{ $part->name }}
                                                 </a>
                                             @endif
@@ -354,48 +354,48 @@
 
                                         @case(120135)
                                             @if(session()->has('price'.$part->id))
-                                                <a href="#" class="form-detail-btn">
+                                                <a href="#" class="form-detail-btn text-xs">
                                                     محاسبه شد
                                                 </a>
                                             @else
                                                 <a href="{{ route('calculateDamper.taze.index',[$part->id,$product->id]) }}"
-                                                   class="form-submit-btn">
+                                                   class="form-submit-btn text-xs">
                                                     محاسبه {{ $part->name }}
                                                 </a>
                                             @endif
                                             @break
                                         @case(120120)
                                             @if(session()->has('price'.$part->id))
-                                                <a href="#" class="form-detail-btn">
+                                                <a href="#" class="form-detail-btn text-xs">
                                                     محاسبه شد
                                                 </a>
                                             @else
                                                 <a href="{{ route('calculateDamper.raft.index',[$part->id,$product->id]) }}"
-                                                   class="form-submit-btn">
+                                                   class="form-submit-btn text-xs">
                                                     محاسبه {{ $part->name }}
                                                 </a>
                                             @endif
                                             @break
                                         @case(130140)
                                             @if(session()->has('price'.$part->id))
-                                                <a href="#" class="form-detail-btn">
+                                                <a href="#" class="form-detail-btn text-xs">
                                                     محاسبه شد
                                                 </a>
                                             @else
                                                 <a href="{{ route('calculateDamper.bargasht.index',[$part->id,$product->id]) }}"
-                                                   class="form-submit-btn">
+                                                   class="form-submit-btn text-xs">
                                                     محاسبه {{ $part->name }}
                                                 </a>
                                             @endif
                                             @break
                                         @case(160160)
                                             @if(session()->has('price'.$part->id))
-                                                <a href="#" class="form-detail-btn">
+                                                <a href="#" class="form-detail-btn text-xs">
                                                     محاسبه شد
                                                 </a>
                                             @else
                                                 <a href="{{ route('calculateDamper.exast.index',[$part->id,$product->id]) }}"
-                                                   class="form-submit-btn">
+                                                   class="form-submit-btn text-xs">
                                                     محاسبه {{ $part->name }}
                                                 </a>
                                             @endif
