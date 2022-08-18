@@ -105,7 +105,8 @@ Route::middleware(['auth', 'web'])->group(function () {
 
     //Calculate coil routes
     Route::get('/calculate/coil/evaperator/{part}/{product}', [CalculateCoilController::class, 'evaperator'])->name('calculateCoil.evaperator.index');
-    Route::get('/calculate/coil/abi/{part}/{product}', [CalculateCoilController::class, 'abi'])->name('calculateCoil.abi.index');
+    Route::get('/calculate/coil/water-cold/{part}/{product}', [CalculateCoilController::class, 'waterCold'])->name('calculateCoil.waterCold.index');
+    Route::get('/calculate/coil/water-warm/{part}/{product}', [CalculateCoilController::class, 'waterWarm'])->name('calculateCoil.waterWarm.index');
     Route::get('/calculate/coil/condensor/{part}/{product}', [CalculateCoilController::class, 'condensor'])->name('calculateCoil.condensor.index');
     Route::get('/calculate/coil/fancoil/{part}/{product}', [CalculateCoilController::class, 'fancoil'])->name('calculateCoil.fancoil.index');
     Route::post('/calculate/coil/{part}/{product}/post-evaperator', [CalculateCoilController::class, 'storeEvaperator'])
@@ -114,8 +115,10 @@ Route::middleware(['auth', 'web'])->group(function () {
         ->name('calculateCoil.storeCondensor');
     Route::post('/calculate/coil/{part}/{product}/post-fancoil', [CalculateCoilController::class, 'storeFancoil'])
         ->name('calculateCoil.storeFancoil');
-    Route::post('/calculate/coil/{part}/{product}/post-water', [CalculateCoilController::class, 'storeWater'])
-        ->name('calculateCoil.storeWater');
+    Route::post('/calculate/coil/{part}/{product}/post-water-cold', [CalculateCoilController::class, 'storeWaterCold'])
+        ->name('calculateCoil.storeWaterCold');
+    Route::post('/calculate/coil/{part}/{product}/post-water-warm', [CalculateCoilController::class, 'storeWaterWarm'])
+        ->name('calculateCoil.storeWaterWarm');
     Route::post('/calculate/coil/getData', [CalculateCoilController::class, 'getData'])->name('calculateCoil.getData');
 
     //Calculate damper routes

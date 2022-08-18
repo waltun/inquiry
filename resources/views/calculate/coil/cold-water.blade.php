@@ -9,14 +9,12 @@
             let globalCollectorMessi = null;
             let globalZekhamat = null;
             let globalNoghre = null;
-            //let globalCollectorBerenji = null;
-
             //Value sections
             let valueSection = [];
             let totalPriceSection = [];
             let inputTotalPrice = [];
             let inputValues = [];
-            for (let i = 0; i < 20; i++) {
+            for (let i = 0; i < 22; i++) {
                 valueSection[i] = document.getElementById('valueSection' + i);
                 totalPriceSection[i] = document.getElementById('totalPriceSection' + i);
                 inputTotalPrice[i] = document.getElementById('inputTotalPrice' + i);
@@ -39,18 +37,19 @@
                 let tedadMogheyiatLooleDarRadif = parseFloat(document.getElementById('inputTedadMogheyiatLooleDarRadif').value);
                 let tedadLooleDarRadif = parseFloat(document.getElementById('inputTedadLooleDarRadif').value);
                 let tedadMadarLoole = parseFloat(document.getElementById('inputTedadMadarLoole').value);
-                let finDarInch = parseFloat(document.getElementById('inputFinDarInch').value);
-                let tedadSoorakhPakhshKon = parseFloat(document.getElementById('inputTedadSoorakhPakhshKon').value);
-                let khamCoilResult = parseFloat(document.getElementById('inputKham').value);
-                let noePoosheshZedeKhordegi = document.getElementById('inputNoePoosheshZedeKhordegi').value;
-                let satheCoilSection = document.getElementById('satheCoil');
 
+                let looleMessiId = document.getElementById('inputLooleMessi').value;
+                let finCoilId = document.getElementById('inputFin').value;
                 let collectorAhaniId = document.getElementById('inputCollectorAhani').value;
                 let collectorMessiId = document.getElementById('inputCollectorMessi').value;
                 let zekhamatFrameId = document.getElementById('inputZekhamatFrame').value;
-                let looleMessiId = document.getElementById('inputLooleMessi').value;
-                let finCoilId = document.getElementById('inputFin').value;
                 let electrodNoghreId = document.getElementById('inputElectrodNoghre').value;
+
+                let finDarInch = parseFloat(document.getElementById('inputFinDarInch').value);
+                let tedadSoorakhPakhshKon = parseFloat(document.getElementById('inputTedadSoorakhPakhshKon').value);
+                let noePoosheshZedeKhordegi = document.getElementById('inputNoePoosheshZedeKhordegi').value;
+                let satheCoilSection = document.getElementById('satheCoil');
+                let khamCoilResult = parseFloat(document.getElementById('inputKham').value);
 
                 let gamDarRadif;
                 let gamDarErtefa;
@@ -86,10 +85,6 @@
                     sendDataVaraghGalvanize(zekhamatFrameId)
                     globalZekhamat = zekhamatFrameId;
                 }
-                // if ((collectorBerenjiId && globalCollectorBerenji !== collectorBerenjiId) || (collectorBerenjiId && globalCollectorBerenji === null)) {
-                //     sendDataCollectorBerenji(collectorBerenjiId)
-                //     globalCollectorBerenji = collectorBerenjiId;
-                // }
                 //-----------------
 
                 let tedadFinMasrafiResult = tooleCoil * finDarInch;
@@ -185,7 +180,7 @@
                 satheCoilSection.innerText = satheCoilResult.toFixed(2);
 
                 let masahatTubSheet = (2 * ((ertefaFinResult + 70) * (sabetVaznVaragh + (gamDarRadif * tedadRadif)))) / 1000000;
-                let masahatFrameBalaPayin = 0;
+                let masahatFrameBalaPayin = (2 * (((tooleCoil * 25.4) + 70) * (sabetVaznVaragh + (gamDarRadif * tedadRadif)))) / 1000000;
                 let masahatVaraghMasrafi = masahatFrameBalaPayin + masahatTubSheet;
 
                 //Varagh Galvnize - Zekhamat 1
@@ -339,8 +334,6 @@
                     }
                 }
 
-                //let collectorBerenjiResult = (tedadMadarLoole * tedadMadarCoil * 6) + looleMessiResult;
-
                 //--------------------
                 valueSection[0].innerText = looleMessi316Result.toFixed(4);
                 inputValues[0].value = looleMessi316Result.toFixed(4);
@@ -358,118 +351,125 @@
                 let price2 = inputTotalPrice[2].value * 0.2;
                 totalPriceSection[2].innerText = Intl.NumberFormat().format(price2);
 
-                // valueSection[3].innerText = khamCoilResult.toFixed(4);
-                // inputValues[3].value = khamCoilResult.toFixed(4);
-                // let price3 = inputTotalPrice[3].value * khamCoilResult;
-                // totalPriceSection[3].innerText = Intl.NumberFormat().format(price3);
-
-                valueSection[3].innerText = poosheshZedeKhordegiResult.toFixed(4);
-                inputValues[3].value = poosheshZedeKhordegiResult.toFixed(4);
-                let price3 = inputTotalPrice[3].value * poosheshZedeKhordegiResult;
+                valueSection[3].innerText = khamCoilResult.toFixed(4);
+                inputValues[3].value = khamCoilResult.toFixed(4);
+                let price3 = inputTotalPrice[3].value * khamCoilResult;
                 totalPriceSection[3].innerText = Intl.NumberFormat().format(price3);
 
-                valueSection[4].innerText = tinerResult.toFixed(4);
-                inputValues[4].value = tinerResult.toFixed(4);
-                let price4 = inputTotalPrice[4].value * tinerResult;
+                valueSection[4].innerText = poosheshZedeKhordegiResult.toFixed(4);
+                inputValues[4].value = poosheshZedeKhordegiResult.toFixed(4);
+                let price4 = inputTotalPrice[4].value * poosheshZedeKhordegiResult;
                 totalPriceSection[4].innerText = Intl.NumberFormat().format(price4);
 
-                valueSection[5].innerText = flaksMayeMasrafiResult.toFixed(4);
-                inputValues[5].value = flaksMayeMasrafiResult.toFixed(4);
-                let price5 = inputTotalPrice[5].value * flaksMayeMasrafiResult;
+                valueSection[5].innerText = tinerResult.toFixed(4);
+                inputValues[5].value = tinerResult.toFixed(4);
+                let price5 = inputTotalPrice[5].value * tinerResult;
                 totalPriceSection[5].innerText = Intl.NumberFormat().format(price5);
 
-                valueSection[6].innerText = azotResult;
-                inputValues[6].value = azotResult;
-                let price6 = inputTotalPrice[6].value * azotResult;
+                valueSection[6].innerText = flaksMayeMasrafiResult.toFixed(4);
+                inputValues[6].value = flaksMayeMasrafiResult.toFixed(4);
+                let price6 = inputTotalPrice[6].value * flaksMayeMasrafiResult;
                 totalPriceSection[6].innerText = Intl.NumberFormat().format(price6);
 
-                valueSection[7].innerText = vaznBerenjMasrafiResult;
-                inputValues[7].value = vaznBerenjMasrafiResult;
-                let price7 = inputTotalPrice[7].value * vaznBerenjMasrafiResult;
+                valueSection[7].innerText = azotResult;
+                inputValues[7].value = azotResult;
+                let price7 = inputTotalPrice[7].value * azotResult;
                 totalPriceSection[7].innerText = Intl.NumberFormat().format(price7);
 
-                //Picho Mohre
-                valueSection[8].innerText = 12;
-                inputValues[8].value = 12;
-                let price8 = inputTotalPrice[8].value * 12;
+                valueSection[8].innerText = vaznBerenjMasrafiResult;
+                inputValues[8].value = vaznBerenjMasrafiResult;
+                let price8 = inputTotalPrice[8].value * vaznBerenjMasrafiResult;
                 totalPriceSection[8].innerText = Intl.NumberFormat().format(price8);
 
-                valueSection[9].innerText = roghaneTabkhirShavandeResult;
-                inputValues[9].value = roghaneTabkhirShavandeResult;
-                let price9 = inputTotalPrice[9].value * roghaneTabkhirShavandeResult;
+                //Soozan Volf
+                valueSection[9].innerText = 2;
+                inputValues[9].value = 2;
+                let price9 = inputTotalPrice[9].value * 2;
                 totalPriceSection[9].innerText = Intl.NumberFormat().format(price9);
 
-                //Shire Havagiri
-                valueSection[10].innerText = 2;
-                inputValues[10].value = 2;
-                let price10 = inputTotalPrice[10].value * 2;
+                //Picho Mohre
+                valueSection[10].innerText = 12;
+                inputValues[10].value = 12;
+                let price10 = inputTotalPrice[10].value * 12;
                 totalPriceSection[10].innerText = Intl.NumberFormat().format(price10);
 
-                //Shire Takhlie
-                valueSection[11].innerText = 2;
-                inputValues[11].value = 2;
-                let price11 = inputTotalPrice[11].value * 2;
+                valueSection[11].innerText = roghaneTabkhirShavandeResult;
+                inputValues[11].value = roghaneTabkhirShavandeResult;
+                let price11 = inputTotalPrice[11].value * roghaneTabkhirShavandeResult;
                 totalPriceSection[11].innerText = Intl.NumberFormat().format(price11);
 
-                valueSection[12].innerText = vaznVaraghMasrafiResult.toFixed(4);
-                inputValues[12].value = vaznVaraghMasrafiResult.toFixed(4);
-                let price12 = inputTotalPrice[12].value * vaznVaraghMasrafiResult;
+                //Shire Havagiri
+                valueSection[12].innerText = 2;
+                inputValues[12].value = 2;
+                let price12 = inputTotalPrice[12].value * 2;
                 totalPriceSection[12].innerText = Intl.NumberFormat().format(price12);
 
-                valueSection[13].innerText = looleMessiResult.toFixed(4);
-                inputValues[13].value = looleMessiResult.toFixed(4);
-                let price13 = inputTotalPrice[13].value * looleMessiResult;
+                //Shire Takhlie
+                valueSection[13].innerText = 2;
+                inputValues[13].value = 2;
+                let price13 = inputTotalPrice[13].value * 2;
                 totalPriceSection[13].innerText = Intl.NumberFormat().format(price13);
 
-                valueSection[14].innerText = vaznFinAlResult.toFixed(4);
-                inputValues[14].value = vaznFinAlResult.toFixed(4);
-                let price14 = inputTotalPrice[14].value * vaznFinAlResult;
+                valueSection[14].innerText = vaznVaraghMasrafiResult.toFixed(4);
+                inputValues[14].value = vaznVaraghMasrafiResult.toFixed(4);
+                let price14 = inputTotalPrice[14].value * vaznVaraghMasrafiResult;
                 totalPriceSection[14].innerText = Intl.NumberFormat().format(price14);
 
-                valueSection[15].innerText = collectorMessiResult.toFixed(4);
-                inputValues[15].value = collectorMessiResult.toFixed(4);
-                let price15 = inputTotalPrice[15].value * collectorMessiResult;
+                valueSection[15].innerText = looleMessiResult.toFixed(4);
+                inputValues[15].value = looleMessiResult.toFixed(4);
+                let price15 = inputTotalPrice[15].value * looleMessiResult;
                 totalPriceSection[15].innerText = Intl.NumberFormat().format(price15);
 
-                let price16;
-                if (collectorAhaniResult) {
-                    valueSection[16].innerText = collectorAhaniResult.toFixed(4);
-                    inputValues[16].value = collectorAhaniResult.toFixed(4);
-                    price16 = inputTotalPrice[16].value * collectorAhaniResult;
-                    totalPriceSection[16].innerText = Intl.NumberFormat().format(price16);
-                } else {
-                    valueSection[16].innerText = 0;
-                    inputValues[16].value = 0;
-                    price16 = 0;
-                    totalPriceSection[16].innerText = 0;
-                }
+                valueSection[16].innerText = vaznFinAlResult.toFixed(4);
+                inputValues[16].value = vaznFinAlResult.toFixed(4);
+                let price16 = inputTotalPrice[16].value * vaznFinAlResult;
+                totalPriceSection[16].innerText = Intl.NumberFormat().format(price16);
 
-                valueSection[17].innerText = tedadUResult.toFixed(4);
-                inputValues[17].value = tedadUResult.toFixed(4);
-                let price17 = inputTotalPrice[17].value * tedadUResult;
+                valueSection[17].innerText = collectorMessiResult.toFixed(4);
+                inputValues[17].value = collectorMessiResult.toFixed(4);
+                let price17 = inputTotalPrice[17].value * collectorMessiResult;
                 totalPriceSection[17].innerText = Intl.NumberFormat().format(price17);
 
-                valueSection[18].innerText = vaznNoghreMasrafiResult.toFixed(4);
-                inputValues[18].value = vaznNoghreMasrafiResult.toFixed(4);
-                let price18 = inputTotalPrice[18].value * vaznNoghreMasrafiResult;
-                totalPriceSection[18].innerText = Intl.NumberFormat().format(price18);
+                let price18;
+                if (collectorAhaniResult) {
+                    valueSection[18].innerText = collectorAhaniResult.toFixed(4);
+                    inputValues[18].value = collectorAhaniResult.toFixed(4);
+                    price18 = inputTotalPrice[18].value * collectorAhaniResult;
+                    totalPriceSection[18].innerText = Intl.NumberFormat().format(price18);
+                } else {
+                    valueSection[18].innerText = 0;
+                    inputValues[18].value = 0;
+                    price18 = 0;
+                    totalPriceSection[18].innerText = 0;
+                }
 
-                valueSection[19].innerText = oxygenMasrafiResult;
-                inputValues[19].value = oxygenMasrafiResult;
-                let price19 = inputTotalPrice[19].value * oxygenMasrafiResult;
+                valueSection[19].innerText = tedadUResult.toFixed(4);
+                inputValues[19].value = tedadUResult.toFixed(4);
+                let price19 = inputTotalPrice[19].value * tedadUResult;
                 totalPriceSection[19].innerText = Intl.NumberFormat().format(price19);
+
+                valueSection[20].innerText = vaznNoghreMasrafiResult.toFixed(4);
+                inputValues[20].value = vaznNoghreMasrafiResult.toFixed(4);
+                let price20 = inputTotalPrice[20].value * vaznNoghreMasrafiResult;
+                totalPriceSection[20].innerText = Intl.NumberFormat().format(price20);
+
+                valueSection[21].innerText = oxygenMasrafiResult;
+                inputValues[21].value = oxygenMasrafiResult;
+                let price21 = inputTotalPrice[21].value * oxygenMasrafiResult;
+                totalPriceSection[21].innerText = Intl.NumberFormat().format(price21);
 
                 let finalPriceSection = document.getElementById('finalPriceSection');
                 let inputFinalPrice = document.getElementById('inputFinalPrice');
 
-                finalPrice = price0 + price1 + price2 + price3 + price4 + price5 + price6 + price7 + price8 + price9 +
-                    price10 + price11 + price12 + price13 + price14 + price15 + price16 + price17 + price18 + price19;
+                finalPrice = price0 + price1 + price2 + price3 + price4 + price5 + price6 + price7 + price8 + price9
+                    + price10 + price11 + price12 + price13 + price14 + price15 + price16 + price17 + price18 + price19
+                    + price20 + price21;
 
                 finalPriceSection.innerText = Intl.NumberFormat().format(finalPrice);
                 inputFinalPrice.value = finalPrice;
                 document.getElementById("finalPriceTopSection").innerText = Intl.NumberFormat().format(finalPrice.toFixed(0));
 
-                document.getElementById('coilName').value = `کویل فن کویلی یا سقفی با سطح ${satheCoilResult.toFixed(2)} و طول ${tooleCoil.toFixed(2)}`;
+                document.getElementById('coilName').value = `کویل آبسرد با سطح ${satheCoilResult.toFixed(2)} و طول ${tooleCoil.toFixed(2)}`;
             }
 
             function sendDataLooleMessi(id) {
@@ -668,7 +668,7 @@
                               clip-rule="evenodd"/>
                     </svg>
                     <span class="mr-2 text-xs md:text-sm font-medium text-gray-400">
-                        محاسبه قیمت کویل
+                        محاسبه قیمت کویل آبسرد
                     </span>
                 </div>
             </li>
@@ -680,7 +680,7 @@
         <x-errors/>
     </div>
 
-    <form method="POST" action="{{ route('calculateCoil.storeFancoil',[$part->id,$product->id]) }}">
+    <form method="POST" action="{{ route('calculateCoil.storeWaterCold',[$part->id,$product->id]) }}">
         @csrf
 
         <input type="hidden" name="name" id="coilName">
@@ -1064,5 +1064,4 @@
             </div>
         </div>
     </form>
-
 </x-layout>

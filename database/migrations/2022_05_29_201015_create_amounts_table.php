@@ -20,6 +20,8 @@ return new class extends Migration {
             $table->unsignedBigInteger('part_id');
             $table->unsignedBigInteger('product_id');
 
+            $table->bigInteger('price')->default(0);
+
             $table->timestamps();
 
             $table->index(['product_id', 'part_id']);
