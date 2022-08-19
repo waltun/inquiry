@@ -89,7 +89,7 @@
                 $totalModellPrice = 0;
             @endphp
 
-            <!-- Laptop List -->
+                <!-- Laptop List -->
             <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4 hidden md:block">
                 <div class="mb-4">
                     <p class="text-center text-lg font-black font-bold">
@@ -204,26 +204,10 @@
                     @endphp
                     <tr>
                         <td class="border border-gray-300 p-4 text-lg text-center font-bold" colspan="5">
-                            قیمت کل
+                            جمع قیمت ماتریال یک دستگاه
                         </td>
                         <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
                             {{ number_format($totalPrice) }} تومان
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="border border-gray-300 p-4 text-lg text-center font-bold" colspan="5">
-                            تعداد
-                        </td>
-                        <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
-                            {{ $product->quantity }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="border border-gray-300 p-4 text-lg text-center font-bold" colspan="5">
-                            قیمت نهایی
-                        </td>
-                        <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
-                            {{ number_format($totalPrice * $product->quantity) }} تومان
                         </td>
                     </tr>
                     @if($product->percent > 0)
@@ -237,13 +221,29 @@
                         </tr>
                         <tr>
                             <td class="border border-gray-300 p-4 text-lg text-center font-bold" colspan="5">
-                                قیمت نهایی پس از ضریب
+                                قیمت دستگاه با اعمال ضریب
                             </td>
                             <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
-                                {{ number_format($product->price) }} تومان
+                                {{ number_format($totalPrice * $product->percent) }} تومان
                             </td>
                         </tr>
                     @endif
+                    <tr>
+                        <td class="border border-gray-300 p-4 text-lg text-center font-bold" colspan="5">
+                            تعداد
+                        </td>
+                        <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
+                            {{ $product->quantity }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-gray-300 p-4 text-lg text-center font-bold" colspan="5">
+                            قیمت کل
+                        </td>
+                        <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
+                            {{ number_format($totalPrice * $product->percent * $product->quantity) }} تومان
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
