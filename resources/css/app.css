@@ -28,6 +28,11 @@
     focus:outline-none focus:ring focus:ring-indigo-600 focus:ring-opacity-70
 }
 
+.form-percent-btn {
+    @apply px-4 py-2 bg-gray-500 text-white md:text-sm text-xs rounded-md active:bg-gray-700 hover:bg-gray-600
+    focus:outline-none focus:ring focus:ring-gray-600 focus:ring-opacity-70
+}
+
 .form-disabled-btn {
     @apply px-4 py-2 bg-gray-400 text-white md:text-sm text-xs rounded-md focus:outline-none cursor-not-allowed
 }

@@ -116,7 +116,7 @@
                             </a>
                             @if($inquiry->submit)
                                 <a href="{{ route('inquiries.product.percent',$product->id) }}"
-                                   class="form-edit-btn text-xs">
+                                   class="form-percent-btn text-xs">
                                     ثبت ضریب
                                 </a>
                             @endif
