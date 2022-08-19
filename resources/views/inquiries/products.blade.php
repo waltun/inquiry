@@ -42,14 +42,16 @@
     </nav>
 
     <!-- Navigation Btn -->
-    <div class="mt-4 md:flex justify-between md:space-x-4 space-x-reverse">
+    <div class="my-4 md:flex justify-between">
         <div class="mb-4 md:mb-0">
             <p class="text-lg text-black font-bold">
                 مشاهده قیمت محصولات
             </p>
         </div>
-        <div>
+        <div class="whitespace-nowrap">
             <a href="{{ route('inquiries.index') }}" class="form-detail-btn text-xs">لیست استعلام ها</a>
+            <a href="{{ route('inquiries.priced') }}" class="form-submit-btn text-xs">استعلام های قیمت گذاری شده</a>
+            <a href="{{ route('inquiries.submitted') }}" class="form-edit-btn text-xs">استعلام های منتظر قیمت</a>
         </div>
     </div>
 

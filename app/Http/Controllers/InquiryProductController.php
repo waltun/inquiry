@@ -47,6 +47,26 @@ class InquiryProductController extends Controller
         return redirect()->route('inquiries.product.index', $inquiry->id);
     }
 
+    public function edit(Product $product)
+    {
+        return view('inquiry-product.edit', compact('product'));
+    }
+
+    public function update(Request $request, Product $product)
+    {
+        $request->validate([
+            'quantity' => 'required|numeric'
+        ]);
+
+        $product->update([
+            'quantity' => $request['quantity']
+        ]);
+
+        alert()->success('ویرایش موفق', 'ویرایش محصول با موفقیت انجام شد');
+
+        return redirect()->route('inquiries.product.index', $product->inquiry_id);
+    }
+
     public function show(Product $product)
     {
         if ($product->amounts->isEmpty()) {

@@ -110,6 +110,10 @@
                                class="form-submit-btn text-xs">
                                 جزئیات
                             </a>
+                            <a href="{{ route('inquiries.product.edit',$product->id) }}"
+                               class="form-edit-btn text-xs">
+                                ویرایش تعداد
+                            </a>
                             @if($inquiry->submit)
                                 <a href="{{ route('inquiries.product.percent',$product->id) }}"
                                    class="form-edit-btn text-xs">
