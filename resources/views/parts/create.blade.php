@@ -71,7 +71,7 @@
     </x-slot>
 
     <!-- Breadcrumb -->
-    <nav class="flex bg-gray-100 p-4 rounded-md" aria-label="Breadcrumb">
+    <nav class="flex bg-gray-100 p-4 rounded-md overflow-x-auto whitespace-nowrap" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-2 space-x-reverse">
             <li class="inline-flex items-center">
                 <a href="{{ route('dashboard') }}"

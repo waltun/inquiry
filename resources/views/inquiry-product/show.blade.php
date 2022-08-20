@@ -1,7 +1,7 @@
 <x-layout>
     <!-- Breadcrumb -->
-    <nav class="flex bg-gray-100 p-4 rounded-md overflow-x-auto" aria-label="Breadcrumb">
-        <ol class="inline-flex items-center space-x-2 space-x-reverse whitespace-nowrap">
+    <nav class="flex bg-gray-100 p-4 rounded-md overflow-x-auto whitespace-nowrap" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-2 space-x-reverse">
             <li class="inline-flex items-center">
                 <a href="{{ route('dashboard') }}"
                    class="inline-flex items-center text-xs md:text-sm text-gray-500 hover:text-gray-900">
