@@ -1,10 +1,77 @@
 <x-layout>
     <x-slot name="js">
+        <script src="{{ asset('plugins/jquery.min.js') }}"></script>
         <script>
             function showPrice(id) {
                 let input = document.getElementById("inputPrice" + id);
                 let section = document.getElementById("priceSection" + id);
                 section.innerText = new Intl.NumberFormat().format(input.value) + ' تومان ';
+            }
+
+            function getCategory1() {
+                let id = document.getElementById('inputCategory1').value;
+                let section = document.getElementById('categorySection1');
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('parts.getCategory') }}',
+                    data: {
+                        id: id,
+                    },
+                    success: function (res) {
+                        if (res.data != null) {
+                            section.innerHTML = `
+                            <label for="inputCategory" class="block mb-2 md:text-sm text-xs text-black">زیر دسته</label>
+                            <select class="input-text" onchange="getCategory2()" id="inputCategory2" name="category2">
+                                <option value="">انتخاب کنید</option>
+                                    ${
+                                res.data.map(function (category) {
+                                    return `<option value="${category.id}">${category.name}</option>`
+                                })
+                            }
+                            </select>`
+                        }
+                    }
+                });
+            }
+
+            function getCategory2() {
+                let id = document.getElementById('inputCategory2').value;
+                let section = document.getElementById('categorySection2');
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('parts.getCategory') }}',
+                    data: {
+                        id: id,
+                    },
+                    success: function (res) {
+                        if (res.data != null) {
+                            section.innerHTML = `
+                            <label for="inputCategory3" class="block mb-2 md:text-sm text-xs text-black">زیر دسته</label>
+                            <select class="input-text" name="category3" id="inputCategory3">
+                                <option value="">انتخاب کنید</option>
+                                    ${
+                                res.data.map(function (category) {
+                                    return `<option value="${category.id}">${category.name}</option>`
+                                })
+                            }
+                            </select>`;
+                        }
+                    }
+                });
             }
         </script>
     </x-slot>
@@ -53,25 +120,11 @@
     <!-- Search -->
     <div class="mt-4">
         <div class="bg-white p-4 shadow-md rounded-md border border-gray-200">
-            <div class="md:grid grid-cols-3 gap-4">
-                <form class="bg-white rounded-md p-4 shadow-sm border border-gray-200 mb-4 md:mb-0">
-                    <div class="mb-4">
-                        <label for="inputSearchCode" class="block mb-2 md:text-sm text-xs text-black">
-                            جستجو براساس کد قطعه
-                        </label>
-                        <input type="text" id="inputSearchCode" name="code" class="input-text"
-                               placeholder="مثال : 45" value="{{ request('code') }}">
-                    </div>
-                    <div class="flex justify-end">
-                        <button class="form-submit-btn" type="submit">
-                            جستجو
-                        </button>
-                    </div>
-                </form>
+            <div class="md:grid grid-cols-2 gap-4">
                 <form class="bg-white rounded-md p-4 shadow-sm border border-gray-200 mb-4 md:mb-0">
                     <div class="mb-4">
                         <label for="inputSearch" class="block mb-2 md:text-sm text-xs text-black">
-                            جستجو براساس نام یا قیمت
+                            جستجو براساس نام
                         </label>
                         <input type="text" id="inputSearch" name="search" class="input-text" placeholder="مثال : پیچ"
                                value="{{ request('search') }}">
@@ -85,17 +138,17 @@
 
                 <form class="bg-white rounded-md p-4 shadow-sm border border-gray-200 mb-4 md:mb-0">
                     <div class="mb-4">
-                        <label for="inputCategory" class="block mb-2 md:text-sm text-xs text-black">
-                            جستجو براساس دسته بندی
+                        <label for="inputSearchPrice" class="block mb-2 md:text-sm text-xs text-black">
+                            جستجو براساس قیمت
                         </label>
-                        <select name="category" id="inputCategory" class="input-text">
+                        <select name="price" id="inputSearchPrice" class="input-text">
                             <option value="">انتخاب کنید</option>
-                            @foreach($categories as $category)
-                                <option
-                                    value="{{ $category->id }}" {{ $category->id == request('category') ? 'selected' : '' }}>
-                                    {{ $category->name }}
-                                </option>
-                            @endforeach
+                            <option value="0" {{ request('price') == '0' ? 'selected' : '' }}>
+                                قطعات بدون قیمت (منتظر قیمت گذاری)
+                            </option>
+                            <option value="1" {{ request('price') == '1' ? 'selected' : '' }}>
+                                قطعات قیمت دار
+                            </option>
                         </select>
                     </div>
                     <div class="flex justify-end">
@@ -106,7 +159,7 @@
                 </form>
             </div>
 
-            @if(request()->has('code') || request()->has('search') || request()->has('category'))
+            @if(request()->has('price') || request()->has('search'))
                 <div class="mt-4">
                     <a href="{{ route('parts.price.index') }}" class="form-detail-btn text-xs">
                         پاکسازی جستجو
@@ -114,6 +167,76 @@
                 </div>
             @endif
         </div>
+
+        <div class="mt-4">
+            <div class="bg-white p-4 shadow-md rounded-md border border-gray-200">
+                <form class="md:grid grid-cols-3 gap-4">
+                    <div class="mt-4">
+                        <label for="inputCategory1" class="block mb-2 md:text-sm text-xs text-black">دسته بندی
+                            قطعه</label>
+                        <select name="category1" id="inputCategory1" class="input-text" onchange="getCategory1()">
+                            <option value="">انتخاب کنید</option>
+                            @foreach($categories as $category)
+                                <option
+                                    value="{{ $category->id }}" {{ request('category1') == $category->id ? 'selected' : '' }}>
+                                    {{ $category->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="mt-4" id="categorySection1">
+                        @if(request()->has('category2'))
+                            @php
+                                $category2 = \App\Models\Category::find(request('category1'))->children;
+                            @endphp
+                            <label for="inputCategory2" class="block mb-2 md:text-sm text-xs text-black">زیردسته
+                                اول</label>
+                            <select name="category2" id="inputCategory2" class="input-text" onchange="getCategory2()">
+                                <option value="">انتخاب کنید</option>
+                                @foreach($category2 as $category)
+                                    <option
+                                        value="{{ $category->id }}" {{ request('category2') == $category->id ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        @endif
+                    </div>
+                    <div class="mt-4" id="categorySection2">
+                        @if(request()->has('category3'))
+                            @php
+                                $category3 = \App\Models\Category::find(request('category2'))->children;
+                            @endphp
+                            <label for="inputCategory3" class="block mb-2 md:text-sm text-xs text-black">زیردسته
+                                دوم</label>
+                            <select name="category3" id="inputCategory3" class="input-text">
+                                <option value="">انتخاب کنید</option>
+                                @foreach($category3 as $category)
+                                    <option
+                                        value="{{ $category->id }}" {{ request('category3') == $category->id ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        @endif
+                    </div>
+
+                    <div class="col-span-3 flex justify-end">
+                        <button type="submit" class="form-submit-btn">جستجو</button>
+                    </div>
+                </form>
+
+                @if(request()->has('category1') || request()->has('category2') || request()->has('category3'))
+                    <div class="mt-4">
+                        <a href="{{ route('parts.price.index') }}" class="form-detail-btn text-xs">
+                            پاکسازی جستجو
+                        </a>
+                    </div>
+                @endif
+            </div>
+        </div>
+
     </div>
 
     <!-- Content -->
@@ -135,40 +258,61 @@
                         نام
                     </th>
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
-                        واحد
+                        قیمت قبلی
                     </th>
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                         قیمت (تومان)
-                    </th>
-                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
-                        نمایش قیمت (تومان)
                     </th>
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                         آخرین بروزرسانی
                     </th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody class="divide-y divide-gray-300">
+                @php
+                    $color = '';
+                @endphp
                 @foreach($parts as $part)
-                    <tr>
+                    @php
+                        $lastMonth = \Carbon\Carbon::now()->subMonth(1);
+                        $lastTwoMonth = \Carbon\Carbon::now()->subMonth(2);
+                        if ($part->updated_at < $lastMonth) {
+                            $color = 'bg-yellow-500';
+                        }
+                        if ($part->updated_at < $lastTwoMonth) {
+                            $color = 'bg-red-500';
+                        }
+                        if ($part->updated_at > $lastMonth) {
+                            $color = 'bg-green-500';
+                        }
+                    @endphp
+                    <tr class="{{ $color }}">
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-gray-500 text-center">{{ $loop->index + 1 }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ $part->name }}</p>
+                            <p class="text-sm text-black text-center font-medium">{{ $part->name }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ $part->unit }}</p>
+                            @if($part->old_price > 0)
+                                <p class="text-sm text-black text-center font-medium">
+                                    {{ number_format($part->old_price) }} تومان
+                                </p>
+                            @else
+                                <p class="text-sm text-black text-center font-medium">
+                                    قیمت قبلی ثبت نشده!
+                                </p>
+                            @endif
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <input type="text" class="input-text" id="inputPrice{{ $part->id }}" name="prices[]"
                                    value="{{ $part->price ?? '' }}" onkeyup="showPrice({{ $part->id }})">
                             <input type="hidden" name="parts[]" value="{{ $part->id }}">
-                        </td>
-                        <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center" id="priceSection{{ $part->id }}">
-                                {{ number_format($part->price) ?? '0' }} تومان
-                            </p>
+                            <div class="mt-2">
+                                <p class="text-sm text-black text-center font-medium" id="priceSection{{ $part->id }}">
+                                    {{ number_format($part->price) ?? '0' }} تومان
+                                </p>
+                            </div>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center">

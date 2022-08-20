@@ -14,26 +14,31 @@ class PartPriceController extends Controller
         Gate::authorize('part-price');
 
         $parts = Part::query();
-        $categories = Category::all();
+        $categories = Category::where('parent_id', 0)->get();
 
         if ($keyword = request('search')) {
             $parts->where('collection', false)
-                ->where('name', 'LIKE', "%{$keyword}%")
-                ->orWhere('unit', 'LIKE', "%{$keyword}%")
-                ->orWhere('price', 'LIKE', "%{$keyword}%");
+                ->where('name', 'LIKE', "%{$keyword}%");
         }
 
-        if ($keyword = request('code')) {
-            $parts = $parts->where('collection', false)->where('code', 'LIKE', $keyword);
+        if (request('price') == "1") {
+            $parts->where('collection', false)
+                ->where('price', '>', 0);
         }
 
-        if (request()->has('category')) {
+        if (request('price') == "0") {
+            $parts->where('collection', false)
+                ->where('price', '=', 0);
+        }
+
+        if (request()->has('category3')) {
             $parts = $parts->whereHas('categories', function ($q) {
-                $q->where('category_id', request('category'));
+                $q->where('category_id', request('category3'));
             })->where('collection', false);
         }
 
-        $parts = $parts->where('collection', false)->latest()->paginate(25);
+        $parts = $parts->where('collection', false)->orderBy('updated_at', 'ASC')
+            ->paginate(25)->withQueryString();
 
         return view('part-price.index', compact('parts', 'categories'));
     }
@@ -49,10 +54,13 @@ class PartPriceController extends Controller
 
         foreach ($request->parts as $index => $part) {
             $updatedPart = Part::where('id', $part)->first();
-            $updatedPart->update([
-                'price' => $request->prices[$index],
-                'updated_at' => now()
-            ]);
+            if ($updatedPart->price !== (int)$request->prices[$index]) {
+                $updatedPart->update([
+                    'price' => $request->prices[$index],
+                    'old_price' => $updatedPart->price,
+                    'updated_at' => now()
+                ]);
+            }
         }
 
         alert()->success('ثبت موفق', 'ثبت قیمت گذاری با موفقیت انجام شد');
