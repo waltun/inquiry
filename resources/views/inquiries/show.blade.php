@@ -302,12 +302,30 @@
                 @endforeach
                 <div class="flex justify-between items-center mb-2 border border-gray-500 rounded-md p-2">
                     <p class="text-base font-medium text-black">
-                        قیمت کل
+                        جمع قیمت ماتریال یک دستگاه
                     </p>
                     <p class="text-base font-medium text-green-600">
                         {{ number_format($totalPrice) }} تومان
                     </p>
                 </div>
+                @if($product->percent > 0)
+                    <div class="flex justify-between items-center mb-2 border border-gray-500 rounded-md p-2">
+                        <p class="text-base font-medium text-black">
+                            ضریب ثبت شده
+                        </p>
+                        <p class="text-base font-medium text-green-600">
+                            {{ $product->percent }}
+                        </p>
+                    </div>
+                    <div class="flex justify-between items-center mb-2 border border-gray-500 rounded-md p-2">
+                        <p class="text-base font-medium text-black">
+                            قیمت دستگاه با اعمال ضریب
+                        </p>
+                        <p class="text-base font-medium text-green-600">
+                            {{ number_format($totalPrice * $product->percent) }} تومان
+                        </p>
+                    </div>
+                @endif
                 <div class="flex justify-between items-center mb-2 border border-gray-500 rounded-md p-2">
                     <p class="text-base font-medium text-black">
                         تعداد
@@ -318,26 +336,10 @@
                 </div>
                 <div class="flex justify-between items-center mb-2 border border-gray-500 rounded-md p-2">
                     <p class="text-base font-medium text-black">
-                        قیمت نهایی
+                        قیمت کل
                     </p>
                     <p class="text-base font-medium text-green-600">
-                        {{ number_format($totalPrice * $product->quantity) }} تومان
-                    </p>
-                </div>
-                <div class="flex justify-between items-center mb-2 border border-gray-500 rounded-md p-2">
-                    <p class="text-base font-medium text-black">
-                        ضریب ثبت شده
-                    </p>
-                    <p class="text-base font-medium text-green-600">
-                        {{ $product->percent }}
-                    </p>
-                </div>
-                <div class="flex justify-between items-center mb-2 border border-gray-500 rounded-md p-2">
-                    <p class="text-base font-medium text-black">
-                        قیمت نهایی پس از ضریب
-                    </p>
-                    <p class="text-base font-medium text-green-600">
-                        {{ number_format($product->price) }} تومان
+                        {{ number_format($totalPrice * $product->percent * $product->quantity) }} تومان
                     </p>
                 </div>
             </div>
