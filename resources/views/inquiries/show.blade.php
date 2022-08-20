@@ -123,52 +123,7 @@
                                 $code = $code . $category->code;
                             }
                         @endphp
-                        <tr>
-                            <td class="border border-gray-300 p-4 text-sm text-center">
-                                {{ $code . "-" . $part->code }}
-                            </td>
-                            <td class="border border-gray-300 p-4 text-sm text-center">
-                                {{ $part->name }}
-                            </td>
-                            <td class="border border-gray-300 p-4 text-sm text-center">
-                                {{ $part->unit }}
-                            </td>
-                            <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                                @if($amount->price > 0)
-                                    {{ number_format($amount->price) }} تومان
-                                @else
-                                    {{ number_format($part->price) }} تومان
-                                @endif
-                            </td>
-                            <td class="border border-gray-300 p-4 text-sm text-center">
-                                {{ $amount->value }}
-                            </td>
-                            <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                                @if($amount->price > 0)
-                                    {{ number_format($amount->price * $amount->value) }} تومان
-                                @else
-                                    {{ number_format($part->price * $amount->value) }} تومان
-                                @endif
-                            </td>
-                        </tr>
-                    @endforeach
-
-                    @if(!$modell->parts->isEmpty())
-                        @foreach($modell->parts as $part)
-                            @php
-                                $amount = $product->amounts()->where('part_id',$part->id)->first();
-                                if($amount){
-                                    if ($amount->price > 0){
-                                        $totalModellPrice += ($part->price * $amount->value) + ($amount->price * $amount->value);
-                                    } else {
-                                        $totalModellPrice += ($part->price * $amount->value);
-                                    }
-                                }
-                               $code = '';
-                                foreach($part->categories as $category){
-                                    $code = $code . $category->code;
-                                }
-                            @endphp
+                        @if($amount)
                             <tr>
                                 <td class="border border-gray-300 p-4 text-sm text-center">
                                     {{ $code . "-" . $part->code }}
@@ -187,7 +142,7 @@
                                     @endif
                                 </td>
                                 <td class="border border-gray-300 p-4 text-sm text-center">
-                                    {{ $amount->value ?? '' }}
+                                    {{ $amount->value }}
                                 </td>
                                 <td class="border border-gray-300 p-4 text-sm text-center font-bold">
                                     @if($amount->price > 0)
@@ -197,6 +152,55 @@
                                     @endif
                                 </td>
                             </tr>
+                        @endif
+                    @endforeach
+
+                    @if(!$modell->parts->isEmpty())
+                        @foreach($modell->parts as $part)
+                            @php
+                                $amount = $product->amounts()->where('part_id',$part->id)->first();
+                                if($amount){
+                                    if ($amount->price > 0){
+                                        $totalModellPrice += ($part->price * $amount->value) + ($amount->price * $amount->value);
+                                    } else {
+                                        $totalModellPrice += ($part->price * $amount->value);
+                                    }
+                                }
+                               $code = '';
+                                foreach($part->categories as $category){
+                                    $code = $code . $category->code;
+                                }
+                            @endphp
+                            @if($amount)
+                                <tr>
+                                    <td class="border border-gray-300 p-4 text-sm text-center">
+                                        {{ $code . "-" . $part->code }}
+                                    </td>
+                                    <td class="border border-gray-300 p-4 text-sm text-center">
+                                        {{ $part->name }}
+                                    </td>
+                                    <td class="border border-gray-300 p-4 text-sm text-center">
+                                        {{ $part->unit }}
+                                    </td>
+                                    <td class="border border-gray-300 p-4 text-sm text-center font-bold">
+                                        @if($amount->price > 0)
+                                            {{ number_format($amount->price) }} تومان
+                                        @else
+                                            {{ number_format($part->price) }} تومان
+                                        @endif
+                                    </td>
+                                    <td class="border border-gray-300 p-4 text-sm text-center">
+                                        {{ $amount->value ?? '' }}
+                                    </td>
+                                    <td class="border border-gray-300 p-4 text-sm text-center font-bold">
+                                        @if($amount->price > 0)
+                                            {{ number_format($amount->price * $amount->value) }} تومان
+                                        @else
+                                            {{ number_format($part->price * $amount->value) }} تومان
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endif
                         @endforeach
                     @endif
                     @php
@@ -270,35 +274,37 @@
                             $code = $code . $category->code;
                         }
                     @endphp
-                    <div class="p-2 border border-gray-300 rounded-md shadow-sm bg-gray-100 mb-4">
-                        <div class="space-y-4">
-                            <p class="text-xs text-black text-center font-bold">
-                                {{ $part->name }}
-                            </p>
-                            <p class="text-xs text-black text-center">
-                                واحد : {{ $part->unit }}
-                            </p>
-                            <p class="text-xs text-black text-center font-medium">
-                                قیمت واحد :
-                                @if($amount->price > 0)
-                                    {{ number_format($amount->price) }} تومان
-                                @else
-                                    {{ number_format($part->price) }} تومان
-                                @endif
-                            </p>
-                            <p class="text-xs text-black text-center font-bold">
-                                مقدار : {{ $amount->value }}
-                            </p>
-                            <p class="text-xs text-black text-center font-medium">
-                                جمع کل :
-                                @if($amount->price > 0)
-                                    {{ number_format($amount->price * $amount->value) }} تومان
-                                @else
-                                    {{ number_format($part->price * $amount->value) }} تومان
-                                @endif
-                            </p>
+                    @if($amount)
+                        <div class="p-2 border border-gray-300 rounded-md shadow-sm bg-gray-100 mb-4">
+                            <div class="space-y-4">
+                                <p class="text-xs text-black text-center font-bold">
+                                    {{ $part->name }}
+                                </p>
+                                <p class="text-xs text-black text-center">
+                                    واحد : {{ $part->unit }}
+                                </p>
+                                <p class="text-xs text-black text-center font-medium">
+                                    قیمت واحد :
+                                    @if($amount->price > 0)
+                                        {{ number_format($amount->price) }} تومان
+                                    @else
+                                        {{ number_format($part->price) }} تومان
+                                    @endif
+                                </p>
+                                <p class="text-xs text-black text-center font-bold">
+                                    مقدار : {{ $amount->value }}
+                                </p>
+                                <p class="text-xs text-black text-center font-medium">
+                                    جمع کل :
+                                    @if($amount->price > 0)
+                                        {{ number_format($amount->price * $amount->value) }} تومان
+                                    @else
+                                        {{ number_format($part->price * $amount->value) }} تومان
+                                    @endif
+                                </p>
+                            </div>
                         </div>
-                    </div>
+                    @endif
                 @endforeach
                 <div class="flex justify-between items-center mb-2 border border-gray-500 rounded-md p-2">
                     <p class="text-base font-medium text-black">
