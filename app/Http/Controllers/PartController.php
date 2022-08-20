@@ -14,26 +14,20 @@ class PartController extends Controller
         Gate::authorize('parts');
 
         $parts = Part::query();
-        $categories = Category::all();
+        $categories = Category::where('parent_id', 0)->get();
 
         if ($keyword = request('search')) {
             $parts->where('collection', false)
-                ->where('name', 'LIKE', "%{$keyword}%")
-                ->orWhere('unit', 'LIKE', "%{$keyword}%")
-                ->orWhere('price', 'LIKE', "%{$keyword}%");
+                ->where('name', 'LIKE', "%{$keyword}%");
         }
 
-        if ($keyword = request('code')) {
-            $parts = $parts->where('code', 'LIKE', $keyword)->where('collection', false);
-        }
-
-        if (request()->has('category')) {
+        if (request()->has('category3')) {
             $parts = $parts->whereHas('categories', function ($q) {
-                $q->where('category_id', request('category'));
+                $q->where('category_id', request('category3'));
             })->where('collection', false);
         }
 
-        $parts = $parts->where('collection', false)->latest()->paginate(25);
+        $parts = $parts->where('collection', false)->latest()->paginate(25)->withQueryString();
 
         return view('parts.index', compact('parts', 'categories'));
     }
