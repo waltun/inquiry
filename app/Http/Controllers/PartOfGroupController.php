@@ -11,25 +11,19 @@ class PartOfGroupController extends Controller
     public function index(Group $group)
     {
         $parts = Part::query();
-        $categories = Category::all();
+        $categories = Category::where('parent_id', 0)->get();
 
         if ($keyword = request('search')) {
             $parts->where('name', 'LIKE', "%{$keyword}%")
-                ->orWhere('unit', 'LIKE', "%{$keyword}%")
-                ->orWhere('price', 'LIKE', "%{$keyword}%");
+                ->whereNotIn('id', $group->parts->pluck('id'));
         }
 
-        if ($keyword = request('code')) {
-            $parts = $parts->where('code', 'LIKE', $keyword);
-        }
-
-        if (request()->has('category')) {
+        if (request()->has('category3')) {
             $parts = $parts->whereHas('categories', function ($q) {
                 $q->where('category_id', request('category'));
-            })->where('collection', false);
+            })->where('collection', false)->whereNotIn('id', $group->parts->pluck('id'));
         }
 
-        //$parts = $parts->latest()->get()->except($group->parts->pluck('id')->toArray());
         $parts = $parts->whereNotIn('id', $group->parts->pluck('id'))->latest()->paginate(25);
 
         return view('group-parts.index', compact('parts', 'group', 'categories'));

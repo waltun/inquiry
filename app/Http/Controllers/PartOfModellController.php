@@ -14,22 +14,17 @@ class PartOfModellController extends Controller
     {
         $parts = Part::query();
         $group = Group::find($modell->group_id);
-        $categories = Category::all();
+        $categories = Category::where('parent_id', 0)->get();
 
         if ($keyword = request('search')) {
             $parts->where('name', 'LIKE', "%{$keyword}%")
-                ->orWhere('unit', 'LIKE', "%{$keyword}%")
-                ->orWhere('price', 'LIKE', "%{$keyword}%");
+                ->whereNotIn('id', $modell->parts->pluck('id'));
         }
 
-        if ($keyword = request('code')) {
-            $parts = $parts->where('code', 'LIKE', $keyword);
-        }
-
-        if (request()->has('category')) {
+        if (request()->has('category3')) {
             $parts = $parts->whereHas('categories', function ($q) {
-                $q->where('category_id', request('category'));
-            })->where('collection', false);
+                $q->where('category_id', request('category3'));
+            })->where('collection', false)->whereNotIn('id', $modell->parts->pluck('id'));
         }
 
         //$parts = $parts->latest()->get()->except($modell->parts->pluck('id')->toArray());
