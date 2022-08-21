@@ -187,7 +187,7 @@ class InquiryController extends Controller
                     'value' => $amount->value,
                     'product_id' => $newProduct->id,
                     'part_id' => $amount->part_id,
-                    'price' => $amount->price ?? 0
+                    'price' => $amount->price > 0 ? $amount->price : 0
                 ]);
                 $newAmount->save();
             }
