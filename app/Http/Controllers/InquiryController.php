@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Amount;
 use App\Models\Group;
 use App\Models\Inquiry;
 use App\Models\Product;
@@ -180,6 +181,16 @@ class InquiryController extends Controller
                 'price' => 0,
             ]);
             $newProduct->save();
+
+            foreach ($product->amounts as $amount) {
+                $newAmount = $amount->replicate()->fill([
+                    'value' => $amount->value,
+                    'product_id' => $newProduct->id,
+                    'part_id' => $amount->part_id,
+                    'price' => $amount->price ?? 0
+                ]);
+                $newAmount->save();
+            }
         }
 
         //Send Notification
