@@ -10,7 +10,7 @@ class Part extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'unit', 'price', 'code', 'collection', 'category_id', 'old_price'
+        'name', 'unit', 'price', 'code', 'collection', 'category_id', 'old_price', 'coil'
     ];
 
     public function groups()

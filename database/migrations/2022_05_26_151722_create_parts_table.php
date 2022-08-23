@@ -22,6 +22,7 @@ return new class extends Migration {
             $table->string('code')->nullable();
 
             $table->boolean('collection')->default(false);
+            $table->boolean('coil')->default(0);
 
             $table->index(['code']);
 

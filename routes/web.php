@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CalculateCoilController;
 use App\Http\Controllers\CalculateDamperController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CollectionCoilController;
 use App\Http\Controllers\CollectionPartController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GroupController;
@@ -76,6 +77,9 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/collection-parts/{parentPart}/amounts', [CollectionPartController::class, 'amounts'])->name('collections.amounts');
     Route::patch('/collection-parts/{parentPart}/store-amounts', [CollectionPartController::class, 'storeAmounts'])->name('collections.storeAmounts');
     Route::post('/collection-parts/{parentPart}/replicate', [CollectionPartController::class, 'replicate'])->name('collections.replicate');
+
+    //Collection Coils routes
+    Route::get('/collection-coil', [CollectionCoilController::class, 'index'])->name('collectionCoil.index');
 
     //Inquiry routes
     Route::post('/inquiries/create/change-model', [InquiryController::class, 'changeModelAjax'])->name('inquiries.create.changeModel');

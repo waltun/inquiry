@@ -47,7 +47,8 @@ class CalculateCoilController extends Controller
         $code = $this->getLastCode($part);
         $newPart = $part->replicate()->fill([
             'name' => $name,
-            'code' => $code
+            'code' => $code,
+            'coil' => true
         ]);
 
         $newPart->save();
@@ -61,22 +62,22 @@ class CalculateCoilController extends Controller
         }
 
         foreach ($newPart->children as $index => $childPart) {
-            if ($index == 13) {
+            if ($index == 14) {
                 $childPart->pivot->parent_part_id = $zekhamat_frame;
             }
-            if ($index == 14) {
+            if ($index == 15) {
                 $childPart->pivot->parent_part_id = $looleMessi;
             }
-            if ($index == 15) {
+            if ($index == 16) {
                 $childPart->pivot->parent_part_id = $fin;
             }
-            if ($index == 16) {
+            if ($index == 17) {
                 $childPart->pivot->parent_part_id = $collectorMessi;
             }
-            if ($index == 17 && !is_null($collectorAhani)) {
+            if ($index == 18 && !is_null($collectorAhani)) {
                 $childPart->pivot->parent_part_id = $collectorAhani;
             }
-            if ($index == 19) {
+            if ($index == 20) {
                 $childPart->pivot->parent_part_id = $electrodNoghre;
             }
             $childPart->pivot->value = $request->values[$index];
@@ -105,6 +106,7 @@ class CalculateCoilController extends Controller
         $newPart = $part->replicate()->fill([
             'name' => $name,
             'code' => $code,
+            'coil' => true
         ]);
 
         $newPart->save();
@@ -118,22 +120,22 @@ class CalculateCoilController extends Controller
         }
 
         foreach ($newPart->children as $index => $childPart) {
-            if ($index == 13) {
+            if ($index == 14) {
                 $childPart->pivot->parent_part_id = $zekhamat_frame;
             }
-            if ($index == 14) {
+            if ($index == 15) {
                 $childPart->pivot->parent_part_id = $looleMessi;
             }
-            if ($index == 15) {
+            if ($index == 16) {
                 $childPart->pivot->parent_part_id = $fin;
             }
-            if ($index == 16) {
+            if ($index == 17) {
                 $childPart->pivot->parent_part_id = $collectorMessi;
             }
-            if ($index == 17 && !is_null($collectorAhani)) {
+            if ($index == 18 && !is_null($collectorAhani)) {
                 $childPart->pivot->parent_part_id = $collectorAhani;
             }
-            if ($index == 19) {
+            if ($index == 20) {
                 $childPart->pivot->parent_part_id = $electrodNoghre;
             }
 
@@ -162,7 +164,8 @@ class CalculateCoilController extends Controller
 
         $newPart = $part->replicate()->fill([
             'name' => $name,
-            'code' => $code
+            'code' => $code,
+            'coil' => true
         ]);
 
         $newPart->save();
@@ -220,7 +223,8 @@ class CalculateCoilController extends Controller
 
         $newPart = $part->replicate()->fill([
             'name' => $name,
-            'code' => $code
+            'code' => $code,
+            'coil' => true
         ]);
 
         $newPart->save();
@@ -234,22 +238,22 @@ class CalculateCoilController extends Controller
         }
 
         foreach ($newPart->children as $index => $childPart) {
-            if ($index == 13) {
+            if ($index == 15) {
                 $childPart->pivot->parent_part_id = $zekhamat_frame;
             }
-            if ($index == 14) {
+            if ($index == 16) {
                 $childPart->pivot->parent_part_id = $looleMessi;
             }
-            if ($index == 15) {
+            if ($index == 17) {
                 $childPart->pivot->parent_part_id = $fin;
             }
-            if ($index == 16) {
+            if ($index == 18) {
                 $childPart->pivot->parent_part_id = $collectorMessi;
             }
-            if ($index == 17 && !is_null($collectorAhani)) {
+            if ($index == 19 && !is_null($collectorAhani)) {
                 $childPart->pivot->parent_part_id = $collectorAhani;
             }
-            if ($index == 19) {
+            if ($index == 21) {
                 $childPart->pivot->parent_part_id = $electrodNoghre;
             }
 
@@ -278,7 +282,8 @@ class CalculateCoilController extends Controller
 
         $newPart = $part->replicate()->fill([
             'name' => $name,
-            'code' => $code
+            'code' => $code,
+            'coil' => true
         ]);
 
         $newPart->save();
@@ -292,22 +297,22 @@ class CalculateCoilController extends Controller
         }
 
         foreach ($newPart->children as $index => $childPart) {
-            if ($index == 13) {
+            if ($index == 15) {
                 $childPart->pivot->parent_part_id = $zekhamat_frame;
             }
-            if ($index == 14) {
+            if ($index == 16) {
                 $childPart->pivot->parent_part_id = $looleMessi;
             }
-            if ($index == 15) {
+            if ($index == 17) {
                 $childPart->pivot->parent_part_id = $fin;
             }
-            if ($index == 16) {
+            if ($index == 18) {
                 $childPart->pivot->parent_part_id = $collectorMessi;
             }
-            if ($index == 17 && !is_null($collectorAhani)) {
+            if ($index == 19 && !is_null($collectorAhani)) {
                 $childPart->pivot->parent_part_id = $collectorAhani;
             }
-            if ($index == 19) {
+            if ($index == 21) {
                 $childPart->pivot->parent_part_id = $electrodNoghre;
             }
 

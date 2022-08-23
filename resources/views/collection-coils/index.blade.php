@@ -91,7 +91,7 @@
                               clip-rule="evenodd"/>
                     </svg>
                     <span class="mr-2 text-xs md:text-sm font-medium text-gray-400">
-                        مدیریت مجموعه ها
+                        مدیریت مجموعه های کویل و دمپر
                     </span>
                 </div>
             </li>
@@ -102,13 +102,12 @@
     <div class="mt-4 flex justify-between items-center space-x-4 space-x-reverse">
         <div>
             <p class="text-lg text-black font-bold">
-                لیست مجموعه ها
+                لیست مجموعه های کویل و دمپر
             </p>
         </div>
         <div>
-            <a href="{{ route('parts.create') }}" class="form-submit-btn text-xs">ایجاد قطعه جدید</a>
             <a href="{{ route('parts.index') }}" class="form-detail-btn text-xs">لیست قطعات</a>
-            <a href="{{ route('collectionCoil.index') }}" class="form-edit-btn text-xs">لیست مجموعه های کویل و دمپر</a>
+            <a href="{{ route('collections.index') }}" class="form-edit-btn text-xs">لیست مجموعه ها</a>
         </div>
     </div>
 
@@ -192,7 +191,7 @@
 
             @if(request()->has('search') || request()->has('category1') || request()->has('category2') || request()->has('category3'))
                 <div class="mt-4">
-                    <a href="{{ route('collections.index') }}" class="form-detail-btn text-xs">
+                    <a href="{{ route('collectionCoil.index') }}" class="form-detail-btn text-xs">
                         پاکسازی جستجو
                     </a>
                 </div>
@@ -308,7 +307,8 @@
         <!-- Parts count -->
         <div class="mt-4 mb-4">
             <p class="text-sm font-bold text-indigo-600 underline underline-offset-4">
-                تعداد کل قطعات مجموعه ای : {{ \App\Models\Part::where('collection',true)->count() }}
+                تعداد کل قطعات مجموعه کویل سازی
+                : {{ \App\Models\Part::where('collection',true)->where('coil',true)->count() }}
             </p>
         </div>
 

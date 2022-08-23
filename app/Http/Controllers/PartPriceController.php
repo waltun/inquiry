@@ -18,27 +18,30 @@ class PartPriceController extends Controller
 
         if ($keyword = request('search')) {
             $parts->where('collection', false)
+                ->where('coil', false)
                 ->where('name', 'LIKE', "%{$keyword}%");
         }
 
         if (request('price') == "1") {
             $parts->where('collection', false)
+                ->where('coil', false)
                 ->where('price', '>', 0);
         }
 
         if (request('price') == "0") {
             $parts->where('collection', false)
+                ->where('coil', false)
                 ->where('price', '=', 0);
         }
 
         if (request()->has('category3')) {
             $parts = $parts->whereHas('categories', function ($q) {
                 $q->where('category_id', request('category3'));
-            })->where('collection', false);
+            })->where('collection', false)->where('coil', false);
         }
 
-        $parts = $parts->where('collection', false)->orderBy('updated_at', 'ASC')
-            ->paginate(25)->withQueryString();
+        $parts = $parts->where('collection', false)->where('coil', false)
+            ->orderBy('updated_at', 'ASC')->paginate(25)->withQueryString();
 
         return view('part-price.index', compact('parts', 'categories'));
     }

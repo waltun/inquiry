@@ -14,20 +14,32 @@ class CollectionPartController extends Controller
         Gate::authorize('part-collection');
 
         $parts = Part::query();
-        $categories = Category::all();
+        $categories = Category::where('parent_id',0)->get();
 
         if ($keyword = request('search')) {
             $parts->where('collection', true)
-                ->where('name', 'LIKE', "%{$keyword}%")
-                ->orWhere('unit', 'LIKE', "%{$keyword}%")
-                ->orWhere('price', 'LIKE', "%{$keyword}%");
+                ->where('coil', false)
+                ->where('name', 'LIKE', "%{$keyword}%");
         }
 
-        if ($keyword = request('code')) {
-            $parts = $parts->where('code', 'LIKE', $keyword)->where('collection', true);
+        if (!is_null(request('category3'))) {
+            if (request()->has('category3')) {
+                $parts = $parts->whereHas('categories', function ($q) {
+                    $q->where('category_id', request('category3'));
+                })->where('collection', true)->where('coil', false);
+            }
         }
 
-        $parts = $parts->where('collection', true)->latest()->paginate(25);
+        if (is_null(request('category3'))) {
+            if (request()->has('category2')) {
+                $parts = $parts->whereHas('categories', function ($q) {
+                    $q->where('category_id', request('category2'));
+                })->where('collection', true)->where('coil', false);
+            }
+        }
+
+        $parts = $parts->where('collection', true)->where('coil', false)->latest()
+            ->paginate(25)->withQueryString();
 
         return view('collection-parts.index', compact('parts', 'categories'));
     }
