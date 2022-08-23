@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Group;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 
@@ -105,6 +103,8 @@ class GroupController extends Controller
 
     public function partValues(Request $request, Group $group)
     {
+        Gate::authorize('groups');
+
         $request->validate([
             'values' => 'array|required',
             'values.*' => 'numeric|nullable'

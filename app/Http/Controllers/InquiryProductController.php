@@ -6,30 +6,34 @@ use App\Models\Amount;
 use App\Models\Group;
 use App\Models\Inquiry;
 use App\Models\Modell;
-use App\Models\Part;
 use App\Models\Product;
 use App\Models\Special;
 use App\Models\User;
 use App\Notifications\PercentInquiryNotification;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
 class InquiryProductController extends Controller
 {
     public function index(Inquiry $inquiry)
     {
+        Gate::authorize('create-inquiry');
+
         return view('inquiry-product.index', compact('inquiry'));
     }
 
     public function create(Inquiry $inquiry)
     {
+        Gate::authorize('create-inquiry');
+
         $groups = Group::all();
         return view('inquiry-product.create', compact('groups', 'inquiry'));
     }
 
     public function store(Request $request, Inquiry $inquiry)
     {
+        Gate::authorize('create-inquiry');
+
         $request->validate([
             'group_id' => 'required|integer',
             'model_id' => 'required|integer',
@@ -49,11 +53,15 @@ class InquiryProductController extends Controller
 
     public function edit(Product $product)
     {
+        Gate::authorize('create-inquiry');
+
         return view('inquiry-product.edit', compact('product'));
     }
 
     public function update(Request $request, Product $product)
     {
+        Gate::authorize('create-inquiry');
+
         $request->validate([
             'quantity' => 'required|numeric'
         ]);
@@ -69,6 +77,8 @@ class InquiryProductController extends Controller
 
     public function show(Product $product)
     {
+        Gate::authorize('create-inquiry');
+
         if ($product->amounts->isEmpty()) {
             alert()->error('مقادیر محصولات', 'لطفا ابتدا مقادیر محصولات را مشخص کنید');
             return back();
@@ -88,6 +98,8 @@ class InquiryProductController extends Controller
 
     public function amounts(Product $product)
     {
+        Gate::authorize('create-inquiry');
+
         $group = Group::find($product->group_id);
         $modell = Modell::find($product->model_id);
         $inquiry = Inquiry::find($product->inquiry_id);
@@ -96,7 +108,7 @@ class InquiryProductController extends Controller
 
     public function storeAmounts(Request $request, Product $product)
     {
-        Gate::authorize('inquiry-amounts');
+        Gate::authorize('create-inquiry');
 
         $inquiry = Inquiry::find($product->inquiry_id);
         $modell = Modell::find($product->model_id);
@@ -204,8 +216,6 @@ class InquiryProductController extends Controller
 
     public function percent(Product $product)
     {
-        Gate::authorize('inquiry-percent');
-
         $totalGroupPrice = 0;
         $totalModellPrice = 0;
 
@@ -244,8 +254,6 @@ class InquiryProductController extends Controller
 
     public function storePercent(Request $request, Product $product)
     {
-        Gate::authorize('inquiry-percent');
-
         $request->validate([
             'percent' => 'required|numeric|between:1,3'
         ]);
@@ -309,6 +317,8 @@ class InquiryProductController extends Controller
 
     public function destroy(Product $product)
     {
+        Gate::authorize('create-inquiry');
+
         if (!$product->amounts->isEmpty()) {
             $product->amounts()->delete();
         }

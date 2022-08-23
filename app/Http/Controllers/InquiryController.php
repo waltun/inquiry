@@ -5,12 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Amount;
 use App\Models\Group;
 use App\Models\Inquiry;
-use App\Models\Product;
 use App\Models\User;
 use App\Notifications\CopyInquiryNotification;
 use App\Notifications\CorrectionInquiryNotification;
 use App\Notifications\NewInquiryNotification;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -57,7 +55,7 @@ class InquiryController extends Controller
 
     public function show(Inquiry $inquiry)
     {
-        Gate::authorize('inquiry-detail');
+        Gate::authorize('detail-inquiry');
 
         if ($inquiry->products->isEmpty()) {
             alert()->error('محصولات', 'لطفا ابتدا محصولات را مشخص کنید');
@@ -99,7 +97,7 @@ class InquiryController extends Controller
 
     public function destroy(Inquiry $inquiry)
     {
-        Gate::authorize('create-inquiry');
+        Gate::authorize('delete-inquiry');
 
         if (!$inquiry->products->isEmpty()) {
             $inquiry->products()->delete();
@@ -114,7 +112,7 @@ class InquiryController extends Controller
 
     public function submitted()
     {
-        Gate::authorize('inquiry-percent');
+        Gate::authorize('submit-inquiry');
 
         $inquiries = Inquiry::where('submit', 1)->where('archive_at', null)->latest()->paginate(25);
 
@@ -123,7 +121,7 @@ class InquiryController extends Controller
 
     public function submit(Inquiry $inquiry)
     {
-        Gate::authorize('create-inquiry');
+        Gate::authorize('submit-inquiry');
 
         if ($inquiry->products->isEmpty()) {
             alert()->error('محصولات', 'لطفا ابتدا محصولات را مشخص کنید');
@@ -150,7 +148,7 @@ class InquiryController extends Controller
 
     public function priced()
     {
-        Gate::authorize('create-inquiry');
+        Gate::authorize('priced-inquiry');
 
         $inquiries = Inquiry::where('archive_at', '!=', null)->where('user_id', auth()->user()->id)->latest()->paginate(25);
 
@@ -159,7 +157,7 @@ class InquiryController extends Controller
 
     public function copy(Inquiry $inquiry)
     {
-        Gate::authorize('inquiry-restore');
+        Gate::authorize('create-inquiry');
 
         $user = User::find($inquiry->user_id);
 
@@ -203,6 +201,8 @@ class InquiryController extends Controller
 
     public function correction(Request $request, Inquiry $inquiry)
     {
+        Gate::authorize('correction-inquiry');
+
         $user = User::find($inquiry->user_id);
 
         $request->validate([
@@ -232,6 +232,8 @@ class InquiryController extends Controller
 
     public function products(Inquiry $inquiry)
     {
+        Gate::authorize('create-inquiry');
+
         return view('inquiries.products', compact('inquiry'));
     }
 

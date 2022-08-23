@@ -137,6 +137,8 @@ class PartController extends Controller
 
     public function replicate(Part $part)
     {
+        Gate::authorize('parts');
+
         $category = $part->categories()->latest()->first();
         $lastPart = $category->parts()->latest()->first();
         $code = str_pad($lastPart->code + 1, 4, "0", STR_PAD_LEFT);

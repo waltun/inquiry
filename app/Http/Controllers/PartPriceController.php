@@ -11,7 +11,7 @@ class PartPriceController extends Controller
 {
     public function index()
     {
-        Gate::authorize('part-price');
+        Gate::authorize('price');
 
         $parts = Part::query();
         $categories = Category::where('parent_id', 0)->get();
@@ -48,7 +48,7 @@ class PartPriceController extends Controller
 
     public function update(Request $request)
     {
-        Gate::authorize('part-price');
+        Gate::authorize('price');
 
         $request->validate([
             'prices' => 'required|array',

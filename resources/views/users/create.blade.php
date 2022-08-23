@@ -146,22 +146,25 @@
                 <select name="role" id="inputRole" class="input-text">
                     <option value="">انتخاب کنید</option>
                     <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>
-                        مدیر
+                        مدیر عامل
                     </option>
-                    <option value="co-sales-expert" {{ old('role') == 'co-sales-expert' ? 'selected' : '' }}>
-                        کارشناس ارشد فروش
+                    <option value="technical" {{ old('role') == 'technical' ? 'selected' : '' }}>
+                        مدیر فنی
                     </option>
-                    <option value="sales-expert" {{ old('role') == 'sales-expert' ? 'selected' : '' }}>
-                        کارشناس فروش
-                    </option>
-                    <option value="accounting" {{ old('role') == 'accounting' ? 'selected' : '' }}>
-                        حسابداری
-                    </option>
-                    <option value="inventory" {{ old('role') == 'inventory' ? 'selected' : '' }}>
-                        انبار داری
+                    <option value="sale-manager" {{ old('role') == 'sale-manager' ? 'selected' : '' }}>
+                        مدیر فروش
                     </option>
                     <option value="it" {{ old('role') == 'it' ? 'selected' : '' }}>
-                        مدیر آی تی (IT)
+                        مدیر آی تی
+                    </option>
+                    <option value="price" {{ old('role') == 'price' ? 'selected' : '' }}>
+                        قیمت گذار
+                    </option>
+                    <option value="logistic" {{ old('role') == 'logistic' ? 'selected' : '' }}>
+                        تدارکات
+                    </option>
+                    <option value="sale-expert" {{ old('role') == 'sale-expert' ? 'selected' : '' }}>
+                        کارشناس فروش
                     </option>
                     <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>
                         کاربر عادی

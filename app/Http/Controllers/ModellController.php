@@ -6,12 +6,13 @@ use App\Models\Group;
 use App\Models\Modell;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Validation\Rule;
 
 class ModellController extends Controller
 {
     public function index($id)
     {
+        Gate::authorize('groups');
+
         $group = Group::find($id);
         $modells = $group->modells()->latest()->paginate(25);
         return view('modells.index', compact('modells', 'group'));
@@ -19,12 +20,16 @@ class ModellController extends Controller
 
     public function create($id)
     {
+        Gate::authorize('groups');
+
         $group = Group::find($id);
         return view('modells.create', compact('group'));
     }
 
     public function store(Request $request, $id)
     {
+        Gate::authorize('groups');
+
         $request->validate([
             'name' => 'required|string|max:255',
         ]);
@@ -49,12 +54,16 @@ class ModellController extends Controller
 
     public function edit(Modell $modell)
     {
+        Gate::authorize('groups');
+
         $group = Group::find($modell->group_id);
         return view('modells.edit', compact('modell', 'group'));
     }
 
     public function update(Request $request, Modell $modell)
     {
+        Gate::authorize('groups');
+
         $request->validate([
             'name' => 'required|string|max:2550',
         ]);
@@ -70,6 +79,8 @@ class ModellController extends Controller
 
     public function destroy(Modell $modell)
     {
+        Gate::authorize('groups');
+
         $modell->delete();
 
         alert()->success('حذف موفق', 'حذف مدل با موفقیت انجام شد');
@@ -79,6 +90,8 @@ class ModellController extends Controller
 
     public function replicate(Modell $modell)
     {
+        Gate::authorize('groups');
+
         $lastModell = Modell::latest()->first();
         $code = str_pad($lastModell->code + 1, 4, "0", STR_PAD_LEFT);
 
@@ -95,7 +108,7 @@ class ModellController extends Controller
 
     public function parts(Modell $modell)
     {
-        Gate::authorize('modells');
+        Gate::authorize('groups');
 
         $group = Group::find($modell->group_id);
 
@@ -104,7 +117,7 @@ class ModellController extends Controller
 
     public function destroyPart(Modell $modell, $partId)
     {
-        Gate::authorize('modells');
+        Gate::authorize('groups');
 
         $modell->parts()->detach($partId);
 
@@ -113,6 +126,8 @@ class ModellController extends Controller
 
     public function partValues(Request $request, Modell $modell)
     {
+        Gate::authorize('groups');
+
         $request->validate([
             'values' => 'array|required',
             'values.*' => 'numeric|nullable'

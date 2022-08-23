@@ -7,11 +7,14 @@ use App\Models\Group;
 use App\Models\Modell;
 use App\Models\Part;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class PartOfModellController extends Controller
 {
     public function index(Modell $modell)
     {
+        Gate::authorize('groups');
+
         $parts = Part::query();
         $group = Group::find($modell->group_id);
         $categories = Category::where('parent_id', 0)->get();
@@ -35,6 +38,8 @@ class PartOfModellController extends Controller
 
     public function store(Modell $modell, $partId)
     {
+        Gate::authorize('groups');
+
         $modell->parts()->syncWithoutDetaching($partId);
 
         alert()->success('ثبت موفق', 'افزودن قطعه به مدل با موفقیت انجام شد');

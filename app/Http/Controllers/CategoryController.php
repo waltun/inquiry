@@ -4,18 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
     public function index()
     {
+        Gate::authorize('categories');
+
         $categories = Category::where('parent_id', 0)->with(['children'])->latest()->paginate(25);
         return view('categories.index', compact('categories'));
     }
 
     public function create()
     {
+        Gate::authorize('categories');
+
         $categories = Category::all();
 
         $code = $this->getCode();
@@ -25,6 +30,8 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
+        Gate::authorize('categories');
+
         $request->validate([
             'name' => 'required|string|max:255',
             'parent_id' => 'required'
@@ -53,12 +60,16 @@ class CategoryController extends Controller
 
     public function edit(Category $category)
     {
+        Gate::authorize('categories');
+
         $categories = Category::all();
         return view('categories.edit', compact('category', 'categories'));
     }
 
     public function update(Request $request, Category $category)
     {
+        Gate::authorize('categories');
+
         $request->validate([
             'name' => 'required|string|max:255',
             'parent_id' => 'required',
@@ -87,6 +98,8 @@ class CategoryController extends Controller
 
     public function destroy(Category $category)
     {
+        Gate::authorize('categories');
+
         if (count($category->children) > 0) {
             $category->children()->delete();
         }

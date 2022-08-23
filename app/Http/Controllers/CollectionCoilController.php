@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Part;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class CollectionCoilController extends Controller
 {
     public function index()
     {
+        Gate::authorize('collections');
+
         $parts = Part::query();
         $categories = Category::where('parent_id', 0)->get();
 

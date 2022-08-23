@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Group;
 use App\Models\Part;
+use Illuminate\Support\Facades\Gate;
 
 class PartOfGroupController extends Controller
 {
     public function index(Group $group)
     {
+        Gate::authorize('groups');
+
         $parts = Part::query();
         $categories = Category::where('parent_id', 0)->get();
 
@@ -31,6 +34,8 @@ class PartOfGroupController extends Controller
 
     public function store(Group $group, $partId)
     {
+        Gate::authorize('groups');
+
         $group->parts()->syncWithoutDetaching($partId);
 
         alert()->success('ثبت موفق', 'افزودن قطعه به گروه با موفقیت انجام شد');

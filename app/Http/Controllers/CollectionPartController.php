@@ -11,7 +11,7 @@ class CollectionPartController extends Controller
 {
     public function index()
     {
-        Gate::authorize('part-collection');
+        Gate::authorize('collections');
 
         $parts = Part::query();
         $categories = Category::where('parent_id',0)->get();
@@ -46,6 +46,8 @@ class CollectionPartController extends Controller
 
     public function create(Part $parentPart)
     {
+        Gate::authorize('collections');
+
         $parts = Part::query();
         $categories = Category::all();
 
@@ -73,6 +75,8 @@ class CollectionPartController extends Controller
 
     public function store(Part $parentPart, Part $childPart)
     {
+        Gate::authorize('collections');
+
         $parentPart->children()->syncWithoutDetaching($childPart->id);
 
         alert()->success('ثبت موفق', 'افزودن قطعه به مجموعه با موفقیت انجام شد');
@@ -82,11 +86,15 @@ class CollectionPartController extends Controller
 
     public function parts(Part $parentPart)
     {
+        Gate::authorize('collections');
+
         return view('collection-parts.parts', compact('parentPart'));
     }
 
     public function destroy(Part $parentPart)
     {
+        Gate::authorize('collections');
+
         $parentPart->children()->detach();
         $parentPart->delete();
 
@@ -97,7 +105,7 @@ class CollectionPartController extends Controller
 
     public function destroyPart(Part $parentPart, $childId)
     {
-        Gate::authorize('groups');
+        Gate::authorize('collections');
 
         $totalPrice = 0;
 
@@ -119,11 +127,15 @@ class CollectionPartController extends Controller
 
     public function amounts(Part $parentPart)
     {
+        Gate::authorize('collections');
+
         return view('collection-parts.amounts', compact('parentPart'));
     }
 
     public function storeAmounts(Request $request, Part $parentPart)
     {
+        Gate::authorize('collections');
+
         $request->validate([
             'values' => 'required|array',
             'values.*' => 'required|numeric'
@@ -148,6 +160,8 @@ class CollectionPartController extends Controller
 
     public function replicate(Part $parentPart)
     {
+        Gate::authorize('collections');
+
         $category = $parentPart->categories()->latest()->first();
         $lastPart = $category->parts()->latest()->first();
         $code = str_pad($lastPart->code + 1, 4, "0", STR_PAD_LEFT);

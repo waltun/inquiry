@@ -8,20 +8,10 @@ use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
-    /**
-     * The model to policy mappings for the application.
-     *
-     * @var array<class-string, class-string>
-     */
     protected $policies = [
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
     ];
 
-    /**
-     * Register any authentication / authorization services.
-     *
-     * @return void
-     */
     public function boot()
     {
         $this->registerPolicies();
@@ -32,52 +22,48 @@ class AuthServiceProvider extends ServiceProvider
             }
         });
 
-        Gate::define('users', function (User $user) {
-            return $user->role === 'it' || $user->role === 'admin';
+        Gate::define('categories', function (User $user) {
+            return $user->role === 'technical';
+        });
+
+        Gate::define('price', function (User $user) {
+            return $user->role === 'price' || $user->role === 'logistic' || $user->role === 'sale-manager';
+        });
+
+        Gate::define('collections', function (User $user) {
+            return $user->role === 'sale-manager';
         });
 
         Gate::define('groups', function (User $user) {
-            return $user->role === 'it' || $user->role === 'admin';
+            return $user->role === 'technical';
         });
 
         Gate::define('parts', function (User $user) {
-            return $user->role === 'inventory';
-        });
-
-        Gate::define('part-price', function (User $user) {
-            return $user->role === 'accounting';
-        });
-
-        Gate::define('part-collection', function (User $user) {
-            return $user->role === 'it' || $user->role === 'admin';
-        });
-
-        Gate::define('inquiries', function (User $user) {
-            return $user->role === 'sales-expert' || $user->role === 'inventory';
+            return $user->role === 'price' || $user->role === 'technical';
         });
 
         Gate::define('create-inquiry', function (User $user) {
-            return $user->role === 'it' || $user->role === 'admin';
+            return $user->role === 'technical' || $user->role === 'sale-manager' || $user->role === 'sale-expert';
         });
 
-        Gate::define('inquiry-product', function (User $user) {
-            return $user->role === 'inventory';
+        Gate::define('submit-inquiry', function (User $user) {
+            return $user->role === 'technical' || $user->role === 'sale-manager' || $user->role === 'sale-expert';
         });
 
-        Gate::define('inquiry-detail', function (User $user) {
-            return $user->role === 'it' || $user->role === 'admin';
+        Gate::define('delete-inquiry', function (User $user) {
+            return $user->role === 'technical' || $user->role === 'sale-manager' || $user->role === 'sale-expert';
         });
 
-        Gate::define('inquiry-percent', function (User $user) {
-            return $user->role === 'it' || $user->role === 'admin';
+        Gate::define('correction-inquiry', function (User $user) {
+            return $user->role === 'technical' || $user->role === 'sale-manager';
         });
 
-        Gate::define('inquiry-restore', function (User $user) {
-            return $user->role === 'it' || $user->role === 'admin';
+        Gate::define('priced-inquiry', function (User $user) {
+            return $user->role === 'technical' || $user->role === 'sale-manager' || $user->role === 'sale-expert';
         });
 
-        Gate::define('inquiry-destroy', function (User $user) {
-            return $user->role === 'it' || $user->role === 'admin';
+        Gate::define('detail-inquiry', function (User $user) {
+            return $user->role === 'technical';
         });
     }
 }
