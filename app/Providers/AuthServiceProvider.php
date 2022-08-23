@@ -22,6 +22,10 @@ class AuthServiceProvider extends ServiceProvider
             }
         });
 
+        Gate::define('users', function (User $user) {
+            return $user->role === 'admin' || $user->role === 'it';
+        });
+
         Gate::define('categories', function (User $user) {
             return $user->role === 'technical';
         });
@@ -40,6 +44,10 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('parts', function (User $user) {
             return $user->role === 'price' || $user->role === 'technical';
+        });
+
+        Gate::define('inquiries', function (User $user) {
+            return $user->role === 'technical' || $user->role === 'sale-manager' || $user->role === 'sale-expert';
         });
 
         Gate::define('create-inquiry', function (User $user) {

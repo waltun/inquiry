@@ -42,250 +42,264 @@
             </a>
 
             <!-- Categories -->
-            <div x-data="{open:false}">
-                <div
-                    class="flex items-center text-gray-500 p-2 hover:bg-gray-100 rounded-md hover:text-black cursor-pointer
+            @can('categories')
+                <div x-data="{open:false}">
+                    <div
+                        class="flex items-center text-gray-500 p-2 hover:bg-gray-100 rounded-md hover:text-black cursor-pointer
                             {{ isActive(['categories.index','categories.create','categories.edit']) }}"
-                    @click="open = !open">
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                             stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
-                        </svg>
+                        @click="open = !open">
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                 stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                            </svg>
+                        </div>
+                        <div class="flex justify-between w-full items-center">
+                            <span class="text-sm px-2">بخش دسته بندی ها</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
+                                 viewBox="0 0 20 20" fill="currentColor"
+                                 :class="{'rotate-180' : open}">
+                                <path fill-rule="evenodd"
+                                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </div>
                     </div>
-                    <div class="flex justify-between w-full items-center">
-                        <span class="text-sm px-2">بخش دسته بندی ها</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
-                             viewBox="0 0 20 20" fill="currentColor"
-                             :class="{'rotate-180' : open}">
-                            <path fill-rule="evenodd"
-                                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                  clip-rule="evenodd"/>
-                        </svg>
-                    </div>
-                </div>
-                <div class="mt-1 bg-gray-50 rounded-md p-2" x-show="open" x-cloak>
-                    <a href="{{ route('categories.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
+                    <div class="mt-1 bg-gray-50 rounded-md p-2" x-show="open" x-cloak>
+                        <a href="{{ route('categories.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
                             hover:text-black rounded-md {{ isActive('categories.index') }}">
-                        مدیریت دسته بندی ها
-                    </a>
-                    <a href="{{ route('categories.create') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
+                            مدیریت دسته بندی ها
+                        </a>
+                        <a href="{{ route('categories.create') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
                             hover:text-black rounded-md {{ isActive('categories.create') }}">
-                        ایجاد دسته بندی جدید
-                    </a>
+                            ایجاد دسته بندی جدید
+                        </a>
+                    </div>
                 </div>
-            </div>
+            @endcan
 
             <!-- Parts -->
-            <div x-data="{open:false}">
-                <div
-                    class="flex items-center text-gray-500 p-2 hover:bg-gray-100 rounded-md hover:text-black cursor-pointer
+            @canany(['parts','collections','price'])
+                <div x-data="{open:false}">
+                    <div
+                        class="flex items-center text-gray-500 p-2 hover:bg-gray-100 rounded-md hover:text-black cursor-pointer
                             {{ isActive(['parts.index','parts.create','parts.edit','collections.index','parts.price.index','parts.price.edit']) }}"
-                    @click="open = !open">
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                             stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                        </svg>
+                        @click="open = !open">
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                 stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                        </div>
+                        <div class="flex justify-between w-full items-center">
+                            <span class="text-sm px-2">قطعات و مجموعه ها</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
+                                 viewBox="0 0 20 20" fill="currentColor"
+                                 :class="{'rotate-180' : open}">
+                                <path fill-rule="evenodd"
+                                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </div>
                     </div>
-                    <div class="flex justify-between w-full items-center">
-                        <span class="text-sm px-2">قطعات و مجموعه ها</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
-                             viewBox="0 0 20 20" fill="currentColor"
-                             :class="{'rotate-180' : open}">
-                            <path fill-rule="evenodd"
-                                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                  clip-rule="evenodd"/>
-                        </svg>
-                    </div>
-                </div>
-                <div class="mt-1 bg-gray-50 rounded-md p-2" x-show="open" x-cloak>
-                    @can('parts')
-                        <a href="{{ route('parts.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
+                    <div class="mt-1 bg-gray-50 rounded-md p-2" x-show="open" x-cloak>
+                        @can('parts')
+                            <a href="{{ route('parts.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
                             hover:text-black rounded-md {{ isActive('parts.index') }}">
-                            مدیریت قطعات
-                        </a>
-                        <a href="{{ route('parts.create') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
+                                مدیریت قطعات
+                            </a>
+                            <a href="{{ route('parts.create') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
                             hover:text-black rounded-md {{ isActive('parts.create') }}">
-                            ایجاد قطعه
-                        </a>
-                    @endcan
-                    @can('part-collection')
-                        <a href="{{ route('collections.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
+                                ایجاد قطعه
+                            </a>
+                        @endcan
+                        @can('collections')
+                            <a href="{{ route('collections.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
                             hover:text-black rounded-md {{ isActive('collections.index') }}">
-                            مدیریت مجموعه ها
-                        </a>
-                    @endcan
-                    @can('part-price')
-                        <a href="{{ route('parts.price.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
+                                مدیریت مجموعه ها
+                            </a>
+                        @endcan
+                        @can('price')
+                            <a href="{{ route('parts.price.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
                             hover:text-black rounded-md {{ isActive(['parts.price.index','parts.price.edit']) }}">
-                            بخش قیمت گذاری
-                        </a>
-                    @endcan
+                                بخش قیمت گذاری
+                            </a>
+                        @endcan
+                    </div>
                 </div>
-            </div>
+            @endcanany
 
             <!-- Groups -->
-            <div x-data="{open:false}">
-                <div
-                    class="flex items-center text-gray-500 p-2 hover:bg-gray-100 rounded-md hover:text-black cursor-pointer
+            @can('groups')
+                <div x-data="{open:false}">
+                    <div
+                        class="flex items-center text-gray-500 p-2 hover:bg-gray-100 rounded-md hover:text-black cursor-pointer
                             {{ isActive(['groups.index','groups.create','groups.edit','modells.index','modells.create','modells.edit']) }}"
-                    @click="open = !open">
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                             stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"/>
-                        </svg>
+                        @click="open = !open">
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                 stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"/>
+                            </svg>
+                        </div>
+                        <div class="flex justify-between w-full items-center">
+                            <span class="text-sm px-2">بخش گروه و مدل ها</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
+                                 viewBox="0 0 20 20" fill="currentColor"
+                                 :class="{'rotate-180' : open}">
+                                <path fill-rule="evenodd"
+                                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </div>
                     </div>
-                    <div class="flex justify-between w-full items-center">
-                        <span class="text-sm px-2">بخش گروه و مدل ها</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
-                             viewBox="0 0 20 20" fill="currentColor"
-                             :class="{'rotate-180' : open}">
-                            <path fill-rule="evenodd"
-                                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                  clip-rule="evenodd"/>
-                        </svg>
-                    </div>
-                </div>
-                <div class="mt-1 bg-gray-50 rounded-md p-2" x-show="open" x-cloak>
-                    <a href="{{ route('groups.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
+                    <div class="mt-1 bg-gray-50 rounded-md p-2" x-show="open" x-cloak>
+                        <a href="{{ route('groups.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
                             hover:text-black rounded-md {{ isActive('groups.index') }}">
-                        مدیریت گروه ها
-                    </a>
-                    <a href="{{ route('groups.create') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
+                            مدیریت گروه ها
+                        </a>
+                        <a href="{{ route('groups.create') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
                             hover:text-black rounded-md {{ isActive('groups.create') }}">
-                        ایجاد گروه جدید
-                    </a>
+                            ایجاد گروه جدید
+                        </a>
+                    </div>
                 </div>
-            </div>
+            @endcan
 
             <!-- Inquiries -->
-            <div x-data="{open:false}">
-                <div
-                    class="flex items-center text-gray-500 p-2 hover:bg-gray-100 rounded-md hover:text-black cursor-pointer
+            @canany(['inquiries','create-inquiry','submit-inquiry','priced-inquiry'])
+                <div x-data="{open:false}">
+                    <div
+                        class="flex items-center text-gray-500 p-2 hover:bg-gray-100 rounded-md hover:text-black cursor-pointer
                             {{ isActive(['inquiries.index','inquiries.create','inquiries.edit','inquiries.show','inquiries.amounts','inquiries.submitted','inquiries.priced']) }}"
-                    @click="open = !open">
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                             stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
+                        @click="open = !open">
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                 stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <div class="flex justify-between w-full items-center">
+                            <span class="text-sm px-2">بخش استعلام ها</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
+                                 viewBox="0 0 20 20" fill="currentColor"
+                                 :class="{'rotate-180' : open}">
+                                <path fill-rule="evenodd"
+                                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </div>
                     </div>
-                    <div class="flex justify-between w-full items-center">
-                        <span class="text-sm px-2">بخش استعلام ها</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
-                             viewBox="0 0 20 20" fill="currentColor"
-                             :class="{'rotate-180' : open}">
-                            <path fill-rule="evenodd"
-                                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                  clip-rule="evenodd"/>
-                        </svg>
-                    </div>
-                </div>
-                <div class="mt-1 bg-gray-50 rounded-md p-2" x-show="open" x-cloak>
-                    <a href="{{ route('inquiries.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
+                    <div class="mt-1 bg-gray-50 rounded-md p-2" x-show="open" x-cloak>
+                        @can('inquiries')
+                            <a href="{{ route('inquiries.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
                             hover:text-black rounded-md {{ isActive('inquiries.index') }}">
-                        مدیریت استعلام ها
-                    </a>
-                    @can('create-inquiry')
-                        <a href="{{ route('inquiries.create') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
+                                مدیریت استعلام ها
+                            </a>
+                        @endcan
+                        @can('create-inquiry')
+                            <a href="{{ route('inquiries.create') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
                             hover:text-black rounded-md {{ isActive('inquiries.create') }}">
-                            ایجاد استعلام
-                        </a>
-                    @endcan
-                    @can('inquiry-percent')
-                        <a href="{{ route('inquiries.submitted') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
+                                ایجاد استعلام
+                            </a>
+                        @endcan
+                        @can('submit-inquiry')
+                            <a href="{{ route('inquiries.submitted') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
                             hover:text-black rounded-md {{ isActive('inquiries.submitted') }}">
-                            استعلام های منتظر قیمت
-                        </a>
-                    @endcan
-                    @can('create-inquiry')
-                        <a href="{{ route('inquiries.priced') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
+                                استعلام های منتظر قیمت
+                            </a>
+                        @endcan
+                        @can('priced-inquiry')
+                            <a href="{{ route('inquiries.priced') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
                             hover:text-black rounded-md {{ isActive('inquiries.priced') }}">
-                            استعلام های قیمت گذاری شده
-                        </a>
-                    @endcan
+                                استعلام های قیمت گذاری شده
+                            </a>
+                        @endcan
+                    </div>
                 </div>
-            </div>
+            @endcanany
 
             <!-- Users -->
-            <div x-data="{open:false}">
-                <div
-                    class="flex items-center text-gray-500 p-2 hover:bg-gray-100 rounded-md hover:text-black cursor-pointer
+            @can('users')
+                <div x-data="{open:false}">
+                    <div
+                        class="flex items-center text-gray-500 p-2 hover:bg-gray-100 rounded-md hover:text-black cursor-pointer
                             {{ isActive(['users.index','users.create','users.edit','users.deleted']) }}"
-                    @click="open = !open">
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                             stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                        </svg>
+                        @click="open = !open">
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                 stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                            </svg>
+                        </div>
+                        <div class="flex justify-between w-full items-center">
+                            <span class="text-sm px-2">بخش کاربران</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
+                                 viewBox="0 0 20 20" fill="currentColor"
+                                 :class="{'rotate-180' : open}">
+                                <path fill-rule="evenodd"
+                                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </div>
                     </div>
-                    <div class="flex justify-between w-full items-center">
-                        <span class="text-sm px-2">بخش کاربران</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
-                             viewBox="0 0 20 20" fill="currentColor"
-                             :class="{'rotate-180' : open}">
-                            <path fill-rule="evenodd"
-                                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                  clip-rule="evenodd"/>
-                        </svg>
-                    </div>
-                </div>
-                <div class="mt-1 bg-gray-50 rounded-md p-2" x-show="open" x-cloak>
-                    <a href="{{ route('users.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
+                    <div class="mt-1 bg-gray-50 rounded-md p-2" x-show="open" x-cloak>
+                        <a href="{{ route('users.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
                             hover:text-black rounded-md {{ isActive('users.index') }}">
-                        مدیریت کاربران
-                    </a>
-                    <a href="{{ route('users.create') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
+                            مدیریت کاربران
+                        </a>
+                        <a href="{{ route('users.create') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
                             hover:text-black rounded-md {{ isActive('users.create') }}">
-                        ایجاد کاربر جدید
-                    </a>
-                    <a href="{{ route('users.deleted') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
+                            ایجاد کاربر جدید
+                        </a>
+                        <a href="{{ route('users.deleted') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
                             hover:text-black rounded-md {{ isActive('users.deleted') }}">
-                        کاربران حذف شده
-                    </a>
+                            کاربران حذف شده
+                        </a>
+                    </div>
                 </div>
-            </div>
+            @endcan
 
             <!-- Collection coils -->
-            <div x-data="{open:false}">
-                <div
-                    class="flex items-center text-gray-500 p-2 hover:bg-gray-100 rounded-md hover:text-black cursor-pointer
+            @can('collections')
+                <div x-data="{open:false}">
+                    <div
+                        class="flex items-center text-gray-500 p-2 hover:bg-gray-100 rounded-md hover:text-black cursor-pointer
                             {{ isActive(['collectionCoil.index']) }}"
-                    @click="open = !open">
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                             stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
-                        </svg>
+                        @click="open = !open">
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                 stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
+                            </svg>
+                        </div>
+                        <div class="flex justify-between w-full items-center">
+                            <span class="text-sm px-2">بخش مجموعه کویل و دمپر</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
+                                 viewBox="0 0 20 20" fill="currentColor"
+                                 :class="{'rotate-180' : open}">
+                                <path fill-rule="evenodd"
+                                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </div>
                     </div>
-                    <div class="flex justify-between w-full items-center">
-                        <span class="text-sm px-2">بخش مجموعه کویل و دمپر</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
-                             viewBox="0 0 20 20" fill="currentColor"
-                             :class="{'rotate-180' : open}">
-                            <path fill-rule="evenodd"
-                                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                  clip-rule="evenodd"/>
-                        </svg>
-                    </div>
-                </div>
-                <div class="mt-1 bg-gray-50 rounded-md p-2" x-show="open" x-cloak>
-                    <a href="{{ route('collectionCoil.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
+                    <div class="mt-1 bg-gray-50 rounded-md p-2" x-show="open" x-cloak>
+                        <a href="{{ route('collectionCoil.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
                             hover:text-black rounded-md {{ isActive('collectionCoil.index') }}">
-                        مدیریت مجموعه کویل و دمپر
-                    </a>
+                            مدیریت مجموعه کویل و دمپر
+                        </a>
+                    </div>
                 </div>
-            </div>
+            @endcan
         </div>
     </aside>
 </div>
