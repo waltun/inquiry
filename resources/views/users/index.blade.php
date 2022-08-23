@@ -124,17 +124,20 @@
                                     @case('admin')
                                         مدیر
                                         @break
-                                    @case('co-sales-expert')
-                                        کارشناس ارشد فروش
+                                    @case('technical')
+                                        مدیر فنی
                                         @break
-                                    @case('sales-expert')
+                                    @case('sale-manager')
+                                        مدیر فروش
+                                        @break
+                                    @case('price')
+                                        قیمت گذار
+                                        @break
+                                    @case('logistic')
+                                        تدارکات
+                                        @break
+                                    @case('sale-expert')
                                         کارشناس فروش
-                                        @break
-                                    @case('accounting')
-                                        حسابداری
-                                        @break
-                                    @case('inventory')
-                                        انبار داری
                                         @break
                                 @endswitch
                             </span>

@@ -118,26 +118,29 @@
                         <td class="px-4 py-3 whitespace-nowrap">
                             <span class="text-sm bg-gray-300 text-black rounded-md py-2 px-4 block text-center">
                                 @switch($user->role)
+                                    @case('user')
+                                        کاربر عادی - ثبت نام جدید
+                                        @break
                                     @case('it')
                                         مدیر آی تی (IT)
                                         @break
                                     @case('admin')
                                         مدیر
                                         @break
-                                    @case('secretariat')
-                                        کارمند بخش دبیرخانه
+                                    @case('technical')
+                                        مدیر فنی
                                         @break
-                                    @case('administrative')
-                                        کارمند بخش اداری
+                                    @case('sale-manager')
+                                        مدیر فروش
                                         @break
-                                    @case('financial')
-                                        کارمند بخش مالی
+                                    @case('price')
+                                        قیمت گذار
                                         @break
-                                    @case('sale')
-                                        کارمند بخش فروش
+                                    @case('logistic')
+                                        تدارکات
                                         @break
-                                    @case('commercial')
-                                        کارمند بخش بازرگانی
+                                    @case('sale-expert')
+                                        کارشناس فروش
                                         @break
                                 @endswitch
                             </span>
