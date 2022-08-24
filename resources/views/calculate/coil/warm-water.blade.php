@@ -28,12 +28,11 @@
             let vaznFinAlResult;
             let ertefaFinResult;
             let satheCoilResult;
-            let vaznNoghreMasrafiResult;
             let azotResult;
             let vaznBerenjMasrafiResult;
 
-            let price0 , price1 , price2 , price3 , price4 , price5 , price6 , price7 , price8 , price9
-                , price10 , price11 , price12 , price13 , price14 , price15 , price16 , price17 , price18 , price19
+            let price0, price1, price2, price3, price4, price5, price6, price7, price8, price9
+                , price10, price11, price12, price13, price14, price15, price16, price17, price18, price19
                 , price20;
 
             function calculate() {
@@ -63,6 +62,7 @@
                 let tinerResult;
                 let collectorAhaniResult;
                 let collectorMessiResult;
+                let vaznNoghreMasrafiResult;
 
                 tedadSoorakhPakhshKon = 0;
                 document.getElementById("inputTedadSoorakhPakhshKon").value = tedadSoorakhPakhshKon;
@@ -70,67 +70,47 @@
                 if ((electrodNoghreId && globalNoghre !== electrodNoghreId) || (electrodNoghreId && globalNoghre === null)) {
                     sendDataElectrodNoghre(electrodNoghreId);
                     globalNoghre = electrodNoghreId;
-                } else if (electrodNoghreId === '') {
-                    sendDataElectrodNoghre('316');
-                    valueSection[20].innerText = 0;
-                    inputValues[20].value = 0;
-                    price20 = 0;
-                    totalPriceSection[20].innerText = 0;
                 }
 
                 if ((looleMessiId && globalLoole !== looleMessiId) || (looleMessiId && globalLoole === null)) {
                     sendDataLooleMessi(looleMessiId);
                     globalLoole = looleMessiId;
-                } else if (looleMessiId === '') {
-                    sendDataLooleMessi('311');
-                    valueSection[15].innerText = 0;
-                    inputValues[15].value = 0;
-                    price15 = 0;
-                    totalPriceSection[15].innerText = 0;
                 }
 
                 if ((finCoilId && globalFin !== finCoilId) || (finCoilId && globalFin === null)) {
                     sendDataFinCoil(finCoilId);
                     globalFin = finCoilId;
-                } else if (finCoilId === '') {
-                    sendDataFinCoil('312');
-                    valueSection[16].innerText = 0;
-                    inputValues[16].value = 0;
-                    price16 = 0;
-                    totalPriceSection[16].innerText = 0;
                 }
 
-                if ((collectorAhaniId && globalCollectorAhani !== collectorAhaniId) || (collectorAhaniId && globalCollectorAhani === null)) {
-                    sendDataCollectorAhani(collectorAhaniId);
-                    globalCollectorAhani = collectorAhaniId;
-                } else if (collectorAhaniId === '') {
+                if (collectorAhaniId === '0') {
                     sendDataCollectorAhani('314');
                     valueSection[18].innerText = 0;
                     inputValues[18].value = 0;
                     price18 = 0;
                     totalPriceSection[18].innerText = 0;
+                } else {
+                    if ((collectorAhaniId && globalCollectorAhani !== collectorAhaniId) || (collectorAhaniId && globalCollectorAhani === null)) {
+                        sendDataCollectorAhani(collectorAhaniId);
+                        globalCollectorAhani = collectorAhaniId;
+                    }
                 }
 
-                if ((collectorMessiId && globalCollectorMessi !== collectorMessiId) || (collectorMessiId && globalCollectorMessi === null)) {
-                    sendDataCollectorMessi(collectorMessiId);
-                    globalCollectorMessi = collectorMessiId;
-                } else if (collectorMessiId === '') {
+                if (collectorMessiId === '0') {
                     sendDataCollectorMessi('313');
                     valueSection[17].innerText = 0;
                     inputValues[17].value = 0;
                     price17 = 0;
                     totalPriceSection[17].innerText = 0;
+                } else {
+                    if ((collectorMessiId && globalCollectorMessi !== collectorMessiId) || (collectorMessiId && globalCollectorMessi === null)) {
+                        sendDataCollectorMessi(collectorMessiId);
+                        globalCollectorMessi = collectorMessiId;
+                    }
                 }
 
                 if ((zekhamatFrameId && globalZekhamat !== zekhamatFrameId) || (zekhamatFrameId && globalZekhamat === null)) {
                     sendDataVaraghGalvanize(zekhamatFrameId)
                     globalZekhamat = zekhamatFrameId;
-                } else if (zekhamatFrameId === '') {
-                    sendDataVaraghGalvanize('310')
-                    valueSection[14].innerText = 0;
-                    inputValues[14].value = 0;
-                    price14 = 0;
-                    totalPriceSection[14].innerText = 0;
                 }
 
                 let tedadFinMasrafiResult = tooleCoil * finDarInch;
@@ -248,8 +228,6 @@
                     //Fin Messi
                     vaznFinAlResult = ((ertefaFinResult * (gamDarRadif * tedadRadif) * zekhamatFin) * 8.96 * tedadFinMasrafiResult) / 1000000;
                 }
-
-                satheCoilSection.innerText = satheCoilResult.toFixed(2);
 
                 let masahatTubSheet = (2 * ((ertefaFinResult + 70) * (sabetVaznVaragh + (gamDarRadif * tedadRadif)))) / 1000000;
                 let masahatFrameBalaPayin = (2 * (((tooleCoil * 25.4) + 70) * (sabetVaznVaragh + (gamDarRadif * tedadRadif)))) / 1000000;
@@ -388,9 +366,9 @@
                     collectorMessiResult = ((ertefaFinResult + 150) / 1000) * 7.89 * 2;
                 }
 
+                satheCoilSection.innerText = satheCoilResult.toFixed(2);
 
-
-                if(looleMessi316Result === looleMessi316Result && looleMessi316Result > 0 && typeof looleMessi316Result !== 'undefined') {
+                if (looleMessi316Result === looleMessi316Result && looleMessi316Result > 0 && typeof looleMessi316Result !== 'undefined') {
                     valueSection[0].innerText = looleMessi316Result.toFixed(2);
                     inputValues[0].value = looleMessi316Result.toFixed(2);
                     price0 = inputTotalPrice[0].value * looleMessi316Result;
@@ -420,7 +398,7 @@
                 price2 = inputTotalPrice[2].value * 0.2;
                 totalPriceSection[2].innerText = Intl.NumberFormat().format(price2);
 
-                if(khamCoilResult === khamCoilResult && khamCoilResult > 0 && typeof khamCoilResult !== 'undefined') {
+                if (khamCoilResult === khamCoilResult && khamCoilResult > 0 && typeof khamCoilResult !== 'undefined') {
                     valueSection[3].innerText = khamCoilResult.toFixed(2);
                     inputValues[3].value = khamCoilResult.toFixed(2);
                     price3 = inputTotalPrice[3].value * khamCoilResult;
@@ -577,7 +555,7 @@
                     totalPriceSection[17].innerText = 0;
                 }
 
-                if(collectorMessiResult === collectorMessiResult && collectorMessiResult > 0 && typeof collectorMessiResult !== 'undefined'){
+                if (collectorMessiResult === collectorMessiResult && collectorMessiResult > 0 && typeof collectorMessiResult !== 'undefined') {
                     valueSection[18].innerText = collectorMessiResult.toFixed(2);
                     inputValues[18].value = collectorMessiResult.toFixed(2);
                     price18 = inputTotalPrice[18].value * collectorMessiResult;
@@ -636,7 +614,7 @@
                 inputFinalPrice.value = finalPrice;
                 document.getElementById("finalPriceTopSection").innerText = Intl.NumberFormat().format(finalPrice.toFixed(0));
 
-                document.getElementById('coilName').value = `کویل اواپراتوری DX با سطح ${satheCoilResult.toFixed(2)} و طول ${tooleCoil.toFixed(2)}`;
+                document.getElementById('coilName').value = `کویل آبگرم با سطح ${satheCoilResult.toFixed(2)} و طول ${tooleCoil.toFixed(2)}`;
             }
 
             function sendDataLooleMessi(id) {
@@ -1009,7 +987,8 @@
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputTedadMadar">تعداد مدار کویل</label>
-                        <select name="tedad_madar_coil" id="inputTedadMadar" class="input-text bg-gray-200 cursor-not-allowed" disabled>
+                        <select name="tedad_madar_coil" id="inputTedadMadar"
+                                class="input-text bg-gray-200 cursor-not-allowed" disabled>
                             <option value="">انتخاب کنید</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -1073,7 +1052,8 @@
                         <label class="block mb-2 text-sm font-bold" for="inputCollectorAhani">هدر و کلکتور آهنی</label>
                         <select name="collector_ahani" id="inputCollectorAhani" class="input-text bg-yellow-300"
                                 onchange="calculate()">
-                            <option value="">ندارد</option>
+                            <option value="">انتخاب کنید</option>
+                            <option value="0">ندارد</option>
                             <option value="{{ \App\Models\Part::where('id','70')->first()->id }}">
                                 {{ \App\Models\Part::where('id','70')->first()->name }}
                             </option>
@@ -1101,7 +1081,8 @@
                         <label class="block mb-2 text-sm font-bold" for="inputCollectorMessi">هدر و کلکتور مسی</label>
                         <select name="collector_messi" id="inputCollectorMessi" class="input-text bg-yellow-300"
                                 onchange="calculate()">
-                            <option value="">ندارد</option>
+                            <option value="">انتخاب کنید</option>
+                            <option value="0">ندارد</option>
                             <option value="{{ \App\Models\Part::where('id','77')->first()->id }}">
                                 {{ \App\Models\Part::where('id','77')->first()->name }}
                             </option>
@@ -1170,7 +1151,8 @@
                         <label class="block mb-2 text-sm font-bold" for="inputTedadSoorakhPakhshKon">
                             تعداد سوراخ پخش کن
                         </label>
-                        <input type="text" class="input-text bg-gray-200 cursor-not-allowed" id="inputTedadSoorakhPakhshKon" value="0"
+                        <input type="text" class="input-text bg-gray-200 cursor-not-allowed"
+                               id="inputTedadSoorakhPakhshKon" value="0"
                                onkeyup="calculate()" name="tedad_soorakh_pakhshkon">
                     </div>
                     <div class="col-span-2">
