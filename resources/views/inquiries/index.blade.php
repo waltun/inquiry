@@ -93,7 +93,7 @@
                             <p class="text-sm text-black text-center">{{ $inquiry->marketer }}</p>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
-                            @can('inquiry-products')
+                            @can('create-inquiry')
                                 <a href="{{ route('inquiries.product.index',$inquiry->id) }}"
                                    class="form-detail-btn text-xs">
                                     محصولات
@@ -106,7 +106,7 @@
                                     ویرایش اطلاعات پروژه
                                 </a>
                             @endcan
-                            @can('inquiry-destroy')
+                            @can('delete-inquiry')
                                 <form action="{{ route('inquiries.destroy',$inquiry->id) }}" method="POST"
                                       class="inline">
                                     @csrf
@@ -119,7 +119,7 @@
                             @endcan
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            @can('inquiry-amounts')
+                            @can('create-inquiry')
                                 <form action="{{ route('inquiries.submit',$inquiry->id) }}" method="POST"
                                       class="inline">
                                     @csrf
@@ -199,31 +199,39 @@
                             شماره استعلام : {{ "INQ-" . $inquiry->inquiry_number }}
                         </p>
                         <div class="flex w-full justify-between">
-                            <a href="{{ route('inquiries.edit',$inquiry->id) }}" class="form-edit-btn text-xs">
-                                ویرایش
-                            </a>
-                            <a href="{{ route('inquiries.product.index',$inquiry->id) }}"
-                               class="form-detail-btn text-xs">
-                                محصولات
-                            </a>
-                            <form action="{{ route('inquiries.submit',$inquiry->id) }}" method="POST"
-                                  class="inline">
-                                @csrf
-                                @method('PATCH')
-                                <button class="form-submit-btn text-xs"
-                                        onclick="return confirm('استعلام ثبت نهایی شود ؟')">
-                                    ثبت نهایی
-                                </button>
-                            </form>
-                            <form action="{{ route('inquiries.destroy',$inquiry->id) }}" method="POST"
-                                  class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <button class="form-cancel-btn text-xs"
-                                        onclick="return confirm('استعلام حذف شود ؟')">
-                                    حذف
-                                </button>
-                            </form>
+                            @can('create-inquiry')
+                                <a href="{{ route('inquiries.edit',$inquiry->id) }}" class="form-edit-btn text-xs">
+                                    ویرایش
+                                </a>
+                            @endcan
+                            @can('create-inquiry')
+                                <a href="{{ route('inquiries.product.index',$inquiry->id) }}"
+                                   class="form-detail-btn text-xs">
+                                    محصولات
+                                </a>
+                            @endcan
+                            @can('create-inquiry')
+                                <form action="{{ route('inquiries.submit',$inquiry->id) }}" method="POST"
+                                      class="inline">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button class="form-submit-btn text-xs"
+                                            onclick="return confirm('استعلام ثبت نهایی شود ؟')">
+                                        ثبت نهایی
+                                    </button>
+                                </form>
+                            @endcan
+                            @can('delete-inquiry')
+                                <form action="{{ route('inquiries.destroy',$inquiry->id) }}" method="POST"
+                                      class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="form-cancel-btn text-xs"
+                                            onclick="return confirm('استعلام حذف شود ؟')">
+                                        حذف
+                                    </button>
+                                </form>
+                            @endcan
                         </div>
                     </div>
                 </div>
