@@ -98,9 +98,11 @@
                             <p class="text-sm text-black text-center">{{ $inquiry->marketer }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap space-x-2 space-x-reverse">
-                            <a href="{{ route('inquiries.show',$inquiry->id) }}" class="form-detail-btn text-xs">
-                                جزئیات
-                            </a>
+                            @can('detail-inquiry')
+                                <a href="{{ route('inquiries.show',$inquiry->id) }}" class="form-detail-btn text-xs">
+                                    جزئیات
+                                </a>
+                            @endcan
                             <a href="{{ route('inquiries.products',$inquiry->id) }}"
                                class="form-submit-btn text-xs">
                                 مشاهده قیمت محصولات

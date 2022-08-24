@@ -106,9 +106,11 @@
                             </a>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
-                            <a href="{{ route('inquiries.show',$inquiry->id) }}" class="form-detail-btn text-xs">
-                                جزئیات
-                            </a>
+                            @can('detail-inquiry')
+                                <a href="{{ route('inquiries.show',$inquiry->id) }}" class="form-detail-btn text-xs">
+                                    جزئیات
+                                </a>
+                            @endcan
                             <form action="{{ route('inquiries.copy',$inquiry->id) }}" method="POST"
                                   class="inline">
                                 @csrf
