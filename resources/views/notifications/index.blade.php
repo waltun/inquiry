@@ -38,8 +38,19 @@
         <div class="space-x-2 space-x-reverse flex items-center">
             <a href="{{ route('notifications.read') }}" class="form-detail-btn text-xs">اعلان های خوانده شده</a>
         </div>
-
     </div>
+
+    <!-- Mark All as Read -->
+    @if(count($notifications) > 1)
+        <div class="mt-4 md:flex justify-end">
+            <form action="{{ route('notifications.markAllAsRead') }}" method="POST">
+                @csrf
+                <button type="submit" class="form-submit-btn text-xs font-bold">
+                    تغییر همه اعلان ها به خوانده شده
+                </button>
+            </form>
+        </div>
+    @endif
 
     <!-- Content -->
     <div class="mt-4">

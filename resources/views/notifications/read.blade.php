@@ -41,6 +41,19 @@
 
     </div>
 
+    <!-- Delete All Notifications -->
+    @if(count($notifications) > 1)
+        <div class="mt-4 md:flex justify-end">
+            <form action="{{ route('notifications.destroyAll') }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="form-cancel-btn text-xs font-bold">
+                    حذف همه اعلان های خوانده شده
+                </button>
+            </form>
+        </div>
+    @endif
+
     <!-- Content -->
     <div class="mt-4">
         @foreach($notifications as $notification)

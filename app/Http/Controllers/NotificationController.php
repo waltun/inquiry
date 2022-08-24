@@ -37,4 +37,30 @@ class NotificationController extends Controller
 
         return back();
     }
+
+    public function markAllAsRead(Request $request)
+    {
+        $notifications = auth()->user()->unreadNotifications()->get();
+
+        foreach ($notifications as $notification) {
+            $notification->markAsRead();
+        }
+
+        alert()->success('خوانده شده', 'اعلان های مورد نظر با موفقیت به خوانده شده تغییر کرد');
+
+        return back();
+    }
+
+    public function destroyAll(Request $request)
+    {
+        $notifications = auth()->user()->notifications()->where('read_at', '!=', null)->get();
+
+        foreach ($notifications as $notification) {
+            $notification->delete();
+        }
+
+        alert()->success('حذف اعلان ها', 'اعلان های مورد نظر با موفقیت حذف شدند');
+
+        return back();
+    }
 }
