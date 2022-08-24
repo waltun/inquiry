@@ -35,7 +35,8 @@ class CalculateDamperController extends Controller
 
         $newPart = $part->replicate()->fill([
             'name' => $name,
-            'code' => $code
+            'code' => $code,
+            'coil' => true
         ]);
 
         $newPart->save();
