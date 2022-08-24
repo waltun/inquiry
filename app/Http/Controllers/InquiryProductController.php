@@ -216,6 +216,8 @@ class InquiryProductController extends Controller
 
     public function percent(Product $product)
     {
+        Gate::authorize('percent-inquiry');
+
         $totalGroupPrice = 0;
         $totalModellPrice = 0;
 
@@ -254,6 +256,8 @@ class InquiryProductController extends Controller
 
     public function storePercent(Request $request, Product $product)
     {
+        Gate::authorize('percent-inquiry');
+
         $request->validate([
             'percent' => 'required|numeric|between:1,3'
         ]);

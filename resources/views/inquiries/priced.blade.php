@@ -187,9 +187,11 @@
                             شماره استعلام : {{ "INQ-" . $inquiry->inquiry_number }}
                         </p>
                         <div class="flex w-full justify-between">
-                            <a href="{{ route('inquiries.show',$inquiry->id) }}" class="form-detail-btn text-xs">
-                                جزئیات
-                            </a>
+                            @can('detail-inquiry')
+                                <a href="{{ route('inquiries.show',$inquiry->id) }}" class="form-detail-btn text-xs">
+                                    جزئیات
+                                </a>
+                            @endcan
                             <a href="{{ route('inquiries.products',$inquiry->id) }}"
                                class="form-submit-btn text-xs">
                                 مشاهده قیمت محصولات

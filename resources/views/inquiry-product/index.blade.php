@@ -170,12 +170,14 @@
                                class="form-submit-btn text-xs">
                                 جزئیات
                             </a>
-                            @if($inquiry->submit)
-                                <a href="{{ route('inquiries.product.percent',$product->id) }}"
-                                   class="form-edit-btn text-xs">
-                                    ثبت ضریب
-                                </a>
-                            @endif
+                            @can('percent-inquiry')
+                                @if($inquiry->submit)
+                                    <a href="{{ route('inquiries.product.percent',$product->id) }}"
+                                       class="form-edit-btn text-xs">
+                                        ثبت ضریب
+                                    </a>
+                                @endif
+                            @endcan
                             <form action="{{ route('inquiries.product.destroy',$product->id) }}" method="POST"
                                   class="inline">
                                 @csrf
