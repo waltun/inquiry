@@ -114,7 +114,11 @@ class InquiryController extends Controller
     {
         Gate::authorize('submit-inquiry');
 
-        $inquiries = Inquiry::where('submit', 1)->where('archive_at', null)->latest()->paginate(25);
+        if(auth()->user()->role === 'admin') {
+            $inquiries = Inquiry::where('submit', 1)->where('archive_at', null)->latest()->paginate(25);
+        } else {
+            $inquiries = Inquiry::where('submit', 1)->where('archive_at', null)->where('user_id', auth()->user()->id)->latest()->paginate(25);
+        }
 
         return view('inquiries.submitted', compact('inquiries'));
     }
@@ -150,7 +154,11 @@ class InquiryController extends Controller
     {
         Gate::authorize('priced-inquiry');
 
-        $inquiries = Inquiry::where('archive_at', '!=', null)->where('user_id', auth()->user()->id)->latest()->paginate(25);
+        if(auth()->user()->role === 'admin') {
+            $inquiries = Inquiry::where('archive_at', '!=', null)->latest()->paginate(25);
+        } else {
+            $inquiries = Inquiry::where('archive_at', '!=', null)->where('user_id', auth()->user()->id)->latest()->paginate(25);
+        }
 
         return view('inquiries.priced', compact('inquiries'));
     }
