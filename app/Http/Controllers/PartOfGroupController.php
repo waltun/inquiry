@@ -18,16 +18,27 @@ class PartOfGroupController extends Controller
 
         if ($keyword = request('search')) {
             $parts->where('name', 'LIKE', "%{$keyword}%")
+                ->where('coil', false)
                 ->whereNotIn('id', $group->parts->pluck('id'));
         }
 
-        if (request()->has('category3')) {
-            $parts = $parts->whereHas('categories', function ($q) {
-                $q->where('category_id', request('category'));
-            })->where('collection', false)->whereNotIn('id', $group->parts->pluck('id'));
+        if (!is_null(request('category3'))) {
+            if (request()->has('category3')) {
+                $parts = $parts->whereHas('categories', function ($q) {
+                    $q->where('category_id', request('category3'));
+                })->where('coil', false);
+            }
         }
 
-        $parts = $parts->whereNotIn('id', $group->parts->pluck('id'))->latest()->paginate(25);
+        if (is_null(request('category3'))) {
+            if (request()->has('category2')) {
+                $parts = $parts->whereHas('categories', function ($q) {
+                    $q->where('category_id', request('category2'));
+                })->where('coil', false);
+            }
+        }
+
+        $parts = $parts->whereNotIn('id', $group->parts->pluck('id'))->where('coil', false)->latest()->paginate(25);
 
         return view('group-parts.index', compact('parts', 'group', 'categories'));
     }
