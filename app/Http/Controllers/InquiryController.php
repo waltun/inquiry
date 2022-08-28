@@ -62,7 +62,7 @@ class InquiryController extends Controller
             return back();
         }
 
-        foreach ($inquiry->products as $product) {
+        foreach ($inquiry->products()->where('group_id', '!=', 0)->where('model_id', '!=', 0)->get() as $product) {
             if ($product->amounts->isEmpty()) {
                 alert()->error('مقادیر محصولات', 'لطفا ابتدا مقادیر محصولات را مشخص کنید');
                 return back();
@@ -114,7 +114,7 @@ class InquiryController extends Controller
     {
         Gate::authorize('submit-inquiry');
 
-        if(auth()->user()->role === 'admin') {
+        if (auth()->user()->role === 'admin') {
             $inquiries = Inquiry::where('submit', 1)->where('archive_at', null)->latest()->paginate(25);
         } else {
             $inquiries = Inquiry::where('submit', 1)->where('archive_at', null)->where('user_id', auth()->user()->id)->latest()->paginate(25);
@@ -132,7 +132,7 @@ class InquiryController extends Controller
             return back();
         }
 
-        foreach ($inquiry->products as $product) {
+        foreach ($inquiry->products()->where('group_id', '!=', 0)->where('model_id', '!=', 0)->get() as $product) {
             if ($product->amounts->isEmpty()) {
                 alert()->error('مقادیر محصولات', 'لطفا ابتدا مقادیر محصولات را مشخص کنید');
                 return back();
@@ -154,7 +154,7 @@ class InquiryController extends Controller
     {
         Gate::authorize('priced-inquiry');
 
-        if(auth()->user()->role === 'admin') {
+        if (auth()->user()->role === 'admin') {
             $inquiries = Inquiry::where('archive_at', '!=', null)->latest()->paginate(25);
         } else {
             $inquiries = Inquiry::where('archive_at', '!=', null)->where('user_id', auth()->user()->id)->latest()->paginate(25);

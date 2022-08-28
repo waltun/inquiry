@@ -34,7 +34,7 @@
                               clip-rule="evenodd"/>
                     </svg>
                     <span class="mr-2 text-xs md:text-sm font-medium text-gray-400">
-                        لیست محصولات استعلام {{ $inquiry->name }} - {{ $inquiry->inquiry_number }}
+                        لیست قطعات استعلام {{ $inquiry->name }} - {{ $inquiry->inquiry_number }}
                     </span>
                 </div>
             </li>
@@ -45,23 +45,16 @@
     <div class="mt-4 md:flex justify-between items-center">
         <div class="mb-4 md:mb-0">
             <p class="text-lg text-black font-bold">
-                لیست محصولات استعلام {{ $inquiry->name }}
+                لیست قطعات استعلام {{ $inquiry->name }}
             </p>
         </div>
         <div class="space-x-2 space-x-reverse flex items-center">
             @can('create-inquiry')
-                <a href="{{ route('inquiries.product.create',$inquiry->id) }}" class="form-submit-btn text-xs">
-                    ایجاد محصول جدید
+                <a href="{{ route('inquiries.parts.create',$inquiry->id) }}" class="form-submit-btn text-xs">
+                    افزودن قطعه جدید به استعلام
                 </a>
             @endcan
-            @can('inquiries')
-                <a href="{{ route('inquiries.index') }}" class="form-detail-btn text-xs">لیست استعلام ها</a>
-            @endcan
-            @can('inquiries')
-                <a href="{{ route('inquiries.submitted') }}" class="form-edit-btn text-xs">
-                    لیست استعلام های منتظر قیمت گذاری
-                </a>
-            @endcan
+            <a href="{{ route('inquiries.index') }}" class="form-detail-btn text-xs">لیست استعلام ها</a>
         </div>
 
     </div>
@@ -78,10 +71,7 @@
                         #
                     </th>
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
-                        گروه
-                    </th>
-                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
-                        مدل
+                        نام قطعه
                     </th>
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                         تعداد
@@ -92,10 +82,9 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($inquiry->products()->where('group_id','!=',0)->where('model_id','!=',0)->get() as $product)
+                @foreach($inquiry->products()->where('part_id','!=',0)->get() as $product)
                     @php
-                        $group = \App\Models\Group::find($product->group_id);
-                        $modell = \App\Models\Modell::find($product->model_id);
+                        $part = \App\Models\Part::find($product->part_id);
                     @endphp
                     <tr>
                         <td class="px-4 py-3 whitespace-nowrap">
@@ -104,19 +93,12 @@
                             </p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center font-medium">{{ $group->name }}</p>
-                        </td>
-                        <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center font-medium">{{ $modell->name }}</p>
+                            <p class="text-sm text-black text-center font-medium">{{ $part->name }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center">{{ $product->quantity }}</p>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
-                            <a href="{{ route('inquiries.product.amounts',$product->id) }}"
-                               class="form-submit-btn text-xs">
-                                جزئیات
-                            </a>
                             <a href="{{ route('inquiries.product.edit',$product->id) }}"
                                class="form-edit-btn text-xs">
                                 ویرایش تعداد
@@ -152,10 +134,9 @@
 
         <!-- Mobile List -->
         <div class="block md:hidden">
-            @foreach($inquiry->products()->where('group_id','!=',0)->where('model_id','!=',0)->get() as $product)
+            @foreach($inquiry->products()->where('part_id','!=',0)->get() as $product)
                 @php
-                    $group = \App\Models\Group::find($product->group_id);
-                    $modell = \App\Models\Modell::find($product->model_id);
+                    $part = \App\Models\Part::find($product->part_id);
                 @endphp
                 <div class="bg-white rounded-md p-4 border border-gray-200 shadow-sm mb-4 relative z-30">
                     <span
@@ -164,19 +145,12 @@
                     </span>
                     <div class="space-y-4">
                         <p class="text-xs text-black text-center font-bold">
-                            گروه : {{ $group->name }}
-                        </p>
-                        <p class="text-xs text-black text-center font-bold">
-                            مدل : {{ $modell->name }}
+                            نام قطعه : {{ $part->name }}
                         </p>
                         <p class="text-xs text-black text-center">
                             تعداد : {{ $product->quantity }}
                         </p>
                         <div class="flex w-full justify-between">
-                            <a href="{{ route('inquiries.product.amounts',$product->id) }}"
-                               class="form-submit-btn text-xs">
-                                جزئیات
-                            </a>
                             @can('percent-inquiry')
                                 @if($inquiry->submit)
                                     <a href="{{ route('inquiries.product.percent',$product->id) }}"

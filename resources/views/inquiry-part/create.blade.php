@@ -69,6 +69,7 @@
             }
         </script>
     </x-slot>
+
     <!-- Breadcrumb -->
     <nav class="flex bg-gray-100 p-4 rounded-md overflow-x-auto whitespace-nowrap" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-2 space-x-reverse">
@@ -83,6 +84,32 @@
                     داشبورد
                 </a>
             </li>
+            <li>
+                <div class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                              clip-rule="evenodd"/>
+                    </svg>
+                    <a href="{{ route('inquiries.index') }}"
+                       class="mr-2 text-xs md:text-sm font-medium text-gray-500 hover:text-gray-900">
+                        مدیریت استعلام ها
+                    </a>
+                </div>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                              clip-rule="evenodd"/>
+                    </svg>
+                    <a href="{{ route('inquiries.parts.index',$inquiry->id) }}"
+                       class="mr-2 text-xs md:text-sm font-medium text-gray-500 hover:text-gray-900">
+                        لیست قطعات استعلام {{ $inquiry->name }} - {{ $inquiry->inquiry_number }}
+                    </a>
+                </div>
+            </li>
             <li aria-current="page">
                 <div class="flex items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -91,7 +118,7 @@
                               clip-rule="evenodd"/>
                     </svg>
                     <span class="mr-2 text-xs md:text-sm font-medium text-gray-400">
-                        مدیریت قطعات
+                        افزودن قطعه به استعلام {{ $inquiry->name }}
                     </span>
                 </div>
             </li>
@@ -99,15 +126,17 @@
     </nav>
 
     <!-- Navigation Btn -->
-    <div class="mt-4 flex justify-between items-center space-x-4 space-x-reverse">
-        <div>
-            <p class="text-lg text-black font-bold">
-                لیست قطعات
+    <div class="mt-4 md:flex justify-between space-x-4 space-x-reverse">
+        <div class="mb-4 md:mb-0">
+            <p class="text-lg font-bold text-black">
+                افزودن قطعه به استعلام <span class="text-red-600">{{ $inquiry->name }}</span>
             </p>
         </div>
         <div>
-            <a href="{{ route('parts.create') }}" class="form-submit-btn text-xs">ایجاد قطعه جدید</a>
-            <a href="{{ route('collections.index') }}" class="form-detail-btn text-xs">لیست مجموعه ها</a>
+            <a href="{{ route('inquiries.index') }}" class="form-detail-btn text-xs">لیست استعلام ها</a>
+            <a href="{{ route('inquiries.parts.index',$inquiry->id) }}" class="form-edit-btn text-xs">
+                لیست قطعات استعلام {{ $inquiry->name }}
+            </a>
         </div>
     </div>
 
@@ -191,7 +220,7 @@
 
             @if(request()->has('search') || request()->has('category1') || request()->has('category2') || request()->has('category3'))
                 <div class="mt-4">
-                    <a href="{{ route('parts.index') }}" class="form-detail-btn text-xs">
+                    <a href="{{ route('inquiries.parts.create',$inquiry->id) }}" class="form-detail-btn text-xs">
                         پاکسازی جستجو
                     </a>
                 </div>
@@ -200,10 +229,9 @@
     </div>
 
     <!-- Content -->
-    <div class="mt-4 space-y-4">
-
+    <div class="mt-4">
         <!-- Laptop List -->
-        <div class="shadow overflow-x-auto rounded-lg hidden md:block bg-white">
+        <div class="bg-white shadow overflow-x-auto rounded-lg hidden md:block">
             <table class="min-w-full">
                 <thead>
                 <tr class="bg-sky-200">
@@ -241,47 +269,63 @@
                             <p class="text-sm text-black text-center">{{ $part->unit }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            @if($part->price)
-                                <p class="text-sm text-black text-center">
-                                    {{ number_format($part->price) }} تومان
-                                </p>
-                            @else
-                                <p class="text-sm text-red-600 text-center">
-                                    منتظر قیمت گذاری
-                                </p>
-                            @endif
+                            <p class="text-sm text-black text-center">{{ number_format($part->price) }}</p>
                         </td>
                         @php
                             $code = '';
                             foreach($part->categories as $category){
                                 $code = $code . $category->code;
                             }
-
                         @endphp
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">
-                                {{ $code . "-" . $part->code }}
-                            </p>
+                            <p class="text-sm text-black text-center">{{ $code . "-" . $part->code }}</p>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
-                            <a href="{{ route('parts.edit',$part->id) }}" class="form-edit-btn text-xs">
-                                ویرایش
-                            </a>
-                            <form action="{{ route('parts.replicate',$part->id) }}" method="POST"
+                            <form action="{{ route('inquiries.parts.store',[$inquiry->id,$part->id]) }}" method="POST"
                                   class="inline">
                                 @csrf
-                                <button class="form-detail-btn text-xs">
-                                    کپی
-                                </button>
+
                             </form>
-                            <form action="{{ route('parts.destroy',$part->id) }}" method="POST"
-                                  class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <button class="form-cancel-btn text-xs" onclick="return confirm('قطعه حذف شود ؟')">
-                                    حذف
+                            <div class="inline-flex" x-data="{open:false}">
+                                <button type="button" class="form-submit-btn text-xs" @click="open=!open">
+                                    افزودن به استعلام {{ $inquiry->name }}
                                 </button>
-                            </form>
+                                <div class="relative z-10" x-show="open" x-cloak>
+                                    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+                                    <div class="fixed z-10 inset-0 overflow-y-auto">
+                                        <div
+                                            class="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
+                                            <form method="POST"
+                                                  action="{{ route('inquiries.parts.store',[$inquiry->id,$part->id]) }}"
+                                                  class="relative bg-white rounded-lg text-right overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full">
+                                                @csrf
+                                                <div class="bg-white p-4">
+                                                    <div class="mt-3 text-center sm:mt-0 sm:text-right">
+                                                        <h3 class="text-lg font-medium text-gray-900 border-b border-gray-300 pb-3">
+                                                            تعداد قطعه
+                                                        </h3>
+                                                        <div class="mt-4">
+                                                            <label class="block mb-2 text-sm font-bold" for="inputQuantity">
+                                                                تعداد قطعه
+                                                            </label>
+                                                            <input type="text" class="input-text" name="quantity" id="inputQuantity">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="bg-gray-100 px-4 py-2">
+                                                    <button type="submit" class="form-submit-btn">
+                                                        ثبت
+                                                    </button>
+                                                    <button type="button" class="form-cancel-btn"
+                                                            @click="open = !open">
+                                                        انصراف
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 @endforeach
@@ -289,26 +333,18 @@
             </table>
         </div>
 
-        <!-- Pagination -->
-        <div class="my-4 md:block hidden">
+        <div class="mt-4 hidden md:block">
             {{ $parts->links() }}
-        </div>
-
-        <!-- Parts count -->
-        <div class="my-4">
-            <p class="text-sm font-bold text-indigo-600 underline underline-offset-4">
-                تعداد کل قطعات : {{ \App\Models\Part::where('collection',false)->count() }}
-            </p>
         </div>
 
         <!-- Mobile List -->
         <div class="block md:hidden">
             @foreach($parts as $part)
                 <div class="bg-white rounded-md p-4 border border-gray-200 shadow-md mb-4 relative z-30">
-                    <span
-                        class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
-                        {{ $loop->index+1 }}
-                    </span>
+                <span
+                    class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
+                    {{ $loop->index+1 }}
+                </span>
                     <div class="space-y-4">
                         <p class="text-xs text-black text-center font-bold">
                             {{ $part->name }}
@@ -317,49 +353,38 @@
                             واحد : {{ $part->unit }}
                         </p>
                         @if($part->price)
-                            <p class="text-xs text-green-600 text-center font-bold">
-                                قیمت : {{ number_format($part->price) }}
+                            <p class="text-xs text-black text-center font-medium">
+                                قیمت : {{ number_format($part->price) }} تومان
                             </p>
                         @else
-                            <p class="text-xs text-red-600 text-center">
+                            <p class="text-xs text-red-600 text-center font-medium">
                                 منتظر قیمت گذاری
                             </p>
                         @endif
+
                         @php
                             $code = '';
                             foreach($part->categories as $category){
                                 $code = $code . $category->code;
                             }
-
                         @endphp
                         <p class="text-xs text-black text-center">
                             کد : {{ $part->code . "-" . $code }}
                         </p>
-                        <div class="flex w-full justify-between">
-                            <a href="{{ route('parts.edit',$part->id) }}" class="form-edit-btn text-xs">
-                                ویرایش
-                            </a>
-                            <form action="{{ route('parts.replicate',$part->id) }}" method="POST"
+                        <div class="flex w-full justify-center">
+                            <form action="" method="POST"
                                   class="inline">
                                 @csrf
-                                <button class="form-detail-btn text-xs">
-                                    کپی
-                                </button>
-                            </form>
-                            <form action="{{ route('parts.destroy',$part->id) }}" method="POST"
-                                  class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <button class="form-cancel-btn text-xs" onclick="return confirm('قطعه حذف شود ؟')">
-                                    حذف
+                                <button class="form-submit-btn text-xs">
+                                    افزودن به استعلام {{ $inquiry->name }}
                                 </button>
                             </form>
                         </div>
                     </div>
                 </div>
             @endforeach
-            <!-- Pagination -->
-            <div class="mt-4">
+
+            <div class="mt-4 block md:hidden">
                 {{ $parts->links() }}
             </div>
         </div>

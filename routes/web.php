@@ -9,6 +9,7 @@ use App\Http\Controllers\CollectionPartController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\InquiryController;
+use App\Http\Controllers\InquiryPartController;
 use App\Http\Controllers\InquiryProductController;
 use App\Http\Controllers\ModellController;
 use App\Http\Controllers\NotificationController;
@@ -103,6 +104,11 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/inquiries/{product}/edit-product', [InquiryProductController::class, 'edit'])->name('inquiries.product.edit');
     Route::patch('/inquiries/{product}/update-product', [InquiryProductController::class, 'update'])->name('inquiries.product.update');
     Route::delete('/inquiries/{product}/destroy', [InquiryProductController::class, 'destroy'])->name('inquiries.product.destroy');
+
+    //Inquiry Part routes
+    Route::get('/inquiries/{inquiry}/parts', [InquiryPartController::class, 'index'])->name('inquiries.parts.index');
+    Route::get('/inquiries/{inquiry}/create-part', [InquiryPartController::class, 'create'])->name('inquiries.parts.create');
+    Route::post('/inquiries/{inquiry}/{part}/store-part', [InquiryPartController::class, 'store'])->name('inquiries.parts.store');
 
     Route::resource('inquiries', InquiryController::class);
 

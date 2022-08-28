@@ -99,6 +99,12 @@
                                     محصولات
                                 </a>
                             @endcan
+                            @can('create-inquiry')
+                                <a href="{{ route('inquiries.parts.index',$inquiry->id) }}"
+                                   class="form-submit-btn text-xs">
+                                    قطعات تکی
+                                </a>
+                            @endcan
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
                             @can('create-inquiry')

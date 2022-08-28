@@ -19,11 +19,12 @@ return new class extends Migration {
             $table->integer('quantity')->default(0);
             $table->bigInteger('price')->default(0);
 
-            $table->unsignedBigInteger('group_id');
-            $table->unsignedBigInteger('model_id');
+            $table->unsignedBigInteger('group_id')->default(0);
+            $table->unsignedBigInteger('model_id')->default(0);
             $table->unsignedBigInteger('inquiry_id');
+            $table->unsignedBigInteger('part_id')->default(0);
 
-            $table->index(['group_id', 'model_id', 'inquiry_id']);
+            $table->index(['group_id', 'model_id', 'inquiry_id', 'part_id']);
 
             $table->timestamps();
         });

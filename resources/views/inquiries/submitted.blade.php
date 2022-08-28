@@ -100,10 +100,18 @@
                             <p class="text-sm text-black text-center">{{ $inquiry->marketer }}</p>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
-                            <a href="{{ route('inquiries.product.index',$inquiry->id) }}"
-                               class="form-submit-btn text-xs">
-                                محصولات
-                            </a>
+                            @can('create-inquiry')
+                                <a href="{{ route('inquiries.product.index',$inquiry->id) }}"
+                                   class="form-detail-btn text-xs">
+                                    محصولات
+                                </a>
+                            @endcan
+                            @can('create-inquiry')
+                                <a href="{{ route('inquiries.parts.index',$inquiry->id) }}"
+                                   class="form-submit-btn text-xs">
+                                    قطعات تکی
+                                </a>
+                            @endcan
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
                             @can('detail-inquiry')
@@ -196,10 +204,18 @@
                                     جزئیات
                                 </a>
                             @endcan
-                            <a href="{{ route('inquiries.product.index',$inquiry->id) }}"
-                               class="form-submit-btn text-xs">
-                                محصولات
-                            </a>
+                            @can('create-inquiry')
+                                <a href="{{ route('inquiries.product.index',$inquiry->id) }}"
+                                   class="form-submit-btn text-xs">
+                                    محصولات
+                                </a>
+                            @endcan
+                            @can('create-inquiry')
+                                <a href="{{ route('inquiries.parts.index',$inquiry->id) }}"
+                                   class="form-submit-btn text-xs">
+                                    قطعات تکی
+                                </a>
+                            @endcan
                             <form action="{{ route('inquiries.copy',$inquiry->id) }}" method="POST"
                                   class="inline">
                                 @csrf

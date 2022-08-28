@@ -2,7 +2,7 @@
 
     <x-slot name="js">
         <script>
-            let totalPrice = parseInt('{{ $totalPrice * $product->quantity }}')
+            let totalPrice = parseInt('{{ $totalPrice }}')
 
             function showPrice(event) {
                 let value = totalPrice * event.target.value;
@@ -97,7 +97,7 @@
             <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">قیمت فعلی استعلام</p>
             <div class="mt-4">
                 <p class="text-center text-lg font-bold text-green-600">
-                    {{ number_format($totalPrice * $product->quantity) }} تومان
+                    {{ number_format($totalPrice) }} تومان
                 </p>
             </div>
         </div>
