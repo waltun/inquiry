@@ -167,8 +167,8 @@
             <div class="mt-4">
                 <label for="inputCollection" class="block mb-2 md:text-sm text-xs text-black">قطعه مجموعه ای</label>
                 <select name="collection" id="inputCollection" class="input-text">
-                    <option value="false">نباشد</option>
-                    <option value="true">باشد</option>
+                    <option value="false" {{ old('collection') == 'false' ? 'selected' : '' }}>نباشد</option>
+                    <option value="true" {{ old('collection') == 'true' ? 'selected' : '' }}>باشد</option>
                 </select>
             </div>
 

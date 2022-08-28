@@ -62,7 +62,7 @@ class PartController extends Controller
             'unit' => 'required|string|max:255',
             'price' => 'nullable',
             'collection' => 'required|in:true,false',
-            'categories' => 'required|array'
+            'categories' => 'required|array|min:3|max:3'
         ]);
 
         if ($data['collection'] == 'true') {
@@ -71,11 +71,15 @@ class PartController extends Controller
             $data['collection'] = false;
         }
 
-        $part = Part::create($data);
-        $part->categories()->sync($data['categories']);
-        $code = $this->getLastCode($part);
-        $part->code = $code;
-        $part->save();
+        if (count($request['categories']) == 3 && $request['categories'][2] != "") {
+            $part = Part::create($data);
+            $part->categories()->sync($data['categories']);
+            $code = $this->getLastCode($part);
+            $part->code = $code;
+            $part->save();
+        } else {
+            return back()->withErrors(['لطفا دسته بندی را به صورت کامل وارد کنید']);
+        }
 
         alert()->success('ثبت موفق', 'ثبت قطعه با موفقیت انجام شد');
 

@@ -195,6 +195,9 @@ return [
         'urgency_level' => 'سطح اهمیت',
         'code' => 'کد',
         'percent' => 'ضریب',
-        'amounts' => 'مقادیر'
+        'amounts' => 'مقادیر',
+        'unit' => 'واحد',
+        'category_error' => 'ارور دسته بندی',
+        'categories' => 'دسته بندی'
     ],
 ];
