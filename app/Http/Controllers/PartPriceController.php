@@ -34,10 +34,20 @@ class PartPriceController extends Controller
                 ->where('price', '=', 0);
         }
 
-        if (request()->has('category3')) {
-            $parts = $parts->whereHas('categories', function ($q) {
-                $q->where('category_id', request('category3'));
-            })->where('collection', false)->where('coil', false);
+        if (!is_null(request('category3'))) {
+            if (request()->has('category3')) {
+                $parts = $parts->whereHas('categories', function ($q) {
+                    $q->where('category_id', request('category3'));
+                })->where('collection', false)->where('coil', false);
+            }
+        }
+
+        if (is_null(request('category3'))) {
+            if (request()->has('category2')) {
+                $parts = $parts->whereHas('categories', function ($q) {
+                    $q->where('category_id', request('category2'));
+                })->where('collection', false)->where('coil', false);
+            }
         }
 
         $parts = $parts->where('collection', false)->where('coil', false)

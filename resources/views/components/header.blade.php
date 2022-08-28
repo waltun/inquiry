@@ -15,6 +15,11 @@
     </button>
 
     <div class="flex items-center">
+        <div class="ml-4">
+            <span class="px-2 py-1 rounded-md bg-indigo-200 text-sm">
+                امروز  {{ jdate(now())->format('%A, %d %B %Y') }}
+            </span>
+        </div>
         <a href="{{ route('notifications.index') }}" class="pl-4 relative">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9 text-yellow-600 bg-gray-100 rounded-full p-1"
                  fill="none" viewBox="0 0 24 24"

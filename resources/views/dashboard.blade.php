@@ -3,39 +3,6 @@
         <meta http-equiv="refresh" content="300">
     @endpush
 
-    <x-slot name="js">
-        <script>
-            function startTimer(duration, display) {
-                let timer = duration, minutes, seconds;
-                setInterval(function () {
-                    minutes = parseInt(timer / 60, 10);
-                    seconds = parseInt(timer % 60, 10);
-
-                    minutes = minutes < 10 ? "0" + minutes : minutes;
-                    seconds = seconds < 10 ? "0" + seconds : seconds;
-
-                    display.textContent = minutes + ":" + seconds + " دقیقه تا بارگذاری مجدد صفحه ";
-
-                    if (--timer < 0) {
-                        timer = duration;
-                    }
-                }, 1000);
-            }
-
-            window.onload = function () {
-                let fiveMin = 60 * 5;
-                let display = document.getElementById("timer");
-                startTimer(fiveMin, display)
-            }
-        </script>
-    </x-slot>
-
-    <div class="flex justify-end mb-4">
-            <span class="px-6 py-2 rounded-md bg-indigo-300 text-sm font-bold" id="timer">
-                05:00 دقیقه تا بارگذاری مجدد صفحه
-            </span>
-    </div>
-
     <!-- Breadcrumb -->
     <nav class="flex bg-gray-100 p-4 rounded-md" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-2 space-x-reverse">

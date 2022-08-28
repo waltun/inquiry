@@ -71,10 +71,10 @@ class CalculateCoilController extends Controller
             if ($index == 16) {
                 $childPart->pivot->parent_part_id = $fin;
             }
-            if ($index == 17) {
+            if ($index == 17 && !is_null($collectorMessi) && $collectorMessi > 0) {
                 $childPart->pivot->parent_part_id = $collectorMessi;
             }
-            if ($index == 18 && !is_null($collectorAhani)) {
+            if ($index == 18 && !is_null($collectorAhani) && $collectorAhani > 0) {
                 $childPart->pivot->parent_part_id = $collectorAhani;
             }
             if ($index == 20) {
@@ -129,10 +129,10 @@ class CalculateCoilController extends Controller
             if ($index == 16) {
                 $childPart->pivot->parent_part_id = $fin;
             }
-            if ($index == 17) {
+            if ($index == 17 && !is_null($collectorMessi) && $collectorMessi > 0) {
                 $childPart->pivot->parent_part_id = $collectorMessi;
             }
-            if ($index == 18 && !is_null($collectorAhani)) {
+            if ($index == 18 && !is_null($collectorAhani) && $collectorAhani > 0) {
                 $childPart->pivot->parent_part_id = $collectorAhani;
             }
             if ($index == 20) {
@@ -188,10 +188,10 @@ class CalculateCoilController extends Controller
             if ($index == 15) {
                 $childPart->pivot->parent_part_id = $fin;
             }
-            if ($index == 16) {
+            if ($index == 16 && !is_null($collectorMessi) && $collectorMessi > 0) {
                 $childPart->pivot->parent_part_id = $collectorMessi;
             }
-            if ($index == 17 && !is_null($collectorAhani)) {
+            if ($index == 17 && !is_null($collectorAhani) && $collectorAhani > 0) {
                 $childPart->pivot->parent_part_id = $collectorAhani;
             }
             if ($index == 19) {
@@ -247,10 +247,10 @@ class CalculateCoilController extends Controller
             if ($index == 17) {
                 $childPart->pivot->parent_part_id = $fin;
             }
-            if ($index == 18) {
+            if ($index == 18 && !is_null($collectorMessi) && $collectorMessi > 0) {
                 $childPart->pivot->parent_part_id = $collectorMessi;
             }
-            if ($index == 19 && !is_null($collectorAhani)) {
+            if ($index == 19 && !is_null($collectorAhani) && $collectorAhani > 0) {
                 $childPart->pivot->parent_part_id = $collectorAhani;
             }
             if ($index == 21) {
@@ -306,10 +306,10 @@ class CalculateCoilController extends Controller
             if ($index == 17) {
                 $childPart->pivot->parent_part_id = $fin;
             }
-            if ($index == 18) {
+            if ($index == 18 && !is_null($collectorMessi) && $collectorMessi > 0) {
                 $childPart->pivot->parent_part_id = $collectorMessi;
             }
-            if ($index == 19 && !is_null($collectorAhani)) {
+            if ($index == 19 && !is_null($collectorAhani) && $collectorAhani > 0) {
                 $childPart->pivot->parent_part_id = $collectorAhani;
             }
             if ($index == 21) {
