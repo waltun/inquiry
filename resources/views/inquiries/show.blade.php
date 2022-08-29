@@ -531,7 +531,7 @@
             </div>
         @endforeach
 
-        <div class="bg-green-500 p-4 rounded-md shadow-md mt-4">
+        <div class="bg-green-500 p-4 rounded-md shadow-md mt-4 sticky bottom-4">
             @if($inquiry->price > 0)
                 <p class="text-xl text-black font-bold text-center">
                     قیمت نهایی کل استعلام : {{ number_format($inquiry->price) }} تومان
