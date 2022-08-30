@@ -48,7 +48,7 @@
                 لیست محصولات استعلام {{ $inquiry->name }}
             </p>
         </div>
-        <div class="space-x-2 space-x-reverse flex items-center">
+        <div class="space-x-2 space-x-reverse flex items-center overflow-x-auto whitespace-nowrap">
             @can('create-inquiry')
                 <a href="{{ route('inquiries.product.create',$inquiry->id) }}" class="form-submit-btn text-xs">
                     ایجاد محصول جدید

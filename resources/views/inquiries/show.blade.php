@@ -54,7 +54,7 @@
                 </span>
             @endif
         </div>
-        <div class="whitespace-nowrap">
+        <div class="whitespace-nowrap overflow-x-auto py-4">
             <a href="{{ route('inquiries.index') }}" class="form-detail-btn text-xs">لیست استعلام ها</a>
             <a href="{{ route('inquiries.priced') }}" class="form-submit-btn text-xs">استعلام های قیمت گذاری شده</a>
             <a href="{{ route('inquiries.submitted') }}" class="form-edit-btn text-xs">استعلام های منتظر قیمت</a>
@@ -63,6 +63,7 @@
 
     <!-- Content -->
     <div class="mt-4">
+        <!-- Inquiry Details -->
         <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4">
             <div class="md:flex justify-between items-center space-y-4 md:space-y-0">
                 <p class="font-bold text-black md:text-lg text-sm text-center">
@@ -76,9 +77,12 @@
                 </p>
             </div>
         </div>
+
         @php
             $finalPrice = 0;
         @endphp
+
+            <!-- Laptop & Mobile Product List -->
         @foreach($inquiry->products()->where('group_id','!=',0)->where('model_id','!=',0)->get() as $product)
             @php
                 $group = \App\Models\Group::find($product->group_id);
@@ -88,11 +92,12 @@
                 $totalGroupPrice = 0;
                 $totalModellPrice = 0;
             @endphp
-                <!-- Laptop List -->
+                <!-- Laptop Product List -->
             <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4 hidden md:block">
                 <div class="mb-4">
                     <p class="text-center text-lg font-black font-bold">
-                        لیست قطعات و قیمت محصول <span class="text-red-600">{{ $group->name }}</span> - <span class="text-red-600">{{ $modell->name }}</span>
+                        لیست قطعات و قیمت محصول <span class="text-red-600">{{ $group->name }}</span> - <span
+                            class="text-red-600">{{ $modell->name }}</span>
                     </p>
                 </div>
                 <table class="border-collapse border border-gray-400 w-full">
@@ -254,11 +259,12 @@
                 </table>
             </div>
 
-            <!-- Mobile List -->
+            <!-- Mobile Product List -->
             <div class="block md:hidden shadow-md border border-gray-200 rounded-md p-4 bg-white mb-4">
                 <div class="mb-4 border-b border-gray-200 pb-2">
                     <p class="text-center text-sm font-black font-bold">
-                        لیست قطعات و قیمت محصول {{ $group->name }} - {{ $modell->name }}
+                        لیست قطعات و قیمت محصول <span class="text-red-600">{{ $group->name }}</span> - <span
+                            class="text-red-600">{{ $modell->name }}</span>
                     </p>
                 </div>
                 @foreach($group->parts as $part)
@@ -309,50 +315,51 @@
                     @endif
                 @endforeach
                 <div class="flex justify-between items-center mb-2 border border-gray-500 rounded-md p-2">
-                    <p class="text-base font-medium text-black">
+                    <p class="text-sm font-medium text-black">
                         جمع قیمت ماتریال یک دستگاه
                     </p>
-                    <p class="text-base font-medium text-green-600">
+                    <p class="text-sm font-medium text-green-600">
                         {{ number_format($totalPrice) }} تومان
                     </p>
                 </div>
                 @if($product->percent > 0)
                     <div class="flex justify-between items-center mb-2 border border-gray-500 rounded-md p-2">
-                        <p class="text-base font-medium text-black">
+                        <p class="text-sm font-medium text-black">
                             ضریب ثبت شده
                         </p>
-                        <p class="text-base font-medium text-green-600">
+                        <p class="text-sm font-medium text-green-600">
                             {{ $product->percent }}
                         </p>
                     </div>
                     <div class="flex justify-between items-center mb-2 border border-gray-500 rounded-md p-2">
-                        <p class="text-base font-medium text-black">
+                        <p class="text-sm font-medium text-black">
                             قیمت دستگاه با اعمال ضریب
                         </p>
-                        <p class="text-base font-medium text-green-600">
+                        <p class="text-sm font-medium text-green-600">
                             {{ number_format($totalPrice * $product->percent) }} تومان
                         </p>
                     </div>
                 @endif
                 <div class="flex justify-between items-center mb-2 border border-gray-500 rounded-md p-2">
-                    <p class="text-base font-medium text-black">
+                    <p class="text-sm font-medium text-black">
                         تعداد
                     </p>
-                    <p class="text-base font-medium text-green-600">
+                    <p class="text-sm font-medium text-green-600">
                         {{ $product->quantity }}
                     </p>
                 </div>
                 <div class="flex justify-between items-center mb-2 border border-gray-500 rounded-md p-2">
-                    <p class="text-base font-medium text-black">
+                    <p class="text-sm font-medium text-black">
                         قیمت کل
                     </p>
-                    <p class="text-base font-medium text-green-600">
+                    <p class="text-sm font-medium text-green-600">
                         {{ number_format($totalPrice * $product->percent * $product->quantity) }} تومان
                     </p>
                 </div>
             </div>
         @endforeach
 
+        <!-- Laptop & Mobile Parts List -->
         @foreach($inquiry->products()->where('part_id','!=',0)->get() as $product)
             @php
                 $finalPrice += $product->price;
@@ -362,8 +369,7 @@
                     $code = $code . $category->code;
                 }
             @endphp
-
-            <!-- Laptop List -->
+                <!-- Laptop Parts List -->
             <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4 hidden md:block">
                 <div class="mb-4">
                     <p class="text-center text-lg font-black font-bold">
@@ -405,7 +411,7 @@
                         </tr>
                         <tr>
                             <td class="border border-gray-300 p-4 text-lg text-center font-bold" colspan="3">
-                                قیمت دستگاه با اعمال ضریب
+                                قیمت قطعه با اعمال ضریب
                             </td>
                             <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
                                 {{ number_format($product->price) }} تومان
@@ -436,104 +442,70 @@
             <div class="block md:hidden shadow-md border border-gray-200 rounded-md p-4 bg-white mb-4">
                 <div class="mb-4 border-b border-gray-200 pb-2">
                     <p class="text-center text-sm font-black font-bold">
-                        لیست قطعات و قیمت محصول {{ $group->name }} - {{ $modell->name }}
+                        تک قطعه <span class="text-red-600">{{ $part->name }}</span>
                     </p>
                 </div>
-                @foreach($group->parts as $part)
-                    @php
-                        $amount = $product->amounts()->where('part_id',$part->id)->first();
-                        if($amount){
-                            if ($amount->price > 0){
-                                $totalGroupPrice += ($part->price * $amount->value) + ($amount->price * $amount->value);
-                            } else {
-                                $totalGroupPrice += ($part->price * $amount->value);
-                            }
-                        }
-                        $code = '';
-                        foreach($part->categories as $category){
-                            $code = $code . $category->code;
-                        }
-                    @endphp
-                    @if($amount)
-                        <div class="p-2 border border-gray-300 rounded-md shadow-sm bg-gray-100 mb-4">
-                            <div class="space-y-4">
-                                <p class="text-xs text-black text-center font-bold">
-                                    {{ $part->name }}
-                                </p>
-                                <p class="text-xs text-black text-center">
-                                    واحد : {{ $part->unit }}
-                                </p>
-                                <p class="text-xs text-black text-center font-medium">
-                                    قیمت واحد :
-                                    @if($amount->price > 0)
-                                        {{ number_format($amount->price) }} تومان
-                                    @else
-                                        {{ number_format($part->price) }} تومان
-                                    @endif
-                                </p>
-                                <p class="text-xs text-black text-center font-bold">
-                                    مقدار : {{ $amount->value }}
-                                </p>
-                                <p class="text-xs text-black text-center font-medium">
-                                    جمع کل :
-                                    @if($amount->price > 0)
-                                        {{ number_format($amount->price * $amount->value) }} تومان
-                                    @else
-                                        {{ number_format($part->price * $amount->value) }} تومان
-                                    @endif
-                                </p>
-                            </div>
-                        </div>
-                    @endif
-                @endforeach
-                <div class="flex justify-between items-center mb-2 border border-gray-500 rounded-md p-2">
-                    <p class="text-base font-medium text-black">
-                        جمع قیمت ماتریال یک دستگاه
-                    </p>
-                    <p class="text-base font-medium text-green-600">
-                        {{ number_format($totalPrice) }} تومان
-                    </p>
+                @php
+                    $code = '';
+                    foreach($part->categories as $category){
+                        $code = $code . $category->code;
+                    }
+                @endphp
+                <div class="p-2 border border-gray-300 rounded-md shadow-sm bg-gray-100 mb-4">
+                    <div class="space-y-4">
+                        <p class="text-xs text-black text-center">
+                            واحد : {{ $part->unit }}
+                        </p>
+                        <p class="text-xs text-black text-center">
+                            کد : {{ $part->code . "-" . $code  }}
+                        </p>
+                        <p class="text-xs text-black text-center font-medium">
+                            قیمت واحد :
+                            {{ number_format($part->price) }} تومان
+                        </p>
+                    </div>
                 </div>
                 @if($product->percent > 0)
                     <div class="flex justify-between items-center mb-2 border border-gray-500 rounded-md p-2">
-                        <p class="text-base font-medium text-black">
+                        <p class="text-sm font-medium text-black">
                             ضریب ثبت شده
                         </p>
-                        <p class="text-base font-medium text-green-600">
+                        <p class="text-sm font-medium text-green-600">
                             {{ $product->percent }}
                         </p>
                     </div>
                     <div class="flex justify-between items-center mb-2 border border-gray-500 rounded-md p-2">
-                        <p class="text-base font-medium text-black">
-                            قیمت دستگاه با اعمال ضریب
+                        <p class="text-sm font-medium text-black">
+                            قیمت قطعه با اعمال ضریب
                         </p>
-                        <p class="text-base font-medium text-green-600">
-                            {{ number_format($totalPrice * $product->percent) }} تومان
+                        <p class="text-sm font-medium text-green-600">
+                            {{ number_format($product->price) }} تومان
                         </p>
                     </div>
                 @endif
                 <div class="flex justify-between items-center mb-2 border border-gray-500 rounded-md p-2">
-                    <p class="text-base font-medium text-black">
+                    <p class="text-sm font-medium text-black">
                         تعداد
                     </p>
-                    <p class="text-base font-medium text-green-600">
+                    <p class="text-sm font-medium text-green-600">
                         {{ $product->quantity }}
                     </p>
                 </div>
                 <div class="flex justify-between items-center mb-2 border border-gray-500 rounded-md p-2">
-                    <p class="text-base font-medium text-black">
+                    <p class="text-sm font-medium text-black">
                         قیمت کل
                     </p>
-                    <p class="text-base font-medium text-green-600">
-                        {{ number_format($totalPrice * $product->percent * $product->quantity) }} تومان
+                    <p class="text-sm font-medium text-green-600">
+                        {{ number_format($product->price * $product->quantity) }} تومان
                     </p>
                 </div>
             </div>
         @endforeach
 
+        <!-- Final Inquiry Price -->
         <div class="bg-green-500 p-4 rounded-md shadow-md mt-4 sticky bottom-4">
             @if($inquiry->price > 0)
-                <p class="text-xl text-black font-bold text-center">
+                <p class="md:text-xl text-lg text-black font-bold text-center">
                     قیمت نهایی کل استعلام : {{ number_format($inquiry->price) }} تومان
                 </p>
             @else
@@ -543,6 +515,7 @@
             @endif
         </div>
 
+        <!-- Inquiry Dates -->
         <div class="md:grid grid-cols-3 gap-4 mt-4">
             <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4 space-y-2">
                 <p class="text-sm font-bold text-black text-center">

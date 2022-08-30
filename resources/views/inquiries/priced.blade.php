@@ -48,7 +48,7 @@
             </p>
         </div>
 
-        <div class="flex items-center space-x-2 space-x-reverse">
+        <div class="flex items-center space-x-2 space-x-reverse overflow-x-auto whitespace-nowrap">
             <a href="{{ route('inquiries.create') }}" class="form-submit-btn text-xs">ایجاد استعلام جدید</a>
             <a href="{{ route('inquiries.index') }}" class="form-detail-btn text-xs">لیست استعلام ها</a>
             <a href="{{ route('inquiries.submitted') }}" class="form-edit-btn text-xs">استعلام های منتظر قیمت</a>
@@ -119,9 +119,9 @@
                                 <button class="form-cancel-btn text-xs" type="button" @click="open=!open">
                                     اصلاح
                                 </button>
-                                <div class="relative z-10" x-show="open" x-cloak>
+                                <div class="relative z-50" x-show="open" x-cloak>
                                     <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
-                                    <div class="fixed z-10 inset-0 overflow-y-auto">
+                                    <div class="fixed inset-0 overflow-y-auto">
                                         <div
                                             class="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
                                             <form method="POST"
@@ -168,7 +168,7 @@
         <!-- Mobile List -->
         <div class="block md:hidden">
             @foreach($inquiries as $inquiry)
-                <div class="bg-white rounded-md p-4 border border-gray-200 shadow-sm mb-4 relative z-30">
+                <div class="bg-white rounded-md p-4 border border-gray-200 shadow-sm mb-4 relative">
                     <span
                         class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
                         {{ $loop->index+1 }}
@@ -208,14 +208,14 @@
                                 <button class="form-cancel-btn text-xs" type="button" @click="open=!open">
                                     اصلاح
                                 </button>
-                                <div class="relative z-10" x-show="open" x-cloak>
+                                <div class="relative z-50" x-show="open" x-cloak>
                                     <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
-                                    <div class="fixed z-10 inset-0 overflow-y-auto">
+                                    <div class="fixed inset-0 overflow-y-auto">
                                         <div
-                                            class="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
+                                            class="flex items-end items-center justify-center min-h-full p-4 text-center">
                                             <form method="POST"
                                                   action="{{ route('inquiries.correction',$inquiry->id) }}"
-                                                  class="relative bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full">
+                                                  class="relative bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all my-8 md:max-w-lg w-full">
                                                 @csrf
                                                 @method('PATCH')
 

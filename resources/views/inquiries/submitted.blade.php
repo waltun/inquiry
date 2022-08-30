@@ -212,7 +212,7 @@
                             @endcan
                             @can('create-inquiry')
                                 <a href="{{ route('inquiries.parts.index',$inquiry->id) }}"
-                                   class="form-submit-btn text-xs">
+                                   class="form-detail-btn text-xs">
                                     قطعات تکی
                                 </a>
                             @endcan

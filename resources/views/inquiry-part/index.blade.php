@@ -116,7 +116,7 @@
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="form-cancel-btn text-xs"
-                                        onclick="return confirm('محصول حذف شود ؟')">
+                                        onclick="return confirm('قطعه از استعلام شود ؟')">
                                     حذف
                                 </button>
                             </form>
@@ -154,17 +154,21 @@
                             @can('percent-inquiry')
                                 @if($inquiry->submit)
                                     <a href="{{ route('inquiries.product.percent',$product->id) }}"
-                                       class="form-edit-btn text-xs">
+                                       class="form-submit-btn text-xs">
                                         ثبت ضریب
                                     </a>
                                 @endif
                             @endcan
+                            <a href="{{ route('inquiries.product.edit',$product->id) }}"
+                               class="form-edit-btn text-xs">
+                                ویرایش تعداد
+                            </a>
                             <form action="{{ route('inquiries.product.destroy',$product->id) }}" method="POST"
                                   class="inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="form-cancel-btn text-xs"
-                                        onclick="return confirm('محصول حذف شود ؟')">
+                                        onclick="return confirm('قطعه از استعلام شود ؟')">
                                     حذف
                                 </button>
                             </form>

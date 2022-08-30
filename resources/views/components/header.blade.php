@@ -15,7 +15,7 @@
     </button>
 
     <div class="flex items-center">
-        <div class="ml-4">
+        <div class="ml-4 hidden md:block">
             <span class="px-2 py-1 rounded-md bg-indigo-200 text-sm">
                 امروز  {{ jdate(now())->format('%A, %d %B %Y') }}
             </span>

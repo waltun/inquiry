@@ -217,6 +217,12 @@
                                 </a>
                             @endcan
                             @can('create-inquiry')
+                                <a href="{{ route('inquiries.parts.index',$inquiry->id) }}"
+                                   class="form-edit-btn text-xs">
+                                    قطعات تکی
+                                </a>
+                            @endcan
+                            @can('create-inquiry')
                                 <form action="{{ route('inquiries.submit',$inquiry->id) }}" method="POST"
                                       class="inline">
                                     @csrf

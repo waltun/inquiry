@@ -71,7 +71,6 @@
             </div>
         </div>
 
-
         <!-- Laptop List Products -->
         <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4 hidden md:block">
             <div class="mb-4">
@@ -166,7 +165,6 @@
             </table>
         </div>
 
-
         <!-- Laptop List Parts -->
         <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4 hidden md:block">
             <div class="mb-4">
@@ -225,9 +223,11 @@
             </table>
         </div>
 
-
-        <!-- Mobile List -->
+        <!-- Mobile List Products -->
         <div class="block md:hidden shadow-md border border-gray-200 rounded-md p-4 bg-white mb-4">
+            @php
+                $productFinalPrice = 0;
+            @endphp
             @foreach($inquiry->products()->where('group_id','!=',0)->where('model_id','!=',0)->get() as $product)
                 @php
                     $group = \App\Models\Group::find($product->group_id);
@@ -290,19 +290,56 @@
                 <p class="text-base font-medium text-black">
                     قیمت کل
                 </p>
-                @if($inquiry->price > 0)
-                    <p class="text-base font-medium text-green-600">
-                        {{ number_format($inquiry->price) }} تومان
-                    </p>
-                @else
-                    <p class="text-base font-medium text-green-600">
-                        {{ number_format($productFinalPrice) }} تومان
-                    </p>
-                @endif
+                <p class="text-base font-medium text-green-600">
+                    {{ number_format($productFinalPrice) }} تومان
+                </p>
             </div>
 
         </div>
 
+        <!-- Mobile List Parts -->
+        <div class="block md:hidden shadow-md border border-gray-200 rounded-md p-4 bg-white mb-4">
+            @php
+                $partFinalPrice = 0;
+            @endphp
+            @foreach($inquiry->products()->where('part_id','!=',0)->get() as $product)
+                @php
+                    $part = \App\Models\Part::find($product->part_id);
+                    $partFinalPrice += $product->price * $product->quantity;
+                @endphp
+                <div class="p-2 border border-gray-300 rounded-md shadow-sm bg-gray-100 mb-4">
+                    <div class="space-y-4">
+                        <p class="text-xs text-black text-center font-bold">
+                            نام : {{ $part->name }}
+                        </p>
+                        <p class="text-xs text-black text-center font-bold">
+                            کد : {{ $part->code }}
+                        </p>
+                        <p class="text-xs text-gray-600 text-center">
+                            تعداد : {{ $product->quantity }}
+                        </p>
+                        <p class="text-xs text-black text-center font-medium">
+                            قیمت واحد : {{ number_format($product->price) }} تومان
+                        </p>
+                        <p class="text-xs text-black text-center font-medium">
+                            قیمت کل : {{ number_format($product->price * $product->quantity) }} تومان
+                        </p>
+                    </div>
+                </div>
+            @endforeach
+
+            <div class="flex justify-between items-center mb-2 border border-gray-500 rounded-md p-2">
+                <p class="text-base font-medium text-black">
+                    قیمت کل
+                </p>
+                <p class="text-base font-medium text-green-600">
+                    {{ number_format($partFinalPrice) }} تومان
+                </p>
+            </div>
+
+        </div>
+
+        <!-- Final Inquiry Price -->
         <div class="bg-green-500 p-4 rounded-md shadow-md mt-4 sticky bottom-4">
             @if($inquiry->price > 0)
                 <p class="text-xl text-black font-bold text-center">
@@ -315,6 +352,7 @@
             @endif
         </div>
 
+        <!-- Inquiry Dates -->
         <div class="md:grid grid-cols-3 gap-4 mt-4">
             <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4 space-y-2">
                 <p class="text-sm font-bold text-black text-center">

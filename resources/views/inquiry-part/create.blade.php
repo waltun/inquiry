@@ -161,9 +161,10 @@
 
                 <form
                     class="col-span-3 md:grid grid-cols-3 gap-4 bg-white rounded-md p-4 shadow-sm border border-gray-200 mb-4 md:mb-0">
-                    <div>
-                        <label for="inputCategory1" class="block mb-2 md:text-sm text-xs text-black">دسته بندی
-                            قطعه</label>
+                    <div class="mb-4">
+                        <label for="inputCategory1" class="block mb-2 md:text-sm text-xs text-black">
+                            دسته بندی قطعه
+                        </label>
                         <select name="category1" id="inputCategory1" class="input-text" onchange="getCategory1()">
                             <option value="">انتخاب کنید</option>
                             @foreach($categories as $category)
@@ -174,7 +175,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <div id="categorySection1">
+                    <div id="categorySection1" class="mb-4">
                         @if(request()->has('category2'))
                             @php
                                 $category2 = \App\Models\Category::find(request('category1'))->children;
@@ -192,7 +193,7 @@
                             </select>
                         @endif
                     </div>
-                    <div id="categorySection2">
+                    <div id="categorySection2" class="mb-4">
                         @if(request()->has('category3'))
                             @php
                                 $category3 = \App\Models\Category::find(request('category2'))->children;
@@ -340,7 +341,7 @@
         <!-- Mobile List -->
         <div class="block md:hidden">
             @foreach($parts as $part)
-                <div class="bg-white rounded-md p-4 border border-gray-200 shadow-md mb-4 relative z-30">
+                <div class="bg-white rounded-md p-4 border border-gray-200 shadow-md mb-4 relative">
                 <span
                     class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
                     {{ $loop->index+1 }}
@@ -372,13 +373,46 @@
                             کد : {{ $part->code . "-" . $code }}
                         </p>
                         <div class="flex w-full justify-center">
-                            <form action="" method="POST"
-                                  class="inline">
-                                @csrf
-                                <button class="form-submit-btn text-xs">
+                            <div class="inline-flex" x-data="{open:false}">
+                                <button type="button" class="form-submit-btn text-xs" @click="open=!open">
                                     افزودن به استعلام {{ $inquiry->name }}
                                 </button>
-                            </form>
+                                <div class="relative z-50" x-show="open" x-cloak>
+                                    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+                                    <div class="fixed z-10 inset-0 overflow-y-auto">
+                                        <div
+                                            class="flex items-center justify-center min-h-full p-4 text-center">
+                                            <form method="POST"
+                                                  action="{{ route('inquiries.parts.store',[$inquiry->id,$part->id]) }}"
+                                                  class="relative bg-white rounded-lg text-right overflow-hidden shadow-xl transform transition-all my-8 md:max-w-lg w-full">
+                                                @csrf
+                                                <div class="bg-white p-4">
+                                                    <div class="mt-3 text-center sm:mt-0 sm:text-right">
+                                                        <h3 class="text-lg font-medium text-gray-900 border-b border-gray-300 pb-3">
+                                                            تعداد قطعه
+                                                        </h3>
+                                                        <div class="mt-4">
+                                                            <label class="block mb-2 text-sm font-bold" for="inputQuantity">
+                                                                تعداد قطعه
+                                                            </label>
+                                                            <input type="text" class="input-text" name="quantity" id="inputQuantity">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="bg-gray-100 px-4 py-2">
+                                                    <button type="submit" class="form-submit-btn">
+                                                        ثبت
+                                                    </button>
+                                                    <button type="button" class="form-cancel-btn"
+                                                            @click="open = !open">
+                                                        انصراف
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
