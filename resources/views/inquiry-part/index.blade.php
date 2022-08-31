@@ -162,7 +162,7 @@
         </div>
 
         @if($inquiry->submit)
-            <div class="mt-4" x-data="{open:false}">
+            <div class="my-4" x-data="{open:false}">
                 <button type="button" class="form-edit-btn" @click="open=!open">
                     ثبت ضریب چندتایی
                 </button>
@@ -214,6 +214,14 @@
                         class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
                         {{ $loop->index+1 }}
                     </span>
+
+                    @if($inquiry->submit)
+                        <div class="mb-4">
+                            <input type="checkbox" value="{{ $product->id }}"
+                                   class="checkboxes w-5 h-5 focus:ring-blue-500 focus:ring-2 focus:ring-offset-1 mx-auto block">
+                        </div>
+                    @endif
+
                     <div class="space-y-4">
                         <p class="text-xs text-black text-center font-bold">
                             نام قطعه : {{ $part->name }}
