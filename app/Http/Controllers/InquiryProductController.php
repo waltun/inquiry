@@ -363,4 +363,71 @@ class InquiryProductController extends Controller
 
         return back();
     }
+
+    public function multiPercent(Request $request)
+    {
+        $request->validate([
+            'ids' => 'required|array',
+            'percent' => 'required|numeric|between:1,3'
+        ]);
+
+        foreach ($request->ids as $id) {
+            $product = Product::find($id);
+            $inquiry = Inquiry::find($product->inquiry_id);
+            $user = User::find($inquiry->user_id);
+            $group = Group::find($product->group_id);
+            $modell = Modell::find($product->model_id);
+
+            $totalGroupPrice = 0;
+            $totalModellPrice = 0;
+
+            if (!$modell->parts->isEmpty()) {
+                foreach ($modell->parts as $part) {
+                    $amount = $product->amounts()->where('part_id', $part->id)->first();
+                    if ($amount) {
+                        if ($amount->price > 0) {
+                            $totalModellPrice += ($part->price * $amount->value) + ($amount->price * $amount->value);
+                        } else {
+                            $totalModellPrice += ($part->price * $amount->value);
+                        }
+                    }
+                }
+            }
+
+            if (!$group->parts->isEmpty()) {
+                foreach ($group->parts as $part) {
+                    $amount = $product->amounts()->where('part_id', $part->id)->first();
+                    if ($amount) {
+                        if ($amount->price > 0) {
+                            $totalGroupPrice += ($part->price * $amount->value) + ($amount->price * $amount->value);
+                        } else {
+                            $totalGroupPrice += ($part->price * $amount->value);
+                        }
+                    }
+                }
+            }
+
+            $totalPrice = $totalGroupPrice + $totalModellPrice;
+            $finalPrice = $totalPrice * $request->percent;
+
+            $product->update([
+                'price' => $finalPrice,
+                'percent' => $request->percent,
+            ]);
+        }
+
+        if (!$inquiry->products->pluck('percent')->contains(0)) {
+            $inquiry->archive_at = now();
+            $finalTotalPrice = 0;
+            foreach ($inquiry->products as $product) {
+                $finalTotalPrice += $product->price * $product->quantity;
+            }
+            $inquiry->price = $finalTotalPrice;
+            $inquiry->save();
+
+            //Send Notification
+            $user->notify(new PercentInquiryNotification($inquiry));
+            return redirect()->route('inquiries.priced');
+        }
+    }
 }

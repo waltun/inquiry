@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Inquiry;
 use App\Models\Part;
+use App\Models\Product;
+use App\Models\User;
+use App\Notifications\PercentInquiryNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -64,5 +67,43 @@ class InquiryPartController extends Controller
         alert()->success('ثبت موفق', 'ثبت قطعه برای استعلام با موفقیت انجام شد');
 
         return back();
+    }
+
+    public function multiPercent(Request $request)
+    {
+        $request->validate([
+            'ids' => 'required|array',
+            'percent' => 'required|numeric|between:1,3'
+        ]);
+
+        foreach ($request->ids as $id) {
+            $product = Product::find($id);
+            $inquiryPart = Part::find($product->part_id);
+            $inquiry = Inquiry::find($product->inquiry_id);
+            $user = User::find($inquiry->user_id);
+
+            if (!is_null($inquiryPart)) {
+                $finalPrice = $inquiryPart->price * $request->percent;
+            }
+
+            $product->update([
+                'price' => $finalPrice,
+                'percent' => $request->percent,
+            ]);
+        }
+
+        if (!$inquiry->products->pluck('percent')->contains(0)) {
+            $inquiry->archive_at = now();
+            $finalTotalPrice = 0;
+            foreach ($inquiry->products as $product) {
+                $finalTotalPrice += $product->price * $product->quantity;
+            }
+            $inquiry->price = $finalTotalPrice;
+            $inquiry->save();
+
+            //Send Notification
+            $user->notify(new PercentInquiryNotification($inquiry));
+            return redirect()->route('inquiries.priced');
+        }
     }
 }
