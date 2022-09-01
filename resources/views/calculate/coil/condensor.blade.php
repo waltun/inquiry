@@ -32,8 +32,8 @@
             let azotResult;
             let vaznBerenjMasrafiResult;
 
-            let price0 , price1 , price2 , price3 , price4 , price5 , price6 , price7 , price8 , price9
-                , price10 , price11 , price12 , price13 , price14 , price15 , price16 , price17 , price18 , price19
+            let price0, price1, price2, price3, price4, price5, price6, price7, price8, price9
+                , price10, price11, price12, price13, price14, price15, price16, price17, price18, price19
                 , price20;
 
             function calculate() {
@@ -128,36 +128,39 @@
                     zekhamatFin = 0.10; //100 micron
                 }
 
-                let tedadUResult = (tedadRadif * tedadLooleDarRadif) - tedadMadarLoole;
+                let tedadUResult;
 
                 //Loole Messi 5/8 - Zekhamat 0.5
                 if (looleMessiId === '58') {
+                    tedadUResult = (tedadRadif * tedadLooleDarRadif) - tedadMadarLoole;
                     gamDarRadif = 32.5;
                     gamDarErtefa = 37.5;
                     sabetVaznVaragh = 130;
                     looleMessiResult = (tooleCoil + 4) * tedadRadif * tedadLooleDarRadif * 0.0055118;
                     ertefaFinResult = tedadMogheyiatLooleDarRadif * gamDarErtefa;
                     satheCoilResult = (tedadMogheyiatLooleDarRadif * 1.5 * tooleCoil) / 144;
-                    vaznNoghreMasrafiResult = tedadUResult * 3.2;
+                    vaznNoghreMasrafiResult = tedadRadif * tedadLooleDarRadif * 2 * 2.8;
                     azotResult = tedadRadif * satheCoilResult * 0.23;
                     vaznBerenjMasrafiResult = 0;
                 }
 
                 //Loole Messi 5/8 - Zekhamat 0.63
                 if (looleMessiId === '59') {
+                    tedadUResult = (tedadRadif * tedadLooleDarRadif) - tedadMadarLoole;
                     gamDarRadif = 32.5;
                     gamDarErtefa = 37.5;
                     sabetVaznVaragh = 130;
                     looleMessiResult = (tooleCoil + 4) * tedadRadif * tedadLooleDarRadif * 0.006858;
                     ertefaFinResult = tedadMogheyiatLooleDarRadif * gamDarErtefa;
                     satheCoilResult = (tedadMogheyiatLooleDarRadif * 1.5 * tooleCoil) / 144;
-                    vaznNoghreMasrafiResult = tedadUResult * 3.2;
+                    vaznNoghreMasrafiResult = tedadRadif * tedadLooleDarRadif * 2 * 2.8;
                     azotResult = tedadRadif * satheCoilResult * 0.23;
                     vaznBerenjMasrafiResult = 0;
                 }
 
                 //Loole Messi 3/8 - Zekhamat 0.35
                 if (looleMessiId === '53') {
+                    tedadUResult = (tedadRadif * tedadLooleDarRadif / 2) - tedadMadarLoole;
                     gamDarRadif = 21.6;
                     gamDarErtefa = 25;
                     sabetVaznVaragh = 110;
@@ -171,6 +174,7 @@
 
                 //Loole Messi 3/8 - Zekhamat 0.4
                 if (looleMessiId === '54') {
+                    tedadUResult = (tedadRadif * tedadLooleDarRadif / 2) - tedadMadarLoole;
                     gamDarRadif = 21.6;
                     gamDarErtefa = 25;
                     sabetVaznVaragh = 110;
@@ -184,6 +188,7 @@
 
                 //Loole Messi 3/8 - Zekhamat 0.5
                 if (looleMessiId === '55') {
+                    tedadUResult = (tedadRadif * tedadLooleDarRadif / 2) - tedadMadarLoole;
                     gamDarRadif = 21.6;
                     gamDarErtefa = 25;
                     sabetVaznVaragh = 110;
@@ -308,67 +313,82 @@
 
                 let roghaneTabkhirShavandeResult = tedadRadif * satheCoilResult * 0.015;
 
-                if (collectorAhaniId === '70') {
-                    collectorAhaniResult = ((ertefaFinResult + 150) / 1000) * 1.94 * 2;
+                if (collectorAhaniId === '77') {
+                    collectorAhaniResult = ((ertefaFinResult + 150) / 1000) * 0.196;
                 }
-                if (collectorAhaniId === '71') {
-                    collectorAhaniResult = ((ertefaFinResult + 150) / 1000) * 2.48 * 2;
+                if (collectorAhaniId === '78') {
+                    collectorAhaniResult = ((ertefaFinResult + 150) / 1000) * 0.268;
                 }
-                if (collectorAhaniId === '72') {
-                    collectorAhaniResult = ((ertefaFinResult + 150) / 1000) * 2.81 * 2;
+                if (collectorAhaniId === '79') {
+                    collectorAhaniResult = ((ertefaFinResult + 150) / 1000) * 0.339;
                 }
-                if (collectorAhaniId === '73') {
-                    collectorAhaniResult = ((ertefaFinResult + 150) / 1000) * 4.32 * 2;
+                if (collectorAhaniId === '80') {
+                    collectorAhaniResult = ((ertefaFinResult + 150) / 1000) * 0.54;
                 }
-                if (collectorAhaniId === '74') {
-                    collectorAhaniResult = ((ertefaFinResult + 150) / 1000) * 5.48 * 2;
+                if (collectorAhaniId === '81') {
+                    collectorAhaniResult = ((ertefaFinResult + 150) / 1000) * 0.975;
                 }
-                if (collectorAhaniId === '75') {
-                    collectorAhaniResult = ((ertefaFinResult + 150) / 1000) * 7.56 * 2;
+                if (collectorAhaniId === '82') {
+                    collectorAhaniResult = ((ertefaFinResult + 150) / 1000) * 1.410;
                 }
-                if (collectorAhaniId === '76') {
-                    collectorAhaniResult = ((ertefaFinResult + 150) / 1000) * 11.18 * 2;
+                if (collectorAhaniId === '83') {
+                    collectorAhaniResult = ((ertefaFinResult + 150) / 1000) * 1.685;
+                }
+                if (collectorAhaniId === '84') {
+                    collectorAhaniResult = ((ertefaFinResult + 150) / 1000) * 2.360;
+                }
+                if (collectorAhaniId === '85') {
+                    collectorAhaniResult = ((ertefaFinResult + 150) / 1000) * 3.616;
+                }
+                if (collectorAhaniId === '86') {
+                    collectorAhaniResult = ((ertefaFinResult + 150) / 1000) * 4.95;
+                }
+                if (collectorAhaniId === '87') {
+                    collectorAhaniResult = ((ertefaFinResult + 150) / 1000) * 6.9;
+                }
+                if (collectorAhaniId === '88') {
+                    collectorAhaniResult = ((ertefaFinResult + 150) / 1000) * 7.89;
                 }
 
 
                 if (collectorMessiId === '77') {
-                    collectorMessiResult = ((ertefaFinResult + 150) / 1000) * 0.196 * 2;
+                    collectorMessiResult = ((ertefaFinResult + 150) / 1000) * 0.196;
                 }
                 if (collectorMessiId === '78') {
-                    collectorMessiResult = ((ertefaFinResult + 150) / 1000) * 0.299 * 2;
+                    collectorMessiResult = ((ertefaFinResult + 150) / 1000) * 0.268;
                 }
                 if (collectorMessiId === '79') {
-                    collectorMessiResult = ((ertefaFinResult + 150) / 1000) * 0.419 * 2;
+                    collectorMessiResult = ((ertefaFinResult + 150) / 1000) * 0.339;
                 }
                 if (collectorMessiId === '80') {
-                    collectorMessiResult = ((ertefaFinResult + 150) / 1000) * 0.734 * 2;
+                    collectorMessiResult = ((ertefaFinResult + 150) / 1000) * 0.54;
                 }
                 if (collectorMessiId === '81') {
-                    collectorMessiResult = ((ertefaFinResult + 150) / 1000) * 0.975 * 2;
+                    collectorMessiResult = ((ertefaFinResult + 150) / 1000) * 0.975;
                 }
                 if (collectorMessiId === '82') {
-                    collectorMessiResult = ((ertefaFinResult + 150) / 1000) * 1.410 * 2;
+                    collectorMessiResult = ((ertefaFinResult + 150) / 1000) * 1.410;
                 }
                 if (collectorMessiId === '83') {
-                    collectorMessiResult = ((ertefaFinResult + 150) / 1000) * 1.685 * 2;
+                    collectorMessiResult = ((ertefaFinResult + 150) / 1000) * 1.685;
                 }
                 if (collectorMessiId === '84') {
-                    collectorMessiResult = ((ertefaFinResult + 150) / 1000) * 2.205 * 2;
+                    collectorMessiResult = ((ertefaFinResult + 150) / 1000) * 2.360;
                 }
                 if (collectorMessiId === '85') {
-                    collectorMessiResult = ((ertefaFinResult + 150) / 1000) * 3.616 * 2;
+                    collectorMessiResult = ((ertefaFinResult + 150) / 1000) * 3.616;
                 }
                 if (collectorMessiId === '86') {
-                    collectorMessiResult = ((ertefaFinResult + 150) / 1000) * 4.95 * 2;
+                    collectorMessiResult = ((ertefaFinResult + 150) / 1000) * 4.95;
                 }
                 if (collectorMessiId === '87') {
-                    collectorMessiResult = ((ertefaFinResult + 150) / 1000) * 6.9 * 2;
+                    collectorMessiResult = ((ertefaFinResult + 150) / 1000) * 6.9;
                 }
                 if (collectorMessiId === '88') {
-                    collectorMessiResult = ((ertefaFinResult + 150) / 1000) * 7.89 * 2;
+                    collectorMessiResult = ((ertefaFinResult + 150) / 1000) * 7.89;
                 }
 
-                if(looleMessi316Result === looleMessi316Result && looleMessi316Result > 0 && typeof looleMessi316Result !== 'undefined') {
+                if (looleMessi316Result === looleMessi316Result && looleMessi316Result > 0 && typeof looleMessi316Result !== 'undefined') {
                     valueSection[0].innerText = looleMessi316Result.toFixed(2);
                     inputValues[0].value = looleMessi316Result.toFixed(2);
                     price0 = inputTotalPrice[0].value * looleMessi316Result;
@@ -398,7 +418,7 @@
                 price2 = inputTotalPrice[2].value * 0.2;
                 totalPriceSection[2].innerText = Intl.NumberFormat().format(price2);
 
-                if(khamCoilResult === khamCoilResult && khamCoilResult > 0 && typeof khamCoilResult !== 'undefined') {
+                if (khamCoilResult === khamCoilResult && khamCoilResult > 0 && typeof khamCoilResult !== 'undefined') {
                     valueSection[3].innerText = khamCoilResult.toFixed(2);
                     inputValues[3].value = khamCoilResult.toFixed(2);
                     price3 = inputTotalPrice[3].value * khamCoilResult;
@@ -548,7 +568,7 @@
                     totalPriceSection[16].innerText = 0;
                 }
 
-                if(collectorMessiResult === collectorMessiResult && collectorMessiResult > 0 && typeof collectorMessiResult !== 'undefined'){
+                if (collectorMessiResult === collectorMessiResult && collectorMessiResult > 0 && typeof collectorMessiResult !== 'undefined') {
                     valueSection[17].innerText = collectorMessiResult.toFixed(2);
                     inputValues[17].value = collectorMessiResult.toFixed(2);
                     price17 = inputTotalPrice[17].value * collectorMessiResult;
@@ -980,7 +1000,8 @@
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputTedadMadar">تعداد مدار کویل</label>
-                        <select name="tedad_madar_coil" id="inputTedadMadar" class="input-text bg-yellow-300">
+                        <select name="tedad_madar_coil" id="inputTedadMadar"
+                                class="input-text bg-gray-200 cursor-not-allowed" disabled>
                             <option value="">انتخاب کنید</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
@@ -1040,41 +1061,54 @@
                             <option value="1">هرسایت</option>
                         </select>
                     </div>
-                    <div class="col-span-2">
-                        <label class="block mb-2 text-sm font-bold" for="inputCollectorAhani">هدر و کلکتور آهنی</label>
-                        <select name="collector_ahani" id="inputCollectorAhani" class="input-text bg-gray-200 cursor-not-allowed"
-                                onchange="calculate()" disabled>
+                    <div>
+                        <label class="block mb-2 text-sm font-bold" for="inputCollectorAhani">کلکتور ورودی</label>
+                        <select name="collector_ahani" id="inputCollectorAhani" class="input-text bg-yellow-300"
+                                onchange="calculate()">
                             <option value="">انتخاب کنید</option>
-                            <option value="0">ندارد</option>
-                            <option value="{{ \App\Models\Part::where('id','70')->first()->id }}">
-                                {{ \App\Models\Part::where('id','70')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','77')->first()->id }}">
+                                {{ \App\Models\Part::where('id','77')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('id','71')->first()->id }}">
-                                {{ \App\Models\Part::where('id','71')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','78')->first()->id }}">
+                                {{ \App\Models\Part::where('id','78')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('id','72')->first()->id }}">
-                                {{ \App\Models\Part::where('id','72')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','79')->first()->id }}">
+                                {{ \App\Models\Part::where('id','79')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('id','73')->first()->id }}">
-                                {{ \App\Models\Part::where('id','73')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','80')->first()->id }}">
+                                {{ \App\Models\Part::where('id','80')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('id','74')->first()->id }}">
-                                {{ \App\Models\Part::where('id','74')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','81')->first()->id }}">
+                                {{ \App\Models\Part::where('id','81')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('id','75')->first()->id }}">
-                                {{ \App\Models\Part::where('id','75')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','82')->first()->id }}">
+                                {{ \App\Models\Part::where('id','82')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('id','76')->first()->id }}">
-                                {{ \App\Models\Part::where('id','76')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','83')->first()->id }}">
+                                {{ \App\Models\Part::where('id','83')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('id','84')->first()->id }}">
+                                {{ \App\Models\Part::where('id','84')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('id','85')->first()->id }}">
+                                {{ \App\Models\Part::where('id','85')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('id','86')->first()->id }}">
+                                {{ \App\Models\Part::where('id','86')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('id','87')->first()->id }}">
+                                {{ \App\Models\Part::where('id','87')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('id','88')->first()->id }}">
+                                {{ \App\Models\Part::where('id','88')->first()->name }}
                             </option>
                         </select>
                     </div>
                     <div class="col-span-2">
-                        <label class="block mb-2 text-sm font-bold" for="inputCollectorMessi">هدر و کلکتور مسی</label>
+                        <label class="block mb-2 text-sm font-bold" for="inputCollectorMessi">کلکتور خروجی</label>
                         <select name="collector_messi" id="inputCollectorMessi" class="input-text bg-yellow-300"
                                 onchange="calculate()">
                             <option value="">انتخاب کنید</option>
-                            <option value="0">ندارد</option>
                             <option value="{{ \App\Models\Part::where('id','77')->first()->id }}">
                                 {{ \App\Models\Part::where('id','77')->first()->name }}
                             </option>
@@ -1114,6 +1148,32 @@
                         </select>
                     </div>
                     <div>
+                        <label class="block mb-2 text-sm font-bold" for="inputElectrodNoghre">
+                            الکترود نقره
+                        </label>
+                        <select name="electrod_noghre" id="inputElectrodNoghre" class="input-text bg-yellow-300"
+                                onchange="calculate()">
+                            <option value="">
+                                انتخاب کنید
+                            </option>
+                            <option value="{{ \App\Models\Part::where('id','104')->first()->id }}">
+                                {{ \App\Models\Part::where('id','104')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('id','105')->first()->id }}">
+                                {{ \App\Models\Part::where('id','105')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('id','108')->first()->id }}">
+                                {{ \App\Models\Part::where('id','108')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('id','413')->first()->id }}">
+                                {{ \App\Models\Part::where('id','413')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('id','109')->first()->id }}">
+                                {{ \App\Models\Part::where('id','109')->first()->name }}
+                            </option>
+                        </select>
+                    </div>
+                    <div>
                         <label class="block mb-2 text-sm font-bold" for="inputTooleCoil">طول کویل (اینچ)</label>
                         <input name="toole_coil" type="text" class="input-text bg-yellow-300" id="inputTooleCoil"
                                value="0"
@@ -1139,38 +1199,13 @@
                                onkeyup="calculate()"
                                name="tedad_madar_loole">
                     </div>
-                    <div class="col-span-2">
+                    <div class="col-span-3">
                         <label class="block mb-2 text-sm font-bold" for="inputTedadSoorakhPakhshKon">
                             تعداد سوراخ پخش کن
                         </label>
-                        <input type="text" class="input-text bg-gray-200 cursor-not-allowed" id="inputTedadSoorakhPakhshKon" value="0"
+                        <input type="text" class="input-text bg-gray-200 cursor-not-allowed"
+                               id="inputTedadSoorakhPakhshKon" value="0"
                                onkeyup="calculate()" name="tedad_soorakh_pakhshkon">
-                    </div>
-                    <div class="col-span-2">
-                        <label class="block mb-2 text-sm font-bold" for="inputElectrodNoghre">
-                            الکترود نقره
-                        </label>
-                        <select name="electrod_noghre" id="inputElectrodNoghre" class="input-text bg-yellow-300"
-                                onchange="calculate()">
-                            <option value="">
-                                انتخاب کنید
-                            </option>
-                            <option value="{{ \App\Models\Part::where('id','104')->first()->id }}">
-                                {{ \App\Models\Part::where('id','104')->first()->name }}
-                            </option>
-                            <option value="{{ \App\Models\Part::where('id','105')->first()->id }}">
-                                {{ \App\Models\Part::where('id','105')->first()->name }}
-                            </option>
-                            <option value="{{ \App\Models\Part::where('id','108')->first()->id }}">
-                                {{ \App\Models\Part::where('id','108')->first()->name }}
-                            </option>
-                            <option value="{{ \App\Models\Part::where('id','413')->first()->id }}">
-                                {{ \App\Models\Part::where('id','413')->first()->name }}
-                            </option>
-                            <option value="{{ \App\Models\Part::where('id','109')->first()->id }}">
-                                {{ \App\Models\Part::where('id','109')->first()->name }}
-                            </option>
-                        </select>
                     </div>
                 </div>
             </div>

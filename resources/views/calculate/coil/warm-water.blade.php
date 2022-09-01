@@ -15,7 +15,7 @@
             let totalPriceSection = [];
             let inputTotalPrice = [];
             let inputValues = [];
-            for (let i = 0; i < 22; i++) {
+            for (let i = 0; i < 23; i++) {
                 valueSection[i] = document.getElementById('valueSection' + i);
                 totalPriceSection[i] = document.getElementById('totalPriceSection' + i);
                 inputTotalPrice[i] = document.getElementById('inputTotalPrice' + i);
@@ -33,7 +33,7 @@
 
             let price0, price1, price2, price3, price4, price5, price6, price7, price8, price9
                 , price10, price11, price12, price13, price14, price15, price16, price17, price18, price19
-                , price20;
+                , price20, price21, price22;
 
             function calculate() {
                 let tooleCoil = parseFloat(document.getElementById('inputTooleCoil').value);
@@ -63,6 +63,7 @@
                 let collectorAhaniResult;
                 let collectorMessiResult;
                 let vaznNoghreMasrafiResult;
+                let electrod6013Result;
 
                 tedadSoorakhPakhshKon = 0;
                 document.getElementById("inputTedadSoorakhPakhshKon").value = tedadSoorakhPakhshKon;
@@ -128,36 +129,39 @@
                     zekhamatFin = 0.10; //100 micron
                 }
 
-                let tedadUResult = (tedadRadif * tedadLooleDarRadif) - tedadMadarLoole;
+                let tedadUResult;
 
                 //Loole Messi 5/8 - Zekhamat 0.5
                 if (looleMessiId === '58') {
+                    tedadUResult = (tedadRadif * tedadLooleDarRadif) - tedadMadarLoole;
                     gamDarRadif = 32.5;
                     gamDarErtefa = 37.5;
                     sabetVaznVaragh = 130;
                     looleMessiResult = (tooleCoil + 4) * tedadRadif * tedadLooleDarRadif * 0.0055118;
                     ertefaFinResult = tedadMogheyiatLooleDarRadif * gamDarErtefa;
                     satheCoilResult = (tedadMogheyiatLooleDarRadif * 1.5 * tooleCoil) / 144;
-                    vaznNoghreMasrafiResult = tedadUResult * 3.2;
+                    vaznNoghreMasrafiResult = tedadRadif * tedadLooleDarRadif * 2 * 2.8;
                     azotResult = tedadRadif * satheCoilResult * 0.23;
                     vaznBerenjMasrafiResult = (tedadMadarLoole * 2) * 11;
                 }
 
                 //Loole Messi 5/8 - Zekhamat 0.63
                 if (looleMessiId === '59') {
+                    tedadUResult = (tedadRadif * tedadLooleDarRadif) - tedadMadarLoole;
                     gamDarRadif = 32.5;
                     gamDarErtefa = 37.5;
                     sabetVaznVaragh = 130;
                     looleMessiResult = (tooleCoil + 4) * tedadRadif * tedadLooleDarRadif * 0.006858;
                     ertefaFinResult = tedadMogheyiatLooleDarRadif * gamDarErtefa;
                     satheCoilResult = (tedadMogheyiatLooleDarRadif * 1.5 * tooleCoil) / 144;
-                    vaznNoghreMasrafiResult = tedadUResult * 3.2;
+                    vaznNoghreMasrafiResult = tedadRadif * tedadLooleDarRadif * 2 * 2.8;
                     azotResult = tedadRadif * satheCoilResult * 0.23;
                     vaznBerenjMasrafiResult = (tedadMadarLoole * 2) * 11;
                 }
 
                 //Loole Messi 3/8 - Zekhamat 0.35
                 if (looleMessiId === '53') {
+                    tedadUResult = (tedadRadif * tedadLooleDarRadif / 2) - tedadMadarLoole;
                     gamDarRadif = 21.6;
                     gamDarErtefa = 25;
                     sabetVaznVaragh = 110;
@@ -171,6 +175,7 @@
 
                 //Loole Messi 3/8 - Zekhamat 0.4
                 if (looleMessiId === '54') {
+                    tedadUResult = (tedadRadif * tedadLooleDarRadif / 2) - tedadMadarLoole;
                     gamDarRadif = 21.6;
                     gamDarErtefa = 25;
                     sabetVaznVaragh = 110;
@@ -184,6 +189,7 @@
 
                 //Loole Messi 3/8 - Zekhamat 0.5
                 if (looleMessiId === '55') {
+                    tedadUResult = (tedadRadif * tedadLooleDarRadif / 2) - tedadMadarLoole;
                     gamDarRadif = 21.6;
                     gamDarErtefa = 25;
                     sabetVaznVaragh = 110;
@@ -308,24 +314,31 @@
 
                 if (collectorAhaniId === '70') {
                     collectorAhaniResult = ((ertefaFinResult + 150) / 1000) * 1.94 * 2;
+                    electrod6013Result = 2 * 16;
                 }
                 if (collectorAhaniId === '71') {
                     collectorAhaniResult = ((ertefaFinResult + 150) / 1000) * 2.48 * 2;
+                    electrod6013Result = 3 * 16;
                 }
                 if (collectorAhaniId === '72') {
                     collectorAhaniResult = ((ertefaFinResult + 150) / 1000) * 2.81 * 2;
+                    electrod6013Result = 4 * 16;
                 }
                 if (collectorAhaniId === '73') {
                     collectorAhaniResult = ((ertefaFinResult + 150) / 1000) * 4.32 * 2;
+                    electrod6013Result = 5 * 16;
                 }
                 if (collectorAhaniId === '74') {
                     collectorAhaniResult = ((ertefaFinResult + 150) / 1000) * 5.48 * 2;
+                    electrod6013Result = 7 * 16;
                 }
                 if (collectorAhaniId === '75') {
                     collectorAhaniResult = ((ertefaFinResult + 150) / 1000) * 7.56 * 2;
+                    electrod6013Result = 8 * 16;
                 }
                 if (collectorAhaniId === '76') {
                     collectorAhaniResult = ((ertefaFinResult + 150) / 1000) * 11.18 * 2;
+                    electrod6013Result = 10 * 16;
                 }
 
 
@@ -333,13 +346,13 @@
                     collectorMessiResult = ((ertefaFinResult + 150) / 1000) * 0.196 * 2;
                 }
                 if (collectorMessiId === '78') {
-                    collectorMessiResult = ((ertefaFinResult + 150) / 1000) * 0.299 * 2;
+                    collectorMessiResult = ((ertefaFinResult + 150) / 1000) * 0.268 * 2;
                 }
                 if (collectorMessiId === '79') {
-                    collectorMessiResult = ((ertefaFinResult + 150) / 1000) * 0.419 * 2;
+                    collectorMessiResult = ((ertefaFinResult + 150) / 1000) * 0.339 * 2;
                 }
                 if (collectorMessiId === '80') {
-                    collectorMessiResult = ((ertefaFinResult + 150) / 1000) * 0.734 * 2;
+                    collectorMessiResult = ((ertefaFinResult + 150) / 1000) * 0.54 * 2;
                 }
                 if (collectorMessiId === '81') {
                     collectorMessiResult = ((ertefaFinResult + 150) / 1000) * 0.975 * 2;
@@ -351,7 +364,7 @@
                     collectorMessiResult = ((ertefaFinResult + 150) / 1000) * 1.685 * 2;
                 }
                 if (collectorMessiId === '84') {
-                    collectorMessiResult = ((ertefaFinResult + 150) / 1000) * 2.205 * 2;
+                    collectorMessiResult = ((ertefaFinResult + 150) / 1000) * 2.360 * 2;
                 }
                 if (collectorMessiId === '85') {
                     collectorMessiResult = ((ertefaFinResult + 150) / 1000) * 3.616 * 2;
@@ -367,6 +380,18 @@
                 }
 
                 satheCoilSection.innerText = satheCoilResult.toFixed(2);
+
+                if (collectorAhaniId === collectorAhaniId && collectorAhaniId > 0 && typeof collectorAhaniId !== 'undefined') {
+                    document.getElementById("inputCollectorMessi").setAttribute("disabled", "disabled");
+                } else {
+                    document.getElementById("inputCollectorMessi").removeAttribute("disabled");
+                }
+
+                if (collectorMessiId === collectorMessiId && collectorMessiId > 0 && typeof collectorMessiId !== 'undefined') {
+                    document.getElementById("inputCollectorAhani").setAttribute("disabled", "disabled");
+                } else {
+                    document.getElementById("inputCollectorAhani").removeAttribute("disabled");
+                }
 
                 if (looleMessi316Result === looleMessi316Result && looleMessi316Result > 0 && typeof looleMessi316Result !== 'undefined') {
                     valueSection[0].innerText = looleMessi316Result.toFixed(2);
@@ -603,13 +628,27 @@
                     totalPriceSection[21].innerText = 0;
                 }
 
+                if (electrod6013Result === electrod6013Result && electrod6013Result > 0 && typeof electrod6013Result !== 'undefined') {
+                    valueSection[22].innerText = electrod6013Result.toFixed(2);
+                    inputValues[22].value = electrod6013Result.toFixed(2);
+                    price22 = inputTotalPrice[22].value * electrod6013Result;
+                    totalPriceSection[22].innerText = Intl.NumberFormat().format(price22);
+                } else {
+                    valueSection[22].innerText = 0;
+                    inputValues[22].value = 0;
+                    price22 = 0;
+                    totalPriceSection[22].innerText = 0;
+                }
+
 
                 let finalPriceSection = document.getElementById('finalPriceSection');
                 let inputFinalPrice = document.getElementById('inputFinalPrice');
 
 
                 finalPrice = price0 + price1 + price2 + price3 + price4 + price5 + price6 + price7 + price8 + price9
-                    + price10 + price11 + price12 + price13 + price14 + price15 + price16 + price17 + price18 + price19 + price20 + price21;
+                    + price10 + price11 + price12 + price13 + price14 + price15 + price16 + price17 + price18 + price19
+                    + price20 + price21 + price22;
+
                 finalPriceSection.innerText = Intl.NumberFormat().format(finalPrice);
                 inputFinalPrice.value = finalPrice;
                 document.getElementById("finalPriceTopSection").innerText = Intl.NumberFormat().format(finalPrice.toFixed(0));
@@ -1052,7 +1091,6 @@
                         <label class="block mb-2 text-sm font-bold" for="inputCollectorAhani">هدر و کلکتور آهنی</label>
                         <select name="collector_ahani" id="inputCollectorAhani" class="input-text bg-yellow-300"
                                 onchange="calculate()">
-                            <option value="">انتخاب کنید</option>
                             <option value="0">ندارد</option>
                             <option value="{{ \App\Models\Part::where('id','70')->first()->id }}">
                                 {{ \App\Models\Part::where('id','70')->first()->name }}
@@ -1077,11 +1115,10 @@
                             </option>
                         </select>
                     </div>
-                    <div class="col-span-2">
+                    <div>
                         <label class="block mb-2 text-sm font-bold" for="inputCollectorMessi">هدر و کلکتور مسی</label>
                         <select name="collector_messi" id="inputCollectorMessi" class="input-text bg-yellow-300"
                                 onchange="calculate()">
-                            <option value="">انتخاب کنید</option>
                             <option value="0">ندارد</option>
                             <option value="{{ \App\Models\Part::where('id','77')->first()->id }}">
                                 {{ \App\Models\Part::where('id','77')->first()->name }}
@@ -1122,6 +1159,32 @@
                         </select>
                     </div>
                     <div>
+                        <label class="block mb-2 text-sm font-bold" for="inputElectrodNoghre">
+                            الکترود نقره
+                        </label>
+                        <select name="electrod_noghre" id="inputElectrodNoghre" class="input-text bg-yellow-300"
+                                onchange="calculate()">
+                            <option value="">
+                                انتخاب کنید
+                            </option>
+                            <option value="{{ \App\Models\Part::where('id','104')->first()->id }}">
+                                {{ \App\Models\Part::where('id','104')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('id','105')->first()->id }}">
+                                {{ \App\Models\Part::where('id','105')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('id','108')->first()->id }}">
+                                {{ \App\Models\Part::where('id','108')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('id','413')->first()->id }}">
+                                {{ \App\Models\Part::where('id','413')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('id','109')->first()->id }}">
+                                {{ \App\Models\Part::where('id','109')->first()->name }}
+                            </option>
+                        </select>
+                    </div>
+                    <div>
                         <label class="block mb-2 text-sm font-bold" for="inputTooleCoil">طول کویل (اینچ)</label>
                         <input name="toole_coil" type="text" class="input-text bg-yellow-300" id="inputTooleCoil"
                                value="0"
@@ -1147,39 +1210,13 @@
                                onkeyup="calculate()"
                                name="tedad_madar_loole">
                     </div>
-                    <div class="col-span-2">
+                    <div class="col-span-3">
                         <label class="block mb-2 text-sm font-bold" for="inputTedadSoorakhPakhshKon">
                             تعداد سوراخ پخش کن
                         </label>
                         <input type="text" class="input-text bg-gray-200 cursor-not-allowed"
                                id="inputTedadSoorakhPakhshKon" value="0"
                                onkeyup="calculate()" name="tedad_soorakh_pakhshkon">
-                    </div>
-                    <div class="col-span-2">
-                        <label class="block mb-2 text-sm font-bold" for="inputElectrodNoghre">
-                            الکترود نقره
-                        </label>
-                        <select name="electrod_noghre" id="inputElectrodNoghre" class="input-text bg-yellow-300"
-                                onchange="calculate()">
-                            <option value="">
-                                انتخاب کنید
-                            </option>
-                            <option value="{{ \App\Models\Part::where('id','104')->first()->id }}">
-                                {{ \App\Models\Part::where('id','104')->first()->name }}
-                            </option>
-                            <option value="{{ \App\Models\Part::where('id','105')->first()->id }}">
-                                {{ \App\Models\Part::where('id','105')->first()->name }}
-                            </option>
-                            <option value="{{ \App\Models\Part::where('id','108')->first()->id }}">
-                                {{ \App\Models\Part::where('id','108')->first()->name }}
-                            </option>
-                            <option value="{{ \App\Models\Part::where('id','413')->first()->id }}">
-                                {{ \App\Models\Part::where('id','413')->first()->name }}
-                            </option>
-                            <option value="{{ \App\Models\Part::where('id','109')->first()->id }}">
-                                {{ \App\Models\Part::where('id','109')->first()->name }}
-                            </option>
-                        </select>
                     </div>
                 </div>
             </div>
