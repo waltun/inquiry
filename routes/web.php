@@ -81,6 +81,7 @@ Route::middleware(['auth', 'web'])->group(function () {
 
     //Collection Coils routes
     Route::get('/collection-coil', [CollectionCoilController::class, 'index'])->name('collectionCoil.index');
+    Route::post('/collection-coil/multi-delete', [CollectionCoilController::class, 'multiDelete'])->name('collectionCoil.multiDelete');
 
     //Inquiry routes
     Route::post('/inquiries/create/change-model', [InquiryController::class, 'changeModelAjax'])->name('inquiries.create.changeModel');

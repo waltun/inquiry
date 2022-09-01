@@ -1,6 +1,7 @@
 <x-layout>
     <x-slot name="js">
         <script src="{{ asset('plugins/jquery.min.js') }}"></script>
+
         <script>
             function getCategory1() {
                 let id = document.getElementById('inputCategory1').value;
@@ -67,6 +68,32 @@
                     }
                 });
             }
+        </script>
+
+        <script>
+            $(".deleteAllBtn").on('click', function () {
+                let ids = [];
+                $(".checkboxes:checked").each(function () {
+                    ids.push($(this).val());
+                });
+
+                if (ids.length <= 0) {
+                    alert("لطفا موارد مورد نظر را انتخاب کنید")
+                } else {
+                    $.ajax({
+                        url: '{{ route('collectionCoil.multiDelete') }}',
+                        type: 'POST',
+                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                        data: {
+                            ids: ids,
+                        },
+                        success: function () {
+                            alert("قطعات مورد نظر با موفقیت حذف شدند");
+                            location.reload();
+                        }
+                    });
+                }
+            });
         </script>
     </x-slot>
     <!-- Breadcrumb -->
@@ -223,12 +250,6 @@
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                         کد
                     </th>
-                    <th scope="col" class="relative px-4 py-3">
-                        <span class="sr-only">قطعات</span>
-                    </th>
-                    <th scope="col" class="relative px-4 py-3">
-                        <span class="sr-only">مقادیر</span>
-                    </th>
                     <th scope="col" class="relative px-4 py-3 rounded-l-md">
                         <span class="sr-only">اقدامات</span>
                     </th>
@@ -238,7 +259,8 @@
                 @foreach($parts as $part)
                     <tr>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-gray-500 text-center">{{ $loop->index + 1 }}</p>
+                            <input type="checkbox" value="{{ $part->id }}"
+                                   class="checkboxes w-4 h-4 focus:ring-blue-500 focus:ring-2 focus:ring-offset-1 mx-auto block">
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center">{{ $part->name }}</p>
@@ -269,26 +291,6 @@
                             </p>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
-                            <a href="{{ route('collections.parts',$part->id) }}" class="form-detail-btn text-xs">
-                                قطعات
-                            </a>
-                        </td>
-                        <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
-                            <a href="{{ route('collections.amounts',$part->id) }}" class="form-submit-btn text-xs">
-                                مقادیر
-                            </a>
-                        </td>
-                        <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
-                            <a href="{{ route('parts.edit',$part->id) }}" class="form-edit-btn text-xs">
-                                ویرایش
-                            </a>
-                            <form action="{{ route('collections.replicate',$part->id) }}" method="POST"
-                                  class="inline">
-                                @csrf
-                                <button class="form-detail-btn text-xs">
-                                    کپی
-                                </button>
-                            </form>
                             <form action="{{ route('collections.destroy',$part->id) }}" method="POST"
                                   class="inline">
                                 @csrf
@@ -302,6 +304,13 @@
                 @endforeach
                 </tbody>
             </table>
+        </div>
+
+        <!-- Delete All Button -->
+        <div class="mt-4">
+            <button type="button" class="deleteAllBtn form-cancel-btn">
+                حذف موارد انتخاب شده
+            </button>
         </div>
 
         <!-- Parts count -->

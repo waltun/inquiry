@@ -43,4 +43,14 @@ class CollectionCoilController extends Controller
 
         return view('collection-coils.index', compact('parts', 'categories'));
     }
+
+    public function multiDelete(Request $request)
+    {
+        foreach ($request->ids as $id) {
+            $part = Part::find($id);
+            $part->delete();
+        }
+
+        return response('success', '200');
+    }
 }
