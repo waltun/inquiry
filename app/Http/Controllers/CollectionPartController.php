@@ -14,7 +14,7 @@ class CollectionPartController extends Controller
         Gate::authorize('collections');
 
         $parts = Part::query();
-        $categories = Category::where('parent_id',0)->get();
+        $categories = Category::where('parent_id', 0)->get();
 
         if ($keyword = request('search')) {
             $parts->where('collection', true)
@@ -49,25 +49,31 @@ class CollectionPartController extends Controller
         Gate::authorize('collections');
 
         $parts = Part::query();
-        $categories = Category::all();
+        $categories = Category::where('parent_id', 0)->get();
 
         if ($keyword = request('search')) {
-            $parts->where('name', 'LIKE', "%{$keyword}%")
-                ->orWhere('unit', 'LIKE', "%{$keyword}%")
-                ->orWhere('price', 'LIKE', "%{$keyword}%");
+            $parts->where('collection', false)
+                ->where('coil', false)
+                ->where('name', 'LIKE', "%{$keyword}%");
         }
 
-        if ($keyword = request('code')) {
-            $parts = $parts->where('code', 'LIKE', $keyword);
+        if (!is_null(request('category3'))) {
+            if (request()->has('category3')) {
+                $parts = $parts->whereHas('categories', function ($q) {
+                    $q->where('category_id', request('category3'));
+                })->where('collection', false)->where('coil', false);
+            }
         }
 
-        if (request()->has('category')) {
-            $parts = $parts->whereHas('categories', function ($q) {
-                $q->where('category_id', request('category'));
-            })->where('collection', false);
+        if (is_null(request('category3'))) {
+            if (request()->has('category2')) {
+                $parts = $parts->whereHas('categories', function ($q) {
+                    $q->where('category_id', request('category2'));
+                })->where('collection', false)->where('coil', false);
+            }
         }
 
-        $parts = $parts->where('collection', false)->latest()->paginate(25)->except($parentPart->id)
+        $parts = $parts->where('collection', false)->where('coil', false)->latest()->paginate(25)->except($parentPart->id)
             ->except($parentPart->children()->pluck('parent_part_id')->toArray());
 
         return view('collection-parts.create', compact('parts', 'parentPart', 'categories'));
