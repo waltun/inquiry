@@ -36,6 +36,16 @@ class CalculateCoilController extends Controller
 
     public function storeEvaperator(Request $request, Part $part, Product $product)
     {
+        $request->validate([
+            'loole_messi' => 'required',
+            'fin_coil' => 'required',
+            'zekhamat_frame_coil' => 'required',
+            'collector_ahani' => 'required',
+            'collector_messi' => 'required',
+            'electrod_noghre' => 'required',
+            'name' => 'required'
+        ]);
+
         $looleMessi = $request['loole_messi'];
         $fin = $request['fin_coil'];
         $zekhamat_frame = $request['zekhamat_frame_coil'];
@@ -93,6 +103,16 @@ class CalculateCoilController extends Controller
 
     public function storeCondensor(Request $request, Part $part, Product $product)
     {
+        $request->validate([
+            'loole_messi' => 'required',
+            'fin_coil' => 'required',
+            'zekhamat_frame_coil' => 'required',
+            'collector_ahani' => 'required',
+            'collector_messi' => 'required',
+            'electrod_noghre' => 'required',
+            'name' => 'required'
+        ]);
+
         $looleMessi = $request['loole_messi'];
         $fin = $request['fin_coil'];
         $zekhamat_frame = $request['zekhamat_frame_coil'];
@@ -152,6 +172,16 @@ class CalculateCoilController extends Controller
 
     public function storeFancoil(Request $request, Part $part, Product $product)
     {
+        $request->validate([
+            'loole_messi' => 'required',
+            'fin_coil' => 'required',
+            'zekhamat_frame_coil' => 'required',
+            'collector_ahani' => 'required',
+            'collector_messi' => 'required',
+            'electrod_noghre' => 'required',
+            'name' => 'required'
+        ]);
+
         $looleMessi = $request['loole_messi'];
         $fin = $request['fin_coil'];
         $zekhamat_frame = $request['zekhamat_frame_coil'];
@@ -211,6 +241,16 @@ class CalculateCoilController extends Controller
 
     public function storeWaterCold(Request $request, Part $part, Product $product)
     {
+        $request->validate([
+            'loole_messi' => 'required',
+            'fin_coil' => 'required',
+            'zekhamat_frame_coil' => 'required',
+            'collector_ahani' => 'required',
+            'collector_messi' => 'required',
+            'electrod_noghre' => 'required',
+            'name' => 'required'
+        ]);
+
         $looleMessi = $request['loole_messi'];
         $fin = $request['fin_coil'];
         $zekhamat_frame = $request['zekhamat_frame_coil'];
@@ -270,6 +310,16 @@ class CalculateCoilController extends Controller
 
     public function storeWaterWarm(Request $request, Part $part, Product $product)
     {
+        $request->validate([
+            'loole_messi' => 'required',
+            'fin_coil' => 'required',
+            'zekhamat_frame_coil' => 'required',
+            'collector_ahani' => 'required',
+            'collector_messi' => 'required',
+            'electrod_noghre' => 'required',
+            'name' => 'required'
+        ]);
+
         $looleMessi = $request['loole_messi'];
         $fin = $request['fin_coil'];
         $zekhamat_frame = $request['zekhamat_frame_coil'];

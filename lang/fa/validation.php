@@ -198,6 +198,10 @@ return [
         'amounts' => 'مقادیر',
         'unit' => 'واحد',
         'category_error' => 'ارور دسته بندی',
-        'categories' => 'دسته بندی'
+        'categories' => 'دسته بندی',
+        'loole_messi' => 'لوله مسی',
+        'fin_coil' => 'فین کویل',
+        'zekhamat_frame_coil' => 'ضخامت فریم کویل',
+        'electrod_noghre' => 'الکترود نقره',
     ],
 ];

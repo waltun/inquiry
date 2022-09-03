@@ -650,8 +650,6 @@
                 finalPriceSection.innerText = Intl.NumberFormat().format(finalPrice);
                 inputFinalPrice.value = finalPrice;
                 document.getElementById("finalPriceTopSection").innerText = Intl.NumberFormat().format(finalPrice.toFixed(0));
-
-                document.getElementById('coilName').value = `کویل آبسرد با سطح ${satheCoilResult.toFixed(2)} و طول ${tooleCoil.toFixed(2)}`;
             }
 
             function sendDataLooleMessi(id) {
@@ -893,7 +891,7 @@
         <x-errors/>
     </div>
 
-    <form method="POST" action="{{ route('calculateCoil.storeCondensor',[$part->id,$product->id]) }}">
+    <form method="POST" action="{{ route('calculateCoil.storeWaterCold',[$part->id,$product->id]) }}">
         @csrf
         <input type="hidden" name="name" value="" id="coilName">
         <div class="my-4">
@@ -1215,6 +1213,14 @@
                         <input type="text" class="input-text bg-gray-200 cursor-not-allowed"
                                id="inputTedadSoorakhPakhshKon" value="0"
                                onkeyup="calculate()" name="tedad_soorakh_pakhshkon">
+                    </div>
+                    <div class="col-span-4">
+                        <div>
+                            <label class="block mb-2 text-sm font-bold" for="inputCoilName">
+                                نام کویل مورد نظر
+                            </label>
+                            <input type="text" class="input-text" id="inputCoilName" name="name" placeholder="مثلا کویل فن کویلی 200cfm فین در اینچ 2">
+                        </div>
                     </div>
                 </div>
             </div>
