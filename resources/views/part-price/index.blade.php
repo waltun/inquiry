@@ -285,15 +285,18 @@
                         if ($part->updated_at > $lastMonth) {
                             $color = 'bg-green-500';
                         }
+                        if ($part->price == 0) {
+                            $color = 'bg-red-600';
+                        }
                     @endphp
                     <tr class="{{ $color }}">
-                        <td class="px-4 py-3 whitespace-nowrap">
+                        <td class="px-4 py-1 whitespace-nowrap">
                             <p class="text-sm text-gray-500 text-center">{{ $loop->index + 1 }}</p>
                         </td>
-                        <td class="px-4 py-3 whitespace-nowrap">
+                        <td class="px-4 py-1 whitespace-nowrap">
                             <p class="text-sm text-black text-center font-medium">{{ $part->name }}</p>
                         </td>
-                        <td class="px-4 py-3 whitespace-nowrap">
+                        <td class="px-4 py-1 whitespace-nowrap">
                             @if($part->old_price > 0)
                                 <p class="text-sm text-black text-center font-medium">
                                     {{ number_format($part->old_price) }} تومان
@@ -304,17 +307,15 @@
                                 </p>
                             @endif
                         </td>
-                        <td class="px-4 py-3 whitespace-nowrap">
-                            <input type="text" class="input-text" id="inputPrice{{ $part->id }}" name="prices[]"
+                        <td class="px-4 py-1 whitespace-nowrap">
+                            <input type="text" class="input-text w-44 py-0.5" id="inputPrice{{ $part->id }}" name="prices[]"
                                    value="{{ $part->price ?? '' }}" onkeyup="showPrice({{ $part->id }})">
+                            <span class="text-sm text-black text-center font-medium" id="priceSection{{ $part->id }}">
+                                {{ number_format($part->price) ?? '0' }} تومان
+                            </span>
                             <input type="hidden" name="parts[]" value="{{ $part->id }}">
-                            <div class="mt-2">
-                                <p class="text-sm text-black text-center font-medium" id="priceSection{{ $part->id }}">
-                                    {{ number_format($part->price) ?? '0' }} تومان
-                                </p>
-                            </div>
                         </td>
-                        <td class="px-4 py-3 whitespace-nowrap">
+                        <td class="px-4 py-1 whitespace-nowrap">
                             <p class="text-sm text-black text-center">
                                 {{ jdate($part->updated_at)->format('%A, %d %B %Y') }}
                             </p>

@@ -146,6 +146,9 @@ class InquiryProductController extends Controller
                     $createdAmount->save();
                     session()->forget('price' . $part);
                 }
+                if (session()->has('selectedPart' . $part)) {
+                    session()->forget('selectedPart' . $part);
+                }
             }
         }
 

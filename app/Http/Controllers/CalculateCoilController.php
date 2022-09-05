@@ -199,7 +199,7 @@ class CalculateCoilController extends Controller
             if ($index == 15) {
                 $childPart->pivot->parent_part_id = $request->parts[2];
             }
-            if ($index == 16 && !is_null($request->parts[3]) &&  $request->parts[3] > 0) {
+            if ($index == 16 && !is_null($request->parts[3]) && $request->parts[3] > 0) {
                 $childPart->pivot->parent_part_id = $request->parts[3];
             }
             if ($index == 17 && !is_null($request->parts[4]) && $request->parts[4] > 0) {
@@ -220,6 +220,7 @@ class CalculateCoilController extends Controller
         }
 
         $request->session()->put('price' . $part->id, $request->final_price);
+        $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
 
         alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');
 

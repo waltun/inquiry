@@ -7,6 +7,57 @@
                 tags: true
             });
         </script>
+        <script>
+            function showCalculateButton(id) {
+                let selectedId = document.getElementById("groupPartList" + id).value;
+                let fancoilSection = document.getElementById("fancoilSection" + id);
+                let warmWaterSection = document.getElementById("warmWaterSection" + id);
+                let coldWaterSection = document.getElementById("coldWaterSection" + id);
+                let condensorSection = document.getElementById("condensorSection" + id);
+                let evaperatorSection = document.getElementById("evaperatorSection" + id);
+
+                //Coil Fancoil
+                if (selectedId === '170') {
+                    fancoilSection.classList.remove('hidden')
+                    fancoilSection.classList.add('block')
+                } else {
+                    fancoilSection.classList.remove('block')
+                    fancoilSection.classList.add('hidden')
+                }
+                //Coil Warm Water
+                if (selectedId === '169') {
+                    warmWaterSection.classList.remove('hidden')
+                    warmWaterSection.classList.add('block')
+                } else {
+                    warmWaterSection.classList.remove('block')
+                    warmWaterSection.classList.add('hidden')
+                }
+                //Coil Cold Water
+                if (selectedId === '168') {
+                    coldWaterSection.classList.remove('hidden')
+                    coldWaterSection.classList.add('block')
+                } else {
+                    coldWaterSection.classList.remove('block')
+                    coldWaterSection.classList.add('hidden')
+                }
+                //Coil Condensor
+                if (selectedId === '167') {
+                    condensorSection.classList.remove('hidden')
+                    condensorSection.classList.add('block')
+                } else {
+                    condensorSection.classList.remove('block')
+                    condensorSection.classList.add('hidden')
+                }
+                //Coil DX
+                if (selectedId === '150') {
+                    evaperatorSection.classList.remove('hidden')
+                    evaperatorSection.classList.add('block')
+                } else {
+                    evaperatorSection.classList.remove('block')
+                    evaperatorSection.classList.add('hidden')
+                }
+            }
+        </script>
     </x-slot>
     <x-slot name="css">
         <link rel="stylesheet" href="{{ asset('plugins/select2/select2.min.css') }}">
@@ -117,7 +168,7 @@
                             {{ $code . "-" . $part->code }}
                         </td>
                         <td class="border border-gray-300 p-4 text-sm text-center flex items-center">
-                            @if($amount)
+                            @if(!is_null($amount))
                                 @php
                                     $selectedPart = \App\Models\Part::find($amount->part_id);
                                     $lastCategory = $selectedPart->categories()->latest()->first();
@@ -130,19 +181,35 @@
                                     $categoryParts = $lastCategory->parts;
                                 @endphp
                             @endif
-                            <select name="part_ids[]" id="" class="input-text">
+                            <select name="part_ids[]" class="input-text" id="groupPartList{{ $part->id }}"
+                                    onchange="showCalculateButton('{{ $part->id }}')">
                                 @foreach($categoryParts as $part2)
-                                    @if($amount)
-                                        <option
-                                            value="{{ $part2->id }}" {{ $part2->id == $amount->part_id ? 'selected' : '' }}>
-                                            {{ $part2->name }}
-                                        </option>
+                                    @if(!is_null($amount))
+                                        @if(!session()->has('selectedPart' . $part2->id))
+                                            <option
+                                                value="{{ $part2->id }}" {{ $part2->id == $amount->part_id ? 'selected' : '' }}>
+                                                {{ $part2->name }}
+                                            </option>
+                                        @else
+                                            <option
+                                                value="{{ $part2->id }}" {{ $part2->id == session()->get('selectedPart' . $part2->id) ? 'selected' : '' }}>
+                                                {{ $part2->name }}
+                                            </option>
+                                        @endif
                                     @else
-                                        <option
-                                            value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
-                                            {{ $part2->name }}
-                                        </option>
+                                        @if(!session()->has('selectedPart' . $part2->id))
+                                            <option
+                                                value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
+                                                {{ $part2->name }}
+                                            </option>
+                                        @else
+                                            <option
+                                                value="{{ $part2->id }}" {{ $part2->id == session()->get('selectedPart' . $part2->id) ? 'selected' : '' }}>
+                                                {{ $part2->name }}
+                                            </option>
+                                        @endif
                                     @endif
+
                                 @endforeach
                             </select>
                             @if(in_array($part->id,$specials))
@@ -260,13 +327,45 @@
                                     @endswitch
                                 </div>
                             @endif
+                            <div class="whitespace-nowrap mr-2">
+                                <div id="fancoilSection{{ $part->id }}" class="hidden">
+                                    <a href="{{ route('calculateCoil.fancoil.index',[$part->id,$product->id]) }}"
+                                       class="form-submit-btn text-xs">
+                                        محاسبه {{ $part->name }}
+                                    </a>
+                                </div>
+                                <div id="warmWaterSection{{ $part->id }}" class="hidden">
+                                    <a href="{{ route('calculateCoil.waterWarm.index',[$part->id,$product->id]) }}"
+                                       class="form-submit-btn text-xs">
+                                        محاسبه {{ $part->name }}
+                                    </a>
+                                </div>
+                                <div id="coldWaterSection{{ $part->id }}" class="hidden">
+                                    <a href="{{ route('calculateCoil.waterCold.index',[$part->id,$product->id]) }}"
+                                       class="form-submit-btn text-xs">
+                                        محاسبه {{ $part->name }}
+                                    </a>
+                                </div>
+                                <div id="condensorSection{{ $part->id }}" class="hidden">
+                                    <a href="{{ route('calculateCoil.condensor.index',[$part->id,$product->id]) }}"
+                                       class="form-submit-btn text-xs">
+                                        محاسبه {{ $part->name }}
+                                    </a>
+                                </div>
+                                <div id="evaperatorSection{{ $part->id }}" class="hidden">
+                                    <a href="{{ route('calculateCoil.evaperator.index',[$part->id,$product->id]) }}"
+                                       class="form-submit-btn text-xs">
+                                        محاسبه {{ $part->name }}
+                                    </a>
+                                </div>
+                            </div>
                         </td>
                         <td class="border border-gray-300 p-4 text-sm text-center">
                             {{ $part->unit }}
                         </td>
                         <td class="border border-gray-300 p-4 text-sm text-center font-bold">
                             <input type="text" name="groupAmounts[]" id="inputAmount{{ $part->id }}"
-                                   class="input-text" value="{{ $amount ? $amount->value : $part->pivot->value }}">
+                                   class="input-text" value="{{ !is_null($amount) ? $amount->value : $part->pivot->value }}">
                         </td>
                     </tr>
                 @endforeach
@@ -297,7 +396,8 @@
                                     $categoryParts = $lastCategory->parts;
                                 @endphp
                             @endif
-                            <select name="part_ids[]" id="" class="input-text">
+                            <select name="part_ids[]" id="" class="input-text"
+                                    onchange="showCalculateButton('{{ $part->id }}')">
                                 @foreach($categoryParts as $part2)
                                     @if($amount)
                                         <option
@@ -427,6 +527,68 @@
                                     @endswitch
                                 </div>
                             @endif
+                            <div class="whitespace-nowrap mr-2">
+                                <div id="fancoilSection{{ $part->id }}" class="hidden">
+                                    @if(session()->has('price'.$part->id))
+                                        <span class="form-detail-btn text-xs">
+                                        محاسبه شد
+                                    </span>
+                                    @else
+                                        <a href="{{ route('calculateCoil.fancoil.index',[$part->id,$product->id]) }}"
+                                           class="form-submit-btn text-xs">
+                                            محاسبه {{ $part->name }}
+                                        </a>
+                                    @endif
+                                </div>
+                                <div id="warmWaterSection{{ $part->id }}" class="hidden">
+                                    @if(session()->has('price'.$part->id))
+                                        <span class="form-detail-btn text-xs">
+                                        محاسبه شد
+                                    </span>
+                                    @else
+                                        <a href="{{ route('calculateCoil.waterWarm.index',[$part->id,$product->id]) }}"
+                                           class="form-submit-btn text-xs">
+                                            محاسبه {{ $part->name }}
+                                        </a>
+                                    @endif
+                                </div>
+                                <div id="coldWaterSection{{ $part->id }}" class="hidden">
+                                    @if(session()->has('price'.$part->id))
+                                        <span class="form-detail-btn text-xs">
+                                        محاسبه شد
+                                    </span>
+                                    @else
+                                        <a href="{{ route('calculateCoil.waterCold.index',[$part->id,$product->id]) }}"
+                                           class="form-submit-btn text-xs">
+                                            محاسبه {{ $part->name }}
+                                        </a>
+                                    @endif
+                                </div>
+                                <div id="condensorSection{{ $part->id }}" class="hidden">
+                                    @if(session()->has('price'.$part->id))
+                                        <span class="form-detail-btn text-xs">
+                                        محاسبه شد
+                                    </span>
+                                    @else
+                                        <a href="{{ route('calculateCoil.condensor.index',[$part->id,$product->id]) }}"
+                                           class="form-submit-btn text-xs">
+                                            محاسبه {{ $part->name }}
+                                        </a>
+                                    @endif
+                                </div>
+                                <div id="evaperatorSection{{ $part->id }}" class="hidden">
+                                    @if(session()->has('price'.$part->id))
+                                        <span class="form-detail-btn text-xs">
+                                        محاسبه شد
+                                    </span>
+                                    @else
+                                        <a href="{{ route('calculateCoil.evaperator.index',[$part->id,$product->id]) }}"
+                                           class="form-submit-btn text-xs">
+                                            محاسبه {{ $part->name }}
+                                        </a>
+                                    @endif
+                                </div>
+                            </div>
                         </td>
                         <td class="border border-gray-300 p-4 text-sm text-center">
                             {{ $part->unit }}
