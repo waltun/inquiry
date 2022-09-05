@@ -135,6 +135,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/calculate/coil/{part}/{product}/post-water-warm', [CalculateCoilController::class, 'storeWaterWarm'])
         ->name('calculateCoil.storeWaterWarm');
     Route::post('/calculate/coil/getData', [CalculateCoilController::class, 'getData'])->name('calculateCoil.getData');
+    Route::post('/calculate/coil', [CalculateCoilController::class, 'calculateCoil'])->name('calculateCoil');
 
     //Calculate damper routes
     Route::get('/calculate/damperTaze/{part}/{product}', [CalculateDamperController::class, 'taze'])->name('calculateDamper.taze.index');
