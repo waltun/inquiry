@@ -552,7 +552,6 @@
                                     @php
                                         $finalPrice += $values[$index] * $child->price;
                                     @endphp
-                                    <input type="hidden" name="parts[]" id="part{{ $index }}" value="{{ $child->id }}">
                                 @endif
                             @endif
                         </tr>
@@ -563,6 +562,7 @@
                         </td>
                         <td class="border border-gray-300 p-4 text-lg font-bold text-center text-green-600" colspan="2">
                             <span>{{ number_format($finalPrice) }}</span>
+                            <input type="hidden" name="final_price" value="{{ $finalPrice }}">
                         </td>
                     </tr>
                     </tbody>

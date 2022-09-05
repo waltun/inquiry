@@ -187,9 +187,34 @@ class CalculateCoilController extends Controller
 
         $newPart->save();
         $newPart->categories()->syncWithoutDetaching($part->categories);
-        $newPart->children()->syncWithoutDetaching($request->parts);
+        $newPart->children()->syncWithoutDetaching($part->children);
 
         foreach ($newPart->children as $index => $childPart) {
+            if ($index == 13) {
+                $childPart->pivot->parent_part_id = $request->parts[0];
+            }
+            if ($index == 14) {
+                $childPart->pivot->parent_part_id = $request->parts[1];
+            }
+            if ($index == 15) {
+                $childPart->pivot->parent_part_id = $request->parts[2];
+            }
+            if ($index == 16 && !is_null($request->parts[3]) &&  $request->parts[3] > 0) {
+                $childPart->pivot->parent_part_id = $request->parts[3];
+            }
+            if ($index == 17 && !is_null($request->parts[4]) && $request->parts[4] > 0) {
+                $childPart->pivot->parent_part_id = $request->parts[4];
+            }
+            if ($index == 18) {
+                $childPart->pivot->parent_part_id = $request->parts[5];
+            }
+            if ($index == 19) {
+                $childPart->pivot->parent_part_id = $request->parts[6];
+            }
+            if ($index == 21) {
+                $childPart->pivot->parent_part_id = $request->parts[7];
+            }
+
             $childPart->pivot->value = $request->values[$index];
             $childPart->pivot->save();
         }
@@ -359,7 +384,7 @@ class CalculateCoilController extends Controller
 
     public function calculateCoil(Request $request)
     {
-        $data = $request->validate([
+        $inputs = $request->validate([
             'loole_messi' => 'required',
             'fin_coil' => 'required',
             'tedad_radif_coil' => 'required',
@@ -393,8 +418,6 @@ class CalculateCoilController extends Controller
         $tedadLooleDarRadif = $request['tedad_loole_dar_radif'];
         $tedadMogheyiatLoole = $request['tedad_mogheyiat_loole'];
         $tedadMadarLoole = $request['tedad_madar_loole'];
-
-        $inputs = $data;
 
         //--------------------------------------------------------
 
