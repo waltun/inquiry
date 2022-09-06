@@ -1,8 +1,5 @@
 <x-layout>
     <!-- Breadcrumb -->
-    @php
-        $inquiry = \App\Models\Inquiry::find($product->inquiry_id);
-    @endphp
     <nav class="flex bg-gray-100 p-4 rounded-md overflow-x-auto whitespace-nowrap" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-2 space-x-reverse">
             <li class="inline-flex items-center">
@@ -68,16 +65,26 @@
         @csrf
         @method('PATCH')
 
-        <div class="col-span-2">
-            <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
-                <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">تعداد</p>
+        <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
+            <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">تعداد</p>
 
-                <div class="mt-4">
-                    <label for="inputQuantity" class="block mb-2 md:text-sm text-xs text-black">تعداد</label>
-                    <input type="number" id="inputQuantity" name="quantity" class="input-text"
-                           placeholder="حداقل تعداد : 1"
-                           value="{{ $product->quantity }}">
-                </div>
+            <div class="mt-4">
+                <label for="inputQuantity" class="block mb-2 md:text-sm text-xs text-black">تعداد</label>
+                <input type="number" id="inputQuantity" name="quantity" class="input-text"
+                       placeholder="حداقل تعداد : 1"
+                       value="{{ $product->quantity }}">
+            </div>
+        </div>
+
+        <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
+            <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">تگ (توضیحات)</p>
+
+            <div class="mt-4">
+                <label for="inputDescription" class="block mb-2 md:text-sm text-xs text-black">
+                    تگ (توضیحات)
+                </label>
+                <input type="text" class="input-text" name="description" id="inputDescription"
+                       placeholder="تگ / محل سرویس / ساختمان / شماره سریال / ..." value="{{ $product->description }}">
             </div>
         </div>
 

@@ -135,6 +135,14 @@
                 </select>
             </div>
 
+            <div class="mt-6">
+                <label for="inputDescription" class="block mb-2 md:text-sm text-xs text-black">
+                    تگ (توضیحات)
+                </label>
+                <input type="text" class="input-text" name="description" id="inputDescription"
+                    placeholder="تگ / محل سرویس / ساختمان / شماره سریال / ...">
+            </div>
+
         </div>
 
         <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">

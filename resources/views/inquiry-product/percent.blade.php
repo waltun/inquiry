@@ -87,6 +87,18 @@
         <x-errors/>
     </div>
 
+    <!-- Info -->
+    <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4">
+        <div class="md:flex justify-around items-center space-y-4 md:space-y-0">
+            <p class="font-bold text-red-600 md:text-lg text-sm text-center">
+                گروه : {{ $group->name }} با کد {{ $group->code }}
+            </p>
+            <p class="font-bold text-red-600 md:text-lg text-sm text-center">
+                مدل : {{ $modell->name }} با کد {{ $modell->code }}
+            </p>
+        </div>
+    </div>
+
     <!-- Form -->
     <form method="POST" action="{{ route('inquiries.product.storePercent',$product->id) }}"
           class="md:grid grid-cols-3 gap-4 mt-4">
@@ -119,6 +131,15 @@
             <div class="mt-4">
                 <p class="text-center text-lg font-bold text-green-600" id="finalPrice">
                     0 تومان
+                </p>
+            </div>
+        </div>
+
+        <div class="col-span-3 bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
+            <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">توضیحات محصول</p>
+            <div class="mt-4">
+                <p class="text-base text-gray-700" id="finalPrice">
+                    {{ $product->description }}
                 </p>
             </div>
         </div>

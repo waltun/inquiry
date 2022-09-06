@@ -24,6 +24,8 @@ return new class extends Migration {
             $table->unsignedBigInteger('inquiry_id');
             $table->unsignedBigInteger('part_id')->default(0);
 
+            $table->string('description')->nullable();
+
             $table->index(['group_id', 'model_id', 'inquiry_id', 'part_id']);
 
             $table->timestamps();

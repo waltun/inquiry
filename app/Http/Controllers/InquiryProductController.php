@@ -38,13 +38,15 @@ class InquiryProductController extends Controller
         $request->validate([
             'group_id' => 'required|integer',
             'model_id' => 'required|integer',
-            'quantity' => 'required|numeric|min:1'
+            'quantity' => 'required|numeric|min:1',
+            'description' => 'nullable|string|max:255'
         ]);
 
         $inquiry->products()->create([
             'group_id' => $request['group_id'],
             'model_id' => $request['model_id'],
-            'quantity' => $request['quantity']
+            'quantity' => $request['quantity'],
+            'description' => $request['description']
         ]);
 
         alert()->success('ثبت موفق', 'ثبت محصول برای استعلام با موفقیت انجام شد');
@@ -56,7 +58,9 @@ class InquiryProductController extends Controller
     {
         Gate::authorize('create-inquiry');
 
-        return view('inquiry-product.edit', compact('product'));
+        $inquiry = Inquiry::find($product->inquiry_id);
+
+        return view('inquiry-product.edit', compact('product', 'inquiry'));
     }
 
     public function update(Request $request, Product $product)
@@ -64,11 +68,13 @@ class InquiryProductController extends Controller
         Gate::authorize('create-inquiry');
 
         $request->validate([
-            'quantity' => 'required|numeric'
+            'quantity' => 'required|numeric',
+            'description' => 'nullable|string|max:255'
         ]);
 
         $product->update([
-            'quantity' => $request['quantity']
+            'quantity' => $request['quantity'],
+            'description' => $request['description']
         ]);
 
         alert()->success('ویرایش موفق', 'ویرایش محصول با موفقیت انجام شد');
@@ -206,10 +212,8 @@ class InquiryProductController extends Controller
                     'part_id' => $part
                 ]);
 
-                $special = Special::where('part_id', $part)->first();
-
-                if (!is_null($special)) {
-                    $createdAmount->price = session('price' . $part) ?? 0;
+                if (session()->has('price'.$part)) {
+                    $createdAmount->price = session('price' . $part);
                     $createdAmount->save();
                     session()->forget('price' . $part);
                 }
