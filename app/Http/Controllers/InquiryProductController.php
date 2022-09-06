@@ -108,7 +108,9 @@ class InquiryProductController extends Controller
         $group = Group::find($product->group_id);
         $modell = Modell::find($product->model_id);
         $inquiry = Inquiry::find($product->inquiry_id);
-        return view('inquiry-product.amounts', compact('product', 'group', 'modell', 'inquiry'));
+        $amounts = Amount::where('product_id', $product->id)->get();
+        $specials = Special::all()->pluck('part_id')->toArray();
+        return view('inquiry-product.amounts', compact('product', 'group', 'modell', 'inquiry', 'amounts', 'specials'));
     }
 
     public function storeAmounts(Request $request, Product $product)
@@ -211,6 +213,9 @@ class InquiryProductController extends Controller
                     $createdAmount->save();
                     session()->forget('price' . $part);
                 }
+                if (session()->has('selectedPart' . $part)) {
+                    session()->forget('selectedPart' . $part);
+                }
             }
         }
 
@@ -226,42 +231,23 @@ class InquiryProductController extends Controller
     {
         Gate::authorize('percent-inquiry');
 
-        $totalGroupPrice = 0;
-        $totalModellPrice = 0;
-
         $group = Group::find($product->group_id);
         $modell = Modell::find($product->model_id);
         $inquiryPart = Part::find($product->part_id);
         $inquiry = Inquiry::find($product->inquiry_id);
 
+        $totalPrice = 0;
+
         if (!is_null($group) && !is_null($modell)) {
-            if (!$modell->parts->isEmpty()) {
-                foreach ($modell->parts as $part) {
-                    $amount = $product->amounts()->where('part_id', $part->id)->first();
-                    if ($amount) {
-                        if ($amount->price > 0) {
-                            $totalModellPrice += ($part->price * $amount->value) + ($amount->price * $amount->value);
-                        } else {
-                            $totalModellPrice += ($part->price * $amount->value);
-                        }
-                    }
+
+            foreach ($product->amounts as $amount) {
+                $part = Part::find($amount->part_id);
+                if ($amount->price > 0) {
+                    $totalPrice += ($part->price * $amount->value) + ($amount->price * $amount->value);
+                } else {
+                    $totalPrice += ($part->price * $amount->value);
                 }
             }
-
-            if (!$group->parts->isEmpty()) {
-                foreach ($group->parts as $part) {
-                    $amount = $product->amounts()->where('part_id', $part->id)->first();
-                    if ($amount) {
-                        if ($amount->price > 0) {
-                            $totalGroupPrice += ($part->price * $amount->value) + ($amount->price * $amount->value);
-                        } else {
-                            $totalGroupPrice += ($part->price * $amount->value);
-                        }
-                    }
-                }
-            }
-
-            $totalPrice = $totalGroupPrice + $totalModellPrice;
         }
 
         if (!is_null($inquiryPart)) {
@@ -279,43 +265,24 @@ class InquiryProductController extends Controller
             'percent' => 'required|numeric|between:1,3'
         ]);
 
-        $totalGroupPrice = 0;
-        $totalModellPrice = 0;
-
         $group = Group::find($product->group_id);
         $modell = Modell::find($product->model_id);
         $inquiryPart = Part::find($product->part_id);
         $inquiry = Inquiry::find($product->inquiry_id);
         $user = User::find($inquiry->user_id);
 
+        $totalPrice = 0;
+
         if (!is_null($group) && !is_null($modell)) {
-            if (!$modell->parts->isEmpty()) {
-                foreach ($modell->parts as $part) {
-                    $amount = $product->amounts()->where('part_id', $part->id)->first();
-                    if ($amount) {
-                        if ($amount->price > 0) {
-                            $totalModellPrice += ($part->price * $amount->value) + ($amount->price * $amount->value);
-                        } else {
-                            $totalModellPrice += ($part->price * $amount->value);
-                        }
-                    }
+
+            foreach ($product->amounts as $amount) {
+                $part = Part::find($amount->part_id);
+                if ($amount->price > 0) {
+                    $totalPrice += ($part->price * $amount->value) + ($amount->price * $amount->value);
+                } else {
+                    $totalPrice += ($part->price * $amount->value);
                 }
             }
-
-            if (!$group->parts->isEmpty()) {
-                foreach ($group->parts as $part) {
-                    $amount = $product->amounts()->where('part_id', $part->id)->first();
-                    if ($amount) {
-                        if ($amount->price > 0) {
-                            $totalGroupPrice += ($part->price * $amount->value) + ($amount->price * $amount->value);
-                        } else {
-                            $totalGroupPrice += ($part->price * $amount->value);
-                        }
-                    }
-                }
-            }
-
-            $totalPrice = $totalGroupPrice + $totalModellPrice;
             $finalPrice = $totalPrice * $request['percent'];
         }
 

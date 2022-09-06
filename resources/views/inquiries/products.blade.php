@@ -57,6 +57,8 @@
 
     <!-- Content -->
     <div class="mt-4">
+
+        <!-- Info -->
         <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4">
             <div class="md:flex justify-between items-center space-y-4 md:space-y-0">
                 <p class="font-bold text-black md:text-lg text-sm text-center">
@@ -96,37 +98,16 @@
                     @php
                         $group = \App\Models\Group::find($product->group_id);
                         $modell = \App\Models\Modell::find($product->model_id);
-                        $totalGroupPrice = 0;
-                        $totalModellPrice = 0;
-                        if (!$group->parts->isEmpty()) {
-                            foreach($group->parts as $part)
+                        $totalPrice = 0;
+                        foreach($product->amounts as $amount)
                         {
-                            $amount = $product->amounts()->where('part_id',$part->id)->first();
-                            if ($amount){
-                                if ($amount->price > 0){
-                                $totalGroupPrice += ($part->price * $amount->value) + ($amount->price * $amount->value);
+                            $part = \App\Models\Part::find($amount->part_id);
+                            if ($amount->price > 0) {
+                                $totalPrice += ($part->price * $amount->value) + ($amount->price * $amount->value);
                             } else {
-                                $totalGroupPrice += ($part->price * $amount->value);
-                            }
-                            }
-                        }
-                        }
-
-                        if(!$modell->parts->isEmpty())
-                        {
-                            foreach($modell->parts as $part)
-                            {
-                                $amount = $product->amounts()->where('part_id',$part->id)->first();
-                                if ($amount){
-                                    if ($amount->price > 0){
-                                    $totalModellPrice += ($part->price * $amount->value) + ($amount->price * $amount->value);
-                                } else {
-                                    $totalModellPrice += ($part->price * $amount->value);
-                                }
-                                }
+                                $totalPrice += ($part->price * $amount->value);
                             }
                         }
-                        $totalPrice = $totalModellPrice + $totalGroupPrice;
                         $productFinalPrice += ($totalPrice * $product->percent) * $product->quantity;
                     @endphp
                     <tr>
@@ -232,34 +213,16 @@
                 @php
                     $group = \App\Models\Group::find($product->group_id);
                     $modell = \App\Models\Modell::find($product->model_id);
-                    $totalGroupPrice = 0;
-                    $totalModellPrice = 0;
-                    foreach($group->parts as $part)
+                    $totalPrice = 0;
+                    foreach($product->amounts as $amount)
                     {
-                        $amount = $product->amounts()->where('part_id',$part->id)->first();
-                        if ($amount){
-                            if ($amount->price > 0){
-                            $totalGroupPrice += ($part->price * $amount->value) + ($amount->price * $amount->value);
+                        $part = \App\Models\Part::find($amount->part_id);
+                        if ($amount->price > 0) {
+                            $totalPrice += ($part->price * $amount->value) + ($amount->price * $amount->value);
                         } else {
-                            $totalGroupPrice += ($part->price * $amount->value);
-                        }
-                        }
-                    }
-                    if(!$modell->parts->isEmpty())
-                    {
-                        foreach($modell->parts as $part)
-                        {
-                            $amount = $product->amounts()->where('part_id',$part->id)->first();
-                            if ($amount){
-                                if ($amount->price > 0){
-                                $totalModellPrice += ($part->price * $amount->value) + ($amount->price * $amount->value);
-                            } else {
-                                $totalModellPrice += ($part->price * $amount->value);
-                            }
-                            }
+                            $totalPrice += ($part->price * $amount->value);
                         }
                     }
-                    $totalPrice = $totalModellPrice + $totalGroupPrice;
                     $productFinalPrice += ($totalPrice * $product->percent) * $product->quantity;
                 @endphp
                 <div class="p-2 border border-gray-300 rounded-md shadow-sm bg-gray-100 mb-4">
