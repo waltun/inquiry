@@ -40,7 +40,7 @@
         $satheCoil = Session::get('satheCoil');
     @endphp
 
-    <form method="POST" action="{{ route('calculateCoil') }}">
+    <form method="POST" action="{{ route('calculateFancoilCoil') }}">
         @csrf
         <div class="my-4">
             <div class="bg-white rounded-md shadow-md border border-gray-200 py-4 px-6">

@@ -135,7 +135,11 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/calculate/coil/{part}/{product}/post-water-warm', [CalculateCoilController::class, 'storeWaterWarm'])
         ->name('calculateCoil.storeWaterWarm');
     Route::post('/calculate/coil/getData', [CalculateCoilController::class, 'getData'])->name('calculateCoil.getData');
-    Route::post('/calculate/coil', [CalculateCoilController::class, 'calculateCoil'])->name('calculateCoil');
+    Route::post('/calculate/fancoil-coil', [CalculateCoilController::class, 'calculateFancoilCoil'])->name('calculateFancoilCoil');
+    Route::post('/calculate/condensor-coil', [CalculateCoilController::class, 'calculateCondensorCoil'])->name('calculateCondensorCoil');
+    Route::post('/calculate/evaperator-coil', [CalculateCoilController::class, 'calculateEvaperatorCoil'])->name('calculateEvaperatorCoil');
+    Route::post('/calculate/coldWater-coil', [CalculateCoilController::class, 'calculateColdCoil'])->name('calculateColdCoil');
+    Route::post('/calculate/warmWater-coil', [CalculateCoilController::class, 'calculateWarmCoil'])->name('calculateWarmCoil');
 
     //Calculate damper routes
     Route::get('/calculate/damperTaze/{part}/{product}', [CalculateDamperController::class, 'taze'])->name('calculateDamper.taze.index');

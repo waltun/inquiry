@@ -395,7 +395,7 @@ class CalculateCoilController extends Controller
     }
 
 
-    public function calculateCoil(Request $request)
+    public function calculateFancoilCoil(Request $request)
     {
         $inputs = $request->validate([
             'loole_messi' => 'required',
@@ -656,6 +656,224 @@ class CalculateCoilController extends Controller
         return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs' => $inputs, 'satheCoil' => $satheCoil]);
     }
 
+    public function calculateWarmCoil(Request $request)
+    {
+        $inputs = $request->validate([
+            'loole_messi' => 'required',
+            'fin_coil' => 'required',
+            'tedad_radif_coil' => 'required',
+            'fin_dar_inch' => 'required',
+            'kham' => 'required',
+            'zekhamat_frame_coil' => 'required',
+            'pooshesh_khordegi' => 'required',
+            'electrod_noghre' => 'required',
+            'toole_coil' => 'required',
+            'tedad_loole_dar_radif' => 'required',
+            'tedad_mogheyiat_loole' => 'required',
+            'tedad_madar_loole' => 'required',
+            'collector_messi' => 'required',
+            'collector_ahani' => 'required',
+        ]);
+
+        //Ids
+        $looleMessiId = $request['loole_messi'];
+        $finCoilId = $request['fin_coil'];
+        $collectorAhaniId = $request['collector_ahani'];
+        $collectorMessiId = $request['collector_messi'];
+        $electrodNoghreId = $request['electrod_noghre'];
+        $zekhamatFrameId = $request['zekhamat_frame_coil'];
+
+        //Inputs
+        $tedadRadifCoil = $request['tedad_radif_coil'];
+        $finDarInch = $request['fin_dar_inch'];
+        $kham = $request['kham'];
+        $poosheshKhordegi = $request['pooshesh_khordegi'];
+        $noeCoil = $request['noe_coil'];
+        $tooleCoil = $request['toole_coil'];
+        $tedadLooleDarRadif = $request['tedad_loole_dar_radif'];
+        $tedadMogheyiatLoole = $request['tedad_mogheyiat_loole'];
+        $tedadMadarLoole = $request['tedad_madar_loole'];
+
+        //--------------------------------------------------------
+
+        $varaghGalvanizePart = Part::find($zekhamatFrameId);
+        $looleMessiPart = Part::find($looleMessiId);
+        $finPart = Part::find($finCoilId);
+        $electrodNoghrePart = Part::find($electrodNoghreId);
+        //Collector Messi
+        if (is_null($collectorMessiId) || $collectorMessiId == '0') {
+            $collectorMessiPart = Part::find('313');
+        } else {
+            $collectorMessiPart = Part::find($collectorMessiId);
+        }
+        //Collector Ahani
+        if (is_null($collectorAhaniId) || $collectorAhaniId == '0') {
+            $collectorAhaniPart = Part::find('314');
+        } else {
+            $collectorAhaniPart = Part::find($collectorAhaniId);
+        }
+
+        //U Messi
+        if ($looleMessiId == '58' || $looleMessiId == '59') {
+            $uMessiPart = Part::find('96');
+        }
+        if ($looleMessiId == '53' || $looleMessiId == '54' || $looleMessiId == '55') {
+            $uMessiPart = Part::find('89');
+        }
+        if ($looleMessiId == '56' || $looleMessiId == '57') {
+            $uMessiPart = Part::find('92');
+        }
+
+        $selectedParts = [
+            '15' => $varaghGalvanizePart,
+            '16' => $looleMessiPart,
+            '17' => $finPart,
+            '18' => $collectorMessiPart,
+            '19' => $collectorAhaniPart,
+            '20' => $uMessiPart,
+            '21' => $electrodNoghrePart,
+        ];
+
+        //--------------------------------------------------------
+
+        //Tedad fin masrafi
+        $tedadFinMasrafi = $tooleCoil * $finDarInch;
+
+        //Zekahamt Fin
+        $zekhamatFin = $this->calculateFin($finCoilId);
+
+        //Loole messi 5/8
+        if ($looleMessiId == '58' || $looleMessiId == '59') {
+            //Zekhamat 0.5
+            if ($looleMessiId == '58') {
+                $looleMessi = ($tooleCoil + 4) * $tedadRadifCoil * $tedadLooleDarRadif * 0.0055118;
+            }
+            //Zekhamat 0.63
+            if ($looleMessiId == '59') {
+                $looleMessi = ($tooleCoil + 4) * $tedadRadifCoil * $tedadLooleDarRadif * 0.006858;
+            }
+            $tedadU = ($tedadRadifCoil * $tedadLooleDarRadif) - $tedadMadarLoole;
+            $gamDarRadif = 32.5;
+            $gamDarErtefa = 37.5;
+            $sabetVaznVaragh = 130;
+            $ertefaFin = $tedadMogheyiatLoole * $gamDarErtefa;
+            $satheCoil = ($tedadMogheyiatLoole * 1.5 * $tooleCoil) / 144;
+            $electrodNoghre = $tedadRadifCoil * $tedadLooleDarRadif * 2 * 2.8;
+            $azot = $tedadRadifCoil * $satheCoil * 0.23;
+            $electrodBerenj = ($tedadMadarLoole * 2) * 11;
+        }
+
+        //Loole Messi 3/8
+        if ($looleMessiId == '53' || $looleMessiId == '54' || $looleMessiId == '55') {
+            //Zekhamat 0.35
+            if ($looleMessiId == '53') {
+                $looleMessi = ($tooleCoil + 4) * $tedadRadifCoil * $tedadLooleDarRadif * 0.002286;
+            }
+            //Zekhamat 0.4
+            if ($looleMessiId == '54') {
+                $looleMessi = ($tooleCoil + 4) * $tedadRadifCoil * $tedadLooleDarRadif * 0.0026162;
+            }
+            //Zekhamat 0.5
+            if ($looleMessiId == '55') {
+                $looleMessi = ($tooleCoil + 4) * $tedadRadifCoil * $tedadLooleDarRadif * 0.0032258;
+            }
+            $tedadU = ($tedadRadifCoil * $tedadLooleDarRadif / 2) - $tedadMadarLoole;
+            $gamDarRadif = 21.6;
+            $gamDarErtefa = 25;
+            $sabetVaznVaragh = 110;
+            $ertefaFin = $tedadMogheyiatLoole * $gamDarErtefa;
+            $satheCoil = ($tedadMogheyiatLoole * 0.984 * $tooleCoil) / 144;
+            $electrodNoghre = $tedadU * 2;
+            $azot = $tedadRadifCoil * $satheCoil * 0.15;
+            $electrodBerenj = ($tedadMadarLoole * 2) * 7.6;
+        }
+
+        //Loole Messi 1/2
+        if ($looleMessiId == '56' || $looleMessiId == '57') {
+            //Zekhamat 0.5
+            if ($looleMessiId == '56') {
+                $looleMessi = ($tooleCoil + 4) * $tedadRadifCoil * $tedadLooleDarRadif * 0.0043688;
+            }
+            //Zekhamat 0.63
+            if ($looleMessiId == '57') {
+                $looleMessi = ($tooleCoil + 4) * $tedadRadifCoil * $tedadLooleDarRadif * 0.0054356;
+            }
+            $tedadU = ($tedadRadifCoil * $tedadLooleDarRadif) - $tedadMadarLoole;
+            $gamDarRadif = 27.5;
+            $gamDarErtefa = 31.75;
+            $sabetVaznVaragh = 120;
+            $ertefaFin = $tedadMogheyiatLoole * $gamDarErtefa;
+            $satheCoil = ($tedadMogheyiatLoole * 1.25 * $tooleCoil) / 144;
+            $electrodNoghre = $tedadU * 2.6;
+            $azot = $tedadRadifCoil * $satheCoil * 0.2;
+            $electrodBerenj = ($tedadMadarLoole * 2) * 10;
+        }
+
+        //Fin Al & Golden
+        $vaznFinAl = $this->calculateFinAl($finCoilId, $ertefaFin, $gamDarRadif, $tedadRadifCoil, $zekhamatFin, $tedadFinMasrafi);
+
+        //Masahat tube sheet
+        $masahatTubSheet = (2 * (($ertefaFin + 70) * ($sabetVaznVaragh + ($gamDarRadif * $tedadRadifCoil)))) / 1000000;
+        $masahatFrame = (2 * ((($tooleCoil * 25.4) + 70) * ($sabetVaznVaragh + ($gamDarRadif * $tedadRadifCoil)))) / 1000000;
+        $masahatVaraghMasrafi = $masahatTubSheet + $masahatFrame;
+
+        //Varagh Galvnize - Zekhamat 0.5
+        $zekhamatFrame = $this->calculateZekhamatFrame($zekhamatFrameId, $masahatVaraghMasrafi);
+
+        //Flaks maye
+        $flaksMaye = $tedadU * 0.002;
+
+        //Pooshesh zede khordegi & tiner
+        if ($poosheshKhordegi === '1') {
+            $poosheshKhordegiResult = $satheCoil * $tedadRadifCoil * 0.05;
+            $tiner = $satheCoil * $tedadRadifCoil * 0.1;
+        } else {
+            $poosheshKhordegiResult = 0;
+            $tiner = 0;
+        }
+
+        //Ab & Oxygen
+        $abeMasrafi = $satheCoil * $tedadRadifCoil * 0.7;
+        $oxygenMasrafi = $tedadU * 0.006;
+
+        //Roghane tabkhir shavande
+        $roghaneTabkhirShavande = $tedadRadifCoil * $satheCoil * 0.015;
+
+        //Collector Ahani
+        list ($collectorAhani, $electrod6013) = $this->collectorAhaniWarm($collectorAhaniId, $ertefaFin);
+
+        //Collector Messi
+        $collectorMessi = $this->collectorMessiWarm($collectorMessiId, $noeCoil, $ertefaFin);
+
+        $values = [
+            0,
+            $abeMasrafi,
+            0.2,
+            $kham,
+            $poosheshKhordegiResult,
+            $tiner,
+            $flaksMaye,
+            $azot,
+            $oxygenMasrafi,
+            $electrodBerenj,
+            0,
+            12,
+            $roghaneTabkhirShavande,
+            1,
+            1,
+            $zekhamatFrame,
+            $looleMessi,
+            $vaznFinAl,
+            $collectorMessi,
+            $collectorAhani,
+            $tedadU,
+            $electrodNoghre,
+            $electrod6013,
+        ];
+
+        return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs' => $inputs, 'satheCoil' => $satheCoil]);
+    }
+
     public function calculateZekhamatFrame($zekhamatFrameId, $masahatVaraghMasrafi)
     {
         if ($zekhamatFrameId === '1') {
@@ -903,5 +1121,88 @@ class CalculateCoilController extends Controller
         return $collectorMessi;
     }
 
+    public function collectorAhaniWarm($collectorAhaniId, $ertefaFin)
+    {
+        if ($collectorAhaniId === '70') {
+            $collectorAhani = (($ertefaFin + 150) / 1000) * 1.94 * 2 * 2;
+            $electrod6013 = 2 * 16;
+        }
+        if ($collectorAhaniId === '71') {
+            $collectorAhani = (($ertefaFin + 150) / 1000) * 2.48 * 2 * 2;
+            $electrod6013 = 3 * 16;
+        }
+        if ($collectorAhaniId === '72') {
+            $collectorAhani = (($ertefaFin + 150) / 1000) * 2.81 * 2 * 2;
+            $electrod6013 = 4 * 16;
+        }
+        if ($collectorAhaniId === '73') {
+            $collectorAhani = (($ertefaFin + 150) / 1000) * 4.32 * 2 * 2;
+            $electrod6013 = 5 * 16;
+        }
+        if ($collectorAhaniId === '74') {
+            $collectorAhani = (($ertefaFin + 150) / 1000) * 5.48 * 2 * 2;
+            $electrod6013 = 7 * 16;
+        }
+        if ($collectorAhaniId === '75') {
+            $collectorAhani = (($ertefaFin + 150) / 1000) * 7.56 * 2 * 2;
+            $electrod6013 = 8 * 16;
+        }
+        if ($collectorAhaniId === '76') {
+            $collectorAhani = (($ertefaFin + 150) / 1000) * 11.18 * 2 * 2;
+            $electrod6013 = 10 * 16;
+        }
 
+        if (is_null($collectorAhaniId) || $collectorAhaniId == '0') {
+            $collectorAhani = 0;
+            $electrod6013 = 0;
+        }
+
+        return [$collectorAhani, $electrod6013];
+    }
+
+    public function collectorMessiWarm($collectorMessiId, $ertefaFin)
+    {
+        if ($collectorMessiId === '77') {
+            $collectorMessi = (($ertefaFin + 150) / 1000) * 0.196 * 2;
+        }
+        if ($collectorMessiId === '78') {
+            $collectorMessi = (($ertefaFin + 150) / 1000) * 0.268 * 2;
+        }
+        if ($collectorMessiId === '79') {
+            $collectorMessi = (($ertefaFin + 150) / 1000) * 0.339 * 2;
+        }
+        if ($collectorMessiId === '80') {
+            $collectorMessi = (($ertefaFin + 150) / 1000) * 0.54 * 2;
+        }
+        if ($collectorMessiId === '81') {
+            $collectorMessi = (($ertefaFin + 150) / 1000) * 0.975 * 2;
+        }
+        if ($collectorMessiId === '82') {
+            $collectorMessi = (($ertefaFin + 150) / 1000) * 1.410 * 2;
+        }
+        if ($collectorMessiId === '83') {
+            $collectorMessi = (($ertefaFin + 150) / 1000) * 1.685 * 2;
+        }
+        if ($collectorMessiId === '84') {
+            $collectorMessi = (($ertefaFin + 150) / 1000) * 2.360 * 2;
+        }
+        if ($collectorMessiId === '85') {
+            $collectorMessi = (($ertefaFin + 150) / 1000) * 3.616 * 2;
+        }
+        if ($collectorMessiId === '86') {
+            $collectorMessi = (($ertefaFin + 150) / 1000) * 4.95 * 2;
+        }
+        if ($collectorMessiId === '87') {
+            $collectorMessi = (($ertefaFin + 150) / 1000) * 6.9 * 2;
+        }
+        if ($collectorMessiId === '88') {
+            $collectorMessi = (($ertefaFin + 150) / 1000) * 7.89 * 2;
+        }
+
+        if (is_null($collectorMessiId) || $collectorMessiId == '0') {
+            $collectorMessi = 0;
+        }
+
+        return $collectorMessi;
+    }
 }
