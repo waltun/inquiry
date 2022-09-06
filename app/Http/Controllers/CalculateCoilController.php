@@ -242,21 +242,8 @@ class CalculateCoilController extends Controller
     public function storeWaterCold(Request $request, Part $part, Product $product)
     {
         $request->validate([
-            'loole_messi' => 'required',
-            'fin_coil' => 'required',
-            'zekhamat_frame_coil' => 'required',
-            'collector_ahani' => 'required',
-            'collector_messi' => 'required',
-            'electrod_noghre' => 'required',
-            'name' => 'required'
+            'name' => 'required|string|max:255'
         ]);
-
-        $looleMessi = $request['loole_messi'];
-        $fin = $request['fin_coil'];
-        $zekhamat_frame = $request['zekhamat_frame_coil'];
-        $collectorAhani = $request['collector_ahani'];
-        $collectorMessi = $request['collector_messi'];
-        $electrodNoghre = $request['electrod_noghre'];
 
         $name = $request['name'];
         $code = $this->getLastCode($part);
@@ -268,40 +255,49 @@ class CalculateCoilController extends Controller
         ]);
 
         $newPart->save();
+        $newPart->categories()->syncWithoutDetaching($part->categories);
+        $newPart->children()->syncWithoutDetaching($part->children);
 
-        foreach ($part->categories as $category) {
-            $newPart->categories()->syncWithoutDetaching($category->id);
-        }
-
-        foreach ($part->children as $child) {
-            $newPart->children()->syncWithoutDetaching($child->id);
-        }
-
+        $price = 0;
         foreach ($newPart->children as $index => $childPart) {
             if ($index == 15) {
-                $childPart->pivot->parent_part_id = $zekhamat_frame;
+                $childPart->pivot->parent_part_id = $request->parts[0];
+                $price += $request->values[$index] * Part::find($request->parts[0])->price;
             }
             if ($index == 16) {
-                $childPart->pivot->parent_part_id = $looleMessi;
+                $childPart->pivot->parent_part_id = $request->parts[1];
+                $price += $request->values[$index] * Part::find($request->parts[1])->price;
             }
             if ($index == 17) {
-                $childPart->pivot->parent_part_id = $fin;
+                $childPart->pivot->parent_part_id = $request->parts[2];
+                $price += $request->values[$index] * Part::find($request->parts[2])->price;
             }
-            if ($index == 18 && !is_null($collectorMessi) && $collectorMessi > 0) {
-                $childPart->pivot->parent_part_id = $collectorMessi;
+            if ($index == 18 && !is_null($request->parts[3]) && $request->parts[3] > 0) {
+                $childPart->pivot->parent_part_id = $request->parts[3];
+                $price += $request->values[$index] * Part::find($request->parts[3])->price;
             }
-            if ($index == 19 && !is_null($collectorAhani) && $collectorAhani > 0) {
-                $childPart->pivot->parent_part_id = $collectorAhani;
+            if ($index == 19 && !is_null($request->parts[4]) && $request->parts[4] > 0) {
+                $childPart->pivot->parent_part_id = $request->parts[4];
+                $price += $request->values[$index] * Part::find($request->parts[4])->price;
+            }
+            if ($index == 20) {
+                $childPart->pivot->parent_part_id = $request->parts[5];
+                $price += $request->values[$index] * Part::find($request->parts[5])->price;
             }
             if ($index == 21) {
-                $childPart->pivot->parent_part_id = $electrodNoghre;
+                $childPart->pivot->parent_part_id = $request->parts[6];
+                $price += $request->values[$index] * Part::find($request->parts[6])->price;
             }
 
             $childPart->pivot->value = $request->values[$index];
+            $price += $request->values[$index] * $childPart->price;
             $childPart->pivot->save();
         }
+        $newPart->price = $price;
+        $newPart->save();
 
         $request->session()->put('price' . $part->id, $request->final_price);
+        $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
 
         alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');
 
@@ -311,21 +307,8 @@ class CalculateCoilController extends Controller
     public function storeWaterWarm(Request $request, Part $part, Product $product)
     {
         $request->validate([
-            'loole_messi' => 'required',
-            'fin_coil' => 'required',
-            'zekhamat_frame_coil' => 'required',
-            'collector_ahani' => 'required',
-            'collector_messi' => 'required',
-            'electrod_noghre' => 'required',
-            'name' => 'required'
+            'name' => 'required|string|max:255'
         ]);
-
-        $looleMessi = $request['loole_messi'];
-        $fin = $request['fin_coil'];
-        $zekhamat_frame = $request['zekhamat_frame_coil'];
-        $collectorAhani = $request['collector_ahani'];
-        $collectorMessi = $request['collector_messi'];
-        $electrodNoghre = $request['electrod_noghre'];
 
         $name = $request['name'];
         $code = $this->getLastCode($part);
@@ -337,40 +320,49 @@ class CalculateCoilController extends Controller
         ]);
 
         $newPart->save();
+        $newPart->categories()->syncWithoutDetaching($part->categories);
+        $newPart->children()->syncWithoutDetaching($part->children);
 
-        foreach ($part->categories as $category) {
-            $newPart->categories()->syncWithoutDetaching($category->id);
-        }
-
-        foreach ($part->children as $child) {
-            $newPart->children()->syncWithoutDetaching($child->id);
-        }
-
+        $price = 0;
         foreach ($newPart->children as $index => $childPart) {
             if ($index == 15) {
-                $childPart->pivot->parent_part_id = $zekhamat_frame;
+                $childPart->pivot->parent_part_id = $request->parts[0];
+                $price += $request->values[$index] * Part::find($request->parts[0])->price;
             }
             if ($index == 16) {
-                $childPart->pivot->parent_part_id = $looleMessi;
+                $childPart->pivot->parent_part_id = $request->parts[1];
+                $price += $request->values[$index] * Part::find($request->parts[1])->price;
             }
             if ($index == 17) {
-                $childPart->pivot->parent_part_id = $fin;
+                $childPart->pivot->parent_part_id = $request->parts[2];
+                $price += $request->values[$index] * Part::find($request->parts[2])->price;
             }
-            if ($index == 18 && !is_null($collectorMessi) && $collectorMessi > 0) {
-                $childPart->pivot->parent_part_id = $collectorMessi;
+            if ($index == 18 && !is_null($request->parts[3]) && $request->parts[3] > 0) {
+                $childPart->pivot->parent_part_id = $request->parts[3];
+                $price += $request->values[$index] * Part::find($request->parts[3])->price;
             }
-            if ($index == 19 && !is_null($collectorAhani) && $collectorAhani > 0) {
-                $childPart->pivot->parent_part_id = $collectorAhani;
+            if ($index == 19 && !is_null($request->parts[4]) && $request->parts[4] > 0) {
+                $childPart->pivot->parent_part_id = $request->parts[4];
+                $price += $request->values[$index] * Part::find($request->parts[4])->price;
+            }
+            if ($index == 20) {
+                $childPart->pivot->parent_part_id = $request->parts[5];
+                $price += $request->values[$index] * Part::find($request->parts[5])->price;
             }
             if ($index == 21) {
-                $childPart->pivot->parent_part_id = $electrodNoghre;
+                $childPart->pivot->parent_part_id = $request->parts[6];
+                $price += $request->values[$index] * Part::find($request->parts[6])->price;
             }
 
             $childPart->pivot->value = $request->values[$index];
+            $price += $request->values[$index] * $childPart->price;
             $childPart->pivot->save();
         }
+        $newPart->price = $price;
+        $newPart->save();
 
         $request->session()->put('price' . $part->id, $request->final_price);
+        $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
 
         alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');
 
@@ -393,6 +385,16 @@ class CalculateCoilController extends Controller
         }
         return $code;
     }
+
+
+
+
+
+
+
+
+
+
 
 
     public function calculateFancoilCoil(Request $request)
@@ -873,6 +875,461 @@ class CalculateCoilController extends Controller
 
         return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs' => $inputs, 'satheCoil' => $satheCoil]);
     }
+
+    public function calculateColdCoil(Request $request)
+    {
+        $inputs = $request->validate([
+            'loole_messi' => 'required',
+            'fin_coil' => 'required',
+            'tedad_radif_coil' => 'required',
+            'fin_dar_inch' => 'required',
+            'kham' => 'required',
+            'zekhamat_frame_coil' => 'required',
+            'pooshesh_khordegi' => 'required',
+            'electrod_noghre' => 'required',
+            'toole_coil' => 'required',
+            'tedad_loole_dar_radif' => 'required',
+            'tedad_mogheyiat_loole' => 'required',
+            'tedad_madar_loole' => 'required',
+            'collector_messi' => 'required',
+            'collector_ahani' => 'required',
+        ]);
+
+        //Ids
+        $looleMessiId = $request['loole_messi'];
+        $finCoilId = $request['fin_coil'];
+        $collectorAhaniId = $request['collector_ahani'];
+        $collectorMessiId = $request['collector_messi'];
+        $electrodNoghreId = $request['electrod_noghre'];
+        $zekhamatFrameId = $request['zekhamat_frame_coil'];
+
+        //Inputs
+        $tedadRadifCoil = $request['tedad_radif_coil'];
+        $finDarInch = $request['fin_dar_inch'];
+        $kham = $request['kham'];
+        $poosheshKhordegi = $request['pooshesh_khordegi'];
+        $noeCoil = $request['noe_coil'];
+        $tooleCoil = $request['toole_coil'];
+        $tedadLooleDarRadif = $request['tedad_loole_dar_radif'];
+        $tedadMogheyiatLoole = $request['tedad_mogheyiat_loole'];
+        $tedadMadarLoole = $request['tedad_madar_loole'];
+
+        //--------------------------------------------------------
+
+        $varaghGalvanizePart = Part::find($zekhamatFrameId);
+        $looleMessiPart = Part::find($looleMessiId);
+        $finPart = Part::find($finCoilId);
+        $electrodNoghrePart = Part::find($electrodNoghreId);
+        //Collector Messi
+        if (is_null($collectorMessiId) || $collectorMessiId == '0') {
+            $collectorMessiPart = Part::find('313');
+        } else {
+            $collectorMessiPart = Part::find($collectorMessiId);
+        }
+        //Collector Ahani
+        if (is_null($collectorAhaniId) || $collectorAhaniId == '0') {
+            $collectorAhaniPart = Part::find('314');
+        } else {
+            $collectorAhaniPart = Part::find($collectorAhaniId);
+        }
+
+        //U Messi
+        if ($looleMessiId == '58' || $looleMessiId == '59') {
+            $uMessiPart = Part::find('96');
+        }
+        if ($looleMessiId == '53' || $looleMessiId == '54' || $looleMessiId == '55') {
+            $uMessiPart = Part::find('89');
+        }
+        if ($looleMessiId == '56' || $looleMessiId == '57') {
+            $uMessiPart = Part::find('92');
+        }
+
+        $selectedParts = [
+            '15' => $varaghGalvanizePart,
+            '16' => $looleMessiPart,
+            '17' => $finPart,
+            '18' => $collectorMessiPart,
+            '19' => $collectorAhaniPart,
+            '20' => $uMessiPart,
+            '21' => $electrodNoghrePart,
+        ];
+
+        //--------------------------------------------------------
+
+        //Tedad fin masrafi
+        $tedadFinMasrafi = $tooleCoil * $finDarInch;
+
+        //Zekahamt Fin
+        $zekhamatFin = $this->calculateFin($finCoilId);
+
+        //Loole messi 5/8
+        if ($looleMessiId == '58' || $looleMessiId == '59') {
+            //Zekhamat 0.5
+            if ($looleMessiId == '58') {
+                $looleMessi = ($tooleCoil + 4) * $tedadRadifCoil * $tedadLooleDarRadif * 0.0055118;
+            }
+            //Zekhamat 0.63
+            if ($looleMessiId == '59') {
+                $looleMessi = ($tooleCoil + 4) * $tedadRadifCoil * $tedadLooleDarRadif * 0.006858;
+            }
+            $tedadU = ($tedadRadifCoil * $tedadLooleDarRadif) - $tedadMadarLoole;
+            $gamDarRadif = 32.5;
+            $gamDarErtefa = 37.5;
+            $sabetVaznVaragh = 130;
+            $ertefaFin = $tedadMogheyiatLoole * $gamDarErtefa;
+            $satheCoil = ($tedadMogheyiatLoole * 1.5 * $tooleCoil) / 144;
+            $electrodNoghre = $tedadRadifCoil * $tedadLooleDarRadif * 2 * 2.8;
+            $azot = $tedadRadifCoil * $satheCoil * 0.23;
+            $electrodBerenj = ($tedadMadarLoole * 2) * 11;
+        }
+
+        //Loole Messi 3/8
+        if ($looleMessiId == '53' || $looleMessiId == '54' || $looleMessiId == '55') {
+            //Zekhamat 0.35
+            if ($looleMessiId == '53') {
+                $looleMessi = ($tooleCoil + 4) * $tedadRadifCoil * $tedadLooleDarRadif * 0.002286;
+            }
+            //Zekhamat 0.4
+            if ($looleMessiId == '54') {
+                $looleMessi = ($tooleCoil + 4) * $tedadRadifCoil * $tedadLooleDarRadif * 0.0026162;
+            }
+            //Zekhamat 0.5
+            if ($looleMessiId == '55') {
+                $looleMessi = ($tooleCoil + 4) * $tedadRadifCoil * $tedadLooleDarRadif * 0.0032258;
+            }
+            $tedadU = ($tedadRadifCoil * $tedadLooleDarRadif / 2) - $tedadMadarLoole;
+            $gamDarRadif = 21.6;
+            $gamDarErtefa = 25;
+            $sabetVaznVaragh = 110;
+            $ertefaFin = $tedadMogheyiatLoole * $gamDarErtefa;
+            $satheCoil = ($tedadMogheyiatLoole * 0.984 * $tooleCoil) / 144;
+            $electrodNoghre = $tedadU * 2;
+            $azot = $tedadRadifCoil * $satheCoil * 0.15;
+            $electrodBerenj = ($tedadMadarLoole * 2) * 7.6;
+        }
+
+        //Loole Messi 1/2
+        if ($looleMessiId == '56' || $looleMessiId == '57') {
+            //Zekhamat 0.5
+            if ($looleMessiId == '56') {
+                $looleMessi = ($tooleCoil + 4) * $tedadRadifCoil * $tedadLooleDarRadif * 0.0043688;
+            }
+            //Zekhamat 0.63
+            if ($looleMessiId == '57') {
+                $looleMessi = ($tooleCoil + 4) * $tedadRadifCoil * $tedadLooleDarRadif * 0.0054356;
+            }
+            $tedadU = ($tedadRadifCoil * $tedadLooleDarRadif) - $tedadMadarLoole;
+            $gamDarRadif = 27.5;
+            $gamDarErtefa = 31.75;
+            $sabetVaznVaragh = 120;
+            $ertefaFin = $tedadMogheyiatLoole * $gamDarErtefa;
+            $satheCoil = ($tedadMogheyiatLoole * 1.25 * $tooleCoil) / 144;
+            $electrodNoghre = $tedadU * 2.6;
+            $azot = $tedadRadifCoil * $satheCoil * 0.2;
+            $electrodBerenj = ($tedadMadarLoole * 2) * 10;
+        }
+
+        //Fin Al & Golden
+        $vaznFinAl = $this->calculateFinAl($finCoilId, $ertefaFin, $gamDarRadif, $tedadRadifCoil, $zekhamatFin, $tedadFinMasrafi);
+
+        //Masahat tube sheet
+        $masahatTubSheet = (2 * (($ertefaFin + 70) * ($sabetVaznVaragh + ($gamDarRadif * $tedadRadifCoil)))) / 1000000;
+        $masahatFrame = (2 * ((($tooleCoil * 25.4) + 70) * ($sabetVaznVaragh + ($gamDarRadif * $tedadRadifCoil)))) / 1000000;
+        $masahatVaraghMasrafi = $masahatTubSheet + $masahatFrame;
+
+        //Varagh Galvnize - Zekhamat 0.5
+        $zekhamatFrame = $this->calculateZekhamatFrame($zekhamatFrameId, $masahatVaraghMasrafi);
+
+        //Flaks maye
+        $flaksMaye = $tedadU * 0.002;
+
+        //Pooshesh zede khordegi & tiner
+        if ($poosheshKhordegi === '1') {
+            $poosheshKhordegiResult = $satheCoil * $tedadRadifCoil * 0.05;
+            $tiner = $satheCoil * $tedadRadifCoil * 0.1;
+        } else {
+            $poosheshKhordegiResult = 0;
+            $tiner = 0;
+        }
+
+        //Ab & Oxygen
+        $abeMasrafi = $satheCoil * $tedadRadifCoil * 0.7;
+        $oxygenMasrafi = $tedadU * 0.006;
+
+        //Roghane tabkhir shavande
+        $roghaneTabkhirShavande = $tedadRadifCoil * $satheCoil * 0.015;
+
+        //Collector Ahani
+        list ($collectorAhani, $electrod6013) = $this->collectorAhaniWarm($collectorAhaniId, $ertefaFin);
+
+        //Collector Messi
+        $collectorMessi = $this->collectorMessiWarm($collectorMessiId, $noeCoil, $ertefaFin);
+
+        $values = [
+            0,
+            $abeMasrafi,
+            0.2,
+            $kham,
+            $poosheshKhordegiResult,
+            $tiner,
+            $flaksMaye,
+            $azot,
+            $oxygenMasrafi,
+            $electrodBerenj,
+            0,
+            12,
+            $roghaneTabkhirShavande,
+            1,
+            1,
+            $zekhamatFrame,
+            $looleMessi,
+            $vaznFinAl,
+            $collectorMessi,
+            $collectorAhani,
+            $tedadU,
+            $electrodNoghre,
+            $electrod6013,
+        ];
+
+        return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs' => $inputs, 'satheCoil' => $satheCoil]);
+    }
+
+    public function calculateCondensorCoil(Request $request)
+    {
+        $inputs = $request->validate([
+            'loole_messi' => 'required',
+            'fin_coil' => 'required',
+            'tedad_radif_coil' => 'required',
+            'fin_dar_inch' => 'required',
+            'kham' => 'required',
+            'zekhamat_frame_coil' => 'required',
+            'pooshesh_khordegi' => 'required',
+            'electrod_noghre' => 'required',
+            'toole_coil' => 'required',
+            'tedad_loole_dar_radif' => 'required',
+            'tedad_mogheyiat_loole' => 'required',
+            'tedad_madar_loole' => 'required',
+            'collector_messi' => 'required',
+            'collector_ahani' => 'required',
+        ]);
+
+        //Ids
+        $looleMessiId = $request['loole_messi'];
+        $finCoilId = $request['fin_coil'];
+        $collectorAhaniId = $request['collector_ahani'];
+        $collectorMessiId = $request['collector_messi'];
+        $electrodNoghreId = $request['electrod_noghre'];
+        $zekhamatFrameId = $request['zekhamat_frame_coil'];
+
+        //Inputs
+        $tedadRadifCoil = $request['tedad_radif_coil'];
+        $finDarInch = $request['fin_dar_inch'];
+        $kham = $request['kham'];
+        $poosheshKhordegi = $request['pooshesh_khordegi'];
+        $noeCoil = $request['noe_coil'];
+        $tooleCoil = $request['toole_coil'];
+        $tedadLooleDarRadif = $request['tedad_loole_dar_radif'];
+        $tedadMogheyiatLoole = $request['tedad_mogheyiat_loole'];
+        $tedadMadarLoole = $request['tedad_madar_loole'];
+
+        //--------------------------------------------------------
+
+        $varaghGalvanizePart = Part::find($zekhamatFrameId);
+        $looleMessiPart = Part::find($looleMessiId);
+        $finPart = Part::find($finCoilId);
+        $electrodNoghrePart = Part::find($electrodNoghreId);
+        //Collector Messi
+        if (is_null($collectorMessiId) || $collectorMessiId == '0') {
+            $collectorMessiPart = Part::find('313');
+        } else {
+            $collectorMessiPart = Part::find($collectorMessiId);
+        }
+        //Collector Ahani
+        if (is_null($collectorAhaniId) || $collectorAhaniId == '0') {
+            $collectorAhaniPart = Part::find('314');
+        } else {
+            $collectorAhaniPart = Part::find($collectorAhaniId);
+        }
+
+        //U Messi
+        if ($looleMessiId == '58' || $looleMessiId == '59') {
+            $uMessiPart = Part::find('96');
+        }
+        if ($looleMessiId == '53' || $looleMessiId == '54' || $looleMessiId == '55') {
+            $uMessiPart = Part::find('89');
+        }
+        if ($looleMessiId == '56' || $looleMessiId == '57') {
+            $uMessiPart = Part::find('92');
+        }
+
+        $selectedParts = [
+            '15' => $varaghGalvanizePart,
+            '16' => $looleMessiPart,
+            '17' => $finPart,
+            '18' => $collectorMessiPart,
+            '19' => $collectorAhaniPart,
+            '20' => $uMessiPart,
+            '21' => $electrodNoghrePart,
+        ];
+
+        //--------------------------------------------------------
+
+        //Tedad fin masrafi
+        $tedadFinMasrafi = $tooleCoil * $finDarInch;
+
+        //Zekahamt Fin
+        $zekhamatFin = $this->calculateFin($finCoilId);
+
+        //Loole messi 5/8
+        if ($looleMessiId == '58' || $looleMessiId == '59') {
+            //Zekhamat 0.5
+            if ($looleMessiId == '58') {
+                $looleMessi = ($tooleCoil + 4) * $tedadRadifCoil * $tedadLooleDarRadif * 0.0055118;
+            }
+            //Zekhamat 0.63
+            if ($looleMessiId == '59') {
+                $looleMessi = ($tooleCoil + 4) * $tedadRadifCoil * $tedadLooleDarRadif * 0.006858;
+            }
+            $tedadU = ($tedadRadifCoil * $tedadLooleDarRadif) - $tedadMadarLoole;
+            $gamDarRadif = 32.5;
+            $gamDarErtefa = 37.5;
+            $sabetVaznVaragh = 130;
+            $ertefaFin = $tedadMogheyiatLoole * $gamDarErtefa;
+            $satheCoil = ($tedadMogheyiatLoole * 1.5 * $tooleCoil) / 144;
+            $electrodNoghre = $tedadRadifCoil * $tedadLooleDarRadif * 2 * 2.8;
+            $azot = $tedadRadifCoil * $satheCoil * 0.23;
+            $electrodBerenj = ($tedadMadarLoole * 2) * 11;
+        }
+
+        //Loole Messi 3/8
+        if ($looleMessiId == '53' || $looleMessiId == '54' || $looleMessiId == '55') {
+            //Zekhamat 0.35
+            if ($looleMessiId == '53') {
+                $looleMessi = ($tooleCoil + 4) * $tedadRadifCoil * $tedadLooleDarRadif * 0.002286;
+            }
+            //Zekhamat 0.4
+            if ($looleMessiId == '54') {
+                $looleMessi = ($tooleCoil + 4) * $tedadRadifCoil * $tedadLooleDarRadif * 0.0026162;
+            }
+            //Zekhamat 0.5
+            if ($looleMessiId == '55') {
+                $looleMessi = ($tooleCoil + 4) * $tedadRadifCoil * $tedadLooleDarRadif * 0.0032258;
+            }
+            $tedadU = ($tedadRadifCoil * $tedadLooleDarRadif / 2) - $tedadMadarLoole;
+            $gamDarRadif = 21.6;
+            $gamDarErtefa = 25;
+            $sabetVaznVaragh = 110;
+            $ertefaFin = $tedadMogheyiatLoole * $gamDarErtefa;
+            $satheCoil = ($tedadMogheyiatLoole * 0.984 * $tooleCoil) / 144;
+            $electrodNoghre = $tedadU * 2;
+            $azot = $tedadRadifCoil * $satheCoil * 0.15;
+            $electrodBerenj = ($tedadMadarLoole * 2) * 7.6;
+        }
+
+        //Loole Messi 1/2
+        if ($looleMessiId == '56' || $looleMessiId == '57') {
+            //Zekhamat 0.5
+            if ($looleMessiId == '56') {
+                $looleMessi = ($tooleCoil + 4) * $tedadRadifCoil * $tedadLooleDarRadif * 0.0043688;
+            }
+            //Zekhamat 0.63
+            if ($looleMessiId == '57') {
+                $looleMessi = ($tooleCoil + 4) * $tedadRadifCoil * $tedadLooleDarRadif * 0.0054356;
+            }
+            $tedadU = ($tedadRadifCoil * $tedadLooleDarRadif) - $tedadMadarLoole;
+            $gamDarRadif = 27.5;
+            $gamDarErtefa = 31.75;
+            $sabetVaznVaragh = 120;
+            $ertefaFin = $tedadMogheyiatLoole * $gamDarErtefa;
+            $satheCoil = ($tedadMogheyiatLoole * 1.25 * $tooleCoil) / 144;
+            $electrodNoghre = $tedadU * 2.6;
+            $azot = $tedadRadifCoil * $satheCoil * 0.2;
+            $electrodBerenj = ($tedadMadarLoole * 2) * 10;
+        }
+
+        //Fin Al & Golden
+        $vaznFinAl = $this->calculateFinAl($finCoilId, $ertefaFin, $gamDarRadif, $tedadRadifCoil, $zekhamatFin, $tedadFinMasrafi);
+
+        //Masahat tube sheet
+        $masahatTubSheet = (2 * (($ertefaFin + 70) * ($sabetVaznVaragh + ($gamDarRadif * $tedadRadifCoil)))) / 1000000;
+        $masahatFrame = (2 * ((($tooleCoil * 25.4) + 70) * ($sabetVaznVaragh + ($gamDarRadif * $tedadRadifCoil)))) / 1000000;
+        $masahatVaraghMasrafi = $masahatTubSheet + $masahatFrame;
+
+        //Varagh Galvnize - Zekhamat 0.5
+        $zekhamatFrame = $this->calculateZekhamatFrame($zekhamatFrameId, $masahatVaraghMasrafi);
+
+        //Flaks maye
+        $flaksMaye = $tedadU * 0.002;
+
+        //Pooshesh zede khordegi & tiner
+        if ($poosheshKhordegi === '1') {
+            $poosheshKhordegiResult = $satheCoil * $tedadRadifCoil * 0.05;
+            $tiner = $satheCoil * $tedadRadifCoil * 0.1;
+        } else {
+            $poosheshKhordegiResult = 0;
+            $tiner = 0;
+        }
+
+        //Ab & Oxygen
+        $abeMasrafi = $satheCoil * $tedadRadifCoil * 0.7;
+        $oxygenMasrafi = $tedadU * 0.006;
+
+        //Roghane tabkhir shavande
+        $roghaneTabkhirShavande = $tedadRadifCoil * $satheCoil * 0.015;
+
+        //Collector Ahani
+        list ($collectorAhani, $electrod6013) = $this->collectorAhaniWarm($collectorAhaniId, $ertefaFin);
+
+        //Collector Messi
+        $collectorMessi = $this->collectorMessiWarm($collectorMessiId, $noeCoil, $ertefaFin);
+
+        $values = [
+            0,
+            $abeMasrafi,
+            0.2,
+            $kham,
+            $poosheshKhordegiResult,
+            $tiner,
+            $flaksMaye,
+            $azot,
+            $oxygenMasrafi,
+            $electrodBerenj,
+            0,
+            12,
+            $roghaneTabkhirShavande,
+            1,
+            1,
+            $zekhamatFrame,
+            $looleMessi,
+            $vaznFinAl,
+            $collectorMessi,
+            $collectorAhani,
+            $tedadU,
+            $electrodNoghre,
+            $electrod6013,
+        ];
+
+        return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs' => $inputs, 'satheCoil' => $satheCoil]);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function calculateZekhamatFrame($zekhamatFrameId, $masahatVaraghMasrafi)
     {
