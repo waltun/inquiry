@@ -147,6 +147,10 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/calculate/damperBargasht/{part}/{product}', [CalculateDamperController::class, 'bargasht'])->name('calculateDamper.bargasht.index');
     Route::get('/calculate/damperExast/{part}/{product}', [CalculateDamperController::class, 'exast'])->name('calculateDamper.exast.index');
     Route::post('/calculate/damper/{part}/{product}/post', [CalculateDamperController::class, 'store'])->name('calculateDamper.store');
+    Route::post('/calculate/damper-taze', [CalculateDamperController::class, 'calculateTaze'])->name('calculateTazeDamper');
+    Route::post('/calculate/damper-exast', [CalculateDamperController::class, 'calculateExast'])->name('calculateExastDamper');
+    Route::post('/calculate/damper-raft', [CalculateDamperController::class, 'calculateRaft'])->name('calculateRaftDamper');
+    Route::post('/calculate/damper-bargasht', [CalculateDamperController::class, 'calculateBargasht'])->name('calculateBargashtDamper');
 
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
     Route::post('/notifications/{notification}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');

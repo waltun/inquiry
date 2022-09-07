@@ -17,6 +17,11 @@
                 let condensorSection = document.getElementById("condensorSection" + id);
                 let evaperatorSection = document.getElementById("evaperatorSection" + id);
 
+                let damperTazeSection = document.getElementById("damperTazeSection" + id);
+                let damperRaftSection = document.getElementById("damperRaftSection" + id);
+                let damperBargashtSection = document.getElementById("damperBargashtSection" + id);
+                let damperExastSection = document.getElementById("damperExastSection" + id);
+
                 //Coil Fancoil
                 if (selectedId === '170') {
                     let fancoilRoute = "/calculate/coil/fancoil/" + 170 + "/" + productId;
@@ -96,6 +101,71 @@
                     evaperatorSection.classList.remove('block')
                     evaperatorSection.classList.add('hidden')
                     evaperatorSection.innerHTML = ""
+                }
+
+                //Damper Exast
+                if (selectedId === '149') {
+                    let damperExastRoute = "/calculate/damperExast/" + 149 + "/" + productId;
+                    damperExastSection.classList.remove('hidden')
+                    damperExastSection.classList.add('block')
+                    damperExastSection.innerHTML = `
+                        <a href="${damperExastRoute}"
+                           class="form-submit-btn text-xs">
+                            محاسبه دمپر اگزاست
+                        </a>
+                        `
+                } else {
+                    damperExastSection.classList.remove('block')
+                    damperExastSection.classList.add('hidden')
+                    damperExastSection.innerHTML = ""
+                }
+                //Damper Raft
+                if (selectedId === '148') {
+                    let damperRaftRoute = "/calculate/damperRaft/" + 148 + "/" + productId;
+                    damperRaftSection.classList.remove('hidden')
+                    damperRaftSection.classList.add('block')
+                    damperRaftSection.innerHTML = `
+                        <a href="${damperRaftRoute}"
+                           class="form-submit-btn text-xs">
+                            محاسبه دمپر رفت
+                        </a>
+                        `
+                } else {
+                    damperRaftSection.classList.remove('block')
+                    damperRaftSection.classList.add('hidden')
+                    damperRaftSection.innerHTML = ""
+                }
+                //Damper Bargasht
+                if (selectedId === '147') {
+                    let damperBargashtRoute = "/calculate/damperBargasht/" + 147 + "/" + productId;
+                    damperBargashtSection.classList.remove('hidden')
+                    damperBargashtSection.classList.add('block')
+                    damperBargashtSection.innerHTML = `
+                        <a href="${damperBargashtRoute}"
+                           class="form-submit-btn text-xs">
+                            محاسبه دمپر برگشت
+                        </a>
+                        `
+                } else {
+                    damperBargashtSection.classList.remove('block')
+                    damperBargashtSection.classList.add('hidden')
+                    damperBargashtSection.innerHTML = ""
+                }
+                //Damper Taze
+                if (selectedId === '146') {
+                    let damperTazeRoute = "/calculate/damperTaze/" + 146 + "/" + productId;
+                    damperTazeSection.classList.remove('hidden')
+                    damperTazeSection.classList.add('block')
+                    damperTazeSection.innerHTML = `
+                        <a href="${damperTazeRoute}"
+                           class="form-submit-btn text-xs">
+                            محاسبه دمپر تازه
+                        </a>
+                        `
+                } else {
+                    damperTazeSection.classList.remove('block')
+                    damperTazeSection.classList.add('hidden')
+                    damperTazeSection.innerHTML = ""
                 }
             }
         </script>
@@ -343,34 +413,32 @@
                                 @endif
                                 <div class="whitespace-nowrap mr-2">
                                     <div id="fancoilSection{{ $part->id }}" class="hidden">
-                                        <a href="{{ route('calculateCoil.fancoil.index',[$part->id,$product->id]) }}"
-                                           class="form-submit-btn text-xs">
-                                            محاسبه {{ $part->name }}
-                                        </a>
+
                                     </div>
                                     <div id="warmWaterSection{{ $part->id }}" class="hidden">
-                                        <a href="{{ route('calculateCoil.waterWarm.index',[$part->id,$product->id]) }}"
-                                           class="form-submit-btn text-xs">
-                                            محاسبه {{ $part->name }}
-                                        </a>
+
                                     </div>
                                     <div id="coldWaterSection{{ $part->id }}" class="hidden">
-                                        <a href="{{ route('calculateCoil.waterCold.index',[$part->id,$product->id]) }}"
-                                           class="form-submit-btn text-xs">
-                                            محاسبه {{ $part->name }}
-                                        </a>
+
                                     </div>
                                     <div id="condensorSection{{ $part->id }}" class="hidden">
-                                        <a href="{{ route('calculateCoil.condensor.index',[$part->id,$product->id]) }}"
-                                           class="form-submit-btn text-xs">
-                                            محاسبه {{ $part->name }}
-                                        </a>
+
                                     </div>
                                     <div id="evaperatorSection{{ $part->id }}" class="hidden">
-                                        <a href="{{ route('calculateCoil.evaperator.index',[$part->id,$product->id]) }}"
-                                           class="form-submit-btn text-xs">
-                                            محاسبه {{ $part->name }}
-                                        </a>
+
+                                    </div>
+
+                                    <div id="damperTazeSection{{ $part->id }}" class="hidden">
+
+                                    </div>
+                                    <div id="damperRaftSection{{ $part->id }}" class="hidden">
+
+                                    </div>
+                                    <div id="damperBargashtSection{{ $part->id }}" class="hidden">
+
+                                    </div>
+                                    <div id="damperExastSection{{ $part->id }}" class="hidden">
+
                                     </div>
                                 </div>
                             </td>

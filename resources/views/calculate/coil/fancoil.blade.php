@@ -38,10 +38,12 @@
         $selectedParts = Session::get('selectedParts');
         $inputs = Session::get('inputs');
         $satheCoil = Session::get('satheCoil');
+        $name = Session::get('name');
     @endphp
 
     <form method="POST" action="{{ route('calculateFancoilCoil') }}">
         @csrf
+        <input type="hidden" name="serial" value="{{ $inquiry }}">
         <div class="my-4">
             <div class="bg-white rounded-md shadow-md border border-gray-200 py-4 px-6">
                 <div class="mb-4 border-b border-gray-300 pb-3 flex justify-between items-center">
@@ -572,8 +574,7 @@
                     <label class="block mb-2 text-sm font-bold" for="inputCoilName">
                         نام کویل مورد نظر
                     </label>
-                    <input type="text" class="input-text" id="inputCoilName" name="name"
-                           placeholder="مثلا کویل فن کویلی 200cfm فین در اینچ 2">
+                    <input type="text" class="input-text" id="inputCoilName" name="name" dir="ltr" value="{{ $name }}">
                 </div>
 
                 <div class="mb-4">

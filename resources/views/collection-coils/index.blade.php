@@ -266,7 +266,7 @@
                                    class="checkboxes w-4 h-4 focus:ring-blue-500 focus:ring-2 focus:ring-offset-1 mx-auto block">
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ $part->name }}</p>
+                            <p class="text-sm text-black text-center" dir="ltr">{{ $part->name }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center">{{ $part->unit }}</p>
