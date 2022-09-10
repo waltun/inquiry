@@ -88,16 +88,18 @@
     </div>
 
     <!-- Info -->
-    <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4">
-        <div class="md:flex justify-around items-center space-y-4 md:space-y-0">
-            <p class="font-bold text-red-600 md:text-lg text-sm text-center">
-                گروه : {{ $group->name }} با کد {{ $group->code }}
-            </p>
-            <p class="font-bold text-red-600 md:text-lg text-sm text-center">
-                مدل : {{ $modell->name }} با کد {{ $modell->code }}
-            </p>
+    @if(!is_null($group) && !is_null($modell))
+        <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4">
+            <div class="md:flex justify-around items-center space-y-4 md:space-y-0">
+                <p class="font-bold text-red-600 md:text-lg text-sm text-center">
+                    گروه : {{ $group->name }} با کد {{ $group->code }}
+                </p>
+                <p class="font-bold text-red-600 md:text-lg text-sm text-center">
+                    مدل : {{ $modell->name }} با کد {{ $modell->code }}
+                </p>
+            </div>
         </div>
-    </div>
+    @endif
 
     <!-- Form -->
     <form method="POST" action="{{ route('inquiries.product.storePercent',$product->id) }}"
