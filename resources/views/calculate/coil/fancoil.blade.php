@@ -43,7 +43,7 @@
 
     <form method="POST" action="{{ route('calculateFancoilCoil') }}">
         @csrf
-        <input type="hidden" name="serial" value="{{ $inquiry }}">
+        <input type="hidden" name="serial" value="{{ $inquiry->inquiry_number }}">
         <div class="my-4">
             <div class="bg-white rounded-md shadow-md border border-gray-200 py-4 px-6">
                 <div class="mb-4 border-b border-gray-300 pb-3 flex justify-between items-center">
