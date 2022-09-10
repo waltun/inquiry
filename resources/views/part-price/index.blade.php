@@ -271,18 +271,27 @@
                 <tbody class="divide-y divide-gray-300">
                 @php
                     $color = '';
+                    $time = null;
                 @endphp
                 @foreach($parts as $part)
                     @php
-                        $lastMonth = \Carbon\Carbon::now()->subMonth(1);
-                        $lastTwoMonth = \Carbon\Carbon::now()->subMonth(2);
-                        if ($part->updated_at < $lastMonth) {
-                            $color = 'bg-yellow-500';
+                        if ($setting) {
+                            if($setting->price_color_type == 'month') {
+                                $time = \Carbon\Carbon::now()->subMonth($setting->price_color_time);
+                                //$lastTwoMonth = \Carbon\Carbon::now()->subMonth(2);
+                            }
+                            if($setting->price_color_type == 'day') {
+                                $time = \Carbon\Carbon::now()->subDay($setting->price_color_time);
+                            }
+                            if($setting->price_color_type == 'hour') {
+                                $time = \Carbon\Carbon::now()->subHour($setting->price_color_time);
+                            }
                         }
-                        if ($part->updated_at < $lastTwoMonth) {
+
+                        if ($part->updated_at < $time) {
                             $color = 'bg-red-500';
                         }
-                        if ($part->updated_at > $lastMonth) {
+                        if ($part->updated_at > $time) {
                             $color = 'bg-green-500';
                         }
                         if ($part->price == 0) {
@@ -308,7 +317,8 @@
                             @endif
                         </td>
                         <td class="px-4 py-1 whitespace-nowrap">
-                            <input type="text" class="input-text w-44 py-0.5" id="inputPrice{{ $part->id }}" name="prices[]"
+                            <input type="text" class="input-text w-44 py-0.5" id="inputPrice{{ $part->id }}"
+                                   name="prices[]"
                                    value="{{ $part->price ?? '' }}" onkeyup="showPrice({{ $part->id }})">
                             <span class="text-sm text-black text-center font-medium" id="priceSection{{ $part->id }}">
                                 {{ number_format($part->price) ?? '0' }} تومان

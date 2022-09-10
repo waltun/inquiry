@@ -83,7 +83,7 @@
             <div class="absolute w-48 bg-white shadow border border-gray-200 rounded-md p-2 top-14 -right-16"
                  x-show="open" x-cloak
                  @click.away="open = false">
-                <a href="#"
+                <a href="{{ route('settings.index') }}"
                    class="px-4 py-2 text-xs md:text-sm block hover:bg-gray-50 rounded-md text-gray-600 hover:text-black flex items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                          stroke="currentColor">

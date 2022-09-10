@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Part;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -53,7 +54,9 @@ class PartPriceController extends Controller
         $parts = $parts->where('collection', false)->where('coil', false)
             ->orderBy('updated_at', 'ASC')->paginate(25)->withQueryString();
 
-        return view('part-price.index', compact('parts', 'categories'));
+        $setting = Setting::first();
+
+        return view('part-price.index', compact('parts', 'categories', 'setting'));
     }
 
     public function update(Request $request)
