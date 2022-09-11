@@ -17,6 +17,7 @@ use App\Http\Controllers\PartController;
 use App\Http\Controllers\PartOfGroupController;
 use App\Http\Controllers\PartOfModellController;
 use App\Http\Controllers\PartPriceController;
+use App\Http\Controllers\SeparateCalculateCoilController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -162,4 +163,21 @@ Route::middleware(['auth', 'web'])->group(function () {
 
     Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
     Route::post('/settings', [SettingController::class, 'store'])->name('settings.store');
+
+    Route::get('/separate-calculate-coil', [SeparateCalculateCoilController::class, 'index'])->name('separate.coil.index');
+    Route::get('/separate-calculate-coil/{part}/fancoil', [SeparateCalculateCoilController::class, 'fancoil'])->name('separate.coil.fancoil');
+    Route::post('/separate-calculate-coil/fancoil', [SeparateCalculateCoilController::class, 'calculateFancoil'])->name('separate.coil.calculateFancoil');
+    Route::post('/separate-calculate-coil/{part}/store-fancoil', [SeparateCalculateCoilController::class, 'storeFancoil'])->name('separate.coil.storeFancoil');
+    Route::get('/separate-calculate-coil/{part}/warm', [SeparateCalculateCoilController::class, 'warm'])->name('separate.coil.warm');
+    Route::post('/separate-calculate-coil/warm', [SeparateCalculateCoilController::class, 'calculateWarm'])->name('separate.coil.calculateWarm');
+    Route::post('/separate-calculate-coil/{part}/store-warm', [SeparateCalculateCoilController::class, 'storeWarm'])->name('separate.coil.storeWarm');
+    Route::get('/separate-calculate-coil/{part}/cold', [SeparateCalculateCoilController::class, 'cold'])->name('separate.coil.cold');
+    Route::post('/separate-calculate-coil/cold', [SeparateCalculateCoilController::class, 'calculateCold'])->name('separate.coil.calculateCold');
+    Route::post('/separate-calculate-coil/{part}/store-cold', [SeparateCalculateCoilController::class, 'storeCold'])->name('separate.coil.storeCold');
+    Route::get('/separate-calculate-coil/{part}/condensor', [SeparateCalculateCoilController::class, 'condensor'])->name('separate.coil.condensor');
+    Route::post('/separate-calculate-coil/condensor', [SeparateCalculateCoilController::class, 'calculateCondensor'])->name('separate.coil.calculateCondensor');
+    Route::post('/separate-calculate-coil/{part}/store-condensor', [SeparateCalculateCoilController::class, 'storeCondensor'])->name('separate.coil.storeCondensor');
+    Route::get('/separate-calculate-coil/{part}/evaperator', [SeparateCalculateCoilController::class, 'evaperator'])->name('separate.coil.evaperator');
+    Route::post('/separate-calculate-coil/evaperator', [SeparateCalculateCoilController::class, 'calculateEvaperator'])->name('separate.coil.calculateEvaperator');
+    Route::post('/separate-calculate-coil/{part}/store-evaperator', [SeparateCalculateCoilController::class, 'storeEvaperator'])->name('separate.coil.storeEvaperator');
 });

@@ -300,6 +300,38 @@
                     </div>
                 </div>
             @endcan
+
+            <!-- Separate Calculate Coils -->
+            <div x-data="{open:false}">
+                <div
+                    class="flex items-center text-gray-500 p-2 hover:bg-gray-100 rounded-md hover:text-black cursor-pointer
+                            {{ isActive(['separate.coil.index']) }}"
+                    @click="open = !open">
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V13.5zm0 2.25h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V18zm2.498-6.75h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V13.5zm0 2.25h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V18zm2.504-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zm0 2.25h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V18zm2.498-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zM8.25 6h7.5v2.25h-7.5V6zM12 2.25c-1.892 0-3.758.11-5.593.322C5.307 2.7 4.5 3.65 4.5 4.757V19.5a2.25 2.25 0 002.25 2.25h10.5a2.25 2.25 0 002.25-2.25V4.757c0-1.108-.806-2.057-1.907-2.185A48.507 48.507 0 0012 2.25z"/>
+                        </svg>
+                    </div>
+                    <div class="flex justify-between w-full items-center">
+                        <span class="text-sm px-2">بخش محاسبه جداگانه کویل</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
+                             viewBox="0 0 20 20" fill="currentColor"
+                             :class="{'rotate-180' : open}">
+                            <path fill-rule="evenodd"
+                                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                  clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-1 bg-gray-50 rounded-md p-2" x-show="open" x-cloak>
+                    <a href="{{ route('separate.coil.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
+                            hover:text-black rounded-md {{ isActive('separate.coil.index') }}">
+                        مدیریت محاسبه جداگانه کویل
+                    </a>
+                </div>
+            </div>
         </div>
     </aside>
 </div>

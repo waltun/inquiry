@@ -2,392 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Group;
-use App\Models\Inquiry;
-use App\Models\Modell;
 use App\Models\Part;
-use App\Models\Product;
 use Illuminate\Http\Request;
 
-class CalculateCoilController extends Controller
+class SeparateCalculateCoilController extends Controller
 {
-    public function evaperator(Part $part, Product $product)
+    public function index()
     {
-        $inquiry = Inquiry::select('inquiry_number')->where('id', $product->inquiry_id)->first();
-        return view('calculate.coil.evaperator', compact('part', 'product', 'inquiry'));
+        $fancoil = Part::find('170');
+        $warmWater = Part::find('169');
+        $coldWater = Part::find('168');
+        $condensor = Part::find('167');
+        $evaperator = Part::find('150');
+        return view('calculate.separate-coils.index', compact('fancoil', 'warmWater', 'coldWater', 'condensor', 'evaperator'));
     }
 
-    public function waterCold(Part $part, Product $product)
+    public function fancoil(Part $part)
     {
-        $inquiry = Inquiry::select('inquiry_number')->where('id', $product->inquiry_id)->first();
-        return view('calculate.coil.cold-water', compact('part', 'product', 'inquiry'));
+        return view('calculate.separate-coils.fancoil', compact('part'));
     }
 
-    public function waterWarm(Part $part, Product $product)
-    {
-        $inquiry = Inquiry::select('inquiry_number')->where('id', $product->inquiry_id)->first();
-        return view('calculate.coil.warm-water', compact('part', 'product', 'inquiry'));
-    }
-
-    public function condensor(Part $part, Product $product)
-    {
-        $inquiry = Inquiry::select('inquiry_number')->where('id', $product->inquiry_id)->first();
-        return view('calculate.coil.condensor', compact('part', 'product', 'inquiry'));
-    }
-
-    public function fancoil(Part $part, Product $product)
-    {
-        $inquiry = Inquiry::select('inquiry_number')->where('id', $product->inquiry_id)->first();
-        return view('calculate.coil.fancoil', compact('part', 'product', 'inquiry'));
-    }
-
-    public function storeEvaperator(Request $request, Part $part, Product $product)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255'
-        ]);
-
-        $name = $request['name'];
-        $code = $this->getLastCode($part);
-
-        $newPart = $part->replicate()->fill([
-            'name' => $name,
-            'code' => $code,
-            'coil' => true
-        ]);
-
-        $newPart->save();
-        $newPart->categories()->syncWithoutDetaching($part->categories);
-        $newPart->children()->syncWithoutDetaching($part->children);
-
-        $price = 0;
-        foreach ($newPart->children as $index => $childPart) {
-            if ($index == 14) {
-                $childPart->pivot->parent_part_id = $request->parts[0];
-                $price += $request->values[$index] * Part::find($request->parts[0])->price;
-            }
-            if ($index == 15) {
-                $childPart->pivot->parent_part_id = $request->parts[1];
-                $price += $request->values[$index] * Part::find($request->parts[1])->price;
-            }
-            if ($index == 16) {
-                $childPart->pivot->parent_part_id = $request->parts[2];
-                $price += $request->values[$index] * Part::find($request->parts[2])->price;
-            }
-            if ($index == 17 && !is_null($request->parts[3]) && $request->parts[3] > 0) {
-                $childPart->pivot->parent_part_id = $request->parts[3];
-                $price += $request->values[$index] * Part::find($request->parts[3])->price;
-            }
-            if ($index == 18 && !is_null($request->parts[4]) && $request->parts[4] > 0) {
-                $childPart->pivot->parent_part_id = $request->parts[4];
-                $price += $request->values[$index] * Part::find($request->parts[4])->price;
-            }
-            if ($index == 19) {
-                $childPart->pivot->parent_part_id = $request->parts[5];
-                $price += $request->values[$index] * Part::find($request->parts[5])->price;
-            }
-            if ($index == 20) {
-                $childPart->pivot->parent_part_id = $request->parts[6];
-                $price += $request->values[$index] * Part::find($request->parts[6])->price;
-            }
-
-            $childPart->pivot->value = $request->values[$index];
-            $price += $request->values[$index] * $childPart->price;
-            $childPart->pivot->save();
-        }
-        $newPart->price = $price;
-        $newPart->save();
-
-        $request->session()->put('price' . $part->id, $request->final_price);
-        $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
-
-        alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');
-
-        return redirect()->route('inquiries.product.amounts', $product->id);
-    }
-
-    public function storeCondensor(Request $request, Part $part, Product $product)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255'
-        ]);
-
-        $name = $request['name'];
-        $code = $this->getLastCode($part);
-
-        $newPart = $part->replicate()->fill([
-            'name' => $name,
-            'code' => $code,
-            'coil' => true
-        ]);
-
-        $newPart->save();
-        $newPart->categories()->syncWithoutDetaching($part->categories);
-        $newPart->children()->syncWithoutDetaching($part->children);
-
-        $price = 0;
-        foreach ($newPart->children as $index => $childPart) {
-            if ($index == 14) {
-                $childPart->pivot->parent_part_id = $request->parts[0];
-                $price += $request->values[$index] * Part::find($request->parts[0])->price;
-            }
-            if ($index == 15) {
-                $childPart->pivot->parent_part_id = $request->parts[1];
-                $price += $request->values[$index] * Part::find($request->parts[1])->price;
-            }
-            if ($index == 16) {
-                $childPart->pivot->parent_part_id = $request->parts[2];
-                $price += $request->values[$index] * Part::find($request->parts[2])->price;
-            }
-            if ($index == 17 && !is_null($request->parts[3]) && $request->parts[3] > 0) {
-                $childPart->pivot->parent_part_id = $request->parts[3];
-                $price += $request->values[$index] * Part::find($request->parts[3])->price;
-            }
-            if ($index == 18 && !is_null($request->parts[4]) && $request->parts[4] > 0) {
-                $childPart->pivot->parent_part_id = $request->parts[4];
-                $price += $request->values[$index] * Part::find($request->parts[4])->price;
-            }
-            if ($index == 19) {
-                $childPart->pivot->parent_part_id = $request->parts[5];
-                $price += $request->values[$index] * Part::find($request->parts[5])->price;
-            }
-            if ($index == 20) {
-                $childPart->pivot->parent_part_id = $request->parts[6];
-                $price += $request->values[$index] * Part::find($request->parts[6])->price;
-            }
-
-            $childPart->pivot->value = $request->values[$index];
-            $price += $request->values[$index] * $childPart->price;
-            $childPart->pivot->save();
-        }
-        $newPart->price = $price;
-        $newPart->save();
-
-        $request->session()->put('price' . $part->id, $request->final_price);
-        $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
-
-        alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');
-
-        return redirect()->route('inquiries.product.amounts', $product->id);
-    }
-
-    public function storeFancoil(Request $request, Part $part, Product $product)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255'
-        ]);
-
-        $name = $request['name'];
-        $code = $this->getLastCode($part);
-
-        $newPart = $part->replicate()->fill([
-            'name' => $name,
-            'code' => $code,
-            'coil' => true
-        ]);
-
-        $newPart->save();
-        $newPart->categories()->syncWithoutDetaching($part->categories);
-        $newPart->children()->syncWithoutDetaching($part->children);
-
-        $price = 0;
-        foreach ($newPart->children as $index => $childPart) {
-            if ($index == 13) {
-                $childPart->pivot->parent_part_id = $request->parts[0];
-                $price += $request->values[$index] * Part::find($request->parts[0])->price;
-            }
-            if ($index == 14) {
-                $childPart->pivot->parent_part_id = $request->parts[1];
-                $price += $request->values[$index] * Part::find($request->parts[1])->price;
-            }
-            if ($index == 15) {
-                $childPart->pivot->parent_part_id = $request->parts[2];
-                $price += $request->values[$index] * Part::find($request->parts[2])->price;
-            }
-            if ($index == 16 && !is_null($request->parts[3]) && $request->parts[3] > 0) {
-                $childPart->pivot->parent_part_id = $request->parts[3];
-                $price += $request->values[$index] * Part::find($request->parts[3])->price;
-            }
-            if ($index == 17 && !is_null($request->parts[4]) && $request->parts[4] > 0) {
-                $childPart->pivot->parent_part_id = $request->parts[4];
-                $price += $request->values[$index] * Part::find($request->parts[4])->price;
-            }
-            if ($index == 18) {
-                $childPart->pivot->parent_part_id = $request->parts[5];
-                $price += $request->values[$index] * Part::find($request->parts[5])->price;
-            }
-            if ($index == 19) {
-                $childPart->pivot->parent_part_id = $request->parts[6];
-                $price += $request->values[$index] * Part::find($request->parts[6])->price;
-            }
-            if ($index == 21) {
-                $childPart->pivot->parent_part_id = $request->parts[7];
-                $price += $request->values[$index] * Part::find($request->parts[7])->price;
-            }
-
-            $childPart->pivot->value = $request->values[$index];
-            $price += $request->values[$index] * $childPart->price;
-            $childPart->pivot->save();
-        }
-        $newPart->price = $price;
-        $newPart->save();
-
-        $request->session()->put('price' . $part->id, $request->final_price);
-        $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
-
-        alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');
-
-        return redirect()->route('inquiries.product.amounts', $product->id);
-    }
-
-    public function storeWaterCold(Request $request, Part $part, Product $product)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255'
-        ]);
-
-        $name = $request['name'];
-        $code = $this->getLastCode($part);
-
-        $newPart = $part->replicate()->fill([
-            'name' => $name,
-            'code' => $code,
-            'coil' => true
-        ]);
-
-        $newPart->save();
-        $newPart->categories()->syncWithoutDetaching($part->categories);
-        $newPart->children()->syncWithoutDetaching($part->children);
-
-        $price = 0;
-        foreach ($newPart->children as $index => $childPart) {
-            if ($index == 15) {
-                $childPart->pivot->parent_part_id = $request->parts[0];
-                $price += $request->values[$index] * Part::find($request->parts[0])->price;
-            }
-            if ($index == 16) {
-                $childPart->pivot->parent_part_id = $request->parts[1];
-                $price += $request->values[$index] * Part::find($request->parts[1])->price;
-            }
-            if ($index == 17) {
-                $childPart->pivot->parent_part_id = $request->parts[2];
-                $price += $request->values[$index] * Part::find($request->parts[2])->price;
-            }
-            if ($index == 18 && !is_null($request->parts[3]) && $request->parts[3] > 0) {
-                $childPart->pivot->parent_part_id = $request->parts[3];
-                $price += $request->values[$index] * Part::find($request->parts[3])->price;
-            }
-            if ($index == 19 && !is_null($request->parts[4]) && $request->parts[4] > 0) {
-                $childPart->pivot->parent_part_id = $request->parts[4];
-                $price += $request->values[$index] * Part::find($request->parts[4])->price;
-            }
-            if ($index == 20) {
-                $childPart->pivot->parent_part_id = $request->parts[5];
-                $price += $request->values[$index] * Part::find($request->parts[5])->price;
-            }
-            if ($index == 21) {
-                $childPart->pivot->parent_part_id = $request->parts[6];
-                $price += $request->values[$index] * Part::find($request->parts[6])->price;
-            }
-
-            $childPart->pivot->value = $request->values[$index];
-            $price += $request->values[$index] * $childPart->price;
-            $childPart->pivot->save();
-        }
-        $newPart->price = $price;
-        $newPart->save();
-
-        $request->session()->put('price' . $part->id, $request->final_price);
-        $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
-
-        alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');
-
-        return redirect()->route('inquiries.product.amounts', $product->id);
-    }
-
-    public function storeWaterWarm(Request $request, Part $part, Product $product)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255'
-        ]);
-
-        $name = $request['name'];
-        $code = $this->getLastCode($part);
-
-        $newPart = $part->replicate()->fill([
-            'name' => $name,
-            'code' => $code,
-            'coil' => true
-        ]);
-
-        $newPart->save();
-        $newPart->categories()->syncWithoutDetaching($part->categories);
-        $newPart->children()->syncWithoutDetaching($part->children);
-
-        $price = 0;
-        foreach ($newPart->children as $index => $childPart) {
-            if ($index == 15) {
-                $childPart->pivot->parent_part_id = $request->parts[0];
-                $price += $request->values[$index] * Part::find($request->parts[0])->price;
-            }
-            if ($index == 16) {
-                $childPart->pivot->parent_part_id = $request->parts[1];
-                $price += $request->values[$index] * Part::find($request->parts[1])->price;
-            }
-            if ($index == 17) {
-                $childPart->pivot->parent_part_id = $request->parts[2];
-                $price += $request->values[$index] * Part::find($request->parts[2])->price;
-            }
-            if ($index == 18 && !is_null($request->parts[3]) && $request->parts[3] > 0) {
-                $childPart->pivot->parent_part_id = $request->parts[3];
-                $price += $request->values[$index] * Part::find($request->parts[3])->price;
-            }
-            if ($index == 19 && !is_null($request->parts[4]) && $request->parts[4] > 0) {
-                $childPart->pivot->parent_part_id = $request->parts[4];
-                $price += $request->values[$index] * Part::find($request->parts[4])->price;
-            }
-            if ($index == 20) {
-                $childPart->pivot->parent_part_id = $request->parts[5];
-                $price += $request->values[$index] * Part::find($request->parts[5])->price;
-            }
-            if ($index == 21) {
-                $childPart->pivot->parent_part_id = $request->parts[6];
-                $price += $request->values[$index] * Part::find($request->parts[6])->price;
-            }
-
-            $childPart->pivot->value = $request->values[$index];
-            $price += $request->values[$index] * $childPart->price;
-            $childPart->pivot->save();
-        }
-        $newPart->price = $price;
-        $newPart->save();
-
-        $request->session()->put('price' . $part->id, $request->final_price);
-        $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
-
-        alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');
-
-        return redirect()->route('inquiries.product.amounts', $product->id);
-    }
-
-    public function getData(Request $request)
-    {
-        $part = Part::find($request->id);
-        return response(['data' => $part]);
-    }
-
-    public function getLastCode($part)
-    {
-        $category = $part->categories()->latest()->first();
-        $categoryPart = $category->parts->toArray();
-        if (count($categoryPart) > 0) {
-            $lastPart = $categoryPart[count($categoryPart) - 1];
-            $code = str_pad($lastPart['code'] + 1, 4, "0", STR_PAD_LEFT);
-        }
-        return $code;
-    }
-
-    public function calculateFancoilCoil(Request $request)
+    public function calculateFancoil(Request $request)
     {
         $inputs = $request->validate([
             'loole_messi' => 'required',
@@ -667,16 +302,88 @@ class CalculateCoilController extends Controller
             $finName = 'Cu';
         }
 
-        $serial = $request['serial'];
-
-        $name = $serial . '-' . 'FC-' . $looleMessiName . '-' . $tedadRadifCoil . 'R-' . $finDarInch . 'FPI-' . $tedadMogheyiatLoole . 'T-'
+        $name = 'FC-' . $looleMessiName . '-' . $tedadRadifCoil . 'R-' . $finDarInch . 'FPI-' . $tedadMogheyiatLoole . 'T-'
             . $tooleCoil . 'FL-' . $tedadMadarLoole . 'M-' . $finName;
 
         return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs' => $inputs, 'satheCoil' => $satheCoil,
             'name' => $name]);
     }
 
-    public function calculateWarmCoil(Request $request)
+    public function storeFancoil(Request $request, Part $part)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255'
+        ]);
+
+        $name = $request['name'];
+        $code = $this->getLastCode($part);
+
+        $newPart = $part->replicate()->fill([
+            'name' => $name,
+            'code' => $code,
+            'coil' => true
+        ]);
+
+        $newPart->save();
+        $newPart->categories()->syncWithoutDetaching($part->categories);
+        $newPart->children()->syncWithoutDetaching($part->children);
+
+        $price = 0;
+        foreach ($newPart->children as $index => $childPart) {
+            if ($index == 13) {
+                $childPart->pivot->parent_part_id = $request->parts[0];
+                $price += $request->values[$index] * Part::find($request->parts[0])->price;
+            }
+            if ($index == 14) {
+                $childPart->pivot->parent_part_id = $request->parts[1];
+                $price += $request->values[$index] * Part::find($request->parts[1])->price;
+            }
+            if ($index == 15) {
+                $childPart->pivot->parent_part_id = $request->parts[2];
+                $price += $request->values[$index] * Part::find($request->parts[2])->price;
+            }
+            if ($index == 16 && !is_null($request->parts[3]) && $request->parts[3] > 0) {
+                $childPart->pivot->parent_part_id = $request->parts[3];
+                $price += $request->values[$index] * Part::find($request->parts[3])->price;
+            }
+            if ($index == 17 && !is_null($request->parts[4]) && $request->parts[4] > 0) {
+                $childPart->pivot->parent_part_id = $request->parts[4];
+                $price += $request->values[$index] * Part::find($request->parts[4])->price;
+            }
+            if ($index == 18) {
+                $childPart->pivot->parent_part_id = $request->parts[5];
+                $price += $request->values[$index] * Part::find($request->parts[5])->price;
+            }
+            if ($index == 19) {
+                $childPart->pivot->parent_part_id = $request->parts[6];
+                $price += $request->values[$index] * Part::find($request->parts[6])->price;
+            }
+            if ($index == 21) {
+                $childPart->pivot->parent_part_id = $request->parts[7];
+                $price += $request->values[$index] * Part::find($request->parts[7])->price;
+            }
+
+            $childPart->pivot->value = $request->values[$index];
+            $price += $request->values[$index] * $childPart->price;
+            $childPart->pivot->save();
+        }
+        $newPart->price = $price;
+        $newPart->save();
+
+        $request->session()->put('price' . $part->id, $request->final_price);
+        $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
+
+        alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');
+
+        return redirect()->route('separate.coil.index');
+    }
+
+    public function warm(Part $part)
+    {
+        return view('calculate.separate-coils.warm-water', compact('part'));
+    }
+
+    public function calculateWarm(Request $request)
     {
         $inputs = $request->validate([
             'loole_messi' => 'required',
@@ -913,16 +620,84 @@ class CalculateCoilController extends Controller
             $finName = 'Cu';
         }
 
-        $serial = $request['serial'];
-
-        $name = $serial . '-' . 'HW-' . $looleMessiName . '-' . $tedadRadifCoil . 'R-' . $finDarInch . 'FPI-' . $tedadMogheyiatLoole . 'T-'
+        $name = 'HW-' . $looleMessiName . '-' . $tedadRadifCoil . 'R-' . $finDarInch . 'FPI-' . $tedadMogheyiatLoole . 'T-'
             . $tooleCoil . 'FL-' . $tedadMadarLoole . 'M-' . $finName;
 
         return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs' => $inputs, 'satheCoil' => $satheCoil,
             'name' => $name]);
     }
 
-    public function calculateColdCoil(Request $request)
+    public function storeWarm(Request $request, Part $part)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255'
+        ]);
+
+        $name = $request['name'];
+        $code = $this->getLastCode($part);
+
+        $newPart = $part->replicate()->fill([
+            'name' => $name,
+            'code' => $code,
+            'coil' => true
+        ]);
+
+        $newPart->save();
+        $newPart->categories()->syncWithoutDetaching($part->categories);
+        $newPart->children()->syncWithoutDetaching($part->children);
+
+        $price = 0;
+        foreach ($newPart->children as $index => $childPart) {
+            if ($index == 15) {
+                $childPart->pivot->parent_part_id = $request->parts[0];
+                $price += $request->values[$index] * Part::find($request->parts[0])->price;
+            }
+            if ($index == 16) {
+                $childPart->pivot->parent_part_id = $request->parts[1];
+                $price += $request->values[$index] * Part::find($request->parts[1])->price;
+            }
+            if ($index == 17) {
+                $childPart->pivot->parent_part_id = $request->parts[2];
+                $price += $request->values[$index] * Part::find($request->parts[2])->price;
+            }
+            if ($index == 18 && !is_null($request->parts[3]) && $request->parts[3] > 0) {
+                $childPart->pivot->parent_part_id = $request->parts[3];
+                $price += $request->values[$index] * Part::find($request->parts[3])->price;
+            }
+            if ($index == 19 && !is_null($request->parts[4]) && $request->parts[4] > 0) {
+                $childPart->pivot->parent_part_id = $request->parts[4];
+                $price += $request->values[$index] * Part::find($request->parts[4])->price;
+            }
+            if ($index == 20) {
+                $childPart->pivot->parent_part_id = $request->parts[5];
+                $price += $request->values[$index] * Part::find($request->parts[5])->price;
+            }
+            if ($index == 21) {
+                $childPart->pivot->parent_part_id = $request->parts[6];
+                $price += $request->values[$index] * Part::find($request->parts[6])->price;
+            }
+
+            $childPart->pivot->value = $request->values[$index];
+            $price += $request->values[$index] * $childPart->price;
+            $childPart->pivot->save();
+        }
+        $newPart->price = $price;
+        $newPart->save();
+
+        $request->session()->put('price' . $part->id, $request->final_price);
+        $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
+
+        alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');
+
+        return redirect()->route('separate.coil.index');
+    }
+
+    public function cold(Part $part)
+    {
+        return view('calculate.separate-coils.cold-water', compact('part'));
+    }
+
+    public function calculateCold(Request $request)
     {
         $inputs = $request->validate([
             'loole_messi' => 'required',
@@ -1159,16 +934,84 @@ class CalculateCoilController extends Controller
             $finName = 'Cu';
         }
 
-        $serial = $request['serial'];
-
-        $name = $serial . '-' . 'CW-' . $looleMessiName . '-' . $tedadRadifCoil . 'R-' . $finDarInch . 'FPI-' . $tedadMogheyiatLoole . 'T-'
+        $name = 'CW-' . $looleMessiName . '-' . $tedadRadifCoil . 'R-' . $finDarInch . 'FPI-' . $tedadMogheyiatLoole . 'T-'
             . $tooleCoil . 'FL-' . $tedadMadarLoole . 'M-' . $finName;
 
         return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs' => $inputs, 'satheCoil' => $satheCoil,
             'name' => $name]);
     }
 
-    public function calculateCondensorCoil(Request $request)
+    public function storeCold(Request $request, Part $part)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255'
+        ]);
+
+        $name = $request['name'];
+        $code = $this->getLastCode($part);
+
+        $newPart = $part->replicate()->fill([
+            'name' => $name,
+            'code' => $code,
+            'coil' => true
+        ]);
+
+        $newPart->save();
+        $newPart->categories()->syncWithoutDetaching($part->categories);
+        $newPart->children()->syncWithoutDetaching($part->children);
+
+        $price = 0;
+        foreach ($newPart->children as $index => $childPart) {
+            if ($index == 15) {
+                $childPart->pivot->parent_part_id = $request->parts[0];
+                $price += $request->values[$index] * Part::find($request->parts[0])->price;
+            }
+            if ($index == 16) {
+                $childPart->pivot->parent_part_id = $request->parts[1];
+                $price += $request->values[$index] * Part::find($request->parts[1])->price;
+            }
+            if ($index == 17) {
+                $childPart->pivot->parent_part_id = $request->parts[2];
+                $price += $request->values[$index] * Part::find($request->parts[2])->price;
+            }
+            if ($index == 18 && !is_null($request->parts[3]) && $request->parts[3] > 0) {
+                $childPart->pivot->parent_part_id = $request->parts[3];
+                $price += $request->values[$index] * Part::find($request->parts[3])->price;
+            }
+            if ($index == 19 && !is_null($request->parts[4]) && $request->parts[4] > 0) {
+                $childPart->pivot->parent_part_id = $request->parts[4];
+                $price += $request->values[$index] * Part::find($request->parts[4])->price;
+            }
+            if ($index == 20) {
+                $childPart->pivot->parent_part_id = $request->parts[5];
+                $price += $request->values[$index] * Part::find($request->parts[5])->price;
+            }
+            if ($index == 21) {
+                $childPart->pivot->parent_part_id = $request->parts[6];
+                $price += $request->values[$index] * Part::find($request->parts[6])->price;
+            }
+
+            $childPart->pivot->value = $request->values[$index];
+            $price += $request->values[$index] * $childPart->price;
+            $childPart->pivot->save();
+        }
+        $newPart->price = $price;
+        $newPart->save();
+
+        $request->session()->put('price' . $part->id, $request->final_price);
+        $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
+
+        alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');
+
+        return redirect()->route('separate.coil.index');
+    }
+
+    public function condensor(Part $part)
+    {
+        return view('calculate.separate-coils.condensor', compact('part'));
+    }
+
+    public function calculateCondensor(Request $request)
     {
         $inputs = $request->validate([
             'loole_messi' => 'required',
@@ -1399,15 +1242,83 @@ class CalculateCoilController extends Controller
             $finName = 'Cu';
         }
 
-        $serial = $request['serial'];
-
-        $name = $serial . '-' . 'CO-' . $looleMessiName . '-' . $tedadRadifCoil . 'R-' . $finDarInch . 'FPI-' . $tedadMogheyiatLoole . 'T-'
+        $name = 'CO-' . $looleMessiName . '-' . $tedadRadifCoil . 'R-' . $finDarInch . 'FPI-' . $tedadMogheyiatLoole . 'T-'
             . $tooleCoil . 'FL-' . $tedadMadarLoole . 'M-' . $finName;
 
         return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs' => $inputs, 'satheCoil' => $satheCoil, 'name' => $name]);
     }
 
-    public function calculateEvaperatorCoil(Request $request)
+    public function storeCondensor(Request $request, Part $part)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255'
+        ]);
+
+        $name = $request['name'];
+        $code = $this->getLastCode($part);
+
+        $newPart = $part->replicate()->fill([
+            'name' => $name,
+            'code' => $code,
+            'coil' => true
+        ]);
+
+        $newPart->save();
+        $newPart->categories()->syncWithoutDetaching($part->categories);
+        $newPart->children()->syncWithoutDetaching($part->children);
+
+        $price = 0;
+        foreach ($newPart->children as $index => $childPart) {
+            if ($index == 14) {
+                $childPart->pivot->parent_part_id = $request->parts[0];
+                $price += $request->values[$index] * Part::find($request->parts[0])->price;
+            }
+            if ($index == 15) {
+                $childPart->pivot->parent_part_id = $request->parts[1];
+                $price += $request->values[$index] * Part::find($request->parts[1])->price;
+            }
+            if ($index == 16) {
+                $childPart->pivot->parent_part_id = $request->parts[2];
+                $price += $request->values[$index] * Part::find($request->parts[2])->price;
+            }
+            if ($index == 17 && !is_null($request->parts[3]) && $request->parts[3] > 0) {
+                $childPart->pivot->parent_part_id = $request->parts[3];
+                $price += $request->values[$index] * Part::find($request->parts[3])->price;
+            }
+            if ($index == 18 && !is_null($request->parts[4]) && $request->parts[4] > 0) {
+                $childPart->pivot->parent_part_id = $request->parts[4];
+                $price += $request->values[$index] * Part::find($request->parts[4])->price;
+            }
+            if ($index == 19) {
+                $childPart->pivot->parent_part_id = $request->parts[5];
+                $price += $request->values[$index] * Part::find($request->parts[5])->price;
+            }
+            if ($index == 20) {
+                $childPart->pivot->parent_part_id = $request->parts[6];
+                $price += $request->values[$index] * Part::find($request->parts[6])->price;
+            }
+
+            $childPart->pivot->value = $request->values[$index];
+            $price += $request->values[$index] * $childPart->price;
+            $childPart->pivot->save();
+        }
+        $newPart->price = $price;
+        $newPart->save();
+
+        $request->session()->put('price' . $part->id, $request->final_price);
+        $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
+
+        alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');
+
+        return redirect()->route('separate.coil.index');
+    }
+
+    public function evaperator(Part $part)
+    {
+        return view('calculate.separate-coils.evaperator', compact('part'));
+    }
+
+    public function calculateEvaperator(Request $request)
     {
         $inputs = $request->validate([
             'loole_messi' => 'required',
@@ -1661,12 +1572,86 @@ class CalculateCoilController extends Controller
             $finName = 'Cu';
         }
 
-        $serial = $request['serial'];
-
-        $name = $serial . '-' . 'DX-' . $looleMessiName . '-' . $tedadRadifCoil . 'R-' . $finDarInch . 'FPI-' . $tedadMogheyiatLoole . 'T-'
+        $name = 'DX-' . $looleMessiName . '-' . $tedadRadifCoil . 'R-' . $finDarInch . 'FPI-' . $tedadMogheyiatLoole . 'T-'
             . $tooleCoil . 'FL-' . $tedadMadarLoole . 'M-' . $finName;
 
         return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs' => $inputs, 'satheCoil' => $satheCoil, 'name' => $name]);
+    }
+
+    public function storeEvaperator(Request $request, Part $part)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255'
+        ]);
+
+        $name = $request['name'];
+        $code = $this->getLastCode($part);
+
+        $newPart = $part->replicate()->fill([
+            'name' => $name,
+            'code' => $code,
+            'coil' => true
+        ]);
+
+        $newPart->save();
+        $newPart->categories()->syncWithoutDetaching($part->categories);
+        $newPart->children()->syncWithoutDetaching($part->children);
+
+        $price = 0;
+        foreach ($newPart->children as $index => $childPart) {
+            if ($index == 14) {
+                $childPart->pivot->parent_part_id = $request->parts[0];
+                $price += $request->values[$index] * Part::find($request->parts[0])->price;
+            }
+            if ($index == 15) {
+                $childPart->pivot->parent_part_id = $request->parts[1];
+                $price += $request->values[$index] * Part::find($request->parts[1])->price;
+            }
+            if ($index == 16) {
+                $childPart->pivot->parent_part_id = $request->parts[2];
+                $price += $request->values[$index] * Part::find($request->parts[2])->price;
+            }
+            if ($index == 17 && !is_null($request->parts[3]) && $request->parts[3] > 0) {
+                $childPart->pivot->parent_part_id = $request->parts[3];
+                $price += $request->values[$index] * Part::find($request->parts[3])->price;
+            }
+            if ($index == 18 && !is_null($request->parts[4]) && $request->parts[4] > 0) {
+                $childPart->pivot->parent_part_id = $request->parts[4];
+                $price += $request->values[$index] * Part::find($request->parts[4])->price;
+            }
+            if ($index == 19) {
+                $childPart->pivot->parent_part_id = $request->parts[5];
+                $price += $request->values[$index] * Part::find($request->parts[5])->price;
+            }
+            if ($index == 20) {
+                $childPart->pivot->parent_part_id = $request->parts[6];
+                $price += $request->values[$index] * Part::find($request->parts[6])->price;
+            }
+
+            $childPart->pivot->value = $request->values[$index];
+            $price += $request->values[$index] * $childPart->price;
+            $childPart->pivot->save();
+        }
+        $newPart->price = $price;
+        $newPart->save();
+
+        $request->session()->put('price' . $part->id, $request->final_price);
+        $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
+
+        alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');
+
+        return redirect()->route('separate.coil.index');
+    }
+    
+    public function getLastCode($part)
+    {
+        $category = $part->categories()->latest()->first();
+        $categoryPart = $category->parts->toArray();
+        if (count($categoryPart) > 0) {
+            $lastPart = $categoryPart[count($categoryPart) - 1];
+            $code = str_pad($lastPart['code'] + 1, 4, "0", STR_PAD_LEFT);
+        }
+        return $code;
     }
 
     public function calculateZekhamatFrame($zekhamatFrameId, $masahatVaraghMasrafi)
