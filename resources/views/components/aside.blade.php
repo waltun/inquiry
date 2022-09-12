@@ -41,6 +41,8 @@
                 <span class="text-sm px-2">داشبورد</span>
             </a>
 
+            <div class="border border-gray-300"></div>
+
             <!-- Categories -->
             @can('categories')
                 <div x-data="{open:false}">
@@ -56,7 +58,7 @@
                             </svg>
                         </div>
                         <div class="flex justify-between w-full items-center">
-                            <span class="text-sm px-2">بخش دسته بندی ها</span>
+                            <span class="text-sm px-2">دسته بندی قطعات</span>
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
                                  viewBox="0 0 20 20" fill="currentColor"
                                  :class="{'rotate-180' : open}">
@@ -96,7 +98,7 @@
                             </svg>
                         </div>
                         <div class="flex justify-between w-full items-center">
-                            <span class="text-sm px-2">قطعات و مجموعه ها</span>
+                            <span class="text-sm px-2">قطعات و کالای نیم ساخته</span>
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
                                  viewBox="0 0 20 20" fill="currentColor"
                                  :class="{'rotate-180' : open}">
@@ -120,7 +122,7 @@
                         @can('collections')
                             <a href="{{ route('collections.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
                             hover:text-black rounded-md {{ isActive('collections.index') }}">
-                                مدیریت مجموعه ها
+                                مدیریت کالا های نیم ساخته
                             </a>
                         @endcan
                         @can('price')
@@ -148,7 +150,7 @@
                             </svg>
                         </div>
                         <div class="flex justify-between w-full items-center">
-                            <span class="text-sm px-2">بخش گروه و مدل ها</span>
+                            <span class="text-sm px-2">محصولات و مدل ها</span>
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
                                  viewBox="0 0 20 20" fill="currentColor"
                                  :class="{'rotate-180' : open}">
@@ -161,11 +163,11 @@
                     <div class="mt-1 bg-gray-50 rounded-md p-2" x-show="open" x-cloak>
                         <a href="{{ route('groups.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
                             hover:text-black rounded-md {{ isActive('groups.index') }}">
-                            مدیریت گروه ها
+                            مدیریت محصولات
                         </a>
                         <a href="{{ route('groups.create') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
                             hover:text-black rounded-md {{ isActive('groups.create') }}">
-                            ایجاد گروه جدید
+                            ایجاد محصول جدید
                         </a>
                     </div>
                 </div>
@@ -186,7 +188,7 @@
                             </svg>
                         </div>
                         <div class="flex justify-between w-full items-center">
-                            <span class="text-sm px-2">بخش استعلام ها</span>
+                            <span class="text-sm px-2">استعلام ها</span>
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
                                  viewBox="0 0 20 20" fill="currentColor"
                                  :class="{'rotate-180' : open}">
@@ -225,6 +227,80 @@
                 </div>
             @endcanany
 
+            <div class="border border-gray-300"></div>
+
+            <!-- Collection coils -->
+            @can('collections')
+                <div x-data="{open:false}">
+                    <div
+                        class="flex items-center text-gray-500 p-2 hover:bg-gray-100 rounded-md hover:text-black cursor-pointer
+                            {{ isActive(['collectionCoil.index']) }}"
+                        @click="open = !open">
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                 stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
+                            </svg>
+                        </div>
+                        <div class="flex justify-between w-full items-center">
+                            <span class="text-sm px-2">لیست کویل و دمپر</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
+                                 viewBox="0 0 20 20" fill="currentColor"
+                                 :class="{'rotate-180' : open}">
+                                <path fill-rule="evenodd"
+                                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="mt-1 bg-gray-50 rounded-md p-2" x-show="open" x-cloak>
+                        <a href="{{ route('collectionCoil.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
+                            hover:text-black rounded-md {{ isActive('collectionCoil.index') }}">
+                            مدیریت کویل و دمپر
+                        </a>
+                    </div>
+                </div>
+            @endcan
+
+            <!-- Separate Calculate Coils -->
+            <div x-data="{open:false}">
+                <div
+                    class="flex items-center text-gray-500 p-2 hover:bg-gray-100 rounded-md hover:text-black cursor-pointer
+                            {{ isActive(['separate.coil.index']) }}"
+                    @click="open = !open">
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V13.5zm0 2.25h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V18zm2.498-6.75h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V13.5zm0 2.25h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V18zm2.504-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zm0 2.25h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V18zm2.498-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zM8.25 6h7.5v2.25h-7.5V6zM12 2.25c-1.892 0-3.758.11-5.593.322C5.307 2.7 4.5 3.65 4.5 4.757V19.5a2.25 2.25 0 002.25 2.25h10.5a2.25 2.25 0 002.25-2.25V4.757c0-1.108-.806-2.057-1.907-2.185A48.507 48.507 0 0012 2.25z"/>
+                        </svg>
+                    </div>
+                    <div class="flex justify-between w-full items-center">
+                        <span class="text-sm px-2">محاسبات قیمت کویل و دمپر  </span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
+                             viewBox="0 0 20 20" fill="currentColor"
+                             :class="{'rotate-180' : open}">
+                            <path fill-rule="evenodd"
+                                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                  clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-1 bg-gray-50 rounded-md p-2" x-show="open" x-cloak>
+                    <a href="{{ route('separate.coil.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
+                            hover:text-black rounded-md {{ isActive('separate.coil.index') }}">
+                        قیمت کویل
+                    </a>
+                    <a href="#" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
+                            hover:text-black rounded-md {{ isActive('separate.coil.index') }}">
+                        قیمت دمپر
+                    </a>
+                </div>
+            </div>
+
+            <div class="border border-gray-300"></div>
+
             <!-- Users -->
             @can('users')
                 <div x-data="{open:false}">
@@ -240,7 +316,7 @@
                             </svg>
                         </div>
                         <div class="flex justify-between w-full items-center">
-                            <span class="text-sm px-2">بخش کاربران</span>
+                            <span class="text-sm px-2">کاربران</span>
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
                                  viewBox="0 0 20 20" fill="currentColor"
                                  :class="{'rotate-180' : open}">
@@ -266,72 +342,6 @@
                     </div>
                 </div>
             @endcan
-
-            <!-- Collection coils -->
-            @can('collections')
-                <div x-data="{open:false}">
-                    <div
-                        class="flex items-center text-gray-500 p-2 hover:bg-gray-100 rounded-md hover:text-black cursor-pointer
-                            {{ isActive(['collectionCoil.index']) }}"
-                        @click="open = !open">
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                 stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
-                            </svg>
-                        </div>
-                        <div class="flex justify-between w-full items-center">
-                            <span class="text-sm px-2">بخش مجموعه کویل و دمپر</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
-                                 viewBox="0 0 20 20" fill="currentColor"
-                                 :class="{'rotate-180' : open}">
-                                <path fill-rule="evenodd"
-                                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                      clip-rule="evenodd"/>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="mt-1 bg-gray-50 rounded-md p-2" x-show="open" x-cloak>
-                        <a href="{{ route('collectionCoil.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive('collectionCoil.index') }}">
-                            مدیریت مجموعه کویل و دمپر
-                        </a>
-                    </div>
-                </div>
-            @endcan
-
-            <!-- Separate Calculate Coils -->
-            <div x-data="{open:false}">
-                <div
-                    class="flex items-center text-gray-500 p-2 hover:bg-gray-100 rounded-md hover:text-black cursor-pointer
-                            {{ isActive(['separate.coil.index']) }}"
-                    @click="open = !open">
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                             stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V13.5zm0 2.25h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V18zm2.498-6.75h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V13.5zm0 2.25h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V18zm2.504-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zm0 2.25h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V18zm2.498-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zM8.25 6h7.5v2.25h-7.5V6zM12 2.25c-1.892 0-3.758.11-5.593.322C5.307 2.7 4.5 3.65 4.5 4.757V19.5a2.25 2.25 0 002.25 2.25h10.5a2.25 2.25 0 002.25-2.25V4.757c0-1.108-.806-2.057-1.907-2.185A48.507 48.507 0 0012 2.25z"/>
-                        </svg>
-                    </div>
-                    <div class="flex justify-between w-full items-center">
-                        <span class="text-sm px-2">بخش محاسبه جداگانه کویل</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
-                             viewBox="0 0 20 20" fill="currentColor"
-                             :class="{'rotate-180' : open}">
-                            <path fill-rule="evenodd"
-                                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                  clip-rule="evenodd"/>
-                        </svg>
-                    </div>
-                </div>
-                <div class="mt-1 bg-gray-50 rounded-md p-2" x-show="open" x-cloak>
-                    <a href="{{ route('separate.coil.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive('separate.coil.index') }}">
-                        مدیریت محاسبه جداگانه کویل
-                    </a>
-                </div>
-            </div>
         </div>
     </aside>
 </div>

@@ -21,7 +21,7 @@
                               clip-rule="evenodd"/>
                     </svg>
                     <span class="mr-2 text-xs md:text-sm font-medium text-gray-400">
-                        محاسبه جداگانه کویل ها
+                        محاسبه قیمت جداگانه کویل ها
                     </span>
                 </div>
             </li>
@@ -41,7 +41,7 @@
             </div>
             <div>
                 <p class="text-lg font-bold text-black">
-                    محسابه {{ $fancoil->name }}
+                    محاسبه قیمت {{ $fancoil->name }}
                 </p>
             </div>
             <div>
@@ -63,7 +63,7 @@
             </div>
             <div>
                 <p class="text-lg font-bold text-black">
-                    محسابه {{ $warmWater->name }}
+                    محاسبه قیمت {{ $warmWater->name }}
                 </p>
             </div>
             <div>
@@ -85,7 +85,7 @@
             </div>
             <div>
                 <p class="text-lg font-bold text-black">
-                    محسابه {{ $coldWater->name }}
+                    محاسبه قیمت {{ $coldWater->name }}
                 </p>
             </div>
             <div>
@@ -107,7 +107,7 @@
             </div>
             <div>
                 <p class="text-lg font-bold text-black">
-                    محسابه {{ $condensor->name }}
+                    محاسبه قیمت {{ $condensor->name }}
                 </p>
             </div>
             <div>
@@ -129,7 +129,7 @@
             </div>
             <div>
                 <p class="text-lg font-bold text-black">
-                    محسابه {{ $evaperator->name }}
+                    محاسبه قیمت {{ $evaperator->name }}
                 </p>
             </div>
             <div>
