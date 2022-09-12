@@ -38,6 +38,8 @@
         $inputs = Session::get('inputs');
         $toolePare = Session::get('toolePare');
         $name = Session::get('name');
+        $ertefa = Session::get('ertefa');
+        $sotoonVasat = Session::get('sotoonVasat');
     @endphp
 
     <div class="my-4">
@@ -51,18 +53,8 @@
                         اطلاعات ورودی {{ $part->name }}
                     </p>
                 </div>
-                <div>
-                    <p class="bg-indigo-500 rounded-md px-6 py-2 text-sm font-bold text-white">
-                        طول پره :
-                        @if(!is_null($toolePare))
-                            {{ number_format($toolePare,2) }}
-                        @else
-                            0
-                        @endif
-                    </p>
-                </div>
             </div>
-            <div class="grid grid-cols-3 gap-4">
+            <div class="grid grid-cols-5 gap-4">
                 <div>
                     <label class="block mb-2 text-sm font-bold" for="inputDebiHavaTaze">دبی هوای تازه</label>
                     <input type="text" class="input-text" id="inputDebiHavaTaze" name="debi_hava_taze"
@@ -82,6 +74,23 @@
                     <input type="text" class="input-text" id="inputTedadPare" name="tedad_pare"
                            value="{{ !is_null($inputs) ? $inputs['tedad_pare'] : '' }}">
                 </div>
+                <div class="col-span-2">
+                    <label class="block mb-2 text-sm font-bold" for="inputTedadPare">
+                        ابعاد
+                    </label>
+                    <p class="bg-indigo-500 rounded-md px-6 py-2 text-sm text-white">
+                        ابعاد داخلی دمپر :
+                        @if(!is_null($toolePare) && !is_null($ertefa))
+                            @if($sotoonVasat > 0)
+                                {{ $toolePare }} * {{ $ertefa }} با ستون وسط دمپر
+                            @else
+                                {{ $toolePare }} * {{ $ertefa }}
+                            @endif
+                        @else
+                            0
+                        @endif
+                    </p>
+                </div>
             </div>
             <div class="mt-4">
                 <button type="submit" class="form-submit-btn">
@@ -100,12 +109,12 @@
                 <table class="border-collapse border border-gray-400 w-full">
                     <thead class="sticky top-1 bg-gray-200 z-50 shadow-md">
                     <tr>
-                        <th class="border border-gray-300 p-4 text-sm">ردیف</th>
-                        <th class="border border-gray-300 p-4 text-sm">شرح</th>
-                        <th class="border border-gray-300 p-4 text-sm">مقدار / سایز</th>
-                        <th class="border border-gray-300 p-4 text-sm">واحد</th>
-                        <th class="border border-gray-300 p-4 text-sm">قیمت واحد</th>
-                        <th class="border border-gray-300 p-4 text-sm">قیمت کل</th>
+                        <th class="border border-gray-300 p-1 text-sm">ردیف</th>
+                        <th class="border border-gray-300 p-1 text-sm">شرح</th>
+                        <th class="border border-gray-300 p-1 text-sm">مقدار / سایز</th>
+                        <th class="border border-gray-300 p-1 text-sm">واحد</th>
+                        <th class="border border-gray-300 p-1 text-sm">قیمت واحد</th>
+                        <th class="border border-gray-300 p-1 text-sm">قیمت کل</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -116,32 +125,35 @@
                         <input type="hidden" name="values[]" id="value{{ $index }}"
                                value="{{ $values[$index] }}">
                         <tr>
-                            <td class="border border-gray-300 p-4 text-sm text-center">
+                            <td class="border border-gray-300 p-2 text-sm text-center">
                                 {{ $loop->index + 1 }}
                             </td>
-                            <td class="border border-gray-300 p-4 text-sm text-center">
+                            <td class="border border-gray-300 p-2 text-sm text-center">
                                 {{ $child->name }}
                             </td>
-                            <td class="border border-gray-300 p-4 text-sm text-center">
+                            <td class="border border-gray-300 p-2 text-sm text-center">
                                 <span>{{ number_format($values[$index], 2) }}</span>
                             </td>
-                            <td class="border border-gray-300 p-4 text-sm text-center">
+                            <td class="border border-gray-300 p-2 text-sm text-center">
                                 {{ $child->unit }}
                             </td>
-                            <td class="border border-gray-300 p-4 text-sm text-center">
+                            <td class="border border-gray-300 p-2 text-sm text-center">
                                 <span>{{ number_format($child->price) }}</span>
                             </td>
-                            <td class="border border-gray-300 p-4 text-sm text-center">
+                            <td class="border border-gray-300 p-2 text-sm text-center">
                                 <span>{{ number_format($values[$index] * $child->price) }}</span>
                             </td>
                         </tr>
+                        @php
+                            $finalPrice += $values[$index] * $child->price;
+                        @endphp
                     @endforeach
 
                     <tr>
-                        <td class="border border-gray-300 p-4 text-lg font-bold text-center" colspan="4">
+                        <td class="border border-gray-300 p-2 text-lg font-bold text-center" colspan="4">
                             قیمت نهایی
                         </td>
-                        <td class="border border-gray-300 p-4 text-lg font-bold text-center text-green-600" colspan="2">
+                        <td class="border border-gray-300 p-2 text-lg font-bold text-center text-green-600" colspan="2">
                             <span>{{ number_format($finalPrice) }}</span>
                             <input type="hidden" name="final_price" value="{{ $finalPrice }}">
                         </td>

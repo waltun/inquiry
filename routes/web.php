@@ -9,6 +9,7 @@ use App\Http\Controllers\CollectionPartController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\InquiryController;
+use App\Http\Controllers\InquiryPartCoilController;
 use App\Http\Controllers\InquiryPartController;
 use App\Http\Controllers\InquiryProductController;
 use App\Http\Controllers\ModellController;
@@ -164,6 +165,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
     Route::post('/settings', [SettingController::class, 'store'])->name('settings.store');
 
+    //Separate Coil Routes
     Route::get('/separate-calculate-coil', [SeparateCalculateCoilController::class, 'index'])->name('separate.coil.index');
     Route::get('/separate-calculate-coil/{part}/fancoil', [SeparateCalculateCoilController::class, 'fancoil'])->name('separate.coil.fancoil');
     Route::post('/separate-calculate-coil/fancoil', [SeparateCalculateCoilController::class, 'calculateFancoil'])->name('separate.coil.calculateFancoil');
@@ -180,4 +182,22 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/separate-calculate-coil/{part}/evaperator', [SeparateCalculateCoilController::class, 'evaperator'])->name('separate.coil.evaperator');
     Route::post('/separate-calculate-coil/evaperator', [SeparateCalculateCoilController::class, 'calculateEvaperator'])->name('separate.coil.calculateEvaperator');
     Route::post('/separate-calculate-coil/{part}/store-evaperator', [SeparateCalculateCoilController::class, 'storeEvaperator'])->name('separate.coil.storeEvaperator');
+
+    //Inquiry Part Coils
+    Route::post('/inquiry-part-coil/{inquiry}', [InquiryPartCoilController::class, 'index'])->name('inquiryPart.coil.index');
+    Route::get('/inquiry-part-coil/{inquiry}/{part}/fancoil', [InquiryPartCoilController::class, 'fancoil'])->name('inquiryPart.coil.fancoil');
+    Route::post('/inquiry-part-coil/calculate/fancoil', [InquiryPartCoilController::class, 'calculateFancoil'])->name('inquiryPart.coil.calculateFancoil');
+    Route::post('/inquiry-part-coil/{inquiry}/{part}/store-fancoil', [InquiryPartCoilController::class, 'storeFancoil'])->name('inquiryPart.coil.storeFancoil');
+    Route::get('/inquiry-part-coil/{inquiry}/{part}/warm', [InquiryPartCoilController::class, 'warm'])->name('inquiryPart.coil.warm');
+    Route::post('/inquiry-part-coil/calculate/warm', [InquiryPartCoilController::class, 'calculateWarm'])->name('inquiryPart.coil.calculateWarm');
+    Route::post('/inquiry-part-coil/{inquiry}/{part}/store-warm', [InquiryPartCoilController::class, 'storeWarm'])->name('inquiryPart.coil.storeWarm');
+    Route::get('/inquiry-part-coil/{inquiry}/{part}/cold', [InquiryPartCoilController::class, 'cold'])->name('inquiryPart.coil.cold');
+    Route::post('/inquiry-part-coil/calculate/cold', [InquiryPartCoilController::class, 'calculateCold'])->name('inquiryPart.coil.calculateCold');
+    Route::post('/inquiry-part-coil/{inquiry}/{part}/store-cold', [InquiryPartCoilController::class, 'storeCold'])->name('inquiryPart.coil.storeCold');
+    Route::get('/inquiry-part-coil/{inquiry}/{part}/condensor', [InquiryPartCoilController::class, 'condensor'])->name('inquiryPart.coil.condensor');
+    Route::post('/inquiry-part-coil/calculate/condensor', [InquiryPartCoilController::class, 'calculateCondensor'])->name('inquiryPart.coil.calculateCondensor');
+    Route::post('/inquiry-part-coil/{inquiry}/{part}/store-condensor', [InquiryPartCoilController::class, 'storeCondensor'])->name('inquiryPart.coil.storeCondensor');
+    Route::get('/inquiry-part-coil/{inquiry}/{part}/evaperator', [InquiryPartCoilController::class, 'evaperator'])->name('inquiryPart.coil.evaperator');
+    Route::post('/inquiry-part-coil/calculate/evaperator', [InquiryPartCoilController::class, 'calculateEvaperator'])->name('inquiryPart.coil.calculateEvaperator');
+    Route::post('/inquiry-part-coil/{inquiry}/{part}/store-evaperator', [InquiryPartCoilController::class, 'storeEvaperator'])->name('inquiryPart.coil.storeEvaperator');
 });

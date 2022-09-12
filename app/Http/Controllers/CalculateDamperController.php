@@ -80,6 +80,8 @@ class CalculateDamperController extends Controller
 
         //Tolle Pare
         $toolePare = ((($debiHavaTaze / $soratHava) / 10.7639) / $tedadPare) * 1000;
+        $toolePare = round($toolePare);
+        $ertefaDamper = ($tedadPare * 10) + 1;
 
         //Profile Pare
         $profilePare = (($tedadPare * $toolePare) / 100);
@@ -152,7 +154,8 @@ class CalculateDamperController extends Controller
 
         $name = $serial . "-FD-OPB-" . $tedadPare . "BL-" . number_format($toolePare, 2) . "L";
 
-        return back()->with(['values' => $values, 'name' => $name, 'inputs' => $inputs, 'toolePare' => $toolePare]);
+        return back()->with(['values' => $values, 'name' => $name, 'inputs' => $inputs, 'toolePare' => $toolePare, 'ertefa' => $ertefaDamper
+            , 'sotoonVasat' => $profileSotoonVasat]);
     }
 
     public function calculateExast(Request $request)
@@ -170,6 +173,8 @@ class CalculateDamperController extends Controller
 
         //Tolle Pare
         $toolePare = ((($debiHavaExast / $soratHava) / 10.7639) / $tedadPare) * 1000;
+        $toolePare = round($toolePare);
+        $ertefaDamper = ($tedadPare * 10) + 1;
 
         //Profile Pare
         $profilePare = (($tedadPare * $toolePare) / 100);
@@ -242,7 +247,8 @@ class CalculateDamperController extends Controller
 
         $name = $serial . "-ED-OPB-" . $tedadPare . "BL-" . number_format($toolePare, 2) . "L";
 
-        return back()->with(['values' => $values, 'name' => $name, 'inputs' => $inputs, 'toolePare' => $toolePare]);
+        return back()->with(['values' => $values, 'name' => $name, 'inputs' => $inputs, 'toolePare' => $toolePare, 'ertefa' => $ertefaDamper
+            , 'sotoonVasat' => $profileSotoonVasat]);
     }
 
     public function calculateRaft(Request $request)
@@ -260,6 +266,8 @@ class CalculateDamperController extends Controller
 
         //Tolle Pare
         $toolePare = ((($debiHavaRaft / $soratHava) / 10.7639) / $tedadPare) * 1000;
+        $toolePare = round($toolePare);
+        $ertefaDamper = ($tedadPare * 10) + 1;
 
         //Profile Pare
         $profilePare = (($tedadPare * $toolePare) / 100);
@@ -332,7 +340,8 @@ class CalculateDamperController extends Controller
 
         $name = $serial . "-SD-OPB-" . $tedadPare . "BL-" . number_format($toolePare, 2) . "L";
 
-        return back()->with(['values' => $values, 'name' => $name, 'inputs' => $inputs, 'toolePare' => $toolePare]);
+        return back()->with(['values' => $values, 'name' => $name, 'inputs' => $inputs, 'toolePare' => $toolePare, 'ertefa' => $ertefaDamper
+            , 'sotoonVasat' => $profileSotoonVasat]);
     }
 
     public function calculateBargasht(Request $request)
@@ -350,6 +359,8 @@ class CalculateDamperController extends Controller
 
         //Tolle Pare
         $toolePare = ((($debiHavaBargasht / $soratHava) / 10.7639) / $tedadPare) * 1000;
+        $toolePare = round($toolePare);
+        $ertefaDamper = ($tedadPare * 10) + 1;
 
         //Profile Pare
         $profilePare = (($tedadPare * $toolePare) / 100);
@@ -422,7 +433,8 @@ class CalculateDamperController extends Controller
 
         $name = $serial . "-RD-OPB-" . $tedadPare . "BL-" . number_format($toolePare, 2) . "L";
 
-        return back()->with(['values' => $values, 'name' => $name, 'inputs' => $inputs, 'toolePare' => $toolePare]);
+        return back()->with(['values' => $values, 'name' => $name, 'inputs' => $inputs, 'toolePare' => $toolePare, 'ertefa' => $ertefaDamper
+            , 'sotoonVasat' => $profileSotoonVasat]);
     }
 
     public function getLastCode($part)

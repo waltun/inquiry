@@ -84,9 +84,64 @@
                     افزودن قطعه جدید به استعلام
                 </a>
             @endcan
+                <div x-data="{open:false}">
+                    <button type="button" class="form-edit-btn text-xs" @click="open = !open">
+                        محاسبه کویل جدید
+                    </button>
+                    <div class="relative z-10" x-show="open" x-cloak>
+                        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+                        <div class="fixed z-10 inset-0 overflow-y-auto">
+                            <div
+                                class="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
+                                <form method="POST" action="{{ route('inquiryPart.coil.index',$inquiry->id) }}"
+                                      class="relative bg-white rounded-lg text-right overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full">
+                                    @csrf
+                                    <div class="bg-white p-4">
+                                        <div class="mt-3 text-center sm:mt-0 sm:text-right">
+                                            <h3 class="text-lg font-medium text-gray-900 border-b border-gray-300 pb-3">
+                                                محاسبه کویل جدید
+                                            </h3>
+                                            <div class="mt-4">
+                                                <label class="block mb-2 text-sm font-bold" for="inputCoilType">
+                                                    انتخاب نوع کویل
+                                                </label>
+                                                <select name="coil_type" id="inputCoilType" class="input-text">
+                                                    <option value="">انتخاب کنید</option>
+                                                    <option value="fancoil">
+                                                        کویل {{ \App\Models\Part::select('name')->where('id','170')->first()->name }}
+                                                    </option>
+                                                    <option value="warm">
+                                                        کویل {{ \App\Models\Part::select('name')->where('id','169')->first()->name }}
+                                                    </option>
+                                                    <option value="cold">
+                                                        کویل {{ \App\Models\Part::select('name')->where('id','168')->first()->name }}
+                                                    </option>
+                                                    <option value="condensor">
+                                                        کویل {{ \App\Models\Part::select('name')->where('id','167')->first()->name }}
+                                                    </option>
+                                                    <option value="evaperator">
+                                                        کویل {{ \App\Models\Part::select('name')->where('id','150')->first()->name }}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="bg-gray-100 px-4 py-2">
+                                        <button type="submit" class="form-submit-btn">
+                                            ثبت
+                                        </button>
+                                        <button type="button" class="form-cancel-btn"
+                                                @click="open = !open">
+                                            انصراف
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             <a href="{{ route('inquiries.index') }}" class="form-detail-btn text-xs">لیست استعلام ها</a>
         </div>
-
     </div>
 
     <!-- Content -->
