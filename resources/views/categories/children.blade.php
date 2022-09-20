@@ -1,3 +1,17 @@
+<x-slot name="js">
+    <script>
+        function showButtons(id) {
+            let buttonSection = document.getElementById('buttonSection' + id);
+            buttonSection.classList.remove('hidden');
+        }
+
+        function hideButtons(id) {
+            let buttonSection = document.getElementById('buttonSection' + id);
+            buttonSection.classList.add('hidden');
+        }
+    </script>
+</x-slot>
+
 @if(count($category->children) > 0)
     @foreach($category->children as $children)
         @php
@@ -16,7 +30,8 @@
             }
         @endphp
         <div class="border border-gray-400 rounded-md p-4 bg-gray-50 my-4" x-data="{open : false}"
-             :class="{'bg-indigo-300' : open}">
+             :class="{'bg-indigo-300' : open}" onmouseenter="showButtons({{ $children->id }})"
+             onmouseleave="hideButtons({{ $children->id }})">
             <div class="md:flex items-center justify-between space-y-4 md:space-y-0">
                 <div class="flex items-center">
                     <div class="ml-4">
@@ -45,7 +60,7 @@
                         </p>
                     </div>
                 </div>
-                <div class="flex items-center space-x-3 space-x-reverse">
+                <div class="flex items-center space-x-3 space-x-reverse hidden" id="buttonSection{{ $children->id }}">
                     @if($count != 2)
                         <a href="{{ route('categories.create') }}?parent={{ $children->id }}"
                            class="form-detail-btn text-xs">

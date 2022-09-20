@@ -1,4 +1,18 @@
 <x-layout>
+    <x-slot name="js">
+        <script>
+            function showButtons(id) {
+                let buttonSection = document.getElementById('buttonSection' + id);
+                buttonSection.classList.remove('hidden');
+            }
+
+            function hideButtons(id) {
+                let buttonSection = document.getElementById('buttonSection' + id);
+                buttonSection.classList.add('hidden');
+            }
+        </script>
+    </x-slot>
+
     <!-- Breadcrumb -->
     <nav class="flex bg-gray-100 p-4 rounded-md overflow-x-auto whitespace-nowrap" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-2 space-x-reverse">
@@ -44,7 +58,8 @@
     <div class="mt-4">
         @foreach($categories as $category)
             <div class="border border-gray-400 rounded-md p-4 bg-white shadow-sm mb-4" x-data="{open:false}"
-                 :class="{'bg-indigo-200' : open}">
+                 :class="{'bg-indigo-200' : open}" onmouseenter="showButtons({{ $category->id }})"
+                 onmouseleave="hideButtons({{ $category->id }})">
                 <div class="md:flex items-center justify-between space-y-4 md:space-y-0">
                     <div class="flex items-center">
                         <div class="ml-4">
@@ -73,7 +88,8 @@
                             </p>
                         </div>
                     </div>
-                    <div class="flex items-center space-x-3 space-x-reverse">
+                    <div class="flex items-center space-x-3 space-x-reverse hidden"
+                         id="buttonSection{{ $category->id }}">
                         <a href="{{ route('categories.create') }}?parent={{ $category->id }}"
                            class="form-detail-btn text-xs">
                             ثبت زیردسته

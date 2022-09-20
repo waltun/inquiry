@@ -286,7 +286,7 @@
         </div>
 
         <div class="bg-pink-300 rounded-md p-4 shadow-md">
-            <a href="{{ route('parts.price.index') }}" class="flex justify-between items-center group">
+            <a href="{{ route('separate.damper.index') }}" class="flex justify-between items-center group">
                 <div>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                          stroke="currentColor" class="h-8 w-8 text-black group-hover:text-white">
