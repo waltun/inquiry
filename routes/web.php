@@ -19,6 +19,7 @@ use App\Http\Controllers\PartOfGroupController;
 use App\Http\Controllers\PartOfModellController;
 use App\Http\Controllers\PartPriceController;
 use App\Http\Controllers\SeparateCalculateCoilController;
+use App\Http\Controllers\SeparateCalculateDamperController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -200,4 +201,16 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/inquiry-part-coil/{inquiry}/{part}/evaperator', [InquiryPartCoilController::class, 'evaperator'])->name('inquiryPart.coil.evaperator');
     Route::post('/inquiry-part-coil/calculate/evaperator', [InquiryPartCoilController::class, 'calculateEvaperator'])->name('inquiryPart.coil.calculateEvaperator');
     Route::post('/inquiry-part-coil/{inquiry}/{part}/store-evaperator', [InquiryPartCoilController::class, 'storeEvaperator'])->name('inquiryPart.coil.storeEvaperator');
+
+    //Separate Damper Routes
+    Route::get('/separate-calculate-damper', [SeparateCalculateDamperController::class, 'index'])->name('separate.damper.index');
+    Route::get('/separate-calculate-damper/{part}/bargasht', [SeparateCalculateDamperController::class, 'bargasht'])->name('separate.damper.bargasht');
+    Route::post('/separate-calculate-damper/bargasht', [SeparateCalculateDamperController::class, 'calculateBargasht'])->name('separate.damper.calculateBargasht');
+    Route::get('/separate-calculate-damper/{part}/exast', [SeparateCalculateDamperController::class, 'exast'])->name('separate.damper.exast');
+    Route::post('/separate-calculate-damper/exast', [SeparateCalculateDamperController::class, 'calculateExast'])->name('separate.damper.calculateExast');
+    Route::get('/separate-calculate-damper/{part}/raft', [SeparateCalculateDamperController::class, 'raft'])->name('separate.damper.raft');
+    Route::post('/separate-calculate-damper/raft', [SeparateCalculateDamperController::class, 'calculateRaft'])->name('separate.damper.calculateRaft');
+    Route::get('/separate-calculate-damper/{part}/taze', [SeparateCalculateDamperController::class, 'taze'])->name('separate.damper.taze');
+    Route::post('/separate-calculate-damper/taze', [SeparateCalculateDamperController::class, 'calculateTaze'])->name('separate.damper.calculateTaze');
+    Route::post('/separate-calculate-damper/{part}/post', [SeparateCalculateDamperController::class, 'store'])->name('separate.damper.store');
 });
