@@ -28,84 +28,99 @@
         </ol>
     </nav>
 
-    <!-- Alert -->
-    <div class="mt-4">
-        <div class="bg-yellow-500 rounded-md p-4" x-data="{ open:false }">
-            <div class="flex justify-between items-center cursor-pointer" @click="open = !open">
-                <p class="text-xs md:text-sm text-black">نکات قابل توجه</p>
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     class="md:h-5 md:w-5 h-4 w-4 transition-transform transform text-black"
-                     fill="none" viewBox="0 0 24 24" stroke="currentColor" :class="{'rotate-180' : open}">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"/>
-                </svg>
-            </div>
-            <div class="bg-yellow-500 rounded-b-md mt-4" x-show="open" x-cloak>
-                <ul class="list-disc mr-4 space-y-2">
-                    <li class="text-xs md:text-sm text-black">تمامی فیلد های موجود برای اضافه کردن کاربر جدید ضروری می
-                        باشد.
-                    </li>
-                    <li class="text-xs md:text-sm text-black">شماره تماس 11 رقم و با صفر شروع می شود.</li>
-                    <li class="text-xs md:text-sm text-black">رمز عبور حداقل باید 8 رقم یا حرف باشد.</li>
-                    <li class="text-xs md:text-sm text-black">کد ملی باید 10 رقم و فقط شامل عدد باشد.</li>
-                    <li class="text-xs md:text-sm text-black">
-                        در انتخاب نقش کاربر دقت کنید، چون هر نقش دسترسی های مختلفی دارد (البته این قسمت قابل ویرایش می
-                        باشد).
-                    </li>
-                </ul>
-            </div>
-        </div>
+    <div class="my-4 flex justify-end">
+        <a href="{{ route('settings.create') }}" class="form-submit-btn text-xs">
+            ایجاد تنظیمات جدید
+        </a>
     </div>
 
-    <!-- Errors -->
+    <!-- Content -->
     <div class="mt-4">
-        <x-errors/>
+        <!-- Laptop List -->
+        <div class="bg-white shadow overflow-x-auto rounded-lg hidden md:block">
+            <table class="min-w-full">
+                <thead>
+                <tr class="bg-sky-200">
+                    <th scope="col"
+                        class="px-4 py-3 text-sm font-bold text-gray-800 text-center rounded-r-md">
+                        ردیف
+                    </th>
+                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                        اساس نمایش رنگ ها
+                    </th>
+                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                        مدت زمان میانی تغییر رنگ
+                    </th>
+                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                        مدت زمان نهایی تغییر رنگ
+                    </th>
+                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                        نوع
+                    </th>
+                    <th scope="col" class="relative px-4 py-3 rounded-l-md">
+                        <span class="sr-only">اقدامات</span>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($settings as $setting)
+                    <tr>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <p class="text-sm text-gray-500 text-center">{{ $loop->index + 1 }}</p>
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <p class="text-sm text-black text-center font-medium">
+                                @switch($setting->price_color_type)
+                                    @case('hour')
+                                        ساعت
+                                        @break
+                                    @case('day')
+                                        روز
+                                        @break
+                                    @case('month')
+                                        ماه
+                                        @break
+                                @endswitch
+                            </p>
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <p class="text-sm text-black text-center">
+                                {{ $setting->price_color_mid_time }}
+                            </p>
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <p class="text-sm text-black text-center">
+                                {{ $setting->price_color_last_time }}
+                            </p>
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            @if($setting->active == '1')
+                                <p class="text-sm text-green-600 text-center">
+                                    فعال
+                                </p>
+                            @else
+                                <p class="text-sm text-red-600 text-center">
+                                    غیر فعال
+                                </p>
+                            @endif
+                        </td>
+                        <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
+                            <a href="{{ route('settings.edit',$setting->id) }}" class="form-edit-btn text-xs">
+                                ویرایش
+                            </a>
+                            <form action="{{ route('settings.destroy',$setting->id) }}" method="POST"
+                                  class="inline">
+                                @csrf
+                                @method('DELETE')
+                                <button class="form-cancel-btn text-xs" onclick="return confirm('تنظیمات حذف شود ؟')">
+                                    حذف
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
-
-    <!-- Form -->
-    <form method="POST" action="{{ route('settings.store') }}" class="md:grid grid-cols-2 gap-4 mt-4">
-        @csrf
-
-        <div class="col-span-2 bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
-            <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">مشخصات کلی</p>
-
-            <div class="mt-4">
-                <label for="inputPriceColorType" class="block mb-2 md:text-sm text-xs text-black">
-                    اساس نمایش رنگ ها در قیمت گذاری
-                </label>
-                <select name="price_color_type" id="inputPriceColorType" class="input-text">
-                    <option value="">انتخاب کنید</option>
-                    <option
-                        value="hour" {{ is_null($setting) ? '' : ($setting->price_color_type == "hour" ? 'selected' : '') }}>
-                        ساعت
-                    </option>
-                    <option
-                        value="day" {{ is_null($setting) ? '' : ($setting->price_color_type == "day" ? 'selected' : '') }}>
-                        روز
-                    </option>
-                    <option
-                        value="month" {{ is_null($setting) ? '' : ($setting->price_color_type == "month" ? 'selected' : '') }}>
-                        ماه
-                    </option>
-                </select>
-            </div>
-
-            <div class="mt-4">
-                <label for="inputPriceColorTime" class="block mb-2 md:text-sm text-xs text-black">
-                    مدت زمان تغییر رنگ بخش قیمت گذاری بر اساس انتخاب بالا
-                </label>
-                <input type="text" class="input-text" id="inputPriceColorTime" name="price_color_time"
-                       value="{{ $setting ? $setting->price_color_time : '' }}" placeholder="مثلا : 2 یا 24 یا 1">
-            </div>
-
-        </div>
-
-        <div class="col-span-2 space-x-2 space-x-reverse">
-            <button type="submit" class="form-submit-btn">
-                ثبت تنظیمات
-            </button>
-            <a href="{{ route('dashboard') }}" class="form-cancel-btn">
-                انصراف
-            </a>
-        </div>
-    </form>
 </x-layout>

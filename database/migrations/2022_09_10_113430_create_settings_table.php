@@ -16,7 +16,10 @@ return new class extends Migration {
             $table->id();
 
             $table->enum('price_color_type', ['hour', 'day', 'month']);
-            $table->integer('price_color_time');
+            $table->integer('price_color_last_time');
+            $table->integer('price_color_mid_time');
+
+            $table->boolean('active')->default(false);
 
             $table->timestamps();
         });

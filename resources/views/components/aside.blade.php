@@ -10,7 +10,7 @@
             </svg>
         </span>
         <!-- Logo -->
-        <div class="px-4 py-2 flex items-center justify-center border-b border-gray-200">
+        <a href="{{ url('/') }}" class="px-4 py-2 flex items-center justify-center border-b border-gray-200">
             <div>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-red-600" viewBox="0 0 20 20"
                      fill="currentColor">
@@ -22,7 +22,7 @@
             <div class="pr-2">
                 <p class="font-bold text-xl">نام شرکت</p>
             </div>
-        </div>
+        </a>
 
         <!-- Nav items -->
         <div class="p-2 space-y-1">

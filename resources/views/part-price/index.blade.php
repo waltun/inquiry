@@ -28,7 +28,7 @@
                         if (res.data != null) {
                             section.innerHTML = `
                             <label for="inputCategory" class="block mb-2 md:text-sm text-xs text-black">زیر دسته</label>
-                            <select class="input-text" onchange="getCategory2()" id="inputCategory2" name="category2">
+                            <select class="input-text text-xs" onchange="getCategory2()" id="inputCategory2" name="category2">
                                 <option value="">انتخاب کنید</option>
                                     ${
                                 res.data.map(function (category) {
@@ -61,7 +61,7 @@
                         if (res.data != null) {
                             section.innerHTML = `
                             <label for="inputCategory3" class="block mb-2 md:text-sm text-xs text-black">زیر دسته</label>
-                            <select class="input-text" name="category3" id="inputCategory3">
+                            <select class="input-text text-xs" name="category3" id="inputCategory3">
                                 <option value="">انتخاب کنید</option>
                                     ${
                                 res.data.map(function (category) {
@@ -118,125 +118,168 @@
     </nav>
 
     <!-- Search -->
-    <div class="mt-4">
+    <div class="mt-4 grid grid-cols-3 gap-4">
         <div class="bg-white p-4 shadow-md rounded-md border border-gray-200">
-            <div class="md:grid grid-cols-2 gap-4">
-                <form class="bg-white rounded-md p-4 shadow-sm border border-gray-200 mb-4 md:mb-0">
-                    <div class="mb-4">
-                        <label for="inputSearch" class="block mb-2 md:text-sm text-xs text-black">
-                            جستجو براساس نام
-                        </label>
-                        <input type="text" id="inputSearch" name="search" class="input-text" placeholder="مثال : پیچ"
-                               value="{{ request('search') }}">
-                    </div>
-                    <div class="flex justify-end">
-                        <button class="form-submit-btn" type="submit">
-                            جستجو
+            <form>
+                <div class="mb-4">
+                    <label for="inputSearch" class="block mb-2 md:text-sm text-xs text-black">
+                        جستجو براساس نام
+                    </label>
+                    <div class="mt-1 flex rounded-md shadow-sm">
+                        <input type="text" name="search" id="inputSearch" class="input-text rounded-none rounded-r-md"
+                               placeholder="مثال : پیچ" value="{{ request('search') }}">
+                        <button type="submit"
+                                class="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-sm text-gray-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                 stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
+                            </svg>
                         </button>
                     </div>
-                </form>
-
-                <form class="bg-white rounded-md p-4 shadow-sm border border-gray-200 mb-4 md:mb-0">
-                    <div class="mb-4">
-                        <label for="inputSearchPrice" class="block mb-2 md:text-sm text-xs text-black">
-                            جستجو براساس قیمت
-                        </label>
-                        <select name="price" id="inputSearchPrice" class="input-text">
-                            <option value="">انتخاب کنید</option>
-                            <option value="0" {{ request('price') == '0' ? 'selected' : '' }}>
-                                قطعات بدون قیمت (منتظر قیمت گذاری)
-                            </option>
-                            <option value="1" {{ request('price') == '1' ? 'selected' : '' }}>
-                                قطعات قیمت دار
-                            </option>
-                        </select>
-                    </div>
-                    <div class="flex justify-end">
-                        <button class="form-submit-btn" type="submit">
-                            جستجو
-                        </button>
-                    </div>
-                </form>
-            </div>
-
-            @if(request()->has('price') || request()->has('search'))
-                <div class="mt-4">
-                    <a href="{{ route('parts.price.index') }}" class="form-detail-btn text-xs">
-                        پاکسازی جستجو
-                    </a>
                 </div>
-            @endif
+                @if(request()->has('search'))
+                    <div>
+                        <a href="{{ route('parts.price.index') }}"
+                           class="bg-yellow-500 inline-block p-1 rounded-full text-white shadow">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                 stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"/>
+                            </svg>
+                        </a>
+                    </div>
+                @endif
+            </form>
         </div>
-
-        <div class="mt-4">
-            <div class="bg-white p-4 shadow-md rounded-md border border-gray-200">
-                <form class="md:grid grid-cols-3 gap-4">
-                    <div class="mt-4">
-                        <label for="inputCategory1" class="block mb-2 md:text-sm text-xs text-black">دسته بندی
-                            قطعه</label>
-                        <select name="category1" id="inputCategory1" class="input-text" onchange="getCategory1()">
+        <div class="bg-white p-4 shadow-md rounded-md border border-gray-200">
+            <form>
+                <div class="mb-4">
+                    <label for="inputSearchPrice" class="block mb-2 md:text-sm text-xs text-black">
+                        جستجو براساس قیمت
+                    </label>
+                    <select name="price" id="inputSearchPrice" class="input-text">
+                        <option value="">انتخاب کنید</option>
+                        <option value="no-price" {{ request('price') == '0' ? 'selected' : '' }} class="bg-red-600">
+                            قطعات فاقد قیمت
+                        </option>
+                        <option value="success-price"
+                                {{ request('price') == '1' ? 'selected' : '' }} class="bg-green-500">
+                            قطعات قیمت به روز
+                        </option>
+                        <option value="expired-price"
+                                {{ request('price') == '1' ? 'selected' : '' }} class="bg-red-400">
+                            قطعات قیمت منقضی شده
+                        </option>
+                        <option value="mid-price" {{ request('price') == '1' ? 'selected' : '' }} class="bg-yellow-500">
+                            قطعات قیمت مشکوک
+                        </option>
+                    </select>
+                </div>
+                <div class="flex items-center justify-end">
+                    <button type="submit"
+                            class="rounded-full bg-gray-200 p-1 text-black shadow">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
+                        </svg>
+                    </button>
+                    @if(request()->has('price'))
+                        <div class="mx-2">
+                            <a href="{{ route('parts.price.index') }}"
+                               class="bg-yellow-500 block p-1 rounded-full text-white shadow">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"/>
+                                </svg>
+                            </a>
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-black underline-offset-4 underline">
+                                تعداد :
+                            </p>
+                        </div>
+                    @endif
+                </div>
+            </form>
+        </div>
+        <div class="bg-white p-4 shadow-md rounded-md border border-gray-200">
+            <form class="grid grid-cols-3 gap-2">
+                <div>
+                    <label for="inputCategory1" class="block mb-2 md:text-sm text-xs text-black">دسته بندی
+                        قطعه</label>
+                    <select name="category1" id="inputCategory1" class="input-text text-xs" onchange="getCategory1()">
+                        <option value="">انتخاب کنید</option>
+                        @foreach($categories as $category)
+                            <option
+                                value="{{ $category->id }}" {{ request('category1') == $category->id ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div id="categorySection1">
+                    @if(request()->has('category2'))
+                        @php
+                            $category2 = \App\Models\Category::find(request('category1'))->children;
+                        @endphp
+                        <label for="inputCategory2" class="block mb-2 md:text-sm text-xs text-black">زیردسته
+                            اول</label>
+                        <select name="category2" id="inputCategory2" class="input-text" onchange="getCategory2()">
                             <option value="">انتخاب کنید</option>
-                            @foreach($categories as $category)
+                            @foreach($category2 as $category)
                                 <option
-                                    value="{{ $category->id }}" {{ request('category1') == $category->id ? 'selected' : '' }}>
+                                    value="{{ $category->id }}" {{ request('category2') == $category->id ? 'selected' : '' }}>
                                     {{ $category->name }}
                                 </option>
                             @endforeach
                         </select>
-                    </div>
-
-                    <div class="mt-4" id="categorySection1">
-                        @if(request()->has('category2'))
-                            @php
-                                $category2 = \App\Models\Category::find(request('category1'))->children;
-                            @endphp
-                            <label for="inputCategory2" class="block mb-2 md:text-sm text-xs text-black">زیردسته
-                                اول</label>
-                            <select name="category2" id="inputCategory2" class="input-text" onchange="getCategory2()">
-                                <option value="">انتخاب کنید</option>
-                                @foreach($category2 as $category)
-                                    <option
-                                        value="{{ $category->id }}" {{ request('category2') == $category->id ? 'selected' : '' }}>
-                                        {{ $category->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        @endif
-                    </div>
-                    <div class="mt-4" id="categorySection2">
-                        @if(request()->has('category3'))
-                            @php
-                                $category3 = \App\Models\Category::find(request('category2'))->children;
-                            @endphp
-                            <label for="inputCategory3" class="block mb-2 md:text-sm text-xs text-black">زیردسته
-                                دوم</label>
-                            <select name="category3" id="inputCategory3" class="input-text">
-                                <option value="">انتخاب کنید</option>
-                                @foreach($category3 as $category)
-                                    <option
-                                        value="{{ $category->id }}" {{ request('category3') == $category->id ? 'selected' : '' }}>
-                                        {{ $category->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        @endif
-                    </div>
-
-                    <div class="col-span-3 flex justify-end">
-                        <button type="submit" class="form-submit-btn">جستجو</button>
-                    </div>
-                </form>
-
-                @if(request()->has('category1') || request()->has('category2') || request()->has('category3'))
-                    <div class="mt-4">
-                        <a href="{{ route('parts.price.index') }}" class="form-detail-btn text-xs">
-                            پاکسازی جستجو
-                        </a>
-                    </div>
-                @endif
-            </div>
+                    @endif
+                </div>
+                <div id="categorySection2">
+                    @if(request()->has('category3'))
+                        @php
+                            $category3 = \App\Models\Category::find(request('category2'))->children;
+                        @endphp
+                        <label for="inputCategory3" class="block mb-2 md:text-sm text-xs text-black">زیردسته
+                            دوم</label>
+                        <select name="category3" id="inputCategory3" class="input-text">
+                            <option value="">انتخاب کنید</option>
+                            @foreach($category3 as $category)
+                                <option
+                                    value="{{ $category->id }}" {{ request('category3') == $category->id ? 'selected' : '' }}>
+                                    {{ $category->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    @endif
+                </div>
+                <div class="col-span-3 flex justify-end space-x-2 space-x-reverse">
+                    <button type="submit"
+                            class="rounded-full bg-gray-200 p-1 text-black shadow">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
+                        </svg>
+                    </button>
+                    @if(request()->has('category1') || request()->has('category2') || request()->has('category3'))
+                        <div>
+                            <a href="{{ route('parts.price.index') }}"
+                               class="bg-yellow-500 block p-1 rounded-full text-white shadow">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"/>
+                                </svg>
+                            </a>
+                        </div>
+                    @endif
+                </div>
+            </form>
         </div>
-
     </div>
 
     <!-- Content -->
@@ -277,24 +320,29 @@
                     @php
                         if ($setting) {
                             if($setting->price_color_type == 'month') {
-                                $time = \Carbon\Carbon::now()->subMonth($setting->price_color_time);
-                                //$lastTwoMonth = \Carbon\Carbon::now()->subMonth(2);
+                                $lastTime = \Carbon\Carbon::now()->subMonth($setting->price_color_last_time);
+                                $midTime = \Carbon\Carbon::now()->subMonth($setting->price_color_mid_time);
                             }
                             if($setting->price_color_type == 'day') {
-                                $time = \Carbon\Carbon::now()->subDay($setting->price_color_time);
+                                $lastTime = \Carbon\Carbon::now()->subDay($setting->price_color_last_time);
+                                $midTime = \Carbon\Carbon::now()->subDay($setting->price_color_mid_time);
                             }
                             if($setting->price_color_type == 'hour') {
-                                $time = \Carbon\Carbon::now()->subHour($setting->price_color_time);
+                                $lastTime = \Carbon\Carbon::now()->subHour($setting->price_color_last_time);
+                                $midTime = \Carbon\Carbon::now()->subHour($setting->price_color_mid_time);
                             }
                         }
 
-                        if ($part->updated_at < $time) {
+                        if ($part->updated_at < $lastTime && $part->price > 0) {
                             $color = 'bg-red-500';
                         }
-                        if ($part->updated_at > $time) {
+                        if ($part->updated_at > $lastTime && $part->updated_at > $midTime && $part->price > 0) {
                             $color = 'bg-green-500';
                         }
-                        if ($part->price == 0) {
+                        if ($part->updated_at > $lastTime && $part->updated_at < $midTime && $part->price > 0) {
+                            $color = 'bg-yellow-500';
+                        }
+                        if ($part->updated_at < $lastTime && $part->price == 0) {
                             $color = 'bg-red-600';
                         }
                     @endphp

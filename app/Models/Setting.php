@@ -10,6 +10,6 @@ class Setting extends Model
     use HasFactory;
 
     protected $fillable = [
-        'price_color_type', 'price_color_time'
+        'price_color_type', 'price_color_mid_time', 'price_color_last_time', 'active'
     ];
 }
