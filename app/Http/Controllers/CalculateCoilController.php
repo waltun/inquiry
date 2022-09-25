@@ -691,8 +691,8 @@ class CalculateCoilController extends Controller
             'tedad_loole_dar_radif' => 'required',
             'tedad_mogheyiat_loole' => 'required',
             'tedad_madar_loole' => 'required',
-            'collector_messi' => 'required',
-            'collector_ahani' => 'required',
+            'collector_messi' => 'nullable',
+            'collector_ahani' => 'nullable',
         ]);
 
         //Ids
@@ -918,6 +918,14 @@ class CalculateCoilController extends Controller
         $name = $serial . '-' . 'HW-' . $looleMessiName . '-' . $tedadRadifCoil . 'R-' . $finDarInch . 'FPI-' . $tedadMogheyiatLoole . 'T-'
             . $tooleCoil . 'FL-' . $tedadMadarLoole . 'M-' . $finName;
 
+        if (!array_key_exists('collector_messi', $inputs)) {
+            $inputs['collector_messi'] = 0;
+        }
+
+        if (!array_key_exists('collector_ahani', $inputs)) {
+            $inputs['collector_ahani'] = 0;
+        }
+
         return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs' => $inputs, 'satheCoil' => $satheCoil,
             'name' => $name]);
     }
@@ -937,8 +945,8 @@ class CalculateCoilController extends Controller
             'tedad_loole_dar_radif' => 'required',
             'tedad_mogheyiat_loole' => 'required',
             'tedad_madar_loole' => 'required',
-            'collector_messi' => 'required',
-            'collector_ahani' => 'required',
+            'collector_messi' => 'nullable',
+            'collector_ahani' => 'nullable',
         ]);
 
         //Ids
@@ -1163,6 +1171,14 @@ class CalculateCoilController extends Controller
 
         $name = $serial . '-' . 'CW-' . $looleMessiName . '-' . $tedadRadifCoil . 'R-' . $finDarInch . 'FPI-' . $tedadMogheyiatLoole . 'T-'
             . $tooleCoil . 'FL-' . $tedadMadarLoole . 'M-' . $finName;
+
+        if (!array_key_exists('collector_messi', $inputs)) {
+            $inputs['collector_messi'] = 0;
+        }
+
+        if (!array_key_exists('collector_ahani', $inputs)) {
+            $inputs['collector_ahani'] = 0;
+        }
 
         return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs' => $inputs, 'satheCoil' => $satheCoil,
             'name' => $name]);

@@ -1,4 +1,31 @@
 <x-layout>
+    <x-slot name="js">
+        <script>
+            function checkAhani() {
+                let collectorAhani = document.getElementById('inputCollectorAhani');
+                let collectorMessi = document.getElementById('inputCollectorMessi');
+
+                if (collectorAhani.value > 0) {
+                    collectorMessi.setAttribute('disabled', 'disabled');
+                }
+                if (collectorAhani.value === '0') {
+                    collectorMessi.removeAttribute('disabled');
+                }
+            }
+
+            function checkMessi() {
+                let collectorAhani = document.getElementById('inputCollectorAhani');
+                let collectorMessi = document.getElementById('inputCollectorMessi');
+
+                if (collectorMessi.value > 0) {
+                    collectorAhani.setAttribute('disabled', 'disabled');
+                }
+                if (collectorMessi.value === '0') {
+                    collectorAhani.removeAttribute('disabled');
+                }
+            }
+        </script>
+    </x-slot>
     <!-- Breadcrumb -->
     <nav class="flex bg-gray-100 p-4 rounded-md" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-2 space-x-reverse">
@@ -319,7 +346,8 @@
                     </div>
                     <div class="col-span-2">
                         <label class="block mb-2 text-sm font-bold" for="inputCollectorAhani">هدر و کلکتور آهنی</label>
-                        <select name="collector_ahani" id="inputCollectorAhani" class="input-text bg-yellow-300">
+                        <select name="collector_ahani" id="inputCollectorAhani" class="input-text bg-yellow-300"
+                                onchange="checkAhani()">
                             <option value="0">ندارد</option>
                             <option value="{{ \App\Models\Part::where('id','70')->first()->id }}"
                                 {{ is_null($inputs) ? '' : ($inputs['collector_ahani'] == "70" ? 'selected' : '') }}>
@@ -353,7 +381,8 @@
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputCollectorMessi">هدر و کلکتور مسی</label>
-                        <select name="collector_messi" id="inputCollectorMessi" class="input-text bg-yellow-300">
+                        <select name="collector_messi" id="inputCollectorMessi" class="input-text bg-yellow-300"
+                                onchange="checkMessi()">
                             <option value="0">ندارد</option>
                             <option value="{{ \App\Models\Part::where('id','77')->first()->id }}"
                                 {{ is_null($inputs) ? '' : ($inputs['collector_messi'] == "77" ? 'selected' : '') }}>
