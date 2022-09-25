@@ -18,7 +18,7 @@ class InquiryController extends Controller
     {
         Gate::authorize('inquiries');
 
-        if(auth()->user()->role == 'admin') {
+        if (auth()->user()->role == 'admin') {
             $inquiries = Inquiry::where('submit', 0)->latest()->paginate(25);
         } else {
             $inquiries = Inquiry::where('submit', 0)->where('user_id', auth()->user()->id)->latest()->paginate(25);
@@ -247,6 +247,26 @@ class InquiryController extends Controller
         Gate::authorize('create-inquiry');
 
         return view('inquiries.products', compact('inquiry'));
+    }
+
+    public function description(Inquiry $inquiry)
+    {
+        return view('inquiries.description', compact('inquiry'));
+    }
+
+    public function storeDescription(Request $request, Inquiry $inquiry)
+    {
+        $request->validate([
+            'description' => 'required'
+        ]);
+
+        $inquiry->update([
+            'description' => $request['description']
+        ]);
+
+        alert()->success('ثبت موفق', 'شرایط استعلام با موفقیت ثبت شد');
+
+        return redirect()->route('inquiries.index');
     }
 
     public function changeModelAjax(Request $request)

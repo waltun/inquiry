@@ -22,6 +22,7 @@ return new class extends Migration {
             $table->bigInteger('price')->default(0);
 
             $table->text('message')->nullable();
+            $table->longText('description')->nullable();
 
             $table->timestamp('archive_at')->nullable();
 
@@ -29,7 +30,7 @@ return new class extends Migration {
 
             $table->unsignedBigInteger('user_id');
 
-            $table->index(['user_id','inquiry_number']);
+            $table->index(['user_id', 'inquiry_number']);
 
             $table->timestamps();
         });
