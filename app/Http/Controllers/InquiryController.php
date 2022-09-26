@@ -41,7 +41,8 @@ class InquiryController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'marketer' => 'required|string|max:255',
-            'inquiry_number' => 'numeric|nullable'
+            'inquiry_number' => 'numeric|nullable',
+            'type' => 'required|in:product,part,both'
         ]);
 
         $data['manager'] = auth()->user()->name;
@@ -90,6 +91,7 @@ class InquiryController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'marketer' => 'required|string|max:255',
+            'type' => 'required|in:product,part,both'
         ]);
 
         $inquiry->update($data);

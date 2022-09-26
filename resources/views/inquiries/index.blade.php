@@ -93,18 +93,22 @@
                             <p class="text-sm text-black text-center">{{ $inquiry->marketer }}</p>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
-                            @can('create-inquiry')
-                                <a href="{{ route('inquiries.product.index',$inquiry->id) }}"
-                                   class="form-detail-btn text-xs">
-                                    محصولات
-                                </a>
-                            @endcan
-                            @can('create-inquiry')
-                                <a href="{{ route('inquiries.parts.index',$inquiry->id) }}"
-                                   class="form-submit-btn text-xs">
-                                    قطعات تکی
-                                </a>
-                            @endcan
+                            @if($inquiry->type == 'product' || $inquiry->type == 'both')
+                                @can('create-inquiry')
+                                    <a href="{{ route('inquiries.product.index',$inquiry->id) }}"
+                                       class="form-detail-btn text-xs">
+                                        محصولات
+                                    </a>
+                                @endcan
+                            @endif
+                            @if($inquiry->type == 'part' || $inquiry->type == 'both')
+                                @can('create-inquiry')
+                                    <a href="{{ route('inquiries.parts.index',$inquiry->id) }}"
+                                       class="form-submit-btn text-xs">
+                                        قطعات تکی
+                                    </a>
+                                @endcan
+                            @endif
                             @can('create-inquiry')
                                 <a href="{{ route('inquiries.description',$inquiry->id) }}"
                                    class="form-submit-btn text-xs bg-gray-500 hover:bg-gray-600">

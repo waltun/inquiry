@@ -86,7 +86,7 @@
             @endcan
                 <div x-data="{open:false}">
                     <button type="button" class="form-edit-btn text-xs" @click="open = !open">
-                        محاسبه کویل جدید
+                        افزودن کویل جدید به استعلام
                     </button>
                     <div class="relative z-10" x-show="open" x-cloak>
                         <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>

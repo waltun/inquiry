@@ -13,7 +13,7 @@ class GroupController extends Controller
     {
         Gate::authorize('groups');
 
-        $groups = Group::latest()->paginate(25);
+        $groups = Group::all();
         return view('groups.index', compact('groups'));
     }
 

@@ -23,6 +23,7 @@ return new class extends Migration {
 
             $table->text('message')->nullable();
             $table->longText('description')->nullable();
+            $table->enum('type', ['product', 'part', 'both']);
 
             $table->timestamp('archive_at')->nullable();
 

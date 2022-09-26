@@ -87,6 +87,16 @@
                        placeholder="مثال : پروژه نفتی جنوب" value="{{ old('name') }}">
             </div>
 
+            <div class="mt-4">
+                <label for="inputType" class="block mb-2 md:text-sm text-xs text-black">نوع محصول</label>
+                <select name="type" id="inputType" class="input-text">
+                    <option value="">انتخاب کنید</option>
+                    <option value="product">فقط محصول</option>
+                    <option value="part">فقط قطعات تکی</option>
+                    <option value="both">هم محصول و هم قطعه</option>
+                </select>
+            </div>
+
         </div>
 
         <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">

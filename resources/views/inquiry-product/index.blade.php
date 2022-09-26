@@ -109,6 +109,9 @@
                         #
                     </th>
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                        ردیف
+                    </th>
+                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                         گروه
                     </th>
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
@@ -116,6 +119,9 @@
                     </th>
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                         تعداد
+                    </th>
+                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                        تگ
                     </th>
                     <th scope="col" class="relative px-4 py-3 rounded-l-md">
                         <span class="sr-only">اقدامات</span>
@@ -134,6 +140,9 @@
                                    class="checkboxes w-4 h-4 accent-blue-600 bg-gray-200 rounded border border-gray-300 focus:ring-blue-500 focus:ring-2 focus:ring-offset-1 mx-auto block">
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
+                            <p class="text-sm text-gray-500 text-center">{{ $loop->index + 1 }}</p>
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center font-medium">{{ $group->name }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
@@ -141,6 +150,9 @@
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center">{{ $product->quantity }}</p>
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <p class="text-sm text-black text-center">{{ $product->description }}</p>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
                             <a href="{{ route('inquiries.product.amounts',$product->id) }}"
