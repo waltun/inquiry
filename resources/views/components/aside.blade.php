@@ -292,7 +292,7 @@
                             hover:text-black rounded-md {{ isActive('separate.coil.index') }}">
                         قیمت کویل
                     </a>
-                    <a href="#" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
+                    <a href="{{ route('separate.damper.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
                             hover:text-black rounded-md {{ isActive('separate.coil.index') }}">
                         قیمت دمپر
                     </a>
