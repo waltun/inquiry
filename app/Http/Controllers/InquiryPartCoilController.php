@@ -324,7 +324,7 @@ class InquiryPartCoilController extends Controller
         $serial = $request['serial'];
 
         $name = $serial . '-' . 'FC-' . $looleMessiName . '-' . $tedadRadifCoil . 'R-' . $finDarInch . 'FPI-' . $tedadMogheyiatLoole . 'T-'
-            . $tooleCoil . 'FL-' . $tedadMadarLoole . 'M-' . $finName;
+            . $tooleCoil . 'FL-' . $tedadMadarLoole . 'M-' . $finName . '-' . $satheCoil;
 
         return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs' => $inputs, 'satheCoil' => $satheCoil,
             'name' => $name]);
@@ -650,7 +650,7 @@ class InquiryPartCoilController extends Controller
         $serial = $request['serial'];
 
         $name = $serial . '-HW-' . $looleMessiName . '-' . $tedadRadifCoil . 'R-' . $finDarInch . 'FPI-' . $tedadMogheyiatLoole . 'T-'
-            . $tooleCoil . 'FL-' . $tedadMadarLoole . 'M-' . $finName;
+            . $tooleCoil . 'FL-' . $tedadMadarLoole . 'M-' . $finName . '-' . $satheCoil;
 
         if (!array_key_exists('collector_messi', $inputs)) {
             $inputs['collector_messi'] = 0;
@@ -980,7 +980,7 @@ class InquiryPartCoilController extends Controller
         $serial = $request['serial'];
 
         $name = $serial . '-CW-' . $looleMessiName . '-' . $tedadRadifCoil . 'R-' . $finDarInch . 'FPI-' . $tedadMogheyiatLoole . 'T-'
-            . $tooleCoil . 'FL-' . $tedadMadarLoole . 'M-' . $finName;
+            . $tooleCoil . 'FL-' . $tedadMadarLoole . 'M-' . $finName . '-' . $satheCoil;
 
         if (!array_key_exists('collector_messi', $inputs)) {
             $inputs['collector_messi'] = 0;
@@ -1304,7 +1304,7 @@ class InquiryPartCoilController extends Controller
         $serial = $request['serial'];
 
         $name = $serial . '-CO-' . $looleMessiName . '-' . $tedadRadifCoil . 'R-' . $finDarInch . 'FPI-' . $tedadMogheyiatLoole . 'T-'
-            . $tooleCoil . 'FL-' . $tedadMadarLoole . 'M-' . $finName;
+            . $tooleCoil . 'FL-' . $tedadMadarLoole . 'M-' . $finName . '-' . $satheCoil;
 
         return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs' => $inputs, 'satheCoil' => $satheCoil, 'name' => $name]);
     }
@@ -1642,7 +1642,7 @@ class InquiryPartCoilController extends Controller
         $serial = $request['serial'];
 
         $name = $serial . '-DX-' . $looleMessiName . '-' . $tedadRadifCoil . 'R-' . $finDarInch . 'FPI-' . $tedadMogheyiatLoole . 'T-'
-            . $tooleCoil . 'FL-' . $tedadMadarLoole . 'M-' . $finName;
+            . $tooleCoil . 'FL-' . $tedadMadarLoole . 'M-' . $finName . '-' . $satheCoil;
 
         return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs' => $inputs, 'satheCoil' => $satheCoil, 'name' => $name]);
     }

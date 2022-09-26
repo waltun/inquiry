@@ -494,8 +494,10 @@
                         <th class="border border-gray-300 p-4 text-sm">شرح</th>
                         <th class="border border-gray-300 p-4 text-sm">مقدار / سایز</th>
                         <th class="border border-gray-300 p-4 text-sm">واحد</th>
-                        <th class="border border-gray-300 p-4 text-sm">قیمت واحد</th>
-                        <th class="border border-gray-300 p-4 text-sm">قیمت کل</th>
+                        @can('coil-table')
+                            <th class="border border-gray-300 p-4 text-sm">قیمت واحد</th>
+                            <th class="border border-gray-300 p-4 text-sm">قیمت کل</th>
+                        @endcan
                     </tr>
                     </thead>
                     <tbody>
@@ -527,14 +529,16 @@
                                             <td class="border border-gray-300 p-4 text-sm text-center">
                                                 {{ $selectedParts[$index]->unit }}
                                             </td>
-                                            <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                                                <span>{{ number_format($selectedParts[$index]->price) }}</span>
-                                            </td>
-                                            <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                                                @if(!is_null($values))
-                                                    {{ number_format($values[$index] * $selectedParts[$index]->price) }}
-                                                @endif
-                                            </td>
+                                            @can('coil-table')
+                                                <td class="border border-gray-300 p-4 text-sm text-center font-bold">
+                                                    <span>{{ number_format($selectedParts[$index]->price) }}</span>
+                                                </td>
+                                                <td class="border border-gray-300 p-4 text-sm text-center font-bold">
+                                                    @if(!is_null($values))
+                                                        {{ number_format($values[$index] * $selectedParts[$index]->price) }}
+                                                    @endif
+                                                </td>
+                                            @endcan
                                         @endif
                                     @endforeach
                                     @php
@@ -555,12 +559,14 @@
                                     <td class="border border-gray-300 p-4 text-sm text-center">
                                         {{ $child->unit }}
                                     </td>
-                                    <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                                        <span>{{ number_format($child->price) }}</span>
-                                    </td>
-                                    <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                                        {{ number_format($values[$index] * $child->price) }}
-                                    </td>
+                                    @can('coil-table')
+                                        <td class="border border-gray-300 p-4 text-sm text-center font-bold">
+                                            <span>{{ number_format($child->price) }}</span>
+                                        </td>
+                                        <td class="border border-gray-300 p-4 text-sm text-center font-bold">
+                                            {{ number_format($values[$index] * $child->price) }}
+                                        </td>
+                                    @endcan
                                     @php
                                         $finalPrice += $values[$index] * $child->price;
                                     @endphp
@@ -568,15 +574,18 @@
                             @endif
                         </tr>
                     @endforeach
-                    <tr>
-                        <td class="border border-gray-300 p-4 text-lg font-bold text-center" colspan="4">
-                            قیمت نهایی
-                        </td>
-                        <td class="border border-gray-300 p-4 text-lg font-bold text-center text-green-600" colspan="2">
-                            <span>{{ number_format($finalPrice) }}</span>
-                            <input type="hidden" name="final_price" value="{{ $finalPrice }}">
-                        </td>
-                    </tr>
+                    @can('coil-table')
+                        <tr>
+                            <td class="border border-gray-300 p-4 text-lg font-bold text-center" colspan="4">
+                                قیمت نهایی
+                            </td>
+                            <td class="border border-gray-300 p-4 text-lg font-bold text-center text-green-600"
+                                colspan="2">
+                                <span>{{ number_format($finalPrice) }}</span>
+                                <input type="hidden" name="final_price" value="{{ $finalPrice }}">
+                            </td>
+                        </tr>
+                    @endcan
                     </tbody>
                 </table>
 
@@ -584,7 +593,8 @@
                     <label class="block mb-2 text-sm font-bold" for="inputCoilName">
                         نام کویل مورد نظر
                     </label>
-                    <input type="text" class="input-text" id="inputCoilName" name="name" dir="ltr" value="{{ $name }}">
+                    <input type="text" class="input-text" id="inputCoilName" name="name" dir="ltr"
+                           value="{{ $name }}">
                 </div>
 
                 <div class="mb-4">
