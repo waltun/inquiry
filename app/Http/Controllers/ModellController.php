@@ -101,6 +101,14 @@ class ModellController extends Controller
         ]);
         $newModell->save();
 
+        foreach ($modell->parts as $part) {
+            $newModell->parts()->syncWithoutDetaching([
+                $part->id => [
+                    'value' => $part->pivot->value
+                ]
+            ]);
+        }
+
         alert()->success('کپی موفق', 'کپی مدل با موفقیت انجام شد');
 
         return back();

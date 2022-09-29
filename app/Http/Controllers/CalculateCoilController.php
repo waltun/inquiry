@@ -670,7 +670,7 @@ class CalculateCoilController extends Controller
         $serial = $request['serial'];
 
         $name = $serial . '-' . 'FC-' . $looleMessiName . '-' . $tedadRadifCoil . 'R-' . $finDarInch . 'FPI-' . $tedadMogheyiatLoole . 'T-'
-            . $tooleCoil . 'FL-' . $tedadMadarLoole . 'M-' . $finName . '-' . $satheCoil;
+            . $tooleCoil . 'FL-' . $tedadMadarLoole . 'M-' . $finName . '-' . number_format($satheCoil, 2) . 'SQFT';;
 
         return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs' => $inputs, 'satheCoil' => $satheCoil,
             'name' => $name]);
