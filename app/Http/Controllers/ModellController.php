@@ -34,7 +34,9 @@ class ModellController extends Controller
             'name' => 'required|string|max:255',
         ]);
 
-        $lastModellCode = $this->getLastCode($id);
+        $group = Group::find($id);
+        $lastModellCode = $this->getLastCode($group);
+
 
         Modell::create([
             'name' => $request['name'],
@@ -152,10 +154,10 @@ class ModellController extends Controller
         return back();
     }
 
-    public function getLastCode($id)
+    public function getLastCode($group)
     {
-        $lastModell = Modell::latest()->first();
-        if ($lastModell) {
+        if (!$group->modells->isEmpty()) {
+            $lastModell = $group->modells()->latest()->first();
             $lastModellCode = str_pad($lastModell->code + 1, 4, "0", STR_PAD_LEFT);
         } else {
             $lastModellCode = '0001';
