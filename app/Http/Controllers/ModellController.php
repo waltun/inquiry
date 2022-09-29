@@ -94,11 +94,11 @@ class ModellController extends Controller
     {
         Gate::authorize('groups');
 
-        $lastModell = Modell::latest()->first();
-        $code = str_pad($lastModell->code + 1, 4, "0", STR_PAD_LEFT);
+        $group = Group::find($modell->group_id);
+        $lastModellCode = $this->getLastCode($group);
 
         $newModell = $modell->replicate()->fill([
-            'code' => $code,
+            'code' => $lastModellCode,
             'name' => $modell->name . " کپی شده",
         ]);
         $newModell->save();
