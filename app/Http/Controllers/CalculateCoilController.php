@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Group;
 use App\Models\Inquiry;
 use App\Models\Modell;
@@ -14,37 +15,43 @@ class CalculateCoilController extends Controller
     public function evaperator(Part $part, Product $product)
     {
         $inquiry = Inquiry::select('inquiry_number')->where('id', $product->inquiry_id)->first();
-        return view('calculate.coil.evaperator', compact('part', 'product', 'inquiry'));
+        $categories = Category::where('parent_id', 0)->get();
+        return view('calculate.coil.evaperator', compact('part', 'product', 'inquiry','categories'));
     }
 
     public function waterCold(Part $part, Product $product)
     {
         $inquiry = Inquiry::select('inquiry_number')->where('id', $product->inquiry_id)->first();
-        return view('calculate.coil.cold-water', compact('part', 'product', 'inquiry'));
+        $categories = Category::where('parent_id', 0)->get();
+        return view('calculate.coil.cold-water', compact('part', 'product', 'inquiry','categories'));
     }
 
     public function waterWarm(Part $part, Product $product)
     {
         $inquiry = Inquiry::select('inquiry_number')->where('id', $product->inquiry_id)->first();
-        return view('calculate.coil.warm-water', compact('part', 'product', 'inquiry'));
+        $categories = Category::where('parent_id', 0)->get();
+        return view('calculate.coil.warm-water', compact('part', 'product', 'inquiry','categories'));
     }
 
     public function condensor(Part $part, Product $product)
     {
         $inquiry = Inquiry::select('inquiry_number')->where('id', $product->inquiry_id)->first();
-        return view('calculate.coil.condensor', compact('part', 'product', 'inquiry'));
+        $categories = Category::where('parent_id', 0)->get();
+        return view('calculate.coil.condensor', compact('part', 'product', 'inquiry','categories'));
     }
 
     public function fancoil(Part $part, Product $product)
     {
         $inquiry = Inquiry::select('inquiry_number')->where('id', $product->inquiry_id)->first();
-        return view('calculate.coil.fancoil', compact('part', 'product', 'inquiry'));
+        $categories = Category::where('parent_id', 0)->get();
+        return view('calculate.coil.fancoil', compact('part', 'product', 'inquiry','categories'));
     }
 
     public function storeEvaperator(Request $request, Part $part, Product $product)
     {
         $request->validate([
-            'name' => 'required|string|max:255'
+            'name' => 'required|string|max:255',
+            'categories' => 'required|array|min:3|max:3'
         ]);
 
         $name = $request['name'];
@@ -57,7 +64,7 @@ class CalculateCoilController extends Controller
         ]);
 
         $newPart->save();
-        $newPart->categories()->syncWithoutDetaching($part->categories);
+        $newPart->categories()->sync($request['categories']);
         $newPart->children()->syncWithoutDetaching($part->children);
 
         $price = 0;
@@ -109,7 +116,8 @@ class CalculateCoilController extends Controller
     public function storeCondensor(Request $request, Part $part, Product $product)
     {
         $request->validate([
-            'name' => 'required|string|max:255'
+            'name' => 'required|string|max:255',
+            'categories' => 'required|array|min:3|max:3'
         ]);
 
         $name = $request['name'];
@@ -122,7 +130,7 @@ class CalculateCoilController extends Controller
         ]);
 
         $newPart->save();
-        $newPart->categories()->syncWithoutDetaching($part->categories);
+        $newPart->categories()->sync($request['categories']);
         $newPart->children()->syncWithoutDetaching($part->children);
 
         $price = 0;
@@ -174,7 +182,8 @@ class CalculateCoilController extends Controller
     public function storeFancoil(Request $request, Part $part, Product $product)
     {
         $request->validate([
-            'name' => 'required|string|max:255'
+            'name' => 'required|string|max:255',
+            'categories' => 'required|array|min:3|max:3'
         ]);
 
         $name = $request['name'];
@@ -187,7 +196,7 @@ class CalculateCoilController extends Controller
         ]);
 
         $newPart->save();
-        $newPart->categories()->syncWithoutDetaching($part->categories);
+        $newPart->categories()->sync($request['categories']);
         $newPart->children()->syncWithoutDetaching($part->children);
 
         $price = 0;
@@ -243,7 +252,8 @@ class CalculateCoilController extends Controller
     public function storeWaterCold(Request $request, Part $part, Product $product)
     {
         $request->validate([
-            'name' => 'required|string|max:255'
+            'name' => 'required|string|max:255',
+            'categories' => 'required|array|min:3|max:3'
         ]);
 
         $name = $request['name'];
@@ -256,7 +266,7 @@ class CalculateCoilController extends Controller
         ]);
 
         $newPart->save();
-        $newPart->categories()->syncWithoutDetaching($part->categories);
+        $newPart->categories()->sync($request['categories']);
         $newPart->children()->syncWithoutDetaching($part->children);
 
         $price = 0;
@@ -308,7 +318,8 @@ class CalculateCoilController extends Controller
     public function storeWaterWarm(Request $request, Part $part, Product $product)
     {
         $request->validate([
-            'name' => 'required|string|max:255'
+            'name' => 'required|string|max:255',
+            'categories' => 'required|array|min:3|max:3'
         ]);
 
         $name = $request['name'];
@@ -321,7 +332,7 @@ class CalculateCoilController extends Controller
         ]);
 
         $newPart->save();
-        $newPart->categories()->syncWithoutDetaching($part->categories);
+        $newPart->categories()->sync($request['categories']);
         $newPart->children()->syncWithoutDetaching($part->children);
 
         $price = 0;

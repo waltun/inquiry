@@ -1,5 +1,6 @@
 <x-layout>
     <x-slot name="js">
+        <script src="{{ asset('plugins/jquery.min.js') }}"></script>
         <script>
             function checkAhani() {
                 let collectorAhani = document.getElementById('inputCollectorAhani');
@@ -23,6 +24,71 @@
                 if (collectorMessi.value === '0') {
                     collectorAhani.removeAttribute('disabled');
                 }
+            }
+        </script>
+        <script>
+            function getCategory1() {
+                let id = document.getElementById('inputCoilCategory').value;
+                let section = document.getElementById('categorySection1');
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('parts.getCategory') }}',
+                    data: {
+                        id: id,
+                    },
+                    success: function (res) {
+                        if (res.data != null) {
+                            section.innerHTML = `
+                            <select class="input-text" onchange="getCategory2()" id="inputCategory2" name="categories[]">
+                                <option value="">انتخاب کنید</option>
+                                    ${
+                                res.data.map(function (category) {
+                                    return `<option value="${category.id}">${category.name}</option>`
+                                })
+                            }
+                            </select>`
+                        }
+                    }
+                });
+            }
+
+            function getCategory2() {
+                let id = document.getElementById('inputCategory2').value;
+                let section = document.getElementById('categorySection2');
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('parts.getCategory') }}',
+                    data: {
+                        id: id,
+                    },
+                    success: function (res) {
+                        if (res.data != null) {
+                            section.innerHTML = `
+                            <select class="input-text" name="categories[]" id="inputCategory3">
+                                <option value="">انتخاب کنید</option>
+                                    ${
+                                res.data.map(function (category) {
+                                    return `<option value="${category.id}">${category.name}</option>`
+                                })
+                            }
+                            </select>`;
+                        }
+                    }
+                });
             }
         </script>
     </x-slot>
@@ -615,6 +681,29 @@
                         نام کویل مورد نظر
                     </label>
                     <input type="text" class="input-text" id="inputCoilName" name="name" dir="ltr" value="{{ $name }}">
+                </div>
+
+                <div class="my-4 bg-red-300 p-4 rounded-md shadow-md">
+                    <label class="block mb-2 text-sm font-bold" for="inputCoilCategory">
+                        دسته بندی کویل
+                    </label>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div>
+                            <select name="categories[]" id="inputCoilCategory" class="input-text" onchange="getCategory1()">
+                                <option value="">انتخاب کنید</option>
+                                @foreach($categories as $category)
+                                    <option
+                                        value="{{ $category->id }}" {{ request('category1') == $category->id ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div id="categorySection1">
+                        </div>
+                        <div id="categorySection2">
+                        </div>
+                    </div>
                 </div>
 
                 <div class="mb-4">

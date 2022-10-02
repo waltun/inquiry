@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Part;
 use Illuminate\Http\Request;
 
@@ -19,7 +20,8 @@ class SeparateCalculateCoilController extends Controller
 
     public function fancoil(Part $part)
     {
-        return view('calculate.separate-coils.fancoil', compact('part'));
+        $categories = Category::where('parent_id', 0)->get();
+        return view('calculate.separate-coils.fancoil', compact('part', 'categories'));
     }
 
     public function calculateFancoil(Request $request)
@@ -312,7 +314,8 @@ class SeparateCalculateCoilController extends Controller
     public function storeFancoil(Request $request, Part $part)
     {
         $request->validate([
-            'name' => 'required|string|max:255'
+            'name' => 'required|string|max:255',
+            'categories' => 'required|array|min:3|max:3'
         ]);
 
         $name = $request['name'];
@@ -325,7 +328,7 @@ class SeparateCalculateCoilController extends Controller
         ]);
 
         $newPart->save();
-        $newPart->categories()->syncWithoutDetaching($part->categories);
+        $newPart->categories()->sync($request['categories']);
         $newPart->children()->syncWithoutDetaching($part->children);
 
         $price = 0;
@@ -380,7 +383,8 @@ class SeparateCalculateCoilController extends Controller
 
     public function warm(Part $part)
     {
-        return view('calculate.separate-coils.warm-water', compact('part'));
+        $categories = Category::where('parent_id', 0)->get();
+        return view('calculate.separate-coils.warm-water', compact('part','categories'));
     }
 
     public function calculateWarm(Request $request)
@@ -638,7 +642,8 @@ class SeparateCalculateCoilController extends Controller
     public function storeWarm(Request $request, Part $part)
     {
         $request->validate([
-            'name' => 'required|string|max:255'
+            'name' => 'required|string|max:255',
+            'categories' => 'required|array|min:3|max:3'
         ]);
 
         $name = $request['name'];
@@ -651,7 +656,7 @@ class SeparateCalculateCoilController extends Controller
         ]);
 
         $newPart->save();
-        $newPart->categories()->syncWithoutDetaching($part->categories);
+        $newPart->categories()->sync($request['categories']);
         $newPart->children()->syncWithoutDetaching($part->children);
 
         $price = 0;
@@ -702,7 +707,8 @@ class SeparateCalculateCoilController extends Controller
 
     public function cold(Part $part)
     {
-        return view('calculate.separate-coils.cold-water', compact('part'));
+        $categories = Category::where('parent_id', 0)->get();
+        return view('calculate.separate-coils.cold-water', compact('part','categories'));
     }
 
     public function calculateCold(Request $request)
@@ -960,7 +966,8 @@ class SeparateCalculateCoilController extends Controller
     public function storeCold(Request $request, Part $part)
     {
         $request->validate([
-            'name' => 'required|string|max:255'
+            'name' => 'required|string|max:255',
+            'categories' => 'required|array|min:3|max:3'
         ]);
 
         $name = $request['name'];
@@ -973,7 +980,7 @@ class SeparateCalculateCoilController extends Controller
         ]);
 
         $newPart->save();
-        $newPart->categories()->syncWithoutDetaching($part->categories);
+        $newPart->categories()->sync($request['categories']);
         $newPart->children()->syncWithoutDetaching($part->children);
 
         $price = 0;
@@ -1024,7 +1031,8 @@ class SeparateCalculateCoilController extends Controller
 
     public function condensor(Part $part)
     {
-        return view('calculate.separate-coils.condensor', compact('part'));
+        $categories = Category::where('parent_id', 0)->get();
+        return view('calculate.separate-coils.condensor', compact('part','categories'));
     }
 
     public function calculateCondensor(Request $request)
@@ -1267,7 +1275,8 @@ class SeparateCalculateCoilController extends Controller
     public function storeCondensor(Request $request, Part $part)
     {
         $request->validate([
-            'name' => 'required|string|max:255'
+            'name' => 'required|string|max:255',
+            'categories' => 'required|array|min:3|max:3'
         ]);
 
         $name = $request['name'];
@@ -1280,7 +1289,7 @@ class SeparateCalculateCoilController extends Controller
         ]);
 
         $newPart->save();
-        $newPart->categories()->syncWithoutDetaching($part->categories);
+        $newPart->categories()->sync($request['categories']);
         $newPart->children()->syncWithoutDetaching($part->children);
 
         $price = 0;
@@ -1331,7 +1340,8 @@ class SeparateCalculateCoilController extends Controller
 
     public function evaperator(Part $part)
     {
-        return view('calculate.separate-coils.evaperator', compact('part'));
+        $categories = Category::where('parent_id', 0)->get();
+        return view('calculate.separate-coils.evaperator', compact('part','categories'));
     }
 
     public function calculateEvaperator(Request $request)
@@ -1597,7 +1607,8 @@ class SeparateCalculateCoilController extends Controller
     public function storeEvaperator(Request $request, Part $part)
     {
         $request->validate([
-            'name' => 'required|string|max:255'
+            'name' => 'required|string|max:255',
+            'categories' => 'required|array|min:3|max:3'
         ]);
 
         $name = $request['name'];
@@ -1610,7 +1621,7 @@ class SeparateCalculateCoilController extends Controller
         ]);
 
         $newPart->save();
-        $newPart->categories()->syncWithoutDetaching($part->categories);
+        $newPart->categories()->sync($request['categories']);
         $newPart->children()->syncWithoutDetaching($part->children);
 
         $price = 0;
@@ -1658,6 +1669,13 @@ class SeparateCalculateCoilController extends Controller
 
         return redirect()->route('separate.coil.index');
     }
+
+
+
+
+
+
+
 
     public function getLastCode($part)
     {
