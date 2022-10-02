@@ -8,6 +8,7 @@ use App\Models\Inquiry;
 use App\Models\Modell;
 use App\Models\Part;
 use App\Models\Product;
+use App\Models\Setting;
 use App\Models\Special;
 use App\Models\User;
 use App\Notifications\PercentInquiryNotification;
@@ -116,7 +117,8 @@ class InquiryProductController extends Controller
         $inquiry = Inquiry::find($product->inquiry_id);
         $amounts = Amount::where('product_id', $product->id)->get();
         $specials = Special::all()->pluck('part_id')->toArray();
-        return view('inquiry-product.amounts', compact('product', 'group', 'modell', 'inquiry', 'amounts', 'specials'));
+        $setting = Setting::where('active', '1')->first();
+        return view('inquiry-product.amounts', compact('product', 'group', 'modell', 'inquiry', 'amounts', 'specials', 'setting'));
     }
 
     public function storeAmounts(Request $request, Product $product)
@@ -212,7 +214,7 @@ class InquiryProductController extends Controller
                     'part_id' => $part
                 ]);
 
-                if (session()->has('price'.$part)) {
+                if (session()->has('price' . $part)) {
                     $createdAmount->price = session('price' . $part);
                     $createdAmount->save();
                     session()->forget('price' . $part);
