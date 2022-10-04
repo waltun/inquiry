@@ -145,7 +145,8 @@ class ModellController extends Controller
 
         foreach ($modell->parts as $index => $part) {
             $part->pivot->update([
-                'value' => $request->values[$index]
+                'value' => $request->values[$index],
+                'part_id' => $request->part_ids[$index],
             ]);
         }
 

@@ -140,10 +140,23 @@
                                 <p class="text-sm text-gray-500 text-center">{{ $loop->index + 1 }}</p>
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap">
-                                <p class="text-sm text-black text-center font-medium">{{ $part->name }}</p>
+                                @php
+                                    $selectedPart = \App\Models\Part::find($part->id);
+                                    $lastCategory = $selectedPart->categories()->latest()->first();
+                                    $categoryParts = $lastCategory->parts;
+                                @endphp
+                                <select name="part_ids[]" class="input-text" id="groupPartList{{ $part->id }}"
+                                        onchange="showCalculateButton('{{ $part->id }}')">
+                                    @foreach($categoryParts as $part2)
+                                        <option
+                                            value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
+                                            {{ $part2->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap">
-                                <input type="text" class="input-text" name="values[]" id="partValue{{ $part->id }}"
+                                <input type="text" class="input-text w-20" name="values[]" id="partValue{{ $part->id }}"
                                        value="{{ $part->pivot->value }}">
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap">
