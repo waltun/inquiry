@@ -46,7 +46,7 @@ class ModellController extends Controller
 
         alert()->success('ثبت موفق', 'ثبت مدل با موفقیت انجام شد');
 
-        return redirect()->route('modells.index', $id);
+        return redirect()->route('groups.index');
     }
 
     public function show(Modell $modell)
@@ -76,7 +76,7 @@ class ModellController extends Controller
 
         alert()->success('ویرایش موفق', 'ویرایش مدل با موفقیت انجام شد');
 
-        return redirect()->route('modells.index', $modell->group_id);
+        return redirect()->route('groups.index');
     }
 
     public function destroy(Modell $modell)
