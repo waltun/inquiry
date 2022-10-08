@@ -63,7 +63,7 @@ class GroupController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
-            'code' => ['required', 'numeric', 'digits:4', Rule::unique('groups')->ignore($group->id)]
+            'code' => ['required', 'numeric', 'digits:2', Rule::unique('groups')->ignore($group->id)]
         ]);
 
         $group->update([
