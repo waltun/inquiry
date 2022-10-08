@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Part;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -135,7 +136,9 @@ class CollectionPartController extends Controller
     {
         Gate::authorize('collections');
 
-        return view('collection-parts.amounts', compact('parentPart'));
+        $setting = Setting::where('active', '1')->first();
+
+        return view('collection-parts.amounts', compact('parentPart', 'setting'));
     }
 
     public function storeAmounts(Request $request, Part $parentPart)

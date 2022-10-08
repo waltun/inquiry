@@ -79,8 +79,33 @@
                         foreach($childPart->categories as $category){
                             $code = $code . $category->code;
                         }
+
+                        if ($setting) {
+                            if($setting->price_color_type == 'month') {
+                                $lastTime = \Carbon\Carbon::now()->subMonth($setting->price_color_last_time);
+                                $midTime = \Carbon\Carbon::now()->subMonth($setting->price_color_mid_time);
+                            }
+                            if($setting->price_color_type == 'day') {
+                                $lastTime = \Carbon\Carbon::now()->subDay($setting->price_color_last_time);
+                                $midTime = \Carbon\Carbon::now()->subDay($setting->price_color_mid_time);
+                            }
+                            if($setting->price_color_type == 'hour') {
+                                $lastTime = \Carbon\Carbon::now()->subHour($setting->price_color_last_time);
+                                $midTime = \Carbon\Carbon::now()->subHour($setting->price_color_mid_time);
+                            }
+                        }
+
+                        if ($childPart->updated_at < $lastTime && $childPart->price > 0) {
+                            $color = 'bg-red-500';
+                        }
+                        if ($childPart->updated_at > $lastTime && $childPart->updated_at < $midTime && $childPart->price > 0) {
+                            $color = 'bg-yellow-500';
+                        }
+                        if ($childPart->updated_at < $lastTime && $childPart->price == 0) {
+                            $color = 'bg-red-600';
+                        }
                     @endphp
-                    <tr>
+                    <tr class="{{ $color ?? 'bg-white' }}">
                         <td class="border border-gray-300 p-4 text-sm text-center">
                             {{ $code . "-" . $childPart->code }}
                         </td>
