@@ -85,7 +85,7 @@
 
             <div class="mt-4">
                 <label for="inputDescription" class="block mb-2 md:text-sm text-xs text-black">شرایط استعلام</label>
-                <textarea name="description" id="inputDescription" class="input-text h-64"></textarea>
+                <textarea name="description" id="inputDescription" class="input-text h-64">{{ $inquiry->description ?? '' }}</textarea>
             </div>
 
         </div>

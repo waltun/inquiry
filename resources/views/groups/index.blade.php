@@ -219,7 +219,7 @@
                                             </div>
                                             <div class="flex items-center space-x-3 space-x-reverse hidden"
                                                  id="buttonSection2{{ $children->id }}">
-                                                <a href="{{ route('modells.parts',$modell->id) }}"
+                                                <a href="{{ route('modells.parts',$children->id) }}"
                                                    class="form-submit-btn text-xs">
                                                     قطعات مدل
                                                 </a>

@@ -244,6 +244,48 @@ class InquiryController extends Controller
         return back();
     }
 
+    public function referral(Request $request, Inquiry $inquiry)
+    {
+        Gate::authorize('create-inquiry');
+
+        $lastInquiry = Inquiry::all()->last();
+        $inquiryNumber = str_pad($lastInquiry->inquiry_number + 1, 5, "0", STR_PAD_LEFT);
+        $user = User::find($request['user_id']);
+
+        $newInquiry = $inquiry->replicate()->fill([
+            'archive_at' => null,
+            'submit' => false,
+            'price' => 0,
+            'inquiry_number' => $inquiryNumber,
+            'user_id' => $request['user_id'],
+            'manager' => $user->name
+        ]);
+        $newInquiry->save();
+
+        foreach ($inquiry->products as $product) {
+            $newProduct = $product->replicate()->fill([
+                'percent' => 0,
+                'inquiry_id' => $newInquiry->id,
+                'price' => 0,
+            ]);
+            $newProduct->save();
+
+            foreach ($product->amounts as $amount) {
+                $newAmount = $amount->replicate()->fill([
+                    'value' => $amount->value,
+                    'product_id' => $newProduct->id,
+                    'part_id' => $amount->part_id,
+                    'price' => $amount->price > 0 ? $amount->price : 0
+                ]);
+                $newAmount->save();
+            }
+        }
+
+        alert()->success('ارجاع موفق', 'ارجاع با موفقیت انجام شد و برای کاربر ارسال شد');
+
+        return back();
+    }
+
     public function products(Inquiry $inquiry)
     {
         Gate::authorize('create-inquiry');
