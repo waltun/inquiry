@@ -51,7 +51,6 @@ class CalculateCoilController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'categories' => 'required|array|min:3|max:3'
         ]);
 
         $name = $request['name'];
@@ -64,7 +63,13 @@ class CalculateCoilController extends Controller
         ]);
 
         $newPart->save();
-        $newPart->categories()->sync($request['categories']);
+
+        if (!is_null($request->categories[0])) {
+            $newPart->categories()->sync($request['categories']);
+        } else {
+            $newPart->categories()->sync($part->categories);
+        }
+
         $newPart->children()->syncWithoutDetaching($part->children);
 
         $price = 0;
@@ -117,7 +122,6 @@ class CalculateCoilController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'categories' => 'required|array|min:3|max:3'
         ]);
 
         $name = $request['name'];
@@ -130,7 +134,13 @@ class CalculateCoilController extends Controller
         ]);
 
         $newPart->save();
-        $newPart->categories()->sync($request['categories']);
+
+        if (!is_null($request->categories[0])) {
+            $newPart->categories()->sync($request['categories']);
+        } else {
+            $newPart->categories()->sync($part->categories);
+        }
+
         $newPart->children()->syncWithoutDetaching($part->children);
 
         $price = 0;
@@ -183,7 +193,6 @@ class CalculateCoilController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'categories' => 'required|array|min:3|max:3'
         ]);
 
         $name = $request['name'];
@@ -196,7 +205,13 @@ class CalculateCoilController extends Controller
         ]);
 
         $newPart->save();
-        $newPart->categories()->sync($request['categories']);
+
+        if (!is_null($request->categories[0])) {
+            $newPart->categories()->sync($request['categories']);
+        } else {
+            $newPart->categories()->sync($part->categories);
+        }
+
         $newPart->children()->syncWithoutDetaching($part->children);
 
         $price = 0;
@@ -253,7 +268,6 @@ class CalculateCoilController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'categories' => 'required|array|min:3|max:3'
         ]);
 
         $name = $request['name'];
@@ -266,7 +280,13 @@ class CalculateCoilController extends Controller
         ]);
 
         $newPart->save();
-        $newPart->categories()->sync($request['categories']);
+
+        if (!is_null($request->categories[0])) {
+            $newPart->categories()->sync($request['categories']);
+        } else {
+            $newPart->categories()->sync($part->categories);
+        }
+
         $newPart->children()->syncWithoutDetaching($part->children);
 
         $price = 0;
@@ -319,7 +339,6 @@ class CalculateCoilController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'categories' => 'required|array|min:3|max:3'
         ]);
 
         $name = $request['name'];
@@ -332,7 +351,13 @@ class CalculateCoilController extends Controller
         ]);
 
         $newPart->save();
-        $newPart->categories()->sync($request['categories']);
+
+        if (!is_null($request->categories[0])) {
+            $newPart->categories()->sync($request['categories']);
+        } else {
+            $newPart->categories()->sync($part->categories);
+        }
+
         $newPart->children()->syncWithoutDetaching($part->children);
 
         $price = 0;

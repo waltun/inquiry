@@ -337,7 +337,6 @@ class InquiryPartCoilController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'quantity' => 'required|numeric',
-            'categories' => 'required|array|min:3|max:3'
         ]);
 
         $name = $request['name'];
@@ -350,7 +349,13 @@ class InquiryPartCoilController extends Controller
         ]);
 
         $newPart->save();
-        $newPart->categories()->sync($request['categories']);
+
+        if (!is_null($request->categories[0])) {
+            $newPart->categories()->sync($request['categories']);
+        } else {
+            $newPart->categories()->sync($part->categories);
+        }
+
         $newPart->children()->syncWithoutDetaching($part->children);
 
         $price = 0;
@@ -673,7 +678,6 @@ class InquiryPartCoilController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'quantity' => 'required|numeric',
-            'categories' => 'required|array|min:3|max:3'
         ]);
 
         $name = $request['name'];
@@ -686,7 +690,13 @@ class InquiryPartCoilController extends Controller
         ]);
 
         $newPart->save();
-        $newPart->categories()->sync($request['categories']);
+
+        if (!is_null($request->categories[0])) {
+            $newPart->categories()->sync($request['categories']);
+        } else {
+            $newPart->categories()->sync($part->categories);
+        }
+
         $newPart->children()->syncWithoutDetaching($part->children);
 
         $price = 0;
@@ -1005,7 +1015,6 @@ class InquiryPartCoilController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'quantity' => 'required|numeric',
-            'categories' => 'required|array|min:3|max:3'
         ]);
 
         $name = $request['name'];
@@ -1018,7 +1027,13 @@ class InquiryPartCoilController extends Controller
         ]);
 
         $newPart->save();
-        $newPart->categories()->sync($request['categories']);
+
+        if (!is_null($request->categories[0])) {
+            $newPart->categories()->sync($request['categories']);
+        } else {
+            $newPart->categories()->sync($part->categories);
+        }
+
         $newPart->children()->syncWithoutDetaching($part->children);
 
         $price = 0;
@@ -1322,7 +1337,6 @@ class InquiryPartCoilController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'quantity' => 'required|numeric',
-            'categories' => 'required|array|min:3|max:3'
         ]);
 
         $name = $request['name'];
@@ -1335,7 +1349,13 @@ class InquiryPartCoilController extends Controller
         ]);
 
         $newPart->save();
-        $newPart->categories()->sync($request['categories']);
+
+        if (!is_null($request->categories[0])) {
+            $newPart->categories()->sync($request['categories']);
+        } else {
+            $newPart->categories()->sync($part->categories);
+        }
+
         $newPart->children()->syncWithoutDetaching($part->children);
 
         $price = 0;
@@ -1662,7 +1682,6 @@ class InquiryPartCoilController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'quantity' => 'required|numeric',
-            'categories' => 'required|array|min:3|max:3'
         ]);
 
         $name = $request['name'];
@@ -1675,7 +1694,13 @@ class InquiryPartCoilController extends Controller
         ]);
 
         $newPart->save();
-        $newPart->categories()->sync($request['categories']);
+
+        if (!is_null($request->categories[0])) {
+            $newPart->categories()->sync($request['categories']);
+        } else {
+            $newPart->categories()->sync($part->categories);
+        }
+
         $newPart->children()->syncWithoutDetaching($part->children);
 
         $price = 0;
