@@ -74,135 +74,139 @@
         </div>
 
         <!-- Laptop List Products -->
-        <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4 hidden md:block">
-            <div class="mb-4">
-                <p class="text-sm font-bold text-xl text-center">لیست محصولات</p>
-            </div>
-            <table class="border-collapse border border-gray-400 w-full">
-                <thead>
-                <tr>
-                    <th class="border border-gray-300 p-4 text-sm">ردیف</th>
-                    <th class="border border-gray-300 p-4 text-sm">کد محصول</th>
-                    <th class="border border-gray-300 p-4 text-sm">گروه محصول</th>
-                    <th class="border border-gray-300 p-4 text-sm">مدل محصول</th>
-                    <th class="border border-gray-300 p-4 text-sm">تعداد</th>
-                    <th class="border border-gray-300 p-4 text-sm">قیمت واحد</th>
-                    <th class="border border-gray-300 p-4 text-sm">قیمت کل</th>
-                </tr>
-                </thead>
-                <tbody>
-                @php
-                    $productFinalPrice = 0;
-                @endphp
-                @foreach($inquiry->products()->where('group_id','!=',0)->where('model_id','!=',0)->get() as $product)
-                    @php
-                        $group = \App\Models\Group::find($product->group_id);
-                        $modell = \App\Models\Modell::find($product->model_id);
-                        $totalPrice = 0;
-                        foreach($product->amounts as $amount)
-                        {
-                            $part = \App\Models\Part::find($amount->part_id);
-                            if ($amount->price > 0) {
-                                $totalPrice += ($part->price * $amount->value) + ($amount->price * $amount->value);
-                            } else {
-                                $totalPrice += ($part->price * $amount->value);
-                            }
-                        }
-                        $productFinalPrice += ($totalPrice * $product->percent) * $product->quantity;
-                    @endphp
+        @if(!$inquiry->products()->where('group_id','!=',0)->where('model_id','!=',0)->get()->isEmpty())
+            <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4 hidden md:block">
+                <div class="mb-4">
+                    <p class="text-sm font-bold text-xl text-center">لیست محصولات</p>
+                </div>
+                <table class="border-collapse border border-gray-400 w-full">
+                    <thead>
                     <tr>
-                        <td class="border border-gray-300 p-4 text-sm text-center">
-                            {{ $loop->index + 1 }}
+                        <th class="border border-gray-300 p-4 text-sm">ردیف</th>
+                        <th class="border border-gray-300 p-4 text-sm">کد محصول</th>
+                        <th class="border border-gray-300 p-4 text-sm">گروه محصول</th>
+                        <th class="border border-gray-300 p-4 text-sm">مدل محصول</th>
+                        <th class="border border-gray-300 p-4 text-sm">تعداد</th>
+                        <th class="border border-gray-300 p-4 text-sm">قیمت واحد</th>
+                        <th class="border border-gray-300 p-4 text-sm">قیمت کل</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @php
+                        $productFinalPrice = 0;
+                    @endphp
+                    @foreach($inquiry->products()->where('group_id','!=',0)->where('model_id','!=',0)->get() as $product)
+                        @php
+                            $group = \App\Models\Group::find($product->group_id);
+                            $modell = \App\Models\Modell::find($product->model_id);
+                            $totalPrice = 0;
+                            foreach($product->amounts as $amount)
+                            {
+                                $part = \App\Models\Part::find($amount->part_id);
+                                if ($amount->price > 0) {
+                                    $totalPrice += ($part->price * $amount->value) + ($amount->price * $amount->value);
+                                } else {
+                                    $totalPrice += ($part->price * $amount->value);
+                                }
+                            }
+                            $productFinalPrice += ($totalPrice * $product->percent) * $product->quantity;
+                        @endphp
+                        <tr>
+                            <td class="border border-gray-300 p-4 text-sm text-center">
+                                {{ $loop->index + 1 }}
+                            </td>
+                            <td class="border border-gray-300 p-4 text-sm text-center">
+                                {{ $group->code }}-{{ $modell->code}}
+                            </td>
+                            <td class="border border-gray-300 p-4 text-sm text-center">
+                                {{ $group->name }}
+                            </td>
+                            <td class="border border-gray-300 p-4 text-sm text-center">
+                                {{ $modell->name }}
+                            </td>
+                            <td class="border border-gray-300 p-4 text-sm text-center">
+                                {{ $product->quantity }}
+                            </td>
+                            <td class="border border-gray-300 p-4 text-sm text-center font-bold">
+                                {{ number_format($product->price) }} تومان
+                            </td>
+                            <td class="border border-gray-300 p-4 text-sm text-center font-bold">
+                                {{ number_format($product->price * $product->quantity) }} تومان
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                    <tr>
+                        <td class="border border-gray-300 p-4 text-lg text-center font-bold" colspan="6">
+                            قیمت کل
                         </td>
-                        <td class="border border-gray-300 p-4 text-sm text-center">
-                            {{ $group->code }}-{{ $modell->code}}
-                        </td>
-                        <td class="border border-gray-300 p-4 text-sm text-center">
-                            {{ $group->name }}
-                        </td>
-                        <td class="border border-gray-300 p-4 text-sm text-center">
-                            {{ $modell->name }}
-                        </td>
-                        <td class="border border-gray-300 p-4 text-sm text-center">
-                            {{ $product->quantity }}
-                        </td>
-                        <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                            {{ number_format($product->price) }} تومان
-                        </td>
-                        <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                            {{ number_format($product->price * $product->quantity) }} تومان
+                        <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
+                            {{ number_format($productFinalPrice) }} تومان
                         </td>
                     </tr>
-                @endforeach
-                </tbody>
-                <tr>
-                    <td class="border border-gray-300 p-4 text-lg text-center font-bold" colspan="6">
-                        قیمت کل
-                    </td>
-                    <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
-                        {{ number_format($productFinalPrice) }} تومان
-                    </td>
-                </tr>
-            </table>
-        </div>
+                </table>
+            </div>
+        @endif
 
         <!-- Laptop List Parts -->
-        <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4 hidden md:block">
-            <div class="mb-4">
-                <p class="text-sm font-bold text-xl text-center">لیست قطعات تکی</p>
-            </div>
-            <table class="border-collapse border border-gray-400 w-full">
-                <thead>
-                <tr>
-                    <th class="border border-gray-300 p-4 text-sm">ردیف</th>
-                    <th class="border border-gray-300 p-4 text-sm">کد قطعه</th>
-                    <th class="border border-gray-300 p-4 text-sm">نام قطعه</th>
-                    <th class="border border-gray-300 p-4 text-sm">تعداد</th>
-                    <th class="border border-gray-300 p-4 text-sm">قیمت واحد</th>
-                    <th class="border border-gray-300 p-4 text-sm">قیمت کل</th>
-                </tr>
-                </thead>
-                <tbody>
-                @php
-                    $partFinalPrice = 0;
-                @endphp
-                @foreach($inquiry->products()->where('part_id','!=',0)->get() as $product)
-                    @php
-                        $part = \App\Models\Part::find($product->part_id);
-                        $partFinalPrice += $product->price * $product->quantity;
-                    @endphp
+        @if(!$inquiry->products()->where('part_id','!=',0)->get()->isEmpty())
+            <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4 hidden md:block">
+                <div class="mb-4">
+                    <p class="text-sm font-bold text-xl text-center">لیست قطعات تکی</p>
+                </div>
+                <table class="border-collapse border border-gray-400 w-full">
+                    <thead>
                     <tr>
-                        <td class="border border-gray-300 p-4 text-sm text-center">
-                            {{ $loop->index + 1 }}
+                        <th class="border border-gray-300 p-4 text-sm">ردیف</th>
+                        <th class="border border-gray-300 p-4 text-sm">کد قطعه</th>
+                        <th class="border border-gray-300 p-4 text-sm">نام قطعه</th>
+                        <th class="border border-gray-300 p-4 text-sm">تعداد</th>
+                        <th class="border border-gray-300 p-4 text-sm">قیمت واحد</th>
+                        <th class="border border-gray-300 p-4 text-sm">قیمت کل</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @php
+                        $partFinalPrice = 0;
+                    @endphp
+                    @foreach($inquiry->products()->where('part_id','!=',0)->get() as $product)
+                        @php
+                            $part = \App\Models\Part::find($product->part_id);
+                            $partFinalPrice += $product->price * $product->quantity;
+                        @endphp
+                        <tr>
+                            <td class="border border-gray-300 p-4 text-sm text-center">
+                                {{ $loop->index + 1 }}
+                            </td>
+                            <td class="border border-gray-300 p-4 text-sm text-center">
+                                {{ $part->code }}
+                            </td>
+                            <td class="border border-gray-300 p-4 text-sm text-center">
+                                {{ $part->name }}
+                            </td>
+                            <td class="border border-gray-300 p-4 text-sm text-center">
+                                {{ $product->quantity }}
+                            </td>
+                            <td class="border border-gray-300 p-4 text-sm text-center font-bold">
+                                {{ number_format($product->price) }} تومان
+                            </td>
+                            <td class="border border-gray-300 p-4 text-sm text-center font-bold">
+                                {{ number_format($product->price * $product->quantity) }} تومان
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                    <tr>
+                        <td class="border border-gray-300 p-4 text-lg text-center font-bold" colspan="5">
+                            قیمت کل
                         </td>
-                        <td class="border border-gray-300 p-4 text-sm text-center">
-                            {{ $part->code }}
-                        </td>
-                        <td class="border border-gray-300 p-4 text-sm text-center">
-                            {{ $part->name }}
-                        </td>
-                        <td class="border border-gray-300 p-4 text-sm text-center">
-                            {{ $product->quantity }}
-                        </td>
-                        <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                            {{ number_format($product->price) }} تومان
-                        </td>
-                        <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                            {{ number_format($product->price * $product->quantity) }} تومان
+                        <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
+                            {{ number_format($partFinalPrice) }} تومان
                         </td>
                     </tr>
-                @endforeach
-                </tbody>
-                <tr>
-                    <td class="border border-gray-300 p-4 text-lg text-center font-bold" colspan="5">
-                        قیمت کل
-                    </td>
-                    <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
-                        {{ number_format($partFinalPrice) }} تومان
-                    </td>
-                </tr>
-            </table>
-        </div>
+                </table>
+            </div>
+        @endif
 
         <!-- Mobile List Products -->
         <div class="block md:hidden shadow-md border border-gray-200 rounded-md p-4 bg-white mb-4">
