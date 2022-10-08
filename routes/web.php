@@ -89,7 +89,8 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/collection-coil/multi-delete', [CollectionCoilController::class, 'multiDelete'])->name('collectionCoil.multiDelete');
 
     //Inquiry routes
-    Route::post('/inquiries/create/change-model', [InquiryController::class, 'changeModelAjax'])->name('inquiries.create.changeModel');
+    Route::post('/inquiries/create/select-model-group', [InquiryController::class, 'selectModelByGroup'])->name('inquiries.create.selectModelByGroup');
+    Route::post('/inquiries/create/select-model-model', [InquiryController::class, 'selectModelByModel'])->name('inquiries.create.selectModelByModel');
     Route::patch('/inquiries/{inquiry}/submit', [InquiryController::class, 'submit'])->name('inquiries.submit');
     Route::get('/inquiries/submitted', [InquiryController::class, 'submitted'])->name('inquiries.submitted');
     Route::get('/inquiries/priced', [InquiryController::class, 'priced'])->name('inquiries.priced');

@@ -3,12 +3,9 @@
         <script src="{{ asset('plugins/jquery.min.js') }}"></script>
         <script src="{{ asset('plugins/select2/select2.min.js') }}"></script>
         <script>
-            $("#inputGroup").select2();
-        </script>
-        <script>
-            function changeModel(event) {
+            function selectModelByGroup(event) {
                 let group_id = event.target.value;
-                let modelSection = $("#inputModell");
+                let modelSection1 = document.getElementById('modellSection1');
 
                 $.ajaxSetup({
                     headers: {
@@ -18,27 +15,68 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: '{{ route('inquiries.create.changeModel') }}',
+                    url: '{{ route('inquiries.create.selectModelByGroup') }}',
                     data: {
                         group_id: group_id,
                     },
                     success: function (res) {
                         let modells = res.data;
-                        modelSection.html(
-                            modells.map(function (item) {
+                        modelSection1.innerHTML = `
+                            <label for="inputModel1" class="block mb-2 md:text-sm text-xs text-black">
+                                انتخاب زیردسته
+                            </label>
+                            <select class="input-text" id="inputModel1" onchange="selectModelByModel(event)">
+                                <option value="">انتخاب کنید</option>
+                                ${modells.map(
+                            function (item) {
                                 return `
-                                    <option value="${item['id']}">${item['name']}</option>
-                                `
-                            })
-                        )
+                                            <option value="${item['id']}">${item['name']}</option>
+                                        `
+                            }
+                        )}
+                            </select>
+                        `
+                    }
+                });
+            }
+
+            function selectModelByModel(event) {
+                let model_id = event.target.value;
+                let modelSection2 = document.getElementById('modellSection2');
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
 
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('inquiries.create.selectModelByModel') }}',
+                    data: {
+                        model_id: model_id,
+                    },
+                    success: function (res) {
+                        let modells = res.data;
+                        modelSection2.innerHTML = `
+                            <label for="inputModel2" class="block mb-2 md:text-sm text-xs text-black">
+                                انتخاب مدل
+                            </label>
+                            <select class="input-text" id="inputModel2" name="model_id">
+                                <option value="">انتخاب کنید</option>
+                                ${modells.map(
+                            function (item) {
+                                return `
+                                            <option value="${item['id']}">${item['name']}</option>
+                                        `
+                            }
+                        )}
+                            </select>
+                        `
+                    }
+                });
             }
         </script>
-    </x-slot>
-    <x-slot name="css">
-        <link rel="stylesheet" href="{{ asset('plugins/select2/select2.min.css') }}">
     </x-slot>
     <!-- Breadcrumb -->
     <nav class="flex bg-gray-100 p-4 rounded-md overflow-x-auto whitespace-nowrap" aria-label="Breadcrumb">
@@ -124,23 +162,19 @@
             <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">گروه</p>
 
             <div class="mt-4">
-                <label for="inputGroup" class="block mb-2 md:text-sm text-xs text-black">انتخاب گروه</label>
-                <select name="group_id" id="inputGroup" class="input-text" onchange="changeModel(event)">
-                    <option value="">انتخاب گروه</option>
+                <label for="inputGroup" class="block mb-2 md:text-sm text-xs text-black">
+                    انتخاب دسته اصلی محصول
+                </label>
+                <select name="group_id" id="inputGroup" class="input-text" onchange="selectModelByGroup(event)">
+                    <option value="">انتخاب کنید</option>
                     @foreach($groups as $group)
-                        <option value="{{ $group->id }}" {{ old('group_id') == $group->id ? 'selected' : '' }}>
-                            {{ $group->name }}
-                        </option>
+                        <option value="{{ $group->id }}">{{ $group->name }}</option>
                     @endforeach
                 </select>
             </div>
-
-            <div class="mt-6">
-                <label for="inputDescription" class="block mb-2 md:text-sm text-xs text-black">
-                    تگ (توضیحات)
-                </label>
-                <input type="text" class="input-text" name="description" id="inputDescription"
-                    placeholder="تگ / محل سرویس / ساختمان / شماره سریال / ...">
+            <div id="modellSection1" class="mt-4">
+            </div>
+            <div id="modellSection2" class="mt-4">
             </div>
 
         </div>
@@ -149,11 +183,11 @@
             <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">مدل و تعداد</p>
 
             <div class="mt-4">
-                <label for="inputModell" class="block mb-2 md:text-sm text-xs text-black">انتخاب مدل (بر اساس
-                    گروه)</label>
-                <select name="model_id" id="inputModell" class="input-text">
-                    <option value="">لطفا ابتدا گروه را انتخاب کنید</option>
-                </select>
+                <label for="inputDescription" class="block mb-2 md:text-sm text-xs text-black">
+                    تگ (توضیحات)
+                </label>
+                <input type="text" class="input-text" name="description" id="inputDescription"
+                       placeholder="تگ / محل سرویس / ساختمان / شماره سریال / ...">
             </div>
 
             <div class="mt-4">

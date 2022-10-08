@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Amount;
 use App\Models\Group;
 use App\Models\Inquiry;
+use App\Models\Modell;
 use App\Models\User;
 use App\Notifications\CopyInquiryNotification;
 use App\Notifications\CorrectionInquiryNotification;
@@ -313,12 +314,20 @@ class InquiryController extends Controller
         return redirect()->route('inquiries.index');
     }
 
-    public function changeModelAjax(Request $request)
+    public function selectModelByGroup(Request $request)
     {
         $group = Group::find($request->group_id);
-        $modells = $group->modells;
+        $modells = $group->modells()->where('parent_id', 0)->get();
 
         return response(['data' => $modells]);
+    }
+
+    public function selectModelByModel(Request $request)
+    {
+        $modell = Modell::find($request->model_id);
+        $children = $modell->children;
+
+        return response(['data' => $children]);
     }
 
     public function getCode(array $data)
