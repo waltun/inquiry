@@ -236,6 +236,9 @@
                 </tr>
                 </thead>
                 <tbody>
+                @php
+                    $specials = \App\Models\Special::all()->pluck('part_id')->toArray();
+                @endphp
                 @foreach($parts as $part)
                     <tr>
                         <td class="px-4 py-3 whitespace-nowrap">
@@ -269,36 +272,38 @@
                                 {{ $code . "-" . $part->code }}
                             </p>
                         </td>
-                        <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
-                            <a href="{{ route('collections.parts',$part->id) }}" class="form-detail-btn text-xs">
-                                قطعات
-                            </a>
-                        </td>
-                        <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
-                            <a href="{{ route('collections.amounts',$part->id) }}" class="form-submit-btn text-xs">
-                                مقادیر
-                            </a>
-                        </td>
-                        <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
-                            <a href="{{ route('parts.edit',$part->id) }}" class="form-edit-btn text-xs">
-                                ویرایش
-                            </a>
-                            <form action="{{ route('collections.replicate',$part->id) }}" method="POST"
-                                  class="inline">
-                                @csrf
-                                <button class="form-detail-btn text-xs">
-                                    کپی
-                                </button>
-                            </form>
-                            <form action="{{ route('collections.destroy',$part->id) }}" method="POST"
-                                  class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <button class="form-cancel-btn text-xs" onclick="return confirm('قطعه حذف شود ؟')">
-                                    حذف
-                                </button>
-                            </form>
-                        </td>
+                        @if(!in_array($part->id,$specials))
+                            <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
+                                <a href="{{ route('collections.parts',$part->id) }}" class="form-detail-btn text-xs">
+                                    قطعات
+                                </a>
+                            </td>
+                            <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
+                                <a href="{{ route('collections.amounts',$part->id) }}" class="form-submit-btn text-xs">
+                                    مقادیر
+                                </a>
+                            </td>
+                            <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
+                                <a href="{{ route('parts.edit',$part->id) }}" class="form-edit-btn text-xs">
+                                    ویرایش
+                                </a>
+                                <form action="{{ route('collections.replicate',$part->id) }}" method="POST"
+                                      class="inline">
+                                    @csrf
+                                    <button class="form-detail-btn text-xs">
+                                        کپی
+                                    </button>
+                                </form>
+                                <form action="{{ route('collections.destroy',$part->id) }}" method="POST"
+                                      class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="form-cancel-btn text-xs" onclick="return confirm('قطعه حذف شود ؟')">
+                                        حذف
+                                    </button>
+                                </form>
+                            </td>
+                        @endif
                     </tr>
                 @endforeach
                 </tbody>
@@ -310,6 +315,10 @@
             <p class="text-sm font-bold text-indigo-600 underline underline-offset-4">
                 تعداد کل قطعات مجموعه ای : {{ \App\Models\Part::where('collection',true)->count() }}
             </p>
+        </div>
+
+        <div class="my-4">
+            {{ $parts->links() }}
         </div>
 
         <!-- Mobile List -->
