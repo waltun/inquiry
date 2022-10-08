@@ -191,4 +191,17 @@ class CollectionPartController extends Controller
 
         return back();
     }
+
+    public function changeParts(Request $request, Part $parentPart)
+    {
+        foreach ($parentPart->children as $index => $child) {
+            $child->pivot->update([
+                'parent_part_id' => $request->part_ids[$index],
+            ]);
+        }
+
+        alert()->success('مقادیر', 'مقدار قطعات برای مجموعه با موفقیت ثبت شد');
+
+        return back();
+    }
 }

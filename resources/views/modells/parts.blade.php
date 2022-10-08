@@ -145,8 +145,7 @@
                                     $lastCategory = $selectedPart->categories()->latest()->first();
                                     $categoryParts = $lastCategory->parts;
                                 @endphp
-                                <select name="part_ids[]" class="input-text" id="groupPartList{{ $part->id }}"
-                                        onchange="showCalculateButton('{{ $part->id }}')">
+                                <select name="part_ids[]" class="input-text" id="groupPartList{{ $part->id }}">
                                     @foreach($categoryParts as $part2)
                                         <option
                                             value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
