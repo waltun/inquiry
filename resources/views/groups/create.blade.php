@@ -96,7 +96,7 @@
             <div class="mt-4">
                 <label for="inputCode" class="block mb-2 md:text-sm text-xs text-black">کد گروه</label>
                 <input type="text" id="inputCode" name="code" class="input-text" placeholder="مثال : 12"
-                       value="{{ old('code') }}">
+                       value="{{ $code }}">
             </div>
 
         </div>

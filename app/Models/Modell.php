@@ -11,7 +11,7 @@ class Modell extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'group_id', 'code'
+        'name', 'group_id', 'code', 'parent_id'
     ];
 
     public function group()
@@ -22,5 +22,15 @@ class Modell extends Model
     public function parts()
     {
         return $this->belongsToMany(Part::class)->withPivot('value');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(Modell::class, 'parent_id');
+    }
+
+    public function parent()
+    {
+        return $this->belongsTo(Modell::class, 'parent_id');
     }
 }

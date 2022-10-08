@@ -21,7 +21,9 @@ class GroupController extends Controller
     {
         Gate::authorize('groups');
 
-        return view('groups.create');
+        $code = $this->getCode();
+
+        return view('groups.create', compact('code'));
     }
 
     public function store(Request $request)
@@ -30,7 +32,7 @@ class GroupController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
-            'code' => 'required|numeric|digits:4|unique:groups'
+            'code' => 'required|numeric|digits:2|unique:groups'
         ]);
 
         Group::create([
@@ -119,5 +121,16 @@ class GroupController extends Controller
         alert()->success('مقادیر', 'مقدار قطعات برای گروه با موفقیت ثبت شد');
 
         return back();
+    }
+
+    public function getCode()
+    {
+        $lastGroup = Group::latest()->first();
+        if (!is_null($lastGroup)) {
+            $code = str_pad($lastGroup->code + 1, 2, "0", STR_PAD_LEFT);
+        } else {
+            $code = '01';
+        }
+        return $code;
     }
 }

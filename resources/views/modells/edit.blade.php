@@ -87,15 +87,49 @@
             </span>
         </div>
 
-        <div class="col-span-2">
-            <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
-                <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">مشخصات کلی</p>
-                <div class="mt-4">
-                    <label for="inputName" class="block mb-2 md:text-sm text-xs text-black">نام مدل</label>
-                    <input type="text" id="inputName" name="name" class="input-text" value="{{ $modell->name }}">
-                </div>
+        <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
+            <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">مشخصات کلی</p>
+            <div class="mt-4">
+                <label for="inputName" class="block mb-2 md:text-sm text-xs text-black">نام مدل</label>
+                <input type="text" id="inputName" name="name" class="input-text" value="{{ $modell->name }}">
             </div>
         </div>
+
+        @if($modell->parent_id != 0)
+            <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
+                <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">مدل مربوطه</p>
+                <div class="mt-4">
+                    <label for="inputParent" class="block mb-2 md:text-sm text-xs text-black">
+                        مدل مرتبط
+                    </label>
+                    <select name="parent_id" id="inputParent" class="input-text">
+                        @foreach(\App\Models\Modell::where('parent_id',0)->get() as $modell2)
+                            <option
+                                value="{{ $modell2->id }}" {{ $modell2->id == $modell->parent_id ? 'selected' : '' }}>
+                                {{ $modell2->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+        @else
+            <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
+                <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">دسته مربوطه</p>
+                <div class="mt-4">
+                    <label for="inputGroup" class="block mb-2 md:text-sm text-xs text-black">
+                        دسته مرتبط
+                    </label>
+                    <select name="group_id" id="inputGroup" class="input-text">
+                        @foreach(\App\Models\Group::all() as $group2)
+                            <option
+                                value="{{ $group2->id }}" {{ $group2->id == $modell->group_id ? 'selected' : '' }}>
+                                {{ $group2->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+        @endif
 
         <div class="col-span-2 space-x-2 space-x-reverse">
             <button type="submit" class="form-edit-btn">

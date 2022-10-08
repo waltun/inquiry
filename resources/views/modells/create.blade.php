@@ -99,14 +99,34 @@
             </span>
         </div>
 
-        <div class="col-span-2">
-            <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
-                <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">مشخصات کلی</p>
+        <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
+            <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">مشخصات کلی</p>
+            <div class="mt-4">
+                <label for="inputName" class="block mb-2 md:text-sm text-xs text-black">نام مدل</label>
+                <input type="text" id="inputName" name="name" class="input-text" placeholder="مثال : 200"
+                       value="{{ old('name') }}">
+            </div>
+            @if(request()->has('parent'))
                 <div class="mt-4">
-                    <label for="inputName" class="block mb-2 md:text-sm text-xs text-black">نام مدل</label>
-                    <input type="text" id="inputName" name="name" class="input-text" placeholder="مثال : 200"
-                           value="{{ old('name') }}">
+                    <label for="inputParent" class="block mb-2 md:text-sm text-xs text-black">
+                        مدل مرتبط
+                    </label>
+                    @php
+                        $modell = \App\Models\Modell::find(request('parent'));
+                    @endphp
+                    <input type="text" class="input-text bg-gray-200 cursor-not-allowed"
+                           value="{{ $modell->name }}" disabled>
+                    <input type="hidden" name="parent_id" value="{{ $modell->id }}">
                 </div>
+            @endif
+        </div>
+
+        <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
+            <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">کد</p>
+            <div class="mt-4">
+                <label for="inputCode" class="block mb-2 md:text-sm text-xs text-black">کد مدل</label>
+                <input type="text" id="inputCode" name="code" class="input-text" placeholder="مثال : 01"
+                       value="{{ $code }}">
             </div>
         </div>
 

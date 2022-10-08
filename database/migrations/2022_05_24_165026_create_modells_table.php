@@ -18,8 +18,9 @@ return new class extends Migration {
             $table->string('name');
             $table->string('code');
             $table->unsignedBigInteger('group_id');
+            $table->unsignedBigInteger('parent_id')->default(0);
 
-            $table->index(['group_id']);
+            $table->index(['group_id', 'parent_id']);
 
             $table->timestamps();
         });

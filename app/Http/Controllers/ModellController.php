@@ -23,7 +23,15 @@ class ModellController extends Controller
         Gate::authorize('groups');
 
         $group = Group::find($id);
-        return view('modells.create', compact('group'));
+
+        if (request()->has('parent')) {
+            $modell = Modell::where('id', request('parent'))->first();
+            $code = $this->getParentLastCode($modell);
+        } else {
+            $code = $this->getLastCode($group);
+        }
+
+        return view('modells.create', compact('group', 'code'));
     }
 
     public function store(Request $request, $id)
@@ -35,14 +43,25 @@ class ModellController extends Controller
         ]);
 
         $group = Group::find($id);
-        $lastModellCode = $this->getLastCode($group);
 
-
-        Modell::create([
-            'name' => $request['name'],
-            'code' => $lastModellCode,
-            'group_id' => $id
-        ]);
+        if (!is_null($request->parent_id)) {
+            $modell = Modell::where('id', $request->parent_id)->first();
+            $code = $this->getParentLastCode($modell);
+            Modell::create([
+                'name' => $request['name'],
+                'code' => $code,
+                'group_id' => $id,
+                'parent_id' => $modell->id
+            ]);
+        } else {
+            $code = $this->getLastCode($group);
+            Modell::create([
+                'name' => $request['name'],
+                'code' => $code,
+                'group_id' => $id,
+                'parent_id' => 0
+            ]);
+        }
 
         alert()->success('ثبت موفق', 'ثبت مدل با موفقیت انجام شد');
 
@@ -59,6 +78,7 @@ class ModellController extends Controller
         Gate::authorize('groups');
 
         $group = Group::find($modell->group_id);
+
         return view('modells.edit', compact('modell', 'group'));
     }
 
@@ -70,9 +90,27 @@ class ModellController extends Controller
             'name' => 'required|string|max:2550',
         ]);
 
-        $modell->update([
-            'name' => $request['name'],
-        ]);
+        if ($request['parent_id']) {
+            $request->validate([
+                'parent_id' => 'required',
+            ]);
+
+            $modell->update([
+                'name' => $request['name'],
+                'parent_id' => $request['parent_id']
+            ]);
+        }
+
+        if ($request['group_id']) {
+            $request->validate([
+                'group_id' => 'required',
+            ]);
+
+            $modell->update([
+                'name' => $request['name'],
+                'group_id' => $request['group_id']
+            ]);
+        }
 
         alert()->success('ویرایش موفق', 'ویرایش مدل با موفقیت انجام شد');
 
@@ -158,11 +196,22 @@ class ModellController extends Controller
     public function getLastCode($group)
     {
         if (!$group->modells->isEmpty()) {
-            $lastModell = $group->modells()->latest()->first();
-            $lastModellCode = str_pad($lastModell->code + 1, 4, "0", STR_PAD_LEFT);
+            $lastModell = $group->modells()->where('parent_id', 0)->latest()->first();
+            $lastModellCode = str_pad($lastModell->code + 1, 2, "0", STR_PAD_LEFT);
         } else {
-            $lastModellCode = '0001';
+            $lastModellCode = '01';
         }
         return $lastModellCode;
+    }
+
+    public function getParentLastCode($modell)
+    {
+        if (!$modell->children->isEmpty()) {
+            $lastModellCode = $modell->children()->latest()->first()->code;
+            $code = str_pad($lastModellCode + 1, 4, "0", STR_PAD_LEFT);
+        } else {
+            $code = '0001';
+        }
+        return $code;
     }
 }

@@ -60,7 +60,7 @@
             </p>
         </div>
         <div>
-            <a href="{{ route('groups.create') }}" class="form-submit-btn text-xs">ایجاد محصول جدید</a>
+            <a href="{{ route('groups.create') }}" class="form-submit-btn text-xs">ایجاد دسته اصلی</a>
         </div>
     </div>
 
@@ -100,14 +100,11 @@
                     </div>
                     <div class="flex items-center space-x-3 space-x-reverse hidden"
                          id="buttonSection{{ $group->id }}">
-                        <a href="{{ route('group.parts',$group->id) }}" class="form-submit-btn text-xs">
-                            قطعات در گروه
+                        <a href="{{ route('modells.create',$group->id) }}" class="form-submit-btn text-xs">
+                            زیردسته جدید
                         </a>
                         <a href="{{ route('groups.edit',$group->id) }}" class="form-edit-btn text-xs">
                             ویرایش نام گروه
-                        </a>
-                        <a href="{{ route('modells.create',$group->id) }}" class="form-detail-btn text-xs">
-                            ایجاد مدل جدید
                         </a>
                         <form action="{{ route('groups.destroy',$group->id) }}" method="POST">
                             @csrf
@@ -128,16 +125,18 @@
                     </div>
                 </div>
                 <div x-show="open" x-cloak>
-                    @foreach($group->modells as $modell)
-                        <div class="border border-gray-400 rounded-md p-4 bg-white shadow-sm my-4" x-data="{open:false}"
+                    @foreach($group->modells()->where('parent_id',0)->get() as $modell)
+                        <div class="border border-gray-400 rounded-md p-4 bg-white shadow-sm my-4"
+                             x-data="{open:false}"
                              :class="{'bg-indigo-200' : open}" onmouseenter="showButtons2({{ $modell->id }})"
                              onmouseleave="hideButtons2({{ $modell->id }})">
                             <div class="md:flex items-center justify-between space-y-4 md:space-y-0">
                                 <div class="flex items-center">
                                     <div class="ml-4">
-                            <span class="w-5 h-5 text-xs rounded-full bg-gray-200 grid place-content-center">
-                                {{ $loop->index + 1 }}
-                            </span>
+                                        <span
+                                            class="w-5 h-5 text-xs rounded-full bg-gray-200 grid place-content-center">
+                                            {{ $loop->index + 1 }}
+                                        </span>
                                     </div>
                                     <div>
                                         <p class="text-sm font-bold text-black">
@@ -154,8 +153,9 @@
                                 </div>
                                 <div class="flex items-center space-x-3 space-x-reverse hidden"
                                      id="buttonSection2{{ $modell->id }}">
-                                    <a href="{{ route('modells.parts',$modell->id) }}" class="form-submit-btn text-xs">
-                                        قطعات مدل
+                                    <a href="{{ route('modells.create',$group->id) }}?parent={{ $modell->id }}"
+                                       class="form-submit-btn text-xs">
+                                        افزودن مدل جدید
                                     </a>
                                     <a href="{{ route('modells.edit',$modell->id) }}" class="form-edit-btn text-xs">
                                         ویرایش مدل
@@ -164,7 +164,8 @@
                                           class="inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="form-cancel-btn text-xs" onclick="return confirm('مدل حذف شود ؟')">
+                                        <button class="form-cancel-btn text-xs"
+                                                onclick="return confirm('مدل حذف شود ؟')">
                                             حذف
                                         </button>
                                     </form>
@@ -175,7 +176,79 @@
                                             کپی
                                         </button>
                                     </form>
+                                    @if(count($modell->children) > 0)
+                                        <button type="button" @click="open = !open">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                 class="h-7 w-7 transform transition-transform"
+                                                 fill="none" viewBox="0 0 24 24" :class="{'rotate-90' : open}"
+                                                 stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                      d="M15 19l-7-7 7-7"/>
+                                            </svg>
+                                        </button>
+                                    @endif
                                 </div>
+                            </div>
+                            <div x-show="open">
+                                @foreach($modell->children as $children)
+                                    <div class="border border-gray-400 rounded-md p-4 bg-white shadow-sm my-4"
+                                         x-data="{open:false}"
+                                         :class="{'bg-indigo-200' : open}"
+                                         onmouseenter="showButtons2({{ $children->id }})"
+                                         onmouseleave="hideButtons2({{ $children->id }})">
+                                        <div class="md:flex items-center justify-between space-y-4 md:space-y-0">
+                                            <div class="flex items-center">
+                                                <div class="ml-4">
+                                        <span
+                                            class="w-5 h-5 text-xs rounded-full bg-gray-200 grid place-content-center">
+                                            {{ $loop->index + 1 }}
+                                        </span>
+                                                </div>
+                                                <div>
+                                                    <p class="text-sm font-bold text-black">
+                                                        {{ $children->name }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <div>
+                                                    <p class="text-sm text-gray-800 font-bold">
+                                                        کد : {{ $children->code }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="flex items-center space-x-3 space-x-reverse hidden"
+                                                 id="buttonSection2{{ $children->id }}">
+                                                <a href="{{ route('modells.parts',$modell->id) }}"
+                                                   class="form-submit-btn text-xs">
+                                                    قطعات مدل
+                                                </a>
+                                                <a href="{{ route('modells.edit',$children->id) }}"
+                                                   class="form-edit-btn text-xs">
+                                                    ویرایش مدل
+                                                </a>
+                                                <form action="{{ route('modells.destroy',$children->id) }}"
+                                                      method="POST"
+                                                      class="inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="form-cancel-btn text-xs"
+                                                            onclick="return confirm('مدل حذف شود ؟')">
+                                                        حذف
+                                                    </button>
+                                                </form>
+                                                <form action="{{ route('modells.replicate',$children->id) }}"
+                                                      method="POST"
+                                                      class="inline">
+                                                    @csrf
+                                                    <button class="form-detail-btn text-xs">
+                                                        کپی
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
                     @endforeach
