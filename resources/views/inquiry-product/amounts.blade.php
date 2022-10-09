@@ -705,8 +705,33 @@
                                 $code = $code . $category->code;
                             }
                             $finalCode = $code . $part->code;
+
+                            if ($setting) {
+                                    if($setting->price_color_type == 'month') {
+                                        $lastTime = \Carbon\Carbon::now()->subMonth($setting->price_color_last_time);
+                                        $midTime = \Carbon\Carbon::now()->subMonth($setting->price_color_mid_time);
+                                    }
+                                    if($setting->price_color_type == 'day') {
+                                        $lastTime = \Carbon\Carbon::now()->subDay($setting->price_color_last_time);
+                                        $midTime = \Carbon\Carbon::now()->subDay($setting->price_color_mid_time);
+                                    }
+                                    if($setting->price_color_type == 'hour') {
+                                        $lastTime = \Carbon\Carbon::now()->subHour($setting->price_color_last_time);
+                                        $midTime = \Carbon\Carbon::now()->subHour($setting->price_color_mid_time);
+                                    }
+                                }
+
+                                if ($part->updated_at < $lastTime && $part->price > 0) {
+                                    $color = 'bg-red-500';
+                                }
+                                if ($part->updated_at > $lastTime && $part->updated_at < $midTime && $part->price > 0) {
+                                    $color = 'bg-yellow-500';
+                                }
+                                if ($part->updated_at < $lastTime && $part->price == 0) {
+                                    $color = 'bg-red-600';
+                                }
                         @endphp
-                        <tr>
+                        <tr class="{{ $color ?? 'bg-white' }}">
                             <td class="border border-gray-300 p-4 text-sm text-center">
                                 {{ $code . "-" . $part->code }}
                             </td>
@@ -868,7 +893,7 @@
                                 {{ $part->unit }}
                             </td>
                             <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                                <input type="text" name="groupAmounts[]" id="inputAmount{{ $part->id }}"
+                                <input type="text" name="amounts[]" id="inputAmount{{ $part->id }}"
                                        class="input-text" value="{{ $amount->value }}">
                             </td>
                         </tr>
