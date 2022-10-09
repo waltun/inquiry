@@ -6,6 +6,7 @@ use App\Models\Amount;
 use App\Models\Group;
 use App\Models\Inquiry;
 use App\Models\Modell;
+use App\Models\Special;
 use App\Models\User;
 use App\Notifications\CopyInquiryNotification;
 use App\Notifications\CorrectionInquiryNotification;
@@ -106,7 +107,19 @@ class InquiryController extends Controller
     {
         Gate::authorize('delete-inquiry');
 
+        $specials = Special::all()->pluck('id')->toArray();
+
         if (!$inquiry->products->isEmpty()) {
+            foreach ($inquiry->products as $product) {
+                $modell = Modell::find($product->model_id);
+                foreach ($modell->parts as $part) {
+                    if (in_array($part->id, $specials)) {
+                        session()->forget('selectedPart' . $part->id);
+                        session()->forget('price' . $part->id);
+                    }
+                }
+            }
+
             $inquiry->products()->delete();
         }
 
