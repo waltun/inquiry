@@ -299,6 +299,11 @@ class InquiryController extends Controller
         return view('inquiries.description', compact('inquiry'));
     }
 
+    public function showDescription(Inquiry $inquiry)
+    {
+        return view('inquiries.show-description', compact('inquiry'));
+    }
+
     public function storeDescription(Request $request, Inquiry $inquiry)
     {
         $request->validate([

@@ -193,47 +193,49 @@
         </div>
 
         <!-- Multi Percent -->
-        @if($inquiry->submit)
-            <div class="my-4" x-data="{open:false}">
-                <button type="button" class="form-edit-btn" @click="open=!open">
-                    ثبت ضریب چندتایی
-                </button>
-                <div class="relative z-50" x-show="open" x-cloak>
-                    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
-                    <div class="fixed z-10 inset-0 overflow-y-auto">
-                        <div
-                            class="flex items-center justify-center min-h-full p-4 text-center">
+        @can('users')
+            @if($inquiry->submit)
+                <div class="my-4" x-data="{open:false}">
+                    <button type="button" class="form-edit-btn" @click="open=!open">
+                        ثبت ضریب چندتایی
+                    </button>
+                    <div class="relative z-50" x-show="open" x-cloak>
+                        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+                        <div class="fixed z-10 inset-0 overflow-y-auto">
                             <div
-                                class="relative bg-white rounded-lg text-right overflow-hidden shadow-xl transform transition-all my-8 md:max-w-lg w-full">
-                                <div class="bg-white p-4">
-                                    <div class="mt-3 text-center sm:mt-0 sm:text-right">
-                                        <h3 class="text-lg font-medium text-gray-900 border-b border-gray-300 pb-3">
-                                            ثبت ضریب محصولات
-                                        </h3>
-                                        <div class="mt-4">
-                                            <label class="block mb-2 text-sm font-bold" for="inputQuantity">
-                                                ضریب
-                                            </label>
-                                            <input type="text" class="input-text" name="percent" id="inputPercent"
-                                                   placeholder="بین 1 تا 2">
+                                class="flex items-center justify-center min-h-full p-4 text-center">
+                                <div
+                                    class="relative bg-white rounded-lg text-right overflow-hidden shadow-xl transform transition-all my-8 md:max-w-lg w-full">
+                                    <div class="bg-white p-4">
+                                        <div class="mt-3 text-center sm:mt-0 sm:text-right">
+                                            <h3 class="text-lg font-medium text-gray-900 border-b border-gray-300 pb-3">
+                                                ثبت ضریب محصولات
+                                            </h3>
+                                            <div class="mt-4">
+                                                <label class="block mb-2 text-sm font-bold" for="inputQuantity">
+                                                    ضریب
+                                                </label>
+                                                <input type="text" class="input-text" name="percent" id="inputPercent"
+                                                       placeholder="بین 1 تا 2">
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="bg-gray-100 px-4 py-2">
-                                    <button type="button" class="form-submit-btn multiPercentBtn">
-                                        ثبت
-                                    </button>
-                                    <button type="button" class="form-cancel-btn"
-                                            @click="open = !open">
-                                        انصراف
-                                    </button>
+                                    <div class="bg-gray-100 px-4 py-2">
+                                        <button type="button" class="form-submit-btn multiPercentBtn">
+                                            ثبت
+                                        </button>
+                                        <button type="button" class="form-cancel-btn"
+                                                @click="open = !open">
+                                            انصراف
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        @endif
+            @endif
+        @endcan
 
         <!-- Mobile List -->
         <div class="block md:hidden">

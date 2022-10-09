@@ -51,6 +51,7 @@
         <div class="space-x-2 space-x-reverse flex items-center overflow-x-auto whitespace-nowrap">
             <a href="{{ route('inquiries.index') }}" class="form-detail-btn text-xs">لیست استعلام ها</a>
             <a href="{{ route('inquiries.priced') }}" class="form-submit-btn text-xs">استعلام های قیمت گذاری شده</a>
+            <a href="{{ route('inquiries.submitted') }}" class="form-edit-btn text-xs">استعلام های منتظر قیمت</a>
         </div>
     </div>
 
@@ -103,8 +104,12 @@
                             @if($inquiry->type == 'product' || $inquiry->type == 'both')
                                 @can('create-inquiry')
                                     <a href="{{ route('inquiries.product.index',$inquiry->id) }}"
-                                       class="form-detail-btn text-xs">
+                                       class="form-submit-btn text-xs">
                                         محصولات
+                                    </a>
+                                    <a href="{{ route('inquiries.showDescription',$inquiry->id) }}"
+                                       class="form-submit-btn text-xs bg-gray-500 hover:bg-gray-600">
+                                        شرایط استعلام
                                     </a>
                                 @endcan
                             @endif

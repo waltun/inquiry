@@ -100,6 +100,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/inquiries/products/{inquiry}', [InquiryController::class, 'products'])->name('inquiries.products');
     Route::get('/inquiries/{inquiry}/description', [InquiryController::class, 'description'])->name('inquiries.description');
     Route::patch('/inquiries/{inquiry}/description', [InquiryController::class, 'storeDescription'])->name('inquiries.storeDescription');
+    Route::get('/inquiries/{inquiry}/show-description', [InquiryController::class, 'showDescription'])->name('inquiries.showDescription');
     Route::post('/inquiries/{inquiry}/referral', [InquiryController::class, 'referral'])->name('inquiries.referral');
 
     //Inquiry Product routes
