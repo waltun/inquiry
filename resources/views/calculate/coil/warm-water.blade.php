@@ -668,13 +668,19 @@
                             </td>
                             <td class="border border-gray-300 p-4 text-lg font-bold text-center text-green-600"
                                 colspan="2">
-                                <span>{{ number_format($finalPrice) }}</span>
+                                <span>{{ number_format($finalPrice) }} تومان </span>
                                 <input type="hidden" name="final_price" value="{{ $finalPrice }}">
                             </td>
                         </tr>
                     @endcan
                     </tbody>
                 </table>
+
+                <div class="my-4 bg-gray-100 p-4 rounded-md shadow-md">
+                    <p class="text-xl font-bold text-black text-center">
+                        قیمت نهایی : {{ number_format($finalPrice) }} تومان
+                    </p>
+                </div>
 
                 <div class="my-4 bg-red-300 p-4 rounded-md shadow-md">
                     <label class="block mb-2 text-sm font-bold" for="inputCoilName">
