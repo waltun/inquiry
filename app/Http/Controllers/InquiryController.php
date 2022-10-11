@@ -13,6 +13,7 @@ use App\Notifications\CorrectionInquiryNotification;
 use App\Notifications\NewInquiryNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Notification;
 
 class InquiryController extends Controller
 {
@@ -164,7 +165,10 @@ class InquiryController extends Controller
             'message' => null,
         ]);
         //Send Notification
+        $adminUsers = User::where('role', 'admin')->get();
         auth()->user()->notify(new NewInquiryNotification($inquiry));
+        Notification::send($adminUsers, new NewInquiryNotification($inquiry));
+
         alert()->success('ثبت نهایی موفق', 'ثبت نهایی با موفقیت انجام شد و برای مدیریت ارسال شد');
 
         return back();
