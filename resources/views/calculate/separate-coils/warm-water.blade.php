@@ -177,31 +177,31 @@
                         <select name="loole_messi" id="inputLooleMessi" class="input-text bg-yellow-300">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::where('id','53')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['loole_messi'] == "53" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('loole_messi') == '53' ? 'selected' : '') : ($inputs['loole_messi'] == "53" ? 'selected' : (old('loole_messi') == '53' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','53')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','54')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['loole_messi'] == "54" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('loole_messi') == '54' ? 'selected' : '') : ($inputs['loole_messi'] == "54" ? 'selected' : (old('loole_messi') == '54' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','54')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','55')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['loole_messi'] == "55" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('loole_messi') == '55' ? 'selected' : '') : ($inputs['loole_messi'] == "55" ? 'selected' : (old('loole_messi') == '55' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','55')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','56')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['loole_messi'] == "56" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('loole_messi') == '56' ? 'selected' : '') : ($inputs['loole_messi'] == "56" ? 'selected' : (old('loole_messi') == '56' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','56')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','57')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['loole_messi'] == "57" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('loole_messi') == '57' ? 'selected' : '') : ($inputs['loole_messi'] == "57" ? 'selected' : (old('loole_messi') == '57' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','57')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','58')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['loole_messi'] == "58" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('loole_messi') == '58' ? 'selected' : '') : ($inputs['loole_messi'] == "58" ? 'selected' : (old('loole_messi') == '58' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','58')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','59')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['loole_messi'] == "59" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('loole_messi') == '59' ? 'selected' : '') : ($inputs['loole_messi'] == "59" ? 'selected' : (old('loole_messi') == '59' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','59')->first()->name }}
                             </option>
                         </select>
@@ -211,43 +211,43 @@
                         <select name="fin_coil" id="inputFin" class="input-text bg-yellow-300">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::where('id','60')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['fin_coil'] == "60" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('fin_coil') == '60' ? 'selected' : '') : ($inputs['fin_coil'] == "60" ? 'selected' : (old('fin_coil') == '60' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','60')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','61')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['fin_coil'] == "61" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('fin_coil') == '61' ? 'selected' : '') : ($inputs['fin_coil'] == "61" ? 'selected' : (old('fin_coil') == '61' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','61')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','62')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['fin_coil'] == "62" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('fin_coil') == '62' ? 'selected' : '') : ($inputs['fin_coil'] == "62" ? 'selected' : (old('fin_coil') == '62' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','62')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','63')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['fin_coil'] == "63" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('fin_coil') == '63' ? 'selected' : '') : ($inputs['fin_coil'] == "63" ? 'selected' : (old('fin_coil') == '63' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','63')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','64')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['fin_coil'] == "64" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('fin_coil') == '64' ? 'selected' : '') : ($inputs['fin_coil'] == "64" ? 'selected' : (old('fin_coil') == '64' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','64')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','65')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['fin_coil'] == "65" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('fin_coil') == '65' ? 'selected' : '') : ($inputs['fin_coil'] == "65" ? 'selected' : (old('fin_coil') == '65' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','65')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','66')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['fin_coil'] == "66" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('fin_coil') == '66' ? 'selected' : '') : ($inputs['fin_coil'] == "66" ? 'selected' : (old('fin_coil') == '66' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','66')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','67')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['fin_coil'] == "67" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('fin_coil') == '67' ? 'selected' : '') : ($inputs['fin_coil'] == "67" ? 'selected' : (old('fin_coil') == '67' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','67')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','68')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['fin_coil'] == "68" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('fin_coil') == '68' ? 'selected' : '') : ($inputs['fin_coil'] == "68" ? 'selected' : (old('fin_coil') == '68' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','68')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','69')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['fin_coil'] == "69" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('fin_coil') == '69' ? 'selected' : '') : ($inputs['fin_coil'] == "69" ? 'selected' : (old('fin_coil') == '69' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','69')->first()->name }}
                             </option>
                         </select>
@@ -257,27 +257,27 @@
                         <select name="tedad_radif_coil" id="inputTedadRadif" class="input-text bg-yellow-300">
                             <option value="">انتخاب کنید</option>
                             <option value="1"
-                                {{ is_null($inputs) ? '' : ($inputs['tedad_radif_coil'] == '1' ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('tedad_radif_coil') == '1' ? 'selected' : '') : ($inputs['tedad_radif_coil'] == '1' ? 'selected' : (old('tedad_radif_coil') == '1' ? 'selected' : '')) }}>
                                 1
                             </option>
                             <option value="2"
-                                {{ is_null($inputs) ? '' : ($inputs['tedad_radif_coil'] == '2' ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('tedad_radif_coil') == '2' ? 'selected' : '') : ($inputs['tedad_radif_coil'] == '2' ? 'selected' : (old('tedad_radif_coil') == '2' ? 'selected' : '')) }}>
                                 2
                             </option>
                             <option value="3"
-                                {{ is_null($inputs) ? '' : ($inputs['tedad_radif_coil'] == '3' ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('tedad_radif_coil') == '3' ? 'selected' : '') : ($inputs['tedad_radif_coil'] == '3' ? 'selected' : (old('tedad_radif_coil') == '3' ? 'selected' : '')) }}>
                                 3
                             </option>
                             <option value="4"
-                                {{ is_null($inputs) ? '' : ($inputs['tedad_radif_coil'] == '4' ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('tedad_radif_coil') == '4' ? 'selected' : '') : ($inputs['tedad_radif_coil'] == '4' ? 'selected' : (old('tedad_radif_coil') == '4' ? 'selected' : '')) }}>
                                 4
                             </option>
                             <option value="6"
-                                {{ is_null($inputs) ? '' : ($inputs['tedad_radif_coil'] == '6' ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('tedad_radif_coil') == '6' ? 'selected' : '') : ($inputs['tedad_radif_coil'] == '6' ? 'selected' : (old('tedad_radif_coil') == '6' ? 'selected' : '')) }}>
                                 6
                             </option>
                             <option value="8"
-                                {{ is_null($inputs) ? '' : ($inputs['tedad_radif_coil'] == '8' ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('tedad_radif_coil') == '8' ? 'selected' : '') : ($inputs['tedad_radif_coil'] == '8' ? 'selected' : (old('tedad_radif_coil') == '8' ? 'selected' : '')) }}>
                                 8
                             </option>
                         </select>
@@ -287,51 +287,51 @@
                         <select name="fin_dar_inch" id="inputFinDarInch" class="input-text bg-yellow-300">
                             <option value="">انتخاب کنید</option>
                             <option value="4"
-                                {{ is_null($inputs) ? '' : ($inputs['fin_dar_inch'] == '4' ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('fin_dar_inch') == '4' ? 'selected' : '') : ($inputs['fin_dar_inch'] == '4' ? 'selected' : (old('fin_dar_inch') == '4' ? 'selected' : '')) }}>
                                 4
                             </option>
                             <option value="5"
-                                {{ is_null($inputs) ? '' : ($inputs['fin_dar_inch'] == '5' ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('fin_dar_inch') == '5' ? 'selected' : '') : ($inputs['fin_dar_inch'] == '5' ? 'selected' : (old('fin_dar_inch') == '5' ? 'selected' : '')) }}>
                                 5
                             </option>
                             <option value="6"
-                                {{ is_null($inputs) ? '' : ($inputs['fin_dar_inch'] == '6' ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('fin_dar_inch') == '6' ? 'selected' : '') : ($inputs['fin_dar_inch'] == '6' ? 'selected' : (old('fin_dar_inch') == '6' ? 'selected' : '')) }}>
                                 6
                             </option>
                             <option value="7"
-                                {{ is_null($inputs) ? '' : ($inputs['fin_dar_inch'] == '7' ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('fin_dar_inch') == '7' ? 'selected' : '') : ($inputs['fin_dar_inch'] == '7' ? 'selected' : (old('fin_dar_inch') == '7' ? 'selected' : '')) }}>
                                 7
                             </option>
                             <option value="8"
-                                {{ is_null($inputs) ? '' : ($inputs['fin_dar_inch'] == '8' ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('fin_dar_inch') == '8' ? 'selected' : '') : ($inputs['fin_dar_inch'] == '8' ? 'selected' : (old('fin_dar_inch') == '8' ? 'selected' : '')) }}>
                                 8
                             </option>
                             <option value="9"
-                                {{ is_null($inputs) ? '' : ($inputs['fin_dar_inch'] == '9' ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('fin_dar_inch') == '9' ? 'selected' : '') : ($inputs['fin_dar_inch'] == '9' ? 'selected' : (old('fin_dar_inch') == '9' ? 'selected' : '')) }}>
                                 9
                             </option>
                             <option value="10"
-                                {{ is_null($inputs) ? '' : ($inputs['fin_dar_inch'] == '10' ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('fin_dar_inch') == '10' ? 'selected' : '') : ($inputs['fin_dar_inch'] == '10' ? 'selected' : (old('fin_dar_inch') == '10' ? 'selected' : '')) }}>
                                 10
                             </option>
                             <option value="11"
-                                {{ is_null($inputs) ? '' : ($inputs['fin_dar_inch'] == '11' ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('fin_dar_inch') == '11' ? 'selected' : '') : ($inputs['fin_dar_inch'] == '11' ? 'selected' : (old('fin_dar_inch') == '11' ? 'selected' : '')) }}>
                                 11
                             </option>
                             <option value="12"
-                                {{ is_null($inputs) ? '' : ($inputs['fin_dar_inch'] == '12' ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('fin_dar_inch') == '12' ? 'selected' : '') : ($inputs['fin_dar_inch'] == '12' ? 'selected' : (old('fin_dar_inch') == '12' ? 'selected' : '')) }}>
                                 12
                             </option>
                             <option value="13"
-                                {{ is_null($inputs) ? '' : ($inputs['fin_dar_inch'] == '13' ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('fin_dar_inch') == '13' ? 'selected' : '') : ($inputs['fin_dar_inch'] == '13' ? 'selected' : (old('fin_dar_inch') == '13' ? 'selected' : '')) }}>
                                 13
                             </option>
                             <option value="14"
-                                {{ is_null($inputs) ? '' : ($inputs['fin_dar_inch'] == '14' ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('fin_dar_inch') == '14' ? 'selected' : '') : ($inputs['fin_dar_inch'] == '14' ? 'selected' : (old('fin_dar_inch') == '14' ? 'selected' : '')) }}>
                                 14
                             </option>
                             <option value="15"
-                                {{ is_null($inputs) ? '' : ($inputs['fin_dar_inch'] == '15' ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('fin_dar_inch') == '15' ? 'selected' : '') : ($inputs['fin_dar_inch'] == '15' ? 'selected' : (old('fin_dar_inch') == '15' ? 'selected' : '')) }}>
                                 15
                             </option>
                         </select>
@@ -341,15 +341,15 @@
                         <select name="kham" id="inputKham" class="input-text bg-yellow-300">
                             <option value="0">ندارد</option>
                             <option value="1"
-                                {{ is_null($inputs) ? '' : ($inputs['kham'] == '1' ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('kham') == '1' ? 'selected' : '') : ($inputs['kham'] == '1' ? 'selected' : (old('kham') == '1' ? 'selected' : '')) }}>
                                 1
                             </option>
                             <option value="2"
-                                {{ is_null($inputs) ? '' : ($inputs['kham'] == '2' ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('kham') == '2' ? 'selected' : '') : ($inputs['kham'] == '2' ? 'selected' : (old('kham') == '2' ? 'selected' : '')) }}>
                                 2
                             </option>
                             <option value="3"
-                                {{ is_null($inputs) ? '' : ($inputs['kham'] == '3' ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('kham') == '3' ? 'selected' : '') : ($inputs['kham'] == '3' ? 'selected' : (old('kham') == '3' ? 'selected' : '')) }}>
                                 3
                             </option>
                         </select>
@@ -359,47 +359,47 @@
                         <select name="zekhamat_frame_coil" id="inputZekhamatFrame" class="input-text bg-yellow-300">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::where('id','1')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['zekhamat_frame_coil'] == "1" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('zekhamat_frame_coil') == '1' ? 'selected' : '') : ($inputs['zekhamat_frame_coil'] == "1" ? 'selected' : (old('zekhamat_frame_coil') == '1' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','1')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','2')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['zekhamat_frame_coil'] == "2" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('zekhamat_frame_coil') == '2' ? 'selected' : '') : ($inputs['zekhamat_frame_coil'] == "2" ? 'selected' : (old('zekhamat_frame_coil') == '2' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','2')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','3')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['zekhamat_frame_coil'] == "3" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('zekhamat_frame_coil') == '3' ? 'selected' : '') : ($inputs['zekhamat_frame_coil'] == "3" ? 'selected' : (old('zekhamat_frame_coil') == '3' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','3')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','4')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['zekhamat_frame_coil'] == "4" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('zekhamat_frame_coil') == '4' ? 'selected' : '') : ($inputs['zekhamat_frame_coil'] == "4" ? 'selected' : (old('zekhamat_frame_coil') == '4' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','4')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','5')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['zekhamat_frame_coil'] == "5" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('zekhamat_frame_coil') == '5' ? 'selected' : '') : ($inputs['zekhamat_frame_coil'] == "5" ? 'selected' : (old('zekhamat_frame_coil') == '5' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','5')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','7')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['zekhamat_frame_coil'] == "7" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('zekhamat_frame_coil') == '7' ? 'selected' : '') : ($inputs['zekhamat_frame_coil'] == "7" ? 'selected' : (old('zekhamat_frame_coil') == '7' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','7')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','8')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['zekhamat_frame_coil'] == "8" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('zekhamat_frame_coil') == '8' ? 'selected' : '') : ($inputs['zekhamat_frame_coil'] == "8" ? 'selected' : (old('zekhamat_frame_coil') == '8' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','8')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','9')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['zekhamat_frame_coil'] == "9" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('zekhamat_frame_coil') == '9' ? 'selected' : '') : ($inputs['zekhamat_frame_coil'] == "9" ? 'selected' : (old('zekhamat_frame_coil') == '9' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','9')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','10')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['zekhamat_frame_coil'] == "10" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('zekhamat_frame_coil') == '10' ? 'selected' : '') : ($inputs['zekhamat_frame_coil'] == "10" ? 'selected' : (old('zekhamat_frame_coil') == '10' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','10')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','11')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['zekhamat_frame_coil'] == "11" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('zekhamat_frame_coil') == '11' ? 'selected' : '') : ($inputs['zekhamat_frame_coil'] == "11" ? 'selected' : (old('zekhamat_frame_coil') == '11' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','11')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','12')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['zekhamat_frame_coil'] == "12" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('zekhamat_frame_coil') == '12' ? 'selected' : '') : ($inputs['zekhamat_frame_coil'] == "12" ? 'selected' : (old('zekhamat_frame_coil') == '12' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','12')->first()->name }}
                             </option>
                         </select>
@@ -411,101 +411,99 @@
                         <select name="pooshesh_khordegi" id="inputNoePoosheshZedeKhordegi"
                                 class="input-text bg-yellow-300">
                             <option value="0"
-                                {{ is_null($inputs) ? '' : ($inputs['pooshesh_khordegi'] == "0" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('pooshesh_khordegi') == '0' ? 'selected' : '') : ($inputs['pooshesh_khordegi'] == "0" ? 'selected' : (old('pooshesh_khordegi') == '0' ? 'selected' : '')) }}>
                                 ندارد
                             </option>
                             <option value="1"
-                                {{ is_null($inputs) ? '' : ($inputs['pooshesh_khordegi'] == "1" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('pooshesh_khordegi') == '1' ? 'selected' : '') : ($inputs['pooshesh_khordegi'] == "1" ? 'selected' : (old('pooshesh_khordegi') == '1' ? 'selected' : '')) }}>
                                 هرسایت
                             </option>
                         </select>
                     </div>
                     <div class="col-span-2">
                         <label class="block mb-2 text-sm font-bold" for="inputCollectorAhani">هدر و کلکتور آهنی</label>
-                        <select name="collector_ahani" id="inputCollectorAhani" class="input-text bg-yellow-300"
-                                onchange="checkAhani()">
+                        <select name="collector_ahani" id="inputCollectorAhani" class="input-text bg-yellow-300" onchange="checkAhani()">
                             <option value="0">ندارد</option>
                             <option value="{{ \App\Models\Part::where('id','70')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['collector_ahani'] == "70" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('collector_ahani') == '70' ? 'selected' : '') : ($inputs['collector_ahani'] == "70" ? 'selected' : (old('collector_ahani') == '70' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','70')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','71')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['collector_ahani'] == "71" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('collector_ahani') == '71' ? 'selected' : '') : ($inputs['collector_ahani'] == "71" ? 'selected' : (old('collector_ahani') == '71' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','71')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','72')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['collector_ahani'] == "72" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('collector_ahani') == '72' ? 'selected' : '') : ($inputs['collector_ahani'] == "72" ? 'selected' : (old('collector_ahani') == '72' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','72')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','73')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['collector_ahani'] == "73" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('collector_ahani') == '73' ? 'selected' : '') : ($inputs['collector_ahani'] == "73" ? 'selected' : (old('collector_ahani') == '73' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','73')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','74')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['collector_ahani'] == "74" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('collector_ahani') == '74' ? 'selected' : '') : ($inputs['collector_ahani'] == "74" ? 'selected' : (old('collector_ahani') == '74' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','74')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','75')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['collector_ahani'] == "75" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('collector_ahani') == '75' ? 'selected' : '') : ($inputs['collector_ahani'] == "75" ? 'selected' : (old('collector_ahani') == '75' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','75')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','76')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['collector_ahani'] == "76" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('collector_ahani') == '76' ? 'selected' : '') : ($inputs['collector_ahani'] == "76" ? 'selected' : (old('collector_ahani') == '76' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','76')->first()->name }}
                             </option>
                         </select>
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputCollectorMessi">هدر و کلکتور مسی</label>
-                        <select name="collector_messi" id="inputCollectorMessi" class="input-text bg-yellow-300"
-                                onchange="checkMessi()">
+                        <select name="collector_messi" id="inputCollectorMessi" class="input-text bg-yellow-300" onchange="checkMessi()">
                             <option value="0">ندارد</option>
                             <option value="{{ \App\Models\Part::where('id','77')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['collector_messi'] == "77" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('collector_messi') == '77' ? 'selected' : '') : ($inputs['collector_messi'] == "77" ? 'selected' : (old('collector_messi') == '77' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','77')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','78')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['collector_messi'] == "78" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('collector_messi') == '78' ? 'selected' : '') : ($inputs['collector_messi'] == "78" ? 'selected' : (old('collector_messi') == '78' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','78')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','79')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['collector_messi'] == "79" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('collector_messi') == '79' ? 'selected' : '') : ($inputs['collector_messi'] == "79" ? 'selected' : (old('collector_messi') == '79' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','79')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','80')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['collector_messi'] == "80" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('collector_messi') == '80' ? 'selected' : '') : ($inputs['collector_messi'] == "80" ? 'selected' : (old('collector_messi') == '80' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','80')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','81')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['collector_messi'] == "81" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('collector_messi') == '81' ? 'selected' : '') : ($inputs['collector_messi'] == "81" ? 'selected' : (old('collector_messi') == '82' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','81')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','82')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['collector_messi'] == "82" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('collector_messi') == '82' ? 'selected' : '') : ($inputs['collector_messi'] == "82" ? 'selected' : (old('collector_messi') == '82' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','82')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','83')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['collector_messi'] == "83" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('collector_messi') == '83' ? 'selected' : '') : ($inputs['collector_messi'] == "83" ? 'selected' : (old('collector_messi') == '83' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','83')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','84')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['collector_messi'] == "84" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('collector_messi') == '84' ? 'selected' : '') : ($inputs['collector_messi'] == "84" ? 'selected' : (old('collector_messi') == '84' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','84')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','85')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['collector_messi'] == "85" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('collector_messi') == '85' ? 'selected' : '') : ($inputs['collector_messi'] == "85" ? 'selected' : (old('collector_messi') == '85' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','85')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','86')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['collector_messi'] == "86" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('collector_messi') == '86' ? 'selected' : '') : ($inputs['collector_messi'] == "86" ? 'selected' : (old('collector_messi') == '86' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','86')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','87')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['collector_messi'] == "87" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('collector_messi') == '87' ? 'selected' : '') : ($inputs['collector_messi'] == "87" ? 'selected' : (old('collector_messi') == '87' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','87')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','88')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['collector_messi'] == "88" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('collector_messi') == '88' ? 'selected' : '') : ($inputs['collector_messi'] == "88" ? 'selected' : (old('collector_messi') == '88' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','88')->first()->name }}
                             </option>
                         </select>
@@ -519,23 +517,23 @@
                                 انتخاب کنید
                             </option>
                             <option value="{{ \App\Models\Part::where('id','104')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['electrod_noghre'] == "104" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('electrod_noghre') == '104' ? 'selected' : '') : ($inputs['electrod_noghre'] == "104" ? 'selected' : (old('electrod_noghre') == '104' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','104')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','105')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['electrod_noghre'] == "105" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('electrod_noghre') == '105' ? 'selected' : '') : ($inputs['electrod_noghre'] == "105" ? 'selected' : (old('electrod_noghre') == '105' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','105')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','108')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['electrod_noghre'] == "108" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('electrod_noghre') == '108' ? 'selected' : '') : ($inputs['electrod_noghre'] == "108" ? 'selected' : (old('electrod_noghre') == '108' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','108')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','413')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['electrod_noghre'] == "413" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('electrod_noghre') == '413' ? 'selected' : '') : ($inputs['electrod_noghre'] == "413" ? 'selected' : (old('electrod_noghre') == '413' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','413')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','109')->first()->id }}"
-                                {{ is_null($inputs) ? '' : ($inputs['electrod_noghre'] == "109" ? 'selected' : '') }}>
+                                {{ is_null($inputs) ? (old('electrod_noghre') == '109' ? 'selected' : '') : ($inputs['electrod_noghre'] == "109" ? 'selected' : (old('electrod_noghre') == '109' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','109')->first()->name }}
                             </option>
                         </select>
@@ -543,29 +541,28 @@
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputTooleCoil">طول کویل (اینچ)</label>
                         <input name="toole_coil" type="text" class="input-text bg-yellow-300" id="inputTooleCoil"
-                               value="{{ !is_null($inputs) ? $inputs['toole_coil'] : '' }}">
+                               value="{{ !is_null($inputs) ? $inputs['toole_coil'] : old('toole_coil') }}">
                     </div>
                     <div>
-                        <label class="block mb-2 text-sm font-bold" for="inputTedadLooleDarRadif">
-                            تعداد لوله در ردیف
-                        </label>
+                        <label class="block mb-2 text-sm font-bold" for="inputTedadLooleDarRadif">تعداد لوله در
+                            ردیف</label>
                         <input name="tedad_loole_dar_radif" type="text" class="input-text bg-yellow-300"
                                id="inputTedadLooleDarRadif"
-                               value="{{ !is_null($inputs) ? $inputs['tedad_loole_dar_radif'] : '' }}">
+                               value="{{ !is_null($inputs) ? $inputs['tedad_loole_dar_radif'] : old('tedad_loole_dar_radif') }}">
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputTedadMogheyiatLooleDarRadif">
                             تعداد موقعیت یک لوله در ردیف
                         </label>
                         <input type="text" class="input-text bg-yellow-300" id="inputTedadMogheyiatLooleDarRadif"
-                               name="tedad_mogheyiat_loole"
-                               value="{{ !is_null($inputs) ? $inputs['tedad_mogheyiat_loole'] : '' }}">
+                               value="{{ !is_null($inputs) ? $inputs['tedad_mogheyiat_loole'] : old('tedad_mogheyiat_loole') }}"
+                               name="tedad_mogheyiat_loole">
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputTedadMadarLoole">تعداد مدار لوله</label>
                         <input type="text" class="input-text bg-yellow-300" id="inputTedadMadarLoole"
-                               name="tedad_madar_loole"
-                               value="{{ !is_null($inputs) ? $inputs['tedad_madar_loole'] : '' }}">
+                               value="{{ !is_null($inputs) ? $inputs['tedad_madar_loole'] : old('tedad_madar_loole') }}"
+                               name="tedad_madar_loole">
                     </div>
                 </div>
             </div>
