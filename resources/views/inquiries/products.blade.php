@@ -84,7 +84,7 @@
                     <tr>
                         <th class="border border-gray-300 p-4 text-sm">ردیف</th>
                         <th class="border border-gray-300 p-4 text-sm">کد محصول</th>
-                        <th class="border border-gray-300 p-4 text-sm">گروه محصول</th>
+                        <th class="border border-gray-300 p-4 text-sm">دسته محصول</th>
                         <th class="border border-gray-300 p-4 text-sm">مدل محصول</th>
                         <th class="border border-gray-300 p-4 text-sm">تعداد</th>
                         <th class="border border-gray-300 p-4 text-sm">قیمت واحد</th>
@@ -116,10 +116,10 @@
                                 {{ $loop->index + 1 }}
                             </td>
                             <td class="border border-gray-300 p-4 text-sm text-center">
-                                {{ $group->code }}-{{ $modell->code}}
+                                {{ $group->code }}{{ $modell->parent->code }}{{ $modell->code}}
                             </td>
                             <td class="border border-gray-300 p-4 text-sm text-center">
-                                {{ $group->name }}
+                                {{ $group->name }} - {{ $modell->parent->name }}
                             </td>
                             <td class="border border-gray-300 p-4 text-sm text-center">
                                 {{ $modell->name }}
