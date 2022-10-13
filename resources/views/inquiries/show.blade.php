@@ -96,9 +96,8 @@
                     <div class="mb-4">
                         <p class="text-center text-lg font-black font-bold">
                             لیست قطعات و قیمت محصول
-                            <span class="text-red-600">{{ $group->name }}</span> -
                             <span class="text-red-600">{{ $modell->parent->name }}</span> -
-                            <span class="text-red-600">{{ $modell->name }}</span>
+                            <span class="text-red-600">{{ $product->model_custom_name ?? $modell->name }}</span>
                         </p>
                     </div>
                     <table class="border-collapse border border-gray-400 w-full">

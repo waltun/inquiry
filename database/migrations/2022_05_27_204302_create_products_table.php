@@ -25,6 +25,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('part_id')->default(0);
 
             $table->string('description')->nullable();
+            $table->string('model_custom_name')->nullable();
 
             $table->index(['group_id', 'model_id', 'inquiry_id', 'part_id']);
 

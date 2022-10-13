@@ -112,7 +112,7 @@
                         ردیف
                     </th>
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
-                        گروه
+                        دسته
                     </th>
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                         مدل
@@ -143,10 +143,14 @@
                             <p class="text-sm text-gray-500 text-center">{{ $loop->index + 1 }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center font-medium">{{ $group->name }}</p>
+                            <p class="text-sm text-black text-center font-medium">
+                                {{ $modell->parent->name }}
+                            </p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center font-medium">{{ $modell->name }}</p>
+                            <p class="text-sm text-black text-center font-medium">
+                                {{ $product->model_custom_name ?? $modell->name }}
+                            </p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center">{{ $product->quantity }}</p>

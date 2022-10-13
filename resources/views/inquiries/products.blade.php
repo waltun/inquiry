@@ -119,10 +119,10 @@
                                 {{ $group->code }}{{ $modell->parent->code }}{{ $modell->code}}
                             </td>
                             <td class="border border-gray-300 p-4 text-sm text-center">
-                                {{ $group->name }} - {{ $modell->parent->name }}
+                                {{ $modell->parent->name }}
                             </td>
                             <td class="border border-gray-300 p-4 text-sm text-center">
-                                {{ $modell->name }}
+                                {{ $product->model_custom_name ?? $modell->name }}
                             </td>
                             <td class="border border-gray-300 p-4 text-sm text-center">
                                 {{ $product->quantity }}

@@ -40,14 +40,16 @@ class InquiryProductController extends Controller
             'group_id' => 'required|integer',
             'model_id' => 'required|integer',
             'quantity' => 'required|numeric|min:1',
-            'description' => 'nullable|string|max:255'
+            'description' => 'nullable|string|max:255',
+            'model_custom_name' => 'string|max:255|nullable'
         ]);
 
         $inquiry->products()->create([
             'group_id' => $request['group_id'],
             'model_id' => $request['model_id'],
             'quantity' => $request['quantity'],
-            'description' => $request['description']
+            'description' => $request['description'],
+            'model_custom_name' => $request['model_custom_name']
         ]);
 
         alert()->success('ثبت موفق', 'ثبت محصول برای استعلام با موفقیت انجام شد');
@@ -70,12 +72,14 @@ class InquiryProductController extends Controller
 
         $request->validate([
             'quantity' => 'required|numeric',
-            'description' => 'nullable|string|max:255'
+            'description' => 'nullable|string|max:255',
+            'model_custom_name' => 'string|max:255|nullable'
         ]);
 
         $product->update([
             'quantity' => $request['quantity'],
-            'description' => $request['description']
+            'description' => $request['description'],
+            'model_custom_name' => $request['model_custom_name']
         ]);
 
         alert()->success('ویرایش موفق', 'ویرایش محصول با موفقیت انجام شد');

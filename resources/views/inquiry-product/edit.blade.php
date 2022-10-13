@@ -86,6 +86,13 @@
                 <input type="text" class="input-text" name="description" id="inputDescription"
                        placeholder="تگ / محل سرویس / ساختمان / شماره سریال / ..." value="{{ $product->description }}">
             </div>
+
+            <div class="mt-4">
+                <label for="inputModelName" class="block mb-2 md:text-sm text-xs text-black">نام مدل</label>
+                <input type="text" id="inputModelName" name="model_custom_name" class="input-text"
+                       placeholder="مثلا : 1000CFM"
+                       value="{{ $product->model_custom_name }}">
+            </div>
         </div>
 
         <div class="col-span-2 space-x-2 space-x-reverse">

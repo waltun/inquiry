@@ -195,6 +195,12 @@
                 <input type="number" id="inputQuantity" name="quantity" class="input-text" placeholder="حداقل تعداد : 1"
                        value="{{ old('quantity') }}">
             </div>
+
+            <div class="mt-4">
+                <label for="inputModelName" class="block mb-2 md:text-sm text-xs text-black">نام مدل</label>
+                <input type="text" id="inputModelName" name="model_custom_name" class="input-text" placeholder="مثلا : 1000CFM"
+                       value="{{ old('model_custom_name') }}">
+            </div>
         </div>
 
         <div class="col-span-2 space-x-2 space-x-reverse">
