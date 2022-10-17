@@ -188,18 +188,18 @@
                     </label>
                     <select name="price" id="inputSearchPrice" class="input-text">
                         <option value="">انتخاب کنید</option>
-                        <option value="no-price" {{ request('price') == '0' ? 'selected' : '' }} class="bg-red-600">
+                        <option value="no-price" {{ request('price') == 'no-price' ? 'selected' : '' }} class="bg-red-600">
                             قطعات فاقد قیمت
                         </option>
                         <option value="success-price"
-                                {{ request('price') == '1' ? 'selected' : '' }} class="bg-green-500">
+                                {{ request('price') == 'success-price' ? 'selected' : '' }} class="bg-green-500">
                             قطعات قیمت به روز
                         </option>
                         <option value="expired-price"
-                                {{ request('price') == '1' ? 'selected' : '' }} class="bg-red-400">
+                                {{ request('price') == 'expired-price' ? 'selected' : '' }} class="bg-red-400">
                             قطعات قیمت منقضی شده
                         </option>
-                        <option value="mid-price" {{ request('price') == '1' ? 'selected' : '' }} class="bg-yellow-500">
+                        <option value="mid-price" {{ request('price') == 'mid-price' ? 'selected' : '' }} class="bg-yellow-500">
                             قطعات قیمت مشکوک
                         </option>
                     </select>
