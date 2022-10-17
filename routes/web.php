@@ -224,4 +224,5 @@ Route::middleware(['auth', 'web'])->group(function () {
     //Inquiry Price Routes
     Route::get('/inquiry-price', [InquiryPriceController::class, 'index'])->name('inquiryPrice.index');
     Route::post('/inquiry-price/{part}/{inquiry}/store', [InquiryPriceController::class, 'store'])->name('inquiryPrice.store');
+    Route::patch('/inquiry-price/{inquiry}/update', [InquiryPriceController::class, 'update'])->name('inquiryPrice.update');
 });

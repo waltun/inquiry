@@ -51,18 +51,102 @@
 
     <!-- Content -->
     <div class="mt-4">
+        @php
+            $color = '';
+            $time = null;
+        @endphp
         @foreach($inquiryPrices as $inquiryPrice)
             @php
-                $part = \App\Models\Part::find($inquiryPrice->part_id);
                 $inquiry = \App\Models\Inquiry::find($inquiryPrice->inquiry_id);
+                $part = \App\Models\Part::find($inquiryPrice->part_id);
                 $user = \App\Models\User::find($inquiryPrice->user_id);
+                $parts = \App\Models\InquiryPrice::select('part_id')->where('inquiry_id',$inquiry->id)->get();
             @endphp
-            <div class="bg-white rounded-md p-4 shadow border border-gray-200 mb-4">
-                <div class="flex items-center justify-between">
-                    <p class="text-base font-bold text-black">
-                        درخواست های استعلام {{ $inquiry->name }}
+            <div class="bg-white rounded-md p-4 shadow border border-gray-200 mb-8">
+                <div class="flex items-center justify-between border-b border-gray-200 pb-3">
+                    <p class="text-sm font-bold text-black">
+                        درخواست های استعلام {{ $inquiry->name }} - {{ $inquiry->inquiry_number }}
+                    </p>
+                    <p class="text-sm font-bold text-indigo-700">
+                        تاریخ ارسال درخواست : {{ jdate($inquiryPrice->created_at)->format('%A, %d %B %Y - H:m') }}
+                    </p>
+                    <p class="text-sm font-bold text-red-600">
+                        کاربر درخواست کننده : {{ $user->name }}
                     </p>
                 </div>
+                <form action="{{ route('inquiryPrice.update',$inquiry->id) }}" method="POST" class="mt-4">
+                    @csrf
+                    @method('PATCH')
+                    <table class="min-w-full bg-white shadow">
+                        <thead>
+                        <tr class="bg-sky-200">
+                            <th scope="col"
+                                class="px-4 py-3 text-sm font-bold text-gray-800 text-center rounded-r-md">
+                                ردیف
+                            </th>
+                            <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                                نام
+                            </th>
+                            <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                                قیمت قبلی
+                            </th>
+                            <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                                قیمت (تومان)
+                            </th>
+                            <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                                آخرین بروزرسانی
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-300">
+                        @foreach($parts as $item)
+                            @php
+                                $part = \App\Models\Part::find($item->part_id);
+                            @endphp
+                            <tr>
+                                <td class="px-4 py-1 whitespace-nowrap">
+                                    <p class="text-sm text-gray-500 text-center">{{ $loop->index + 1 }}</p>
+                                </td>
+                                <td class="px-4 py-1 whitespace-nowrap">
+                                    <p class="text-sm text-black text-center font-medium">{{ $part->name }}</p>
+                                </td>
+                                <td class="px-4 py-1 whitespace-nowrap">
+                                    @if($part->old_price > 0)
+                                        <p class="text-sm text-black text-center font-medium">
+                                            {{ number_format($part->old_price) }} تومان
+                                        </p>
+                                    @else
+                                        <p class="text-sm text-black text-center font-medium">
+                                            قیمت قبلی ثبت نشده!
+                                        </p>
+                                    @endif
+                                </td>
+                                <td class="px-4 py-1 whitespace-nowrap">
+                                    <input type="text" class="input-text w-44 py-0.5" id="inputPrice{{ $part->id }}"
+                                           name="prices[]"
+                                           value="{{ $part->price ?? '' }}" onkeyup="showPrice({{ $part->id }})">
+                                    <span class="text-sm text-black text-center font-medium"
+                                          id="priceSection{{ $part->id }}">
+                                {{ number_format($part->price) ?? '0' }} تومان
+                            </span>
+                                    <input type="hidden" name="parts[]" value="{{ $part->id }}">
+                                </td>
+                                <td class="px-4 py-1 whitespace-nowrap">
+                                    <p class="text-sm text-black text-center">
+                                        {{ jdate($part->price_updated_at)->format('%A, %d %B %Y') }}
+                                    </p>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+
+                    <div class="mt-4">
+                        <button type="submit" class="form-submit-btn">
+                            ثبت قیمت
+                        </button>
+                    </div>
+                </form>
             </div>
         @endforeach
     </div>

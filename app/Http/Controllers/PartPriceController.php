@@ -18,6 +18,7 @@ class PartPriceController extends Controller
         $parts = Part::query();
         $categories = Category::where('parent_id', 0)->get();
         $setting = Setting::where('active', '1')->first();
+
         if ($setting->price_color_type == 'month') {
             $lastTime = \Carbon\Carbon::now()->subMonth($setting->price_color_last_time);
             $midTime = \Carbon\Carbon::now()->subMonth($setting->price_color_mid_time);

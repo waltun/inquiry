@@ -283,6 +283,9 @@
                 </tr>
                 </thead>
                 <tbody>
+                @php
+                    $color = '';
+                @endphp
                 @if($amounts->isEmpty())
                     @if(!$group->parts->isEmpty())
                         @foreach($group->parts as $part)
@@ -315,6 +318,9 @@
                                     $color = 'bg-yellow-500';
                                 }
                                 if ($part->price_updated_at < $lastTime && $part->price == 0) {
+                                    $color = 'bg-red-600';
+                                }
+                                if ($part->price_updated_at > $lastTime && $part->price == 0) {
                                     $color = 'bg-red-600';
                                 }
                             @endphp
@@ -497,10 +503,9 @@
                                     <input type="text" name="groupAmounts[]" id="inputAmount{{ $part->id }}"
                                            class="input-text"
                                            value="{{ $part->pivot->value }}">
-                                    @if($color == 'bg-red-500' || $color == 'bg-red-600')
+                                    @if($color == 'bg-red-500' || $color == 'bg-red-600' || $part->price == '0')
                                         @php
-                                            $inquiryPrice = \App\Models\InquiryPrice::where('part_id',$part->id)
-                                                                ->where('inquiry_id',$inquiry->id)->pluck('part_id')->all();
+                                            $inquiryPrice = \App\Models\InquiryPrice::where('part_id',$part->id)->pluck('part_id')->all();
                                         @endphp
                                         @if(!in_array($part->id,$inquiryPrice))
                                             <button type="button"
@@ -549,6 +554,9 @@
                                     $color = 'bg-yellow-500';
                                 }
                                 if ($part->price_updated_at < $lastTime && $part->price == 0) {
+                                    $color = 'bg-red-600';
+                                }
+                                if ($part->price_updated_at > $lastTime && $part->price == 0) {
                                     $color = 'bg-red-600';
                                 }
                             @endphp
@@ -730,10 +738,9 @@
                                 <td class="border border-gray-300 p-4 flex items-center">
                                     <input type="text" name="modellAmounts[]" id="inputAmount{{ $part->id }}"
                                            class="input-text" value="{{ $part->pivot->value }}">
-                                    @if($color == 'bg-red-500' || $color == 'bg-red-600')
+                                    @if($color == 'bg-red-500' || $color == 'bg-red-600' || $part->price == '0')
                                         @php
-                                            $inquiryPrice = \App\Models\InquiryPrice::where('part_id',$part->id)
-                                                                ->where('inquiry_id',$inquiry->id)->pluck('part_id')->all();
+                                            $inquiryPrice = \App\Models\InquiryPrice::where('part_id',$part->id)->pluck('part_id')->all();
                                         @endphp
                                         @if(!in_array($part->id,$inquiryPrice))
                                             <button type="button"
@@ -776,15 +783,18 @@
                                     }
                                 }
 
-                                if ($part->price_updated_at < $lastTime && $part->price > 0) {
-                                    $color = 'bg-red-500';
-                                }
-                                if ($part->price_updated_at > $lastTime && $part->price_updated_at < $midTime && $part->price > 0) {
-                                    $color = 'bg-yellow-500';
-                                }
-                                if ($part->price_updated_at < $lastTime && $part->price == 0) {
-                                    $color = 'bg-red-600';
-                                }
+                            if ($part->price_updated_at < $lastTime && $part->price > 0) {
+                                $color = 'bg-red-500';
+                            }
+                            if ($part->price_updated_at > $lastTime && $part->price_updated_at < $midTime && $part->price > 0) {
+                                $color = 'bg-yellow-500';
+                            }
+                            if ($part->price_updated_at < $lastTime && $part->price == 0) {
+                                $color = 'bg-red-600';
+                            }
+                            if ($part->price_updated_at > $lastTime && $part->price == 0) {
+                                $color = 'bg-red-600';
+                            }
                         @endphp
                         <tr class="{{ $color ?? 'bg-white' }}">
                             <td class="border border-gray-300 p-4 text-sm text-center">
@@ -952,8 +962,7 @@
                                        class="input-text" value="{{ $amount->value }}">
                                 @if($color == 'bg-red-500' || $color == 'bg-red-600')
                                     @php
-                                        $inquiryPrice = \App\Models\InquiryPrice::where('part_id',$part->id)
-                                                            ->where('inquiry_id',$inquiry->id)->pluck('part_id')->all();
+                                        $inquiryPrice = \App\Models\InquiryPrice::where('part_id',$part->id)->pluck('part_id')->all();
                                     @endphp
                                     @if(!in_array($part->id,$inquiryPrice))
                                         <button type="button"
