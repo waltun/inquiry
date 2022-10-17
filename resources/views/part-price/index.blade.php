@@ -74,7 +74,35 @@
                 });
             }
         </script>
+        <script>
+            function updateDate(id) {
+                let url = window.location.href;
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    method: 'PATCH',
+                    url: '/parts/price/' + id + '/' + 'update-date',
+                    data: {
+                        id: id,
+                    },
+                    success: function (res) {
+                        if (res.data === 'error') {
+                            alert('قیمت برای این قطعه ثبت نشده است!')
+                        } else {
+                            location.href = url;
+                        }
+                    }
+                });
+            }
+        </script>
     </x-slot>
+
     <!-- Breadcrumb -->
     <nav class="flex bg-gray-100 p-4 rounded-md overflow-x-auto whitespace-nowrap" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-2 space-x-reverse">
@@ -282,6 +310,12 @@
         </div>
     </div>
 
+    <div class="mt-4">
+        <p class="text-sm font-bold text-red-500">
+            * توجه : در صورت عدم تغییر قیمت در بازه زمانی تعریف شده، فقط دکمه بروزرسانی زده شود.
+        </p>
+    </div>
+
     <!-- Content -->
     <div class="mt-4">
         <!-- Laptop List -->
@@ -309,6 +343,9 @@
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                         آخرین بروزرسانی
                     </th>
+                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                        <span class="sr-only">بروزرسانی تاریخ</span>
+                    </th>
                 </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-300">
@@ -333,16 +370,16 @@
                             }
                         }
 
-                        if ($part->updated_at < $lastTime && $part->price > 0) {
+                        if ($part->price_updated_at < $lastTime && $part->price > 0) {
                             $color = 'bg-red-500';
                         }
-                        if ($part->updated_at > $lastTime && $part->updated_at > $midTime && $part->price > 0) {
+                        if ($part->price_updated_at > $lastTime && $part->price_updated_at > $midTime && $part->price > 0) {
                             $color = 'bg-green-500';
                         }
-                        if ($part->updated_at > $lastTime && $part->updated_at < $midTime && $part->price > 0) {
+                        if ($part->price_updated_at > $lastTime && $part->price_updated_at < $midTime && $part->price > 0) {
                             $color = 'bg-yellow-500';
                         }
-                        if ($part->updated_at < $lastTime && $part->price == 0) {
+                        if ($part->price_updated_at < $lastTime && $part->price == 0) {
                             $color = 'bg-red-600';
                         }
                     @endphp
@@ -375,8 +412,13 @@
                         </td>
                         <td class="px-4 py-1 whitespace-nowrap">
                             <p class="text-sm text-black text-center">
-                                {{ jdate($part->updated_at)->format('%A, %d %B %Y') }}
+                                {{ jdate($part->price_updated_at)->format('%A, %d %B %Y') }}
                             </p>
+                        </td>
+                        <td class="px-4 py-1 whitespace-nowrap">
+                            <button type="button" class="form-detail-btn text-xs" onclick="updateDate({{ $part->id }})">
+                                بروزرسانی تاریخ
+                            </button>
                         </td>
                     </tr>
                 @endforeach
@@ -422,7 +464,7 @@
                             {{ number_format($part->price) ?? '0' }} تومان
                         </p>
                         <p class="text-xs text-black text-center">
-                            اخرین بروزرسانی : {{ jdate($part->updated_at)->format('%A, %d %B %Y') }}
+                            اخرین بروزرسانی : {{ jdate($part->price_updated_at)->format('%A, %d %B %Y') }}
                         </p>
                     </div>
                 </div>

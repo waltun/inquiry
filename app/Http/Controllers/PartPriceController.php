@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Part;
 use App\Models\Setting;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -40,30 +41,30 @@ class PartPriceController extends Controller
             $parts->where('collection', false)
                 ->where('coil', false)
                 ->where('price', '=', 0)
-                ->where('updated_at', '<', $lastTime);
+                ->where('price_updated_at', '<', $lastTime);
         }
 
         if (request('price') == "success-price") {
             $parts->where('collection', false)
                 ->where('coil', false)
                 ->where('price', '>', 0)
-                ->where('updated_at', '>', $lastTime)
-                ->where('updated_at', '>', $midTime);
+                ->where('price_updated_at', '>', $lastTime)
+                ->where('price_updated_at', '>', $midTime);
         }
 
         if (request('price') == "expired-price") {
             $parts->where('collection', false)
                 ->where('coil', false)
                 ->where('price', '>', 0)
-                ->where('updated_at', '<', $lastTime);
+                ->where('price_updated_at', '<', $lastTime);
         }
 
         if (request('price') == "mid-price") {
             $parts->where('collection', false)
                 ->where('coil', false)
                 ->where('price', '>', 0)
-                ->where('updated_at', '>', $lastTime)
-                ->where('updated_at', '<', $midTime);
+                ->where('price_updated_at', '>', $lastTime)
+                ->where('price_updated_at', '<', $midTime);
         }
 
         if (!is_null(request('category3'))) {
@@ -83,7 +84,7 @@ class PartPriceController extends Controller
         }
 
         $parts = $parts->where('collection', false)->where('coil', false)
-            ->orderBy('updated_at', 'ASC')->paginate(25)->withQueryString();
+            ->orderBy('price_updated_at', 'ASC')->paginate(25)->withQueryString();
 
         return view('part-price.index', compact('parts', 'categories', 'setting'));
     }
@@ -103,7 +104,7 @@ class PartPriceController extends Controller
                 $updatedPart->update([
                     'price' => $request->prices[$index],
                     'old_price' => $updatedPart->price,
-                    'updated_at' => now()
+                    'price_updated_at' => now()
                 ]);
             }
         }
@@ -111,5 +112,16 @@ class PartPriceController extends Controller
         alert()->success('ثبت موفق', 'ثبت قیمت گذاری با موفقیت انجام شد');
 
         return redirect()->route('parts.price.index');
+    }
+
+    public function updateDate(Request $request)
+    {
+        $part = Part::find($request->id);
+        if ($part->price != 0 && !is_null($part->price)) {
+            $part->price_updated_at = Carbon::now();
+            $part->save();
+        } else {
+            return response(['data' => 'error']);
+        }
     }
 }

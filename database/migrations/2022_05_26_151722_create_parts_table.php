@@ -26,6 +26,7 @@ return new class extends Migration {
 
             $table->index(['code']);
 
+            $table->timestamp('price_updated_at')->nullable();
             $table->timestamps();
         });
     }
