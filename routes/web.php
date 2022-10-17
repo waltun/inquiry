@@ -11,6 +11,7 @@ use App\Http\Controllers\GroupController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\InquiryPartCoilController;
 use App\Http\Controllers\InquiryPartController;
+use App\Http\Controllers\InquiryPriceController;
 use App\Http\Controllers\InquiryProductController;
 use App\Http\Controllers\ModellController;
 use App\Http\Controllers\NotificationController;
@@ -219,4 +220,8 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/separate-calculate-damper/{part}/taze', [SeparateCalculateDamperController::class, 'taze'])->name('separate.damper.taze');
     Route::post('/separate-calculate-damper/taze', [SeparateCalculateDamperController::class, 'calculateTaze'])->name('separate.damper.calculateTaze');
     Route::post('/separate-calculate-damper/{part}/post', [SeparateCalculateDamperController::class, 'store'])->name('separate.damper.store');
+
+    //Inquiry Price Routes
+    Route::get('/inquiry-price', [InquiryPriceController::class, 'index'])->name('inquiryPrice.index');
+    Route::post('/inquiry-price/{part}/{inquiry}/store', [InquiryPriceController::class, 'store'])->name('inquiryPrice.store');
 });

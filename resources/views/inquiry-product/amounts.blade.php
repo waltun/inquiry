@@ -169,6 +169,27 @@
                 }
             }
         </script>
+        <script>
+            function storeInquiryPrice(part, inquiry) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/inquiry-price/' + part + '/' + inquiry + '/' + 'store',
+                    data: {
+                        part_id: part,
+                        inquiry_id: inquiry
+                    },
+                    success: function (res) {
+                        location.reload();
+                    }
+                });
+            }
+        </script>
     </x-slot>
     <x-slot name="css">
         <link rel="stylesheet" href="{{ asset('plugins/select2/select2.min.css') }}">
@@ -287,13 +308,13 @@
                                     }
                                 }
 
-                                if ($part->updated_at < $lastTime && $part->price > 0) {
+                                if ($part->price_updated_at < $lastTime && $part->price > 0) {
                                     $color = 'bg-red-500';
                                 }
-                                if ($part->updated_at > $lastTime && $part->updated_at < $midTime && $part->price > 0) {
+                                if ($part->price_updated_at > $lastTime && $part->price_updated_at < $midTime && $part->price > 0) {
                                     $color = 'bg-yellow-500';
                                 }
-                                if ($part->updated_at < $lastTime && $part->price == 0) {
+                                if ($part->price_updated_at < $lastTime && $part->price == 0) {
                                     $color = 'bg-red-600';
                                 }
                             @endphp
@@ -472,10 +493,27 @@
                                 <td class="border border-gray-300 p-4 text-sm text-center">
                                     {{ $part->unit }}
                                 </td>
-                                <td class="border border-gray-300 p-4 text-sm text-center font-bold">
+                                <td class="border border-gray-300 p-4 flex items-center">
                                     <input type="text" name="groupAmounts[]" id="inputAmount{{ $part->id }}"
                                            class="input-text"
                                            value="{{ $part->pivot->value }}">
+                                    @if($color == 'bg-red-500' || $color == 'bg-red-600')
+                                        @php
+                                            $inquiryPrice = \App\Models\InquiryPrice::where('part_id',$part->id)
+                                                                ->where('inquiry_id',$inquiry->id)->pluck('part_id')->all();
+                                        @endphp
+                                        @if(!in_array($part->id,$inquiryPrice))
+                                            <button type="button"
+                                                    onclick="storeInquiryPrice({{ $part->id }},{{ $inquiry->id }})"
+                                                    class="text-xs font-bold text-white underline underline-offset-4 whitespace-nowrap mr-2">
+                                                درخواست بروزرسانی قیمت
+                                            </button>
+                                        @else
+                                            <p class="text-xs font-bold text-white whitespace-nowrap mr-2">
+                                                درخواست ارسال شد
+                                            </p>
+                                        @endif
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -504,13 +542,13 @@
                                     }
                                 }
 
-                                if ($part->updated_at < $lastTime && $part->price > 0) {
+                                if ($part->price_updated_at < $lastTime && $part->price > 0) {
                                     $color = 'bg-red-500';
                                 }
-                                if ($part->updated_at > $lastTime && $part->updated_at < $midTime && $part->price > 0) {
+                                if ($part->price_updated_at > $lastTime && $part->price_updated_at < $midTime && $part->price > 0) {
                                     $color = 'bg-yellow-500';
                                 }
-                                if ($part->updated_at < $lastTime && $part->price == 0) {
+                                if ($part->price_updated_at < $lastTime && $part->price == 0) {
                                     $color = 'bg-red-600';
                                 }
                             @endphp
@@ -689,9 +727,26 @@
                                 <td class="border border-gray-300 p-4 text-sm text-center">
                                     {{ $part->unit }}
                                 </td>
-                                <td class="border border-gray-300 p-4 text-sm text-center font-bold">
+                                <td class="border border-gray-300 p-4 flex items-center">
                                     <input type="text" name="modellAmounts[]" id="inputAmount{{ $part->id }}"
                                            class="input-text" value="{{ $part->pivot->value }}">
+                                    @if($color == 'bg-red-500' || $color == 'bg-red-600')
+                                        @php
+                                            $inquiryPrice = \App\Models\InquiryPrice::where('part_id',$part->id)
+                                                                ->where('inquiry_id',$inquiry->id)->pluck('part_id')->all();
+                                        @endphp
+                                        @if(!in_array($part->id,$inquiryPrice))
+                                            <button type="button"
+                                                    onclick="storeInquiryPrice({{ $part->id }},{{ $inquiry->id }})"
+                                                    class="text-xs font-bold text-white underline underline-offset-4 whitespace-nowrap mr-2">
+                                                درخواست بروزرسانی قیمت
+                                            </button>
+                                        @else
+                                            <p class="text-xs font-bold text-white whitespace-nowrap mr-2">
+                                                درخواست ارسال شد
+                                            </p>
+                                        @endif
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -721,13 +776,13 @@
                                     }
                                 }
 
-                                if ($part->updated_at < $lastTime && $part->price > 0) {
+                                if ($part->price_updated_at < $lastTime && $part->price > 0) {
                                     $color = 'bg-red-500';
                                 }
-                                if ($part->updated_at > $lastTime && $part->updated_at < $midTime && $part->price > 0) {
+                                if ($part->price_updated_at > $lastTime && $part->price_updated_at < $midTime && $part->price > 0) {
                                     $color = 'bg-yellow-500';
                                 }
-                                if ($part->updated_at < $lastTime && $part->price == 0) {
+                                if ($part->price_updated_at < $lastTime && $part->price == 0) {
                                     $color = 'bg-red-600';
                                 }
                         @endphp
@@ -892,9 +947,26 @@
                             <td class="border border-gray-300 p-4 text-sm text-center">
                                 {{ $part->unit }}
                             </td>
-                            <td class="border border-gray-300 p-4 text-sm text-center font-bold">
+                            <td class="border border-gray-300 p-4 flex items-center">
                                 <input type="text" name="amounts[]" id="inputAmount{{ $part->id }}"
                                        class="input-text" value="{{ $amount->value }}">
+                                @if($color == 'bg-red-500' || $color == 'bg-red-600')
+                                    @php
+                                        $inquiryPrice = \App\Models\InquiryPrice::where('part_id',$part->id)
+                                                            ->where('inquiry_id',$inquiry->id)->pluck('part_id')->all();
+                                    @endphp
+                                    @if(!in_array($part->id,$inquiryPrice))
+                                        <button type="button"
+                                                onclick="storeInquiryPrice({{ $part->id }},{{ $inquiry->id }})"
+                                                class="text-xs font-bold text-white underline underline-offset-4 whitespace-nowrap mr-2">
+                                            درخواست بروزرسانی قیمت
+                                        </button>
+                                    @else
+                                        <p class="text-xs font-bold text-white whitespace-nowrap mr-2">
+                                            درخواست ارسال شد
+                                        </p>
+                                    @endif
+                                @endif
                             </td>
                         </tr>
                     @endforeach

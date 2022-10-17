@@ -19,4 +19,9 @@ Inquiry extends Model
     {
         return $this->hasMany(Product::class);
     }
+
+    public function inquiryPrices()
+    {
+        return $this->hasMany(InquiryPrice::class);
+    }
 }
