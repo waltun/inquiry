@@ -8,6 +8,7 @@ use App\Models\Part;
 use App\Models\Setting;
 use App\Models\User;
 use App\Notifications\InquiryPriceNotification;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Notification;
@@ -60,5 +61,18 @@ class InquiryPriceController extends Controller
         alert()->success('ثبت موفق', 'ثبت قیمت گذاری با موفقیت انجام شد');
 
         return back();
+    }
+
+    public function updateDate(Request $request)
+    {
+        $part = Part::find($request->id);
+        $inquiryPrice = InquiryPrice::where('part_id', $part->id)->first();
+        if ($part->price != 0 && !is_null($part->price)) {
+            $part->price_updated_at = Carbon::now();
+            $part->save();
+            $inquiryPrice->delete();
+        } else {
+            return response(['data' => 'error']);
+        }
     }
 }

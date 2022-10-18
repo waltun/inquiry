@@ -8,6 +8,33 @@
                 section.innerText = new Intl.NumberFormat().format(input.value) + ' تومان ';
             }
         </script>
+        <script>
+            function updateDate(id) {
+                let url = window.location.href;
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    method: 'PATCH',
+                    url: '/inquiry-price/' + id + '/update-date',
+                    data: {
+                        id: id,
+                    },
+                    success: function (res) {
+                        if (res.data === 'error') {
+                            alert('قیمت برای این قطعه ثبت نشده است!')
+                        } else {
+                            location.href = url;
+                        }
+                    }
+                });
+            }
+        </script>
     </x-slot>
 
     <!-- Breadcrumb -->
@@ -96,6 +123,9 @@
                             <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                                 آخرین بروزرسانی
                             </th>
+                            <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                                <span class="sr-only">بروزرسانی تاریخ</span>
+                            </th>
                         </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-300">
@@ -127,14 +157,20 @@
                                            value="{{ $part->price ?? '' }}" onkeyup="showPrice({{ $part->id }})">
                                     <span class="text-sm text-black text-center font-medium"
                                           id="priceSection{{ $part->id }}">
-                                {{ number_format($part->price) ?? '0' }} تومان
-                            </span>
+                                        {{ number_format($part->price) ?? '0' }} تومان
+                                    </span>
                                     <input type="hidden" name="parts[]" value="{{ $part->id }}">
                                 </td>
                                 <td class="px-4 py-1 whitespace-nowrap">
                                     <p class="text-sm text-black text-center">
                                         {{ jdate($part->price_updated_at)->format('%A, %d %B %Y') }}
                                     </p>
+                                </td>
+                                <td class="px-4 py-1 whitespace-nowrap">
+                                    <button type="button" class="form-detail-btn text-xs"
+                                            onclick="updateDate({{ $part->id }})">
+                                        بروزرسانی تاریخ
+                                    </button>
                                 </td>
                             </tr>
                         @endforeach
