@@ -202,7 +202,143 @@
                         </div>
                     @endif
                     @break
-                @case('App\Notifications\CopyInquiryNotification' || 'App\Notifications\CorrectionInquiryNotification')
+                @case('App\Notifications\CopyInquiryNotification')
+                    @php
+                        $inquiry = \App\Models\Inquiry::find($notification->data['inquiry_id']);
+                    @endphp
+                    @if(!is_null($inquiry))
+                        <div class="border border-gray-400 rounded-md p-4 bg-white mb-4">
+                            <div class="md:flex items-center justify-between mb-4 pb-3 border-b border-gray-200">
+                                <div class="mb-4 md:mb-0">
+                                    <p class="text-sm text-gray-700">
+                                        تاریخ اعلان
+                                        : {{ jdate($notification->created_at)->format('%A, %d %B %Y - ساعت H:i') }}
+                                    </p>
+                                </div>
+                                <form action="{{ route('notifications.destroy',$notification->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="form-cancel-btn text-xs">
+                                        حذف اعلان
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="mb-4 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-indigo-500" fill="none"
+                                     viewBox="0 0 24 24"
+                                     stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                </svg>
+                                <div class="mr-2">
+                                    <p class="md:text-lg text-sm font-bold text-black">
+                                        {{ $notification->data['message'] }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div
+                                class="md:flex items-center md:space-x-reverse md:space-x-4 mb-4 space-y-4 md:space-y-0">
+                                <p class="text-sm font-medium">
+                                    نام پروژه : {{ $inquiry->name }}
+                                </p>
+                                <p class="text-sm">
+                                    مسئول پروژه : {{ \App\Models\User::find($inquiry->user_id)->name }}
+                                </p>
+                                <p class="text-sm">
+                                    شماره استعلام : {{ $inquiry->inquiry_number }}
+                                </p>
+                            </div>
+                            <div class="flex justify-end space-x-reverse space-x-4">
+                                <a href="{{ route('inquiries.index') }}" class="form-detail-btn text-xs">
+                                    لیست استعلام ها
+                                </a>
+                            </div>
+                        </div>
+                    @else
+                        <div class="border border-gray-400 rounded-md p-4 bg-white mb-4">
+                            <p class="text-center text-red-600 font-bold">
+                                این استعلام حذف شده است و دیگر در دسترس نیست!
+                            </p>
+                            <div class="flex justify-end">
+                                <form action="{{ route('notifications.destroy',$notification->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="form-cancel-btn text-xs">
+                                        حذف اعلان
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    @endif
+                    @break
+                @case('App\Notifications\InquiryPriceNotification')
+                    @php
+                        $inquiryPrice = \App\Models\InquiryPrice::find($notification->data['inquiryPrice_id']);
+                        $part = \App\Models\Part::find($inquiryPrice->part_id);
+                    @endphp
+                    @if(!is_null($inquiryPrice))
+                        <div class="border border-gray-400 rounded-md p-4 bg-white mb-4">
+                            <div class="md:flex items-center justify-between mb-4 pb-3 border-b border-gray-200">
+                                <div class="mb-4 md:mb-0">
+                                    <p class="text-sm text-gray-700">
+                                        تاریخ اعلان
+                                        : {{ jdate($notification->created_at)->format('%A, %d %B %Y - ساعت H:i') }}
+                                    </p>
+                                </div>
+                                <form action="{{ route('notifications.destroy',$notification->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="form-cancel-btn text-xs">
+                                        حذف اعلان
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="mb-4 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-indigo-500" fill="none"
+                                     viewBox="0 0 24 24"
+                                     stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                </svg>
+                                <div class="mr-2">
+                                    <p class="md:text-lg text-sm font-bold text-black">
+                                        {{ $notification->data['message'] }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div
+                                class="md:flex items-center md:space-x-reverse md:space-x-4 mb-4 space-y-4 md:space-y-0">
+                                <p class="text-sm font-medium">
+                                    قطعه مورد نظر : {{ $part->name }}
+                                </p>
+                                <p class="text-sm">
+                                    کاربر درخواست کننده : {{ \App\Models\User::find($inquiryPrice->user_id)->name }}
+                                </p>
+                            </div>
+                            <div class="flex justify-end space-x-reverse space-x-4">
+                                <a href="{{ route('inquiryPrice.index') }}" class="form-detail-btn text-xs">
+                                    لیست درخواست های بروزرسانی قیمت
+                                </a>
+                            </div>
+                        </div>
+                    @else
+                        <div class="border border-gray-400 rounded-md p-4 bg-white mb-4">
+                            <p class="text-center text-red-600 font-bold">
+                                این درخواست حذف شده است و دیگر در دسترس نیست!
+                            </p>
+                            <div class="flex justify-end">
+                                <form action="{{ route('notifications.destroy',$notification->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="form-cancel-btn text-xs">
+                                        حذف اعلان
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    @endif
+                    @break
+                @case('App\Notifications\CorrectionInquiryNotification')
                     @php
                         $inquiry = \App\Models\Inquiry::find($notification->data['inquiry_id']);
                     @endphp

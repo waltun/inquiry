@@ -6,8 +6,11 @@ use App\Models\Inquiry;
 use App\Models\InquiryPrice;
 use App\Models\Part;
 use App\Models\Setting;
+use App\Models\User;
+use App\Notifications\InquiryPriceNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Notification;
 
 class InquiryPriceController extends Controller
 {
@@ -21,10 +24,13 @@ class InquiryPriceController extends Controller
 
     public function store(Request $request)
     {
-        auth()->user()->inquiryPrices()->create([
+        $inquiryPrice = auth()->user()->inquiryPrices()->create([
             'part_id' => $request->part_id,
             'inquiry_id' => $request->inquiry_id
         ]);
+
+        $priceUsers = User::where('role', 'price')->orWhere('role', 'logistic')->get();
+        Notification::send($priceUsers, new InquiryPriceNotification($inquiryPrice));
     }
 
     public function update(Request $request, Inquiry $inquiry)
