@@ -98,7 +98,7 @@
                             <p class="text-sm text-black text-center">{{ $inquiry->marketer }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap space-x-2 space-x-reverse">
-                            @can('detail-inquiry')
+                            @can('priced-inquiry')
                                 <a href="{{ route('inquiries.show',$inquiry->id) }}" class="form-detail-btn text-xs">
                                     جزئیات
                                 </a>

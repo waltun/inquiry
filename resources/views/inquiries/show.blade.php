@@ -106,9 +106,13 @@
                             <th class="border border-gray-300 p-4 text-sm">کد قطعه</th>
                             <th class="border border-gray-300 p-4 text-sm">نام قطعه</th>
                             <th class="border border-gray-300 p-4 text-sm">واحد قطعه</th>
-                            <th class="border border-gray-300 p-4 text-sm">قیمت واحد</th>
+                            @can('detail-inquiry')
+                                <th class="border border-gray-300 p-4 text-sm">قیمت واحد</th>
+                            @endcan
                             <th class="border border-gray-300 p-4 text-sm">مقادیر</th>
-                            <th class="border border-gray-300 p-4 text-sm">جمع کل</th>
+                            @can('detail-inquiry')
+                                <th class="border border-gray-300 p-4 text-sm">جمع کل</th>
+                            @endcan
                         </tr>
                         </thead>
                         <tbody>
@@ -136,44 +140,55 @@
                                 <td class="border border-gray-300 p-4 text-sm text-center">
                                     {{ $part->unit }}
                                 </td>
-                                <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                                    @if($amount->price > 0)
-                                        {{ number_format($amount->price) }} تومان
-                                    @else
-                                        {{ number_format($part->price) }} تومان
-                                    @endif
-                                </td>
+                                @can('detail-inquiry')
+                                    <td class="border border-gray-300 p-4 text-sm text-center font-bold">
+                                        @if($amount->price > 0)
+                                            {{ number_format($amount->price) }} تومان
+                                        @else
+                                            {{ number_format($part->price) }} تومان
+                                        @endif
+                                    </td>
+                                @endcan
                                 <td class="border border-gray-300 p-4 text-sm text-center">
                                     {{ $amount->value }}
                                 </td>
-                                <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                                    @if($amount->price > 0)
-                                        {{ number_format($amount->price * $amount->value) }} تومان
-                                    @else
-                                        {{ number_format($part->price * $amount->value) }} تومان
-                                    @endif
-                                </td>
+                                @can('detail-inquiry')
+                                    <td class="border border-gray-300 p-4 text-sm text-center font-bold">
+                                        @if($amount->price > 0)
+                                            {{ number_format($amount->price * $amount->value) }} تومان
+                                        @else
+                                            {{ number_format($part->price * $amount->value) }} تومان
+                                        @endif
+                                    </td>
+                                @endcan
                             </tr>
                         @endforeach
-                        <tr>
-                            <td class="border border-gray-300 p-4 text-lg text-center font-bold" colspan="5">
-                                جمع قیمت ماتریال یک دستگاه
-                            </td>
-                            <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
-                                {{ number_format($totalPrice) }} تومان
-                            </td>
-                        </tr>
-                        @if($product->percent > 0)
+                        @can('detail-inquiry')
                             <tr>
-                                <td class="border border-gray-300 p-4 text-lg text-center font-bold" colspan="5">
-                                    ضریب ثبت شده
+                                <td class="border border-gray-300 p-4 text-lg text-center font-bold"
+                                    colspan="{{ $colspan }}">
+                                    جمع قیمت ماتریال یک دستگاه
                                 </td>
                                 <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
-                                    {{ $product->percent }}
+                                    {{ number_format($totalPrice) }} تومان
                                 </td>
                             </tr>
+                        @endcan
+                        @if($product->percent > 0)
+                            @can('detail-inquiry')
+                                <tr>
+                                    <td class="border border-gray-300 p-4 text-lg text-center font-bold"
+                                        colspan="{{ $colspan }}">
+                                        ضریب ثبت شده
+                                    </td>
+                                    <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
+                                        {{ $product->percent }}
+                                    </td>
+                                </tr>
+                            @endcan
                             <tr>
-                                <td class="border border-gray-300 p-4 text-lg text-center font-bold" colspan="5">
+                                <td class="border border-gray-300 p-4 text-lg text-center font-bold"
+                                    colspan="{{ $colspan }}">
                                     قیمت دستگاه با اعمال ضریب
                                 </td>
                                 <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
@@ -182,7 +197,8 @@
                             </tr>
                         @endif
                         <tr>
-                            <td class="border border-gray-300 p-4 text-lg text-center font-bold" colspan="5">
+                            <td class="border border-gray-300 p-4 text-lg text-center font-bold"
+                                colspan="{{ $colspan }}">
                                 تعداد
                             </td>
                             <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
@@ -190,7 +206,8 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="border border-gray-300 p-4 text-lg text-center font-bold" colspan="5">
+                            <td class="border border-gray-300 p-4 text-lg text-center font-bold"
+                                colspan="{{ $colspan }}">
                                 قیمت کل
                             </td>
                             <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
@@ -324,7 +341,9 @@
                             <th class="border border-gray-300 p-4 text-sm">کد قطعه</th>
                             <th class="border border-gray-300 p-4 text-sm">نام قطعه</th>
                             <th class="border border-gray-300 p-4 text-sm">واحد قطعه</th>
-                            <th class="border border-gray-300 p-4 text-sm">قیمت</th>
+                            @can('detail-inquiry')
+                                <th class="border border-gray-300 p-4 text-sm">قیمت</th>
+                            @endcan
                         </tr>
                         </thead>
                         <tbody>
@@ -338,21 +357,27 @@
                             <td class="border border-gray-300 p-4 text-sm text-center">
                                 {{ $part->unit }}
                             </td>
-                            <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                                {{ number_format($part->price) }} تومان
-                            </td>
+                            @can('detail-inquiry')
+                                <td class="border border-gray-300 p-4 text-sm text-center font-bold">
+                                    {{ number_format($part->price) }} تومان
+                                </td>
+                            @endcan
                         </tr>
                         @if($product->percent > 0)
+                            @can('detail-inquiry')
+                                <tr>
+                                    <td class="border border-gray-300 p-4 text-lg text-center font-bold"
+                                        colspan="{{ $colspan2 }}">
+                                        ضریب ثبت شده
+                                    </td>
+                                    <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
+                                        {{ $product->percent }}
+                                    </td>
+                                </tr>
+                            @endcan
                             <tr>
-                                <td class="border border-gray-300 p-4 text-lg text-center font-bold" colspan="3">
-                                    ضریب ثبت شده
-                                </td>
-                                <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
-                                    {{ $product->percent }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="border border-gray-300 p-4 text-lg text-center font-bold" colspan="3">
+                                <td class="border border-gray-300 p-4 text-lg text-center font-bold"
+                                    colspan="{{ $colspan2 }}">
                                     قیمت قطعه با اعمال ضریب
                                 </td>
                                 <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
@@ -361,7 +386,8 @@
                             </tr>
                         @endif
                         <tr>
-                            <td class="border border-gray-300 p-4 text-lg text-center font-bold" colspan="3">
+                            <td class="border border-gray-300 p-4 text-lg text-center font-bold"
+                                colspan="{{ $colspan2 }}">
                                 تعداد
                             </td>
                             <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
@@ -369,7 +395,8 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="border border-gray-300 p-4 text-lg text-center font-bold" colspan="3">
+                            <td class="border border-gray-300 p-4 text-lg text-center font-bold"
+                                colspan="{{ $colspan2 }}">
                                 قیمت کل
                             </td>
                             <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
@@ -477,37 +504,39 @@
         </div>
 
         <!-- Inquiry Dates -->
-        <div class="md:grid grid-cols-3 gap-4 mt-4">
-            <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4 space-y-2">
-                <p class="text-sm font-bold text-black text-center">
-                    ایجاد استعلام : {{ jdate($inquiry->created_at)->format('%A, %d %B %Y') }}
-                </p>
-                <p class="text-sm font-bold text-black text-center">
-                    ساعت : {{ jdate($inquiry->created_at)->format('H:i:s') }}
-                </p>
-            </div>
-            <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4 space-y-2">
-                <p class="text-sm font-bold text-black text-center">
-                    آخرین بروزرسانی استعلام : {{ jdate($inquiry->updated_at)->format('%A, %d %B %Y') }}
-                </p>
-                <p class="text-sm font-bold text-black text-center">
-                    ساعت : {{ jdate($inquiry->updated_at)->format('H:i:s') }}
-                </p>
-            </div>
-            <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4 space-y-2">
-                @if($inquiry->archive_at)
+        @can('detail-inquiry')
+            <div class="md:grid grid-cols-3 gap-4 mt-4">
+                <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4 space-y-2">
                     <p class="text-sm font-bold text-black text-center">
-                        آرشیو استعلام : {{ jdate($inquiry->archive_at)->format('%A, %d %B %Y') }}
+                        ایجاد استعلام : {{ jdate($inquiry->created_at)->format('%A, %d %B %Y') }}
                     </p>
                     <p class="text-sm font-bold text-black text-center">
-                        ساعت : {{ jdate($inquiry->archive_at)->format('H:i:s') }}
+                        ساعت : {{ jdate($inquiry->created_at)->format('H:i:s') }}
                     </p>
-                @else
-                    <p class="text-sm font-bold text-red-600 text-center">
-                        آرشیو استعلام : هنوز ثبت نشده!
+                </div>
+                <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4 space-y-2">
+                    <p class="text-sm font-bold text-black text-center">
+                        آخرین بروزرسانی استعلام : {{ jdate($inquiry->updated_at)->format('%A, %d %B %Y') }}
                     </p>
-                @endif
+                    <p class="text-sm font-bold text-black text-center">
+                        ساعت : {{ jdate($inquiry->updated_at)->format('H:i:s') }}
+                    </p>
+                </div>
+                <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4 space-y-2">
+                    @if($inquiry->archive_at)
+                        <p class="text-sm font-bold text-black text-center">
+                            آرشیو استعلام : {{ jdate($inquiry->archive_at)->format('%A, %d %B %Y') }}
+                        </p>
+                        <p class="text-sm font-bold text-black text-center">
+                            ساعت : {{ jdate($inquiry->archive_at)->format('H:i:s') }}
+                        </p>
+                    @else
+                        <p class="text-sm font-bold text-red-600 text-center">
+                            آرشیو استعلام : هنوز ثبت نشده!
+                        </p>
+                    @endif
+                </div>
             </div>
-        </div>
+        @endcan
     </div>
 </x-layout>

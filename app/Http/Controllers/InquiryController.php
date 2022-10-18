@@ -63,7 +63,7 @@ class InquiryController extends Controller
 
     public function show(Inquiry $inquiry)
     {
-        Gate::authorize('detail-inquiry');
+        Gate::authorize('priced-inquiry');
 
         if ($inquiry->products->isEmpty()) {
             alert()->error('محصولات', 'لطفا ابتدا محصولات را مشخص کنید');
@@ -77,7 +77,17 @@ class InquiryController extends Controller
             }
         }
 
-        return view('inquiries.show', compact('inquiry'));
+        $colspan = '';
+        $colspan2 = '';
+        if (auth()->user()->role == 'admin' || auth()->user()->role == 'technical') {
+            $colspan = '5';
+            $colspan2 = '3';
+        } else {
+            $colspan = '3';
+            $colspan2 = '2';
+        }
+
+        return view('inquiries.show', compact('inquiry', 'colspan', 'colspan2'));
     }
 
     public function edit(Inquiry $inquiry)
