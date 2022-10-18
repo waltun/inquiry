@@ -100,6 +100,8 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::patch('/inquiries/{inquiry}/correction', [InquiryController::class, 'correction'])->name('inquiries.correction');
     Route::delete('/inquiries/{inquiry}', [InquiryController::class, 'destroy'])->name('inquiries.destroy');
     Route::get('/inquiries/products/{inquiry}', [InquiryController::class, 'products'])->name('inquiries.products');
+    Route::get('/inquiries/products/{inquiry}/print-page', [InquiryController::class, 'printProduct'])->name('inquiries.products.print');
+    Route::get('/inquiries/{inquiry}/print-page', [InquiryController::class, 'print'])->name('inquiries.print');
     Route::get('/inquiries/{inquiry}/description', [InquiryController::class, 'description'])->name('inquiries.description');
     Route::patch('/inquiries/{inquiry}/description', [InquiryController::class, 'storeDescription'])->name('inquiries.storeDescription');
     Route::get('/inquiries/{inquiry}/show-description', [InquiryController::class, 'showDescription'])->name('inquiries.showDescription');

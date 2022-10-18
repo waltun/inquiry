@@ -375,4 +375,23 @@ class InquiryController extends Controller
         }
         return $data;
     }
+
+    public function printProduct(Inquiry $inquiry)
+    {
+        return view('inquiries.print-product', compact('inquiry'));
+    }
+
+    public function print(Inquiry $inquiry)
+    {
+        $colspan = '';
+        $colspan2 = '';
+        if (auth()->user()->role == 'admin' || auth()->user()->role == 'technical') {
+            $colspan = '5';
+            $colspan2 = '3';
+        } else {
+            $colspan = '3';
+            $colspan2 = '2';
+        }
+        return view('inquiries.print', compact('inquiry', 'colspan', 'colspan2'));
+    }
 }

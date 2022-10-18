@@ -312,17 +312,17 @@
                                 }
 
                                 if ($part->price_updated_at < $lastTime && $part->price > 0) {
-                                    $color = 'bg-red-500';
-                                }
-                                if ($part->price_updated_at > $lastTime && $part->price_updated_at < $midTime && $part->price > 0) {
-                                    $color = 'bg-yellow-500';
-                                }
-                                if ($part->price_updated_at < $lastTime && $part->price == 0) {
-                                    $color = 'bg-red-600';
-                                }
-                                if ($part->price_updated_at > $lastTime && $part->price == 0) {
-                                    $color = 'bg-red-600';
-                                }
+									$color = 'bg-red-500';
+								}
+								if ($part->price_updated_at > $lastTime && $part->price_updated_at > $midTime && $part->price > 0) {
+									$color = 'bg-white';
+								}
+								if ($part->price_updated_at > $lastTime && $part->price_updated_at < $midTime && $part->price > 0) {
+									$color = 'bg-yellow-500';
+								}
+								if ($part->price_updated_at < $lastTime && $part->price == 0) {
+									$color = 'bg-red-600';
+								}
                             @endphp
                             <tr class="{{ $color ?? 'bg-white' }}">
                                 <td class="border border-gray-300 p-4 text-sm text-center">
@@ -548,17 +548,17 @@
                                 }
 
                                 if ($part->price_updated_at < $lastTime && $part->price > 0) {
-                                    $color = 'bg-red-500';
-                                }
-                                if ($part->price_updated_at > $lastTime && $part->price_updated_at < $midTime && $part->price > 0) {
-                                    $color = 'bg-yellow-500';
-                                }
-                                if ($part->price_updated_at < $lastTime && $part->price == 0) {
-                                    $color = 'bg-red-600';
-                                }
-                                if ($part->price_updated_at > $lastTime && $part->price == 0) {
-                                    $color = 'bg-red-600';
-                                }
+									$color = 'bg-red-500';
+								}
+								if ($part->price_updated_at > $lastTime && $part->price_updated_at > $midTime && $part->price > 0) {
+									$color = 'bg-white';
+								}
+								if ($part->price_updated_at > $lastTime && $part->price_updated_at < $midTime && $part->price > 0) {
+									$color = 'bg-yellow-500';
+								}
+								if ($part->price_updated_at < $lastTime && $part->price == 0) {
+									$color = 'bg-red-600';
+								}
                             @endphp
                             <tr class="{{ $color ?? 'bg-white' }}">
                                 <td class="border border-gray-300 p-4 text-sm text-center">
@@ -784,17 +784,17 @@
                                 }
 
                             if ($part->price_updated_at < $lastTime && $part->price > 0) {
-                                $color = 'bg-red-500';
-                            }
-                            if ($part->price_updated_at > $lastTime && $part->price_updated_at < $midTime && $part->price > 0) {
-                                $color = 'bg-yellow-500';
-                            }
-                            if ($part->price_updated_at < $lastTime && $part->price == 0) {
-                                $color = 'bg-red-600';
-                            }
-                            if ($part->price_updated_at > $lastTime && $part->price == 0) {
-                                $color = 'bg-red-600';
-                            }
+								$color = 'bg-red-500';
+							}
+							if ($part->price_updated_at > $lastTime && $part->price_updated_at > $midTime && $part->price > 0) {
+								$color = 'bg-white';
+							}
+							if ($part->price_updated_at > $lastTime && $part->price_updated_at < $midTime && $part->price > 0) {
+								$color = 'bg-yellow-500';
+							}
+							if ($part->price_updated_at < $lastTime && $part->price == 0) {
+								$color = 'bg-red-600';
+							}
                         @endphp
                         <tr class="{{ $color ?? 'bg-white' }}">
                             <td class="border border-gray-300 p-4 text-sm text-center">
