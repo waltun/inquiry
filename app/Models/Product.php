@@ -10,7 +10,8 @@ class Product extends Model
     use HasFactory;
 
     protected $fillable = [
-        'percent', 'price', 'quantity', 'group_id', 'model_id', 'inquiry_id', 'part_id', 'description', 'model_custom_name'
+        'percent', 'price', 'quantity', 'group_id', 'model_id', 'inquiry_id', 'part_id', 'description', 'model_custom_name',
+        'copy_model'
     ];
 
     public function inquiry()

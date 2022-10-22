@@ -62,7 +62,8 @@
     </div>
 
     <div>
-        <a href="{{ route('inquiries.print',$inquiry->id) }}" class="form-percent-btn inline-flex items-center" target="_blank">
+        <a href="{{ route('inquiries.print',$inquiry->id) }}" class="form-percent-btn inline-flex items-center"
+           target="_blank">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                  stroke="currentColor" class="w-5 h-5 ml-2">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -104,12 +105,27 @@
                 @endphp
                     <!-- Laptop Product List -->
                 <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4 hidden md:block">
-                    <div class="mb-4">
+                    <div class="mb-4 flex justify-between items-center">
                         <p class="text-center text-lg font-black font-bold">
                             لیست قطعات و قیمت محصول
                             <span class="text-red-600">{{ $modell->parent->name }}</span> -
                             <span class="text-red-600">{{ $product->model_custom_name ?? $modell->name }}</span>
                         </p>
+                        @if($product->model_custom_name)
+                            @if($product->copy_model == '0')
+                                <form action="{{ route('inquiries.addToModell',$product->id) }}"
+                                      method="POST">
+                                    @csrf
+                                    <button class="form-detail-btn text-xs" type="submit">
+                                        افزودن به مدل ها استاندارد
+                                    </button>
+                                </form>
+                            @else
+                                <p class="text-sm font-bold text-gray-600">
+                                    این مدل به مدل های استاندارد اضافه شده است
+                                </p>
+                            @endif
+                        @endif
                     </div>
                     <table class="border-collapse border border-gray-400 w-full">
                         <thead>

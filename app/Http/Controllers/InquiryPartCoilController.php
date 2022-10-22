@@ -360,46 +360,36 @@ class InquiryPartCoilController extends Controller
 
         $newPart->children()->syncWithoutDetaching($part->children);
 
-        $price = 0;
         foreach ($newPart->children as $index => $childPart) {
             if ($index == 13) {
                 $childPart->pivot->parent_part_id = $request->parts[0];
-                $price += $request->values[$index] * Part::find($request->parts[0])->price;
             }
             if ($index == 14) {
                 $childPart->pivot->parent_part_id = $request->parts[1];
-                $price += $request->values[$index] * Part::find($request->parts[1])->price;
             }
             if ($index == 15) {
                 $childPart->pivot->parent_part_id = $request->parts[2];
-                $price += $request->values[$index] * Part::find($request->parts[2])->price;
             }
             if ($index == 16 && !is_null($request->parts[3]) && $request->parts[3] > 0) {
                 $childPart->pivot->parent_part_id = $request->parts[3];
-                $price += $request->values[$index] * Part::find($request->parts[3])->price;
             }
             if ($index == 17 && !is_null($request->parts[4]) && $request->parts[4] > 0) {
                 $childPart->pivot->parent_part_id = $request->parts[4];
-                $price += $request->values[$index] * Part::find($request->parts[4])->price;
             }
             if ($index == 18) {
                 $childPart->pivot->parent_part_id = $request->parts[5];
-                $price += $request->values[$index] * Part::find($request->parts[5])->price;
             }
             if ($index == 19) {
                 $childPart->pivot->parent_part_id = $request->parts[6];
-                $price += $request->values[$index] * Part::find($request->parts[6])->price;
             }
             if ($index == 21) {
                 $childPart->pivot->parent_part_id = $request->parts[7];
-                $price += $request->values[$index] * Part::find($request->parts[7])->price;
             }
 
             $childPart->pivot->value = $request->values[$index];
-            $price += $request->values[$index] * $childPart->price;
             $childPart->pivot->save();
         }
-        $newPart->price = $price;
+        $newPart->price = $request['price'];
         $newPart->save();
 
         $inquiry->products()->create([
@@ -703,42 +693,33 @@ class InquiryPartCoilController extends Controller
 
         $newPart->children()->syncWithoutDetaching($part->children);
 
-        $price = 0;
         foreach ($newPart->children as $index => $childPart) {
             if ($index == 15) {
                 $childPart->pivot->parent_part_id = $request->parts[0];
-                $price += $request->values[$index] * Part::find($request->parts[0])->price;
             }
             if ($index == 16) {
                 $childPart->pivot->parent_part_id = $request->parts[1];
-                $price += $request->values[$index] * Part::find($request->parts[1])->price;
             }
             if ($index == 17) {
                 $childPart->pivot->parent_part_id = $request->parts[2];
-                $price += $request->values[$index] * Part::find($request->parts[2])->price;
             }
             if ($index == 18 && !is_null($request->parts[3]) && $request->parts[3] > 0) {
                 $childPart->pivot->parent_part_id = $request->parts[3];
-                $price += $request->values[$index] * Part::find($request->parts[3])->price;
             }
             if ($index == 19 && !is_null($request->parts[4]) && $request->parts[4] > 0) {
                 $childPart->pivot->parent_part_id = $request->parts[4];
-                $price += $request->values[$index] * Part::find($request->parts[4])->price;
             }
             if ($index == 20) {
                 $childPart->pivot->parent_part_id = $request->parts[5];
-                $price += $request->values[$index] * Part::find($request->parts[5])->price;
             }
             if ($index == 21) {
                 $childPart->pivot->parent_part_id = $request->parts[6];
-                $price += $request->values[$index] * Part::find($request->parts[6])->price;
             }
 
             $childPart->pivot->value = $request->values[$index];
-            $price += $request->values[$index] * $childPart->price;
             $childPart->pivot->save();
         }
-        $newPart->price = $price;
+        $newPart->price = $request['price'];
         $newPart->save();
 
         $inquiry->products()->create([
@@ -1042,42 +1023,33 @@ class InquiryPartCoilController extends Controller
 
         $newPart->children()->syncWithoutDetaching($part->children);
 
-        $price = 0;
         foreach ($newPart->children as $index => $childPart) {
             if ($index == 15) {
                 $childPart->pivot->parent_part_id = $request->parts[0];
-                $price += $request->values[$index] * Part::find($request->parts[0])->price;
             }
             if ($index == 16) {
                 $childPart->pivot->parent_part_id = $request->parts[1];
-                $price += $request->values[$index] * Part::find($request->parts[1])->price;
             }
             if ($index == 17) {
                 $childPart->pivot->parent_part_id = $request->parts[2];
-                $price += $request->values[$index] * Part::find($request->parts[2])->price;
             }
             if ($index == 18 && !is_null($request->parts[3]) && $request->parts[3] > 0) {
                 $childPart->pivot->parent_part_id = $request->parts[3];
-                $price += $request->values[$index] * Part::find($request->parts[3])->price;
             }
             if ($index == 19 && !is_null($request->parts[4]) && $request->parts[4] > 0) {
                 $childPart->pivot->parent_part_id = $request->parts[4];
-                $price += $request->values[$index] * Part::find($request->parts[4])->price;
             }
             if ($index == 20) {
                 $childPart->pivot->parent_part_id = $request->parts[5];
-                $price += $request->values[$index] * Part::find($request->parts[5])->price;
             }
             if ($index == 21) {
                 $childPart->pivot->parent_part_id = $request->parts[6];
-                $price += $request->values[$index] * Part::find($request->parts[6])->price;
             }
 
             $childPart->pivot->value = $request->values[$index];
-            $price += $request->values[$index] * $childPart->price;
             $childPart->pivot->save();
         }
-        $newPart->price = $price;
+        $newPart->price = $request['price'];
         $newPart->save();
 
         $inquiry->products()->create([
@@ -1366,42 +1338,33 @@ class InquiryPartCoilController extends Controller
 
         $newPart->children()->syncWithoutDetaching($part->children);
 
-        $price = 0;
         foreach ($newPart->children as $index => $childPart) {
             if ($index == 14) {
                 $childPart->pivot->parent_part_id = $request->parts[0];
-                $price += $request->values[$index] * Part::find($request->parts[0])->price;
             }
             if ($index == 15) {
                 $childPart->pivot->parent_part_id = $request->parts[1];
-                $price += $request->values[$index] * Part::find($request->parts[1])->price;
             }
             if ($index == 16) {
                 $childPart->pivot->parent_part_id = $request->parts[2];
-                $price += $request->values[$index] * Part::find($request->parts[2])->price;
             }
             if ($index == 17 && !is_null($request->parts[3]) && $request->parts[3] > 0) {
                 $childPart->pivot->parent_part_id = $request->parts[3];
-                $price += $request->values[$index] * Part::find($request->parts[3])->price;
             }
             if ($index == 18 && !is_null($request->parts[4]) && $request->parts[4] > 0) {
                 $childPart->pivot->parent_part_id = $request->parts[4];
-                $price += $request->values[$index] * Part::find($request->parts[4])->price;
             }
             if ($index == 19) {
                 $childPart->pivot->parent_part_id = $request->parts[5];
-                $price += $request->values[$index] * Part::find($request->parts[5])->price;
             }
             if ($index == 20) {
                 $childPart->pivot->parent_part_id = $request->parts[6];
-                $price += $request->values[$index] * Part::find($request->parts[6])->price;
             }
 
             $childPart->pivot->value = $request->values[$index];
-            $price += $request->values[$index] * $childPart->price;
             $childPart->pivot->save();
         }
-        $newPart->price = $price;
+        $newPart->price = $request['price'];
         $newPart->save();
 
         $inquiry->products()->create([
@@ -1713,42 +1676,33 @@ class InquiryPartCoilController extends Controller
 
         $newPart->children()->syncWithoutDetaching($part->children);
 
-        $price = 0;
         foreach ($newPart->children as $index => $childPart) {
             if ($index == 14) {
                 $childPart->pivot->parent_part_id = $request->parts[0];
-                $price += $request->values[$index] * Part::find($request->parts[0])->price;
             }
             if ($index == 15) {
                 $childPart->pivot->parent_part_id = $request->parts[1];
-                $price += $request->values[$index] * Part::find($request->parts[1])->price;
             }
             if ($index == 16) {
                 $childPart->pivot->parent_part_id = $request->parts[2];
-                $price += $request->values[$index] * Part::find($request->parts[2])->price;
             }
             if ($index == 17 && !is_null($request->parts[3]) && $request->parts[3] > 0) {
                 $childPart->pivot->parent_part_id = $request->parts[3];
-                $price += $request->values[$index] * Part::find($request->parts[3])->price;
             }
             if ($index == 18 && !is_null($request->parts[4]) && $request->parts[4] > 0) {
                 $childPart->pivot->parent_part_id = $request->parts[4];
-                $price += $request->values[$index] * Part::find($request->parts[4])->price;
             }
             if ($index == 19) {
                 $childPart->pivot->parent_part_id = $request->parts[5];
-                $price += $request->values[$index] * Part::find($request->parts[5])->price;
             }
             if ($index == 20) {
                 $childPart->pivot->parent_part_id = $request->parts[6];
-                $price += $request->values[$index] * Part::find($request->parts[6])->price;
             }
 
             $childPart->pivot->value = $request->values[$index];
-            $price += $request->values[$index] * $childPart->price;
             $childPart->pivot->save();
         }
-        $newPart->price = $price;
+        $newPart->price = $request['price'];
         $newPart->save();
 
         $inquiry->products()->create([

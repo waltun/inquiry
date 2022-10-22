@@ -7,6 +7,7 @@ use App\Models\Group;
 use App\Models\Inquiry;
 use App\Models\Modell;
 use App\Models\Part;
+use App\Models\Product;
 use App\Models\Special;
 use App\Models\User;
 use App\Notifications\CopyInquiryNotification;
@@ -399,5 +400,42 @@ class InquiryController extends Controller
             $colspan2 = '2';
         }
         return view('inquiries.print', compact('inquiry', 'colspan', 'colspan2'));
+    }
+
+    public function addToModell(Product $product)
+    {
+        $name = $product->model_custom_name;
+        $modell = Modell::find($product->model_id);
+        $parentModell = Modell::find($modell->parent_id);
+        $code = $this->getParentLastCode($parentModell);
+
+        $createdModell = Modell::create([
+            'name' => $name,
+            'code' => $code,
+            'group_id' => $modell->group_id,
+            'parent_id' => $modell->parent_id
+        ]);
+
+        foreach ($product->amounts as $amount) {
+            $createdModell->parts()->syncWithoutDetaching($amount->part_id);
+        }
+
+        $product->copy_model = '1';
+        $product->save();
+
+        alert()->success('ثبت موفق', 'مدل مورد نظر با موفقیت به مدل های استاندارد اضافه شد');
+
+        return back();
+    }
+
+    public function getParentLastCode($modell)
+    {
+        if (!$modell->children->isEmpty()) {
+            $lastModellCode = $modell->children()->latest()->first()->code;
+            $code = str_pad($lastModellCode + 1, 4, "0", STR_PAD_LEFT);
+        } else {
+            $code = '0001';
+        }
+        return $code;
     }
 }

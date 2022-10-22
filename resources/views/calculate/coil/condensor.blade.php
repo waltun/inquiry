@@ -672,6 +672,7 @@
                     <p class="text-xl font-bold text-black text-center">
                         قیمت نهایی : {{ number_format($finalPrice) }} تومان
                     </p>
+                    <input type="hidden" name="price" value="{{ $finalPrice }}">
                 </div>
 
                 <div class="my-4 bg-red-300 p-4 rounded-md shadow-md">
