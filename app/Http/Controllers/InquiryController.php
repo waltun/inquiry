@@ -6,6 +6,7 @@ use App\Models\Amount;
 use App\Models\Group;
 use App\Models\Inquiry;
 use App\Models\Modell;
+use App\Models\Part;
 use App\Models\Special;
 use App\Models\User;
 use App\Notifications\CopyInquiryNotification;
@@ -132,6 +133,11 @@ class InquiryController extends Controller
             }
 
             $inquiry->products()->delete();
+        }
+
+        $collectionParts = Part::where('inquiry_id', $inquiry->id)->get();
+        foreach ($collectionParts as $collectionPart) {
+            $collectionPart->delete();
         }
 
         $inquiry->delete();

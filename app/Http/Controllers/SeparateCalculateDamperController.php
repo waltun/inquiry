@@ -408,7 +408,8 @@ class SeparateCalculateDamperController extends Controller
         $newPart = $part->replicate()->fill([
             'name' => $name,
             'code' => $code,
-            'coil' => true
+            'coil' => true,
+            'price_updated_at' => now(),
         ]);
 
         $newPart->save();

@@ -118,10 +118,10 @@
                         مدل
                     </th>
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
-                        تعداد
+                        تگ
                     </th>
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
-                        تگ
+                        تعداد
                     </th>
                     <th scope="col" class="relative px-4 py-3 rounded-l-md">
                         <span class="sr-only">اقدامات</span>

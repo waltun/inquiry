@@ -240,6 +240,30 @@
                     $specials = \App\Models\Special::all()->pluck('part_id')->toArray();
                 @endphp
                 @foreach($parts as $part)
+                    @php
+                        if ($setting) {
+                            if($setting->price_color_type == 'month') {
+                                $lastTime = \Carbon\Carbon::now()->subMonth($setting->price_color_last_time);
+                                $midTime = \Carbon\Carbon::now()->subMonth($setting->price_color_mid_time);
+                            }
+                            if($setting->price_color_type == 'day') {
+                                $lastTime = \Carbon\Carbon::now()->subDay($setting->price_color_last_time);
+                                $midTime = \Carbon\Carbon::now()->subDay($setting->price_color_mid_time);
+                            }
+                            if($setting->price_color_type == 'hour') {
+                                $lastTime = \Carbon\Carbon::now()->subHour($setting->price_color_last_time);
+                                $midTime = \Carbon\Carbon::now()->subHour($setting->price_color_mid_time);
+                            }
+                        }
+                        foreach ($part->children as $child) {
+                            if ($child->price_updated_at < $lastTime && $child->price > 0) {
+                                $color = 'bg-red-500';
+                            }
+                            if ($child->price_updated_at < $lastTime && $child->price == 0) {
+                                $color = 'bg-red-600';
+                            }
+                        }
+                    @endphp
                     <tr>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-gray-500 text-center">{{ $loop->index + 1 }}</p>
@@ -250,17 +274,25 @@
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center">{{ $part->unit }}</p>
                         </td>
-                        <td class="px-4 py-3 whitespace-nowrap">
-                            @if($part->price)
-                                <p class="text-sm text-black text-center">
-                                    {{ number_format($part->price) }} تومان
+                        @if(!in_array($part->id,$specials))
+                            <td class="px-4 py-3 whitespace-nowrap {{ $color ?? '' }}">
+                                @if($part->price)
+                                    <p class="text-sm text-black text-center {{ $color ? 'text-white' : 'text-red-600' }}">
+                                        {{ number_format($part->price) }} تومان
+                                    </p>
+                                @else
+                                    <p class="text-sm text-center {{ $color ? 'text-white' : 'text-red-600' }}">
+                                        منتظر ثبت مقادیر
+                                    </p>
+                                @endif
+                            </td>
+                        @else
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                <p class="text-sm text-center">
+                                    -
                                 </p>
-                            @else
-                                <p class="text-sm text-red-600 text-center">
-                                    منتظر ثبت مقادیر
-                                </p>
-                            @endif
-                        </td>
+                            </td>
+                        @endif
                         @php
                             $code = '';
                             foreach($part->categories as $category){

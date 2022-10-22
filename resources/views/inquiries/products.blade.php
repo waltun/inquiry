@@ -97,6 +97,7 @@
                         <th class="border border-gray-300 p-4 text-sm">کد محصول</th>
                         <th class="border border-gray-300 p-4 text-sm">دسته محصول</th>
                         <th class="border border-gray-300 p-4 text-sm">مدل محصول</th>
+                        <th class="border border-gray-300 p-4 text-sm">تگ</th>
                         <th class="border border-gray-300 p-4 text-sm">تعداد</th>
                         <th class="border border-gray-300 p-4 text-sm">قیمت واحد</th>
                         <th class="border border-gray-300 p-4 text-sm">قیمت کل</th>
@@ -134,6 +135,9 @@
                             </td>
                             <td class="border border-gray-300 p-4 text-sm text-center">
                                 {{ $product->model_custom_name ?? $modell->name }}
+                            </td>
+                            <td class="border border-gray-300 p-4 text-sm text-center">
+                                {{ $product->description }}
                             </td>
                             <td class="border border-gray-300 p-4 text-sm text-center">
                                 {{ $product->quantity }}

@@ -141,9 +141,7 @@
                             @endif
                         </p>
                         <p class="bg-green-500 rounded-md px-6 py-2 text-sm font-bold text-white">
-                            قیمت نهایی :
-                            <span id="finalPriceTopSection">0</span>
-                            تومان
+                            {{ $name ?? '' }}
                         </p>
                     </div>
                 </div>
@@ -672,35 +670,37 @@
                            value="{{ $name }}">
                 </div>
 
-                <div class="my-4 bg-red-300 p-4 rounded-md shadow-md">
-                    <label class="block mb-2 text-sm font-bold" for="inputCoilCategory">
-                        دسته بندی کویل
-                    </label>
-                    <div class="grid grid-cols-3 gap-4">
-                        <div>
-                            <select name="categories[]" id="inputCoilCategory" class="input-text"
-                                    onchange="getCategory1()">
-                                <option value="">انتخاب کنید</option>
-                                @foreach($categories as $category)
-                                    <option
-                                        value="{{ $category->id }}" {{ request('category1') == $category->id ? 'selected' : '' }}>
-                                        {{ $category->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div id="categorySection1">
-                        </div>
-                        <div id="categorySection2">
+                @can('users')
+                    <div class="my-4 bg-red-300 p-4 rounded-md shadow-md">
+                        <label class="block mb-2 text-sm font-bold" for="inputCoilCategory">
+                            دسته بندی کویل
+                        </label>
+                        <div class="grid grid-cols-3 gap-4">
+                            <div>
+                                <select name="categories[]" id="inputCoilCategory" class="input-text"
+                                        onchange="getCategory1()">
+                                    <option value="">انتخاب کنید</option>
+                                    @foreach($categories as $category)
+                                        <option
+                                            value="{{ $category->id }}" {{ request('category1') == $category->id ? 'selected' : '' }}>
+                                            {{ $category->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div id="categorySection1">
+                            </div>
+                            <div id="categorySection2">
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="mb-4">
-                    <button type="submit" class="form-submit-btn">
-                        ثبت مقادیر
-                    </button>
-                </div>
+                    <div class="mb-4">
+                        <button type="submit" class="form-submit-btn">
+                            ذخیره
+                        </button>
+                    </div>
+                @endcan
             </form>
         @endif
     </div>

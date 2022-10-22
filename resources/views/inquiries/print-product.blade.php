@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>پرینت استعلام</title>
+    <title>{{ $inquiry->inquiry_number }}-{{ $inquiry->name }}</title>
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
@@ -45,6 +45,7 @@
                     <th class="border border-gray-300 p-4 text-xs">کد</th>
                     <th class="border border-gray-300 p-4 text-xs">دسته</th>
                     <th class="border border-gray-300 p-4 text-xs">مدل</th>
+                    <th class="border border-gray-300 p-4 text-xs">تگ</th>
                     <th class="border border-gray-300 p-4 text-xs">تعداد</th>
                     <th class="border border-gray-300 p-4 text-xs">قیمت واحد (تومان)</th>
                     <th class="border border-gray-300 p-4 text-xs">قیمت کل (تومان)</th>
@@ -84,6 +85,9 @@
                             {{ $product->model_custom_name ?? $modell->name }}
                         </td>
                         <td class="border border-gray-300 p-4 text-xs text-center">
+                            {{ $product->description }}
+                        </td>
+                        <td class="border border-gray-300 p-4 text-xs text-center">
                             {{ $product->quantity }}
                         </td>
                         <td class="border border-gray-300 p-4 text-xs text-center">
@@ -99,7 +103,7 @@
                     <td class="border border-gray-300 p-4 text-sm text-center" colspan="6">
                         قیمت کل (تومان)
                     </td>
-                    <td class="border border-gray-300 p-4 text-sm text-center text-black">
+                    <td class="border border-gray-300 p-4 text-sm text-center text-black" colspan="2">
                         {{ number_format($productFinalPrice) }}
                     </td>
                 </tr>

@@ -15,6 +15,7 @@ class CollectionPartController extends Controller
         Gate::authorize('collections');
 
         $parts = Part::query();
+        $setting = Setting::where('active', '1')->first();
         $categories = Category::where('parent_id', 0)->get();
 
         if ($keyword = request('search')) {
@@ -42,7 +43,7 @@ class CollectionPartController extends Controller
         $parts = $parts->where('collection', true)->where('coil', false)->latest()
             ->paginate(25)->withQueryString();
 
-        return view('collection-parts.index', compact('parts', 'categories'));
+        return view('collection-parts.index', compact('parts', 'categories', 'setting'));
     }
 
     public function create(Part $parentPart)
@@ -95,7 +96,9 @@ class CollectionPartController extends Controller
     {
         Gate::authorize('collections');
 
-        return view('collection-parts.parts', compact('parentPart'));
+        $setting = Setting::where('active', '1')->first();
+
+        return view('collection-parts.parts', compact('parentPart', 'setting'));
     }
 
     public function destroy(Part $parentPart)

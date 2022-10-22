@@ -76,6 +76,7 @@ class PartController extends Controller
             $part->categories()->sync($data['categories']);
             $code = $this->getLastCode($part);
             $part->code = $code;
+            $part->price_updated_at = now();
             $part->save();
         } else {
             return back()->withErrors(['لطفا دسته بندی را به صورت کامل وارد کنید']);

@@ -165,9 +165,7 @@
                             @endif
                         </p>
                         <p class="bg-green-500 rounded-md px-6 py-2 text-sm font-bold text-white">
-                            قیمت نهایی :
-                            <span id="finalPriceTopSection">0</span>
-                            تومان
+                            {{ $name ?? '' }}
                         </p>
                     </div>
                 </div>
@@ -422,7 +420,8 @@
                     </div>
                     <div class="col-span-2">
                         <label class="block mb-2 text-sm font-bold" for="inputCollectorAhani">هدر و کلکتور آهنی</label>
-                        <select name="collector_ahani" id="inputCollectorAhani" class="input-text bg-yellow-300" onchange="checkAhani()">
+                        <select name="collector_ahani" id="inputCollectorAhani" class="input-text bg-yellow-300"
+                                onchange="checkAhani()">
                             <option value="0">ندارد</option>
                             <option value="{{ \App\Models\Part::where('id','70')->first()->id }}"
                                 {{ is_null($inputs) ? (old('collector_ahani') == '70' ? 'selected' : '') : ($inputs['collector_ahani'] == "70" ? 'selected' : (old('collector_ahani') == '70' ? 'selected' : '')) }}>
@@ -456,7 +455,8 @@
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputCollectorMessi">هدر و کلکتور مسی</label>
-                        <select name="collector_messi" id="inputCollectorMessi" class="input-text bg-yellow-300" onchange="checkMessi()">
+                        <select name="collector_messi" id="inputCollectorMessi" class="input-text bg-yellow-300"
+                                onchange="checkMessi()">
                             <option value="0">ندارد</option>
                             <option value="{{ \App\Models\Part::where('id','77')->first()->id }}"
                                 {{ is_null($inputs) ? (old('collector_messi') == '77' ? 'selected' : '') : ($inputs['collector_messi'] == "77" ? 'selected' : (old('collector_messi') == '77' ? 'selected' : '')) }}>
@@ -696,34 +696,37 @@
                     <input type="text" class="input-text" id="inputCoilName" name="name" dir="ltr" value="{{ $name }}">
                 </div>
 
-                <div class="my-4 bg-red-300 p-4 rounded-md shadow-md">
-                    <label class="block mb-2 text-sm font-bold" for="inputCoilCategory">
-                        دسته بندی کویل
-                    </label>
-                    <div class="grid grid-cols-3 gap-4">
-                        <div>
-                            <select name="categories[]" id="inputCoilCategory" class="input-text" onchange="getCategory1()">
-                                <option value="">انتخاب کنید</option>
-                                @foreach($categories as $category)
-                                    <option
-                                        value="{{ $category->id }}" {{ request('category1') == $category->id ? 'selected' : '' }}>
-                                        {{ $category->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div id="categorySection1">
-                        </div>
-                        <div id="categorySection2">
+                @can('users')
+                    <div class="my-4 bg-red-300 p-4 rounded-md shadow-md">
+                        <label class="block mb-2 text-sm font-bold" for="inputCoilCategory">
+                            دسته بندی کویل
+                        </label>
+                        <div class="grid grid-cols-3 gap-4">
+                            <div>
+                                <select name="categories[]" id="inputCoilCategory" class="input-text"
+                                        onchange="getCategory1()">
+                                    <option value="">انتخاب کنید</option>
+                                    @foreach($categories as $category)
+                                        <option
+                                            value="{{ $category->id }}" {{ request('category1') == $category->id ? 'selected' : '' }}>
+                                            {{ $category->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div id="categorySection1">
+                            </div>
+                            <div id="categorySection2">
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="mb-4">
-                    <button type="submit" class="form-submit-btn">
-                        ثبت مقادیر
-                    </button>
-                </div>
+                    <div class="mb-4">
+                        <button type="submit" class="form-submit-btn">
+                            ذخیره
+                        </button>
+                    </div>
+                @endcan
 
             </form>
         @endif

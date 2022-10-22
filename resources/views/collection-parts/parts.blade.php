@@ -110,6 +110,35 @@
                     </thead>
                     <tbody>
                     @foreach($parentPart->children as $child)
+                        @php
+                            if ($setting) {
+                                if($setting->price_color_type == 'month') {
+                                    $lastTime = \Carbon\Carbon::now()->subMonth($setting->price_color_last_time);
+                                    $midTime = \Carbon\Carbon::now()->subMonth($setting->price_color_mid_time);
+                                }
+                                if($setting->price_color_type == 'day') {
+                                    $lastTime = \Carbon\Carbon::now()->subDay($setting->price_color_last_time);
+                                    $midTime = \Carbon\Carbon::now()->subDay($setting->price_color_mid_time);
+                                }
+                                if($setting->price_color_type == 'hour') {
+                                    $lastTime = \Carbon\Carbon::now()->subHour($setting->price_color_last_time);
+                                    $midTime = \Carbon\Carbon::now()->subHour($setting->price_color_mid_time);
+                                }
+                            }
+
+                            if ($child->price_updated_at < $lastTime && $child->price > 0) {
+                                $color = 'bg-red-500';
+                            }
+                            if ($child->price_updated_at > $lastTime && $child->price_updated_at > $midTime && $child->price > 0) {
+                                $color = 'bg-green-500';
+                            }
+                            if ($child->price_updated_at > $lastTime && $child->price_updated_at < $midTime && $child->price > 0) {
+                                $color = 'bg-yellow-500';
+                            }
+                            if ($child->price_updated_at < $lastTime && $child->price == 0) {
+                                $color = 'bg-red-600';
+                            }
+                        @endphp
                         <tr>
                             <td class="px-4 py-3 whitespace-nowrap">
                                 <p class="text-sm text-gray-500 text-center">{{ $loop->index + 1 }}</p>
@@ -133,13 +162,13 @@
                             <td class="px-4 py-3 whitespace-nowrap">
                                 <p class="text-sm text-black text-center">{{ $child->unit }}</p>
                             </td>
-                            <td class="px-4 py-3 whitespace-nowrap">
+                            <td class="px-4 py-3 whitespace-nowrap {{ $color ?? '' }}">
                                 @if($child->price)
-                                    <p class="text-sm text-black font-medium text-center">
+                                    <p class="text-sm text-black font-medium text-center {{ $color ? 'text-white' : 'text-red-600' }}">
                                         {{ number_format($child->price) }} تومان
                                     </p>
                                 @else
-                                    <p class="text-sm text-red-600 font-medium text-center">
+                                    <p class="text-sm font-medium text-center {{ $color ? 'text-white' : 'text-red-600' }}">
                                         منتظر قیمت گذاری
                                     </p>
                                 @endif

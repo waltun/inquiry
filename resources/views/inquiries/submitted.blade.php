@@ -107,10 +107,6 @@
                                        class="form-submit-btn text-xs">
                                         محصولات
                                     </a>
-                                    <a href="{{ route('inquiries.showDescription',$inquiry->id) }}"
-                                       class="form-submit-btn text-xs bg-gray-500 hover:bg-gray-600">
-                                        شرایط استعلام
-                                    </a>
                                 @endcan
                             @endif
                             @if($inquiry->type == 'part' || $inquiry->type == 'both')
@@ -121,6 +117,12 @@
                                     </a>
                                 @endcan
                             @endif
+                            @can('create-inquiry')
+                                <a href="{{ route('inquiries.description',$inquiry->id) }}"
+                                   class="form-submit-btn text-xs bg-gray-500 hover:bg-gray-600">
+                                    شرایط استعلام
+                                </a>
+                            @endcan
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
                             @can('detail-inquiry')

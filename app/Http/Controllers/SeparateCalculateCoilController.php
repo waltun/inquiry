@@ -323,7 +323,8 @@ class SeparateCalculateCoilController extends Controller
         $newPart = $part->replicate()->fill([
             'name' => $name,
             'code' => $code,
-            'coil' => true
+            'coil' => true,
+            'price_updated_at' => now(),
         ]);
 
         $newPart->save();
@@ -579,7 +580,7 @@ class SeparateCalculateCoilController extends Controller
         list ($collectorAhani, $electrod6013) = $this->collectorAhaniWarm($collectorAhaniId, $ertefaFin);
 
         //Collector Messi
-        $collectorMessi = $this->collectorMessiWarm($collectorMessiId, $noeCoil, $ertefaFin);
+        $collectorMessi = $this->collectorMessiWarm($collectorMessiId, $ertefaFin);
 
         $values = [
             0,
@@ -656,7 +657,8 @@ class SeparateCalculateCoilController extends Controller
         $newPart = $part->replicate()->fill([
             'name' => $name,
             'code' => $code,
-            'coil' => true
+            'coil' => true,
+            'price_updated_at' => now(),
         ]);
 
         $newPart->save();
@@ -908,7 +910,7 @@ class SeparateCalculateCoilController extends Controller
         list ($collectorAhani, $electrod6013) = $this->collectorAhaniWarm($collectorAhaniId, $ertefaFin);
 
         //Collector Messi
-        $collectorMessi = $this->collectorMessiWarm($collectorMessiId, $noeCoil, $ertefaFin);
+        $collectorMessi = $this->collectorMessiWarm($collectorMessiId, $ertefaFin);
 
         $values = [
             0,
@@ -985,7 +987,8 @@ class SeparateCalculateCoilController extends Controller
         $newPart = $part->replicate()->fill([
             'name' => $name,
             'code' => $code,
-            'coil' => true
+            'coil' => true,
+            'price_updated_at' => now(),
         ]);
 
         $newPart->save();
@@ -1299,7 +1302,8 @@ class SeparateCalculateCoilController extends Controller
         $newPart = $part->replicate()->fill([
             'name' => $name,
             'code' => $code,
-            'coil' => true
+            'coil' => true,
+            'price_updated_at' => now(),
         ]);
 
         $newPart->save();
@@ -1636,7 +1640,8 @@ class SeparateCalculateCoilController extends Controller
         $newPart = $part->replicate()->fill([
             'name' => $name,
             'code' => $code,
-            'coil' => true
+            'coil' => true,
+            'price_updated_at' => now(),
         ]);
 
         $newPart->save();
@@ -1694,7 +1699,6 @@ class SeparateCalculateCoilController extends Controller
 
         return redirect()->route('separate.coil.index');
     }
-
 
     public function getLastCode($part)
     {
@@ -1957,31 +1961,31 @@ class SeparateCalculateCoilController extends Controller
     public function collectorAhaniWarm($collectorAhaniId, $ertefaFin)
     {
         if ($collectorAhaniId === '70') {
-            $collectorAhani = (($ertefaFin + 150) / 1000) * 1.94 * 2 * 2;
+            $collectorAhani = (($ertefaFin + 150) / 1000) * 1.94 * 2;
             $electrod6013 = 2 * 16;
         }
         if ($collectorAhaniId === '71') {
-            $collectorAhani = (($ertefaFin + 150) / 1000) * 2.48 * 2 * 2;
+            $collectorAhani = (($ertefaFin + 150) / 1000) * 2.48 * 2;
             $electrod6013 = 3 * 16;
         }
         if ($collectorAhaniId === '72') {
-            $collectorAhani = (($ertefaFin + 150) / 1000) * 2.81 * 2 * 2;
+            $collectorAhani = (($ertefaFin + 150) / 1000) * 2.81 * 2;
             $electrod6013 = 4 * 16;
         }
         if ($collectorAhaniId === '73') {
-            $collectorAhani = (($ertefaFin + 150) / 1000) * 4.32 * 2 * 2;
+            $collectorAhani = (($ertefaFin + 150) / 1000) * 4.32 * 2;
             $electrod6013 = 5 * 16;
         }
         if ($collectorAhaniId === '74') {
-            $collectorAhani = (($ertefaFin + 150) / 1000) * 5.48 * 2 * 2;
+            $collectorAhani = (($ertefaFin + 150) / 1000) * 5.48 * 2;
             $electrod6013 = 7 * 16;
         }
         if ($collectorAhaniId === '75') {
-            $collectorAhani = (($ertefaFin + 150) / 1000) * 7.56 * 2 * 2;
+            $collectorAhani = (($ertefaFin + 150) / 1000) * 7.56 * 2;
             $electrod6013 = 8 * 16;
         }
         if ($collectorAhaniId === '76') {
-            $collectorAhani = (($ertefaFin + 150) / 1000) * 11.18 * 2 * 2;
+            $collectorAhani = (($ertefaFin + 150) / 1000) * 11.18 * 2;
             $electrod6013 = 10 * 16;
         }
 
