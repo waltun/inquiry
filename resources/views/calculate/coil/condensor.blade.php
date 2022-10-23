@@ -388,51 +388,51 @@
                         <select name="collector_ahani" id="inputCollectorAhani" class="input-text bg-yellow-300">
                             <option value="0">ندارد</option>
                             <option value="{{ \App\Models\Part::where('id','77')->first()->id }}"
-                                {{ is_null($inputs) ? (old('collector_ahani') == '77' ? 'selected' : '') : ($inputs['collector_messi'] == "77" ? 'selected' : (old('collector_ahani') == '77' ? 'selected' : '')) }}>
+                                {{ is_null($inputs) ? (old('collector_ahani') == '77' ? 'selected' : '') : ($inputs['collector_ahani'] == "77" ? 'selected' : (old('collector_ahani') == '77' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','77')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','78')->first()->id }}"
-                                {{ is_null($inputs) ? (old('collector_ahani') == '78' ? 'selected' : '') : ($inputs['collector_messi'] == "78" ? 'selected' : (old('collector_ahani') == '77' ? 'selected' : '')) }}>
+                                {{ is_null($inputs) ? (old('collector_ahani') == '78' ? 'selected' : '') : ($inputs['collector_ahani'] == "78" ? 'selected' : (old('collector_ahani') == '77' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','78')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','79')->first()->id }}"
-                                {{ is_null($inputs) ? (old('collector_ahani') == '79' ? 'selected' : '') : ($inputs['collector_messi'] == "79" ? 'selected' : (old('collector_ahani') == '79' ? 'selected' : '')) }}>
+                                {{ is_null($inputs) ? (old('collector_ahani') == '79' ? 'selected' : '') : ($inputs['collector_ahani'] == "79" ? 'selected' : (old('collector_ahani') == '79' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','79')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','80')->first()->id }}"
-                                {{ is_null($inputs) ? (old('collector_ahani') == '80' ? 'selected' : '') : ($inputs['collector_messi'] == "80" ? 'selected' : (old('collector_ahani') == '80' ? 'selected' : '')) }}>
+                                {{ is_null($inputs) ? (old('collector_ahani') == '80' ? 'selected' : '') : ($inputs['collector_ahani'] == "80" ? 'selected' : (old('collector_ahani') == '80' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','80')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','81')->first()->id }}"
-                                {{ is_null($inputs) ? (old('collector_ahani') == '81' ? 'selected' : '') : ($inputs['collector_messi'] == "81" ? 'selected' : (old('collector_ahani') == '81' ? 'selected' : '')) }}>
+                                {{ is_null($inputs) ? (old('collector_ahani') == '81' ? 'selected' : '') : ($inputs['collector_ahani'] == "81" ? 'selected' : (old('collector_ahani') == '81' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','81')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','82')->first()->id }}"
-                                {{ is_null($inputs) ? (old('collector_ahani') == '82' ? 'selected' : '') : ($inputs['collector_messi'] == "82" ? 'selected' : (old('collector_ahani') == '82' ? 'selected' : '')) }}>
+                                {{ is_null($inputs) ? (old('collector_ahani') == '82' ? 'selected' : '') : ($inputs['collector_ahani'] == "82" ? 'selected' : (old('collector_ahani') == '82' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','82')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','83')->first()->id }}"
-                                {{ is_null($inputs) ? (old('collector_ahani') == '83' ? 'selected' : '') : ($inputs['collector_messi'] == "83" ? 'selected' : (old('collector_ahani') == '83' ? 'selected' : '')) }}>
+                                {{ is_null($inputs) ? (old('collector_ahani') == '83' ? 'selected' : '') : ($inputs['collector_ahani'] == "83" ? 'selected' : (old('collector_ahani') == '83' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','83')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','84')->first()->id }}"
-                                {{ is_null($inputs) ? (old('collector_ahani') == '84' ? 'selected' : '') : ($inputs['collector_messi'] == "84" ? 'selected' : (old('collector_ahani') == '84' ? 'selected' : '')) }}>
+                                {{ is_null($inputs) ? (old('collector_ahani') == '84' ? 'selected' : '') : ($inputs['collector_ahani'] == "84" ? 'selected' : (old('collector_ahani') == '84' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','84')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','85')->first()->id }}"
-                                {{ is_null($inputs) ? (old('collector_ahani') == '85' ? 'selected' : '') : ($inputs['collector_messi'] == "85" ? 'selected' : (old('collector_ahani') == '85' ? 'selected' : '')) }}>
+                                {{ is_null($inputs) ? (old('collector_ahani') == '85' ? 'selected' : '') : ($inputs['collector_ahani'] == "85" ? 'selected' : (old('collector_ahani') == '85' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','85')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','86')->first()->id }}"
-                                {{ is_null($inputs) ? (old('collector_ahani') == '86' ? 'selected' : '') : ($inputs['collector_messi'] == "86" ? 'selected' : (old('collector_ahani') == '86' ? 'selected' : '')) }}>
+                                {{ is_null($inputs) ? (old('collector_ahani') == '86' ? 'selected' : '') : ($inputs['collector_ahani'] == "86" ? 'selected' : (old('collector_ahani') == '86' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','86')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','87')->first()->id }}"
-                                {{ is_null($inputs) ? (old('collector_ahani') == '87' ? 'selected' : '') : ($inputs['collector_messi'] == "87" ? 'selected' : (old('collector_ahani') == '87' ? 'selected' : '')) }}>
+                                {{ is_null($inputs) ? (old('collector_ahani') == '87' ? 'selected' : '') : ($inputs['collector_ahani'] == "87" ? 'selected' : (old('collector_ahani') == '87' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','87')->first()->name }}
                             </option>
                             <option value="{{ \App\Models\Part::where('id','88')->first()->id }}"
-                                {{ is_null($inputs) ? (old('collector_ahani') == '88' ? 'selected' : '') : ($inputs['collector_messi'] == "88" ? 'selected' : (old('collector_ahani') == '88' ? 'selected' : '')) }}>
+                                {{ is_null($inputs) ? (old('collector_ahani') == '88' ? 'selected' : '') : ($inputs['collector_ahani'] == "88" ? 'selected' : (old('collector_ahani') == '88' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','88')->first()->name }}
                             </option>
                         </select>
