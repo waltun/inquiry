@@ -28,6 +28,27 @@
                 }
             });
         </script>
+        <script>
+            function storeInquiryPrice(part, inquiry) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/inquiry-price/' + part + '/' + inquiry + '/' + 'store',
+                    data: {
+                        part_id: part,
+                        inquiry_id: inquiry
+                    },
+                    success: function (res) {
+                        location.reload();
+                    }
+                });
+            }
+        </script>
     </x-slot>
     <!-- Breadcrumb -->
     <nav class="flex bg-gray-100 p-4 rounded-md overflow-x-auto whitespace-nowrap" aria-label="Breadcrumb">
@@ -167,6 +188,9 @@
                 </tr>
                 </thead>
                 <tbody>
+                @php
+                    $color = '';
+                @endphp
                 @foreach($inquiry->products()->where('part_id','!=',0)->get() as $product)
                     @php
                         $part = \App\Models\Part::find($product->part_id);
@@ -196,12 +220,12 @@
                             $color = 'bg-red-600';
                         }
                     @endphp
-                    <tr class="{{ $color ?? 'bg-white' }}">
+                    <tr>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <input type="checkbox" value="{{ $product->id }}"
                                    class="checkboxes w-4 h-4 accent-blue-600 bg-gray-200 rounded border border-gray-300 focus:ring-blue-500 focus:ring-2 focus:ring-offset-1 mx-auto block">
                         </td>
-                        <td class="px-4 py-3 whitespace-nowrap">
+                        <td class="px-4 py-3 whitespace-nowrap {{ $color ?? 'bg-white' }}">
                             <p class="text-sm text-black text-center font-medium">{{ $part->name }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
@@ -233,6 +257,22 @@
                                 <p class="text-sm font-bold text-green-600 inline">
                                     ضریب ثبت شده
                                 </p>
+                            @endif
+                            @if($color == 'bg-red-500' || $color == 'bg-red-600')
+                                @php
+                                    $inquiryPrice = \App\Models\InquiryPrice::where('part_id',$part->id)->pluck('part_id')->all();
+                                @endphp
+                                @if(!in_array($part->id,$inquiryPrice))
+                                    <button type="button"
+                                            onclick="storeInquiryPrice({{ $part->id }},{{ $inquiry->id }})"
+                                            class="text-xs font-bold text-black underline underline-offset-4 whitespace-nowrap mr-2">
+                                        درخواست بروزرسانی قیمت
+                                    </button>
+                                @else
+                                    <p class="text-xs font-bold text-black whitespace-nowrap mr-2 inline">
+                                        درخواست ارسال شد
+                                    </p>
+                                @endif
                             @endif
                         </td>
                     </tr>

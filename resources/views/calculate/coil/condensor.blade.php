@@ -130,9 +130,7 @@
                             @endif
                         </p>
                         <p class="bg-green-500 rounded-md px-6 py-2 text-sm font-bold text-white">
-                            قیمت نهایی :
-                            <span id="finalPriceTopSection">0</span>
-                            تومان
+                            {{ $name ?? '' }}
                         </p>
                     </div>
                 </div>
@@ -707,7 +705,7 @@
 
                 <div class="mb-4">
                     <button type="submit" class="form-submit-btn">
-                        ثبت مقادیر
+                        ذخیره
                     </button>
                 </div>
 
