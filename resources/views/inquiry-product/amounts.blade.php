@@ -1,3 +1,10 @@
+@php
+    use App\Models\Amount;
+    use App\Models\InquiryPrice;
+    use App\Models\Part;
+    use App\Models\Special;
+    use Carbon\Carbon;
+@endphp
 <x-layout>
     <x-slot name="js">
         <script src="{{ asset('plugins/jquery.min.js') }}"></script>
@@ -184,7 +191,7 @@
                         part_id: part,
                         inquiry_id: inquiry
                     },
-                    success: function (res) {
+                    success: function () {
                         location.reload();
                     }
                 });
@@ -310,16 +317,16 @@
 
                                 if ($setting) {
                                     if($setting->price_color_type == 'month') {
-                                        $lastTime = \Carbon\Carbon::now()->subMonth($setting->price_color_last_time);
-                                        $midTime = \Carbon\Carbon::now()->subMonth($setting->price_color_mid_time);
+                                        $lastTime = Carbon::now()->subMonth($setting->price_color_last_time);
+                                        $midTime = Carbon::now()->subMonth($setting->price_color_mid_time);
                                     }
                                     if($setting->price_color_type == 'day') {
-                                        $lastTime = \Carbon\Carbon::now()->subDay($setting->price_color_last_time);
-                                        $midTime = \Carbon\Carbon::now()->subDay($setting->price_color_mid_time);
+                                        $lastTime = Carbon::now()->subDay($setting->price_color_last_time);
+                                        $midTime = Carbon::now()->subDay($setting->price_color_mid_time);
                                     }
                                     if($setting->price_color_type == 'hour') {
-                                        $lastTime = \Carbon\Carbon::now()->subHour($setting->price_color_last_time);
-                                        $midTime = \Carbon\Carbon::now()->subHour($setting->price_color_mid_time);
+                                        $lastTime = Carbon::now()->subHour($setting->price_color_last_time);
+                                        $midTime = Carbon::now()->subHour($setting->price_color_mid_time);
                                     }
                                 }
 
@@ -342,7 +349,7 @@
                                 </td>
                                 <td class="border border-gray-300 p-4 text-sm text-center flex items-center">
                                     @php
-                                        $selectedPart = \App\Models\Part::find($part->id);
+                                        $selectedPart = Part::find($part->id);
                                         $lastCategory = $selectedPart->categories()->latest()->first();
                                         $categoryParts = $lastCategory->parts;
                                     @endphp
@@ -518,7 +525,7 @@
                                            onkeyup="changeBorder(event)">
                                     @if($color == 'bg-red-500' || $color == 'bg-red-600' || $part->price == '0')
                                         @php
-                                            $inquiryPrice = \App\Models\InquiryPrice::where('part_id',$part->id)->pluck('part_id')->all();
+                                            $inquiryPrice = InquiryPrice::where('part_id',$part->id)->pluck('part_id')->all();
                                         @endphp
                                         @if(!in_array($part->id,$inquiryPrice))
                                             <button type="button"
@@ -547,16 +554,16 @@
 
                                 if ($setting) {
                                     if($setting->price_color_type == 'month') {
-                                        $lastTime = \Carbon\Carbon::now()->subMonth($setting->price_color_last_time);
-                                        $midTime = \Carbon\Carbon::now()->subMonth($setting->price_color_mid_time);
+                                        $lastTime = Carbon::now()->subMonth($setting->price_color_last_time);
+                                        $midTime = Carbon::now()->subMonth($setting->price_color_mid_time);
                                     }
                                     if($setting->price_color_type == 'day') {
-                                        $lastTime = \Carbon\Carbon::now()->subDay($setting->price_color_last_time);
-                                        $midTime = \Carbon\Carbon::now()->subDay($setting->price_color_mid_time);
+                                        $lastTime = Carbon::now()->subDay($setting->price_color_last_time);
+                                        $midTime = Carbon::now()->subDay($setting->price_color_mid_time);
                                     }
                                     if($setting->price_color_type == 'hour') {
-                                        $lastTime = \Carbon\Carbon::now()->subHour($setting->price_color_last_time);
-                                        $midTime = \Carbon\Carbon::now()->subHour($setting->price_color_mid_time);
+                                        $lastTime = Carbon::now()->subHour($setting->price_color_last_time);
+                                        $midTime = Carbon::now()->subHour($setting->price_color_mid_time);
                                     }
                                 }
 
@@ -582,7 +589,7 @@
                                 </td>
                                 <td class="border border-gray-300 p-4 text-sm text-center flex items-center">
                                     @php
-                                        $selectedPart = \App\Models\Part::find($part->id);
+                                        $selectedPart = Part::find($part->id);
                                         $lastCategory = $selectedPart->categories()->latest()->first();
                                         $categoryParts = $lastCategory->parts;
                                     @endphp
@@ -759,7 +766,7 @@
                                     @if(!in_array($part->id,$specials))
                                         @if($color == 'bg-red-500' || $color == 'bg-red-600' || $part->price == '0')
                                             @php
-                                                $inquiryPrice = \App\Models\InquiryPrice::where('part_id',$part->id)->pluck('part_id')->all();
+                                                $inquiryPrice = InquiryPrice::where('part_id',$part->id)->pluck('part_id')->all();
                                             @endphp
                                             @if(!in_array($part->id,$inquiryPrice))
                                                 <button type="button"
@@ -781,7 +788,7 @@
                 @else
                     @foreach($amounts as $amount)
                         @php
-                            $part = \App\Models\Part::find($amount->part_id);
+                            $part = Part::find($amount->part_id);
                             $code = '';
                             foreach($part->categories as $category) {
                                 $code = $code . $category->code;
@@ -790,16 +797,16 @@
 
                             if ($setting) {
                                 if($setting->price_color_type == 'month') {
-                                    $lastTime = \Carbon\Carbon::now()->subMonth($setting->price_color_last_time);
-                                    $midTime = \Carbon\Carbon::now()->subMonth($setting->price_color_mid_time);
+                                    $lastTime = Carbon::now()->subMonth($setting->price_color_last_time);
+                                    $midTime = Carbon::now()->subMonth($setting->price_color_mid_time);
                                 }
                                 if($setting->price_color_type == 'day') {
-                                    $lastTime = \Carbon\Carbon::now()->subDay($setting->price_color_last_time);
-                                    $midTime = \Carbon\Carbon::now()->subDay($setting->price_color_mid_time);
+                                    $lastTime = Carbon::now()->subDay($setting->price_color_last_time);
+                                    $midTime = Carbon::now()->subDay($setting->price_color_mid_time);
                                 }
                                 if($setting->price_color_type == 'hour') {
-                                    $lastTime = \Carbon\Carbon::now()->subHour($setting->price_color_last_time);
-                                    $midTime = \Carbon\Carbon::now()->subHour($setting->price_color_mid_time);
+                                    $lastTime = Carbon::now()->subHour($setting->price_color_last_time);
+                                    $midTime = Carbon::now()->subHour($setting->price_color_mid_time);
                                 }
                             }
 
@@ -986,7 +993,7 @@
                                 @if(!in_array($part->id,$specials))
                                     @if($color == 'bg-red-500' || $color == 'bg-red-600')
                                         @php
-                                            $inquiryPrice = \App\Models\InquiryPrice::where('part_id',$part->id)->pluck('part_id')->all();
+                                            $inquiryPrice = InquiryPrice::where('part_id',$part->id)->pluck('part_id')->all();
                                         @endphp
                                         @if(!in_array($part->id,$inquiryPrice))
                                             <button type="button"
@@ -1024,8 +1031,8 @@
         @csrf
 
         @php
-            $amounts = \App\Models\Amount::where('product_id', $product->id)->get();
-            $specials = \App\Models\Special::all()->pluck('part_id')->toArray();
+            $amounts = Amount::where('product_id', $product->id)->get();
+            $specials = Special::all()->pluck('part_id')->toArray();
             $counter = 0;
         @endphp
         @foreach($group->parts as $part)
@@ -1045,7 +1052,7 @@
                 </span>
                 <div class="space-y-4">
                     @php
-                        $selectedPart = \App\Models\Part::find($part->id);
+                        $selectedPart = Part::find($part->id);
                         $lastCategory = $selectedPart->categories()->latest()->first();
                         $categoryParts = $lastCategory->parts;
                     @endphp
@@ -1099,7 +1106,7 @@
                 </span>
                 <div class="space-y-4">
                     @php
-                        $selectedPart = \App\Models\Part::find($part->id);
+                        $selectedPart = Part::find($part->id);
                         $lastCategory = $selectedPart->categories()->latest()->first();
                         $categoryParts = $lastCategory->parts;
                     @endphp
