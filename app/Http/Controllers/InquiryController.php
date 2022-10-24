@@ -125,11 +125,13 @@ class InquiryController extends Controller
         if (!$inquiry->products->isEmpty()) {
             foreach ($inquiry->products as $product) {
                 $modell = Modell::find($product->model_id);
-                if (!$modell->parts->isEmpty()) {
-                    foreach ($modell->parts as $part) {
-                        if (in_array($part->id, $specials)) {
-                            session()->forget('selectedPart' . $part->id);
-                            session()->forget('price' . $part->id);
+                if ($modell) {
+                    if (!$modell->parts->isEmpty()) {
+                        foreach ($modell->parts as $part) {
+                            if (in_array($part->id, $specials)) {
+                                session()->forget('selectedPart' . $part->id);
+                                session()->forget('price' . $part->id);
+                            }
                         }
                     }
                 }

@@ -206,6 +206,17 @@
                                     </div>
                                 </div>
                             </div>
+                            @can('users')
+                                <form action="{{ route('inquiries.destroy',$inquiry->id) }}" method="POST"
+                                      class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="form-cancel-btn text-xs"
+                                            onclick="return confirm('استعلام حذف شود ؟')">
+                                        حذف
+                                    </button>
+                                </form>
+                            @endcan
                         </td>
                     </tr>
                 @endforeach
