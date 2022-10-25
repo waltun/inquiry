@@ -302,9 +302,6 @@
                 </tr>
                 </thead>
                 <tbody>
-                @php
-                    $color = '';
-                @endphp
                 @if($amounts->isEmpty())
                     @if(!$group->parts->isEmpty())
                         @foreach($group->parts as $part)
@@ -547,6 +544,7 @@
                         @foreach($modell->parts as $index => $part)
                             @php
                                 $code = '';
+                                $color = '';
                                 foreach($part->categories as $category) {
                                     $code = $code . $category->code;
                                 }
@@ -567,7 +565,7 @@
                                     }
                                 }
 
-                                if(!in_array($part->id,$specials)) {
+                                if(!in_array($part->id,$specials) && $part->collection == '0') {
                                     if ($part->price_updated_at < $lastTime && $part->price > 0) {
 									    $color = 'bg-red-500';
                                     }
@@ -579,6 +577,17 @@
                                     }
                                     if ($part->price_updated_at < $lastTime && $part->price == 0) {
                                         $color = 'bg-red-600';
+                                    }
+                                }
+
+                                if (!in_array($part->id,$specials) && $part->collection == '1') {
+                                    foreach ($part->children as $child) {
+                                        if ($child->price_updated_at < $lastTime && $child->price > 0) {
+                                            $color = 'bg-red-500';
+                                        }
+                                        if ($child->price_updated_at < $lastTime && $child->price == 0) {
+                                            $color = 'bg-red-600';
+                                        }
                                     }
                                 }
 
@@ -767,8 +776,15 @@
                                         @if($color == 'bg-red-500' || $color == 'bg-red-600' || $part->price == '0')
                                             @php
                                                 $inquiryPrice = InquiryPrice::where('part_id',$part->id)->pluck('part_id')->all();
+                                                $inquiryPrices = InquiryPrice::all()->pluck('part_id');
+                                                foreach ($inquiryPrices as $item) {
+                                                    $inquiryPart = Part::find($item);
+                                                    if (!$inquiryPart->parents->isEmpty()) {
+                                                        $parents = $inquiryPart->parents->pluck('id')->toArray();
+                                                    }
+                                                }
                                             @endphp
-                                            @if(!in_array($part->id,$inquiryPrice))
+                                            @if(!in_array($part->id,$inquiryPrice) && !in_array($part->id,$parents))
                                                 <button type="button"
                                                         onclick="storeInquiryPrice({{ $part->id }},{{ $inquiry->id }})"
                                                         class="text-xs font-bold text-white underline underline-offset-4 whitespace-nowrap mr-2">
@@ -790,6 +806,7 @@
                         @php
                             $part = Part::find($amount->part_id);
                             $code = '';
+                            $color = '';
                             foreach($part->categories as $category) {
                                 $code = $code . $category->code;
                             }
@@ -810,7 +827,7 @@
                                 }
                             }
 
-                            if (!in_array($part->id,$specials)) {
+                            if (!in_array($part->id,$specials) && $part->collection == '0') {
                                 if ($part->price_updated_at < $lastTime && $part->price > 0) {
 								    $color = 'bg-red-500';
                                 }
@@ -824,6 +841,17 @@
                                     $color = 'bg-red-600';
                                 }
                             }
+
+                            if (!in_array($part->id,$specials) && $part->collection == '1') {
+                                    foreach ($part->children as $child) {
+                                        if ($child->price_updated_at < $lastTime && $child->price > 0) {
+                                            $color = 'bg-red-500';
+                                        }
+                                        if ($child->price_updated_at < $lastTime && $child->price == 0) {
+                                            $color = 'bg-red-600';
+                                        }
+                                    }
+                                }
                         @endphp
                         <tr class="{{ $color ?? 'bg-white' }}">
                             <td class="border border-gray-300 p-4 text-sm text-center">
@@ -994,8 +1022,15 @@
                                     @if($color == 'bg-red-500' || $color == 'bg-red-600')
                                         @php
                                             $inquiryPrice = InquiryPrice::where('part_id',$part->id)->pluck('part_id')->all();
+                                            $inquiryPrices = InquiryPrice::all()->pluck('part_id');
+                                                foreach ($inquiryPrices as $item) {
+                                                    $inquiryPart = Part::find($item);
+                                                    if (!$inquiryPart->parents->isEmpty()) {
+                                                        $parents = $inquiryPart->parents->pluck('id')->toArray();
+                                                    }
+                                                }
                                         @endphp
-                                        @if(!in_array($part->id,$inquiryPrice))
+                                        @if(!in_array($part->id,$inquiryPrice) && !in_array($part->id,$parents))
                                             <button type="button"
                                                     onclick="storeInquiryPrice({{ $part->id }},{{ $inquiry->id }})"
                                                     class="text-xs font-bold text-white underline underline-offset-4 whitespace-nowrap mr-2">

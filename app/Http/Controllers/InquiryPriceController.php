@@ -25,10 +25,36 @@ class InquiryPriceController extends Controller
 
     public function store(Request $request)
     {
-        $inquiryPrice = auth()->user()->inquiryPrices()->create([
-            'part_id' => $request->part_id,
-            'inquiry_id' => $request->inquiry_id
-        ]);
+        $part = Part::find($request->part_id);
+        $setting = Setting::where('active', '1')->first();
+
+        if ($setting) {
+            if ($setting->price_color_type == 'month') {
+                $lastTime = \Carbon\Carbon::now()->subMonth($setting->price_color_last_time);
+            }
+            if ($setting->price_color_type == 'day') {
+                $lastTime = \Carbon\Carbon::now()->subDay($setting->price_color_last_time);
+            }
+            if ($setting->price_color_type == 'hour') {
+                $lastTime = \Carbon\Carbon::now()->subHour($setting->price_color_last_time);
+            }
+        }
+
+        if ($part->collection == '1' && !$part->children->isEmpty()) {
+            foreach ($part->children as $child) {
+                if (($child->price_updated_at < $lastTime && $child->price > 0) || ($child->price_updated_at < $lastTime && $child->price == 0)) {
+                    $inquiryPrice = auth()->user()->inquiryPrices()->create([
+                        'part_id' => $child->id,
+                        'inquiry_id' => $request->inquiry_id
+                    ]);
+                }
+            }
+        } else {
+            $inquiryPrice = auth()->user()->inquiryPrices()->create([
+                'part_id' => $request->part_id,
+                'inquiry_id' => $request->inquiry_id
+            ]);
+        }
 
         $priceUsers = User::where('role', 'price')->orWhere('role', 'logistic')->get();
         Notification::send($priceUsers, new InquiryPriceNotification($inquiryPrice));
@@ -46,13 +72,24 @@ class InquiryPriceController extends Controller
         foreach ($request->parts as $index => $part) {
             $updatedPart = Part::find($part);
             $inquiryPrice = InquiryPrice::where('part_id', $part)->first();
-
             if ($updatedPart->price !== (int)$request->prices[$index]) {
                 $updatedPart->update([
                     'price' => $request->prices[$index],
                     'old_price' => $updatedPart->price,
                     'price_updated_at' => now()
                 ]);
+
+                if (!$updatedPart->parents->isEmpty()) {
+                    foreach ($updatedPart->parents as $parent) {
+                        $price = $parent->children()->sum('price');
+                        $parent->update([
+                            'price' => $price,
+                            'old_price' => $parent->price,
+                            'price_updated_at' => now(),
+                            'updated_at' => now()
+                        ]);
+                    }
+                }
 
                 $inquiryPrice->delete();
             }

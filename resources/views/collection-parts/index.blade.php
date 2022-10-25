@@ -238,6 +238,7 @@
                 <tbody>
                 @php
                     $specials = \App\Models\Special::all()->pluck('part_id')->toArray();
+                    $color = '';
                 @endphp
                 @foreach($parts as $part)
                     @php
