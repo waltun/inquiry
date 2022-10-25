@@ -177,6 +177,9 @@
                         #
                     </th>
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                        Sort
+                    </th>
+                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                         نام قطعه
                     </th>
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
@@ -191,7 +194,7 @@
                 @php
                     $color = '';
                 @endphp
-                @foreach($inquiry->products()->where('part_id','!=',0)->get() as $product)
+                @foreach($inquiry->products()->where('part_id','!=',0)->orderBy('sort','ASC')->get() as $product)
                     @php
                         $part = \App\Models\Part::find($product->part_id);
 
@@ -224,6 +227,9 @@
                         <td class="px-4 py-3 whitespace-nowrap">
                             <input type="checkbox" value="{{ $product->id }}"
                                    class="checkboxes w-4 h-4 accent-blue-600 bg-gray-200 rounded border border-gray-300 focus:ring-blue-500 focus:ring-2 focus:ring-offset-1 mx-auto block">
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <p class="text-sm text-gray-600 text-center">{{ $product->sort }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap {{ $color ?? 'bg-white' }}">
                             <p class="text-sm text-black text-center font-medium">{{ $part->name }}</p>

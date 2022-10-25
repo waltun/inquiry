@@ -41,7 +41,8 @@ class InquiryProductController extends Controller
             'model_id' => 'required|integer',
             'quantity' => 'required|numeric|min:1',
             'description' => 'nullable|string|max:255',
-            'model_custom_name' => 'string|max:255|nullable'
+            'model_custom_name' => 'string|max:255|nullable',
+            'sort' => 'required|numeric'
         ]);
 
         $inquiry->products()->create([
@@ -49,7 +50,8 @@ class InquiryProductController extends Controller
             'model_id' => $request['model_id'],
             'quantity' => $request['quantity'],
             'description' => $request['description'],
-            'model_custom_name' => $request['model_custom_name']
+            'model_custom_name' => $request['model_custom_name'],
+            'sort' => $request['sort'],
         ]);
 
         alert()->success('ثبت موفق', 'ثبت محصول برای استعلام با موفقیت انجام شد');
@@ -73,13 +75,15 @@ class InquiryProductController extends Controller
         $request->validate([
             'quantity' => 'required|numeric',
             'description' => 'nullable|string|max:255',
-            'model_custom_name' => 'string|max:255|nullable'
+            'model_custom_name' => 'string|max:255|nullable',
+            'sort' => 'required|numeric'
         ]);
 
         $product->update([
             'quantity' => $request['quantity'],
             'description' => $request['description'],
-            'model_custom_name' => $request['model_custom_name']
+            'model_custom_name' => $request['model_custom_name'],
+            'sort' => $request['sort']
         ]);
 
         alert()->success('ویرایش موفق', 'ویرایش محصول با موفقیت انجام شد');
@@ -119,7 +123,7 @@ class InquiryProductController extends Controller
         $group = Group::find($product->group_id);
         $modell = Modell::find($product->model_id);
         $inquiry = Inquiry::find($product->inquiry_id);
-        $amounts = Amount::where('product_id', $product->id)->get();
+        $amounts = Amount::where('product_id', $product->id)->orderBy('sort', 'ASC')->get();
         $specials = Special::all()->pluck('part_id')->toArray();
         $setting = Setting::where('active', '1')->first();
         return view('inquiry-product.amounts', compact('product', 'group', 'modell', 'inquiry', 'amounts', 'specials', 'setting'));
@@ -170,7 +174,9 @@ class InquiryProductController extends Controller
             if (!$modell->parts->isEmpty() && $group->parts->isEmpty()) {
                 $request->validate([
                     'modellAmounts' => 'required|array',
-                    'modellAmounts.*' => 'required|numeric'
+                    'modellAmounts.*' => 'required|numeric',
+                    'sorts' => 'required|array',
+                    'sorts.*' => 'required|numeric'
                 ]);
 
                 if (!$amounts->isEmpty()) {
@@ -183,7 +189,8 @@ class InquiryProductController extends Controller
                     $createdAmount = Amount::create([
                         'value' => $request->modellAmounts[$index],
                         'product_id' => $product->id,
-                        'part_id' => $part
+                        'part_id' => $part,
+                        'sort' => $request->sorts[$index]
                     ]);
 
                     $special = Special::where('part_id', $part)->first();
@@ -233,6 +240,8 @@ class InquiryProductController extends Controller
             $request->validate([
                 'amounts' => 'required|array',
                 'amounts.*' => 'required|numeric',
+                'sorts' => 'required|array',
+                'sorts.*' => 'required|numeric'
             ]);
 
             if (!$amounts->isEmpty()) {
@@ -245,7 +254,8 @@ class InquiryProductController extends Controller
                 $createdAmount = Amount::create([
                     'value' => $request->amounts[$index],
                     'product_id' => $product->id,
-                    'part_id' => $part
+                    'part_id' => $part,
+                    'sort' => $request->sorts[$index]
                 ]);
 
                 $special = Special::where('part_id', $part)->first();

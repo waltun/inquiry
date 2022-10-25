@@ -56,7 +56,8 @@
     </div>
 
     <div>
-        <a href="{{ route('inquiries.products.print',$inquiry->id) }}" class="form-percent-btn inline-flex items-center" target="_blank">
+        <a href="{{ route('inquiries.products.print',$inquiry->id) }}" class="form-percent-btn inline-flex items-center"
+           target="_blank">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                  stroke="currentColor" class="w-5 h-5 ml-2">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -85,7 +86,7 @@
         </div>
 
         <!-- Laptop List Products -->
-        @if(!$inquiry->products()->where('group_id','!=',0)->where('model_id','!=',0)->get()->isEmpty())
+        @if(!$inquiry->products()->where('group_id','!=',0)->where('model_id','!=',0)->orderBy('sort','ASC')->get()->isEmpty())
             <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4 hidden md:block">
                 <div class="mb-4">
                     <p class="text-sm font-bold text-xl text-center">لیست محصولات</p>

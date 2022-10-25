@@ -57,12 +57,14 @@ class InquiryPartController extends Controller
     public function store(Request $request, Inquiry $inquiry, Part $part)
     {
         $request->validate([
-            'quantity' => 'required|numeric'
+            'quantity' => 'required|numeric',
+            'sort' => 'required|numeric'
         ]);
 
         $inquiry->products()->create([
             'part_id' => $part->id,
-            'quantity' => $request['quantity']
+            'quantity' => $request['quantity'],
+            'sort' => $request['sort']
         ]);
 
         alert()->success('ثبت موفق', 'ثبت قطعه برای استعلام با موفقیت انجام شد');

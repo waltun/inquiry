@@ -18,14 +18,16 @@ return new class extends Migration {
             $table->decimal('percent', 5, 2)->default(0);
             $table->integer('quantity')->default(0);
             $table->bigInteger('price')->default(0);
+            $table->string('description')->nullable();
+            $table->string('model_custom_name')->nullable();
 
             $table->unsignedBigInteger('group_id')->default(0);
             $table->unsignedBigInteger('model_id')->default(0);
             $table->unsignedBigInteger('inquiry_id');
             $table->unsignedBigInteger('part_id')->default(0);
 
-            $table->string('description')->nullable();
-            $table->string('model_custom_name')->nullable();
+            $table->enum('copy_model', ['0', '1'])->default('0');
+            $table->integer('sort')->default(0);
 
             $table->index(['group_id', 'model_id', 'inquiry_id', 'part_id']);
 

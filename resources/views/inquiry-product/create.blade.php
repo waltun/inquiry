@@ -198,8 +198,15 @@
 
             <div class="mt-4">
                 <label for="inputModelName" class="block mb-2 md:text-sm text-xs text-black">نام مدل</label>
-                <input type="text" id="inputModelName" name="model_custom_name" class="input-text" placeholder="مثلا : 1000CFM"
+                <input type="text" id="inputModelName" name="model_custom_name" class="input-text"
+                       placeholder="مثلا : 1000CFM"
                        value="{{ old('model_custom_name') }}">
+            </div>
+
+            <div class="mt-4">
+                <label for="inputSort" class="block mb-2 md:text-sm text-xs text-black">Sort</label>
+                <input type="text" id="inputSort" name="sort" class="input-text" placeholder="مثلا : 1"
+                       value="{{ old('sort') }}">
             </div>
         </div>
 

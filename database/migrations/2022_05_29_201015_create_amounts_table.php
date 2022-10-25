@@ -21,6 +21,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('product_id');
 
             $table->bigInteger('price')->default(0);
+            $table->integer('sort')->default(0);
 
             $table->timestamps();
 

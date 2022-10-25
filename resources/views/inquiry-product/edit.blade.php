@@ -74,6 +74,12 @@
                        placeholder="حداقل تعداد : 1"
                        value="{{ $product->quantity }}">
             </div>
+
+            <div class="mt-4">
+                <label for="inputSort" class="block mb-2 md:text-sm text-xs text-black">Sort</label>
+                <input type="text" id="inputSort" name="sort" class="input-text" placeholder="مثلا : 1"
+                       value="{{ $product->sort }}">
+            </div>
         </div>
 
         <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">

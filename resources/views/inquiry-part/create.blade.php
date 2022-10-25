@@ -282,11 +282,6 @@
                             <p class="text-sm text-black text-center">{{ $code . "-" . $part->code }}</p>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
-                            <form action="{{ route('inquiries.parts.store',[$inquiry->id,$part->id]) }}" method="POST"
-                                  class="inline">
-                                @csrf
-
-                            </form>
                             <div class="inline-flex" x-data="{open:false}">
                                 <button type="button" class="form-submit-btn text-xs" @click="open=!open">
                                     افزودن به استعلام {{ $inquiry->name }}
@@ -306,10 +301,20 @@
                                                             تعداد قطعه
                                                         </h3>
                                                         <div class="mt-4">
-                                                            <label class="block mb-2 text-sm font-bold" for="inputQuantity">
+                                                            <label class="block mb-2 text-sm font-bold"
+                                                                   for="inputQuantity">
                                                                 تعداد قطعه
                                                             </label>
-                                                            <input type="text" class="input-text" name="quantity" id="inputQuantity">
+                                                            <input type="text" class="input-text" name="quantity"
+                                                                   id="inputQuantity">
+                                                        </div>
+
+                                                        <div class="mt-4">
+                                                            <label class="block mb-2 text-sm font-bold" for="inputSort">
+                                                                Sort
+                                                            </label>
+                                                            <input type="text" class="input-text" name="sort"
+                                                                   id="inputSort">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -392,10 +397,12 @@
                                                             تعداد قطعه
                                                         </h3>
                                                         <div class="mt-4">
-                                                            <label class="block mb-2 text-sm font-bold" for="inputQuantity">
+                                                            <label class="block mb-2 text-sm font-bold"
+                                                                   for="inputQuantity">
                                                                 تعداد قطعه
                                                             </label>
-                                                            <input type="text" class="input-text" name="quantity" id="inputQuantity">
+                                                            <input type="text" class="input-text" name="quantity"
+                                                                   id="inputQuantity">
                                                         </div>
                                                     </div>
                                                 </div>

@@ -295,6 +295,7 @@
             <table class="border-collapse border border-gray-400 w-full">
                 <thead>
                 <tr>
+                    <th class="border border-gray-300 p-4 text-sm">Sort</th>
                     <th class="border border-gray-300 p-4 text-sm">کد قطعه</th>
                     <th class="border border-gray-300 p-4 text-sm">نام قطعه</th>
                     <th class="border border-gray-300 p-4 text-sm">واحد قطعه</th>
@@ -541,7 +542,7 @@
                         @endforeach
                     @endif
                     @if(!$modell->parts->isEmpty())
-                        @foreach($modell->parts as $index => $part)
+                        @foreach($modell->parts()->orderBy('sort','ASC')->get() as $index => $part)
                             @php
                                 $code = '';
                                 $color = '';
@@ -593,6 +594,11 @@
 
                             @endphp
                             <tr class="{{ $color ?? 'bg-white' }}">
+                                <td class="border border-gray-300 p-4 text-sm text-center">
+                                    <input type="text" class="input-text w-14 text-center"
+                                           value="{{ $part->pivot->sort ?? 0 }}"
+                                           name="sorts[]" id="partSort{{ $part->id }}">
+                                </td>
                                 <td class="border border-gray-300 p-4 text-sm text-center">
                                     {{ $code . "-" . $part->code }}
                                 </td>
@@ -769,10 +775,13 @@
                                 </td>
                                 <td class="border border-gray-300 p-4 flex items-center">
                                     <input type="text" name="modellAmounts[]" id="inputAmount{{ $part->id }}"
-                                           class="input-text {{ $part->pivot->value == '0' ? 'border-yellow-500' : '' }}"
+                                           class="input-text w-20 {{ $part->pivot->value == '0' ? 'border-yellow-500' : '' }}"
                                            value="{{ $part->pivot->value }}"
                                            onkeyup="changeBorder(event,{{ $part->id }})">
                                     @if(!in_array($part->id,$specials))
+                                        @php
+                                            $parents = [];
+                                        @endphp
                                         @if($color == 'bg-red-500' || $color == 'bg-red-600' || $part->price == '0')
                                             @php
                                                 $inquiryPrice = InquiryPrice::where('part_id',$part->id)->pluck('part_id')->all();
@@ -854,6 +863,10 @@
                                 }
                         @endphp
                         <tr class="{{ $color ?? 'bg-white' }}">
+                            <td class="border border-gray-300 p-4 text-sm text-center">
+                                <input type="text" class="input-text w-14 text-center" value="{{ $amount->sort ?? 0 }}"
+                                       name="sorts[]" id="partSort{{ $part->id }}">
+                            </td>
                             <td class="border border-gray-300 p-4 text-sm text-center">
                                 {{ $code . "-" . $part->code }}
                             </td>
@@ -1016,9 +1029,12 @@
                             </td>
                             <td class="border border-gray-300 p-4 flex items-center">
                                 <input type="text" name="amounts[]" id="inputAmount{{ $part->id }}"
-                                       class="input-text {{ $amount->value == '0' ? 'border-yellow-500' : '' }}"
+                                       class="input-text w-20 {{ $amount->value == '0' ? 'border-yellow-500' : '' }}"
                                        value="{{ $amount->value }}" onkeyup="changeBorder(event,{{ $part->id }})">
                                 @if(!in_array($part->id,$specials))
+                                    @php
+                                        $parents = [];
+                                    @endphp
                                     @if($color == 'bg-red-500' || $color == 'bg-red-600')
                                         @php
                                             $inquiryPrice = InquiryPrice::where('part_id',$part->id)->pluck('part_id')->all();
@@ -1027,6 +1043,8 @@
                                                     $inquiryPart = Part::find($item);
                                                     if (!$inquiryPart->parents->isEmpty()) {
                                                         $parents = $inquiryPart->parents->pluck('id')->toArray();
+                                                    } else {
+                                                        $parents = [];
                                                     }
                                                 }
                                         @endphp

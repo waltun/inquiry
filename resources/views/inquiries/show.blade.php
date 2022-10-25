@@ -61,6 +61,7 @@
         </div>
     </div>
 
+    <!-- Print -->
     <div>
         <a href="{{ route('inquiries.print',$inquiry->id) }}" class="form-percent-btn inline-flex items-center"
            target="_blank">
@@ -96,7 +97,7 @@
 
             <!-- Laptop & Mobile Product List -->
         @if(!$inquiry->products()->where('group_id','!=',0)->where('model_id','!=',0)->get()->isEmpty())
-            @foreach($inquiry->products()->where('group_id','!=',0)->where('model_id','!=',0)->get() as $product)
+            @foreach($inquiry->products()->where('group_id','!=',0)->where('model_id','!=',0)->orderBy('sort','ASC')->get() as $product)
                 @php
                     $group = \App\Models\Group::find($product->group_id);
                     $modell = \App\Models\Modell::find($product->model_id);
@@ -144,7 +145,7 @@
                         </thead>
                         <tbody>
 
-                        @foreach($product->amounts as $amount)
+                        @foreach($product->amounts()->orderBy('sort','ASC')->get() as $amount)
                             @php
                                 $part = \App\Models\Part::find($amount->part_id);
                                 if ($amount->price > 0){
@@ -345,7 +346,7 @@
             @endforeach
         @endif
         <!-- Laptop & Mobile Parts List -->
-        @if(!$inquiry->products()->where('part_id','!=',0)->get()->isEmpty())
+        @if(!$inquiry->products()->where('part_id','!=',0)->where('sort','ASC')->get()->isEmpty())
             @foreach($inquiry->products()->where('part_id','!=',0)->get() as $product)
                 @php
                     $finalPrice += $product->price;

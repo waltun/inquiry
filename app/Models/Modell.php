@@ -21,7 +21,7 @@ class Modell extends Model
 
     public function parts()
     {
-        return $this->belongsToMany(Part::class)->withPivot('value');
+        return $this->belongsToMany(Part::class)->withPivot('value', 'sort');
     }
 
     public function children()

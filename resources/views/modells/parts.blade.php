@@ -47,19 +47,6 @@
                     </a>
                 </div>
             </li>
-            <li>
-                <div class="flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd"
-                              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                              clip-rule="evenodd"/>
-                    </svg>
-                    <a href="{{ route('modells.index',$group->id) }}"
-                       class="mr-2 text-xs md:text-sm font-medium text-gray-500 hover:text-gray-900">
-                        لیست مدل های گروه هواساز
-                    </a>
-                </div>
-            </li>
             <li aria-current="page">
                 <div class="flex items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -83,9 +70,6 @@
             </p>
         </div>
         <div class="space-x-2 space-x-reverse">
-            <a href="{{ route('modells.index',$group->id) }}" class="form-detail-btn text-xs">
-                لیست مدل های گروه {{ $group->name }}
-            </a>
             <a href="{{ route('modells.parts.index',$modell->id) }}" class="form-submit-btn text-xs">
                 افزودن قطعه
             </a>
@@ -104,7 +88,7 @@
                     <tr class="bg-sky-200">
                         <th scope="col"
                             class="px-4 py-3 text-sm font-bold text-gray-800 text-center rounded-r-md">
-                            #
+                            Sort
                         </th>
                         <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                             نام
@@ -127,7 +111,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($modell->parts as $part)
+                    @foreach($modell->parts()->orderBy('sort','ASC')->get() as $part)
                         @php
                             $code = '';
                             foreach($part->categories as $category){
@@ -137,7 +121,9 @@
                         @endphp
                         <tr>
                             <td class="px-4 py-3 whitespace-nowrap">
-                                <p class="text-sm text-gray-500 text-center">{{ $loop->index + 1 }}</p>
+                                <input type="text" class="input-text w-14 text-center" name="sorts[]"
+                                       id="partSort{{ $part->id }}"
+                                       value="{{ $part->pivot->sort ?? 0 }}">
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap">
                                 @php
@@ -155,7 +141,8 @@
                                 </select>
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap">
-                                <input type="text" class="input-text w-20" name="values[]" id="partValue{{ $part->id }}"
+                                <input type="text" class="input-text w-20 text-center" name="values[]"
+                                       id="partValue{{ $part->id }}"
                                        value="{{ $part->pivot->value }}">
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap">
@@ -178,7 +165,7 @@
                             <td class="px-4 py-3 space-x-3 space-x-reverse">
                                 <button class="form-cancel-btn text-xs"
                                         onclick="deletePartFromModell({{ $modell->id }},{{ $part->id }})">
-                                    حذف از مدل {{ $modell->name }}
+                                    حذف از مدل
                                 </button>
                             </td>
                         </tr>

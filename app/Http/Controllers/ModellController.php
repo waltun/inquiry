@@ -178,13 +178,16 @@ class ModellController extends Controller
 
         $request->validate([
             'values' => 'array|required',
-            'values.*' => 'numeric|nullable'
+            'values.*' => 'numeric|nullable',
+            'sorts' => 'array|required',
+            'sorts.*' => 'numeric|required'
         ]);
 
         foreach ($modell->parts as $index => $part) {
             $part->pivot->update([
                 'value' => $request->values[$index],
                 'part_id' => $request->part_ids[$index],
+                'sort' => $request->sorts[$index]
             ]);
         }
 
