@@ -49,7 +49,17 @@ class PartOfModellController extends Controller
     {
         Gate::authorize('groups');
 
-        $modell->parts()->syncWithoutDetaching($partId);
+        $sort = 0;
+        if ($modell->parts->isEmpty()) {
+            $sort = 1;
+        } else {
+            $part = $modell->parts()->max('sort');
+            $sort = $part + 1;
+        }
+
+        $modell->parts()->attach($partId, [
+            'sort' => $sort
+        ]);
 
         alert()->success('ثبت موفق', 'افزودن قطعه به مدل با موفقیت انجام شد');
 

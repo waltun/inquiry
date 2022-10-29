@@ -421,7 +421,10 @@ class InquiryController extends Controller
         ]);
 
         foreach ($product->amounts as $amount) {
-            $createdModell->parts()->syncWithoutDetaching($amount->part_id);
+            $createdModell->parts()->attach($amount->part_id, [
+                'value' => $amount->value,
+                'sort' => $amount->sort
+            ]);
         }
 
         $product->copy_model = '1';
