@@ -20,7 +20,7 @@ class Part extends Model
 
     public function modells()
     {
-        return $this->belongsToMany(Modell::class)->withPivot('value');
+        return $this->belongsToMany(Modell::class)->withPivot(['value', 'sort']);
     }
 
     public function categories()

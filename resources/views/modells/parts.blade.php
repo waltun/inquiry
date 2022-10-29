@@ -111,19 +111,18 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($modell->parts()->orderBy('sort','ASC')->get() as $part)
+                    @foreach($modell->parts as $part)
                         @php
                             $code = '';
                             foreach($part->categories as $category){
                                 $code = $code . $category->code;
                             }
-
                         @endphp
                         <tr>
                             <td class="px-4 py-3 whitespace-nowrap">
                                 <input type="text" class="input-text w-14 text-center" name="sorts[]"
                                        id="partSort{{ $part->id }}"
-                                       value="{{ $part->pivot->sort ?? 0 }}">
+                                       value="{{ $part->pivot->sort }}">
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap">
                                 @php

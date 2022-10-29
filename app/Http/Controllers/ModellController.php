@@ -158,9 +158,7 @@ class ModellController extends Controller
     {
         Gate::authorize('groups');
 
-        $group = Group::find($modell->group_id);
-
-        return view('modells.parts', compact('modell', 'group'));
+        return view('modells.parts', compact('modell'));
     }
 
     public function destroyPart(Modell $modell, $partId)
@@ -187,7 +185,7 @@ class ModellController extends Controller
             $part->pivot->update([
                 'value' => $request->values[$index],
                 'part_id' => $request->part_ids[$index],
-                'sort' => $request->sorts[$index]
+                'sort' => $request->sorts[$index],
             ]);
         }
 
