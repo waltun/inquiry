@@ -575,7 +575,7 @@
                         <label class="block mb-2 text-sm font-bold" for="inputTedadMadarLoole">تعداد مدار لوله</label>
                         <input type="text" class="input-text bg-yellow-300" id="inputTedadMadarLoole"
                                value="{{ !is_null($inputs) ? $inputs['tedad_madar_loole'] : old('tedad_madar_loole') }}"
-                               name="tedad_madar_loole">
+                               name="tedad_madar_loole" onkeyup="changeValue()">
                     </div>
                     <div class="col-span-4">
                         <label class="block mb-2 text-sm font-bold" for="inputTedadSoorakhPakhshKon">
@@ -591,7 +591,7 @@
 
         <div class="space-x-2 space-x-reverse">
             <button type="submit" class="form-submit-btn">
-                ثبت مقادیر
+                محاسبه
             </button>
             <a href="{{ route('inquiries.index') }}" class="form-cancel-btn">
                 انصراف

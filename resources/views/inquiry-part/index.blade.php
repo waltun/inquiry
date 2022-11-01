@@ -185,6 +185,9 @@
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                         تعداد
                     </th>
+                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                        واحد
+                    </th>
                     <th scope="col" class="relative px-4 py-3 rounded-l-md">
                         <span class="sr-only">اقدامات</span>
                     </th>
@@ -236,6 +239,9 @@
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center">{{ $product->quantity }}</p>
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <p class="text-sm text-black text-center">{{ $part->unit }}</p>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
                             <a href="{{ route('inquiries.product.edit',$product->id) }}"

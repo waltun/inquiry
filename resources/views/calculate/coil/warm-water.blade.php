@@ -687,29 +687,31 @@
                     <input type="text" class="input-text" id="inputCoilName" name="name" dir="ltr" value="{{ $name }}">
                 </div>
 
-                <div class="my-4 bg-red-300 p-4 rounded-md shadow-md">
-                    <label class="block mb-2 text-sm font-bold" for="inputCoilCategory">
-                        دسته بندی کویل
-                    </label>
-                    <div class="grid grid-cols-3 gap-4">
-                        <div>
-                            <select name="categories[]" id="inputCoilCategory" class="input-text"
-                                    onchange="getCategory1()">
-                                <option value="">انتخاب کنید</option>
-                                @foreach($categories as $category)
-                                    <option
-                                        value="{{ $category->id }}" {{ request('category1') == $category->id ? 'selected' : '' }}>
-                                        {{ $category->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div id="categorySection1">
-                        </div>
-                        <div id="categorySection2">
+                @can('users')
+                    <div class="my-4 bg-red-300 p-4 rounded-md shadow-md">
+                        <label class="block mb-2 text-sm font-bold" for="inputCoilCategory">
+                            دسته بندی کویل
+                        </label>
+                        <div class="grid grid-cols-3 gap-4">
+                            <div>
+                                <select name="categories[]" id="inputCoilCategory" class="input-text"
+                                        onchange="getCategory1()">
+                                    <option value="">انتخاب کنید</option>
+                                    @foreach($categories as $category)
+                                        <option
+                                            value="{{ $category->id }}" {{ request('category1') == $category->id ? 'selected' : '' }}>
+                                            {{ $category->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div id="categorySection1">
+                            </div>
+                            <div id="categorySection2">
+                            </div>
                         </div>
                     </div>
-                </div>
+                @endcan
 
                 <div class="mb-4">
                     <button type="submit" class="form-submit-btn">
