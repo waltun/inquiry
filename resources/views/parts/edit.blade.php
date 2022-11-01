@@ -97,10 +97,6 @@
                        value="{{ $part->name }}">
             </div>
             <div class="mt-4">
-                <label for="inputUnit" class="block mb-2 md:text-sm text-xs text-black">واحد قطعه</label>
-                <input type="text" id="inputUnit" name="unit" class="input-text" value="{{ $part->unit }}">
-            </div>
-            <div class="mt-4">
                 <label for="inputCollection" class="block mb-2 md:text-sm text-xs text-black">قطعه مجموعه ای</label>
                 <select name="collection" id="inputCollection" class="input-text">
                     <option value="false" {{ !$part->collection ? 'selected' : '' }}>نباشد</option>
@@ -126,6 +122,53 @@
                     </select>
                 </div>
             @endforeach
+        </div>
+
+        <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0 col-span-2">
+            <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">واحد و تبدیل واحد</p>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div class="mt-4">
+                    <label for="inputUnit" class="block mb-2 md:text-sm text-xs text-black">واحد اول قطعه</label>
+                    <input type="text" id="inputUnit" name="unit" class="input-text" placeholder="مثال : کیلوگرم"
+                           value="{{ $part->unit }}">
+                </div>
+
+                <div class="mt-4">
+                    <label for="inputUnit2" class="block mb-2 md:text-sm text-xs text-black">واحد دوم قطعه</label>
+                    <input type="text" id="inputUnit2" name="unit2" class="input-text" placeholder="مثال : متر"
+                           value="{{ $part->unit2 }}">
+                </div>
+
+                <div class="mt-4 flex items-center space-x-4 space-x-reverse">
+                    <p class="md:text-sm text-xs text-black whitespace-nowrap">
+                        واحد اول = واحد دوم
+                    </p>
+                    <select name="operator1" id="inputOperator1" class="input-text w-20">
+                        <option value="*" {{ $part->operator1 == '*' ? 'selected' : '' }}>x</option>
+                        <option value="/" {{ $part->operator1 == '/' ? 'selected' : '' }}>/</option>
+                        <option value="+" {{ $part->operator1 == '+' ? 'selected' : '' }}>+</option>
+                        <option value="-" {{ $part->operator1 == '-' ? 'selected' : '' }}>-</option>
+                    </select>
+                    <input type="text" class="input-text" id="inputFormula1" name="formula1"
+                           value="{{ $part->formula1 }}">
+                </div>
+
+                <div class="mt-4 flex items-center space-x-4 space-x-reverse">
+                    <p class="md:text-sm text-xs text-black whitespace-nowrap">
+                        واحد دوم = واحد اول
+                    </p>
+                    <select name="operator2" id="inputOperator2" class="input-text w-20">
+                        <option value="*" {{ $part->operator2 == '*' ? 'selected' : '' }}>x</option>
+                        <option value="/" {{ $part->operator2 == '/' ? 'selected' : '' }}>/</option>
+                        <option value="+" {{ $part->operator2 == '+' ? 'selected' : '' }}>+</option>
+                        <option value="-" {{ $part->operator2 == '-' ? 'selected' : '' }}>-</option>
+                    </select>
+                    <input type="text" class="input-text" id="inputFormula2" name="formula2"
+                           value="{{ $part->formula2 }}">
+                </div>
+            </div>
+
         </div>
 
         <div class="col-span-2">

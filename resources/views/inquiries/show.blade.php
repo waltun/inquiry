@@ -133,11 +133,11 @@
                         <tr>
                             <th class="border border-gray-300 p-4 text-sm">کد قطعه</th>
                             <th class="border border-gray-300 p-4 text-sm">نام قطعه</th>
-                            <th class="border border-gray-300 p-4 text-sm">واحد قطعه</th>
+                            <th class="border border-gray-300 p-4 text-sm">واحد و مقادیر</th>
                             @can('detail-inquiry')
                                 <th class="border border-gray-300 p-4 text-sm">قیمت واحد</th>
                             @endcan
-                            <th class="border border-gray-300 p-4 text-sm">مقادیر</th>
+                            <th class="border border-gray-300 p-4 text-sm">واحد و مقادیر دوم</th>
                             @can('detail-inquiry')
                                 <th class="border border-gray-300 p-4 text-sm">جمع کل</th>
                             @endcan
@@ -166,7 +166,7 @@
                                     {{ $part->name }}
                                 </td>
                                 <td class="border border-gray-300 p-4 text-sm text-center">
-                                    {{ $part->unit }}
+                                    {{ $amount->value }} - {{ $part->unit }}
                                 </td>
                                 @can('detail-inquiry')
                                     <td class="border border-gray-300 p-4 text-sm text-center font-bold">
@@ -178,7 +178,7 @@
                                     </td>
                                 @endcan
                                 <td class="border border-gray-300 p-4 text-sm text-center">
-                                    {{ $amount->value }}
+                                    {{ $amount->value2 }} - {{ $amount->unit }}
                                 </td>
                                 @can('detail-inquiry')
                                     <td class="border border-gray-300 p-4 text-sm text-center font-bold">

@@ -208,6 +208,32 @@
                 }
             }
         </script>
+        <script>
+            function changeUnit(event, part) {
+                let value = event.target.value;
+                let input = document.getElementById('inputAmount' + part.id);
+                let inputUnitValue = document.getElementById('inputUnitValue' + part.id);
+                let unitSection = document.getElementById('unitSection' + part.id);
+                let operator1 = part.operator1;
+                let operator2 = part.operator2;
+                let formula1 = part.formula1;
+                let formula2 = part.formula2;
+                let result = 0;
+
+                if (value === 'unit') {
+                    result = eval(input.value + operator2 + formula2);
+                    inputUnitValue.value = part.unit;
+                    unitSection.classList.add('hidden');
+                }
+
+                if (value === 'unit2') {
+                    result = eval(input.value + operator1 + formula1);
+                    inputUnitValue.value = part.unit2;
+                    unitSection.classList.remove('hidden');
+                    unitSection.innerText = Intl.NumberFormat().format(result);
+                }
+            }
+        </script>
     </x-slot>
 
     <x-slot name="css">
@@ -303,229 +329,273 @@
                 </tr>
                 </thead>
                 <tbody>
-                @if($amounts->isEmpty())
-                    @if(!$group->parts->isEmpty())
-                        @foreach($group->parts as $part)
-                            @php
-                                $code = '';
-                                foreach($part->categories as $category) {
-                                    $code = $code . $category->code;
-                                }
-                                $finalCode = $code . $part->code;
+                @if($amounts->isEmpty() && !$modell->parts->isEmpty())
+                    @foreach($modell->parts()->orderBy('sort','ASC')->get() as $index => $part)
+                        @php
+                            $code = '';
+                            $color = '';
+                            foreach($part->categories as $category) {
+                                $code = $code . $category->code;
+                            }
+                            $finalCode = $code . $part->code;
 
-                                if ($setting) {
-                                    if($setting->price_color_type == 'month') {
-                                        $lastTime = Carbon::now()->subMonth($setting->price_color_last_time);
-                                        $midTime = Carbon::now()->subMonth($setting->price_color_mid_time);
-                                    }
-                                    if($setting->price_color_type == 'day') {
-                                        $lastTime = Carbon::now()->subDay($setting->price_color_last_time);
-                                        $midTime = Carbon::now()->subDay($setting->price_color_mid_time);
-                                    }
-                                    if($setting->price_color_type == 'hour') {
-                                        $lastTime = Carbon::now()->subHour($setting->price_color_last_time);
-                                        $midTime = Carbon::now()->subHour($setting->price_color_mid_time);
-                                    }
+                            if ($setting) {
+                                if($setting->price_color_type == 'month') {
+                                    $lastTime = Carbon::now()->subMonth($setting->price_color_last_time);
+                                    $midTime = Carbon::now()->subMonth($setting->price_color_mid_time);
                                 }
+                                if($setting->price_color_type == 'day') {
+                                    $lastTime = Carbon::now()->subDay($setting->price_color_last_time);
+                                    $midTime = Carbon::now()->subDay($setting->price_color_mid_time);
+                                }
+                                if($setting->price_color_type == 'hour') {
+                                    $lastTime = Carbon::now()->subHour($setting->price_color_last_time);
+                                    $midTime = Carbon::now()->subHour($setting->price_color_mid_time);
+                                }
+                            }
 
+                            if(!in_array($part->id,$specials) && $part->collection == '0') {
                                 if ($part->price_updated_at < $lastTime && $part->price > 0) {
-									$color = 'bg-red-500';
-								}
-								if ($part->price_updated_at > $lastTime && $part->price_updated_at > $midTime && $part->price > 0) {
-									$color = 'bg-white';
-								}
-								if ($part->price_updated_at > $lastTime && $part->price_updated_at < $midTime && $part->price > 0) {
-									$color = 'bg-yellow-500';
-								}
-								if ($part->price_updated_at < $lastTime && $part->price == 0) {
-									$color = 'bg-red-600';
-								}
-                            @endphp
-                            <tr class="{{ $color ?? 'bg-white' }}">
-                                <td class="border border-gray-300 p-4 text-sm text-center">
-                                    {{ $code . "-" . $part->code }}
-                                </td>
-                                <td class="border border-gray-300 p-4 text-sm text-center flex items-center">
-                                    @php
-                                        $selectedPart = Part::find($part->id);
-                                        $lastCategory = $selectedPart->categories()->latest()->first();
-                                        $categoryParts = $lastCategory->parts;
-                                    @endphp
-                                    <select name="part_ids[]" class="input-text" id="groupPartList{{ $part->id }}"
-                                            onchange="showCalculateButton('{{ $part->id }}')">
-                                        @foreach($categoryParts as $part2)
-                                            @if(!session()->has('selectedPart' . $part2->id))
-                                                <option
-                                                    value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
-                                                    {{ $part2->name }}
-                                                </option>
-                                            @else
-                                                <option
-                                                    value="{{ $part2->id }}" {{ $part2->id == session()->get('selectedPart' . $part2->id) ? 'selected' : '' }}>
-                                                    {{ $part2->name }}
-                                                </option>
-                                            @endif
-                                        @endforeach
-                                    </select>
-                                    @if(in_array($part->id,$specials))
-                                        <div class="whitespace-nowrap mr-2">
-                                            @switch($part->id)
-                                                @case(150)
-                                                    @if(session()->has('price'.$part->id))
-                                                        <span class="form-detail-btn text-xs">
+                                    $color = 'bg-red-500';
+                                }
+                                if ($part->price_updated_at > $lastTime && $part->price_updated_at > $midTime && $part->price > 0) {
+                                    $color = 'bg-white';
+                                }
+                                if ($part->price_updated_at > $lastTime && $part->price_updated_at < $midTime && $part->price > 0) {
+                                    $color = 'bg-yellow-500';
+                                }
+                                if ($part->price_updated_at < $lastTime && $part->price == 0) {
+                                    $color = 'bg-red-600';
+                                }
+                            }
+
+                            if (!in_array($part->id,$specials) && $part->collection == '1') {
+                                foreach ($part->children as $child) {
+                                    if ($child->price_updated_at < $lastTime && $child->price > 0) {
+                                        $color = 'bg-red-500';
+                                    }
+                                    if ($child->price_updated_at < $lastTime && $child->price == 0) {
+                                        $color = 'bg-red-600';
+                                    }
+                                }
+                            }
+
+                        @endphp
+                        <tr class="{{ $color ?? 'bg-white' }}">
+                            <td class="border border-gray-300 p-4 text-sm text-center">
+                                <input type="text" class="input-text w-14 text-center"
+                                       value="{{ $part->pivot->sort ?? 0 }}"
+                                       name="sorts[]" id="partSort{{ $part->id }}">
+                            </td>
+                            <td class="border border-gray-300 p-4 text-sm text-center">
+                                {{ $code . "-" . $part->code }}
+                            </td>
+                            <td class="border border-gray-300 p-4 text-sm text-center flex items-center">
+                                @php
+                                    $selectedPart = Part::find($part->id);
+                                    $lastCategory = $selectedPart->categories()->latest()->first();
+                                    $categoryParts = $lastCategory->parts;
+                                @endphp
+                                <select name="part_ids[]" class="input-text" id="groupPartList{{ $part->id }}"
+                                        onchange="showCalculateButton('{{ $part->id }}')">
+                                    @foreach($categoryParts as $part2)
+                                        @if(!session()->has('selectedPart' . $part2->id))
+                                            <option
+                                                value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
+                                                {{ $part2->name }}
+                                            </option>
+                                        @else
+                                            <option
+                                                value="{{ $part2->id }}" {{ $part2->id == session()->get('selectedPart' . $part2->id) ? 'selected' : '' }}>
+                                                {{ $part2->name }}
+                                            </option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                                @if(in_array($part->id,$specials))
+                                    <div class="whitespace-nowrap mr-2">
+                                        @switch($part->id)
+                                            @case(150)
+                                                @if(session()->has('price'.$part->id))
+                                                    <span class="form-detail-btn text-xs">
                                                     محاسبه شد
                                                 </span>
-                                                    @else
-                                                        <a href="{{ route('calculateCoil.evaperator.index',[$part->id,$product->id]) }}"
-                                                           class="form-submit-btn text-xs">
-                                                            محاسبه {{ $part->name }}
-                                                        </a>
-                                                    @endif
-                                                    @break
-                                                @case(167)
-                                                    @if(session()->has('price'.$part->id))
-                                                        <a href="#" class="form-detail-btn text-xs">
-                                                            محاسبه شد
-                                                        </a>
-                                                    @else
-                                                        <a href="{{ route('calculateCoil.condensor.index',[$part->id,$product->id]) }}"
-                                                           class="form-submit-btn text-xs">
-                                                            محاسبه {{ $part->name }}
-                                                        </a>
-                                                    @endif
-                                                    @break
-                                                @case(168)
-                                                    @if(session()->has('price'.$part->id))
-                                                        <a href="#" class="form-detail-btn text-xs">
-                                                            محاسبه شد
-                                                        </a>
-                                                    @else
-                                                        <a href="{{ route('calculateCoil.waterCold.index',[$part->id,$product->id]) }}"
-                                                           class="form-submit-btn text-xs">
-                                                            محاسبه {{ $part->name }}
-                                                        </a>
-                                                    @endif
-                                                    @break
-                                                @case(169)
-                                                    @if(session()->has('price'.$part->id))
-                                                        <a href="#" class="form-detail-btn text-xs">
-                                                            محاسبه شد
-                                                        </a>
-                                                    @else
-                                                        <a href="{{ route('calculateCoil.waterWarm.index',[$part->id,$product->id]) }}"
-                                                           class="form-submit-btn text-xs">
-                                                            محاسبه {{ $part->name }}
-                                                        </a>
-                                                    @endif
-                                                    @break
-                                                @case(170)
-                                                    @if(session()->has('price'.$part->id))
-                                                        <a href="#" class="form-detail-btn text-xs">
-                                                            محاسبه شد
-                                                        </a>
-                                                    @else
-                                                        <a href="{{ route('calculateCoil.fancoil.index',[$part->id,$product->id]) }}"
-                                                           class="form-submit-btn text-xs">
-                                                            محاسبه {{ $part->name }}
-                                                        </a>
-                                                    @endif
-                                                    @break
+                                                @else
+                                                    <a href="{{ route('calculateCoil.evaperator.index',[$part->id,$product->id]) }}"
+                                                       class="form-submit-btn text-xs">
+                                                        محاسبه {{ $part->name }}
+                                                    </a>
+                                                @endif
+                                                @break
+                                            @case(167)
+                                                @if(session()->has('price'.$part->id))
+                                                    <a href="#" class="form-detail-btn text-xs">
+                                                        محاسبه شد
+                                                    </a>
+                                                @else
+                                                    <a href="{{ route('calculateCoil.condensor.index',[$part->id,$product->id]) }}"
+                                                       class="form-submit-btn text-xs">
+                                                        محاسبه {{ $part->name }}
+                                                    </a>
+                                                @endif
+                                                @break
+                                            @case(168)
+                                                @if(session()->has('price'.$part->id))
+                                                    <a href="#" class="form-detail-btn text-xs">
+                                                        محاسبه شد
+                                                    </a>
+                                                @else
+                                                    <a href="{{ route('calculateCoil.waterCold.index',[$part->id,$product->id]) }}"
+                                                       class="form-submit-btn text-xs">
+                                                        محاسبه {{ $part->name }}
+                                                    </a>
+                                                @endif
+                                                @break
+                                            @case(169)
+                                                @if(session()->has('price'.$part->id))
+                                                    <a href="#" class="form-detail-btn text-xs">
+                                                        محاسبه شد
+                                                    </a>
+                                                @else
+                                                    <a href="{{ route('calculateCoil.waterWarm.index',[$part->id,$product->id]) }}"
+                                                       class="form-submit-btn text-xs">
+                                                        محاسبه {{ $part->name }}
+                                                    </a>
+                                                @endif
+                                                @break
+                                            @case(170)
+                                                @if(session()->has('price'.$part->id))
+                                                    <a href="#" class="form-detail-btn text-xs">
+                                                        محاسبه شد
+                                                    </a>
+                                                @else
+                                                    <a href="{{ route('calculateCoil.fancoil.index',[$part->id,$product->id]) }}"
+                                                       class="form-submit-btn text-xs">
+                                                        محاسبه {{ $part->name }}
+                                                    </a>
+                                                @endif
+                                                @break
 
-                                                @case(146)
-                                                    @if(session()->has('price'.$part->id))
-                                                        <a href="#" class="form-detail-btn text-xs">
-                                                            محاسبه شد
-                                                        </a>
-                                                    @else
-                                                        <a href="{{ route('calculateDamper.taze.index',[$part->id,$product->id]) }}"
-                                                           class="form-submit-btn text-xs">
-                                                            محاسبه {{ $part->name }}
-                                                        </a>
-                                                    @endif
-                                                    @break
-                                                @case(148)
-                                                    @if(session()->has('price'.$part->id))
-                                                        <a href="#" class="form-detail-btn text-xs">
-                                                            محاسبه شد
-                                                        </a>
-                                                    @else
-                                                        <a href="{{ route('calculateDamper.raft.index',[$part->id,$product->id]) }}"
-                                                           class="form-submit-btn text-xs">
-                                                            محاسبه {{ $part->name }}
-                                                        </a>
-                                                    @endif
-                                                    @break
-                                                @case(147)
-                                                    @if(session()->has('price'.$part->id))
-                                                        <a href="#" class="form-detail-btn text-xs">
-                                                            محاسبه شد
-                                                        </a>
-                                                    @else
-                                                        <a href="{{ route('calculateDamper.bargasht.index',[$part->id,$product->id]) }}"
-                                                           class="form-submit-btn text-xs">
-                                                            محاسبه {{ $part->name }}
-                                                        </a>
-                                                    @endif
-                                                    @break
-                                                @case(149)
-                                                    @if(session()->has('price'.$part->id))
-                                                        <a href="#" class="form-detail-btn text-xs">
-                                                            محاسبه شد
-                                                        </a>
-                                                    @else
-                                                        <a href="{{ route('calculateDamper.exast.index',[$part->id,$product->id]) }}"
-                                                           class="form-submit-btn text-xs">
-                                                            محاسبه {{ $part->name }}
-                                                        </a>
-                                                    @endif
-                                                    @break
-                                            @endswitch
-                                        </div>
-                                    @endif
-                                    <div class="whitespace-nowrap mr-2">
-                                        <div id="fancoilSection{{ $part->id }}" class="hidden">
-
-                                        </div>
-                                        <div id="warmWaterSection{{ $part->id }}" class="hidden">
-
-                                        </div>
-                                        <div id="coldWaterSection{{ $part->id }}" class="hidden">
-
-                                        </div>
-                                        <div id="condensorSection{{ $part->id }}" class="hidden">
-
-                                        </div>
-                                        <div id="evaperatorSection{{ $part->id }}" class="hidden">
-
-                                        </div>
-
-                                        <div id="damperTazeSection{{ $part->id }}" class="hidden">
-
-                                        </div>
-                                        <div id="damperRaftSection{{ $part->id }}" class="hidden">
-
-                                        </div>
-                                        <div id="damperBargashtSection{{ $part->id }}" class="hidden">
-
-                                        </div>
-                                        <div id="damperExastSection{{ $part->id }}" class="hidden">
-
-                                        </div>
+                                            @case(146)
+                                                @if(session()->has('price'.$part->id))
+                                                    <a href="#" class="form-detail-btn text-xs">
+                                                        محاسبه شد
+                                                    </a>
+                                                @else
+                                                    <a href="{{ route('calculateDamper.taze.index',[$part->id,$product->id]) }}"
+                                                       class="form-submit-btn text-xs">
+                                                        محاسبه {{ $part->name }}
+                                                    </a>
+                                                @endif
+                                                @break
+                                            @case(148)
+                                                @if(session()->has('price'.$part->id))
+                                                    <a href="#" class="form-detail-btn text-xs">
+                                                        محاسبه شد
+                                                    </a>
+                                                @else
+                                                    <a href="{{ route('calculateDamper.raft.index',[$part->id,$product->id]) }}"
+                                                       class="form-submit-btn text-xs">
+                                                        محاسبه {{ $part->name }}
+                                                    </a>
+                                                @endif
+                                                @break
+                                            @case(147)
+                                                @if(session()->has('price'.$part->id))
+                                                    <a href="#" class="form-detail-btn text-xs">
+                                                        محاسبه شد
+                                                    </a>
+                                                @else
+                                                    <a href="{{ route('calculateDamper.bargasht.index',[$part->id,$product->id]) }}"
+                                                       class="form-submit-btn text-xs">
+                                                        محاسبه {{ $part->name }}
+                                                    </a>
+                                                @endif
+                                                @break
+                                            @case(149)
+                                                @if(session()->has('price'.$part->id))
+                                                    <a href="#" class="form-detail-btn text-xs">
+                                                        محاسبه شد
+                                                    </a>
+                                                @else
+                                                    <a href="{{ route('calculateDamper.exast.index',[$part->id,$product->id]) }}"
+                                                       class="form-submit-btn text-xs">
+                                                        محاسبه {{ $part->name }}
+                                                    </a>
+                                                @endif
+                                                @break
+                                        @endswitch
                                     </div>
-                                </td>
-                                <td class="border border-gray-300 p-4 text-sm text-center">
+                                @endif
+                                <div class="whitespace-nowrap mr-2">
+                                    <div id="fancoilSection{{ $part->id }}" class="hidden">
+
+                                    </div>
+                                    <div id="warmWaterSection{{ $part->id }}" class="hidden">
+
+                                    </div>
+                                    <div id="coldWaterSection{{ $part->id }}" class="hidden">
+
+                                    </div>
+                                    <div id="condensorSection{{ $part->id }}" class="hidden">
+
+                                    </div>
+                                    <div id="evaperatorSection{{ $part->id }}" class="hidden">
+
+                                    </div>
+
+                                    <div id="damperTazeSection{{ $part->id }}" class="hidden">
+
+                                    </div>
+                                    <div id="damperRaftSection{{ $part->id }}" class="hidden">
+
+                                    </div>
+                                    <div id="damperBargashtSection{{ $part->id }}" class="hidden">
+
+                                    </div>
+                                    <div id="damperExastSection{{ $part->id }}" class="hidden">
+
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="border border-gray-300 p-4 text-sm text-center">
+                                @if(is_null($part->unit2))
                                     {{ $part->unit }}
-                                </td>
-                                <td class="border border-gray-300 p-4 flex items-center">
-                                    <input type="text" name="groupAmounts[]" id="inputAmount{{ $part->id }}"
-                                           class="input-text {{ $part->pivot->value == '0' ? 'border-yellow-500' : '' }}"
-                                           value="{{ $part->pivot->value }}"
-                                           onkeyup="changeBorder(event)">
+                                @else
+                                    <select class="input-text" id="partUnit{{ $part->id }}"
+                                            onchange="changeUnit(event,{{ $part }})">
+                                        <option value="unit">
+                                            {{ $part->unit }}
+                                        </option>
+                                        <option value="unit2">
+                                            {{ $part->unit2 }}
+                                        </option>
+                                    </select>
+                                @endif
+                                <input type="hidden" name="units[]" id="inputUnitValue{{ $part->id }}">
+                            </td>
+                            <td class="border border-gray-300 p-4 flex items-center">
+                                <input type="text" name="modellAmounts[]" id="inputAmount{{ $part->id }}"
+                                       class="input-text w-20 {{ $part->pivot->value == '0' ? 'border-yellow-500' : '' }}"
+                                       value="{{ $part->pivot->value }}"
+                                       onkeyup="changeBorder(event,{{ $part->id }})">
+                                <p class="mx-2 text-sm font-bold hidden" id="unitSection{{ $part->id }}"></p>
+                                @if(!in_array($part->id,$specials))
+                                    @php
+                                        $parents = [];
+                                    @endphp
                                     @if($color == 'bg-red-500' || $color == 'bg-red-600' || $part->price == '0')
                                         @php
                                             $inquiryPrice = InquiryPrice::where('part_id',$part->id)->pluck('part_id')->all();
+                                            $inquiryPrices = InquiryPrice::all()->pluck('part_id');
+                                            foreach ($inquiryPrices as $item) {
+                                                $inquiryPart = Part::find($item);
+                                                if (!$inquiryPart->parents->isEmpty()) {
+                                                    $parents = $inquiryPart->parents->pluck('id')->toArray();
+                                                }
+                                            }
                                         @endphp
-                                        @if(!in_array($part->id,$inquiryPrice))
+                                        @if(!in_array($part->id,$inquiryPrice) && !in_array($part->id,$parents))
                                             <button type="button"
                                                     onclick="storeInquiryPrice({{ $part->id }},{{ $inquiry->id }})"
                                                     class="text-xs font-bold text-white underline underline-offset-4 whitespace-nowrap mr-2">
@@ -537,279 +607,10 @@
                                             </p>
                                         @endif
                                     @endif
-                                </td>
-                            </tr>
-                        @endforeach
-                    @endif
-                    @if(!$modell->parts->isEmpty())
-                        @foreach($modell->parts()->orderBy('sort','ASC')->get() as $index => $part)
-                            @php
-                                $code = '';
-                                $color = '';
-                                foreach($part->categories as $category) {
-                                    $code = $code . $category->code;
-                                }
-                                $finalCode = $code . $part->code;
-
-                                if ($setting) {
-                                    if($setting->price_color_type == 'month') {
-                                        $lastTime = Carbon::now()->subMonth($setting->price_color_last_time);
-                                        $midTime = Carbon::now()->subMonth($setting->price_color_mid_time);
-                                    }
-                                    if($setting->price_color_type == 'day') {
-                                        $lastTime = Carbon::now()->subDay($setting->price_color_last_time);
-                                        $midTime = Carbon::now()->subDay($setting->price_color_mid_time);
-                                    }
-                                    if($setting->price_color_type == 'hour') {
-                                        $lastTime = Carbon::now()->subHour($setting->price_color_last_time);
-                                        $midTime = Carbon::now()->subHour($setting->price_color_mid_time);
-                                    }
-                                }
-
-                                if(!in_array($part->id,$specials) && $part->collection == '0') {
-                                    if ($part->price_updated_at < $lastTime && $part->price > 0) {
-									    $color = 'bg-red-500';
-                                    }
-                                    if ($part->price_updated_at > $lastTime && $part->price_updated_at > $midTime && $part->price > 0) {
-                                        $color = 'bg-white';
-                                    }
-                                    if ($part->price_updated_at > $lastTime && $part->price_updated_at < $midTime && $part->price > 0) {
-                                        $color = 'bg-yellow-500';
-                                    }
-                                    if ($part->price_updated_at < $lastTime && $part->price == 0) {
-                                        $color = 'bg-red-600';
-                                    }
-                                }
-
-                                if (!in_array($part->id,$specials) && $part->collection == '1') {
-                                    foreach ($part->children as $child) {
-                                        if ($child->price_updated_at < $lastTime && $child->price > 0) {
-                                            $color = 'bg-red-500';
-                                        }
-                                        if ($child->price_updated_at < $lastTime && $child->price == 0) {
-                                            $color = 'bg-red-600';
-                                        }
-                                    }
-                                }
-
-                            @endphp
-                            <tr class="{{ $color ?? 'bg-white' }}">
-                                <td class="border border-gray-300 p-4 text-sm text-center">
-                                    <input type="text" class="input-text w-14 text-center"
-                                           value="{{ $part->pivot->sort ?? 0 }}"
-                                           name="sorts[]" id="partSort{{ $part->id }}">
-                                </td>
-                                <td class="border border-gray-300 p-4 text-sm text-center">
-                                    {{ $code . "-" . $part->code }}
-                                </td>
-                                <td class="border border-gray-300 p-4 text-sm text-center flex items-center">
-                                    @php
-                                        $selectedPart = Part::find($part->id);
-                                        $lastCategory = $selectedPart->categories()->latest()->first();
-                                        $categoryParts = $lastCategory->parts;
-                                    @endphp
-                                    <select name="part_ids[]" class="input-text" id="groupPartList{{ $part->id }}"
-                                            onchange="showCalculateButton('{{ $part->id }}')">
-                                        @foreach($categoryParts as $part2)
-                                            @if(!session()->has('selectedPart' . $part2->id))
-                                                <option
-                                                    value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
-                                                    {{ $part2->name }}
-                                                </option>
-                                            @else
-                                                <option
-                                                    value="{{ $part2->id }}" {{ $part2->id == session()->get('selectedPart' . $part2->id) ? 'selected' : '' }}>
-                                                    {{ $part2->name }}
-                                                </option>
-                                            @endif
-                                        @endforeach
-                                    </select>
-                                    @if(in_array($part->id,$specials))
-                                        <div class="whitespace-nowrap mr-2">
-                                            @switch($part->id)
-                                                @case(150)
-                                                    @if(session()->has('price'.$part->id))
-                                                        <span class="form-detail-btn text-xs">
-                                                    محاسبه شد
-                                                </span>
-                                                    @else
-                                                        <a href="{{ route('calculateCoil.evaperator.index',[$part->id,$product->id]) }}"
-                                                           class="form-submit-btn text-xs">
-                                                            محاسبه {{ $part->name }}
-                                                        </a>
-                                                    @endif
-                                                    @break
-                                                @case(167)
-                                                    @if(session()->has('price'.$part->id))
-                                                        <a href="#" class="form-detail-btn text-xs">
-                                                            محاسبه شد
-                                                        </a>
-                                                    @else
-                                                        <a href="{{ route('calculateCoil.condensor.index',[$part->id,$product->id]) }}"
-                                                           class="form-submit-btn text-xs">
-                                                            محاسبه {{ $part->name }}
-                                                        </a>
-                                                    @endif
-                                                    @break
-                                                @case(168)
-                                                    @if(session()->has('price'.$part->id))
-                                                        <a href="#" class="form-detail-btn text-xs">
-                                                            محاسبه شد
-                                                        </a>
-                                                    @else
-                                                        <a href="{{ route('calculateCoil.waterCold.index',[$part->id,$product->id]) }}"
-                                                           class="form-submit-btn text-xs">
-                                                            محاسبه {{ $part->name }}
-                                                        </a>
-                                                    @endif
-                                                    @break
-                                                @case(169)
-                                                    @if(session()->has('price'.$part->id))
-                                                        <a href="#" class="form-detail-btn text-xs">
-                                                            محاسبه شد
-                                                        </a>
-                                                    @else
-                                                        <a href="{{ route('calculateCoil.waterWarm.index',[$part->id,$product->id]) }}"
-                                                           class="form-submit-btn text-xs">
-                                                            محاسبه {{ $part->name }}
-                                                        </a>
-                                                    @endif
-                                                    @break
-                                                @case(170)
-                                                    @if(session()->has('price'.$part->id))
-                                                        <a href="#" class="form-detail-btn text-xs">
-                                                            محاسبه شد
-                                                        </a>
-                                                    @else
-                                                        <a href="{{ route('calculateCoil.fancoil.index',[$part->id,$product->id]) }}"
-                                                           class="form-submit-btn text-xs">
-                                                            محاسبه {{ $part->name }}
-                                                        </a>
-                                                    @endif
-                                                    @break
-
-                                                @case(146)
-                                                    @if(session()->has('price'.$part->id))
-                                                        <a href="#" class="form-detail-btn text-xs">
-                                                            محاسبه شد
-                                                        </a>
-                                                    @else
-                                                        <a href="{{ route('calculateDamper.taze.index',[$part->id,$product->id]) }}"
-                                                           class="form-submit-btn text-xs">
-                                                            محاسبه {{ $part->name }}
-                                                        </a>
-                                                    @endif
-                                                    @break
-                                                @case(148)
-                                                    @if(session()->has('price'.$part->id))
-                                                        <a href="#" class="form-detail-btn text-xs">
-                                                            محاسبه شد
-                                                        </a>
-                                                    @else
-                                                        <a href="{{ route('calculateDamper.raft.index',[$part->id,$product->id]) }}"
-                                                           class="form-submit-btn text-xs">
-                                                            محاسبه {{ $part->name }}
-                                                        </a>
-                                                    @endif
-                                                    @break
-                                                @case(147)
-                                                    @if(session()->has('price'.$part->id))
-                                                        <a href="#" class="form-detail-btn text-xs">
-                                                            محاسبه شد
-                                                        </a>
-                                                    @else
-                                                        <a href="{{ route('calculateDamper.bargasht.index',[$part->id,$product->id]) }}"
-                                                           class="form-submit-btn text-xs">
-                                                            محاسبه {{ $part->name }}
-                                                        </a>
-                                                    @endif
-                                                    @break
-                                                @case(149)
-                                                    @if(session()->has('price'.$part->id))
-                                                        <a href="#" class="form-detail-btn text-xs">
-                                                            محاسبه شد
-                                                        </a>
-                                                    @else
-                                                        <a href="{{ route('calculateDamper.exast.index',[$part->id,$product->id]) }}"
-                                                           class="form-submit-btn text-xs">
-                                                            محاسبه {{ $part->name }}
-                                                        </a>
-                                                    @endif
-                                                    @break
-                                            @endswitch
-                                        </div>
-                                    @endif
-                                    <div class="whitespace-nowrap mr-2">
-                                        <div id="fancoilSection{{ $part->id }}" class="hidden">
-
-                                        </div>
-                                        <div id="warmWaterSection{{ $part->id }}" class="hidden">
-
-                                        </div>
-                                        <div id="coldWaterSection{{ $part->id }}" class="hidden">
-
-                                        </div>
-                                        <div id="condensorSection{{ $part->id }}" class="hidden">
-
-                                        </div>
-                                        <div id="evaperatorSection{{ $part->id }}" class="hidden">
-
-                                        </div>
-
-                                        <div id="damperTazeSection{{ $part->id }}" class="hidden">
-
-                                        </div>
-                                        <div id="damperRaftSection{{ $part->id }}" class="hidden">
-
-                                        </div>
-                                        <div id="damperBargashtSection{{ $part->id }}" class="hidden">
-
-                                        </div>
-                                        <div id="damperExastSection{{ $part->id }}" class="hidden">
-
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="border border-gray-300 p-4 text-sm text-center">
-                                    {{ $part->unit }}
-                                </td>
-                                <td class="border border-gray-300 p-4 flex items-center">
-                                    <input type="text" name="modellAmounts[]" id="inputAmount{{ $part->id }}"
-                                           class="input-text w-20 {{ $part->pivot->value == '0' ? 'border-yellow-500' : '' }}"
-                                           value="{{ $part->pivot->value }}"
-                                           onkeyup="changeBorder(event,{{ $part->id }})">
-                                    @if(!in_array($part->id,$specials))
-                                        @php
-                                            $parents = [];
-                                        @endphp
-                                        @if($color == 'bg-red-500' || $color == 'bg-red-600' || $part->price == '0')
-                                            @php
-                                                $inquiryPrice = InquiryPrice::where('part_id',$part->id)->pluck('part_id')->all();
-                                                $inquiryPrices = InquiryPrice::all()->pluck('part_id');
-                                                foreach ($inquiryPrices as $item) {
-                                                    $inquiryPart = Part::find($item);
-                                                    if (!$inquiryPart->parents->isEmpty()) {
-                                                        $parents = $inquiryPart->parents->pluck('id')->toArray();
-                                                    }
-                                                }
-                                            @endphp
-                                            @if(!in_array($part->id,$inquiryPrice) && !in_array($part->id,$parents))
-                                                <button type="button"
-                                                        onclick="storeInquiryPrice({{ $part->id }},{{ $inquiry->id }})"
-                                                        class="text-xs font-bold text-white underline underline-offset-4 whitespace-nowrap mr-2">
-                                                    درخواست بروزرسانی قیمت
-                                                </button>
-                                            @else
-                                                <p class="text-xs font-bold text-white whitespace-nowrap mr-2">
-                                                    درخواست ارسال شد
-                                                </p>
-                                            @endif
-                                        @endif
-                                    @endif
-                                </td>
-                            </tr>
-                        @endforeach
-                    @endif
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
                 @else
                     @foreach($amounts as $amount)
                         @php
@@ -1025,12 +826,31 @@
                                 </div>
                             </td>
                             <td class="border border-gray-300 p-4 text-sm text-center">
-                                {{ $part->unit }}
+                                @if(is_null($part->unit2))
+                                    {{ $part->unit }}
+                                @else
+                                    <select class="input-text" id="partUnit{{ $part->id }}"
+                                            onchange="changeUnit(event,{{ $part }})">
+                                        <option value="unit" {{ $amount->unit == $part->unit ? 'selected' : '' }}>
+                                            {{ $part->unit }}
+                                        </option>
+                                        <option value="unit2" {{ $amount->unit == $part->unit2 ? 'selected' : '' }}>
+                                            {{ $part->unit2 }}
+                                        </option>
+                                    </select>
+                                @endif
+                                <input type="hidden" name="units[]" id="inputUnitValue{{ $part->id }}"
+                                       value="{{ $amount->unit }}">
                             </td>
                             <td class="border border-gray-300 p-4 flex items-center">
                                 <input type="text" name="amounts[]" id="inputAmount{{ $part->id }}"
                                        class="input-text w-20 {{ $amount->value == '0' ? 'border-yellow-500' : '' }}"
                                        value="{{ $amount->value }}" onkeyup="changeBorder(event,{{ $part->id }})">
+                                @if(!is_null($amount->value2))
+                                    <p class="mx-2 text-sm font-bold" id="unitSection{{ $part->id }}">
+                                        {{ $amount->value2 }}
+                                    </p>
+                                @endif
                                 @if(!in_array($part->id,$specials))
                                     @php
                                         $parents = [];

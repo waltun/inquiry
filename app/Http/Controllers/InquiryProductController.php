@@ -135,105 +135,46 @@ class InquiryProductController extends Controller
 
         $inquiry = Inquiry::find($product->inquiry_id);
         $modell = Modell::find($product->model_id);
-        $group = Group::find($product->group_id);
         $amounts = Amount::where('product_id', $product->id)->get();
 
-        if ($amounts->isEmpty()) {
-            if (!$group->parts->isEmpty() && $modell->parts->isEmpty()) {
-                $request->validate([
-                    'groupAmounts' => 'required|array',
-                    'groupAmounts.*' => 'required|numeric'
-                ]);
+        if ($amounts->isEmpty() && !$modell->parts->isEmpty()) {
+            $request->validate([
+                'modellAmounts' => 'required|array',
+                'modellAmounts.*' => 'required|numeric',
+                'sorts' => 'required|array',
+                'sorts.*' => 'required|numeric'
+            ]);
 
-                if (!$amounts->isEmpty()) {
-                    foreach ($amounts as $amount) {
-                        $amount->delete();
-                    }
-                }
-
-                foreach ($request['part_ids'] as $index => $part) {
-                    $createdAmount = Amount::create([
-                        'value' => $request->groupAmounts[$index],
-                        'product_id' => $product->id,
-                        'part_id' => $part
-                    ]);
-
-                    $special = Special::where('part_id', $part)->first();
-
-                    if (!is_null($special)) {
-                        $createdAmount->price = session('price' . $part) ?? 0;
-                        $createdAmount->save();
-                        session()->forget('price' . $part);
-                    }
-                    if (session()->has('selectedPart' . $part)) {
-                        session()->forget('selectedPart' . $part);
-                    }
+            if (!$amounts->isEmpty()) {
+                foreach ($amounts as $amount) {
+                    $amount->delete();
                 }
             }
 
-            if (!$modell->parts->isEmpty() && $group->parts->isEmpty()) {
-                $request->validate([
-                    'modellAmounts' => 'required|array',
-                    'modellAmounts.*' => 'required|numeric',
-                    'sorts' => 'required|array',
-                    'sorts.*' => 'required|numeric'
+            foreach ($request['part_ids'] as $index => $part) {
+                $myPart = Part::find($part);
+                if (!is_null($myPart->unit2)) {
+                    $operator = $myPart->operator1;
+                    $formula = $myPart->formula1;
+                    $amountValue = $request->modellAmounts[$index];
+                    $value2 = eval("return $amountValue $operator $formula;");
+                }
+
+                $createdAmount = Amount::create([
+                    'value' => $request->modellAmounts[$index],
+                    'value2' => $value2 ?? null,
+                    'product_id' => $product->id,
+                    'part_id' => $part,
+                    'sort' => $request->sorts[$index],
+                    'unit' => $request->units[$index] ?? null,
                 ]);
 
-                if (!$amounts->isEmpty()) {
-                    foreach ($amounts as $amount) {
-                        $amount->delete();
-                    }
-                }
+                $special = Special::where('part_id', $part)->first();
 
-                foreach ($request['part_ids'] as $index => $part) {
-                    $createdAmount = Amount::create([
-                        'value' => $request->modellAmounts[$index],
-                        'product_id' => $product->id,
-                        'part_id' => $part,
-                        'sort' => $request->sorts[$index]
-                    ]);
-
-                    $special = Special::where('part_id', $part)->first();
-
-                    if (!is_null($special)) {
-                        $createdAmount->price = session('price' . $part) ?? 0;
-                        $createdAmount->save();
-                        session()->forget('price' . $part);
-                    }
-                }
-            }
-
-            if (!$modell->parts->isEmpty() && !$group->parts->isEmpty()) {
-                $request->validate([
-                    'groupAmounts' => 'required|array',
-                    'groupAmounts.*' => 'required|numeric',
-                    'modellAmounts' => 'required|array',
-                    'modellAmounts.*' => 'required|numeric'
-                ]);
-
-                if (!$amounts->isEmpty()) {
-                    foreach ($amounts as $amount) {
-                        $amount->delete();
-                    }
-                }
-
-                $value = array_merge($request['groupAmounts'], $request['modellAmounts']);
-
-                foreach ($request['part_ids'] as $index => $part) {
-                    $createdAmount = Amount::create([
-                        'value' => $value[$index],
-                        'product_id' => $product->id,
-                        'part_id' => $part
-                    ]);
-
-                    if (session()->has('price' . $part)) {
-                        $createdAmount->price = session('price' . $part);
-                        $createdAmount->save();
-                        session()->forget('price' . $part);
-                    }
-                    if (session()->has('selectedPart' . $part)) {
-                        session()->forget('selectedPart' . $part);
-                    }
+                if (!is_null($special)) {
+                    $createdAmount->price = session('price' . $part) ?? 0;
+                    $createdAmount->save();
+                    session()->forget('price' . $part);
                 }
             }
         } else {
@@ -251,11 +192,21 @@ class InquiryProductController extends Controller
             }
 
             foreach ($request['part_ids'] as $index => $part) {
+                $myPart = Part::find($part);
+                if (!is_null($myPart->unit2)) {
+                    $operator = $myPart->operator1;
+                    $formula = $myPart->formula1;
+                    $amountValue = $request->amounts[$index];
+                    $value2 = eval("return $amountValue $operator $formula;");
+                }
+
                 $createdAmount = Amount::create([
                     'value' => $request->amounts[$index],
+                    'value2' => $value2 ?? null,
                     'product_id' => $product->id,
                     'part_id' => $part,
-                    'sort' => $request->sorts[$index]
+                    'sort' => $request->sorts[$index],
+                    'unit' => $request->units[$index] ?? null,
                 ]);
 
                 $special = Special::where('part_id', $part)->first();

@@ -16,13 +16,19 @@ return new class extends Migration {
             $table->id();
 
             $table->string('name');
-            $table->string('unit');
             $table->bigInteger('price')->default(0);
             $table->bigInteger('old_price')->default(0);
             $table->string('code')->nullable();
 
             $table->boolean('collection')->default(false);
             $table->boolean('coil')->default(0);
+
+            $table->string('unit');
+            $table->string('unit2')->nullable();
+            $table->string('operator1')->nullable();
+            $table->decimal('formula1')->nullable();
+            $table->string('operator2')->nullable();
+            $table->decimal('formula2')->nullable();
 
             $table->index(['code']);
 

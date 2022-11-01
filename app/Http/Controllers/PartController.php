@@ -62,7 +62,12 @@ class PartController extends Controller
             'unit' => 'required|string|max:255',
             'price' => 'nullable',
             'collection' => 'required|in:true,false',
-            'categories' => 'required|array|min:3|max:3'
+            'categories' => 'required|array|min:3|max:3',
+            'unit2' => 'nullable|string|max:255',
+            'operator1' => 'nullable|string|max:255',
+            'operator2' => 'nullable|string|max:255',
+            'formula1' => 'nullable|numeric',
+            'formula2' => 'nullable|numeric',
         ]);
 
         if ($data['collection'] == 'true') {
@@ -108,7 +113,12 @@ class PartController extends Controller
             'unit' => 'required|string|max:255',
             'price' => 'nullable',
             'collection' => 'required|in:true,false',
-            'categories' => 'required|array'
+            'categories' => 'required|array',
+            'unit2' => 'nullable|string|max:255',
+            'operator1' => 'nullable|string|max:255',
+            'operator2' => 'nullable|string|max:255',
+            'formula1' => 'nullable|numeric',
+            'formula2' => 'nullable|numeric',
         ]);
 
         if ($data['collection'] == 'true') {
