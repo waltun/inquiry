@@ -202,19 +202,13 @@
                        placeholder="مثلا : 1000CFM"
                        value="{{ old('model_custom_name') }}">
             </div>
-
-            <div class="mt-4">
-                <label for="inputSort" class="block mb-2 md:text-sm text-xs text-black">Sort</label>
-                <input type="text" id="inputSort" name="sort" class="input-text" placeholder="مثلا : 1"
-                       value="{{ old('sort') }}">
-            </div>
         </div>
 
         <div class="col-span-2 space-x-2 space-x-reverse">
             <button type="submit" class="form-submit-btn">
-                ثبت استعلام
+                ثبت محصول
             </button>
-            <a href="{{ route('inquiries.index') }}" class="form-cancel-btn">
+            <a href="{{ route('inquiries.product.index',$inquiry->id) }}" class="form-cancel-btn">
                 انصراف
             </a>
         </div>

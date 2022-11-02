@@ -308,14 +308,6 @@
                                                             <input type="text" class="input-text" name="quantity"
                                                                    id="inputQuantity">
                                                         </div>
-
-                                                        <div class="mt-4">
-                                                            <label class="block mb-2 text-sm font-bold" for="inputSort">
-                                                                Sort
-                                                            </label>
-                                                            <input type="text" class="input-text" name="sort"
-                                                                   id="inputSort">
-                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="bg-gray-100 px-4 py-2">

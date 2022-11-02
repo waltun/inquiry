@@ -58,13 +58,20 @@ class InquiryPartController extends Controller
     {
         $request->validate([
             'quantity' => 'required|numeric',
-            'sort' => 'required|numeric'
         ]);
+
+        $sort = 0;
+        if ($inquiry->products()->where('part_id', '!=', 0)->get()->isEmpty()) {
+            $sort = 1;
+        } else {
+            $product = $inquiry->products()->where('part_id', '!=', 0)->max('sort');
+            $sort = $product + 1;
+        }
 
         $inquiry->products()->create([
             'part_id' => $part->id,
             'quantity' => $request['quantity'],
-            'sort' => $request['sort']
+            'sort' => $sort
         ]);
 
         alert()->success('ثبت موفق', 'ثبت قطعه برای استعلام با موفقیت انجام شد');

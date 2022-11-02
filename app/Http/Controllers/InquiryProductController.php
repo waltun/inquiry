@@ -42,8 +42,15 @@ class InquiryProductController extends Controller
             'quantity' => 'required|numeric|min:1',
             'description' => 'nullable|string|max:255',
             'model_custom_name' => 'string|max:255|nullable',
-            'sort' => 'required|numeric'
         ]);
+
+        $sort = 0;
+        if ($inquiry->products->isEmpty()) {
+            $sort = 1;
+        } else {
+            $product = $inquiry->products()->max('sort');
+            $sort = $product + 1;
+        }
 
         $inquiry->products()->create([
             'group_id' => $request['group_id'],
@@ -51,7 +58,7 @@ class InquiryProductController extends Controller
             'quantity' => $request['quantity'],
             'description' => $request['description'],
             'model_custom_name' => $request['model_custom_name'],
-            'sort' => $request['sort'],
+            'sort' => $sort,
         ]);
 
         alert()->success('ثبت موفق', 'ثبت محصول برای استعلام با موفقیت انجام شد');
