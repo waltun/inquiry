@@ -159,21 +159,12 @@ class InquiryProductController extends Controller
             }
 
             foreach ($request['part_ids'] as $index => $part) {
-                $myPart = Part::find($part);
-                if (!is_null($myPart->unit2)) {
-                    $operator = $myPart->operator1;
-                    $formula = $myPart->formula1;
-                    $amountValue = $request->modellAmounts[$index];
-                    $value2 = eval("return $amountValue $operator $formula;");
-                }
-
                 $createdAmount = Amount::create([
                     'value' => $request->modellAmounts[$index],
-                    'value2' => $value2 ?? null,
+                    'value2' => $request->units[$index] ?? null,
                     'product_id' => $product->id,
                     'part_id' => $part,
                     'sort' => $request->sorts[$index],
-                    'unit' => $request->units[$index] ?? null,
                 ]);
 
                 $special = Special::where('part_id', $part)->first();
@@ -199,21 +190,12 @@ class InquiryProductController extends Controller
             }
 
             foreach ($request['part_ids'] as $index => $part) {
-                $myPart = Part::find($part);
-                if (!is_null($myPart->unit2)) {
-                    $operator = $myPart->operator1;
-                    $formula = $myPart->formula1;
-                    $amountValue = $request->amounts[$index];
-                    $value2 = eval("return $amountValue $operator $formula;");
-                }
-
                 $createdAmount = Amount::create([
                     'value' => $request->amounts[$index],
-                    'value2' => $value2 ?? null,
+                    'value2' => $request->units[$index] ?? null,
                     'product_id' => $product->id,
                     'part_id' => $part,
                     'sort' => $request->sorts[$index],
-                    'unit' => $request->units[$index] ?? null,
                 ]);
 
                 $special = Special::where('part_id', $part)->first();

@@ -209,29 +209,30 @@
             }
         </script>
         <script>
-            function changeUnit(event, part) {
+            function changeUnit1(event, part) {
                 let value = event.target.value;
-                let input = document.getElementById('inputAmount' + part.id);
-                let inputUnitValue = document.getElementById('inputUnitValue' + part.id);
-                let unitSection = document.getElementById('unitSection' + part.id);
+                let input2 = document.getElementById('inputUnit' + part.id);
+                let input2Value = document.getElementById('inputUnitValue' + part.id);
                 let operator1 = part.operator1;
-                let operator2 = part.operator2;
                 let formula1 = part.formula1;
+                let result = 0;
+
+                result = eval(value + operator1 + formula1);
+                input2.value = Intl.NumberFormat().format(result);
+                input2Value.value = Intl.NumberFormat().format(result);
+            }
+
+            function changeUnit2(event, part) {
+                let value = event.target.value;
+                let input1 = document.getElementById('inputAmount' + part.id);
+                let input1Value = document.getElementById('inputUnitValue' + part.id);
+                let operator2 = part.operator2;
                 let formula2 = part.formula2;
                 let result = 0;
 
-                if (value === 'unit') {
-                    result = eval(input.value + operator2 + formula2);
-                    inputUnitValue.value = part.unit;
-                    unitSection.classList.add('hidden');
-                }
-
-                if (value === 'unit2') {
-                    result = eval(input.value + operator1 + formula1);
-                    inputUnitValue.value = part.unit2;
-                    unitSection.classList.remove('hidden');
-                    unitSection.innerText = Intl.NumberFormat().format(result);
-                }
+                result = eval(value + operator2 + formula2);
+                input1.value = Intl.NumberFormat().format(result);
+                input1Value.value = Intl.NumberFormat().format(result);
             }
         </script>
     </x-slot>
@@ -322,7 +323,6 @@
                 <thead>
                 <tr>
                     <th class="border border-gray-300 p-4 text-sm">Sort</th>
-                    <th class="border border-gray-300 p-4 text-sm">کد قطعه</th>
                     <th class="border border-gray-300 p-4 text-sm">نام قطعه</th>
                     <th class="border border-gray-300 p-4 text-sm">واحد قطعه</th>
                     <th class="border border-gray-300 p-4 text-sm">مقادیر</th>
@@ -332,13 +332,7 @@
                 @if($amounts->isEmpty() && !$modell->parts->isEmpty())
                     @foreach($modell->parts()->orderBy('sort','ASC')->get() as $index => $part)
                         @php
-                            $code = '';
                             $color = '';
-                            foreach($part->categories as $category) {
-                                $code = $code . $category->code;
-                            }
-                            $finalCode = $code . $part->code;
-
                             if ($setting) {
                                 if($setting->price_color_type == 'month') {
                                     $lastTime = Carbon::now()->subMonth($setting->price_color_last_time);
@@ -386,9 +380,6 @@
                                 <input type="text" class="input-text w-14 text-center"
                                        value="{{ $part->pivot->sort ?? 0 }}"
                                        name="sorts[]" id="partSort{{ $part->id }}">
-                            </td>
-                            <td class="border border-gray-300 p-4 text-sm text-center">
-                                {{ $code . "-" . $part->code }}
                             </td>
                             <td class="border border-gray-300 p-4 text-sm text-center flex items-center">
                                 @php
@@ -562,23 +553,21 @@
                                 @if(is_null($part->unit2))
                                     {{ $part->unit }}
                                 @else
-                                    <select class="input-text" id="partUnit{{ $part->id }}"
-                                            onchange="changeUnit(event,{{ $part }})">
-                                        <option value="unit">
-                                            {{ $part->unit }}
-                                        </option>
-                                        <option value="unit2">
-                                            {{ $part->unit2 }}
-                                        </option>
-                                    </select>
+                                    {{ $part->unit }} / {{ $part->unit2 }}
                                 @endif
-                                <input type="hidden" name="units[]" id="inputUnitValue{{ $part->id }}">
                             </td>
                             <td class="border border-gray-300 p-4 flex items-center">
                                 <input type="text" name="modellAmounts[]" id="inputAmount{{ $part->id }}"
                                        class="input-text w-20 {{ $part->pivot->value == '0' ? 'border-yellow-500' : '' }}"
                                        value="{{ $part->pivot->value }}"
-                                       onkeyup="changeBorder(event,{{ $part->id }})">
+                                       onkeyup="changeUnit1(event,{{ $part }})">
+                                @if(!is_null($part->unit2))
+                                    <p class="mr-2">/</p>
+                                    <input type="text" id="inputUnit{{ $part->id }}"
+                                           class="input-text w-20 mr-2" placeholder="{{ $part->unit2 }}"
+                                           onkeyup="changeUnit2(event,{{ $part }})">
+                                @endif
+                                <input type="hidden" name="units[]" id="inputUnitValue{{ $part->id }}">
                                 <p class="mx-2 text-sm font-bold hidden" id="unitSection{{ $part->id }}"></p>
                                 @if(!in_array($part->id,$specials))
                                     @php
@@ -615,13 +604,7 @@
                     @foreach($amounts as $amount)
                         @php
                             $part = Part::find($amount->part_id);
-                            $code = '';
                             $color = '';
-                            foreach($part->categories as $category) {
-                                $code = $code . $category->code;
-                            }
-                            $finalCode = $code . $part->code;
-
                             if ($setting) {
                                 if($setting->price_color_type == 'month') {
                                     $lastTime = Carbon::now()->subMonth($setting->price_color_last_time);
@@ -667,9 +650,6 @@
                             <td class="border border-gray-300 p-4 text-sm text-center">
                                 <input type="text" class="input-text w-14 text-center" value="{{ $amount->sort ?? 0 }}"
                                        name="sorts[]" id="partSort{{ $part->id }}">
-                            </td>
-                            <td class="border border-gray-300 p-4 text-sm text-center">
-                                {{ $code . "-" . $part->code }}
                             </td>
                             <td class="border border-gray-300 p-4 text-sm text-center flex items-center">
                                 @php
@@ -829,28 +809,20 @@
                                 @if(is_null($part->unit2))
                                     {{ $part->unit }}
                                 @else
-                                    <select class="input-text" id="partUnit{{ $part->id }}"
-                                            onchange="changeUnit(event,{{ $part }})">
-                                        <option value="unit" {{ $amount->unit == $part->unit ? 'selected' : '' }}>
-                                            {{ $part->unit }}
-                                        </option>
-                                        <option value="unit2" {{ $amount->unit == $part->unit2 ? 'selected' : '' }}>
-                                            {{ $part->unit2 }}
-                                        </option>
-                                    </select>
+                                    {{ $part->unit }} / {{ $part->unit2 }}
                                 @endif
-                                <input type="hidden" name="units[]" id="inputUnitValue{{ $part->id }}"
-                                       value="{{ $amount->unit }}">
                             </td>
                             <td class="border border-gray-300 p-4 flex items-center">
                                 <input type="text" name="amounts[]" id="inputAmount{{ $part->id }}"
                                        class="input-text w-20 {{ $amount->value == '0' ? 'border-yellow-500' : '' }}"
-                                       value="{{ $amount->value }}" onkeyup="changeBorder(event,{{ $part->id }})">
-                                @if(!is_null($amount->value2))
-                                    <p class="mx-2 text-sm font-bold" id="unitSection{{ $part->id }}">
-                                        {{ $amount->value2 }}
-                                    </p>
+                                       value="{{ $amount->value }}" onkeyup="changeUnit1(event,{{ $part }})">
+                                @if(!is_null($part->unit2))
+                                    <p class="mr-2">/</p>
+                                    <input type="text" id="inputUnit{{ $part->id }}"
+                                           class="input-text w-20 mr-2" placeholder="{{ $part->unit2 }}"
+                                           onkeyup="changeUnit2(event,{{ $part }})" value="{{ $amount->value2 }}">
                                 @endif
+                                <input type="hidden" name="units[]" id="inputUnitValue{{ $part->id }}">
                                 @if(!in_array($part->id,$specials))
                                     @php
                                         $parents = [];
