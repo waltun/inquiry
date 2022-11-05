@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Amount;
+use App\Models\Category;
 use App\Models\Group;
 use App\Models\Inquiry;
 use App\Models\Modell;
@@ -391,5 +392,12 @@ class InquiryProductController extends Controller
             $user->notify(new PercentInquiryNotification($inquiry));
             return redirect()->route('inquiries.priced');
         }
+    }
+
+    public function changePart(Request $request)
+    {
+        $category = Category::find($request->id);
+        $parts = $category->parts;
+        return response(['data' => $parts]);
     }
 }

@@ -235,6 +235,37 @@
                 inputValue.value = value;
             }
         </script>
+        <script>
+            function changePart(event, part) {
+                let id = event.target.value;
+                let section = document.getElementById('groupPartList' + part);
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('inquiries.product.changePart') }}',
+                    data: {
+                        id: id,
+                    },
+                    success: function (res) {
+                        let parts = res.data;
+                        section.innerHTML = `
+                            <select class="input-text" onchange="changePart(event,${part})" id="inputCategory${part}">
+                                    ${
+                            parts.map(function (part) {
+                                return `<option value="${part.id}">${part.name}</option>`
+                            })
+                        }
+                            </select>`
+                    }
+                });
+            }
+        </script>
     </x-slot>
 
     <x-slot name="css">
@@ -322,7 +353,8 @@
             <table class="border-collapse border border-gray-400 w-full">
                 <thead>
                 <tr>
-                    <th class="border border-gray-300 p-4 text-sm">Sort</th>
+                    <th class="border border-gray-300 p-4 text-sm">ردیف</th>
+                    <th class="border border-gray-300 p-4 text-sm">دسته بندی</th>
                     <th class="border border-gray-300 p-4 text-sm">نام قطعه</th>
                     <th class="border border-gray-300 p-4 text-sm">واحد قطعه</th>
                     <th class="border border-gray-300 p-4 text-sm">مقادیر</th>
@@ -374,12 +406,25 @@
                                 }
                             }
 
+                            $category = $part->categories[1];
+                            $selectedCategory = $part->categories[2];
                         @endphp
                         <tr class="{{ $color ?? 'bg-white' }}">
                             <td class="border border-gray-300 p-4 text-sm text-center">
                                 <input type="text" class="input-text w-14 text-center"
                                        value="{{ $part->pivot->sort ?? 0 }}"
                                        name="sorts[]" id="partSort{{ $part->id }}">
+                            </td>
+                            <td class="border border-gray-300 p-4">
+                                <select name="" id="inputCategory{{ $part->id }}" class="input-text"
+                                        onchange="changePart(event,{{ $part->id }})">
+                                    @foreach($category->children as $child)
+                                        <option
+                                            value="{{ $child->id }}" {{ $child->id == $selectedCategory->id ? 'selected' : '' }}>
+                                            {{ $child->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </td>
                             <td class="border border-gray-300 p-4 text-sm text-center flex items-center">
                                 @php
@@ -644,11 +689,25 @@
                                         }
                                     }
                                 }
+
+                            $category = $part->categories[1];
+                            $selectedCategory = $part->categories[2];
                         @endphp
                         <tr class="{{ $color ?? 'bg-white' }}">
                             <td class="border border-gray-300 p-4 text-sm text-center">
                                 <input type="text" class="input-text w-14 text-center" value="{{ $amount->sort ?? 0 }}"
                                        name="sorts[]" id="partSort{{ $part->id }}">
+                            </td>
+                            <td class="border border-gray-300 p-4">
+                                <select name="" id="inputCategory{{ $part->id }}" class="input-text"
+                                        onchange="changePart(event,{{ $part->id }})">
+                                    @foreach($category->children as $child)
+                                        <option
+                                            value="{{ $child->id }}" {{ $child->id == $selectedCategory->id ? 'selected' : '' }}>
+                                            {{ $child->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </td>
                             <td class="border border-gray-300 p-4 text-sm text-center flex items-center">
                                 @php
