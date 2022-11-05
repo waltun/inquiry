@@ -212,27 +212,27 @@
             function changeUnit1(event, part) {
                 let value = event.target.value;
                 let input2 = document.getElementById('inputUnit' + part.id);
-                let input2Value = document.getElementById('inputUnitValue' + part.id);
-                let operator1 = part.operator1;
-                let formula1 = part.formula1;
+                let inputValue = document.getElementById('inputUnitValue' + part.id);
+                let operator1 = part.operator2;
+                let formula1 = part.formula2;
                 let result = 0;
 
                 result = eval(value + operator1 + formula1);
                 input2.value = Intl.NumberFormat().format(result);
-                input2Value.value = Intl.NumberFormat().format(result);
+                inputValue.value = Intl.NumberFormat().format(result);
             }
 
             function changeUnit2(event, part) {
                 let value = event.target.value;
                 let input1 = document.getElementById('inputAmount' + part.id);
-                let input1Value = document.getElementById('inputUnitValue' + part.id);
-                let operator2 = part.operator2;
-                let formula2 = part.formula2;
+                let inputValue = document.getElementById('inputUnitValue' + part.id);
+                let operator2 = part.operator1;
+                let formula2 = part.formula1;
                 let result = 0;
 
                 result = eval(value + operator2 + formula2);
                 input1.value = Intl.NumberFormat().format(result);
-                input1Value.value = Intl.NumberFormat().format(result);
+                inputValue.value = value;
             }
         </script>
     </x-slot>
@@ -568,7 +568,6 @@
                                            onkeyup="changeUnit2(event,{{ $part }})">
                                 @endif
                                 <input type="hidden" name="units[]" id="inputUnitValue{{ $part->id }}">
-                                <p class="mx-2 text-sm font-bold hidden" id="unitSection{{ $part->id }}"></p>
                                 @if(!in_array($part->id,$specials))
                                     @php
                                         $parents = [];
@@ -822,7 +821,8 @@
                                            class="input-text w-20 mr-2" placeholder="{{ $part->unit2 }}"
                                            onkeyup="changeUnit2(event,{{ $part }})" value="{{ $amount->value2 }}">
                                 @endif
-                                <input type="hidden" name="units[]" id="inputUnitValue{{ $part->id }}">
+                                <input type="hidden" name="units[]" id="inputUnitValue{{ $part->id }}"
+                                       value="{{ $amount->value2 }}">
                                 @if(!in_array($part->id,$specials))
                                     @php
                                         $parents = [];
@@ -869,129 +869,4 @@
             </a>
         </div>
     </form>
-
-    <!-- Mobile List -->
-    <form method="POST" action="{{ route('inquiries.product.storeAmounts',$product->id) }}"
-          class="mt-4 md:hidden block">
-        @csrf
-
-        @php
-            $amounts = Amount::where('product_id', $product->id)->get();
-            $specials = Special::all()->pluck('part_id')->toArray();
-            $counter = 0;
-        @endphp
-        @foreach($group->parts as $part)
-            @php
-                $counter++;
-                //$amount = \App\Models\Amount::where('product_id',$product->id)->where('part_id',$part->id)->first();
-                $code = '';
-                foreach($part->categories as $category) {
-                    $code = $code . $category->code;
-                }
-            @endphp
-
-            <div class="bg-white rounded-md p-4 border border-gray-200 shadow-md mb-4 relative z-30">
-                <span
-                    class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
-                    {{ $counter }}
-                </span>
-                <div class="space-y-4">
-                    @php
-                        $selectedPart = Part::find($part->id);
-                        $lastCategory = $selectedPart->categories()->latest()->first();
-                        $categoryParts = $lastCategory->parts;
-                    @endphp
-                    <select name="part_ids[]" id="" class="input-text mt-6">
-                        @foreach($categoryParts as $part2)
-                            <option
-                                value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
-                                {{ $part2->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                    <p class="text-xs text-black text-center">
-                        واحد : {{ $part->unit }}
-                    </p>
-                    @php
-                        $code = '';
-                        foreach($part->categories as $category){
-                            $code = $code . $category->code;
-                        }
-
-                    @endphp
-                    <p class="text-xs text-black text-center">
-                        کد : {{ $part->code . "-" . $code }}
-                    </p>
-                    <div>
-                        <input type="text" name="groupAmounts[]" id="inputAmount{{ $part->id }}"
-                               class="input-text" value="{{ $part->pivot->value }}">
-                    </div>
-                    <div class="flex w-full justify-between">
-
-                    </div>
-                </div>
-            </div>
-
-        @endforeach
-
-        @foreach($modell->parts as $part)
-            @php
-                $counter++;
-                //$amount = \App\Models\Amount::where('part_id', $part->id)->where('product_id', $product->id)->first();
-                $code = '';
-                foreach($part->categories as $category){
-                    $code = $code . $category->code;
-                }
-            @endphp
-
-            <div class="bg-white rounded-md p-4 border border-gray-200 shadow-md mb-4 relative z-30">
-                <span
-                    class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
-                    {{ $counter }}
-                </span>
-                <div class="space-y-4">
-                    @php
-                        $selectedPart = Part::find($part->id);
-                        $lastCategory = $selectedPart->categories()->latest()->first();
-                        $categoryParts = $lastCategory->parts;
-                    @endphp
-                    <select name="part_ids[]" id="" class="input-text mt-6">
-                        @foreach($categoryParts as $part2)
-                            <option
-                                value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
-                                {{ $part2->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                    <p class="text-xs text-black text-center">
-                        واحد : {{ $part->unit }}
-                    </p>
-                    @php
-                        $code = '';
-                        foreach($part->categories as $category){
-                            $code = $code . $category->code;
-                        }
-
-                    @endphp
-                    <p class="text-xs text-black text-center">
-                        کد : {{ $part->code . "-" . $code }}
-                    </p>
-                    <div>
-                        <input type="text" name="modellAmounts[]" id="inputAmount{{ $part->id }}"
-                               class="input-text" value="{{ $part->pivot->value }}">
-                    </div>
-                </div>
-            </div>
-
-        @endforeach
-        <div class="space-x-2 space-x-reverse">
-            <button type="submit" class="form-submit-btn">
-                ثبت مقادیر
-            </button>
-            <a href="{{ route('inquiries.index') }}" class="form-cancel-btn">
-                انصراف
-            </a>
-        </div>
-    </form>
-
 </x-layout>

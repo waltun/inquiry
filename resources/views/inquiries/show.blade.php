@@ -133,11 +133,11 @@
                         <tr>
                             <th class="border border-gray-300 p-4 text-sm">کد قطعه</th>
                             <th class="border border-gray-300 p-4 text-sm">نام قطعه</th>
-                            <th class="border border-gray-300 p-4 text-sm">واحد و مقادیر</th>
+                            <th class="border border-gray-300 p-4 text-sm">واحد</th>
                             @can('detail-inquiry')
                                 <th class="border border-gray-300 p-4 text-sm">قیمت واحد</th>
                             @endcan
-                            <th class="border border-gray-300 p-4 text-sm">واحد و مقادیر دوم</th>
+                            <th class="border border-gray-300 p-4 text-sm"> مقادیر</th>
                             @can('detail-inquiry')
                                 <th class="border border-gray-300 p-4 text-sm">جمع کل</th>
                             @endcan
@@ -166,7 +166,10 @@
                                     {{ $part->name }}
                                 </td>
                                 <td class="border border-gray-300 p-4 text-sm text-center">
-                                    {{ $amount->value }} - {{ $part->unit }}
+                                    {{ $part->unit }}
+                                    @if(!is_null($part->unit2))
+                                        / {{ $part->unit2 }}
+                                    @endif
                                 </td>
                                 @can('detail-inquiry')
                                     <td class="border border-gray-300 p-4 text-sm text-center font-bold">
@@ -178,7 +181,10 @@
                                     </td>
                                 @endcan
                                 <td class="border border-gray-300 p-4 text-sm text-center">
-                                    {{ $amount->value2 }} - {{ $amount->unit }}
+                                    {{ $amount->value }}
+                                    @if(!is_null($amount->value2))
+                                        / {{ $amount->value2 }}
+                                    @endif
                                 </td>
                                 @can('detail-inquiry')
                                     <td class="border border-gray-300 p-4 text-sm text-center font-bold">
