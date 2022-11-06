@@ -400,4 +400,10 @@ class InquiryProductController extends Controller
         $parts = $category->parts;
         return response(['data' => $parts]);
     }
+
+    public function getPart(Request $request)
+    {
+        $part = Part::find($request->id);
+        return response(['data' => $part]);
+    }
 }

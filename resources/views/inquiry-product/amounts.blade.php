@@ -30,6 +30,7 @@
                 let damperExastSection = document.getElementById("damperExastSection" + id);
 
                 //Coil Fancoil
+                //Coil Fancoil
                 if (selectedId === '170') {
                     let fancoilRoute = "/calculate/coil/fancoil/" + 170 + "/" + productId;
                     fancoilSection.classList.remove('hidden')
@@ -122,9 +123,11 @@
                         </a>
                         `
                 } else {
-                    damperExastSection.classList.remove('block')
-                    damperExastSection.classList.add('hidden')
-                    damperExastSection.innerHTML = ""
+                    if (damperExastSection) {
+                        damperExastSection.classList.remove('block')
+                        damperExastSection.classList.add('hidden')
+                        damperExastSection.innerHTML = ""
+                    }
                 }
                 //Damper Raft
                 if (selectedId === '148') {
@@ -138,9 +141,11 @@
                         </a>
                         `
                 } else {
-                    damperRaftSection.classList.remove('block')
-                    damperRaftSection.classList.add('hidden')
-                    damperRaftSection.innerHTML = ""
+                    if (damperRaftSection) {
+                        damperRaftSection.classList.remove('block')
+                        damperRaftSection.classList.add('hidden')
+                        damperRaftSection.innerHTML = ""
+                    }
                 }
                 //Damper Bargasht
                 if (selectedId === '147') {
@@ -154,9 +159,11 @@
                         </a>
                         `
                 } else {
-                    damperBargashtSection.classList.remove('block')
-                    damperBargashtSection.classList.add('hidden')
-                    damperBargashtSection.innerHTML = ""
+                    if (damperBargashtSection) {
+                        damperBargashtSection.classList.remove('block')
+                        damperBargashtSection.classList.add('hidden')
+                        damperBargashtSection.innerHTML = ""
+                    }
                 }
                 //Damper Taze
                 if (selectedId === '146') {
@@ -170,10 +177,44 @@
                         </a>
                         `
                 } else {
-                    damperTazeSection.classList.remove('block')
-                    damperTazeSection.classList.add('hidden')
-                    damperTazeSection.innerHTML = ""
+                    if (damperTazeSection) {
+                        damperTazeSection.classList.remove('block')
+                        damperTazeSection.classList.add('hidden')
+                        damperTazeSection.innerHTML = ""
+                    }
                 }
+            }
+
+            function changeFormula(event, cid) {
+                let id = event.target.value;
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('inquiries.product.getPart') }}',
+                    data: {
+                        id: id,
+                    },
+                    success: function (res) {
+                        let part = res.data;
+                        let value = document.getElementById('inputUnit' + cid).value;
+                        let input = document.getElementById('inputAmount' + cid);
+                        let inputValue = document.getElementById('inputUnitValue' + cid);
+
+                        let operator2 = part.operator1;
+                        let formula2 = part.formula1;
+                        let result = 0;
+
+                        result = eval(value + operator2 + formula2);
+                        input.value = Intl.NumberFormat().format(result);
+                        inputValue.value = value;
+                    }
+                });
             }
         </script>
         <script>
@@ -209,30 +250,68 @@
             }
         </script>
         <script>
-            function changeUnit1(event, part) {
-                let value = event.target.value;
-                let input2 = document.getElementById('inputUnit' + part.id);
-                let inputValue = document.getElementById('inputUnitValue' + part.id);
-                let operator1 = part.operator2;
-                let formula1 = part.formula2;
-                let result = 0;
+            function changeUnit1(event, cid) {
 
-                result = eval(value + operator1 + formula1);
-                input2.value = Intl.NumberFormat().format(result);
-                inputValue.value = Intl.NumberFormat().format(result);
+                let id = document.getElementById('groupPartList' + cid).value;
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('inquiries.product.getPart') }}',
+                    data: {
+                        id: id,
+                    },
+                    success: function (res) {
+                        let part = res.data;
+                        let value = event.target.value;
+                        let input2 = document.getElementById('inputUnit' + cid);
+                        let inputValue = document.getElementById('inputUnitValue' + cid);
+                        let operator1 = part.operator2;
+                        let formula1 = part.formula2;
+                        let result = 0;
+
+                        result = eval(value + operator1 + formula1);
+                        input2.value = Intl.NumberFormat().format(result);
+                        inputValue.value = Intl.NumberFormat().format(result);
+                    }
+                });
             }
 
-            function changeUnit2(event, part) {
-                let value = event.target.value;
-                let input1 = document.getElementById('inputAmount' + part.id);
-                let inputValue = document.getElementById('inputUnitValue' + part.id);
-                let operator2 = part.operator1;
-                let formula2 = part.formula1;
-                let result = 0;
+            function changeUnit2(event, cid) {
 
-                result = eval(value + operator2 + formula2);
-                input1.value = Intl.NumberFormat().format(result);
-                inputValue.value = value;
+                let id = document.getElementById('groupPartList' + cid).value;
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('inquiries.product.getPart') }}',
+                    data: {
+                        id: id,
+                    },
+                    success: function (res) {
+                        let part = res.data;
+                        let value = event.target.value;
+                        let input1 = document.getElementById('inputAmount' + cid);
+                        let inputValue = document.getElementById('inputUnitValue' + cid);
+                        let operator2 = part.operator1;
+                        let formula2 = part.formula1;
+                        let result = 0;
+
+                        result = eval(value + operator2 + formula2);
+                        input1.value = Intl.NumberFormat().format(result);
+                        inputValue.value = value;
+                    }
+                });
             }
         </script>
         <script>
@@ -267,7 +346,6 @@
             }
         </script>
     </x-slot>
-
     <x-slot name="css">
         <link rel="stylesheet" href="{{ asset('plugins/select2/select2.min.css') }}">
     </x-slot>
@@ -433,7 +511,7 @@
                                     $categoryParts = $lastCategory->parts;
                                 @endphp
                                 <select name="part_ids[]" class="input-text" id="groupPartList{{ $part->id }}"
-                                        onchange="showCalculateButton('{{ $part->id }}')">
+                                        onchange="showCalculateButton('{{ $part->id }}'); changeFormula(event,{{ $part->id }});">
                                     @foreach($categoryParts as $part2)
                                         @if(!session()->has('selectedPart' . $part2->id))
                                             <option
@@ -605,12 +683,13 @@
                                 <input type="text" name="modellAmounts[]" id="inputAmount{{ $part->id }}"
                                        class="input-text w-20 {{ $part->pivot->value == '0' ? 'border-yellow-500' : '' }}"
                                        value="{{ $part->pivot->value }}"
-                                       onkeyup="changeUnit1(event,{{ $part }})">
+                                       onkeyup="changeUnit1(event,{{ $part->id }})">
                                 @if(!is_null($part->unit2))
                                     <p class="mr-2">/</p>
                                     <input type="text" id="inputUnit{{ $part->id }}"
                                            class="input-text w-20 mr-2" placeholder="{{ $part->unit2 }}"
-                                           onkeyup="changeUnit2(event,{{ $part }})" value="{{ $part->pivot->value2 }}">
+                                           onkeyup="changeUnit2(event,{{ $part->id }})"
+                                           value="{{ $part->pivot->value2 }}">
                                 @endif
                                 <input type="hidden" name="units[]" id="inputUnitValue{{ $part->id }}"
                                        value="{{ $part->pivot->value2 }}">
@@ -716,7 +795,7 @@
                                     $categoryParts = $lastCategory->parts;
                                 @endphp
                                 <select name="part_ids[]" class="input-text" id="groupPartList{{ $part->id }}"
-                                        onchange="showCalculateButton('{{ $part->id }}')">
+                                        onchange="showCalculateButton('{{ $part->id }}'); changeFormula(event,{{ $part->id }});">
                                     @foreach($categoryParts as $part2)
                                         @if(!session()->has('selectedPart' . $part2->id))
                                             <option
@@ -876,12 +955,12 @@
                             <td class="border border-gray-300 p-4 flex items-center">
                                 <input type="text" name="amounts[]" id="inputAmount{{ $part->id }}"
                                        class="input-text w-20 {{ $amount->value == '0' ? 'border-yellow-500' : '' }}"
-                                       value="{{ $amount->value }}" onkeyup="changeUnit1(event,{{ $part }})">
+                                       value="{{ $amount->value }}" onkeyup="changeUnit1(event,{{ $part->id }})">
                                 @if(!is_null($part->unit2))
                                     <p class="mr-2">/</p>
                                     <input type="text" id="inputUnit{{ $part->id }}"
                                            class="input-text w-20 mr-2" placeholder="{{ $part->unit2 }}"
-                                           onkeyup="changeUnit2(event,{{ $part }})" value="{{ $amount->value2 }}">
+                                           onkeyup="changeUnit2(event,{{ $part->id }})" value="{{ $amount->value2 }}">
                                 @endif
                                 <input type="hidden" name="units[]" id="inputUnitValue{{ $part->id }}"
                                        value="{{ $amount->value2 }}">
