@@ -178,7 +178,7 @@ class ModellController extends Controller
             'values' => 'array|required',
             'values.*' => 'numeric|nullable',
             'sorts' => 'array|required',
-            'sorts.*' => 'numeric|required'
+            'sorts.*' => 'numeric|required',
         ]);
 
         foreach ($modell->parts as $index => $part) {
@@ -186,6 +186,7 @@ class ModellController extends Controller
                 'value' => $request->values[$index],
                 'part_id' => $request->part_ids[$index],
                 'sort' => $request->sorts[$index],
+                'value2' => $request->units[$index] ?? null,
             ]);
         }
 

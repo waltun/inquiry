@@ -610,9 +610,10 @@
                                     <p class="mr-2">/</p>
                                     <input type="text" id="inputUnit{{ $part->id }}"
                                            class="input-text w-20 mr-2" placeholder="{{ $part->unit2 }}"
-                                           onkeyup="changeUnit2(event,{{ $part }})">
+                                           onkeyup="changeUnit2(event,{{ $part }})" value="{{ $part->pivot->value2 }}">
                                 @endif
-                                <input type="hidden" name="units[]" id="inputUnitValue{{ $part->id }}">
+                                <input type="hidden" name="units[]" id="inputUnitValue{{ $part->id }}"
+                                       value="{{ $part->pivot->value2 }}">
                                 @if(!in_array($part->id,$specials))
                                     @php
                                         $parents = [];
@@ -867,7 +868,9 @@
                                 @if(is_null($part->unit2))
                                     {{ $part->unit }}
                                 @else
-                                    {{ $part->unit }} / {{ $part->unit2 }}
+                                    <span id="unitSection">
+                                        {{ $part->unit }} / {{ $part->unit2 }}
+                                    </span>
                                 @endif
                             </td>
                             <td class="border border-gray-300 p-4 flex items-center">
