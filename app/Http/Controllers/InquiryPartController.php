@@ -71,7 +71,8 @@ class InquiryPartController extends Controller
         $inquiry->products()->create([
             'part_id' => $part->id,
             'quantity' => $request['quantity'],
-            'sort' => $sort
+            'sort' => $sort,
+            'quantity2' => $request['quantity2'] ?? null
         ]);
 
         alert()->success('ثبت موفق', 'ثبت قطعه برای استعلام با موفقیت انجام شد');

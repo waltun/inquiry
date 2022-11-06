@@ -68,6 +68,33 @@
                 });
             }
         </script>
+        <script>
+            function changeUnit1(event, part) {
+                let value = event.target.value;
+                let input2 = document.getElementById('inputQuantity2' + part.id);
+                let inputValue = document.getElementById('inputUnitValue' + part.id);
+                let operator1 = part.operator2;
+                let formula1 = part.formula2;
+                let result = 0;
+
+                result = eval(value + operator1 + formula1);
+                input2.value = Intl.NumberFormat().format(result);
+                inputValue.value = Intl.NumberFormat().format(result);
+            }
+
+            function changeUnit2(event, part) {
+                let value = event.target.value;
+                let input1 = document.getElementById('inputQuantity' + part.id);
+                let inputValue = document.getElementById('inputUnitValue' + part.id);
+                let operator2 = part.operator1;
+                let formula2 = part.formula1;
+                let result = 0;
+
+                result = eval(value + operator2 + formula2);
+                input1.value = Intl.NumberFormat().format(result);
+                inputValue.value = value;
+            }
+        </script>
     </x-slot>
 
     <!-- Breadcrumb -->
@@ -249,9 +276,6 @@
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                         قیمت
                     </th>
-                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
-                        کد
-                    </th>
                     <th scope="col" class="relative px-4 py-3 rounded-l-md">
                         <span class="sr-only">اقدامات</span>
                     </th>
@@ -272,19 +296,10 @@
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center">{{ number_format($part->price) }}</p>
                         </td>
-                        @php
-                            $code = '';
-                            foreach($part->categories as $category){
-                                $code = $code . $category->code;
-                            }
-                        @endphp
-                        <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ $code . "-" . $part->code }}</p>
-                        </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
                             <div class="inline-flex" x-data="{open:false}">
                                 <button type="button" class="form-submit-btn text-xs" @click="open=!open">
-                                    افزودن به استعلام {{ $inquiry->name }}
+                                    افزودن به استعلام
                                 </button>
                                 <div class="relative z-10" x-show="open" x-cloak>
                                     <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
@@ -304,9 +319,24 @@
                                                             <label class="block mb-2 text-sm font-bold"
                                                                    for="inputQuantity">
                                                                 تعداد قطعه
+                                                                @if(!is_null($part->unit2))
+                                                                    <span class="text-xs font-bold">
+                                                                        ( واحد : {{ $part->unit }} / {{ $part->unit2 }} )
+                                                                    </span>
+                                                                @endif
                                                             </label>
-                                                            <input type="text" class="input-text" name="quantity"
-                                                                   id="inputQuantity">
+                                                            <input type="text" class="input-text w-40" name="quantity"
+                                                                   id="inputQuantity{{ $part->id }}"
+                                                                   placeholder="{{ $part->unit }}"
+                                                                   onkeyup="changeUnit1(event,{{ $part }})">
+                                                            @if(!is_null($part->unit2))
+                                                                /
+                                                                <input type="text" class="input-text w-40"
+                                                                       name="quantity2"
+                                                                       id="inputQuantity2{{ $part->id }}"
+                                                                       placeholder="{{ $part->unit2 }}"
+                                                                       onkeyup="changeUnit2(event,{{ $part }})">
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>

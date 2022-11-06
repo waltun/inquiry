@@ -49,6 +49,135 @@
                 });
             }
         </script>
+        <script>
+            function changeFormula(event, cid) {
+                let id = event.target.value;
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('inquiries.product.getPart') }}',
+                    data: {
+                        id: id,
+                    },
+                    success: function (res) {
+                        let part = res.data;
+                        let value = document.getElementById('inputUnit' + cid).value;
+                        let input = document.getElementById('inputAmount' + cid);
+                        let inputValue = document.getElementById('inputUnitValue' + cid);
+
+                        let operator2 = part.operator1;
+                        let formula2 = part.formula1;
+                        let result = 0;
+
+                        result = eval(value + operator2 + formula2);
+                        input.value = Intl.NumberFormat().format(result);
+                        inputValue.value = value;
+                    }
+                });
+            }
+        </script>
+        <script>
+            function changeUnit1(event, cid) {
+
+                let id = document.getElementById('groupPartList' + cid).value;
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('inquiries.product.getPart') }}',
+                    data: {
+                        id: id,
+                    },
+                    success: function (res) {
+                        let part = res.data;
+                        let value = event.target.value;
+                        let input2 = document.getElementById('inputUnit' + cid);
+                        let inputValue = document.getElementById('inputUnitValue' + cid);
+                        let operator1 = part.operator2;
+                        let formula1 = part.formula2;
+                        let result = 0;
+
+                        result = eval(value + operator1 + formula1);
+                        input2.value = Intl.NumberFormat().format(result);
+                        inputValue.value = Intl.NumberFormat().format(result);
+                    }
+                });
+            }
+
+            function changeUnit2(event, cid) {
+
+                let id = document.getElementById('groupPartList' + cid).value;
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('inquiries.product.getPart') }}',
+                    data: {
+                        id: id,
+                    },
+                    success: function (res) {
+                        let part = res.data;
+                        let value = event.target.value;
+                        let input1 = document.getElementById('inputQuantity' + cid);
+                        let inputValue = document.getElementById('inputUnitValue' + cid);
+                        let operator2 = part.operator1;
+                        let formula2 = part.formula1;
+                        let result = 0;
+
+                        result = eval(value + operator2 + formula2);
+                        input1.value = Intl.NumberFormat().format(result);
+                        inputValue.value = value;
+                    }
+                });
+            }
+        </script>
+        <script>
+            function changePart(event, part) {
+                let id = event.target.value;
+                let section = document.getElementById('groupPartList' + part);
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('inquiries.product.changePart') }}',
+                    data: {
+                        id: id,
+                    },
+                    success: function (res) {
+                        let parts = res.data;
+                        section.innerHTML = `
+                            <select class="input-text" onchange="changePart(event,${part})" id="inputCategory${part}">
+                                    ${
+                            parts.map(function (part) {
+                                return `<option value="${part.id}">${part.name}</option>`
+                            })
+                        }
+                            </select>`
+                    }
+                });
+            }
+        </script>
     </x-slot>
     <!-- Breadcrumb -->
     <nav class="flex bg-gray-100 p-4 rounded-md overflow-x-auto whitespace-nowrap" aria-label="Breadcrumb">
@@ -180,13 +309,16 @@
                         Sort
                     </th>
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                        دسته بندی
+                    </th>
+                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                         نام قطعه
                     </th>
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
-                        تعداد
+                        واحد
                     </th>
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
-                        واحد
+                        تعداد
                     </th>
                     <th scope="col" class="relative px-4 py-3 rounded-l-md">
                         <span class="sr-only">اقدامات</span>
@@ -225,6 +357,9 @@
                         if ($part->updated_at < $lastTime && $part->price == 0) {
                             $color = 'bg-red-600';
                         }
+
+                        $category = $part->categories[1];
+                        $selectedCategory = $part->categories[2];
                     @endphp
                     <tr>
                         <td class="px-4 py-3 whitespace-nowrap">
@@ -234,19 +369,55 @@
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-gray-600 text-center">{{ $product->sort }}</p>
                         </td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <select name="" id="inputCategory{{ $part->id }}" class="input-text"
+                                    onchange="changePart(event,{{ $part->id }})">
+                                @foreach($category->children as $child)
+                                    <option
+                                        value="{{ $child->id }}" {{ $child->id == $selectedCategory->id ? 'selected' : '' }}>
+                                        {{ $child->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </td>
                         <td class="px-4 py-3 whitespace-nowrap {{ $color ?? 'bg-white' }}">
-                            <p class="text-sm text-black text-center font-medium">{{ $part->name }}</p>
+                            @php
+                                $selectedPart = \App\Models\Part::find($part->id);
+                                $lastCategory = $selectedPart->categories()->latest()->first();
+                                $categoryParts = $lastCategory->parts;
+                            @endphp
+                            <select name="part_ids[]" class="input-text" id="groupPartList{{ $part->id }}"
+                                    onchange="showCalculateButton('{{ $part->id }}'); changeFormula(event,{{ $part->id }});">
+                                @foreach($categoryParts as $part2)
+                                    <option value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
+                                        {{ $part2->name }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ $product->quantity }}</p>
+                            <p class="text-sm text-black text-center">
+                                {{ $part->unit }}
+                                @if(!is_null($part->unit2))
+                                    / {{ $part->unit2 }}
+                                @endif
+                            </p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ $part->unit }}</p>
+                            <input type="text" class="input-text w-20 text-center" value="{{ $product->quantity }}"
+                                   id="inputQuantity{{ $part->id }}" onkeyup="changeUnit1(event,'{{ $part->id }}')">
+                            @if(!is_null($part->unit2))
+                                <input type="text" class="input-text w-20 text-center" placeholder="{{ $part->unit2 }}"
+                                       id="inputUnit{{ $part->id }}" onkeyup="changeUnit2(event,'{{ $part->id }}')"
+                                       value="{{ $product->quantity2 }}">
+                            @endif
+                            <input type="hidden" id="inputUnitValue{{ $part->id }}" value="{{ $product->quantity2 }}"
+                                   name="units[]">
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
                             <a href="{{ route('inquiries.product.edit',$product->id) }}"
                                class="form-edit-btn text-xs">
-                                ویرایش تعداد
+                                ویرایش
                             </a>
                             @can('percent-inquiry')
                                 @if($inquiry->submit)
