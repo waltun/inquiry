@@ -220,9 +220,6 @@
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                         قیمت
                     </th>
-                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
-                        کد
-                    </th>
                     <th scope="col" class="relative px-4 py-3 rounded-l-md">
                         <span class="sr-only">اقدامات</span>
                     </th>
@@ -250,18 +247,6 @@
                                     منتظر قیمت گذاری
                                 </p>
                             @endif
-                        </td>
-                        @php
-                            $code = '';
-                            foreach($part->categories as $category){
-                                $code = $code . $category->code;
-                            }
-
-                        @endphp
-                        <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">
-                                {{ $code . "-" . $part->code }}
-                            </p>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
                             <a href="{{ route('parts.edit',$part->id) }}" class="form-edit-btn text-xs">

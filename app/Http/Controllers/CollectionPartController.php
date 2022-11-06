@@ -200,13 +200,19 @@ class CollectionPartController extends Controller
 
     public function changeParts(Request $request, Part $parentPart)
     {
+        $totalPrice = 0;
         foreach ($parentPart->children as $index => $child) {
             $child->pivot->update([
                 'parent_part_id' => $request->part_ids[$index],
                 'value2' => $request->units[$index],
                 'value' => $request->values[$index],
             ]);
+
+            $totalPrice += ($child->price * $request->values[$index]);
         }
+
+        $parentPart->price = $totalPrice;
+        $parentPart->save();
 
         alert()->success('مقادیر', 'مقدار قطعات برای مجموعه با موفقیت ثبت شد');
 

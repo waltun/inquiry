@@ -250,9 +250,16 @@
                                 $midTime = \Carbon\Carbon::now()->subHour($setting->price_color_mid_time);
                             }
                         }
+
                         foreach ($part->children as $child) {
                             if ($child->price_updated_at < $lastTime && $child->price > 0) {
                                 $color = 'bg-red-500';
+                            }
+                            if ($child->price_updated_at > $lastTime && $child->price_updated_at > $midTime && $child->price > 0) {
+                                $color = 'bg-green-500';
+                            }
+                            if ($child->price_updated_at > $lastTime && $child->price_updated_at < $midTime && $child->price > 0) {
+                                $color = 'bg-yellow-500';
                             }
                             if ($child->price_updated_at < $lastTime && $child->price == 0) {
                                 $color = 'bg-red-600';
