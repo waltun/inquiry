@@ -18,6 +18,64 @@
                 });
             }
         </script>
+        <script>
+            function changeUnit1(event, part) {
+                let value = event.target.value;
+                let input2 = document.getElementById('inputUnit' + part.id);
+                let inputValue = document.getElementById('inputUnitValue' + part.id);
+                let operator1 = part.operator2;
+                let formula1 = part.formula2;
+                let result = 0;
+
+                result = eval(value + operator1 + formula1);
+                input2.value = Intl.NumberFormat().format(result);
+                inputValue.value = Intl.NumberFormat().format(result);
+            }
+
+            function changeUnit2(event, part) {
+                let value = event.target.value;
+                let input1 = document.getElementById('inputValue' + part.id);
+                let inputValue = document.getElementById('inputUnitValue' + part.id);
+                let operator2 = part.operator1;
+                let formula2 = part.formula1;
+                let result = 0;
+
+                result = eval(value + operator2 + formula2);
+                input1.value = Intl.NumberFormat().format(result);
+                inputValue.value = value;
+            }
+        </script>
+        <script>
+            function changePart(event, part) {
+                let id = event.target.value;
+                let section = document.getElementById('groupPartList' + part);
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('inquiries.product.changePart') }}',
+                    data: {
+                        id: id,
+                    },
+                    success: function (res) {
+                        let parts = res.data;
+                        section.innerHTML = `
+                            <select class="input-text" onchange="changePart(event,${part})" id="inputCategory${part}">
+                                    ${
+                            parts.map(function (part) {
+                                return `<option value="${part.id}">${part.name}</option>`
+                            })
+                        }
+                            </select>`
+                    }
+                });
+            }
+        </script>
     </x-slot>
 
     <!-- Breadcrumb -->
@@ -92,16 +150,19 @@
                             #
                         </th>
                         <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                            دسته بندی
+                        </th>
+                        <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                             نام
                         </th>
                         <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                             واحد
                         </th>
                         <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
-                            قیمت
+                            مقادیر
                         </th>
                         <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
-                            کد
+                            قیمت
                         </th>
                         <th scope="col" class="relative px-4 py-3 rounded-l-md">
                             <span class="sr-only">اقدامات</span>
@@ -138,10 +199,24 @@
                             if ($child->price_updated_at < $lastTime && $child->price == 0) {
                                 $color = 'bg-red-600';
                             }
+
+                            $category = $child->categories[1];
+                            $selectedCategory = $child->categories[2];
                         @endphp
                         <tr>
                             <td class="px-4 py-3 whitespace-nowrap">
                                 <p class="text-sm text-gray-500 text-center">{{ $loop->index + 1 }}</p>
+                            </td>
+                            <td class="px-4 py-3">
+                                <select name="" id="inputCategory{{ $child->id }}" class="input-text"
+                                        onchange="changePart(event,{{ $child->id }})">
+                                    @foreach($category->children as $child2)
+                                        <option
+                                            value="{{ $child2->id }}" {{ $child2->id == $selectedCategory->id ? 'selected' : '' }}>
+                                            {{ $child2->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap">
                                 @php
@@ -160,7 +235,24 @@
                                 </select>
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap">
-                                <p class="text-sm text-black text-center">{{ $child->unit }}</p>
+                                <p class="text-sm text-black text-center">
+                                    {{ $child->unit }}
+                                    @if(!is_null($child->unit2))
+                                        / {{ $child->unit2 }}
+                                    @endif
+                                </p>
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                <input type="text" name="values[]" id="inputValue{{ $child->id }}"
+                                       class="input-text w-20 text-center" onkeyup="changeUnit1(event,{{ $child }})"
+                                       value="{{ $child->pivot->value ?? '' }}">
+                                @if(!is_null($child->unit2))
+                                    <input type="text" id="inputUnit{{ $child->id }}"
+                                           class="input-text w-20 text-center" onkeyup="changeUnit2(event,{{ $child }})"
+                                           placeholder="{{ $child->unit2 }}" value="{{ $child->pivot->value2 }}">
+                                @endif
+                                <input type="hidden" name="units[]" id="inputUnitValue{{ $child->id }}"
+                                       value="{{ $child->pivot->value2 }}">
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap {{ $color ?? '' }}">
                                 @if($child->price)
@@ -172,17 +264,6 @@
                                         منتظر قیمت گذاری
                                     </p>
                                 @endif
-                            </td>
-                            @php
-                                $code = '';
-                                foreach($child->categories as $category){
-                                    $code = $code . $category->code;
-                                }
-                            @endphp
-                            <td class="px-4 py-3 whitespace-nowrap">
-                                <p class="text-sm text-black text-center">
-                                    {{ $code . "-" . $child->code }}
-                                </p>
                             </td>
                             <td class="px-4 py-3 space-x-3 space-x-reverse">
                                 <button class="form-cancel-btn text-xs"

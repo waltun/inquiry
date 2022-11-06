@@ -203,6 +203,8 @@ class CollectionPartController extends Controller
         foreach ($parentPart->children as $index => $child) {
             $child->pivot->update([
                 'parent_part_id' => $request->part_ids[$index],
+                'value2' => $request->units[$index],
+                'value' => $request->values[$index],
             ]);
         }
 
