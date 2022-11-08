@@ -178,6 +178,23 @@
                 });
             }
         </script>
+        <script>
+            function deletePartFromInquiry(inquiry, part) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'DELETE',
+                    url: '/inquiries/' + inquiry + '/' + part + '/destroy-part',
+                    success: function () {
+                        location.reload();
+                    }
+                });
+            }
+        </script>
     </x-slot>
     <!-- Breadcrumb -->
     <nav class="flex bg-gray-100 p-4 rounded-md overflow-x-auto whitespace-nowrap" aria-label="Breadcrumb">
@@ -297,172 +314,181 @@
     <!-- Content -->
     <div class="mt-4">
         <!-- Laptop List -->
-        <div class="bg-white shadow overflow-x-auto rounded-lg hidden md:block">
-            <table class="min-w-full">
-                <thead>
-                <tr class="bg-sky-200">
-                    <th scope="col"
-                        class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
-                        #
-                    </th>
-                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
-                        Sort
-                    </th>
-                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
-                        دسته بندی
-                    </th>
-                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
-                        نام قطعه
-                    </th>
-                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
-                        واحد
-                    </th>
-                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
-                        تعداد
-                    </th>
-                    <th scope="col" class="relative px-4 py-3 rounded-l-md">
-                        <span class="sr-only">اقدامات</span>
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                @php
-                    $color = '';
-                @endphp
-                @foreach($inquiry->products()->where('part_id','!=',0)->orderBy('sort','ASC')->get() as $product)
+        <form action="{{ route('inquiries.parts.storeAmounts',$inquiry->id) }}" method="POST">
+            @csrf
+
+            <div class="bg-white shadow overflow-x-auto rounded-lg hidden md:block">
+                <table class="min-w-full">
+                    <thead>
+                    <tr class="bg-sky-200">
+                        <th scope="col"
+                            class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                            #
+                        </th>
+                        <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                            Sort
+                        </th>
+                        <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                            دسته بندی
+                        </th>
+                        <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                            نام قطعه
+                        </th>
+                        <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                            واحد
+                        </th>
+                        <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                            تعداد
+                        </th>
+                        <th scope="col" class="relative px-4 py-3 rounded-l-md">
+                            <span class="sr-only">اقدامات</span>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
                     @php
-                        $part = \App\Models\Part::find($product->part_id);
-
-                        if ($setting) {
-                            if($setting->price_color_type == 'month') {
-                                $lastTime = \Carbon\Carbon::now()->subMonth($setting->price_color_last_time);
-                                $midTime = \Carbon\Carbon::now()->subMonth($setting->price_color_mid_time);
-                            }
-                            if($setting->price_color_type == 'day') {
-                                $lastTime = \Carbon\Carbon::now()->subDay($setting->price_color_last_time);
-                                $midTime = \Carbon\Carbon::now()->subDay($setting->price_color_mid_time);
-                            }
-                            if($setting->price_color_type == 'hour') {
-                                $lastTime = \Carbon\Carbon::now()->subHour($setting->price_color_last_time);
-                                $midTime = \Carbon\Carbon::now()->subHour($setting->price_color_mid_time);
-                            }
-                        }
-
-                        if ($part->updated_at < $lastTime && $part->price > 0) {
-                            $color = 'bg-red-500';
-                        }
-                        if ($part->updated_at > $lastTime && $part->updated_at < $midTime && $part->price > 0) {
-                            $color = 'bg-yellow-500';
-                        }
-                        if ($part->updated_at < $lastTime && $part->price == 0) {
-                            $color = 'bg-red-600';
-                        }
-
-                        $category = $part->categories[1];
-                        $selectedCategory = $part->categories[2];
+                        $color = '';
                     @endphp
-                    <tr>
-                        <td class="px-4 py-3 whitespace-nowrap">
-                            <input type="checkbox" value="{{ $product->id }}"
-                                   class="checkboxes w-4 h-4 accent-blue-600 bg-gray-200 rounded border border-gray-300 focus:ring-blue-500 focus:ring-2 focus:ring-offset-1 mx-auto block">
-                        </td>
-                        <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-gray-600 text-center">{{ $product->sort }}</p>
-                        </td>
-                        <td class="px-4 py-3 whitespace-nowrap">
-                            <select name="" id="inputCategory{{ $part->id }}" class="input-text"
-                                    onchange="changePart(event,{{ $part->id }})">
-                                @foreach($category->children as $child)
-                                    <option
-                                        value="{{ $child->id }}" {{ $child->id == $selectedCategory->id ? 'selected' : '' }}>
-                                        {{ $child->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </td>
-                        <td class="px-4 py-3 whitespace-nowrap {{ $color ?? 'bg-white' }}">
-                            @php
-                                $selectedPart = \App\Models\Part::find($part->id);
-                                $lastCategory = $selectedPart->categories()->latest()->first();
-                                $categoryParts = $lastCategory->parts;
-                            @endphp
-                            <select name="part_ids[]" class="input-text" id="groupPartList{{ $part->id }}"
-                                    onchange="showCalculateButton('{{ $part->id }}'); changeFormula(event,{{ $part->id }});">
-                                @foreach($categoryParts as $part2)
-                                    <option value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
-                                        {{ $part2->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </td>
-                        <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">
-                                {{ $part->unit }}
+                    @foreach($inquiry->products()->where('part_id','!=',0)->orderBy('sort','ASC')->get() as $product)
+                        @php
+                            $part = \App\Models\Part::find($product->part_id);
+
+                            if ($setting) {
+                                if($setting->price_color_type == 'month') {
+                                    $lastTime = \Carbon\Carbon::now()->subMonth($setting->price_color_last_time);
+                                    $midTime = \Carbon\Carbon::now()->subMonth($setting->price_color_mid_time);
+                                }
+                                if($setting->price_color_type == 'day') {
+                                    $lastTime = \Carbon\Carbon::now()->subDay($setting->price_color_last_time);
+                                    $midTime = \Carbon\Carbon::now()->subDay($setting->price_color_mid_time);
+                                }
+                                if($setting->price_color_type == 'hour') {
+                                    $lastTime = \Carbon\Carbon::now()->subHour($setting->price_color_last_time);
+                                    $midTime = \Carbon\Carbon::now()->subHour($setting->price_color_mid_time);
+                                }
+                            }
+
+                            if ($part->updated_at < $lastTime && $part->price > 0) {
+                                $color = 'bg-red-500';
+                            }
+                            if ($part->updated_at > $lastTime && $part->updated_at < $midTime && $part->price > 0) {
+                                $color = 'bg-yellow-500';
+                            }
+                            if ($part->updated_at < $lastTime && $part->price == 0) {
+                                $color = 'bg-red-600';
+                            }
+
+                            $category = $part->categories[1];
+                            $selectedCategory = $part->categories[2];
+                        @endphp
+                        <tr>
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                <input type="checkbox" value="{{ $product->id }}"
+                                       class="checkboxes w-4 h-4 accent-blue-600 bg-gray-200 rounded border border-gray-300 focus:ring-blue-500 focus:ring-2 focus:ring-offset-1 mx-auto block">
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                <p class="text-sm text-gray-600 text-center">{{ $product->sort }}</p>
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                <select id="inputCategory{{ $part->id }}" class="input-text"
+                                        onchange="changePart(event,{{ $part->id }})">
+                                    @foreach($category->children as $child)
+                                        <option
+                                            value="{{ $child->id }}" {{ $child->id == $selectedCategory->id ? 'selected' : '' }}>
+                                            {{ $child->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap {{ $color ?? 'bg-white' }}">
+                                @php
+                                    $selectedPart = \App\Models\Part::find($part->id);
+                                    $lastCategory = $selectedPart->categories()->latest()->first();
+                                    $categoryParts = $lastCategory->parts;
+                                @endphp
+                                <select name="part_ids[]" class="input-text" id="groupPartList{{ $part->id }}"
+                                        onchange="showCalculateButton('{{ $part->id }}'); changeFormula(event,{{ $part->id }});">
+                                    @foreach($categoryParts as $part2)
+                                        <option
+                                            value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
+                                            {{ $part2->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                <p class="text-sm text-black text-center">
+                                    {{ $part->unit }}
+                                    @if(!is_null($part->unit2))
+                                        / {{ $part->unit2 }}
+                                    @endif
+                                </p>
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                <input type="text" class="input-text w-20 text-center" value="{{ $product->quantity }}"
+                                       name="quantities[]"
+                                       id="inputQuantity{{ $part->id }}" onkeyup="changeUnit1(event,'{{ $part->id }}')">
                                 @if(!is_null($part->unit2))
-                                    / {{ $part->unit2 }}
+                                    <input type="text" class="input-text w-20 text-center"
+                                           placeholder="{{ $part->unit2 }}"
+                                           id="inputUnit{{ $part->id }}" onkeyup="changeUnit2(event,'{{ $part->id }}')"
+                                           value="{{ $product->quantity2 }}">
                                 @endif
-                            </p>
-                        </td>
-                        <td class="px-4 py-3 whitespace-nowrap">
-                            <input type="text" class="input-text w-20 text-center" value="{{ $product->quantity }}"
-                                   id="inputQuantity{{ $part->id }}" onkeyup="changeUnit1(event,'{{ $part->id }}')">
-                            @if(!is_null($part->unit2))
-                                <input type="text" class="input-text w-20 text-center" placeholder="{{ $part->unit2 }}"
-                                       id="inputUnit{{ $part->id }}" onkeyup="changeUnit2(event,'{{ $part->id }}')"
-                                       value="{{ $product->quantity2 }}">
-                            @endif
-                            <input type="hidden" id="inputUnitValue{{ $part->id }}" value="{{ $product->quantity2 }}"
-                                   name="units[]">
-                        </td>
-                        <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
-                            <a href="{{ route('inquiries.product.edit',$product->id) }}"
-                               class="form-edit-btn text-xs">
-                                ویرایش
-                            </a>
-                            @can('percent-inquiry')
-                                @if($inquiry->submit)
-                                    <a href="{{ route('inquiries.product.percent',$product->id) }}"
-                                       class="form-percent-btn text-xs">
-                                        ثبت ضریب
-                                    </a>
-                                @endif
-                            @endcan
-                            <form action="{{ route('inquiries.product.destroy',$product->id) }}" method="POST"
-                                  class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="form-cancel-btn text-xs"
-                                        onclick="return confirm('قطعه از استعلام شود ؟')">
+                                <input type="hidden" id="inputUnitValue{{ $part->id }}"
+                                       value="{{ $product->quantity2 }}"
+                                       name="quantities2[]">
+                            </td>
+                            <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
+                                <a href="{{ route('inquiries.product.edit',$product->id) }}"
+                                   class="form-edit-btn text-xs">
+                                    ویرایش
+                                </a>
+                                @can('percent-inquiry')
+                                    @if($inquiry->submit)
+                                        <a href="{{ route('inquiries.product.percent',$product->id) }}"
+                                           class="form-percent-btn text-xs">
+                                            ثبت ضریب
+                                        </a>
+                                    @endif
+                                @endcan
+                                <button type="button" class="form-cancel-btn text-xs"
+                                        onclick="deletePartFromInquiry('{{ $inquiry->id }}','{{ $part->id }}')">
                                     حذف
                                 </button>
-                            </form>
-                            @if($product->percent > 0)
-                                <p class="text-sm font-bold text-green-600 inline">
-                                    ضریب ثبت شده
-                                </p>
-                            @endif
-                            @if($color == 'bg-red-500' || $color == 'bg-red-600')
-                                @php
-                                    $inquiryPrice = \App\Models\InquiryPrice::where('part_id',$part->id)->pluck('part_id')->all();
-                                @endphp
-                                @if(!in_array($part->id,$inquiryPrice))
-                                    <button type="button"
-                                            onclick="storeInquiryPrice({{ $part->id }},{{ $inquiry->id }})"
-                                            class="text-xs font-bold text-black underline underline-offset-4 whitespace-nowrap mr-2">
-                                        درخواست بروزرسانی قیمت
-                                    </button>
-                                @else
-                                    <p class="text-xs font-bold text-black whitespace-nowrap mr-2 inline">
-                                        درخواست ارسال شد
+                                @if($product->percent > 0)
+                                    <p class="text-sm font-bold text-green-600 inline">
+                                        ضریب ثبت شده
                                     </p>
                                 @endif
-                            @endif
-                        </td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
-        </div>
+                                @if($color == 'bg-red-500' || $color == 'bg-red-600')
+                                    @php
+                                        $inquiryPrice = \App\Models\InquiryPrice::where('part_id',$part->id)->pluck('part_id')->all();
+                                    @endphp
+                                    @if(!in_array($part->id,$inquiryPrice))
+                                        <button type="button"
+                                                onclick="storeInquiryPrice({{ $part->id }},{{ $inquiry->id }})"
+                                                class="text-xs font-bold text-black underline underline-offset-4 whitespace-nowrap mr-2">
+                                            درخواست بروزرسانی قیمت
+                                        </button>
+                                    @else
+                                        <p class="text-xs font-bold text-black whitespace-nowrap mr-2 inline">
+                                            درخواست ارسال شد
+                                        </p>
+                                    @endif
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mt-4">
+                <button type="submit" class="form-submit-btn">
+                    ثبت مقادیر
+                </button>
+            </div>
+        </form>
 
         @if($inquiry->submit)
             <div class="my-4" x-data="{open:false}">

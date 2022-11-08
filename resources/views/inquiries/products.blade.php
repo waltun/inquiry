@@ -55,6 +55,7 @@
         </div>
     </div>
 
+    <!-- Print Btn -->
     <div>
         <a href="{{ route('inquiries.products.print',$inquiry->id) }}" class="form-percent-btn inline-flex items-center"
            target="_blank">
@@ -153,7 +154,7 @@
                     @endforeach
                     </tbody>
                     <tr>
-                        <td class="border border-gray-300 p-4 text-lg text-center font-bold" colspan="6">
+                        <td class="border border-gray-300 p-4 text-lg text-center font-bold" colspan="7">
                             قیمت کل
                         </td>
                         <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">

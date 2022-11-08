@@ -129,6 +129,8 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/inquiries/{inquiry}/create-part', [InquiryPartController::class, 'create'])->name('inquiries.parts.create');
     Route::post('/inquiries/{inquiry}/{part}/store-part', [InquiryPartController::class, 'store'])->name('inquiries.parts.store');
     Route::post('/inquiries/product-percent/multi-part-percent', [InquiryPartController::class, 'multiPercent'])->name('inquiries.parts.multiPercent');
+    Route::post('/inquiries/{inquiry}/part-amounts', [InquiryPartController::class, 'storeAmounts'])->name('inquiries.parts.storeAmounts');
+    Route::delete('/inquiries/{inquiry}/{part}/destroy-part', [InquiryPartController::class, 'destroy'])->name('inquiries.parts.destory');
 
     Route::resource('inquiries', InquiryController::class);
 

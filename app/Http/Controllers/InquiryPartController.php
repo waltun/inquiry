@@ -80,6 +80,13 @@ class InquiryPartController extends Controller
         return back();
     }
 
+    public function destroy(Inquiry $inquiry, Part $part)
+    {
+        $inquiry->products()->where('part_id', $part->id)->delete();
+
+        alert()->success('حذف موفق', 'حذف قطعه تکی با موفقیت انجام شد');
+    }
+
     public function multiPercent(Request $request)
     {
         $request->validate([
@@ -117,4 +124,6 @@ class InquiryPartController extends Controller
             return redirect()->route('inquiries.priced');
         }
     }
+
+
 }
