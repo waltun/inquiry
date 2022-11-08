@@ -428,14 +428,14 @@
           class="mt-4 md:block hidden">
         @csrf
         <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4">
-            <table class="border-collapse border border-gray-400 w-full">
+            <table class="border-collapse border-gray-200 w-full">
                 <thead>
                 <tr>
-                    <th class="border border-gray-300 p-4 text-sm">ردیف</th>
-                    <th class="border border-gray-300 p-4 text-sm">دسته بندی</th>
-                    <th class="border border-gray-300 p-4 text-sm">نام قطعه</th>
-                    <th class="border border-gray-300 p-4 text-sm">واحد قطعه</th>
-                    <th class="border border-gray-300 p-4 text-sm">مقادیر</th>
+                    <th class="p-2 text-sm border border-gray-300">ردیف</th>
+                    <th class="p-2 text-sm border border-gray-300">دسته بندی</th>
+                    <th class="p-2 text-sm border border-gray-300">نام قطعه</th>
+                    <th class="p-2 text-sm border border-gray-300">واحد قطعه</th>
+                    <th class="p-2 text-sm border border-gray-300">مقادیر</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -492,14 +492,14 @@
                             $category = $part->categories[1];
                             $selectedCategory = $part->categories[2];
                         @endphp
-                        <tr class="{{ $color ?? 'bg-white' }}">
-                            <td class="border border-gray-300 p-4 text-sm text-center">
+                        <tr>
+                            <td class="p-2 border border-gray-300">
                                 <input type="text" class="input-text w-14 text-center"
                                        value="{{ $part->pivot->sort ?? 0 }}"
                                        name="sorts[]" id="partSort{{ $part->id }}">
                             </td>
-                            <td class="border border-gray-300 p-4">
-                                <select name="" id="inputCategory{{ $part->id }}" class="input-text"
+                            <td class="p-2 border border-gray-300">
+                                <select id="inputCategory{{ $part->id }}" class="input-text"
                                         onchange="changePart(event,{{ $part->id }})">
                                     @foreach($category->children as $child)
                                         <option
@@ -509,7 +509,7 @@
                                     @endforeach
                                 </select>
                             </td>
-                            <td class="border border-gray-300 p-4 text-sm text-center flex items-center">
+                            <td class="p-2 border border-gray-300">
                                 @php
                                     $selectedPart = Part::find($part->id);
                                     $lastCategory = $selectedPart->categories()->latest()->first();
@@ -677,55 +677,68 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="border border-gray-300 p-4 text-sm text-center">
+                            <td class="p-2 text-sm text-center border border-gray-300">
                                 @if(is_null($part->unit2))
                                     {{ $part->unit }}
                                 @else
                                     {{ $part->unit }} / {{ $part->unit2 }}
                                 @endif
                             </td>
-                            <td class="border border-gray-300 p-4 flex items-center">
-                                <input type="text" name="modellAmounts[]" id="inputAmount{{ $part->id }}"
-                                       class="input-text w-20 {{ $part->pivot->value == '0' ? 'border-yellow-500' : '' }}"
-                                       value="{{ $part->pivot->value }}"
-                                       onkeyup="changeUnit1(event,{{ $part->id }})">
-                                @if(!is_null($part->unit2))
-                                    <p class="mr-2">/</p>
-                                    <input type="text" id="inputUnit{{ $part->id }}"
-                                           class="input-text w-20 mr-2" placeholder="{{ $part->unit2 }}"
-                                           onkeyup="changeUnit2(event,{{ $part->id }})"
+                            <td class="p-2 border border-gray-300 {{ $color ?? 'bg-white' }}">
+                                <div class="flex items-center">
+                                    <input type="text" name="modellAmounts[]" id="inputAmount{{ $part->id }}"
+                                           class="input-text w-20 {{ $part->pivot->value == '0' ? 'border-yellow-500' : '' }}"
+                                           value="{{ $part->pivot->value }}"
+                                           onkeyup="changeUnit1(event,{{ $part->id }})">
+                                    @if(!is_null($part->unit2))
+                                        <p class="mr-2">/</p>
+                                        <input type="text" id="inputUnit{{ $part->id }}"
+                                               class="input-text w-20 mr-2" placeholder="{{ $part->unit2 }}"
+                                               onkeyup="changeUnit2(event,{{ $part->id }})"
+                                               value="{{ $part->pivot->value2 }}">
+                                    @endif
+
+                                    <input type="hidden" name="units[]" id="inputUnitValue{{ $part->id }}"
                                            value="{{ $part->pivot->value2 }}">
-                                @endif
-                                <input type="hidden" name="units[]" id="inputUnitValue{{ $part->id }}"
-                                       value="{{ $part->pivot->value2 }}">
-                                @if(!in_array($part->id,$specials))
-                                    @php
-                                        $parents = [];
-                                    @endphp
-                                    @if($color == 'bg-red-500' || $color == 'bg-red-600' || $part->price == '0')
+                                    @if(!in_array($part->id,$specials))
                                         @php
-                                            $inquiryPrice = InquiryPrice::where('part_id',$part->id)->pluck('part_id')->all();
-                                            $inquiryPrices = InquiryPrice::all()->pluck('part_id');
-                                            foreach ($inquiryPrices as $item) {
-                                                $inquiryPart = Part::find($item);
-                                                if (!$inquiryPart->parents->isEmpty()) {
-                                                    $parents = $inquiryPart->parents->pluck('id')->toArray();
-                                                }
-                                            }
+                                            $parents = [];
                                         @endphp
-                                        @if(!in_array($part->id,$inquiryPrice) && !in_array($part->id,$parents))
-                                            <button type="button"
-                                                    onclick="storeInquiryPrice({{ $part->id }},{{ $inquiry->id }})"
-                                                    class="text-xs font-bold text-white underline underline-offset-4 whitespace-nowrap mr-2">
-                                                درخواست بروزرسانی قیمت
-                                            </button>
-                                        @else
-                                            <p class="text-xs font-bold text-white whitespace-nowrap mr-2">
-                                                درخواست ارسال شد
-                                            </p>
+                                        @if($color == 'bg-red-500' || $color == 'bg-red-600' || $part->price == '0')
+                                            @php
+                                                $inquiryPrice = InquiryPrice::where('part_id',$part->id)->pluck('part_id')->all();
+                                                $inquiryPrices = InquiryPrice::all()->pluck('part_id');
+                                                foreach ($inquiryPrices as $item) {
+                                                    $inquiryPart = Part::find($item);
+                                                    if (!$inquiryPart->parents->isEmpty()) {
+                                                        $parents = $inquiryPart->parents->pluck('id')->toArray();
+                                                    }
+                                                }
+                                            @endphp
+                                            @if(!in_array($part->id,$inquiryPrice) && !in_array($part->id,$parents))
+                                                <button type="button" class="mr-2"
+                                                        onclick="storeInquiryPrice({{ $part->id }},{{ $inquiry->id }})">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                         title="ارسال درخواست بروزرسانی قیمت"
+                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                         class="w-6 h-6 text-white">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                              d="M12 9v3.75m0-10.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.249-8.25-3.286zm0 13.036h.008v.008H12v-.008z"/>
+                                                    </svg>
+                                                </button>
+                                            @else
+                                                <p class="mr-2">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                         class="w-6 h-6 text-white">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                              d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                    </svg>
+                                                </p>
+                                            @endif
                                         @endif
                                     @endif
-                                @endif
+                                </div>
                             </td>
                         </tr>
                     @endforeach
@@ -779,12 +792,12 @@
                             $category = $part->categories[1];
                             $selectedCategory = $part->categories[2];
                         @endphp
-                        <tr class="{{ $color ?? 'bg-white' }}">
-                            <td class="border border-gray-300 p-4 text-sm text-center">
+                        <tr>
+                            <td class="border border-gray-300 p-2">
                                 <input type="text" class="input-text w-14 text-center" value="{{ $amount->sort ?? 0 }}"
                                        name="sorts[]" id="partSort{{ $part->id }}">
                             </td>
-                            <td class="border border-gray-300 p-4">
+                            <td class="border border-gray-300 p-2">
                                 <select name="" id="inputCategory{{ $part->id }}" class="input-text"
                                         onchange="changePart(event,{{ $part->id }})">
                                     @foreach($category->children as $child)
@@ -795,7 +808,7 @@
                                     @endforeach
                                 </select>
                             </td>
-                            <td class="border border-gray-300 p-4 text-sm text-center flex items-center">
+                            <td class="border border-gray-300 p-2">
                                 @php
                                     $lastCategory = $part->categories()->latest()->first();
                                     $categoryParts = $lastCategory->parts;
@@ -949,7 +962,7 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="border border-gray-300 p-4 text-sm text-center">
+                            <td class="border border-gray-300 p-2 text-sm text-center">
                                 @if(is_null($part->unit2))
                                     {{ $part->unit }}
                                 @else
@@ -958,48 +971,62 @@
                                     </span>
                                 @endif
                             </td>
-                            <td class="border border-gray-300 p-4 flex items-center">
-                                <input type="text" name="amounts[]" id="inputAmount{{ $part->id }}"
-                                       class="input-text w-20 {{ $amount->value == '0' ? 'border-yellow-500' : '' }}"
-                                       value="{{ $amount->value }}" onkeyup="changeUnit1(event,{{ $part->id }})">
-                                @if(!is_null($part->unit2))
-                                    <p class="mr-2">/</p>
-                                    <input type="text" id="inputUnit{{ $part->id }}"
-                                           class="input-text w-20 mr-2" placeholder="{{ $part->unit2 }}"
-                                           onkeyup="changeUnit2(event,{{ $part->id }})" value="{{ $amount->value2 }}">
-                                @endif
-                                <input type="hidden" name="units[]" id="inputUnitValue{{ $part->id }}"
-                                       value="{{ $amount->value2 }}">
-                                @if(!in_array($part->id,$specials))
-                                    @php
-                                        $parents = [];
-                                    @endphp
-                                    @if($color == 'bg-red-500' || $color == 'bg-red-600')
+                            <td class="border border-gray-300 p-2 {{ $color ?? 'bg-white' }}">
+                                <div class="flex items-center">
+                                    <input type="text" name="amounts[]" id="inputAmount{{ $part->id }}"
+                                           class="input-text w-20 {{ $amount->value == '0' ? 'border-yellow-500' : '' }}"
+                                           value="{{ $amount->value }}" onkeyup="changeUnit1(event,{{ $part->id }})">
+                                    @if(!is_null($part->unit2))
+                                        <p class="mr-2">/</p>
+                                        <input type="text" id="inputUnit{{ $part->id }}"
+                                               class="input-text w-20 mr-2" placeholder="{{ $part->unit2 }}"
+                                               onkeyup="changeUnit2(event,{{ $part->id }})"
+                                               value="{{ $amount->value2 }}">
+                                    @endif
+
+                                    <input type="hidden" name="units[]" id="inputUnitValue{{ $part->id }}"
+                                           value="{{ $amount->value2 }}">
+                                    @if(!in_array($part->id,$specials))
                                         @php
-                                            $inquiryPrice = InquiryPrice::where('part_id',$part->id)->pluck('part_id')->all();
-                                            $inquiryPrices = InquiryPrice::all()->pluck('part_id');
-                                                foreach ($inquiryPrices as $item) {
-                                                    $inquiryPart = Part::find($item);
-                                                    if (!$inquiryPart->parents->isEmpty()) {
-                                                        $parents = $inquiryPart->parents->pluck('id')->toArray();
-                                                    } else {
-                                                        $parents = [];
-                                                    }
-                                                }
+                                            $parents = [];
                                         @endphp
-                                        @if(!in_array($part->id,$inquiryPrice) && !in_array($part->id,$parents))
-                                            <button type="button"
-                                                    onclick="storeInquiryPrice({{ $part->id }},{{ $inquiry->id }})"
-                                                    class="text-xs font-bold text-white underline underline-offset-4 whitespace-nowrap mr-2">
-                                                درخواست بروزرسانی قیمت
-                                            </button>
-                                        @else
-                                            <p class="text-xs font-bold text-white whitespace-nowrap mr-2">
-                                                درخواست ارسال شد
-                                            </p>
+                                        @if($color == 'bg-red-500' || $color == 'bg-red-600')
+                                            @php
+                                                $inquiryPrice = InquiryPrice::where('part_id',$part->id)->pluck('part_id')->all();
+                                                $inquiryPrices = InquiryPrice::all()->pluck('part_id');
+                                                    foreach ($inquiryPrices as $item) {
+                                                        $inquiryPart = Part::find($item);
+                                                        if (!$inquiryPart->parents->isEmpty()) {
+                                                            $parents = $inquiryPart->parents->pluck('id')->toArray();
+                                                        } else {
+                                                            $parents = [];
+                                                        }
+                                                    }
+                                            @endphp
+                                            @if(!in_array($part->id,$inquiryPrice) && !in_array($part->id,$parents))
+                                                <button type="button" class="mr-2"
+                                                        onclick="storeInquiryPrice({{ $part->id }},{{ $inquiry->id }})">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                         title="ارسال درخواست بروزرسانی قیمت"
+                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                         class="w-6 h-6 text-white">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                              d="M12 9v3.75m0-10.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.249-8.25-3.286zm0 13.036h.008v.008H12v-.008z"/>
+                                                    </svg>
+                                                </button>
+                                            @else
+                                                <p class="mr-2">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                         class="w-6 h-6 text-white">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                              d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                    </svg>
+                                                </p>
+                                            @endif
                                         @endif
                                     @endif
-                                @endif
+                                </div>
                             </td>
                         </tr>
                     @endforeach
