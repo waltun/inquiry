@@ -439,9 +439,14 @@
                 </tr>
                 </thead>
                 <tbody>
+                @php
+                    $showPivotPrice = 0;
+                    $showAmountPrice = 0;
+                @endphp
                 @if($amounts->isEmpty() && !$modell->parts->isEmpty())
                     @foreach($modell->parts()->orderBy('sort','ASC')->get() as $index => $part)
                         @php
+                            $showPivotPrice += $part->price * $part->pivot->value;
                             $color = '';
                             if ($setting) {
                                 if($setting->price_color_type == 'month') {
@@ -728,6 +733,7 @@
                     @foreach($amounts as $amount)
                         @php
                             $part = Part::find($amount->part_id);
+                            $showAmountPrice += $part->price * $amount->value;
                             $color = '';
                             if ($setting) {
                                 if($setting->price_color_type == 'month') {
@@ -1000,6 +1006,22 @@
                 @endif
                 </tbody>
             </table>
+            @can('users')
+                @if($product->percent == 0)
+                    <div class="mt-4 flex justify-end">
+                        @if($showPivotPrice != 0)
+                            <p class="text-base font-bold text-white bg-green-500 px-6 py-1 rounded-md">
+                                قیمت : {{ number_format($showPivotPrice) }} تومان
+                            </p>
+                        @endif
+                        @if($showAmountPrice != 0)
+                            <p class="text-base font-bold text-white bg-green-500 px-6 py-1 rounded-md">
+                                قیمت : {{ number_format($showAmountPrice) }} تومان
+                            </p>
+                        @endif
+                    </div>
+                @endif
+            @endcan
         </div>
         <div class="space-x-2 space-x-reverse">
             <button type="submit" class="form-submit-btn">
