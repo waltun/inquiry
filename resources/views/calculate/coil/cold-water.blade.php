@@ -562,6 +562,9 @@
             <button type="submit" class="form-submit-btn">
                 محاسبه
             </button>
+            <a href="{{ route('inquiries.product.amounts',$product->id) }}" class="form-cancel-btn">
+                انصراف
+            </a>
         </div>
     </form>
 

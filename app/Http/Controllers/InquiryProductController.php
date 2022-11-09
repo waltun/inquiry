@@ -148,9 +148,9 @@ class InquiryProductController extends Controller
         if ($amounts->isEmpty() && !$modell->parts->isEmpty()) {
             $request->validate([
                 'modellAmounts' => 'required|array',
-                'modellAmounts.*' => 'required|numeric',
+                'modellAmounts.*' => 'nullable|numeric',
                 'sorts' => 'required|array',
-                'sorts.*' => 'required|numeric'
+                'sorts.*' => 'nullable|numeric'
             ]);
 
             if (!$amounts->isEmpty()) {
@@ -161,11 +161,11 @@ class InquiryProductController extends Controller
 
             foreach ($request['part_ids'] as $index => $part) {
                 $createdAmount = Amount::create([
-                    'value' => $request->modellAmounts[$index],
+                    'value' => $request->modellAmounts[$index] ?? 0,
                     'value2' => $request->units[$index] ?? null,
                     'product_id' => $product->id,
                     'part_id' => $part,
-                    'sort' => $request->sorts[$index],
+                    'sort' => $request->sorts[$index] ?? 0,
                 ]);
 
                 $special = Special::where('part_id', $part)->first();
@@ -179,9 +179,9 @@ class InquiryProductController extends Controller
         } else {
             $request->validate([
                 'amounts' => 'required|array',
-                'amounts.*' => 'required|numeric',
+                'amounts.*' => 'nullable|numeric',
                 'sorts' => 'required|array',
-                'sorts.*' => 'required|numeric'
+                'sorts.*' => 'nullable|numeric'
             ]);
 
             if (!$amounts->isEmpty()) {
@@ -192,11 +192,11 @@ class InquiryProductController extends Controller
 
             foreach ($request['part_ids'] as $index => $part) {
                 $createdAmount = Amount::create([
-                    'value' => $request->amounts[$index],
+                    'value' => $request->amounts[$index] ?? 0,
                     'value2' => $request->units[$index] ?? null,
                     'product_id' => $product->id,
                     'part_id' => $part,
-                    'sort' => $request->sorts[$index],
+                    'sort' => $request->sorts[$index] ?? 0,
                 ]);
 
                 $special = Special::where('part_id', $part)->first();

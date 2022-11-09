@@ -66,8 +66,12 @@ class CalculateCoilController extends Controller
 
         $newPart->save();
 
-        if (!is_null($request->categories[0])) {
-            $newPart->categories()->sync($request['categories']);
+        if (isset($request->categories)) {
+            if (!is_null($request->categories[0])) {
+                $newPart->categories()->sync($request['categories']);
+            } else {
+                $newPart->categories()->sync($part->categories);
+            }
         } else {
             $newPart->categories()->sync($part->categories);
         }
@@ -130,8 +134,12 @@ class CalculateCoilController extends Controller
 
         $newPart->save();
 
-        if (!is_null($request->categories[0])) {
-            $newPart->categories()->sync($request['categories']);
+        if (isset($request->categories)) {
+            if (!is_null($request->categories[0])) {
+                $newPart->categories()->sync($request['categories']);
+            } else {
+                $newPart->categories()->sync($part->categories);
+            }
         } else {
             $newPart->categories()->sync($part->categories);
         }
@@ -194,8 +202,12 @@ class CalculateCoilController extends Controller
 
         $newPart->save();
 
-        if (!is_null($request->categories[0])) {
-            $newPart->categories()->sync($request['categories']);
+        if (isset($request->categories)) {
+            if (!is_null($request->categories[0])) {
+                $newPart->categories()->sync($request['categories']);
+            } else {
+                $newPart->categories()->sync($part->categories);
+            }
         } else {
             $newPart->categories()->sync($part->categories);
         }
@@ -261,8 +273,12 @@ class CalculateCoilController extends Controller
 
         $newPart->save();
 
-        if (!is_null($request->categories[0])) {
-            $newPart->categories()->sync($request['categories']);
+        if (isset($request->categories)) {
+            if (!is_null($request->categories[0])) {
+                $newPart->categories()->sync($request['categories']);
+            } else {
+                $newPart->categories()->sync($part->categories);
+            }
         } else {
             $newPart->categories()->sync($part->categories);
         }
@@ -325,8 +341,12 @@ class CalculateCoilController extends Controller
 
         $newPart->save();
 
-        if (!is_null($request->categories[0])) {
-            $newPart->categories()->sync($request['categories']);
+        if (isset($request->categories)) {
+            if (!is_null($request->categories[0])) {
+                $newPart->categories()->sync($request['categories']);
+            } else {
+                $newPart->categories()->sync($part->categories);
+            }
         } else {
             $newPart->categories()->sync($part->categories);
         }

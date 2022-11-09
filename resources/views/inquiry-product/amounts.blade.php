@@ -219,6 +219,9 @@
         </script>
         <script>
             function storeInquiryPrice(part, inquiry) {
+                let successUpdatePrice = document.getElementById('successUpdatePrice' + part);
+                let updatePriceBtn = document.getElementById('updatePriceBtn' + part);
+
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -233,7 +236,8 @@
                         inquiry_id: inquiry
                     },
                     success: function () {
-                        location.reload();
+                        successUpdatePrice.classList.remove('hidden');
+                        updatePriceBtn.classList.add('hidden');
                     }
                 });
             }
@@ -537,8 +541,8 @@
                                             @case(150)
                                                 @if(session()->has('price'.$part->id))
                                                     <span class="form-detail-btn text-xs">
-                                                    محاسبه شد
-                                                </span>
+                                                        محاسبه شد
+                                                    </span>
                                                 @else
                                                     <a href="{{ route('calculateCoil.evaperator.index',[$part->id,$product->id]) }}"
                                                        class="form-submit-btn text-xs">
@@ -716,7 +720,7 @@
                                                 }
                                             @endphp
                                             @if(!in_array($part->id,$inquiryPrice) && !in_array($part->id,$parents))
-                                                <button type="button" class="mr-2"
+                                                <button type="button" class="mr-2" id="updatePriceBtn{{ $part->id }}"
                                                         onclick="storeInquiryPrice({{ $part->id }},{{ $inquiry->id }})">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                          title="ارسال درخواست بروزرسانی قیمت"
@@ -736,6 +740,14 @@
                                                     </svg>
                                                 </p>
                                             @endif
+                                            <p class="mr-2 hidden" id="successUpdatePrice{{ $part->id }}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                     viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                     class="w-6 h-6 text-white">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                </svg>
+                                            </p>
                                         @endif
                                     @endif
                                 </div>
@@ -1004,7 +1016,7 @@
                                                     }
                                             @endphp
                                             @if(!in_array($part->id,$inquiryPrice) && !in_array($part->id,$parents))
-                                                <button type="button" class="mr-2"
+                                                <button type="button" class="mr-2" id="updatePriceBtn{{ $part->id }}"
                                                         onclick="storeInquiryPrice({{ $part->id }},{{ $inquiry->id }})">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                          title="ارسال درخواست بروزرسانی قیمت"
@@ -1024,6 +1036,14 @@
                                                     </svg>
                                                 </p>
                                             @endif
+                                            <p class="mr-2 hidden" id="successUpdatePrice{{ $part->id }}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                     viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                     class="w-6 h-6 text-white">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                </svg>
+                                            </p>
                                         @endif
                                     @endif
                                 </div>
