@@ -1,4 +1,27 @@
 <x-layout>
+    <x-slot name="js">
+        <script src="{{ asset('plugins/tinymce/tinymce.min.js') }}"></script>
+        <script>
+            tinymce.init({
+                selector: '#inputDescription',
+                plugins: 'preview paste importcss searchreplace autolink directionality code visualblocks visualchars fullscreen link template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount textpattern noneditable help charmap quickbars emoticons',
+                menubar: 'edit view insert format tools table help',
+                toolbar: 'undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen  preview | template link anchor codesample | ltr rtl',
+                toolbar_sticky: true,
+                directionality: "rtl",
+                importcss_append: true,
+                template_cdate_format: '[Date Created (CDATE): %m/%d/%Y : %H:%M:%S]',
+                template_mdate_format: '[Date Modified (MDATE): %m/%d/%Y : %H:%M:%S]',
+                height: 600,
+                quickbars_selection_toolbar: 'bold italic fontsizeselect | link h2 h3 blockquote | removeformat forecolor',
+                toolbar_mode: 'sliding',
+                contextmenu: 'link table',
+                content_style:
+                    "@import url('/fonts/font.css'); body { font-family: IRANSans; }",
+            })
+        </script>
+    </x-slot>
+
     <!-- Breadcrumb -->
     <nav class="flex bg-gray-100 p-4 rounded-md overflow-x-auto whitespace-nowrap" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-2 space-x-reverse">
@@ -85,7 +108,29 @@
 
             <div class="mt-4">
                 <label for="inputDescription" class="block mb-2 md:text-sm text-xs text-black">شرایط استعلام</label>
-                <textarea name="description" id="inputDescription" class="input-text h-64">{{ $inquiry->description ?? '' }}</textarea>
+                <textarea name="description" id="inputDescription"
+                          class="input-text h-64">
+                    @if($inquiry->description)
+                        {{ $inquiry->description }}
+                    @else
+                        <ol>
+                        <li><strong><span style="font-size: 10pt;">مدت زمان تحویل کالا :&nbsp;</span></strong></li>
+                        <li><strong><span style="font-size: 10pt;">مدت گارانتی :&nbsp;</span></strong></li>
+                        <li><strong><span style="font-size: 10pt;">نحوه پرداخت :&nbsp;</span></strong></li>
+                        <li><strong><span style="font-size: 10pt;">محل تحویل :&nbsp;</span></strong></li>
+                        <li><strong><span style="font-size: 10pt;">نوع تضامین درخواستی خریدار :&nbsp;
+                        </span></strong></li>
+                        <li><strong><span style="font-size: 10pt;">قیمت پیشنهادی بر اساس چه ارزی هست ؟&nbsp;
+                        </span></strong></li>
+                        <li><strong><span style="font-size: 10pt;">نرخ تسعیر ارز :&nbsp;</span></strong></li>
+                        <li><strong><span style="font-size: 10pt;">زمان عودت تضامین پیش پرداخت :&nbsp;
+                        </span></strong></li>
+                        <li><strong><span style="font-size: 10pt;">تعهدات پیمانکار :&nbsp;</span></strong></li>
+                        <li><strong><span style="font-size: 10pt;">تعهدات کارفرما :&nbsp;</span></strong></li>
+                        <li><strong><span style="font-size: 10pt;">سایر :</span></strong></li>
+                        </ol>
+                    @endif
+                </textarea>
             </div>
 
         </div>
