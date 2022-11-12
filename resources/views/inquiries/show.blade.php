@@ -129,17 +129,17 @@
                         @endif
                     </div>
                     <table class="border-collapse border border-gray-400 w-full">
-                        <thead>
-                        <tr>
-                            <th class="border border-gray-300 p-4 text-sm">کد قطعه</th>
-                            <th class="border border-gray-300 p-4 text-sm">نام قطعه</th>
-                            <th class="border border-gray-300 p-4 text-sm">واحد</th>
+                        <thead class="sticky top-2">
+                        <tr class="bg-indigo-200">
+                            <th class="border border-white p-4 text-sm">کد قطعه</th>
+                            <th class="border border-white p-4 text-sm">نام قطعه</th>
+                            <th class="border border-white p-4 text-sm">واحد</th>
                             @can('detail-inquiry')
-                                <th class="border border-gray-300 p-4 text-sm">قیمت واحد</th>
+                                <th class="border border-white p-4 text-sm">قیمت واحد</th>
                             @endcan
-                            <th class="border border-gray-300 p-4 text-sm"> مقادیر</th>
+                            <th class="border border-white p-4 text-sm"> مقادیر</th>
                             @can('detail-inquiry')
-                                <th class="border border-gray-300 p-4 text-sm">جمع کل</th>
+                                <th class="border border-white p-4 text-sm">جمع کل</th>
                             @endcan
                         </tr>
                         </thead>
@@ -370,13 +370,13 @@
                         </p>
                     </div>
                     <table class="border-collapse border border-gray-400 w-full">
-                        <thead>
-                        <tr>
-                            <th class="border border-gray-300 p-4 text-sm">کد قطعه</th>
-                            <th class="border border-gray-300 p-4 text-sm">نام قطعه</th>
-                            <th class="border border-gray-300 p-4 text-sm">واحد قطعه</th>
+                        <thead class="sticky top-2">
+                        <tr class="bg-indigo-200">
+                            <th class="border border-white p-4 text-sm">کد قطعه</th>
+                            <th class="border border-white p-4 text-sm">نام قطعه</th>
+                            <th class="border border-white p-4 text-sm">واحد قطعه</th>
                             @can('detail-inquiry')
-                                <th class="border border-gray-300 p-4 text-sm">قیمت</th>
+                                <th class="border border-white p-4 text-sm">قیمت</th>
                             @endcan
                         </tr>
                         </thead>
