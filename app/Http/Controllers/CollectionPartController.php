@@ -185,12 +185,14 @@ class CollectionPartController extends Controller
         ]);
         $newPart->save();
 
-        foreach ($parentPart->children as $child) {
-            $newPart->children()->attach($child->id);
-        }
+        $newPart->categories()->syncWithoutDetaching($parentPart->categories);
 
-        foreach ($parentPart->categories as $category) {
-            $newPart->categories()->attach($category->id);
+        foreach ($parentPart->children as $part) {
+            $newPart->children()->syncWithoutDetaching([
+                $part->id => [
+                    'value' => $part->pivot->value
+                ]
+            ]);
         }
 
         alert()->success('کپی موفق', 'کپی قطعه با موفقیت انجام شد');
