@@ -212,6 +212,7 @@ class InquiryController extends Controller
     {
         Gate::authorize('create-inquiry');
 
+
         $user = User::find($inquiry->user_id);
 
         $lastInquiry = Inquiry::all()->last();
@@ -239,10 +240,15 @@ class InquiryController extends Controller
                 $lastPart = $category->parts()->latest()->first();
                 $code = str_pad($lastPart->code + 1, 4, "0", STR_PAD_LEFT);
 
-                if ($part->coil == '1' && $part->collection == '1') {
+                if ($part->coil == '1' && $part->collection == '1' && !is_null($part->inquiry_id)) {
+                    $name = '140100001-ED-OPB-6BL-290.00L';
+                    $explode = explode('-', $name);
+                    $explode[0] = $inquiryNumber;
+                    $newName = implode('-', $explode);
+
                     $newPart = $part->replicate()->fill([
                         'code' => $code,
-                        'name' => $part->name . '-New',
+                        'name' => $newName,
                         'inquiry_id' => $newInquiry->id
                     ]);
                     $newPart->save();

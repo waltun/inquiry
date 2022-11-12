@@ -522,10 +522,17 @@
                                         onchange="showCalculateButton('{{ $part->id }}'); changeFormula(event,{{ $part->id }});">
                                     @foreach($categoryParts as $part2)
                                         @if(!session()->has('selectedPart' . $part2->id))
-                                            <option
-                                                value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
-                                                {{ $part2->name }}
-                                            </option>
+                                            @if($part2->coil == '1' && $part2->collection == '1' && !is_null($part2->inquiry_id))
+                                                <option
+                                                    value="{{ $part2->id }}" {{ $part2->inquiry_id == $inquiry->id ? 'selected' : '' }}>
+                                                    {{ $part2->name }}
+                                                </option>
+                                            @else
+                                                <option
+                                                    value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
+                                                    {{ $part2->name }}
+                                                </option>
+                                            @endif
                                         @else
                                             <option
                                                 value="{{ $part2->id }}" {{ $part2->id == session()->get('selectedPart' . $part2->id) ? 'selected' : '' }}>
@@ -828,10 +835,17 @@
                                         onchange="showCalculateButton('{{ $part->id }}'); changeFormula(event,{{ $part->id }});">
                                     @foreach($categoryParts as $part2)
                                         @if(!session()->has('selectedPart' . $part2->id))
-                                            <option dir="ltr"
-                                                    value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
-                                                {{ $part2->name }}
-                                            </option>
+                                            @if($part2->coil == '1' && $part2->collection == '1' && !is_null($part2->inquiry_id))
+                                                <option dir="ltr"
+                                                        value="{{ $part2->id }}" {{ $part2->inquiry_id == $inquiry->id ? 'selected' : '' }}>
+                                                    {{ $part2->name }}
+                                                </option>
+                                            @else
+                                                <option dir="ltr"
+                                                        value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
+                                                    {{ $part2->name }}
+                                                </option>
+                                            @endif
                                         @else
                                             <option
                                                 value="{{ $part2->id }}" {{ $part2->id == session()->get('selectedPart' . $part2->id) ? 'selected' : '' }}>
