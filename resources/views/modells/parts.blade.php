@@ -181,7 +181,7 @@
                                        value="{{ $part->pivot->sort }}">
                             </td>
                             <td class="px-4 py-3">
-                                <select name="" id="inputCategory{{ $part->id }}" class="input-text"
+                                <select id="inputCategory{{ $part->id }}" class="input-text"
                                         onchange="changePart(event,{{ $part->id }})">
                                     @foreach($category->children as $child)
                                         <option

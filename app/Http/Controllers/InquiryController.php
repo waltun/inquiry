@@ -234,6 +234,36 @@ class InquiryController extends Controller
             $newProduct->save();
 
             foreach ($product->amounts as $amount) {
+                $part = Part::find($amount->part_id);
+                $category = $part->categories()->latest()->first();
+                $lastPart = $category->parts()->latest()->first();
+                $code = str_pad($lastPart->code + 1, 4, "0", STR_PAD_LEFT);
+
+                if ($part->coil == '1' && $part->collection == '1') {
+                    $newPart = $part->replicate()->fill([
+                        'code' => $code,
+                        'name' => $part->name . '-New',
+                        'inquiry_id' => $newInquiry->id
+                    ]);
+                    $newPart->save();
+
+                    $newPart->categories()->syncWithoutDetaching($part->categories);
+
+                    foreach ($part->children as $child) {
+                        $newPart->children()->syncWithoutDetaching([
+                            $child->id => [
+                                'value' => $child->pivot->value
+                            ]
+                        ]);
+                    }
+
+                    $totalPrice = 0;
+                    foreach ($newPart->children as $child) {
+                        $totalPrice += ($child->price * $child->pivot->value);
+                    }
+                    $newPart->save();
+                }
+
                 $newAmount = $amount->replicate()->fill([
                     'value' => $amount->value,
                     'product_id' => $newProduct->id,
@@ -423,6 +453,7 @@ class InquiryController extends Controller
         foreach ($product->amounts as $amount) {
             $createdModell->parts()->attach($amount->part_id, [
                 'value' => $amount->value,
+                'value2' => $amount->value2 ?? null,
                 'sort' => $amount->sort
             ]);
         }

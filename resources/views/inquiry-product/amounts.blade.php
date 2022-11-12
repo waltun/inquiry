@@ -515,8 +515,7 @@
                             </td>
                             <td class="p-2 border border-gray-300">
                                 @php
-                                    $selectedPart = Part::find($part->id);
-                                    $lastCategory = $selectedPart->categories()->latest()->first();
+                                    $lastCategory = $part->categories()->latest()->first();
                                     $categoryParts = $lastCategory->parts;
                                 @endphp
                                 <select name="part_ids[]" class="input-text" id="groupPartList{{ $part->id }}"
@@ -829,8 +828,8 @@
                                         onchange="showCalculateButton('{{ $part->id }}'); changeFormula(event,{{ $part->id }});">
                                     @foreach($categoryParts as $part2)
                                         @if(!session()->has('selectedPart' . $part2->id))
-                                            <option
-                                                value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
+                                            <option dir="ltr"
+                                                    value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
                                                 {{ $part2->name }}
                                             </option>
                                         @else
