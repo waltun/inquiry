@@ -266,7 +266,7 @@
                                 @endif
                             </td>
                             <td class="px-4 py-3 space-x-3 space-x-reverse">
-                                <button class="form-cancel-btn text-xs"
+                                <button class="form-cancel-btn text-xs" type="button"
                                         onclick="deletePartFromCollectionPart({{ $parentPart->id }},{{ $child->id }})">
                                     حذف از مجموعه
                                 </button>

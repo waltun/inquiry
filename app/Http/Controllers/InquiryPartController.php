@@ -125,5 +125,24 @@ class InquiryPartController extends Controller
         }
     }
 
+    public function storeAmounts(Request $request, Inquiry $inquiry)
+    {
+        $request->validate([
+            'quantities' => 'required|array',
+            'quantities.*' => 'required|numeric',
+            'part_ids' => 'required|array'
+        ]);
 
+        foreach ($inquiry->products()->where('part_id', '!=', 0)->get() as $index => $product) {
+            $product->update([
+                'part_id' => $request->part_ids[$index],
+                'quantity' => $request->quantities[$index],
+                'quantity2' => $request->quantities2[$index] ?? null,
+            ]);
+        }
+
+        alert()->success('ثبت موفق', 'ثبت مقادیر با موفقیت انجام شد');
+
+        return back();
+    }
 }

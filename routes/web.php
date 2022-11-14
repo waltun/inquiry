@@ -20,6 +20,7 @@ use App\Http\Controllers\PartOfGroupController;
 use App\Http\Controllers\PartOfModellController;
 use App\Http\Controllers\PartPriceController;
 use App\Http\Controllers\SeparateCalculateCoilController;
+use App\Http\Controllers\SeparateCalculateConverter;
 use App\Http\Controllers\SeparateCalculateDamperController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
@@ -197,6 +198,12 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/separate-calculate-coil/{part}/evaperator', [SeparateCalculateCoilController::class, 'evaperator'])->name('separate.coil.evaperator');
     Route::post('/separate-calculate-coil/evaperator', [SeparateCalculateCoilController::class, 'calculateEvaperator'])->name('separate.coil.calculateEvaperator');
     Route::post('/separate-calculate-coil/{part}/store-evaperator', [SeparateCalculateCoilController::class, 'storeEvaperator'])->name('separate.coil.storeEvaperator');
+
+    //Separate Converter Routes
+    Route::get('/separate-calculate-converter', [SeparateCalculateConverter::class, 'index'])->name('separate.converter.index');
+    Route::get('/separate-calculate-coil/{part}/evaporator', [SeparateCalculateConverter::class, 'evaporator'])->name('separate.converter.evaporator');
+    Route::post('/separate-calculate-coil/evaporator', [SeparateCalculateConverter::class, 'calculateEvaporator'])->name('separate.converter.calculateEvaporator');
+    Route::post('/separate-calculate-coil/{part}/store-evaporator', [SeparateCalculateConverter::class, 'storeEvaporator'])->name('separate.converter.storeEvaporator');
 
     //Inquiry Part Coils
     Route::post('/inquiry-part-coil/{inquiry}', [InquiryPartCoilController::class, 'index'])->name('inquiryPart.coil.index');

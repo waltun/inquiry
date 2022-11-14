@@ -396,9 +396,18 @@ class InquiryPartCoilController extends Controller
         $newPart->price = $request['price'];
         $newPart->save();
 
+        $sort = 0;
+        if ($inquiry->products()->where('part_id', '!=', 0)->get()->isEmpty()) {
+            $sort = 1;
+        } else {
+            $product = $inquiry->products()->where('part_id', '!=', 0)->max('sort');
+            $sort = $product + 1;
+        }
+
         $inquiry->products()->create([
             'part_id' => $newPart->id,
-            'quantity' => $request['quantity']
+            'quantity' => $request['quantity'],
+            'sort' => $sort
         ]);
 
         $request->session()->put('price' . $part->id, $request->final_price);
@@ -730,9 +739,18 @@ class InquiryPartCoilController extends Controller
         $newPart->price = $request['price'];
         $newPart->save();
 
+        $sort = 0;
+        if ($inquiry->products()->where('part_id', '!=', 0)->get()->isEmpty()) {
+            $sort = 1;
+        } else {
+            $product = $inquiry->products()->where('part_id', '!=', 0)->max('sort');
+            $sort = $product + 1;
+        }
+
         $inquiry->products()->create([
             'part_id' => $newPart->id,
-            'quantity' => $request['quantity']
+            'quantity' => $request['quantity'],
+            'sort' => $sort
         ]);
 
         $request->session()->put('price' . $part->id, $request->final_price);
@@ -1064,9 +1082,18 @@ class InquiryPartCoilController extends Controller
         $newPart->price = $request['price'];
         $newPart->save();
 
+        $sort = 0;
+        if ($inquiry->products()->where('part_id', '!=', 0)->get()->isEmpty()) {
+            $sort = 1;
+        } else {
+            $product = $inquiry->products()->where('part_id', '!=', 0)->max('sort');
+            $sort = $product + 1;
+        }
+
         $inquiry->products()->create([
             'part_id' => $newPart->id,
-            'quantity' => $request['quantity']
+            'quantity' => $request['quantity'],
+            'sort' => $sort
         ]);
 
         $request->session()->put('price' . $part->id, $request->final_price);
@@ -1383,9 +1410,18 @@ class InquiryPartCoilController extends Controller
         $newPart->price = $request['price'];
         $newPart->save();
 
+        $sort = 0;
+        if ($inquiry->products()->where('part_id', '!=', 0)->get()->isEmpty()) {
+            $sort = 1;
+        } else {
+            $product = $inquiry->products()->where('part_id', '!=', 0)->max('sort');
+            $sort = $product + 1;
+        }
+
         $inquiry->products()->create([
             'part_id' => $newPart->id,
-            'quantity' => $request['quantity']
+            'quantity' => $request['quantity'],
+            'sort' => $sort
         ]);
 
         $request->session()->put('price' . $part->id, $request->final_price);
@@ -1725,9 +1761,18 @@ class InquiryPartCoilController extends Controller
         $newPart->price = $request['price'];
         $newPart->save();
 
+        $sort = 0;
+        if ($inquiry->products()->where('part_id', '!=', 0)->get()->isEmpty()) {
+            $sort = 1;
+        } else {
+            $product = $inquiry->products()->where('part_id', '!=', 0)->max('sort');
+            $sort = $product + 1;
+        }
+
         $inquiry->products()->create([
             'part_id' => $newPart->id,
-            'quantity' => $request['quantity']
+            'quantity' => $request['quantity'],
+            'sort' => $sort
         ]);
 
         $request->session()->put('price' . $part->id, $request->final_price);

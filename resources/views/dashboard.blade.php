@@ -285,7 +285,7 @@
             </div>
         @endcan
 
-        <div class="bg-pink-400 rounded-md p-4 shadow-md col-span-2">
+        <div class="bg-pink-500 rounded-md p-4 shadow-md">
             <a href="{{ route('separate.coil.index') }}" class="flex justify-between items-center group">
                 <div>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -309,7 +309,7 @@
             </a>
         </div>
 
-        <div class="bg-pink-300 rounded-md p-4 shadow-md">
+        <div class="bg-pink-400 rounded-md p-4 shadow-md">
             <a href="{{ route('separate.damper.index') }}" class="flex justify-between items-center group">
                 <div>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -321,6 +321,30 @@
                 <div>
                     <p class="text-lg text-black font-medium group-hover:text-white">
                         محاسبه قیمت دمپر
+                    </p>
+                </div>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-black group-hover:text-white"
+                         fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                </div>
+            </a>
+        </div>
+
+        <div class="bg-pink-300 rounded-md p-4 shadow-md">
+            <a href="{{ route('separate.converter.index') }}" class="flex justify-between items-center group">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                         stroke="currentColor" class="h-8 w-8 text-black group-hover:text-white">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V13.5zm0 2.25h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V18zm2.498-6.75h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V13.5zm0 2.25h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V18zm2.504-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zm0 2.25h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V18zm2.498-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zM8.25 6h7.5v2.25h-7.5V6zM12 2.25c-1.892 0-3.758.11-5.593.322C5.307 2.7 4.5 3.65 4.5 4.757V19.5a2.25 2.25 0 002.25 2.25h10.5a2.25 2.25 0 002.25-2.25V4.757c0-1.108-.806-2.057-1.907-2.185A48.507 48.507 0 0012 2.25z"/>
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-lg text-black font-medium group-hover:text-white">
+                        محاسبه قیمت مبدل
                     </p>
                 </div>
                 <div>
