@@ -535,7 +535,7 @@
                                             @endif
                                         @else
                                             <option
-                                                value="{{ $part2->id }}" {{ $part2->id == session()->get('selectedPart' . $part2->id) ? 'selected' : '' }}>
+                                                value="{{ $part2->id }}" {{ $part2->product_id == $product->id ? 'selected' : '' }}>
                                                 {{ $part2->name }}
                                             </option>
                                         @endif
@@ -812,7 +812,7 @@
                                             @endif
                                         @else
                                             <option
-                                                value="{{ $part2->id }}" {{ $part2->id == session()->get('selectedPart' . $part2->id) ? 'selected' : '' }}>
+                                                value="{{ $part2->id }}" {{ $part2->product_id == $product->id ? 'selected' : '' }}>
                                                 {{ $part2->name }}
                                             </option>
                                         @endif

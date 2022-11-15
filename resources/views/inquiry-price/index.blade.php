@@ -87,12 +87,12 @@
                 $inquiry = \App\Models\Inquiry::find($inquiryPrice->inquiry_id);
                 $part = \App\Models\Part::find($inquiryPrice->part_id);
                 $user = \App\Models\User::find($inquiryPrice->user_id);
-                $parts = \App\Models\InquiryPrice::select('part_id')->where('inquiry_id',$inquiry->id)->get();
+                $parts = \App\Models\InquiryPrice::select('part_id')->where('inquiry_id',$inquiry->id)->get()->unique('part_id');
             @endphp
             <div class="bg-white rounded-md p-4 shadow border border-gray-200 mb-8">
                 <div class="flex items-center justify-between border-b border-gray-200 pb-3">
                     <p class="text-sm font-bold text-black">
-                        درخواست های استعلام {{ $inquiry->name }} - {{ $inquiry->inquiry_number }}
+                        درخواست های استعلام {{ $inquiry->name }} - INQ-{{ $inquiry->inquiry_number }}
                     </p>
                     <p class="text-sm font-bold text-indigo-700">
                         تاریخ ارسال درخواست : {{ jdate($inquiryPrice->created_at)->format('%A, %d %B %Y - H:m') }}

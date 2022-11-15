@@ -44,6 +44,7 @@ class CalculateDamperController extends Controller
             'coil' => true,
             'inquiry_id' => $product->inquiry_id,
             'price_updated_at' => now(),
+            'product_id' => $product->id
         ]);
 
         $newPart->save();

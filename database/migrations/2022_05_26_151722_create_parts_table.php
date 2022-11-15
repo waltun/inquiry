@@ -30,7 +30,10 @@ return new class extends Migration {
             $table->string('operator2')->nullable();
             $table->decimal('formula2')->nullable();
 
-            $table->index(['code']);
+            $table->unsignedBigInteger('inquiry_id')->nullable();
+            $table->unsignedBigInteger('product_id')->nullable();
+
+            $table->index(['code', 'inquiry_id', 'product_id']);
 
             $table->timestamp('price_updated_at')->nullable();
             $table->timestamps();

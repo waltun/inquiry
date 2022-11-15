@@ -71,27 +71,30 @@ class InquiryPriceController extends Controller
 
         foreach ($request->parts as $index => $part) {
             $updatedPart = Part::find($part);
-            $inquiryPrice = InquiryPrice::where('part_id', $part)->first();
-            if ($updatedPart->price !== (int)$request->prices[$index]) {
-                $updatedPart->update([
-                    'price' => $request->prices[$index],
-                    'old_price' => $updatedPart->price,
-                    'price_updated_at' => now()
-                ]);
+            $inquiryPrices = InquiryPrice::where('part_id', $part)->get();
 
-                if (!$updatedPart->parents->isEmpty()) {
-                    foreach ($updatedPart->parents as $parent) {
-                        $price = $parent->children()->sum('price');
-                        $parent->update([
-                            'price' => $price,
-                            'old_price' => $parent->price,
-                            'price_updated_at' => now(),
-                            'updated_at' => now()
-                        ]);
+            foreach ($inquiryPrices as $inquiryPrice) {
+                if ($updatedPart->price !== (int)$request->prices[$index]) {
+                    $updatedPart->update([
+                        'price' => $request->prices[$index],
+                        'old_price' => $updatedPart->price,
+                        'price_updated_at' => now()
+                    ]);
+
+                    if (!$updatedPart->parents->isEmpty()) {
+                        foreach ($updatedPart->parents as $parent) {
+                            $price = $parent->children()->sum('price');
+                            $parent->update([
+                                'price' => $price,
+                                'old_price' => $parent->price,
+                                'price_updated_at' => now(),
+                                'updated_at' => now()
+                            ]);
+                        }
                     }
-                }
 
-                $inquiryPrice->delete();
+                    $inquiryPrice->delete();
+                }
             }
         }
 
@@ -103,13 +106,16 @@ class InquiryPriceController extends Controller
     public function updateDate(Request $request)
     {
         $part = Part::find($request->id);
-        $inquiryPrice = InquiryPrice::where('part_id', $part->id)->first();
-        if ($part->price != 0 && !is_null($part->price)) {
-            $part->price_updated_at = Carbon::now();
-            $part->save();
-            $inquiryPrice->delete();
-        } else {
-            return response(['data' => 'error']);
+        $inquiryPrices = InquiryPrice::where('part_id', $part->id)->get();
+
+        foreach ($inquiryPrices as $inquiryPrice) {
+            if ($part->price != 0 && !is_null($part->price)) {
+                $part->price_updated_at = Carbon::now();
+                $part->save();
+                $inquiryPrice->delete();
+            } else {
+                return response(['data' => 'error']);
+            }
         }
     }
 }
