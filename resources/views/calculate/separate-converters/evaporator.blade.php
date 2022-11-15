@@ -215,55 +215,55 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block mb-2 text-sm font-bold" for="inputLooleMessi">لوله مسی خط مایع</label>
-                        <select name="loole_messi" id="inputLooleMessi" class="input-text bg-yellow-300">
+                        <label class="block mb-2 text-sm font-bold" for="inputLooleMessiMaye">لوله مسی خط مایع</label>
+                        <select name="loole_messi_maye" id="inputLooleMessiMaye" class="input-text bg-yellow-300">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::find('77')->id }}"
-                                {{ is_null($inputs) ? (old('loole_messi_sucshen') == '77' ? 'selected' : '') : ($inputs['loole_messi_sucshen'] == "77" ? 'selected' : (old('loole_messi_sucshen') == '77' ? 'selected' : '')) }}>
+                                {{ is_null($inputs) ? (old('loole_messi_maye') == '77' ? 'selected' : '') : ($inputs['loole_messi_maye'] == "77" ? 'selected' : (old('loole_messi_maye') == '77' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::find('77')->name }}
                             </option>
                             <option value="{{ \App\Models\Part::find('78')->id }}"
-                                {{ is_null($inputs) ? (old('loole_messi_sucshen') == '78' ? 'selected' : '') : ($inputs['loole_messi_sucshen'] == "78" ? 'selected' : (old('loole_messi_sucshen') == '78' ? 'selected' : '')) }}>
+                                {{ is_null($inputs) ? (old('loole_messi_maye') == '78' ? 'selected' : '') : ($inputs['loole_messi_maye'] == "78" ? 'selected' : (old('loole_messi_maye') == '78' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::find('78')->name }}
                             </option>
                             <option value="{{ \App\Models\Part::find('79')->id }}"
-                                {{ is_null($inputs) ? (old('loole_messi_sucshen') == '79' ? 'selected' : '') : ($inputs['loole_messi_sucshen'] == "79" ? 'selected' : (old('loole_messi_sucshen') == '79' ? 'selected' : '')) }}>
+                                {{ is_null($inputs) ? (old('loole_messi_maye') == '79' ? 'selected' : '') : ($inputs['loole_messi_maye'] == "79" ? 'selected' : (old('loole_messi_maye') == '79' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::find('79')->name }}
                             </option>
                             <option value="{{ \App\Models\Part::find('80')->id }}"
-                                {{ is_null($inputs) ? (old('loole_messi_sucshen') == '80' ? 'selected' : '') : ($inputs['loole_messi_sucshen'] == "80" ? 'selected' : (old('loole_messi_sucshen') == '80' ? 'selected' : '')) }}>
+                                {{ is_null($inputs) ? (old('loole_messi_maye') == '80' ? 'selected' : '') : ($inputs['loole_messi_maye'] == "80" ? 'selected' : (old('loole_messi_maye') == '80' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::find('80')->name }}
                             </option>
                             <option value="{{ \App\Models\Part::find('81')->id }}"
-                                {{ is_null($inputs) ? (old('loole_messi_sucshen') == '81' ? 'selected' : '') : ($inputs['loole_messi_sucshen'] == "81" ? 'selected' : (old('loole_messi_sucshen') == '81' ? 'selected' : '')) }}>
+                                {{ is_null($inputs) ? (old('loole_messi_maye') == '81' ? 'selected' : '') : ($inputs['loole_messi_maye'] == "81" ? 'selected' : (old('loole_messi_maye') == '81' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::find('81')->name }}
                             </option>
                             <option value="{{ \App\Models\Part::find('82')->id }}"
-                                {{ is_null($inputs) ? (old('loole_messi_sucshen') == '82' ? 'selected' : '') : ($inputs['loole_messi_sucshen'] == "82" ? 'selected' : (old('loole_messi_sucshen') == '82' ? 'selected' : '')) }}>
+                                {{ is_null($inputs) ? (old('loole_messi_maye') == '82' ? 'selected' : '') : ($inputs['loole_messi_maye'] == "82" ? 'selected' : (old('loole_messi_maye') == '82' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::find('82')->name }}
                             </option>
                             <option value="{{ \App\Models\Part::find('83')->id }}"
-                                {{ is_null($inputs) ? (old('loole_messi_sucshen') == '83' ? 'selected' : '') : ($inputs['loole_messi_sucshen'] == "83" ? 'selected' : (old('loole_messi_sucshen') == '83' ? 'selected' : '')) }}>
+                                {{ is_null($inputs) ? (old('loole_messi_maye') == '83' ? 'selected' : '') : ($inputs['loole_messi_maye'] == "83" ? 'selected' : (old('loole_messi_maye') == '83' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::find('83')->name }}
                             </option>
                             <option value="{{ \App\Models\Part::find('84')->id }}"
-                                {{ is_null($inputs) ? (old('loole_messi_sucshen') == '84' ? 'selected' : '') : ($inputs['loole_messi_sucshen'] == "84" ? 'selected' : (old('loole_messi_sucshen') == '84' ? 'selected' : '')) }}>
+                                {{ is_null($inputs) ? (old('loole_messi_maye') == '84' ? 'selected' : '') : ($inputs['loole_messi_maye'] == "84" ? 'selected' : (old('loole_messi_maye') == '84' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::find('84')->name }}
                             </option>
                             <option value="{{ \App\Models\Part::find('85')->id }}"
-                                {{ is_null($inputs) ? (old('loole_messi_sucshen') == '85' ? 'selected' : '') : ($inputs['loole_messi_sucshen'] == "85" ? 'selected' : (old('loole_messi_sucshen') == '85' ? 'selected' : '')) }}>
+                                {{ is_null($inputs) ? (old('loole_messi_maye') == '85' ? 'selected' : '') : ($inputs['loole_messi_maye'] == "85" ? 'selected' : (old('loole_messi_maye') == '85' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::find('85')->name }}
                             </option>
                             <option value="{{ \App\Models\Part::find('86')->id }}"
-                                {{ is_null($inputs) ? (old('loole_messi_sucshen') == '86' ? 'selected' : '') : ($inputs['loole_messi_sucshen'] == "86" ? 'selected' : (old('loole_messi_sucshen') == '86' ? 'selected' : '')) }}>
+                                {{ is_null($inputs) ? (old('loole_messi_maye') == '86' ? 'selected' : '') : ($inputs['loole_messi_maye'] == "86" ? 'selected' : (old('loole_messi_maye') == '86' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::find('86')->name }}
                             </option>
                             <option value="{{ \App\Models\Part::find('87')->id }}"
-                                {{ is_null($inputs) ? (old('loole_messi_sucshen') == '87' ? 'selected' : '') : ($inputs['loole_messi_sucshen'] == "87" ? 'selected' : (old('loole_messi_sucshen') == '87' ? 'selected' : '')) }}>
+                                {{ is_null($inputs) ? (old('loole_messi_maye') == '87' ? 'selected' : '') : ($inputs['loole_messi_maye'] == "87" ? 'selected' : (old('loole_messi_maye') == '87' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::find('87')->name }}
                             </option>
                             <option value="{{ \App\Models\Part::find('88')->id }}"
-                                {{ is_null($inputs) ? (old('loole_messi_sucshen') == '88' ? 'selected' : '') : ($inputs['loole_messi_sucshen'] == "88" ? 'selected' : (old('loole_messi_sucshen') == '88' ? 'selected' : '')) }}>
+                                {{ is_null($inputs) ? (old('loole_messi_maye') == '88' ? 'selected' : '') : ($inputs['loole_messi_maye'] == "88" ? 'selected' : (old('loole_messi_maye') == '88' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::find('88')->name }}
                             </option>
                         </select>
@@ -774,19 +774,19 @@
                         <select name="tedad_madar" id="inputTedadMadar" class="input-text bg-yellow-300">
                             <option value="">انتخاب کنید</option>
                             <option value="1"
-                                {{ is_null($inputs) ? (old('toole_loole_messi') == '0.75' ? 'selected' : '') : ($inputs['toole_loole_messi'] == "0.75" ? 'selected' : (old('toole_loole_messi') == '0.75' ? 'selected' : '')) }}>
+                                {{ is_null($inputs) ? (old('tedad_madar') == '1' ? 'selected' : '') : ($inputs['tedad_madar'] == "1" ? 'selected' : (old('tedad_madar') == '1' ? 'selected' : '')) }}>
                                 1
                             </option>
                             <option value="1"
-                                {{ is_null($inputs) ? (old('toole_loole_messi') == '0.75' ? 'selected' : '') : ($inputs['toole_loole_messi'] == "0.75" ? 'selected' : (old('toole_loole_messi') == '0.75' ? 'selected' : '')) }}>
+                                {{ is_null($inputs) ? (old('tedad_madar') == '2' ? 'selected' : '') : ($inputs['tedad_madar'] == "2" ? 'selected' : (old('tedad_madar') == '2' ? 'selected' : '')) }}>
                                 2
                             </option>
                             <option value="1"
-                                {{ is_null($inputs) ? (old('toole_loole_messi') == '0.75' ? 'selected' : '') : ($inputs['toole_loole_messi'] == "0.75" ? 'selected' : (old('toole_loole_messi') == '0.75' ? 'selected' : '')) }}>
+                                {{ is_null($inputs) ? (old('tedad_madar') == '3' ? 'selected' : '') : ($inputs['tedad_madar'] == "3" ? 'selected' : (old('tedad_madar') == '3' ? 'selected' : '')) }}>
                                 3
                             </option>
                             <option value="1"
-                                {{ is_null($inputs) ? (old('toole_loole_messi') == '0.75' ? 'selected' : '') : ($inputs['toole_loole_messi'] == "0.75" ? 'selected' : (old('toole_loole_messi') == '0.75' ? 'selected' : '')) }}>
+                                {{ is_null($inputs) ? (old('tedad_madar') == '4' ? 'selected' : '') : ($inputs['tedad_madar'] == "4" ? 'selected' : (old('tedad_madar') == '4' ? 'selected' : '')) }}>
                                 4
                             </option>
                         </select>

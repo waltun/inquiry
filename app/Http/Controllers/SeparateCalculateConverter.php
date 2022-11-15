@@ -22,27 +22,33 @@ class SeparateCalculateConverter extends Controller
 
     public function calculateEvaporator(Request $request)
     {
-//        $inputs = $request->validate([
-//            'loole_messi' => 'required',
-//            'size_loole_pooste' => 'required',
-//            'picho_mohre' => 'required',
-//            'ayegh' => 'required',
-//            'sensor' => 'required',
-//            'cap' => 'required',
-//            'navdani' => 'required',
-//            'boshen1' => 'required',
-//            'boshen2' => 'required',
-//            'flanch' => 'required',
-//            'sardande' => 'required',
-//            'tube' => 'required',
-//            'ring' => 'required',
-//            'toole_loole_messi' => 'required',
-//            'tedad_loole_messi' => 'required',
-//            'toole_loole_pooste' => 'required'
-//        ]);
+        $inputs = $request->validate([
+            'loole_messi' => 'required',
+            'loole_messi_sucshen' => 'required',
+            'loole_messi_maye' => 'required',
+            'size_loole_pooste' => 'required',
+            'picho_mohre' => 'required',
+            'ayegh' => 'required',
+            'sensor' => 'required',
+            'cap' => 'required',
+            'navdani' => 'required',
+            'boshen1' => 'required',
+            'boshen2' => 'required',
+            'flanch' => 'required',
+            'size_loole_ab' => 'required',
+            'sardande' => 'required',
+            'tube' => 'required',
+            'ring' => 'required',
+            'tedad_madar' => 'required',
+            'toole_loole_messi' => 'required',
+            'tedad_loole_messi' => 'required',
+            'toole_loole_pooste' => 'required'
+        ]);
 
         //Ids
         $looleMessiId = $request['loole_messi'];
+        $looleMessiSucshenId = $request['loole_messi_sucshen'];
+        $looleMessiMayeId = $request['loole_messi_maye'];
         $sizeLoolePoosteId = $request['size_loole_pooste'];
         $pichId = $request['picho_mohre'];
         $ayeghId = $request['ayegh'];
@@ -52,10 +58,10 @@ class SeparateCalculateConverter extends Controller
         $boshenAirId = $request['boshen1'];
         $boshenFreezeId = $request['boshen2'];
         $flanchId = $request['flanch'];
+        $sizeLooleAbId = $request['size_loole_ab'];
         $sardandeId = $request['sardande'];
         $tubeId = $request['tube'];
         $ringId = $request['ring'];
-        $sizeLooleAbId = $request['size_loole_ab'];
 
         //Inputs
         $tooleLooleMessi = $request['toole_loole_messi'];

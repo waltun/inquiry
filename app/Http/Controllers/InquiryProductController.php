@@ -316,6 +316,13 @@ class InquiryProductController extends Controller
     {
         Gate::authorize('create-inquiry');
 
+        $collectionParts = Part::where('product_id', $product->id)->get();
+        if (!$collectionParts->isEmpty()) {
+            foreach ($collectionParts as $collectionPart) {
+                $collectionPart->delete();
+            }
+        }
+
         if (!$product->amounts->isEmpty()) {
             $product->amounts()->delete();
         }
