@@ -99,14 +99,23 @@ class PartPriceController extends Controller
             'prices.*' => 'nullable|numeric'
         ]);
 
-        foreach ($request->parts as $index => $part) {
-            $updatedPart = Part::where('id', $part)->first();
-            if ($updatedPart->price !== (int)$request->prices[$index]) {
-                $updatedPart->update([
+        foreach ($request->parts as $index => $id) {
+            $part = Part::where('id', $id)->first();
+            if ($part->price !== (int)$request->prices[$index]) {
+                $part->update([
                     'price' => $request->prices[$index],
-                    'old_price' => $updatedPart->price,
+                    'old_price' => $part->price,
                     'price_updated_at' => now()
                 ]);
+
+                foreach ($part->parents as $parent) {
+                    $price = 0;
+                    foreach ($parent->children as $child) {
+                        $price += ($child->price * $child->pivot->value);
+                    }
+                    $parent->price = $price;
+                    $parent->save();
+                }
             }
         }
 

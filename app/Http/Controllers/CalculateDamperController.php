@@ -44,23 +44,20 @@ class CalculateDamperController extends Controller
             'coil' => true,
             'inquiry_id' => $product->inquiry_id,
             'price_updated_at' => now(),
-            'product_id' => $product->id
+            'product_id' => $product->id,
+            'price' => $request['final_price']
         ]);
 
         $newPart->save();
         $newPart->categories()->syncWithoutDetaching($part->categories);
         $newPart->children()->syncWithoutDetaching($part->children);
 
-        $price = 0;
         foreach ($newPart->children as $index => $childPart) {
             $childPart->pivot->value = $request->values[$index];
-            $price += $request->values[$index] * $childPart->price;
             $childPart->pivot->save();
         }
-        $newPart->price = $price;
-        $newPart->save();
 
-        $request->session()->put('price' . $part->id, $request->final_price);
+        $request->session()->put('damper-btn-' . $part->id . $product->id, 'calculated');
         $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
 
         alert()->success('محاسبه موفق', 'محاسبه دمپر با موفقیت انجام شد');

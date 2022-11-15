@@ -62,7 +62,8 @@ class CalculateCoilController extends Controller
             'coil' => true,
             'inquiry_id' => $product->inquiry_id,
             'price_updated_at' => now(),
-            'product_id' => $product->id
+            'product_id' => $product->id,
+            'price' => $request['price']
         ]);
 
         $newPart->save();
@@ -105,10 +106,8 @@ class CalculateCoilController extends Controller
             $childPart->pivot->value = $request->values[$index];
             $childPart->pivot->save();
         }
-        $newPart->price = $request['price'];
-        $newPart->save();
 
-        $request->session()->put('price' . $part->id, $request->final_price);
+        $request->session()->put('coil-btn-' . $part->id . $product->id, 'calculated');
         $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
 
         alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');
@@ -131,7 +130,8 @@ class CalculateCoilController extends Controller
             'coil' => true,
             'inquiry_id' => $product->inquiry_id,
             'price_updated_at' => now(),
-            'product_id' => $product->id
+            'product_id' => $product->id,
+            'price' => $request['price']
         ]);
 
         $newPart->save();
@@ -174,10 +174,8 @@ class CalculateCoilController extends Controller
             $childPart->pivot->value = $request->values[$index];
             $childPart->pivot->save();
         }
-        $newPart->price = $request['price'];
-        $newPart->save();
 
-        $request->session()->put('price' . $part->id, $request->final_price);
+        $request->session()->put('coil-btn-' . $part->id . $product->id, 'calculated');
         $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
 
         alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');
@@ -200,7 +198,8 @@ class CalculateCoilController extends Controller
             'coil' => true,
             'inquiry_id' => $product->inquiry_id,
             'price_updated_at' => now(),
-            'product_id' => $product->id
+            'product_id' => $product->id,
+            'price' => $request['price']
         ]);
 
         $newPart->save();
@@ -246,10 +245,8 @@ class CalculateCoilController extends Controller
             $childPart->pivot->value = $request->values[$index];
             $childPart->pivot->save();
         }
-        $newPart->price = $request['price'];
-        $newPart->save();
 
-        $request->session()->put('price' . $part->id, $request->final_price);
+        $request->session()->put('coil-btn-' . $part->id . $product->id, 'calculated');
         $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
 
         alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');
@@ -272,7 +269,8 @@ class CalculateCoilController extends Controller
             'coil' => true,
             'inquiry_id' => $product->inquiry_id,
             'price_updated_at' => now(),
-            'product_id' => $product->id
+            'product_id' => $product->id,
+            'price' => $request['price'],
         ]);
 
         $newPart->save();
@@ -315,10 +313,8 @@ class CalculateCoilController extends Controller
             $childPart->pivot->value = $request->values[$index];
             $childPart->pivot->save();
         }
-        $newPart->price = $request['price'];
-        $newPart->save();
 
-        $request->session()->put('price' . $part->id, $request->final_price);
+        $request->session()->put('coil-btn-' . $part->id . $product->id, 'calculated');
         $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
 
         alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');
@@ -341,7 +337,8 @@ class CalculateCoilController extends Controller
             'coil' => true,
             'inquiry_id' => $product->inquiry_id,
             'price_updated_at' => now(),
-            'product_id' => $product->id
+            'product_id' => $product->id,
+            'price' => $request['price']
         ]);
 
         $newPart->save();
@@ -384,10 +381,8 @@ class CalculateCoilController extends Controller
             $childPart->pivot->value = $request->values[$index];
             $childPart->pivot->save();
         }
-        $newPart->price = $request['price'];
-        $newPart->save();
 
-        $request->session()->put('price' . $part->id, $request->final_price);
+        $request->session()->put('coil-btn-' . $part->id . $product->id, 'calculated');
         $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
 
         alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');

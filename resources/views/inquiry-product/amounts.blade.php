@@ -522,17 +522,10 @@
                                         onchange="showCalculateButton('{{ $part->id }}'); changeFormula(event,{{ $part->id }});">
                                     @foreach($categoryParts as $part2)
                                         @if(!session()->has('selectedPart' . $part2->id))
-                                            @if($part2->coil == '1' && $part2->collection == '1' && !is_null($part2->inquiry_id))
-                                                <option
-                                                    value="{{ $part2->id }}" {{ $part2->inquiry_id == $inquiry->id ? 'selected' : '' }}>
-                                                    {{ $part2->name }}
-                                                </option>
-                                            @else
-                                                <option
-                                                    value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
-                                                    {{ $part2->name }}
-                                                </option>
-                                            @endif
+                                            <option
+                                                value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
+                                                {{ $part2->name }}
+                                            </option>
                                         @else
                                             <option
                                                 value="{{ $part2->id }}" {{ $part2->product_id == $product->id ? 'selected' : '' }}>
@@ -545,7 +538,7 @@
                                     <div class="whitespace-nowrap mr-2">
                                         @switch($part->id)
                                             @case(150)
-                                                @if(!session()->has('price'.$part->id))
+                                                @if(!session()->has('coil-btn-' . $part->id . $product->id))
                                                     <a href="{{ route('calculateCoil.evaperator.index',[$part->id,$product->id]) }}"
                                                        class="form-submit-btn text-xs">
                                                         محاسبه {{ $part->name }}
@@ -553,7 +546,7 @@
                                                 @endif
                                                 @break
                                             @case(167)
-                                                @if(!session()->has('price'.$part->id))
+                                                @if(!session()->has('coil-btn-' . $part->id . $product->id))
                                                     <a href="{{ route('calculateCoil.condensor.index',[$part->id,$product->id]) }}"
                                                        class="form-submit-btn text-xs">
                                                         محاسبه {{ $part->name }}
@@ -561,7 +554,7 @@
                                                 @endif
                                                 @break
                                             @case(168)
-                                                @if(!session()->has('price'.$part->id))
+                                                @if(!session()->has('coil-btn-' . $part->id . $product->id))
                                                     <a href="{{ route('calculateCoil.waterCold.index',[$part->id,$product->id]) }}"
                                                        class="form-submit-btn text-xs">
                                                         محاسبه {{ $part->name }}
@@ -569,7 +562,7 @@
                                                 @endif
                                                 @break
                                             @case(169)
-                                                @if(!session()->has('price'.$part->id))
+                                                @if(!session()->has('coil-btn-' . $part->id . $product->id))
                                                     <a href="{{ route('calculateCoil.waterWarm.index',[$part->id,$product->id]) }}"
                                                        class="form-submit-btn text-xs">
                                                         محاسبه {{ $part->name }}
@@ -577,7 +570,7 @@
                                                 @endif
                                                 @break
                                             @case(170)
-                                                @if(!session()->has('price'.$part->id))
+                                                @if(!session()->has('coil-btn-' . $part->id . $product->id))
                                                     <a href="{{ route('calculateCoil.fancoil.index',[$part->id,$product->id]) }}"
                                                        class="form-submit-btn text-xs">
                                                         محاسبه {{ $part->name }}
@@ -586,7 +579,7 @@
                                                 @break
 
                                             @case(146)
-                                                @if(!session()->has('price'.$part->id))
+                                                @if(!session()->has('damper-btn-' . $part->id . $product->id))
                                                     <a href="{{ route('calculateDamper.taze.index',[$part->id,$product->id]) }}"
                                                        class="form-submit-btn text-xs">
                                                         محاسبه {{ $part->name }}
@@ -594,7 +587,7 @@
                                                 @endif
                                                 @break
                                             @case(148)
-                                                @if(!session()->has('price'.$part->id))
+                                                @if(!session()->has('damper-btn-' . $part->id . $product->id))
                                                     <a href="{{ route('calculateDamper.raft.index',[$part->id,$product->id]) }}"
                                                        class="form-submit-btn text-xs">
                                                         محاسبه {{ $part->name }}
@@ -602,7 +595,8 @@
                                                 @endif
                                                 @break
                                             @case(147)
-                                                @if(!session()->has('price'.$part->id))
+                                                @if(!session()->has('damper-btn-' . $part->id . $product->id))
+                                                    )
                                                     <a href="{{ route('calculateDamper.bargasht.index',[$part->id,$product->id]) }}"
                                                        class="form-submit-btn text-xs">
                                                         محاسبه {{ $part->name }}
@@ -610,7 +604,8 @@
                                                 @endif
                                                 @break
                                             @case(149)
-                                                @if(!session()->has('price'.$part->id))
+                                                @if(!session()->has('damper-btn-' . $part->id . $product->id))
+                                                    )
                                                     <a href="{{ route('calculateDamper.exast.index',[$part->id,$product->id]) }}"
                                                        class="form-submit-btn text-xs">
                                                         محاسبه {{ $part->name }}
@@ -799,17 +794,10 @@
                                         onchange="showCalculateButton('{{ $part->id }}'); changeFormula(event,{{ $part->id }});">
                                     @foreach($categoryParts as $part2)
                                         @if(!session()->has('selectedPart' . $part2->id))
-                                            @if($part2->coil == '1' && $part2->collection == '1' && !is_null($part2->inquiry_id))
-                                                <option
-                                                    value="{{ $part2->id }}" {{ $part2->inquiry_id == $inquiry->id ? 'selected' : '' }}>
-                                                    {{ $part2->name }}
-                                                </option>
-                                            @else
-                                                <option
-                                                    value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
-                                                    {{ $part2->name }}
-                                                </option>
-                                            @endif
+                                            <option
+                                                value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
+                                                {{ $part2->name }}
+                                            </option>
                                         @else
                                             <option
                                                 value="{{ $part2->id }}" {{ $part2->product_id == $product->id ? 'selected' : '' }}>
@@ -822,7 +810,7 @@
                                     <div class="whitespace-nowrap mr-2">
                                         @switch($part->id)
                                             @case(150)
-                                                @if(!session()->has('price'.$part->id))
+                                                @if(!session()->has('coil-btn-' . $part->id . $product->id))
                                                     <a href="{{ route('calculateCoil.evaperator.index',[$part->id,$product->id]) }}"
                                                        class="form-submit-btn text-xs">
                                                         محاسبه {{ $part->name }}
@@ -830,7 +818,7 @@
                                                 @endif
                                                 @break
                                             @case(167)
-                                                @if(!session()->has('price'.$part->id))
+                                                @if(!session()->has('coil-btn-' . $part->id . $product->id))
                                                     <a href="{{ route('calculateCoil.condensor.index',[$part->id,$product->id]) }}"
                                                        class="form-submit-btn text-xs">
                                                         محاسبه {{ $part->name }}
@@ -838,7 +826,7 @@
                                                 @endif
                                                 @break
                                             @case(168)
-                                                @if(!session()->has('price'.$part->id))
+                                                @if(!session()->has('coil-btn-' . $part->id . $product->id))
                                                     <a href="{{ route('calculateCoil.waterCold.index',[$part->id,$product->id]) }}"
                                                        class="form-submit-btn text-xs">
                                                         محاسبه {{ $part->name }}
@@ -846,7 +834,7 @@
                                                 @endif
                                                 @break
                                             @case(169)
-                                                @if(!session()->has('price'.$part->id))
+                                                @if(!session()->has('coil-btn-' . $part->id . $product->id))
                                                     <a href="{{ route('calculateCoil.waterWarm.index',[$part->id,$product->id]) }}"
                                                        class="form-submit-btn text-xs">
                                                         محاسبه {{ $part->name }}
@@ -854,7 +842,7 @@
                                                 @endif
                                                 @break
                                             @case(170)
-                                                @if(!session()->has('price'.$part->id))
+                                                @if(!session()->has('coil-btn-' . $part->id . $product->id))
                                                     <a href="{{ route('calculateCoil.fancoil.index',[$part->id,$product->id]) }}"
                                                        class="form-submit-btn text-xs">
                                                         محاسبه {{ $part->name }}
@@ -863,7 +851,7 @@
                                                 @break
 
                                             @case(146)
-                                                @if(!session()->has('price'.$part->id))
+                                                @if(!session()->has('damper-btn-' . $part->id . $product->id))
                                                     <a href="{{ route('calculateDamper.taze.index',[$part->id,$product->id]) }}"
                                                        class="form-submit-btn text-xs">
                                                         محاسبه {{ $part->name }}
@@ -871,7 +859,7 @@
                                                 @endif
                                                 @break
                                             @case(148)
-                                                @if(!session()->has('price'.$part->id))
+                                                @if(!session()->has('damper-btn-' . $part->id . $product->id))
                                                     <a href="{{ route('calculateDamper.raft.index',[$part->id,$product->id]) }}"
                                                        class="form-submit-btn text-xs">
                                                         محاسبه {{ $part->name }}
@@ -879,7 +867,7 @@
                                                 @endif
                                                 @break
                                             @case(147)
-                                                @if(!session()->has('price'.$part->id))
+                                                @if(!session()->has('damper-btn-' . $part->id . $product->id))
                                                     <a href="{{ route('calculateDamper.bargasht.index',[$part->id,$product->id]) }}"
                                                        class="form-submit-btn text-xs">
                                                         محاسبه {{ $part->name }}
@@ -887,7 +875,7 @@
                                                 @endif
                                                 @break
                                             @case(149)
-                                                @if(!session()->has('price'.$part->id))
+                                                @if(!session()->has('damper-btn-' . $part->id . $product->id))
                                                     <a href="{{ route('calculateDamper.exast.index',[$part->id,$product->id]) }}"
                                                        class="form-submit-btn text-xs">
                                                         محاسبه {{ $part->name }}
