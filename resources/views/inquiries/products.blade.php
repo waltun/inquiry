@@ -94,15 +94,15 @@
                 </div>
                 <table class="border-collapse border border-gray-400 w-full">
                     <thead>
-                    <tr>
-                        <th class="border border-gray-300 p-4 text-sm">ردیف</th>
-                        <th class="border border-gray-300 p-4 text-sm">کد محصول</th>
-                        <th class="border border-gray-300 p-4 text-sm">دسته محصول</th>
-                        <th class="border border-gray-300 p-4 text-sm">مدل محصول</th>
-                        <th class="border border-gray-300 p-4 text-sm">تگ</th>
-                        <th class="border border-gray-300 p-4 text-sm">تعداد</th>
-                        <th class="border border-gray-300 p-4 text-sm">قیمت واحد</th>
-                        <th class="border border-gray-300 p-4 text-sm">قیمت کل</th>
+                    <tr class="bg-indigo-200">
+                        <th class="border border-white p-4 text-sm">ردیف</th>
+                        <th class="border border-white p-4 text-sm">کد محصول</th>
+                        <th class="border border-white p-4 text-sm">دسته محصول</th>
+                        <th class="border border-white p-4 text-sm">مدل محصول</th>
+                        <th class="border border-white p-4 text-sm">تگ</th>
+                        <th class="border border-white p-4 text-sm">تعداد</th>
+                        <th class="border border-white p-4 text-sm">قیمت واحد</th>
+                        <th class="border border-white p-4 text-sm">قیمت کل</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -173,13 +173,13 @@
                 </div>
                 <table class="border-collapse border border-gray-400 w-full">
                     <thead>
-                    <tr>
-                        <th class="border border-gray-300 p-4 text-sm">ردیف</th>
-                        <th class="border border-gray-300 p-4 text-sm">کد قطعه</th>
-                        <th class="border border-gray-300 p-4 text-sm">نام قطعه</th>
-                        <th class="border border-gray-300 p-4 text-sm">تعداد</th>
-                        <th class="border border-gray-300 p-4 text-sm">قیمت واحد</th>
-                        <th class="border border-gray-300 p-4 text-sm">قیمت کل</th>
+                    <tr class="bg-indigo-200">
+                        <th class="border border-white p-4 text-sm">ردیف</th>
+                        <th class="border border-white p-4 text-sm">کد قطعه</th>
+                        <th class="border border-white p-4 text-sm">نام قطعه</th>
+                        <th class="border border-white p-4 text-sm">تعداد</th>
+                        <th class="border border-white p-4 text-sm">قیمت واحد</th>
+                        <th class="border border-white p-4 text-sm">قیمت کل</th>
                     </tr>
                     </thead>
                     <tbody>

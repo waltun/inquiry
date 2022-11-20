@@ -146,7 +146,7 @@
     </nav>
 
     <!-- Search -->
-    <div class="mt-4 grid grid-cols-3 gap-4">
+    <div class="mt-4 grid grid-cols-4 gap-4">
         <div class="bg-white p-4 shadow-md rounded-md border border-gray-200">
             <form>
                 <div class="mb-4">
@@ -233,7 +233,7 @@
                 </div>
             </form>
         </div>
-        <div class="bg-white p-4 shadow-md rounded-md border border-gray-200">
+        <div class="bg-white p-4 shadow-md rounded-md border border-gray-200 col-span-2">
             <form class="grid grid-cols-3 gap-2">
                 <div>
                     <label for="inputCategory1" class="block mb-2 md:text-sm text-xs text-black">دسته بندی
@@ -255,7 +255,7 @@
                         @endphp
                         <label for="inputCategory2" class="block mb-2 md:text-sm text-xs text-black">زیردسته
                             اول</label>
-                        <select name="category2" id="inputCategory2" class="input-text" onchange="getCategory2()">
+                        <select name="category2" id="inputCategory2" class="input-text text-xs" onchange="getCategory2()">
                             <option value="">انتخاب کنید</option>
                             @foreach($category2 as $category)
                                 <option
@@ -273,7 +273,7 @@
                         @endphp
                         <label for="inputCategory3" class="block mb-2 md:text-sm text-xs text-black">زیردسته
                             دوم</label>
-                        <select name="category3" id="inputCategory3" class="input-text">
+                        <select name="category3" id="inputCategory3" class="input-text text-xs">
                             <option value="">انتخاب کنید</option>
                             @foreach($category3 as $category)
                                 <option

@@ -115,6 +115,9 @@
                                 نام
                             </th>
                             <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                                واحد
+                            </th>
+                            <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                                 قیمت قبلی
                             </th>
                             <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
@@ -139,6 +142,9 @@
                                 </td>
                                 <td class="px-4 py-1 whitespace-nowrap">
                                     <p class="text-sm text-black text-center font-medium">{{ $part->name }}</p>
+                                </td>
+                                <td class="px-4 py-1 whitespace-nowrap">
+                                    <p class="text-sm text-black text-center font-medium">{{ $part->unit }}</p>
                                 </td>
                                 <td class="px-4 py-1 whitespace-nowrap">
                                     @if($part->old_price > 0)

@@ -8,11 +8,14 @@
 <x-layout>
     <x-slot name="js">
         <script src="{{ asset('plugins/jquery.min.js') }}"></script>
-        <script src="{{ asset('plugins/select2/select2.min.js') }}"></script>
         <script>
-            $(".inputAmount").select2({
-                tags: true
-            });
+            function multiFunctions(event, part, id, cid) {
+                changePrice(event, part);
+
+                showCalculateButton(id);
+
+                changeFormula(event, cid);
+            }
         </script>
         <script>
             function showCalculateButton(id) {
@@ -202,17 +205,24 @@
                     },
                     success: function (res) {
                         let part = res.data;
-                        let value = document.getElementById('inputUnit' + cid).value;
-                        let input = document.getElementById('inputAmount' + cid);
-                        let inputValue = document.getElementById('inputUnitValue' + cid);
+                        if (part.unit2 != null) {
+                            let inputUnit = document.getElementById('inputUnit' + cid);
+                            if (inputUnit) {
+                                let value = inputUnit.value;
+                                let input = document.getElementById('inputAmount' + cid);
+                                let inputValue = document.getElementById('inputUnitValue' + cid);
 
-                        let operator2 = part.operator1;
-                        let formula2 = part.formula1;
-                        let result = 0;
+                                let operator2 = part.operator1;
+                                let formula2 = part.formula1;
+                                let result = 0;
 
-                        result = eval(value + operator2 + formula2);
-                        input.value = Intl.NumberFormat().format(result);
-                        inputValue.value = value;
+                                console.log(value, operator2, formula2);
+
+                                result = eval(value + operator2 + formula2);
+                                input.value = result;
+                                inputValue.value = value;
+                            }
+                        }
                     }
                 });
             }
@@ -243,17 +253,6 @@
             }
         </script>
         <script>
-            function changeBorder(event, id) {
-                let value = event.target.value;
-                let input = document.getElementById("inputAmount" + id);
-                if (value == '0') {
-                    input.classList.add('border-yellow-500');
-                } else {
-                    input.classList.remove('border-yellow-500');
-                }
-            }
-        </script>
-        <script>
             function changeUnit1(event, cid) {
 
                 let id = document.getElementById('groupPartList' + cid).value;
@@ -280,8 +279,8 @@
                         let result = 0;
 
                         result = eval(value + operator1 + formula1);
-                        input2.value = Intl.NumberFormat().format(result);
-                        inputValue.value = Intl.NumberFormat().format(result);
+                        input2.value = result;
+                        inputValue.value = result;
                     }
                 });
             }
@@ -312,7 +311,7 @@
                         let result = 0;
 
                         result = eval(value + operator2 + formula2);
-                        input1.value = Intl.NumberFormat().format(result);
+                        input1.value = result;
                         inputValue.value = value;
                     }
                 });
@@ -338,13 +337,35 @@
                     success: function (res) {
                         let parts = res.data;
                         section.innerHTML = `
-                            <select class="input-text" onchange="changePart(event,${part})" id="inputCategory${part}">
+                            <select class="input-text" onchange="changePart(event,${part}) changePrice(event,${part})" id="inputCategory${part}">
                                     ${
                             parts.map(function (part) {
                                 return `<option value="${part.id}">${part.name}</option>`
                             })
                         }
                             </select>`
+                    }
+                });
+            }
+
+            function changePrice(event, part) {
+                let id = event.target.value;
+                let priceSection = document.getElementById('changePriceSection' + part);
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('inquiries.product.changePrice') }}',
+                    data: {
+                        id: id,
+                    },
+                    success: function (res) {
+                        priceSection.innerText = Intl.NumberFormat().format(res.price);
                     }
                 });
             }
@@ -437,8 +458,9 @@
                 <tr>
                     <th class="p-2 text-sm border border-gray-300">ردیف</th>
                     <th class="p-2 text-sm border border-gray-300">دسته بندی</th>
-                    <th class="p-2 text-sm border border-gray-300">نام قطعه</th>
-                    <th class="p-2 text-sm border border-gray-300">واحد قطعه</th>
+                    <th class="p-2 text-sm border border-gray-300">نام</th>
+                    <th class="p-2 text-sm border border-gray-300">قیمت</th>
+                    <th class="p-2 text-sm border border-gray-300">واحد</th>
                     <th class="p-2 text-sm border border-gray-300">مقادیر</th>
                 </tr>
                 </thead>
@@ -519,7 +541,7 @@
                                     $categoryParts = $lastCategory->parts;
                                 @endphp
                                 <select name="part_ids[]" class="input-text" id="groupPartList{{ $part->id }}"
-                                        onchange="showCalculateButton('{{ $part->id }}'); changeFormula(event,{{ $part->id }});">
+                                        onchange="multiFunctions(event,{{ $part->id }},{{ $part->id }},{{ $part->id }})">
                                     @foreach($categoryParts as $part2)
                                         @if(!session()->has('selectedPart' . $part2->id))
                                             <option
@@ -645,6 +667,11 @@
 
                                     </div>
                                 </div>
+                            </td>
+                            <td class="p-2 text-sm text-center border border-gray-300">
+                                <span id="changePriceSection{{ $part->id }}">
+                                    {{ number_format($part->price) }}
+                                </span>
                             </td>
                             <td class="p-2 text-sm text-center border border-gray-300">
                                 @if(is_null($part->unit2))
@@ -791,7 +818,7 @@
                                     $categoryParts = $lastCategory->parts;
                                 @endphp
                                 <select name="part_ids[]" class="input-text" id="groupPartList{{ $part->id }}"
-                                        onchange="showCalculateButton('{{ $part->id }}'); changeFormula(event,{{ $part->id }});">
+                                        onchange="multiFunctions(event,{{ $part->id }},{{ $part->id }},{{ $part->id }})">
                                     @foreach($categoryParts as $part2)
                                         @if(!session()->has('selectedPart' . $part2->id))
                                             <option
@@ -915,6 +942,11 @@
 
                                     </div>
                                 </div>
+                            </td>
+                            <td class="border border-gray-300 p-2 text-sm text-center">
+                                <span id="changePriceSection{{ $part->id }}">
+                                    {{ number_format($part->price) }}
+                                </span>
                             </td>
                             <td class="border border-gray-300 p-2 text-sm text-center">
                                 @if(is_null($part->unit2))

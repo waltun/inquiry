@@ -352,8 +352,8 @@
             @endforeach
         @endif
         <!-- Laptop & Mobile Parts List -->
-        @if(!$inquiry->products()->where('part_id','!=',0)->where('sort','ASC')->get()->isEmpty())
-            @foreach($inquiry->products()->where('part_id','!=',0)->get() as $product)
+        @if(!$inquiry->products()->where('part_id','!=',0)->get()->isEmpty())
+            @foreach($inquiry->products()->where('part_id','!=',0)->orderBy('sort','ASC')->get() as $product)
                 @php
                     $finalPrice += $product->price;
                     $part = \App\Models\Part::find($product->part_id);

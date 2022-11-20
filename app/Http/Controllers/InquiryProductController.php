@@ -408,6 +408,13 @@ class InquiryProductController extends Controller
         return response(['data' => $parts]);
     }
 
+    public function changePrice(Request $request)
+    {
+        $part = Part::find($request->id);
+        $price = $part->price;
+        return response(['price' => $price]);
+    }
+
     public function getPart(Request $request)
     {
         $part = Part::find($request->id);

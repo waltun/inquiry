@@ -161,7 +161,8 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block mb-2 text-sm font-bold" for="inputLooleMessiSucshen">لوله مسی خط ساکشن</label>
+                        <label class="block mb-2 text-sm font-bold" for="inputLooleMessiSucshen">لوله مسی خط
+                            ساکشن</label>
                         <select name="loole_messi_sucshen" id="inputLooleMessiSucshen" class="input-text bg-yellow-300">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::find('77')->id }}"
@@ -580,7 +581,8 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block mb-2 text-sm font-bold" for="inputSizeLooleAb">سایز لوله ورودی و خروجی آب</label>
+                        <label class="block mb-2 text-sm font-bold" for="inputSizeLooleAb">سایز لوله ورودی و خروجی
+                            آب</label>
                         <select name="size_loole_ab" id="inputSizeLooleAb" class="input-text bg-yellow-300">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::find('71')->id }}"
@@ -792,7 +794,55 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block mb-2 text-sm font-bold" for="inputTooleLooleMessi">تعداد لوله مسی</label>
+                        <label class="block mb-2 text-sm font-bold" for="inputSetare">
+                            ستاره آلومینیومی
+                        </label>
+                        <select name="setare" id="inputSetare" class="input-text bg-yellow-300">
+                            <option value="">انتخاب کنید</option>
+                            <option value="1"
+                                {{ is_null($inputs) ? (old('setare') == '1' ? 'selected' : '') : ($inputs['setare'] == "1" ? 'selected' : (old('setare') == '1' ? 'selected' : '')) }}>
+                                1
+                            </option>
+                            <option value="1"
+                                {{ is_null($inputs) ? (old('setare') == '2' ? 'selected' : '') : ($inputs['setare'] == "2" ? 'selected' : (old('setare') == '2' ? 'selected' : '')) }}>
+                                2
+                            </option>
+                            <option value="1"
+                                {{ is_null($inputs) ? (old('setare') == '3' ? 'selected' : '') : ($inputs['setare'] == "3" ? 'selected' : (old('setare') == '3' ? 'selected' : '')) }}>
+                                3
+                            </option>
+                            <option value="1"
+                                {{ is_null($inputs) ? (old('setare') == '4' ? 'selected' : '') : ($inputs['setare'] == "4" ? 'selected' : (old('setare') == '4' ? 'selected' : '')) }}>
+                                4
+                            </option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-bold" for="inputNoeBafel">
+                            ضخامت (نوع) بفل
+                        </label>
+                        <select name="noe_bafel" id="inputNoeBafel" class="input-text bg-yellow-300">
+                            <option value="">انتخاب کنید</option>
+                            <option value="1"
+                                {{ is_null($inputs) ? (old('noe_bafel') == '1' ? 'selected' : '') : ($inputs['noe_bafel'] == "1" ? 'selected' : (old('noe_bafel') == '1' ? 'selected' : '')) }}>
+                                1
+                            </option>
+                            <option value="1"
+                                {{ is_null($inputs) ? (old('noe_bafel') == '2' ? 'selected' : '') : ($inputs['noe_bafel'] == "2" ? 'selected' : (old('noe_bafel') == '2' ? 'selected' : '')) }}>
+                                2
+                            </option>
+                            <option value="1"
+                                {{ is_null($inputs) ? (old('noe_bafel') == '3' ? 'selected' : '') : ($inputs['noe_bafel'] == "3" ? 'selected' : (old('noe_bafel') == '3' ? 'selected' : '')) }}>
+                                3
+                            </option>
+                            <option value="1"
+                                {{ is_null($inputs) ? (old('noe_bafel') == '4' ? 'selected' : '') : ($inputs['noe_bafel'] == "4" ? 'selected' : (old('noe_bafel') == '4' ? 'selected' : '')) }}>
+                                4
+                            </option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-bold" for="inputTedadLooleMessi">تعداد لوله مسی</label>
                         <input name="tedad_loole_messi" type="text" class="input-text bg-yellow-300"
                                id="inputTedadLooleMessi"
                                value="{{ !is_null($inputs) ? $inputs['tedad_loole_messi'] : old('tedad_loole_messi') }}">
@@ -802,6 +852,12 @@
                         <input name="toole_loole_pooste" type="text" class="input-text bg-yellow-300"
                                id="inputTooleLoolePooste"
                                value="{{ !is_null($inputs) ? $inputs['toole_loole_pooste'] : old('toole_loole_pooste') }}">
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-bold" for="inputTedadBafel">تعداد بفل</label>
+                        <input name="tedad_bafel" type="text" class="input-text bg-yellow-300"
+                               id="inputTedadBafel"
+                               value="{{ !is_null($inputs) ? $inputs['tedad_bafel'] : old('tedad_bafel') }}">
                     </div>
                 </div>
             </div>
