@@ -114,8 +114,9 @@
     </div>
 
     @php
-        $inputs = null;
-        $values = null;
+        $values = Session::get('values');
+        $selectedParts = Session::get('selectedParts');
+        $inputs = Session::get('inputs');
     @endphp
 
     <form method="POST" action="{{ route('separate.converter.calculateEvaporator') }}">
@@ -535,9 +536,10 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block mb-2 text-sm font-bold" for="inputFlanch">فلنج ورودی و خروجی</label>
+                        <label class="block mb-2 text-sm font-bold" for="inputFlanch">فلنچ ورودی و خروجی</label>
                         <select name="flanch" id="inputFlanch" class="input-text bg-yellow-300">
                             <option value="">انتخاب کنید</option>
+                            <option value="">ندارد</option>
                             <option value="{{ \App\Models\Part::find('1155')->id }}"
                                 {{ is_null($inputs) ? (old('flanch') == '1155' ? 'selected' : '') : ($inputs['flanch'] == "1155" ? 'selected' : (old('flanch') == '1155' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::find('1155')->name }}
@@ -627,6 +629,7 @@
                         <label class="block mb-2 text-sm font-bold" for="inputSardande">سر دنده ورودی و خروجی</label>
                         <select name="sardande" id="inputSardande" class="input-text bg-yellow-300">
                             <option value="">انتخاب کنید</option>
+                            <option value="">ندارد</option>
                             <option value="{{ \App\Models\Part::find('1209')->id }}"
                                 {{ is_null($inputs) ? (old('sardande') == '1209' ? 'selected' : '') : ($inputs['sardande'] == "1209" ? 'selected' : (old('sardande') == '1209' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::find('1209')->name }}
@@ -799,21 +802,9 @@
                         </label>
                         <select name="setare" id="inputSetare" class="input-text bg-yellow-300">
                             <option value="">انتخاب کنید</option>
-                            <option value="1"
-                                {{ is_null($inputs) ? (old('setare') == '1' ? 'selected' : '') : ($inputs['setare'] == "1" ? 'selected' : (old('setare') == '1' ? 'selected' : '')) }}>
-                                1
-                            </option>
-                            <option value="1"
-                                {{ is_null($inputs) ? (old('setare') == '2' ? 'selected' : '') : ($inputs['setare'] == "2" ? 'selected' : (old('setare') == '2' ? 'selected' : '')) }}>
-                                2
-                            </option>
-                            <option value="1"
-                                {{ is_null($inputs) ? (old('setare') == '3' ? 'selected' : '') : ($inputs['setare'] == "3" ? 'selected' : (old('setare') == '3' ? 'selected' : '')) }}>
-                                3
-                            </option>
-                            <option value="1"
-                                {{ is_null($inputs) ? (old('setare') == '4' ? 'selected' : '') : ($inputs['setare'] == "4" ? 'selected' : (old('setare') == '4' ? 'selected' : '')) }}>
-                                4
+                            <option value="{{ \App\Models\Part::find('1107')->id }}"
+                                {{ is_null($inputs) ? (old('setare') == '1107' ? 'selected' : '') : ($inputs['setare'] == "1107" ? 'selected' : (old('setare') == '1107' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1107')->name }}
                             </option>
                         </select>
                     </div>
@@ -823,21 +814,69 @@
                         </label>
                         <select name="noe_bafel" id="inputNoeBafel" class="input-text bg-yellow-300">
                             <option value="">انتخاب کنید</option>
-                            <option value="1"
-                                {{ is_null($inputs) ? (old('noe_bafel') == '1' ? 'selected' : '') : ($inputs['noe_bafel'] == "1" ? 'selected' : (old('noe_bafel') == '1' ? 'selected' : '')) }}>
-                                1
+                            <option value="{{ \App\Models\Part::find('1148')->id }}"
+                                {{ is_null($inputs) ? (old('noe_bafel') == '1148' ? 'selected' : '') : ($inputs['noe_bafel'] == "1148" ? 'selected' : (old('noe_bafel') == '1148' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1148')->name }}
                             </option>
-                            <option value="1"
-                                {{ is_null($inputs) ? (old('noe_bafel') == '2' ? 'selected' : '') : ($inputs['noe_bafel'] == "2" ? 'selected' : (old('noe_bafel') == '2' ? 'selected' : '')) }}>
-                                2
+                            <option value="{{ \App\Models\Part::find('1149')->id }}"
+                                {{ is_null($inputs) ? (old('noe_bafel') == '1149' ? 'selected' : '') : ($inputs['noe_bafel'] == "1149" ? 'selected' : (old('noe_bafel') == '1149' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1149')->name }}
                             </option>
-                            <option value="1"
-                                {{ is_null($inputs) ? (old('noe_bafel') == '3' ? 'selected' : '') : ($inputs['noe_bafel'] == "3" ? 'selected' : (old('noe_bafel') == '3' ? 'selected' : '')) }}>
-                                3
+                            <option value="{{ \App\Models\Part::find('1150')->id }}"
+                                {{ is_null($inputs) ? (old('noe_bafel') == '1150' ? 'selected' : '') : ($inputs['noe_bafel'] == "1150" ? 'selected' : (old('noe_bafel') == '1150' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1150')->name }}
                             </option>
-                            <option value="1"
-                                {{ is_null($inputs) ? (old('noe_bafel') == '4' ? 'selected' : '') : ($inputs['noe_bafel'] == "4" ? 'selected' : (old('noe_bafel') == '4' ? 'selected' : '')) }}>
-                                4
+                            <option value="{{ \App\Models\Part::find('1151')->id }}"
+                                {{ is_null($inputs) ? (old('noe_bafel') == '1151' ? 'selected' : '') : ($inputs['noe_bafel'] == "1151" ? 'selected' : (old('noe_bafel') == '1151' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1151')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('1152')->id }}"
+                                {{ is_null($inputs) ? (old('noe_bafel') == '1152' ? 'selected' : '') : ($inputs['noe_bafel'] == "1152" ? 'selected' : (old('noe_bafel') == '1152' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1152')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('1153')->id }}"
+                                {{ is_null($inputs) ? (old('noe_bafel') == '1153' ? 'selected' : '') : ($inputs['noe_bafel'] == "1153" ? 'selected' : (old('noe_bafel') == '1153' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1153')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('1154')->id }}"
+                                {{ is_null($inputs) ? (old('noe_bafel') == '1154' ? 'selected' : '') : ($inputs['noe_bafel'] == "1154" ? 'selected' : (old('noe_bafel') == '1154' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1154')->name }}
+                            </option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-bold" for="inputSpacer">
+                            اسپیسر (Spacer)
+                        </label>
+                        <select name="spacer" id="inputSpacer" class="input-text bg-yellow-300">
+                            <option value="">انتخاب کنید</option>
+                            <option value="{{ \App\Models\Part::find('1148')->id }}"
+                                {{ is_null($inputs) ? (old('spacer') == '1148' ? 'selected' : '') : ($inputs['spacer'] == "1148" ? 'selected' : (old('spacer') == '1148' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1148')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('1149')->id }}"
+                                {{ is_null($inputs) ? (old('spacer') == '1149' ? 'selected' : '') : ($inputs['spacer'] == "1149" ? 'selected' : (old('spacer') == '1149' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1149')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('1150')->id }}"
+                                {{ is_null($inputs) ? (old('spacer') == '1150' ? 'selected' : '') : ($inputs['spacer'] == "1150" ? 'selected' : (old('spacer') == '1150' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1150')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('1151')->id }}"
+                                {{ is_null($inputs) ? (old('spacer') == '1151' ? 'selected' : '') : ($inputs['spacer'] == "1151" ? 'selected' : (old('spacer') == '1151' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1151')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('1152')->id }}"
+                                {{ is_null($inputs) ? (old('spacer') == '1152' ? 'selected' : '') : ($inputs['spacer'] == "1152" ? 'selected' : (old('spacer') == '1152' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1152')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('1153')->id }}"
+                                {{ is_null($inputs) ? (old('spacer') == '1153' ? 'selected' : '') : ($inputs['spacer'] == "1153" ? 'selected' : (old('spacer') == '1153' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1153')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('1154')->id }}"
+                                {{ is_null($inputs) ? (old('spacer') == '1154' ? 'selected' : '') : ($inputs['spacer'] == "1154" ? 'selected' : (old('spacer') == '1154' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1154')->name }}
                             </option>
                         </select>
                     </div>
@@ -988,16 +1027,16 @@
 
                 <div class="my-4 bg-red-300 p-4 rounded-md shadow-md">
                     <label class="block mb-2 text-sm font-bold" for="inputCoilName">
-                        نام کویل مورد نظر
+                        نام اواپراتور مورد نظر
                     </label>
                     <input type="text" class="input-text" id="inputCoilName" name="name" dir="ltr"
-                           value="{{ $name }}">
+                           value="11">
                 </div>
 
                 @can('users')
                     <div class="my-4 bg-red-300 p-4 rounded-md shadow-md">
                         <label class="block mb-2 text-sm font-bold" for="inputCoilCategory">
-                            دسته بندی کویل
+                            دسته بندی اواپراتور
                         </label>
                         <div class="grid grid-cols-3 gap-4">
                             <div>

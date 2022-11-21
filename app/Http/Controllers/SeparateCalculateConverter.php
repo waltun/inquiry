@@ -39,10 +39,14 @@ class SeparateCalculateConverter extends Controller
             'sardande' => 'required',
             'tube' => 'required',
             'ring' => 'required',
-            'tedad_madar' => 'required',
             'toole_loole_messi' => 'required',
+            'tedad_madar' => 'required',
+            'setare' => 'required',
+            'noe_bafel' => 'required',
+            'spacer' => 'required',
             'tedad_loole_messi' => 'required',
-            'toole_loole_pooste' => 'required'
+            'toole_loole_pooste' => 'required',
+            'tedad_bafel' => 'required'
         ]);
 
         //Ids
@@ -86,6 +90,14 @@ class SeparateCalculateConverter extends Controller
         $setarePart = Part::find($setareId);
         $noeBafelPart = Part::find($noeBafelId);
         $spacerPart = Part::find($spacerId);
+        $capPart = Part::find($capId);
+        $pichPart = Part::find($pichId);
+        $boshenAirPart = Part::find($boshenAirId);
+        $boshenFreezePart = Part::find($boshenFreezeId);
+        $flanchPart = Part::find($flanchId);
+        $sardandePart = Part::find($sardandeId);
+        $sizeLoolePoostePart = Part::find($sizeLoolePoosteId);
+        $sensorPart = Part::find($sensorId);
 
         // Values
         $looleAhani = $tooleLoolePooste * $looleAhaniPart->formula1;
@@ -156,17 +168,18 @@ class SeparateCalculateConverter extends Controller
         $boshenFreeze = 1;
         $sensor = 2;
 
-        $varaghMasrafiTube *= (($ghotreLoolePooste * 2.54 / 100) + 12) * 2 * $tubePart->formula1;
-        $varaghMasrafiRing *= (($ghotreLoolePooste * 2.54 / 100) + 12) * 2 * $ringPart->formula1;
+        $varaghMasrafiTubeA = (($ghotreLoolePooste * 2.54 / 100) + 12) * 2;
+        $varaghMasrafiTube = $varaghMasrafiTubeA * $tubePart->formula1;
+        $varaghMasrafiRingA = (($ghotreLoolePooste * 2.54 / 100) + 12) * 2;
+        $varaghMasrafiRing = $varaghMasrafiRingA * $ringPart->formula1;
 
         $profilSetare = $tooleLooleMessi * $tedadLooleMessi * $setarePart->formula1;
 
-        $varaghPolyEtilenBafel *= ((($ghotreLoolePooste * 2.54) + 6) / 100 * ($tedadBafel + 2)) * $noeBafelPart->formula1;
+        $varaghPolyEtilenBafelA = ((($ghotreLoolePooste * 2.54) + 6) / 100 * ($tedadBafel + 2));
+        $varaghPolyEtilenBafel = $varaghPolyEtilenBafelA * $noeBafelPart->formula1;
 
-        //TODO: select box Spacer
-        $varaghPolyEtilenSpacer *= (($ghotreLoolePooste * 2.54) + 12) / 100 * $spacerPart->formula;
-
-        $flanch = 2;
+        $varaghPolyEtilenSpacerA = (($ghotreLoolePooste * 2.54) + 12) / 100;
+        $varaghPolyEtilenSpacer = $varaghPolyEtilenSpacerA * $spacerPart->formula1;
 
         $khamirLikLak = $tedadLooleMessi * 2;
 
@@ -260,9 +273,72 @@ class SeparateCalculateConverter extends Controller
 
         $tiner = $rang * 2;
 
-        //Agar darad bood khodesh 2 va flanch 0, agar nadasht khodesh 0
-        //agar flanch darad bood, sardande 0 shavad
-        //Sardande va flanch mesle collector ahani va messi coil ha disabli bashad, gozine nadarad dashte bashan
+        $flanch = 0;
+        $sardande = 0;
+        if ($flanchId == '' || $flanchId == null) {
+            $sardande = 2;
+            $flanch = 0;
+        }
+
+        if ($sardandeId == '' || $sardandeId == null) {
+            $flanch = 2;
+            $sardande = 0;
+        }
+
+        $selectedParts = [
+            '0' => $sizeLooleAbPart,
+            '1' => $looleMessiSucshenPart,
+            '2' => $looleMessiMayePart,
+            '5' => $navdaniPart,
+            '6' => $looleMessiPart,
+            '8' => $ayeghPart,
+            '10' => $capPart,
+            '11' => $sizeLoolePoostePart,
+            '12' => $sensorPart,
+            '13' => $setarePart,
+            '14' => $noeBafelPart,
+            '15' => $spacerPart,
+            '16' => $flanchPart,
+            '17' => $boshenAirPart,
+            '18' => $boshenFreezePart,
+            '19' => $tubePart,
+            '20' => $ringPart,
+            '23' => $pichPart,
+            '27' => $sardandePart,
+        ];
+
+        $values = [
+            $sizeLooleConnectionAb,
+            $looleMessiSucshen,
+            $looleMessiMaye,
+            $azot,
+            $electrodBerenj,
+            $navdani,
+            $looleMessi,
+            $electrodBargh,
+            $ayegh,
+            $chasb,
+            $cap,
+            $ghotreLoolePooste,
+            $sensor,
+            $profilSetare,
+            $varaghPolyEtilenBafel,
+            $varaghPolyEtilenSpacer,
+            $flanch,
+            $boshenAir,
+            $boshenFreeze,
+            $varaghMasrafiTube,
+            $varaghMasrafiRing,
+            $khamirLikLak,
+            $electrodBargh,
+            $pich,
+            $rang,
+            $tiner,
+            $zanooyi,
+            $sardande
+        ];
+
+        return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs' => $inputs]);
     }
 
     public function storeEvaporator(Request $request, Part $part)
