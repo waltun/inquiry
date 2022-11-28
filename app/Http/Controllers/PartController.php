@@ -131,6 +131,21 @@ class PartController extends Controller
         $part->categories()->detach();
         $part->categories()->sync($data['categories']);
 
+        if (!$part->parents->isEmpty()) {
+            foreach ($part->parents as $parent) {
+                $price = 0;
+                foreach ($parent->children as $child) {
+                    $price += $child->price * $child->pivot->value;
+                }
+                $parent->update([
+                    'price' => $price,
+                    'old_price' => $parent->price,
+                    'price_updated_at' => now(),
+                    'updated_at' => now()
+                ]);
+            }
+        }
+
         alert()->success('ویرایش موفق', 'ویرایش قطعه با موفقیت انجام شد');
 
         if ($data['collection']) {
