@@ -14,6 +14,7 @@ use App\Http\Controllers\InquiryPartController;
 use App\Http\Controllers\InquiryPriceController;
 use App\Http\Controllers\InquiryProductController;
 use App\Http\Controllers\ModellController;
+use App\Http\Controllers\NewPartInquiryController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PartController;
 use App\Http\Controllers\PartOfGroupController;
@@ -133,6 +134,11 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/inquiries/product-percent/multi-part-percent', [InquiryPartController::class, 'multiPercent'])->name('inquiries.parts.multiPercent');
     Route::post('/inquiries/{inquiry}/part-amounts', [InquiryPartController::class, 'storeAmounts'])->name('inquiries.parts.storeAmounts');
     Route::delete('/inquiries/{inquiry}/{part}/destroy-part', [InquiryPartController::class, 'destroy'])->name('inquiries.parts.destory');
+
+    //New Part Inquiry routes
+    Route::get('/inquiries/{product}/new-part-inquiry', [NewPartInquiryController::class, 'create'])->name('inquiries.newPart.create');
+    Route::post('/inquiries/{product}/{part}/new-part-inquiry', [NewPartInquiryController::class, 'store'])->name('inquiries.newPart.store');
+    Route::delete('/inquiries/{amount}/destroy-amount', [NewPartInquiryController::class, 'destroy'])->name('inquiries.newPart.destroy');
 
     Route::resource('inquiries', InquiryController::class);
 
