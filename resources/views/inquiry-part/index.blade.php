@@ -30,6 +30,9 @@
         </script>
         <script>
             function storeInquiryPrice(part, inquiry) {
+                let successUpdatePrice = document.getElementById('successUpdatePrice' + part);
+                let updatePriceBtn = document.getElementById('updatePriceBtn' + part);
+
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -44,7 +47,8 @@
                         inquiry_id: inquiry
                     },
                     success: function (res) {
-                        location.reload();
+                        successUpdatePrice.classList.remove('hidden');
+                        updatePriceBtn.classList.add('hidden');
                     }
                 });
             }
@@ -110,7 +114,7 @@
 
                         result = eval(value + operator1 + formula1);
                         input2.value = Intl.NumberFormat().format(result);
-                        inputValue.value = Intl.NumberFormat().format(result);
+                        inputValue.value = value;
                     }
                 });
             }
@@ -335,6 +339,9 @@
                             نام قطعه
                         </th>
                         <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                            قیمت واحد
+                        </th>
+                        <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                             واحد
                         </th>
                         <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
@@ -348,10 +355,12 @@
                     <tbody>
                     @php
                         $color = '';
+                        $totalPrice = 0;
                     @endphp
                     @foreach($inquiry->products()->where('part_id','!=',0)->orderBy('sort','ASC')->get() as $product)
                         @php
                             $part = \App\Models\Part::find($product->part_id);
+                            $totalPrice += $part->price * $product->quantity;
 
                             if ($setting) {
                                 if($setting->price_color_type == 'month') {
@@ -418,6 +427,11 @@
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap">
                                 <p class="text-sm text-black text-center">
+                                    {{ number_format($part->price) }}
+                                </p>
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                <p class="text-sm text-black text-center">
                                     {{ $part->unit }}
                                     @if(!is_null($part->unit2))
                                         / {{ $part->unit2 }}
@@ -460,27 +474,62 @@
                                         ضریب ثبت شده
                                     </p>
                                 @endif
+                                @php
+                                    $parents = [];
+                                @endphp
                                 @if($color == 'bg-red-500' || $color == 'bg-red-600')
                                     @php
                                         $inquiryPrice = \App\Models\InquiryPrice::where('part_id',$part->id)->pluck('part_id')->all();
+                                        $inquiryPrices = \App\Models\InquiryPrice::all()->pluck('part_id');
+                                        foreach ($inquiryPrices as $item) {
+                                            $inquiryPart = \App\Models\Part::find($item);
+                                            if (!$inquiryPart->parents->isEmpty()) {
+                                                $parents = $inquiryPart->parents->pluck('id')->toArray();
+                                            }
+                                        }
                                     @endphp
-                                    @if(!in_array($part->id,$inquiryPrice))
-                                        <button type="button"
-                                                onclick="storeInquiryPrice({{ $part->id }},{{ $inquiry->id }})"
-                                                class="text-xs font-bold text-black underline underline-offset-4 whitespace-nowrap mr-2">
-                                            درخواست بروزرسانی قیمت
+                                    @if(!in_array($part->id,$inquiryPrice) && !in_array($part->id,$parents))
+                                        <button type="button" id="updatePriceBtn{{ $part->id }}"
+                                                onclick="storeInquiryPrice({{ $part->id }},{{ $inquiry->id }})">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                 title="ارسال درخواست بروزرسانی قیمت"
+                                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                 class="w-6 h-6 text-red-500">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                      d="M12 9v3.75m0-10.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.249-8.25-3.286zm0 13.036h.008v.008H12v-.008z"/>
+                                            </svg>
                                         </button>
                                     @else
-                                        <p class="text-xs font-bold text-black whitespace-nowrap mr-2 inline">
-                                            درخواست ارسال شد
+                                        <p class="inline">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                 class="w-6 h-6 text-red-500 inline">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                      d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                            </svg>
                                         </p>
                                     @endif
+                                    <p class="inline hidden" id="successUpdatePrice{{ $part->id }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                             viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                             class="w-6 h-6 text-red-500 inline">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                  d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                        </svg>
+                                    </p>
                                 @endif
                             </td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
+                @can('users')
+                    <div class="mt-4 flex justify-end p-4">
+                        <p class="px-4 py-2 rounded-md bg-green-500 text-white text-sm font-bold">
+                            قیمت کل : {{ number_format($totalPrice) }}
+                        </p>
+                    </div>
+                @endcan
             </div>
 
             <div class="mt-4">

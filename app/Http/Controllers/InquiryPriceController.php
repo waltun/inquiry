@@ -83,7 +83,10 @@ class InquiryPriceController extends Controller
 
                     if (!$updatedPart->parents->isEmpty()) {
                         foreach ($updatedPart->parents as $parent) {
-                            $price = $parent->children()->sum('price');
+                            $price = 0;
+                            foreach ($parent->children as $child) {
+                                $price += $child->price * $child->pivot->value;
+                            }
                             $parent->update([
                                 'price' => $price,
                                 'old_price' => $parent->price,

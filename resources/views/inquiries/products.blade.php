@@ -96,7 +96,6 @@
                     <thead>
                     <tr class="bg-indigo-200">
                         <th class="border border-white p-4 text-sm">ردیف</th>
-                        <th class="border border-white p-4 text-sm">کد محصول</th>
                         <th class="border border-white p-4 text-sm">دسته محصول</th>
                         <th class="border border-white p-4 text-sm">مدل محصول</th>
                         <th class="border border-white p-4 text-sm">تگ</th>
@@ -114,23 +113,11 @@
                             $group = \App\Models\Group::find($product->group_id);
                             $modell = \App\Models\Modell::find($product->model_id);
                             $totalPrice = 0;
-                            foreach($product->amounts as $amount)
-                            {
-                                $part = \App\Models\Part::find($amount->part_id);
-                                if ($amount->price > 0) {
-                                    $totalPrice += ($part->price * $amount->value) + ($amount->price * $amount->value);
-                                } else {
-                                    $totalPrice += ($part->price * $amount->value);
-                                }
-                            }
-                            $productFinalPrice += ($totalPrice * $product->percent) * $product->quantity;
+                            $productFinalPrice += $product->price * $product->quantity;
                         @endphp
                         <tr>
                             <td class="border border-gray-300 p-4 text-sm text-center">
                                 {{ $loop->index + 1 }}
-                            </td>
-                            <td class="border border-gray-300 p-4 text-sm text-center">
-                                {{ $group->code }}{{ $modell->parent->code }}{{ $modell->code}}
                             </td>
                             <td class="border border-gray-300 p-4 text-sm text-center">
                                 {{ $modell->parent->name }}
@@ -154,7 +141,7 @@
                     @endforeach
                     </tbody>
                     <tr>
-                        <td class="border border-gray-300 p-4 text-lg text-center font-bold" colspan="7">
+                        <td class="border border-gray-300 p-4 text-lg text-center font-bold" colspan="6">
                             قیمت کل
                         </td>
                         <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
@@ -175,7 +162,6 @@
                     <thead>
                     <tr class="bg-indigo-200">
                         <th class="border border-white p-4 text-sm">ردیف</th>
-                        <th class="border border-white p-4 text-sm">کد قطعه</th>
                         <th class="border border-white p-4 text-sm">نام قطعه</th>
                         <th class="border border-white p-4 text-sm">تعداد</th>
                         <th class="border border-white p-4 text-sm">قیمت واحد</th>
@@ -196,9 +182,6 @@
                                 {{ $loop->index + 1 }}
                             </td>
                             <td class="border border-gray-300 p-4 text-sm text-center">
-                                {{ $part->code }}
-                            </td>
-                            <td class="border border-gray-300 p-4 text-sm text-center">
                                 {{ $part->name }}
                             </td>
                             <td class="border border-gray-300 p-4 text-sm text-center">
@@ -214,7 +197,7 @@
                     @endforeach
                     </tbody>
                     <tr>
-                        <td class="border border-gray-300 p-4 text-lg text-center font-bold" colspan="5">
+                        <td class="border border-gray-300 p-4 text-lg text-center font-bold" colspan="4">
                             قیمت کل
                         </td>
                         <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">

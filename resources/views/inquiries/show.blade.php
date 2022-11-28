@@ -131,7 +131,6 @@
                     <table class="border-collapse border border-gray-400 w-full">
                         <thead class="sticky top-2">
                         <tr class="bg-indigo-200">
-                            <th class="border border-white p-4 text-sm">کد قطعه</th>
                             <th class="border border-white p-4 text-sm">نام قطعه</th>
                             <th class="border border-white p-4 text-sm">واحد</th>
                             @can('detail-inquiry')
@@ -148,20 +147,9 @@
                         @foreach($product->amounts()->orderBy('sort','ASC')->get() as $amount)
                             @php
                                 $part = \App\Models\Part::find($amount->part_id);
-                                if ($amount->price > 0){
-                                    $totalPrice += ($part->price * $amount->value) + ($amount->price * $amount->value);
-                                } else {
-                                    $totalPrice += ($part->price * $amount->value);
-                                }
-                                $code = '';
-                                foreach($part->categories as $category){
-                                    $code = $code . $category->code;
-                                }
+                                $totalPrice += ($amount->price * $amount->value);
                             @endphp
                             <tr>
-                                <td class="border border-gray-300 p-4 text-sm text-center">
-                                    {{ $code . "-" . $part->code }}
-                                </td>
                                 <td class="border border-gray-300 p-4 text-sm text-center">
                                     {{ $part->name }}
                                 </td>
@@ -173,11 +161,7 @@
                                 </td>
                                 @can('detail-inquiry')
                                     <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                                        @if($amount->price > 0)
-                                            {{ number_format($amount->price) }} تومان
-                                        @else
-                                            {{ number_format($part->price) }} تومان
-                                        @endif
+                                        {{ number_format($amount->price) }} تومان
                                     </td>
                                 @endcan
                                 <td class="border border-gray-300 p-4 text-sm text-center">
@@ -188,11 +172,7 @@
                                 </td>
                                 @can('detail-inquiry')
                                     <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                                        @if($amount->price > 0)
-                                            {{ number_format($amount->price * $amount->value) }} تومان
-                                        @else
-                                            {{ number_format($part->price * $amount->value) }} تومان
-                                        @endif
+                                        {{ number_format($amount->price * $amount->value) }} تومان
                                     </td>
                                 @endcan
                             </tr>
@@ -357,10 +337,6 @@
                 @php
                     $finalPrice += $product->price;
                     $part = \App\Models\Part::find($product->part_id);
-                    $code = '';
-                    foreach($part->categories as $category){
-                        $code = $code . $category->code;
-                    }
                 @endphp
                     <!-- Laptop Parts List -->
                 <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4 hidden md:block">
@@ -372,7 +348,6 @@
                     <table class="border-collapse border border-gray-400 w-full">
                         <thead class="sticky top-2">
                         <tr class="bg-indigo-200">
-                            <th class="border border-white p-4 text-sm">کد قطعه</th>
                             <th class="border border-white p-4 text-sm">نام قطعه</th>
                             <th class="border border-white p-4 text-sm">واحد قطعه</th>
                             @can('detail-inquiry')
@@ -383,9 +358,6 @@
                         <tbody>
                         <tr>
                             <td class="border border-gray-300 p-4 text-sm text-center">
-                                {{ $code . "-" . $part->code }}
-                            </td>
-                            <td class="border border-gray-300 p-4 text-sm text-center">
                                 {{ $part->name }}
                             </td>
                             <td class="border border-gray-300 p-4 text-sm text-center">
@@ -393,7 +365,7 @@
                             </td>
                             @can('detail-inquiry')
                                 <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                                    {{ number_format($part->price) }} تومان
+                                    {{ number_format($product->part_price) }} تومان
                                 </td>
                             @endcan
                         </tr>

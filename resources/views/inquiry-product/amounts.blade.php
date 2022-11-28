@@ -216,8 +216,6 @@
                                 let formula2 = part.formula1;
                                 let result = 0;
 
-                                console.log(value, operator2, formula2);
-
                                 result = eval(value + operator2 + formula2);
                                 input.value = result;
                                 inputValue.value = value;
@@ -280,7 +278,7 @@
 
                         result = eval(value + operator1 + formula1);
                         input2.value = result;
-                        inputValue.value = result;
+                        inputValue.value = value;
                     }
                 });
             }

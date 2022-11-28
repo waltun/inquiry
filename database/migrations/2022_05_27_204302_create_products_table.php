@@ -26,6 +26,8 @@ return new class extends Migration {
             $table->unsignedBigInteger('inquiry_id');
             $table->unsignedBigInteger('part_id')->default(0);
 
+            $table->bigInteger('part_price')->default(0)->nullable();
+
             $table->enum('copy_model', ['0', '1'])->default('0');
             $table->integer('sort')->default(0);
 

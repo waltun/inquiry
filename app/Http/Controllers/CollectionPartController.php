@@ -208,6 +208,7 @@ class CollectionPartController extends Controller
                 'parent_part_id' => $request->part_ids[$index],
                 'value2' => $request->units[$index],
                 'value' => $request->values[$index],
+                'sort' => $request->sorts[$index]
             ]);
 
             $totalPrice += ($child->price * $request->values[$index]);

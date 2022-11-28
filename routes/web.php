@@ -216,9 +216,14 @@ Route::middleware(['auth', 'web'])->group(function () {
 
     //Separate Converter Routes
     Route::get('/separate-calculate-converter', [SeparateCalculateConverter::class, 'index'])->name('separate.converter.index');
-    Route::get('/separate-calculate-coil/{part}/evaporator', [SeparateCalculateConverter::class, 'evaporator'])->name('separate.converter.evaporator');
-    Route::post('/separate-calculate-coil/evaporator', [SeparateCalculateConverter::class, 'calculateEvaporator'])->name('separate.converter.calculateEvaporator');
-    Route::post('/separate-calculate-coil/{part}/store-evaporator', [SeparateCalculateConverter::class, 'storeEvaporator'])->name('separate.converter.storeEvaporator');
+
+    Route::get('/separate-calculate-converter/{part}/evaporator', [SeparateCalculateConverter::class, 'evaporator'])->name('separate.converter.evaporator');
+    Route::post('/separate-calculate-converter/evaporator', [SeparateCalculateConverter::class, 'calculateEvaporator'])->name('separate.converter.calculateEvaporator');
+    Route::post('/separate-calculate-converter/{part}/store-evaporator', [SeparateCalculateConverter::class, 'storeEvaporator'])->name('separate.converter.storeEvaporator');
+
+    Route::get('/separate-calculate-converter/{part}/condensor', [SeparateCalculateConverter::class, 'condensor'])->name('separate.converter.condensor');
+    Route::post('/separate-calculate-converter/condensor', [SeparateCalculateConverter::class, 'calculateCondensor'])->name('separate.converter.calculateCondensor');
+    Route::post('/separate-calculate-converter/{part}/store-condensor', [SeparateCalculateConverter::class, 'storeCondensor'])->name('separate.converter.storeCondensor');
 
     //Inquiry Part Coils
     Route::post('/inquiry-part-coil/{inquiry}', [InquiryPartCoilController::class, 'index'])->name('inquiryPart.coil.index');

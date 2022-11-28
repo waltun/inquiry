@@ -147,7 +147,7 @@
                     <tr class="bg-sky-200">
                         <th scope="col"
                             class="px-4 py-3 text-sm font-bold text-gray-800 text-center rounded-r-md">
-                            #
+                            ردیف
                         </th>
                         <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                             دسته بندی
@@ -205,7 +205,8 @@
                         @endphp
                         <tr>
                             <td class="px-4 py-3 whitespace-nowrap">
-                                <p class="text-sm text-gray-500 text-center">{{ $loop->index + 1 }}</p>
+                                <input type="text" class="input-text w-14 text-center" name="sorts[]"
+                                       id="partSort{{ $child->id }}" value="{{ $child->pivot->sort }}">
                             </td>
                             <td class="px-4 py-3">
                                 <select name="" id="inputCategory{{ $child->id }}" class="input-text"

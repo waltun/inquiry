@@ -11,7 +11,7 @@ class Product extends Model
 
     protected $fillable = [
         'percent', 'price', 'quantity', 'group_id', 'model_id', 'inquiry_id', 'part_id', 'description', 'model_custom_name',
-        'copy_model', 'sort', 'quantity2'
+        'copy_model', 'sort', 'quantity2', 'part_price'
     ];
 
     public function inquiry()
