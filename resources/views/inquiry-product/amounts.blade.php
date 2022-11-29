@@ -32,7 +32,9 @@
                 let damperBargashtSection = document.getElementById("damperBargashtSection" + id);
                 let damperExastSection = document.getElementById("damperExastSection" + id);
 
-                //Coil Fancoil
+                let converterEvaporatorSection = document.getElementById('converterEvaporatorSection' + id);
+                let converterCondensorSection = document.getElementById('converterCondensorSection' + id);
+
                 //Coil Fancoil
                 if (selectedId === '170') {
                     let fancoilRoute = "/calculate/coil/fancoil/" + 170 + "/" + productId;
@@ -184,6 +186,43 @@
                         damperTazeSection.classList.remove('block')
                         damperTazeSection.classList.add('hidden')
                         damperTazeSection.innerHTML = ""
+                    }
+                }
+
+                //Converter Evaporator
+                if (selectedId === '1194') {
+                    let converterEvaporatorRoute = "/calculate/converter/" + 146 + "/" + productId;
+                    converterEvaporatorSection.classList.remove('hidden')
+                    converterEvaporatorSection.classList.add('block')
+                    converterEvaporatorSection.innerHTML = `
+                        <a href="${converterEvaporatorRoute}"
+                           class="form-submit-btn text-xs">
+                            محاسبه اواپراتور پوسته و لوله
+                        </a>
+                        `
+                } else {
+                    if (converterEvaporatorSection) {
+                        converterEvaporatorSection.classList.remove('block')
+                        converterEvaporatorSection.classList.add('hidden')
+                        converterEvaporatorSection.innerHTML = ""
+                    }
+                }
+
+                if (selectedId === '1301') {
+                    let converterCondensorRoute = "/calculate/converter/" + 146 + "/" + productId;
+                    converterCondensorSection.classList.remove('hidden')
+                    converterCondensorSection.classList.add('block')
+                    converterCondensorSection.innerHTML = `
+                        <a href="${converterCondensorRoute}"
+                           class="form-submit-btn text-xs">
+                            محاسبه کندانسور آبی
+                        </a>
+                        `
+                } else {
+                    if (converterCondensorSection) {
+                        converterCondensorSection.classList.remove('block')
+                        converterCondensorSection.classList.add('hidden')
+                        converterCondensorSection.innerHTML = ""
                     }
                 }
             }
@@ -652,6 +691,25 @@
                                                     </a>
                                                 @endif
                                                 @break
+
+                                            @case(1194)
+                                                @if(!session()->has('converter-btn-' . $part->id . $product->id))
+                                                    )
+                                                    <a href="{{ route('calculateConverter.evaporator.index',[$part->id,$product->id]) }}"
+                                                       class="form-submit-btn text-xs">
+                                                        محاسبه {{ $part->name }}
+                                                    </a>
+                                                @endif
+                                                @break
+                                            @case(1301)
+                                                @if(!session()->has('converter-btn-' . $part->id . $product->id))
+                                                    )
+                                                    <a href="{{ route('calculateConverter.condensor.index',[$part->id,$product->id]) }}"
+                                                       class="form-submit-btn text-xs">
+                                                        محاسبه {{ $part->name }}
+                                                    </a>
+                                                @endif
+                                                @break
                                         @endswitch
                                     </div>
                                 @endif
@@ -682,6 +740,13 @@
 
                                     </div>
                                     <div id="damperExastSection{{ $part->id }}" class="hidden">
+
+                                    </div>
+
+                                    <div id="converterEvaporatorSection{{ $part->id }}" class="hidden">
+
+                                    </div>
+                                    <div id="converterCondensorSection{{ $part->id }}" class="hidden">
 
                                     </div>
                                 </div>
@@ -927,6 +992,23 @@
                                                     </a>
                                                 @endif
                                                 @break
+
+                                            @case(1194)
+                                                @if(!session()->has('converter-btn-' . $part->id . $product->id))
+                                                    <a href="{{ route('calculateConverter.evaporator.index',[$part->id,$product->id]) }}"
+                                                       class="form-submit-btn text-xs">
+                                                        محاسبه {{ $part->name }}
+                                                    </a>
+                                                @endif
+                                                @break
+                                            @case(1301)
+                                                @if(!session()->has('converter-btn-' . $part->id . $product->id))
+                                                    <a href="{{ route('calculateConverter.condensor.index',[$part->id,$product->id]) }}"
+                                                       class="form-submit-btn text-xs">
+                                                        محاسبه {{ $part->name }}
+                                                    </a>
+                                                @endif
+                                                @break
                                         @endswitch
                                     </div>
                                 @endif
@@ -957,6 +1039,13 @@
 
                                     </div>
                                     <div id="damperExastSection{{ $part->id }}" class="hidden">
+
+                                    </div>
+
+                                    <div id="converterEvaporatorSection{{ $part->id }}" class="hidden">
+
+                                    </div>
+                                    <div id="converterCondensorSection{{ $part->id }}" class="hidden">
 
                                     </div>
                                 </div>

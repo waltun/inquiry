@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CalculateCoilController;
+use App\Http\Controllers\CalculateConverterController;
 use App\Http\Controllers\CalculateDamperController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CollectionCoilController;
@@ -178,6 +179,21 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/calculate/damper-exast', [CalculateDamperController::class, 'calculateExast'])->name('calculateExastDamper');
     Route::post('/calculate/damper-raft', [CalculateDamperController::class, 'calculateRaft'])->name('calculateRaftDamper');
     Route::post('/calculate/damper-bargasht', [CalculateDamperController::class, 'calculateBargasht'])->name('calculateBargashtDamper');
+
+    //Calculate converter routes
+    Route::get('/calculate/converter/{part}/{product}', [CalculateConverterController::class, 'evaporator'])
+        ->name('calculateConverter.evaporator.index');
+    Route::post('/calculate/evaporator-converter', [CalculateConverterController::class, 'calculateEvaporator'])
+        ->name('calculateEvaporatorConverter');
+    Route::post('/calculate/converter/{part}/{product}/post-evaporator', [CalculateConverterController::class, 'storeEvaporator'])
+        ->name('calculateConverter.storeEvaporator');
+
+    Route::get('/calculate/converter/{part}/{product}', [CalculateConverterController::class, 'condensor'])
+        ->name('calculateConverter.condensor.index');
+    Route::post('/calculate/condensor-converter', [CalculateConverterController::class, 'calculateCondensor'])
+        ->name('calculateCondensorConverter');
+    Route::post('/calculate/converter/{part}/{product}/post-condensor', [CalculateConverterController::class, 'storeCondensor'])
+        ->name('calculateConverter.storeCondensor');
 
     //Notification routes
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
