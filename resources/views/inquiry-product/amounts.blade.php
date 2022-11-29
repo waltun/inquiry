@@ -477,7 +477,7 @@
                     <th class="p-2 text-sm border border-gray-300">قیمت</th>
                     <th class="p-2 text-sm border border-gray-300">واحد</th>
                     <th class="p-2 text-sm border border-gray-300">مقادیر</th>
-                    @if($inquiry->submit == '1')
+                    @if(!$amounts->isEmpty())
                         <th class="p-2 text-sm border border-gray-300">حذف</th>
                     @endif
                 </tr>
@@ -1040,7 +1040,7 @@
                                     @endif
                                 </div>
                             </td>
-                            @if($inquiry->submit == '1')
+                            @if(!$amounts->isEmpty())
                                 <td class="border border-gray-300 p-2 text-sm text-center">
                                     <button type="button" onclick="deletePartFromAmount({{ $amount->id }})">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -1053,18 +1053,21 @@
                             @endif
                         </tr>
                     @endforeach
-                    <tr>
-                        <td class="border border-gray-300 p-2" colspan="6">
-                            <a href="{{ route('inquiries.newPart.create',$product->id) }}"
-                               class="w-8 h-8 rounded-full bg-green-500 block grid place-content-center mr-2"
-                               title="افزودن قطعه جدید">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                     stroke-width="2" stroke="currentColor" class="w-6 h-6 text-white">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
-                                </svg>
-                            </a>
-                        </td>
-                    </tr>
+                    @if(!$amounts->isEmpty())
+                        <tr>
+                            <td class="border border-gray-300 p-2" colspan="6">
+                                <a href="{{ route('inquiries.newPart.create',$product->id) }}"
+                                   class="w-8 h-8 rounded-full bg-green-500 block grid place-content-center mr-2"
+                                   title="افزودن قطعه جدید">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         stroke-width="2" stroke="currentColor" class="w-6 h-6 text-white">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                              d="M12 4.5v15m7.5-7.5h-15"/>
+                                    </svg>
+                                </a>
+                            </td>
+                        </tr>
+                    @endif
                 @endif
                 </tbody>
             </table>
