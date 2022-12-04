@@ -72,7 +72,8 @@ class InquiryPartController extends Controller
             'part_id' => $part->id,
             'quantity' => $request['quantity'],
             'sort' => $sort,
-            'quantity2' => $request['quantity2'] ?? null
+            'quantity2' => $request['quantity2'] ?? null,
+            'description' => $request['tag']
         ]);
 
         alert()->success('ثبت موفق', 'ثبت قطعه برای استعلام با موفقیت انجام شد');
@@ -102,6 +103,8 @@ class InquiryPartController extends Controller
 
             if (!is_null($inquiryPart)) {
                 $finalPrice = $inquiryPart->price * $request->percent;
+                $product->part_price = $inquiryPart->price;
+                $product->save();
             }
 
             $product->update([
@@ -130,7 +133,8 @@ class InquiryPartController extends Controller
         $request->validate([
             'quantities' => 'required|array',
             'quantities.*' => 'required|numeric',
-            'part_ids' => 'required|array'
+            'part_ids' => 'required|array',
+            'tags' => 'nullable|array'
         ]);
 
         foreach ($inquiry->products()->where('part_id', '!=', 0)->get() as $index => $product) {
@@ -138,6 +142,7 @@ class InquiryPartController extends Controller
                 'part_id' => $request->part_ids[$index],
                 'quantity' => $request->quantities[$index],
                 'quantity2' => $request->quantities2[$index] ?? null,
+                'description' => $request->tags[$index]
             ]);
         }
 

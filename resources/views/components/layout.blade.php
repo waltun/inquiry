@@ -27,7 +27,7 @@
 <!-- Sidebar -->
 <x-aside/>
 
-<div class="flex flex-col md:pr-64">
+<div class="flex flex-col" id="main">
     <!-- Header -->
     <x-header/>
 
@@ -40,22 +40,12 @@
 </div>
 
 <script>
-    //Fullscreen
-    function toggleFullScreen() {
-        if (!document.fullscreenElement) {
-            document.documentElement.requestFullscreen();
-        } else {
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
-            }
-        }
-    }
-
     //Open & Close Mobile Menu
     const sidebar = document.getElementById('sidebar'),
         sidebarCloseIcon = document.getElementById('sidebar-close-icon'),
         sidebarOpenIcon = document.getElementById('sidebar-open-icon'),
-        overlay = document.getElementById('overlay');
+        overlay = document.getElementById('overlay'),
+        mainSection = document.getElementById('main');
 
     function openSidebar() {
         sidebar.classList.add('absolute', 'z-50', 'flex', 'flex-row-reverse');
@@ -66,7 +56,9 @@
 
         document.body.classList.add('overflow-hidden');
 
-        overlay.classList.remove('hidden');
+        //overlay.classList.remove('hidden');
+
+        mainSection.classList.add('md:pr-64');
     }
 
     function closeSidebar() {
@@ -78,7 +70,9 @@
 
         document.body.classList.remove('overflow-hidden');
 
-        overlay.classList.add('hidden');
+        //overlay.classList.add('hidden');
+
+        mainSection.classList.remove('md:pr-64')
     }
 
     sidebarOpenIcon.addEventListener('click', () => openSidebar());

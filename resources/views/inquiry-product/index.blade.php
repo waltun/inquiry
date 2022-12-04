@@ -104,10 +104,12 @@
             <table class="min-w-full">
                 <thead>
                 <tr class="bg-sky-200">
-                    <th scope="col"
-                        class="px-4 py-3 text-sm font-bold text-gray-800 text-center rounded-r-md">
-                        #
-                    </th>
+                    @if($inquiry->submit == '1')
+                        <th scope="col"
+                            class="px-4 py-3 text-sm font-bold text-gray-800 text-center rounded-r-md">
+                            #
+                        </th>
+                    @endif
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                         Sort
                     </th>
@@ -135,10 +137,12 @@
                         $modell = \App\Models\Modell::find($product->model_id);
                     @endphp
                     <tr>
-                        <td class="px-4 py-3 whitespace-nowrap">
-                            <input type="checkbox" value="{{ $product->id }}"
-                                   class="checkboxes w-4 h-4 accent-blue-600 bg-gray-200 rounded border border-gray-300 focus:ring-blue-500 focus:ring-2 focus:ring-offset-1 mx-auto block">
-                        </td>
+                        @if($inquiry->submit == '1')
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                <input type="checkbox" value="{{ $product->id }}"
+                                       class="checkboxes w-4 h-4 accent-blue-600 bg-gray-200 rounded border border-gray-300 focus:ring-blue-500 focus:ring-2 focus:ring-offset-1 mx-auto block">
+                            </td>
+                        @endif
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-gray-500 text-center">
                                 {{ $product->sort }}
@@ -196,6 +200,15 @@
                 @endforeach
                 </tbody>
             </table>
+            <div class="p-4 pt-0">
+                <a href="{{ route('inquiries.product.create',$inquiry->id) }}"
+                   class="w-8 h-8 rounded-full bg-green-500 block grid place-content-center mr-2" title="افزودن قطعه جدید">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                         stroke="currentColor" class="w-6 h-6 text-white">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path>
+                    </svg>
+                </a>
+            </div>
         </div>
 
         <!-- Multi Percent -->

@@ -839,12 +839,25 @@
                     <input type="hidden" name="price" value="{{ $finalPrice }}">
                 </div>
 
-                <div class="my-4 bg-red-300 p-4 rounded-md shadow-md">
-                    <label class="block mb-2 text-sm font-bold" for="inputCoilName">
-                        نام اواپراتور مورد نظر
-                    </label>
-                    <input type="text" class="input-text" id="inputCoilName" name="name" dir="ltr"
-                           value="{{ $name }}">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="my-4 bg-red-300 p-4 rounded-md shadow-md">
+                        <label class="block mb-2 text-sm font-bold" for="inputCondensorName">
+                            نام کندانسور مورد نظر
+                        </label>
+                        <input type="text" class="input-text" id="inputCondensorName" name="name" dir="ltr"
+                               value="{{ $name }}">
+                    </div>
+                    @can('users')
+                        <div class="my-4 bg-red-300 p-4 rounded-md shadow-md">
+                            <label class="block mb-2 text-sm font-bold" for="inputStandard">
+                                تعیین استاندارد بودن کندانسور
+                            </label>
+                            <select name="standard" id="inputStandard" class="input-text">
+                                <option value="0">نباشد</option>
+                                <option value="1">باشد</option>
+                            </select>
+                        </div>
+                    @endcan
                 </div>
 
                 @can('users')

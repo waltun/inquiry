@@ -1,16 +1,9 @@
 <nav class="flex justify-between shadow h-16 items-center px-4 bg-white">
-    <button class="focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:rounded-md md:hidden"
+    <button class="focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:rounded-md"
             id="sidebar-open-icon">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-500" fill="none" viewBox="0 0 24 24"
              stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/>
-        </svg>
-    </button>
-    <button onclick="toggleFullScreen()" class="focus:outline-none">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-500" fill="none" viewBox="0 0 24 24"
-             stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
         </svg>
     </button>
 

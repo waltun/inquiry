@@ -102,6 +102,15 @@ class PartPriceController extends Controller
         foreach ($request->parts as $index => $id) {
             $part = Part::where('id', $id)->first();
             if ($part->price !== (int)$request->prices[$index]) {
+
+                if ($part->price != 0) {
+                    $percentPrice = $part->price * 0.2;
+                    $sumPrice = $percentPrice + $part->price;
+                    if ($request->prices[$index] > $sumPrice) {
+                        dd("error");
+                    }
+                }
+
                 $part->update([
                     'price' => $request->prices[$index],
                     'old_price' => $part->price,
@@ -121,7 +130,7 @@ class PartPriceController extends Controller
 
         alert()->success('ثبت موفق', 'ثبت قیمت گذاری با موفقیت انجام شد');
 
-        return redirect()->route('parts.price.index');
+        return back();
     }
 
     public function updateDate(Request $request)

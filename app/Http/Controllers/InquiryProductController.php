@@ -217,7 +217,7 @@ class InquiryProductController extends Controller
 
         alert()->success('ثبت موفق', 'ثبت مقادیر با موفقیت انجام شد');
 
-        return redirect()->route('inquiries.product.index', $inquiry->id);
+        return back();
     }
 
     public function percent(Product $product)
@@ -263,7 +263,6 @@ class InquiryProductController extends Controller
         $totalPrice = 0;
 
         if (!is_null($group) && !is_null($modell)) {
-
             foreach ($product->amounts as $amount) {
                 $part = Part::find($amount->part_id);
                 $totalPrice += ($part->price * $amount->value);
@@ -345,31 +344,15 @@ class InquiryProductController extends Controller
             $product = Product::find($id);
             $inquiry = Inquiry::find($product->inquiry_id);
             $user = User::find($inquiry->user_id);
-            $group = Group::find($product->group_id);
             $modell = Modell::find($product->model_id);
 
-            $totalGroupPrice = 0;
-            $totalModellPrice = 0;
-
-            if (!$modell->parts->isEmpty()) {
-                foreach ($modell->parts as $part) {
-                    $amount = $product->amounts()->where('part_id', $part->id)->first();
-                    if ($amount) {
-                        $totalModellPrice += ($part->price * $amount->value);
-                    }
+            foreach ($modell->parts as $part) {
+                $amount = $product->amounts()->where('part_id', $part->id)->first();
+                if ($amount) {
+                    $totalPrice += ($part->price * $amount->value);
                 }
             }
 
-            if (!$group->parts->isEmpty()) {
-                foreach ($group->parts as $part) {
-                    $amount = $product->amounts()->where('part_id', $part->id)->first();
-                    if ($amount) {
-                        $totalGroupPrice += ($part->price * $amount->value);
-                    }
-                }
-            }
-
-            $totalPrice = $totalGroupPrice + $totalModellPrice;
             $finalPrice = $totalPrice * $request->percent;
 
             $product->update([
@@ -396,7 +379,19 @@ class InquiryProductController extends Controller
     public function changePart(Request $request)
     {
         $category = Category::find($request->id);
-        $parts = $category->parts;
+        $part = Part::find($request->part);
+        $specials = Special::all()->pluck('part_id')->toArray();
+        $product = Product::find($request->product);
+
+        if ((in_array($part->id, $specials) && !$part->standard) || ($part->coil && !$part->standard)) {
+            $parts = $category->parts()->where('product_id', $product->id)->get();
+            if ($parts->isEmpty()) {
+                $parts[] = $category->parts()->first();
+            }
+        } else {
+            $parts = $category->parts;
+        }
+
         return response(['data' => $parts]);
     }
 

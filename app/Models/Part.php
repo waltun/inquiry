@@ -11,7 +11,7 @@ class Part extends Model
 
     protected $fillable = [
         'name', 'unit', 'price', 'code', 'collection', 'category_id', 'old_price', 'coil', 'price_updated_at', 'inquiry_id',
-        'unit2', 'operator1', 'formula1', 'operator2', 'formula2', 'product_id'
+        'unit2', 'operator1', 'formula1', 'operator2', 'formula2', 'product_id', 'standard'
     ];
 
     public function groups()

@@ -55,27 +55,27 @@
             </div>
             <div class="grid grid-cols-5 gap-4">
                 <div>
-                    <label class="block mb-2 text-sm font-bold" for="inputDebiHavaRaft">دبی هوای رفت</label>
+                    <label class="block mb-2 text-sm font-bold" for="inputDebiHavaRaft">دبی هوای رفت (CSM)</label>
                     <input type="text" class="input-text" id="inputDebiHavaRaft" name="debi_hava_raft"
                            value="{{ !is_null($inputs) ? $inputs['debi_hava_raft'] : '' }}">
                 </div>
                 <div>
                     <label class="block mb-2 text-sm font-bold" for="inputSoratExast">
-                        سرعت هوا روی دمپر رفت
+                        سرعت هوا روی دمپر (FPM)
                     </label>
                     <input type="text" class="input-text" id="inputSoratExast" name="sorat_hava"
                            value="{{ !is_null($inputs) ? $inputs['sorat_hava'] : 800 }}">
                 </div>
                 <div>
                     <label class="block mb-2 text-sm font-bold" for="inputTedadPare">
-                        تعداد پره
+                        تعداد پره (عدد)
                     </label>
                     <input type="text" class="input-text" id="inputTedadPare" name="tedad_pare"
                            value="{{ !is_null($inputs) ? $inputs['tedad_pare'] : '' }}">
                 </div>
                 <div class="col-span-2">
                     <label class="block mb-2 text-sm font-bold" for="inputTedadPare">
-                        ابعاد
+                        ابعاد (CM)
                     </label>
                     <p class="bg-indigo-500 rounded-md px-6 py-2 text-sm text-white">
                         ابعاد داخلی دمپر :

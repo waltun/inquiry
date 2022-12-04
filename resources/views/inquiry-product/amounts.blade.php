@@ -191,7 +191,7 @@
 
                 //Converter Evaporator
                 if (selectedId === '1194') {
-                    let converterEvaporatorRoute = "/calculate/converter/" + 146 + "/" + productId;
+                    let converterEvaporatorRoute = "/calculate/converter/" + 1194 + "/" + productId;
                     converterEvaporatorSection.classList.remove('hidden')
                     converterEvaporatorSection.classList.add('block')
                     converterEvaporatorSection.innerHTML = `
@@ -209,7 +209,7 @@
                 }
 
                 if (selectedId === '1301') {
-                    let converterCondensorRoute = "/calculate/converter/" + 146 + "/" + productId;
+                    let converterCondensorRoute = "/calculate/converter/" + 1301 + "/" + productId;
                     converterCondensorSection.classList.remove('hidden')
                     converterCondensorSection.classList.add('block')
                     converterCondensorSection.innerHTML = `
@@ -370,6 +370,8 @@
                     url: '{{ route('inquiries.product.changePart') }}',
                     data: {
                         id: id,
+                        part: part,
+                        product: '{{ $product->id }}'
                     },
                     success: function (res) {
                         let parts = res.data;
@@ -480,7 +482,7 @@
         </div>
         <div class="flex md:justify-end space-x-2 space-x-reverse">
             <a href="{{ route('inquiries.product.index',$inquiry->id) }}" class="form-detail-btn text-xs">
-                لیست محصولات استعلام
+                بازگشت به محصولات استعلام {{ $inquiry->name }}
             </a>
         </div>
     </div>
@@ -508,7 +510,7 @@
         @csrf
         <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4">
             <table class="border-collapse border-gray-200 w-full">
-                <thead>
+                <thead class="bg-indigo-300">
                 <tr>
                     <th class="p-2 text-sm border border-gray-300">ردیف</th>
                     <th class="p-2 text-sm border border-gray-300">دسته بندی</th>
@@ -592,10 +594,17 @@
                                     @endforeach
                                 </select>
                             </td>
-                            <td class="p-2 border border-gray-300">
+                            <td class="p-2 border border-gray-300 flex items-center">
                                 @php
                                     $lastCategory = $part->categories()->latest()->first();
-                                    $categoryParts = $lastCategory->parts;
+                                    if ((in_array($part->id,$specials) && !$part->standard) || ($part->coil && !$part->standard)) {
+                                        $categoryParts = $lastCategory->parts()->where('product_id',$product->id)->get();
+                                        if ($categoryParts->isEmpty()) {
+                                            $categoryParts[] = $lastCategory->parts()->first();
+                                        }
+                                    } else {
+                                        $categoryParts = $lastCategory->parts;
+                                    }
                                 @endphp
                                 <select name="part_ids[]" class="input-text" id="groupPartList{{ $part->id }}"
                                         onchange="multiFunctions(event,{{ $part->id }},{{ $part->id }},{{ $part->id }})">
@@ -675,7 +684,6 @@
                                                 @break
                                             @case(147)
                                                 @if(!session()->has('damper-btn-' . $part->id . $product->id))
-                                                    )
                                                     <a href="{{ route('calculateDamper.bargasht.index',[$part->id,$product->id]) }}"
                                                        class="form-submit-btn text-xs">
                                                         محاسبه {{ $part->name }}
@@ -684,7 +692,6 @@
                                                 @break
                                             @case(149)
                                                 @if(!session()->has('damper-btn-' . $part->id . $product->id))
-                                                    )
                                                     <a href="{{ route('calculateDamper.exast.index',[$part->id,$product->id]) }}"
                                                        class="form-submit-btn text-xs">
                                                         محاسبه {{ $part->name }}
@@ -694,8 +701,7 @@
 
                                             @case(1194)
                                                 @if(!session()->has('converter-btn-' . $part->id . $product->id))
-                                                    )
-                                                    <a href="{{ route('calculateConverter.evaporator.index',[$part->id,$product->id]) }}"
+                                                    <a href=""
                                                        class="form-submit-btn text-xs">
                                                         محاسبه {{ $part->name }}
                                                     </a>
@@ -703,7 +709,6 @@
                                                 @break
                                             @case(1301)
                                                 @if(!session()->has('converter-btn-' . $part->id . $product->id))
-                                                    )
                                                     <a href="{{ route('calculateConverter.condensor.index',[$part->id,$product->id]) }}"
                                                        class="form-submit-btn text-xs">
                                                         محاسبه {{ $part->name }}
@@ -895,10 +900,17 @@
                                     @endforeach
                                 </select>
                             </td>
-                            <td class="border border-gray-300 p-2">
+                            <td class="border border-gray-300 p-2 flex items-center">
                                 @php
                                     $lastCategory = $part->categories()->latest()->first();
-                                    $categoryParts = $lastCategory->parts;
+                                    if ((in_array($part->id,$specials) && !$part->standard) || ($part->coil && !$part->standard)) {
+                                        $categoryParts = $lastCategory->parts()->where('product_id',$product->id)->get();
+                                        if ($categoryParts->isEmpty()) {
+                                            $categoryParts[] = $lastCategory->parts()->first();
+                                        }
+                                    } else {
+                                        $categoryParts = $lastCategory->parts;
+                                    }
                                 @endphp
                                 <select name="part_ids[]" class="input-text" id="groupPartList{{ $part->id }}"
                                         onchange="multiFunctions(event,{{ $part->id }},{{ $part->id }},{{ $part->id }})">
@@ -995,7 +1007,7 @@
 
                                             @case(1194)
                                                 @if(!session()->has('converter-btn-' . $part->id . $product->id))
-                                                    <a href="{{ route('calculateConverter.evaporator.index',[$part->id,$product->id]) }}"
+                                                    <a href=""
                                                        class="form-submit-btn text-xs">
                                                         محاسبه {{ $part->name }}
                                                     </a>
@@ -1182,7 +1194,7 @@
                 ثبت مقادیر
             </button>
             <a href="{{ route('inquiries.index') }}" class="form-cancel-btn">
-                انصراف
+                انصراف (خروج)
             </a>
         </div>
     </form>

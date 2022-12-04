@@ -325,6 +325,7 @@ class SeparateCalculateCoilController extends Controller
             'code' => $code,
             'coil' => true,
             'price_updated_at' => now(),
+            'standard' => $request['standard'] ?? 0
         ]);
 
         $newPart->save();
@@ -653,6 +654,7 @@ class SeparateCalculateCoilController extends Controller
             'code' => $code,
             'coil' => true,
             'price_updated_at' => now(),
+            'standard' => $request['standard'] ?? 0
         ]);
 
         $newPart->save();
@@ -978,6 +980,7 @@ class SeparateCalculateCoilController extends Controller
             'code' => $code,
             'coil' => true,
             'price_updated_at' => now(),
+            'standard' => $request['standard'] ?? 0
         ]);
 
         $newPart->save();
@@ -1288,6 +1291,7 @@ class SeparateCalculateCoilController extends Controller
             'code' => $code,
             'coil' => true,
             'price_updated_at' => now(),
+            'standard' => $request['standard'] ?? 0
         ]);
 
         $newPart->save();
@@ -1621,6 +1625,7 @@ class SeparateCalculateCoilController extends Controller
             'code' => $code,
             'coil' => true,
             'price_updated_at' => now(),
+            'standard' => $request['standard'] ?? 0
         ]);
 
         $newPart->save();

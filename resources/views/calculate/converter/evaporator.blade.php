@@ -725,6 +725,14 @@
                                 {{ is_null($inputs) ? (old('setare') == '1107' ? 'selected' : '') : ($inputs['setare'] == "1107" ? 'selected' : (old('setare') == '1107' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::find('1107')->name }}
                             </option>
+                            <option value="{{ \App\Models\Part::find('1736')->id }}"
+                                {{ is_null($inputs) ? (old('setare') == '1736' ? 'selected' : '') : ($inputs['setare'] == "1736" ? 'selected' : (old('setare') == '1736' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1736')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('1737')->id }}"
+                                {{ is_null($inputs) ? (old('setare') == '1737' ? 'selected' : '') : ($inputs['setare'] == "1737" ? 'selected' : (old('setare') == '1737' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1737')->name }}
+                            </option>
                         </select>
                     </div>
                     <div>
@@ -797,6 +805,50 @@
                             <option value="{{ \App\Models\Part::find('964')->id }}"
                                 {{ is_null($inputs) ? (old('cap') == '964' ? 'selected' : '') : ($inputs['cap'] == "964" ? 'selected' : (old('cap') == '964' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::find('964')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('1841')->id }}"
+                                {{ is_null($inputs) ? (old('cap') == '1841' ? 'selected' : '') : ($inputs['cap'] == "1841" ? 'selected' : (old('cap') == '1841' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1841')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('1842')->id }}"
+                                {{ is_null($inputs) ? (old('cap') == '1842' ? 'selected' : '') : ($inputs['cap'] == "1842" ? 'selected' : (old('cap') == '1842' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1842')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('1843')->id }}"
+                                {{ is_null($inputs) ? (old('cap') == '1843' ? 'selected' : '') : ($inputs['cap'] == "1843" ? 'selected' : (old('cap') == '1843' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1843')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('1844')->id }}"
+                                {{ is_null($inputs) ? (old('cap') == '1844' ? 'selected' : '') : ($inputs['cap'] == "1844" ? 'selected' : (old('cap') == '1844' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1844')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('1845')->id }}"
+                                {{ is_null($inputs) ? (old('cap') == '1845' ? 'selected' : '') : ($inputs['cap'] == "1845" ? 'selected' : (old('cap') == '1845' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1845')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('1846')->id }}"
+                                {{ is_null($inputs) ? (old('cap') == '1846' ? 'selected' : '') : ($inputs['cap'] == "1846" ? 'selected' : (old('cap') == '1846' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1846')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('1847')->id }}"
+                                {{ is_null($inputs) ? (old('cap') == '1847' ? 'selected' : '') : ($inputs['cap'] == "1847" ? 'selected' : (old('cap') == '1847' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1847')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('1848')->id }}"
+                                {{ is_null($inputs) ? (old('cap') == '1848' ? 'selected' : '') : ($inputs['cap'] == "1848" ? 'selected' : (old('cap') == '1848' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1848')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('1849')->id }}"
+                                {{ is_null($inputs) ? (old('cap') == '1849' ? 'selected' : '') : ($inputs['cap'] == "1849" ? 'selected' : (old('cap') == '1849' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1849')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('1850')->id }}"
+                                {{ is_null($inputs) ? (old('cap') == '1850' ? 'selected' : '') : ($inputs['cap'] == "1850" ? 'selected' : (old('cap') == '1850' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1850')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('1851')->id }}"
+                                {{ is_null($inputs) ? (old('cap') == '1851' ? 'selected' : '') : ($inputs['cap'] == "1851" ? 'selected' : (old('cap') == '1851' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1851')->name }}
                             </option>
                         </select>
                     </div>
@@ -1056,12 +1108,25 @@
                     <input type="hidden" name="price" value="{{ $finalPrice }}">
                 </div>
 
-                <div class="my-4 bg-red-300 p-4 rounded-md shadow-md">
-                    <label class="block mb-2 text-sm font-bold" for="inputCoilName">
-                        نام اواپراتور مورد نظر
-                    </label>
-                    <input type="text" class="input-text" id="inputCoilName" name="name" dir="ltr"
-                           value="{{ $name }}">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="my-4 bg-red-300 p-4 rounded-md shadow-md">
+                        <label class="block mb-2 text-sm font-bold" for="inputEvaporatorName">
+                            نام اواپراتور مورد نظر
+                        </label>
+                        <input type="text" class="input-text" id="inputEvaporatorName" name="name" dir="ltr"
+                               value="{{ $name }}">
+                    </div>
+                    @can('users')
+                        <div class="my-4 bg-red-300 p-4 rounded-md shadow-md">
+                            <label class="block mb-2 text-sm font-bold" for="inputStandard">
+                                تعیین استاندارد بودن اواپراتور
+                            </label>
+                            <select name="standard" id="inputStandard" class="input-text">
+                                <option value="0">نباشد</option>
+                                <option value="1">باشد</option>
+                            </select>
+                        </div>
+                    @endcan
                 </div>
 
                 @can('users')

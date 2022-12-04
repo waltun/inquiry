@@ -292,7 +292,7 @@
                                   class="inline">
                                 @csrf
                                 <button class="form-submit-btn text-xs">
-                                    افزودن به مجموعه {{ $parentPart->name }}
+                                    افزودن به مجموعه
                                 </button>
                             </form>
                         </td>

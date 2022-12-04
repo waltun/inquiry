@@ -1,7 +1,7 @@
-<div class="fixed w-64 md:flex hidden h-full" id="sidebar">
+<div class="fixed w-64 hidden h-full" id="sidebar">
     <aside class="bg-white overflow-y-auto flex flex-col flex-grow border-l border-gray-200"
            id="sidebar-content-layout">
-        <span class="hidden justify-end pt-2 pl-2" id="sidebar-close-icon">
+        <span class="justify-end pt-2 pl-2" id="sidebar-close-icon">
             <svg xmlns="http://www.w3.org/2000/svg"
                  class="h-7 w-7 bg-red-500 rounded-full text-white p-1 cursor-pointer" fill="none"
                  viewBox="0 0 24 24"

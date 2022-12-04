@@ -14,7 +14,7 @@ class ModellController extends Controller
         Gate::authorize('groups');
 
         $group = Group::find($id);
-        $modells = $group->modells()->latest()->paginate(25);
+        $modells = $group->modells()->paginate(25);
         return view('modells.index', compact('modells', 'group'));
     }
 
@@ -181,7 +181,7 @@ class ModellController extends Controller
             'sorts.*' => 'numeric|required',
         ]);
 
-        foreach ($modell->parts as $index => $part) {
+        foreach ($modell->parts()->orderBy('sort', 'ASC')->get() as $index => $part) {
             $part->pivot->update([
                 'value' => $request->values[$index],
                 'part_id' => $request->part_ids[$index],

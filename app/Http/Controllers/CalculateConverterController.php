@@ -404,7 +404,8 @@ class CalculateConverterController extends Controller
             'coil' => true,
             'price_updated_at' => now(),
             'product_id' => $product->id,
-            'price' => $request['price']
+            'price' => $request['price'],
+            'standard' => $request['standard'] ?? 0
         ]);
 
         $newPart->save();
@@ -801,7 +802,8 @@ class CalculateConverterController extends Controller
             'coil' => true,
             'price_updated_at' => now(),
             'product_id' => $product->id,
-            'price' => $request['price']
+            'price' => $request['price'],
+            'standard' => $request['standard'] ?? 0
         ]);
 
         $newPart->save();

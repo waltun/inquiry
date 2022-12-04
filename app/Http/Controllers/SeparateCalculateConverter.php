@@ -409,7 +409,7 @@ class SeparateCalculateConverter extends Controller
             'navdani' => 'required',
             'boshen1' => 'required',
             'boshen2' => 'required',
-            'flanch' => 'required',
+            'flanch' => 'nullable',
             'tube' => 'required',
             'ring' => 'required',
             'tedad_loole_messi' => 'required',
@@ -450,7 +450,11 @@ class SeparateCalculateConverter extends Controller
         $pichPart = Part::find($pichId);
         $boshenAirPart = Part::find($boshenAirId);
         $boshenFreezePart = Part::find($boshenFreezeId);
-        $flanchPart = Part::find($flanchId);
+        if (is_null($flanchId) || $flanchId == '0') {
+            $flanchPart = Part::find('1883');
+        } else {
+            $flanchPart = Part::find($flanchId);
+        }
         $sizeLoolePoostePart = Part::find($sizeLoolePoosteId);
         $sensorPart = Part::find($sensorId);
 
@@ -616,9 +620,15 @@ class SeparateCalculateConverter extends Controller
         $azotA = ($ghotreLoolePooste * 2.54);
         $azot = (((($azotA * $azotA * 3.14) / 4) * ($tooleLoolePooste * 100)) / 1000) / 3;
 
+        //$chasb = (($ghotreLoolePooste * 2.54 * 3.14 / 100 * 10) + (4 * $tooleLoolePooste)) / 45;
+
         $tiner = $rang * 2;
 
-        $flanch = 2;
+        if($flanchId == '0' || is_null($flanchId)) {
+            $flanch = 0;
+        } else {
+            $flanch = 2;
+        }
 
         $selectedParts = [
             '0' => $looleMessiSucshenPart,
@@ -629,9 +639,10 @@ class SeparateCalculateConverter extends Controller
             '7' => $sizeLoolePoostePart,
             '8' => $flanchPart,
             '9' => $boshenAirPart,
-            '10' => $tubePart,
-            '11' => $ringPart,
-            '14' => $pichPart,
+            '10' => $boshenFreezePart,
+            '11' => $tubePart,
+            '12' => $ringPart,
+            '15' => $pichPart,
         ];
 
         $values = [
@@ -645,6 +656,7 @@ class SeparateCalculateConverter extends Controller
             $vaznLoolePooste,
             $flanch,
             $boshenAir,
+            $boshenFreeze,
             $varaghMasrafiTube,
             $varaghMasrafiRing,
             $khamirLikLak,
@@ -683,6 +695,8 @@ class SeparateCalculateConverter extends Controller
             'name' => $name,
             'code' => $code,
             'coil' => true,
+            'price' => $request['price'],
+            'standard' => $request['standard'] ?? 0,
             'price_updated_at' => now(),
         ]);
 
@@ -710,60 +724,60 @@ class SeparateCalculateConverter extends Controller
             if ($index == 2) {
                 $childPart->pivot->parent_part_id = $request->parts[2];
             }
-            if ($index == 5) {
+            if ($index == 3) {
                 $childPart->pivot->parent_part_id = $request->parts[3];
             }
-            if ($index == 6) {
+            if ($index == 4) {
                 $childPart->pivot->parent_part_id = $request->parts[4];
             }
-            if ($index == 7) {
+            if ($index == 5) {
                 $childPart->pivot->parent_part_id = $request->parts[5];
             }
-            if ($index == 9) {
+            if ($index == 6) {
                 if (!is_null($request->parts[6]) && $request->parts[6] > 0) {
                     $childPart->pivot->parent_part_id = $request->parts[6];
                 } else {
                     $childPart->pivot->parent_part_id = 1728;
                 }
             }
-            if ($index == 10) {
+            if ($index == 7) {
                 $childPart->pivot->parent_part_id = $request->parts[7];
             }
-            if ($index == 11) {
+            if ($index == 8) {
                 $childPart->pivot->parent_part_id = $request->parts[8];
             }
-            if ($index == 12) {
+            if ($index == 9) {
                 $childPart->pivot->parent_part_id = $request->parts[9];
             }
-            if ($index == 13) {
+            if ($index == 10) {
                 $childPart->pivot->parent_part_id = $request->parts[10];
             }
-            if ($index == 14) {
+            if ($index == 11) {
                 if (!is_null($request->parts[11]) && $request->parts[11] > 0) {
                     $childPart->pivot->parent_part_id = $request->parts[11];
                 } else {
                     $childPart->pivot->parent_part_id = 1729;
                 }
             }
-            if ($index == 15) {
+            if ($index == 12) {
                 $childPart->pivot->parent_part_id = $request->parts[12];
             }
-            if ($index == 16) {
+            if ($index == 13) {
                 $childPart->pivot->parent_part_id = $request->parts[13];
             }
-            if ($index == 17) {
+            if ($index == 14) {
                 $childPart->pivot->parent_part_id = $request->parts[14];
             }
-            if ($index == 18) {
+            if ($index == 15) {
                 $childPart->pivot->parent_part_id = $request->parts[15];
             }
-            if ($index == 19) {
+            if ($index == 16) {
                 $childPart->pivot->parent_part_id = $request->parts[16];
             }
-            if ($index == 22) {
+            if ($index == 17) {
                 $childPart->pivot->parent_part_id = $request->parts[17];
             }
-            if ($index == 25) {
+            if ($index == 18) {
                 if (!is_null($request->parts[18]) && $request->parts[18] > 0) {
                     $childPart->pivot->parent_part_id = $request->parts[18];
                 } else {
@@ -774,8 +788,6 @@ class SeparateCalculateConverter extends Controller
             $childPart->pivot->value = $request->values[$index];
             $childPart->pivot->save();
         }
-        $newPart->price = $request['price'];
-        $newPart->save();
 
         $request->session()->put('price' . $part->id, $request->final_price);
         $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
@@ -799,6 +811,8 @@ class SeparateCalculateConverter extends Controller
             'code' => $code,
             'coil' => true,
             'price_updated_at' => now(),
+            'price' => $request['price'],
+            'standard' => $request['standard'] ?? 0
         ]);
 
         $newPart->save();
@@ -853,8 +867,6 @@ class SeparateCalculateConverter extends Controller
             $childPart->pivot->value = $request->values[$index];
             $childPart->pivot->save();
         }
-        $newPart->price = $request['price'];
-        $newPart->save();
 
         $request->session()->put('price' . $part->id, $request->final_price);
         $request->session()->put('selectedPart' . $newPart->id, $newPart->id);

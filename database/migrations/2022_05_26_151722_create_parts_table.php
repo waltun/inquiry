@@ -22,6 +22,7 @@ return new class extends Migration {
 
             $table->boolean('collection')->default(false);
             $table->boolean('coil')->default(0);
+            $table->boolean('standard')->default(0);
 
             $table->string('unit');
             $table->string('unit2')->nullable();

@@ -53,7 +53,7 @@
                 </div>
             </a>
             <div class="w-1/2">
-                <img src="{{ asset('images/fancoil-coil.png') }}" alt="" class="h-28 w-28 mx-auto">
+                <img src="{{ asset('images/converter-evaporator.png') }}" alt="" class="h-28 w-28 mx-auto">
             </div>
         </div>
 
@@ -80,7 +80,7 @@
                 </div>
             </a>
             <div class="w-1/2">
-                <img src="{{ asset('images/fancoil-coil.png') }}" alt="" class="h-28 w-28 mx-auto">
+                <img src="{{ asset('images/converter-evaporator.png') }}" alt="" class="h-28 w-28 mx-auto">
             </div>
         </div>
     </div>

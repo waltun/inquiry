@@ -2,99 +2,67 @@
     <x-slot name="js">
         <script src="{{ asset('plugins/jquery.min.js') }}"></script>
         <script>
-            function getCategory1() {
-                let id = document.getElementById('inputCoilCategory').value;
-                let section = document.getElementById('categorySection1');
+            function changeUnit1(event, part) {
+                let value = event.target.value;
+                let input2 = document.getElementById('inputUnit' + part.id);
+                let inputValue = document.getElementById('inputUnitValue' + part.id);
+                let operator1 = part.operator2;
+                let formula1 = part.formula2;
+                let result = 0;
 
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-
-                $.ajax({
-                    type: 'POST',
-                    url: '{{ route('parts.getCategory') }}',
-                    data: {
-                        id: id,
-                    },
-                    success: function (res) {
-                        if (res.data != null) {
-                            section.innerHTML = `
-                            <select class="input-text" onchange="getCategory2()" id="inputCategory2" name="categories[]">
-                                <option value="">انتخاب کنید</option>
-                                    ${
-                                res.data.map(function (category) {
-                                    return `<option value="${category.id}">${category.name}</option>`
-                                })
-                            }
-                            </select>`
-                        }
-                    }
-                });
+                result = eval(value + operator1 + formula1);
+                input2.value = Intl.NumberFormat().format(result);
+                inputValue.value = Intl.NumberFormat().format(result);
             }
 
-            function getCategory2() {
-                let id = document.getElementById('inputCategory2').value;
-                let section = document.getElementById('categorySection2');
+            function changeUnit2(event, part) {
+                let value = event.target.value;
+                let input1 = document.getElementById('inputValue' + part.id);
+                let inputValue = document.getElementById('inputUnitValue' + part.id);
+                let operator2 = part.operator1;
+                let formula2 = part.formula1;
+                let result = 0;
 
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-
-                $.ajax({
-                    type: 'POST',
-                    url: '{{ route('parts.getCategory') }}',
-                    data: {
-                        id: id,
-                    },
-                    success: function (res) {
-                        if (res.data != null) {
-                            section.innerHTML = `
-                            <select class="input-text" name="categories[]" id="inputCategory3">
-                                <option value="">انتخاب کنید</option>
-                                    ${
-                                res.data.map(function (category) {
-                                    return `<option value="${category.id}">${category.name}</option>`
-                                })
-                            }
-                            </select>`;
-                        }
-                    }
-                });
+                result = eval(value + operator2 + formula2);
+                input1.value = Intl.NumberFormat().format(result);
+                inputValue.value = value;
             }
         </script>
         <script>
-            function checkSpacer() {
-                let spacer = document.getElementById('inputSpacer');
-                let cap = document.getElementById('inputCap');
+            function changePart(event, part) {
+                let id = event.target.value;
+                let section = document.getElementById('groupPartList' + part);
 
-                if (spacer.value > 0) {
-                    cap.setAttribute('disabled', 'disabled');
-                }
-                if (spacer.value === '0') {
-                    cap.removeAttribute('disabled');
-                }
-            }
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
 
-            function checkCap() {
-                let cap = document.getElementById('inputCap');
-                let spacer = document.getElementById('inputSpacer');
-
-                if (cap.value > 0) {
-                    spacer.setAttribute('disabled', 'disabled');
-                }
-                if (cap.value === '0') {
-                    spacer.removeAttribute('disabled');
-                }
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('inquiries.product.changePart') }}',
+                    data: {
+                        id: id,
+                    },
+                    success: function (res) {
+                        let parts = res.data;
+                        section.innerHTML = `
+                            <select class="input-text" onchange="changePart(event,${part})" id="inputCategory${part}">
+                                    ${
+                            parts.map(function (part) {
+                                return `<option value="${part.id}">${part.name}</option>`
+                            })
+                        }
+                            </select>`
+                    }
+                });
             }
         </script>
     </x-slot>
 
     <!-- Breadcrumb -->
-    <nav class="flex bg-gray-100 p-4 rounded-md" aria-label="Breadcrumb">
+    <nav class="flex bg-gray-100 p-4 rounded-md overflow-x-auto whitespace-nowrap" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-2 space-x-reverse">
             <li class="inline-flex items-center">
                 <a href="{{ route('dashboard') }}"
@@ -106,6 +74,19 @@
                     </svg>
                     داشبورد
                 </a>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                              clip-rule="evenodd"/>
+                    </svg>
+                    <a href="{{ route('separate.electrical.index') }}"
+                       class="mr-2 text-xs md:text-sm font-medium text-gray-500 hover:text-gray-900">
+                        محاسبه قیمت تابلو برق محلی
+                    </a>
+                </div>
             </li>
             <li aria-current="page">
                 <div class="flex items-center">
@@ -122,11 +103,6 @@
         </ol>
     </nav>
 
-    <!-- Errors -->
-    <div class="mt-4">
-        <x-errors/>
-    </div>
-
     @php
         $values = Session::get('values');
         $selectedParts = Session::get('selectedParts');
@@ -134,9 +110,8 @@
         $name = Session::get('name');
     @endphp
 
-    <form method="POST" action="{{ route('calculateCondensorConverter') }}">
+    <form method="POST" action="">
         @csrf
-        <input type="hidden" name="serial" value="{{ $inquiry->inquiry_number }}">
         <div class="my-4">
             <div class="bg-white rounded-md shadow-md border border-gray-200 py-4 px-6">
                 <div class="mb-4 border-b border-gray-300 pb-3 flex justify-between items-center">
@@ -148,8 +123,8 @@
                 </div>
                 <div class="grid grid-cols-4 gap-4">
                     <div>
-                        <label class="block mb-2 text-sm font-bold" for="inputLooleMessi">لوله مسی اواپراتور</label>
-                        <select name="loole_messi" id="inputLooleMessi" class="input-text bg-yellow-300">
+                        <label class="block mb-2 text-sm font-bold" for="inputKilidVoroodi">کلید ورودی تابلو برق</label>
+                        <select name="kilid_voroodi" id="inputKilidVoroodi" class="input-text bg-yellow-300">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::find('1324')->id }}"
                                 {{ is_null($inputs) ? (old('loole_messi') == '1324' ? 'selected' : '') : ($inputs['loole_messi'] == "1324" ? 'selected' : (old('loole_messi') == '1324' ? 'selected' : '')) }}>
@@ -178,10 +153,10 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block mb-2 text-sm font-bold" for="inputLooleMessiSucshen">
-                            لوله مسی خط دیسشارژ
+                        <label class="block mb-2 text-sm font-bold" for="inputKilidCompressor">
+                            کلید کمپرسور
                         </label>
-                        <select name="loole_messi_sucshen" id="inputLooleMessiSucshen" class="input-text bg-yellow-300">
+                        <select name="kilid_compressor" id="inputKilidCompressor" class="input-text bg-yellow-300">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::find('77')->id }}"
                                 {{ is_null($inputs) ? (old('loole_messi_sucshen') == '77' ? 'selected' : '') : ($inputs['loole_messi_sucshen'] == "77" ? 'selected' : (old('loole_messi_sucshen') == '77' ? 'selected' : '')) }}>
@@ -234,8 +209,11 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block mb-2 text-sm font-bold" for="inputLooleMessiMaye">لوله مسی خط مایع</label>
-                        <select name="loole_messi_maye" id="inputLooleMessiMaye" class="input-text bg-yellow-300">
+                        <label class="block mb-2 text-sm font-bold" for="inputContactorCompressor">
+                            کنتاکتور کمپرسور
+                        </label>
+                        <select name="contactor_compressor" id="inputContactorCompressor"
+                                class="input-text bg-yellow-300">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::find('77')->id }}"
                                 {{ is_null($inputs) ? (old('loole_messi_maye') == '77' ? 'selected' : '') : ($inputs['loole_messi_maye'] == "77" ? 'selected' : (old('loole_messi_maye') == '77' ? 'selected' : '')) }}>
@@ -288,8 +266,11 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block mb-2 text-sm font-bold" for="inputSizeLoolePooste">سایز لوله پوسته</label>
-                        <select name="size_loole_pooste" id="inputSizeLoolePooste" class="input-text bg-yellow-300">
+                        <label class="block mb-2 text-sm font-bold" for="inputContactorSetareCompressor">
+                            کنتاکتور ستاره مثلث کمپرسور
+                        </label>
+                        <select name="contactor_setare_compressor" id="inputContactorSetareCompressor"
+                                class="input-text bg-yellow-300">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::find('975')->id }}"
                                 {{ is_null($inputs) ? (old('size_loole_pooste') == '975' ? 'selected' : '') : ($inputs['size_loole_pooste'] == "975" ? 'selected' : (old('size_loole_pooste') == '975' ? 'selected' : '')) }}>
@@ -354,8 +335,10 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block mb-2 text-sm font-bold" for="inputPichoMohre">پیچ و مهره</label>
-                        <select name="picho_mohre" id="inputPichoMohre" class="input-text bg-yellow-300">
+                        <label class="block mb-2 text-sm font-bold" for="inputKilidHavaresan">
+                            کلید موتور فن هوارسان
+                        </label>
+                        <select name="kilid_havaresan" id="inputKilidHavaresan" class="input-text bg-yellow-300">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::find('1180')->id }}"
                                 {{ is_null($inputs) ? (old('picho_mohre') == '1180' ? 'selected' : '') : ($inputs['picho_mohre'] == "1180" ? 'selected' : (old('picho_mohre') == '1180' ? 'selected' : '')) }}>
@@ -392,10 +375,56 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block mb-2 text-sm font-bold" for="inputSensor">
-                            کانکشن شیر اطمینان و تخلیه
+                        <label class="block mb-2 text-sm font-bold" for="inputContactorFanHavasaz">
+                            کنتاکتور موتور فن هواساز
                         </label>
-                        <select name="sensor" id="inputSensor" class="input-text bg-yellow-300">
+                        <select name="contactor_fan_havasaz" id="inputContactorFanHavasaz"
+                                class="input-text bg-yellow-300">
+                            <option value="">انتخاب کنید</option>
+                            <option value="{{ \App\Models\Part::find('885')->id }}"
+                                {{ is_null($inputs) ? (old('ayegh') == '885' ? 'selected' : '') : ($inputs['ayegh'] == "885" ? 'selected' : (old('ayegh') == '885' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('885')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('886')->id }}"
+                                {{ is_null($inputs) ? (old('ayegh') == '886' ? 'selected' : '') : ($inputs['ayegh'] == "886" ? 'selected' : (old('ayegh') == '886' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('886')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('887')->id }}"
+                                {{ is_null($inputs) ? (old('ayegh') == '887' ? 'selected' : '') : ($inputs['ayegh'] == "887" ? 'selected' : (old('ayegh') == '887' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('887')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('888')->id }}"
+                                {{ is_null($inputs) ? (old('ayegh') == '888' ? 'selected' : '') : ($inputs['ayegh'] == "888" ? 'selected' : (old('ayegh') == '888' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('888')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('889')->id }}"
+                                {{ is_null($inputs) ? (old('ayegh') == '889' ? 'selected' : '') : ($inputs['ayegh'] == "889" ? 'selected' : (old('ayegh') == '889' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('889')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('890')->id }}"
+                                {{ is_null($inputs) ? (old('ayegh') == '890' ? 'selected' : '') : ($inputs['ayegh'] == "890" ? 'selected' : (old('ayegh') == '890' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('890')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('891')->id }}"
+                                {{ is_null($inputs) ? (old('ayegh') == '891' ? 'selected' : '') : ($inputs['ayegh'] == "891" ? 'selected' : (old('ayegh') == '891' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('891')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('892')->id }}"
+                                {{ is_null($inputs) ? (old('ayegh') == '892' ? 'selected' : '') : ($inputs['ayegh'] == "892" ? 'selected' : (old('ayegh') == '892' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('892')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('893')->id }}"
+                                {{ is_null($inputs) ? (old('ayegh') == '893' ? 'selected' : '') : ($inputs['ayegh'] == "893" ? 'selected' : (old('ayegh') == '893' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('893')->name }}
+                            </option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-bold" for="inputInverterFanHavasaz">
+                            اینورتر موتور فن هواساز
+                        </label>
+                        <select name="inverter_fan_havasaz" id="inputInverterFanHavasaz"
+                                class="input-text bg-yellow-300">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::find('995')->id }}"
                                 {{ is_null($inputs) ? (old('sensor') == '995' ? 'selected' : '') : ($inputs['sensor'] == "995" ? 'selected' : (old('sensor') == '995' ? 'selected' : '')) }}>
@@ -413,8 +442,10 @@
                     </div>
 
                     <div>
-                        <label class="block mb-2 text-sm font-bold" for="inputNavdani">ناودانی</label>
-                        <select name="navdani" id="inputNavdani" class="input-text bg-yellow-300">
+                        <label class="block mb-2 text-sm font-bold" for="inputKilidElectroFan">
+                            کلید الکتروفن کندانسور
+                        </label>
+                        <select name="kilid_electro_fan" id="inputKilidElectroFan" class="input-text bg-yellow-300">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::find('302')->id }}"
                                 {{ is_null($inputs) ? (old('navdani') == '302' ? 'selected' : '') : ($inputs['navdani'] == "302" ? 'selected' : (old('navdani') == '302' ? 'selected' : '')) }}>
@@ -451,8 +482,11 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block mb-2 text-sm font-bold" for="inputBoshen">بوشن فشار قوی خط دیسشارژ</label>
-                        <select name="boshen1" id="inputBoshen" class="input-text bg-yellow-300">
+                        <label class="block mb-2 text-sm font-bold" for="inputContactorElectroFan">
+                            کنتاکتور الکتروفن کندانسور
+                        </label>
+                        <select name="contactor_electro_fan" id="inputContactorElectroFan"
+                                class="input-text bg-yellow-300">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::find('995')->id }}"
                                 {{ is_null($inputs) ? (old('boshen1') == '995' ? 'selected' : '') : ($inputs['boshen1'] == "995" ? 'selected' : (old('boshen1') == '995' ? 'selected' : '')) }}>
@@ -469,8 +503,11 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block mb-2 text-sm font-bold" for="inputBoshen2">بوشن فشار قوی خط مایع</label>
-                        <select name="boshen2" id="inputBoshen2" class="input-text bg-yellow-300">
+                        <label class="block mb-2 text-sm font-bold" for="inputInverterElectroFan">
+                            اینورتر الکتروفن کندانسور
+                        </label>
+                        <select name="inverter_electro_fan" id="inputInverterElectroFan"
+                                class="input-text bg-yellow-300">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::find('995')->id }}"
                                 {{ is_null($inputs) ? (old('boshen2') == '995' ? 'selected' : '') : ($inputs['boshen2'] == "995" ? 'selected' : (old('boshen2') == '995' ? 'selected' : '')) }}>
@@ -487,198 +524,33 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block mb-2 text-sm font-bold" for="inputFlanch">فلنچ ورودی و خروجی</label>
-                        <select name="flanch" id="inputFlanch" class="input-text bg-yellow-300">
+                        <label class="block mb-2 text-sm font-bold" for="inputRele">
+                            رله
+                        </label>
+                        <select name="rele" id="inputRele"
+                                class="input-text bg-yellow-300">
                             <option value="">انتخاب کنید</option>
-                            <option value="{{ \App\Models\Part::find('1155')->id }}"
-                                {{ is_null($inputs) ? (old('flanch') == '1155' ? 'selected' : '') : ($inputs['flanch'] == "1155" ? 'selected' : (old('flanch') == '1155' ? 'selected' : '')) }}>
-                                {{ \App\Models\Part::find('1155')->name }}
+                            <option value="{{ \App\Models\Part::find('995')->id }}"
+                                {{ is_null($inputs) ? (old('boshen2') == '995' ? 'selected' : '') : ($inputs['boshen2'] == "995" ? 'selected' : (old('boshen2') == '995' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('995')->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::find('1156')->id }}"
-                                {{ is_null($inputs) ? (old('flanch') == '1156' ? 'selected' : '') : ($inputs['flanch'] == "1156" ? 'selected' : (old('flanch') == '1156' ? 'selected' : '')) }}>
-                                {{ \App\Models\Part::find('1156')->name }}
+                            <option value="{{ \App\Models\Part::find('1165')->id }}"
+                                {{ is_null($inputs) ? (old('boshen2') == '1165' ? 'selected' : '') : ($inputs['boshen2'] == "1165" ? 'selected' : (old('boshen2') == '1165' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1165')->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::find('1157')->id }}"
-                                {{ is_null($inputs) ? (old('flanch') == '1157' ? 'selected' : '') : ($inputs['flanch'] == "1157" ? 'selected' : (old('flanch') == '1157' ? 'selected' : '')) }}>
-                                {{ \App\Models\Part::find('1157')->name }}
-                            </option>
-                            <option value="{{ \App\Models\Part::find('1158')->id }}"
-                                {{ is_null($inputs) ? (old('flanch') == '1158' ? 'selected' : '') : ($inputs['flanch'] == "1158" ? 'selected' : (old('flanch') == '1158' ? 'selected' : '')) }}>
-                                {{ \App\Models\Part::find('1158')->name }}
-                            </option>
-                            <option value="{{ \App\Models\Part::find('1159')->id }}"
-                                {{ is_null($inputs) ? (old('flanch') == '1159' ? 'selected' : '') : ($inputs['flanch'] == "1159" ? 'selected' : (old('flanch') == '1159' ? 'selected' : '')) }}>
-                                {{ \App\Models\Part::find('1159')->name }}
-                            </option>
-                            <option value="{{ \App\Models\Part::find('1160')->id }}"
-                                {{ is_null($inputs) ? (old('flanch') == '1160' ? 'selected' : '') : ($inputs['flanch'] == "1160" ? 'selected' : (old('flanch') == '1160' ? 'selected' : '')) }}>
-                                {{ \App\Models\Part::find('1160')->name }}
-                            </option>
-                            <option value="{{ \App\Models\Part::find('1161')->id }}"
-                                {{ is_null($inputs) ? (old('flanch') == '1161' ? 'selected' : '') : ($inputs['flanch'] == "1161" ? 'selected' : (old('flanch') == '1161' ? 'selected' : '')) }}>
-                                {{ \App\Models\Part::find('1161')->name }}
-                            </option>
-                            <option value="{{ \App\Models\Part::find('1162')->id }}"
-                                {{ is_null($inputs) ? (old('flanch') == '1162' ? 'selected' : '') : ($inputs['flanch'] == "1162" ? 'selected' : (old('flanch') == '1162' ? 'selected' : '')) }}>
-                                {{ \App\Models\Part::find('1162')->name }}
-                            </option>
-                            <option value="{{ \App\Models\Part::find('1163')->id }}"
-                                {{ is_null($inputs) ? (old('flanch') == '1163' ? 'selected' : '') : ($inputs['flanch'] == "1163" ? 'selected' : (old('flanch') == '1163' ? 'selected' : '')) }}>
-                                {{ \App\Models\Part::find('1163')->name }}
-                            </option>
-                            <option value="{{ \App\Models\Part::find('1164')->id }}"
-                                {{ is_null($inputs) ? (old('flanch') == '1164' ? 'selected' : '') : ($inputs['flanch'] == "1164" ? 'selected' : (old('flanch') == '1164' ? 'selected' : '')) }}>
-                                {{ \App\Models\Part::find('1164')->name }}
+                            <option value="{{ \App\Models\Part::find('1166')->id }}"
+                                {{ is_null($inputs) ? (old('boshen2') == '1166' ? 'selected' : '') : ($inputs['boshen2'] == "1166" ? 'selected' : (old('boshen2') == '1166' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1166')->name }}
                             </option>
                         </select>
                     </div>
                     <div>
-                        <label class="block mb-2 text-sm font-bold" for="inputTube">تیوپ شیت</label>
-                        <select name="tube" id="inputTube" class="input-text bg-yellow-300">
-                            <option value="">انتخاب کنید</option>
-                            <option value="{{ \App\Models\Part::find('1170')->id }}"
-                                {{ is_null($inputs) ? (old('tube') == '1170' ? 'selected' : '') : ($inputs['tube'] == "1170" ? 'selected' : (old('tube') == '1170' ? 'selected' : '')) }}>
-                                {{ \App\Models\Part::find('1170')->name }}
-                            </option>
-                            <option value="{{ \App\Models\Part::find('1171')->id }}"
-                                {{ is_null($inputs) ? (old('tube') == '1171' ? 'selected' : '') : ($inputs['tube'] == "1171" ? 'selected' : (old('tube') == '1171' ? 'selected' : '')) }}>
-                                {{ \App\Models\Part::find('1171')->name }}
-                            </option>
-                            <option value="{{ \App\Models\Part::find('1172')->id }}"
-                                {{ is_null($inputs) ? (old('tube') == '1172' ? 'selected' : '') : ($inputs['tube'] == "1172" ? 'selected' : (old('tube') == '1172' ? 'selected' : '')) }}>
-                                {{ \App\Models\Part::find('1172')->name }}
-                            </option>
-                            <option value="{{ \App\Models\Part::find('1173')->id }}"
-                                {{ is_null($inputs) ? (old('tube') == '1173' ? 'selected' : '') : ($inputs['tube'] == "1173" ? 'selected' : (old('tube') == '1173' ? 'selected' : '')) }}>
-                                {{ \App\Models\Part::find('1173')->name }}
-                            </option>
-                            <option value="{{ \App\Models\Part::find('1174')->id }}"
-                                {{ is_null($inputs) ? (old('tube') == '1174' ? 'selected' : '') : ($inputs['tube'] == "1174" ? 'selected' : (old('tube') == '1174' ? 'selected' : '')) }}>
-                                {{ \App\Models\Part::find('1174')->name }}
-                            </option>
-                            <option value="{{ \App\Models\Part::find('1175')->id }}"
-                                {{ is_null($inputs) ? (old('tube') == '1175' ? 'selected' : '') : ($inputs['tube'] == "1175" ? 'selected' : (old('tube') == '1175' ? 'selected' : '')) }}>
-                                {{ \App\Models\Part::find('1175')->name }}
-                            </option>
-                            <option value="{{ \App\Models\Part::find('1176')->id }}"
-                                {{ is_null($inputs) ? (old('tube') == '1176' ? 'selected' : '') : ($inputs['tube'] == "1176" ? 'selected' : (old('tube') == '1176' ? 'selected' : '')) }}>
-                                {{ \App\Models\Part::find('1176')->name }}
-                            </option>
-                            <option value="{{ \App\Models\Part::find('1177')->id }}"
-                                {{ is_null($inputs) ? (old('tube') == '1177' ? 'selected' : '') : ($inputs['tube'] == "1177" ? 'selected' : (old('tube') == '1177' ? 'selected' : '')) }}>
-                                {{ \App\Models\Part::find('1177')->name }}
-                            </option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block mb-2 text-sm font-bold" for="inputRing">رینگ روبند</label>
-                        <select name="ring" id="inputRing" class="input-text bg-yellow-300">
-                            <option value="">انتخاب کنید</option>
-                            <option value="{{ \App\Models\Part::find('1170')->id }}"
-                                {{ is_null($inputs) ? (old('ring') == '1170' ? 'selected' : '') : ($inputs['ring'] == "1170" ? 'selected' : (old('ring') == '1170' ? 'selected' : '')) }}>
-                                {{ \App\Models\Part::find('1170')->name }}
-                            </option>
-                            <option value="{{ \App\Models\Part::find('1171')->id }}"
-                                {{ is_null($inputs) ? (old('ring') == '1171' ? 'selected' : '') : ($inputs['ring'] == "1171" ? 'selected' : (old('ring') == '1171' ? 'selected' : '')) }}>
-                                {{ \App\Models\Part::find('1171')->name }}
-                            </option>
-                            <option value="{{ \App\Models\Part::find('1172')->id }}"
-                                {{ is_null($inputs) ? (old('ring') == '1172' ? 'selected' : '') : ($inputs['ring'] == "1172" ? 'selected' : (old('ring') == '1172' ? 'selected' : '')) }}>
-                                {{ \App\Models\Part::find('1172')->name }}
-                            </option>
-                            <option value="{{ \App\Models\Part::find('1173')->id }}"
-                                {{ is_null($inputs) ? (old('ring') == '1173' ? 'selected' : '') : ($inputs['ring'] == "1173" ? 'selected' : (old('ring') == '1173' ? 'selected' : '')) }}>
-                                {{ \App\Models\Part::find('1173')->name }}
-                            </option>
-                            <option value="{{ \App\Models\Part::find('1174')->id }}"
-                                {{ is_null($inputs) ? (old('ring') == '1174' ? 'selected' : '') : ($inputs['ring'] == "1174" ? 'selected' : (old('ring') == '1174' ? 'selected' : '')) }}>
-                                {{ \App\Models\Part::find('1174')->name }}
-                            </option>
-                            <option value="{{ \App\Models\Part::find('1175')->id }}"
-                                {{ is_null($inputs) ? (old('ring') == '1175' ? 'selected' : '') : ($inputs['ring'] == "1175" ? 'selected' : (old('ring') == '1175' ? 'selected' : '')) }}>
-                                {{ \App\Models\Part::find('1175')->name }}
-                            </option>
-                            <option value="{{ \App\Models\Part::find('1176')->id }}"
-                                {{ is_null($inputs) ? (old('ring') == '1176' ? 'selected' : '') : ($inputs['ring'] == "1176" ? 'selected' : (old('ring') == '1176' ? 'selected' : '')) }}>
-                                {{ \App\Models\Part::find('1176')->name }}
-                            </option>
-                            <option value="{{ \App\Models\Part::find('1177')->id }}"
-                                {{ is_null($inputs) ? (old('ring') == '1177' ? 'selected' : '') : ($inputs['ring'] == "1177" ? 'selected' : (old('ring') == '1177' ? 'selected' : '')) }}>
-                                {{ \App\Models\Part::find('1177')->name }}
-                            </option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block mb-2 text-sm font-bold" for="inputTooleLoolePooste">طول لوله پوسته</label>
-                        <select name="toole_loole_pooste" id="inputTooleLoolePooste" class="input-text bg-yellow-300">
-                            <option value="">انتخاب کنید</option>
-                            <option value="0.75"
-                                {{ is_null($inputs) ? (old('toole_loole_pooste') == '0.75' ? 'selected' : '') : ($inputs['toole_loole_pooste'] == "0.75" ? 'selected' : (old('toole_loole_pooste') == '0.75' ? 'selected' : '')) }}>
-                                0.75
-                            </option>
-                            <option value="1"
-                                {{ is_null($inputs) ? (old('toole_loole_pooste') == '1' ? 'selected' : '') : ($inputs['toole_loole_pooste'] == "1" ? 'selected' : (old('toole_loole_pooste') == '1' ? 'selected' : '')) }}>
-                                1
-                            </option>
-                            <option value="1.2"
-                                {{ is_null($inputs) ? (old('toole_loole_pooste') == '1.2' ? 'selected' : '') : ($inputs['toole_loole_pooste'] == "1.2" ? 'selected' : (old('toole_loole_pooste') == '1.2' ? 'selected' : '')) }}>
-                                1.2
-                            </option>
-                            <option value="1.5"
-                                {{ is_null($inputs) ? (old('toole_loole_pooste') == '1.5' ? 'selected' : '') : ($inputs['toole_loole_pooste'] == "1.5" ? 'selected' : (old('toole_loole_pooste') == '1.5' ? 'selected' : '')) }}>
-                                1.5
-                            </option>
-                            <option value="2"
-                                {{ is_null($inputs) ? (old('toole_loole_pooste') == '2' ? 'selected' : '') : ($inputs['toole_loole_pooste'] == "2" ? 'selected' : (old('toole_loole_pooste') == '2' ? 'selected' : '')) }}>
-                                2
-                            </option>
-                            <option value="3"
-                                {{ is_null($inputs) ? (old('toole_loole_pooste') == '3' ? 'selected' : '') : ($inputs['toole_loole_pooste'] == "3" ? 'selected' : (old('toole_loole_pooste') == '3' ? 'selected' : '')) }}>
-                                3
-                            </option>
-                            <option value="4"
-                                {{ is_null($inputs) ? (old('toole_loole_pooste') == '4' ? 'selected' : '') : ($inputs['toole_loole_pooste'] == "4" ? 'selected' : (old('toole_loole_pooste') == '4' ? 'selected' : '')) }}>
-                                4
-                            </option>
-                            <option value="6"
-                                {{ is_null($inputs) ? (old('toole_loole_pooste') == '6' ? 'selected' : '') : ($inputs['toole_loole_pooste'] == "6" ? 'selected' : (old('toole_loole_pooste') == '6' ? 'selected' : '')) }}>
-                                6
-                            </option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block mb-2 text-sm font-bold" for="inputTedadLooleMessi">تعداد لوله مسی</label>
-                        <input name="tedad_loole_messi" type="text" class="input-text bg-yellow-300"
-                               id="inputTedadLooleMessi"
+                        <label class="block mb-2 text-sm font-bold" for="inputTransform">
+                            تراتسفور ماتور 220 به 24 ولت
+                        </label>
+                        <input name="transform" type="text" class="input-text bg-yellow-300"
+                               id="inputTransform"
                                value="{{ !is_null($inputs) ? $inputs['tedad_loole_messi'] : old('tedad_loole_messi') }}">
-                    </div>
-                    <div>
-                        <label class="block mb-2 text-sm font-bold" for="inputTonaj">تناژ واقعی</label>
-                        <input name="tonaj" type="text" class="input-text bg-yellow-300"
-                               id="inputTonaj"
-                               value="{{ !is_null($inputs) ? $inputs['tonaj'] : old('tonaj') }}">
-                    </div>
-                    <div>
-                        <label class="block mb-2 text-sm font-bold" for="inputGaz">گاز مبرد</label>
-                        <select name="gaz" id="inputGaz" class="input-text bg-yellow-300">
-                            <option value="">انتخاب کنید</option>
-                            <option value="R22"
-                                {{ is_null($inputs) ? (old('gaz') == 'R22' ? 'selected' : '') : ($inputs['gaz'] == "R22" ? 'selected' : (old('gaz') == 'R22' ? 'selected' : '')) }}>
-                                R22
-                            </option>
-                            <option value="R134a"
-                                {{ is_null($inputs) ? (old('gaz') == 'R134a' ? 'selected' : '') : ($inputs['gaz'] == "R134a" ? 'selected' : (old('gaz') == 'R134a' ? 'selected' : '')) }}>
-                                R134a
-                            </option>
-                            <option value="R407c"
-                                {{ is_null($inputs) ? (old('gaz') == 'R407c' ? 'selected' : '') : ($inputs['gaz'] == "R407c" ? 'selected' : (old('gaz') == 'R407c' ? 'selected' : '')) }}>
-                                R407c
-                            </option>
-                            <option value="R407a"
-                                {{ is_null($inputs) ? (old('gaz') == 'R407a' ? 'selected' : '') : ($inputs['gaz'] == "R407a" ? 'selected' : (old('gaz') == 'R407a' ? 'selected' : '')) }}>
-                                R407a
-                            </option>
-                        </select>
                     </div>
                 </div>
             </div>
@@ -694,195 +566,117 @@
 
     <!-- Content -->
     <div class="mt-4">
-        @if(!is_null($values))
-            <form method="POST" action="{{ route('calculateConverter.storeCondensor',[$part->id,$product->id]) }}"
-                  class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4">
-                @csrf
-                <table class="border-collapse border border-gray-400 w-full">
-                    <thead class="sticky top-1 bg-gray-200 z-50 shadow-md">
-                    <tr>
-                        <th class="border border-gray-300 p-4 text-sm">ردیف</th>
-                        <th class="border border-gray-300 p-4 text-sm">شرح</th>
-                        <th class="border border-gray-300 p-4 text-sm">واحد</th>
-                        <th class="border border-gray-300 p-4 text-sm">مقدار / سایز</th>
-                        @can('coil-table')
-                            <th class="border border-gray-300 p-4 text-sm">قیمت واحد (تومان)</th>
-                            <th class="border border-gray-300 p-4 text-sm">قیمت کل (تومان)</th>
-                        @endcan
+        <!-- Laptop List -->
+        <form method="POST" action="">
+            @csrf
+
+            <div class="bg-white shadow overflow-x-auto rounded-lg hidden md:block">
+                <table class="min-w-full">
+                    <thead>
+                    <tr class="bg-sky-200">
+                        <th scope="col"
+                            class="px-4 py-2 text-sm font-bold text-gray-800 text-center rounded-r-md">
+                            ردیف
+                        </th>
+                        <th scope="col" class="px-4 py-2 text-sm font-bold text-gray-800 text-center">
+                            دسته بندی
+                        </th>
+                        <th scope="col" class="px-4 py-2 text-sm font-bold text-gray-800 text-center">
+                            نام
+                        </th>
+                        <th scope="col" class="px-4 py-2 text-sm font-bold text-gray-800 text-center">
+                            واحد
+                        </th>
+                        <th scope="col" class="px-4 py-2 text-sm font-bold text-gray-800 text-center">
+                            مقادیر
+                        </th>
+                        <th scope="col" class="px-4 py-2 text-sm font-bold text-gray-800 text-center">
+                            قیمت
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
-                    @php
-                        $finalPrice = 0;
-                    @endphp
-                    @foreach($part->children as $index => $child)
-                        <input type="hidden" name="values[]" id="value{{ $index }}"
-                               value="{{ $values[$index] }}">
+                    @foreach($part->children()->orderBy('sort','ASC')->get() as $child)
+                        @php
+                            $category = $child->categories[1];
+                            $selectedCategory = $child->categories[2];
+                        @endphp
                         <tr>
-                            @if(!is_null($selectedParts))
-                                @php
-                                    $keys = array_keys($selectedParts);
-                                @endphp
-                                @if(in_array($index,$keys))
-                                    @foreach($keys as $key)
-                                        @if($key == $index)
-                                            <td class="border border-gray-300 p-4 text-sm text-center">
-                                                {{ $index + 1 }}
-                                            </td>
-                                            <td class="border border-gray-300 p-4 text-sm text-center">
-                                                {{ $selectedParts[$index]->name }}
-                                            </td>
-                                            <td class="border border-gray-300 p-4 text-sm text-center">
-                                                {{ $selectedParts[$index]->unit }}
-                                                @if(!is_null($selectedParts[$index]->unit2))
-                                                    /
-                                                    {{ $selectedParts[$index]->unit2 }}
-                                                @endif
-                                            </td>
-                                            <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                                                @if(!is_null($values))
-                                                    <span>{{ number_format($values[$index], 2) }}</span>
-                                                    @if(!is_null($selectedParts[$index]->unit2))
-                                                        @php
-                                                            $string = $values[$index] . $selectedParts[$index]->operator2 . $selectedParts[$index]->formula2;
-                                                        @endphp
-                                                        /
-                                                        {{ number_format(eval("return " . $string . ';'), 2) }}
-                                                    @endif
-                                                @endif
-                                            </td>
-                                            @can('coil-table')
-                                                <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                                                    <span>{{ number_format($selectedParts[$index]->price) }}</span>
-                                                </td>
-                                                <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                                                    @if(!is_null($values))
-                                                        {{ number_format($values[$index] * $selectedParts[$index]->price) }}
-                                                    @endif
-                                                </td>
-                                            @endcan
-                                        @endif
-                                    @endforeach
-                                    @php
-                                        $finalPrice += $values[$index] * $selectedParts[$index]->price;
-                                    @endphp
-                                    <input type="hidden" name="parts[]" id="part{{ $index }}"
-                                           value="{{ $selectedParts[$index]->id }}">
-                                @else
-                                    <td class="border border-gray-300 p-4 text-sm text-center">
-                                        {{ $index + 1 }}
-                                    </td>
-                                    <td class="border border-gray-300 p-4 text-sm text-center">
-                                        {{ $child->name }}
-                                    </td>
-                                    <td class="border border-gray-300 p-4 text-sm text-center">
-                                        {{ $child->unit }}
-                                        @if(!is_null($child->unit2))
-                                            /
-                                            {{ $child->unit2 }}
-                                        @endif
-                                    </td>
-                                    <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                                        <span>{{ number_format($values[$index], 2) }}</span>
-                                        @if(!is_null($child->unit2))
-                                            @php
-                                                $string = $values[$index] . $child->operator2 . $child->formula2;
-                                            @endphp
-                                            /
-                                            {{ number_format(eval("return " . $string . ';'), 2) }}
-                                        @endif
-                                    </td>
-                                    @can('coil-table')
-                                        <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                                            <span>{{ number_format($child->price) }}</span>
-                                        </td>
-                                        <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                                            {{ number_format($values[$index] * $child->price) }}
-                                        </td>
-                                    @endcan
-                                    @php
-                                        $finalPrice += $values[$index] * $child->price;
-                                    @endphp
-                                @endif
-                            @endif
-                        </tr>
-                    @endforeach
-                    @can('coil-table')
-                        <tr>
-                            <td class="border border-gray-300 p-4 text-lg font-bold text-center" colspan="4">
-                                قیمت نهایی
+                            <td class="px-4 py-1 whitespace-nowrap">
+                                <input type="text" class="input-text w-14 text-center" name="sorts[]"
+                                       id="partSort{{ $child->id }}"
+                                       value="{{ $child->pivot->sort == 0 ||  $child->pivot->sort == null ? $loop->index+1 : $child->pivot->sort }}">
                             </td>
-                            <td class="border border-gray-300 p-4 text-lg font-bold text-center text-green-600"
-                                colspan="2">
-                                <span>{{ number_format($finalPrice) }} تومان </span>
-                                <input type="hidden" name="final_price" value="{{ $finalPrice }}">
-                            </td>
-                        </tr>
-                    @endcan
-                    </tbody>
-                </table>
-
-                <div class="my-4 bg-gray-100 p-4 rounded-md shadow-md">
-                    <p class="text-xl font-bold text-black text-center">
-                        قیمت نهایی : {{ number_format($finalPrice) }} تومان
-                    </p>
-                    <input type="hidden" name="price" value="{{ $finalPrice }}">
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="my-4 bg-red-300 p-4 rounded-md shadow-md">
-                        <label class="block mb-2 text-sm font-bold" for="inputCondensorName">
-                            نام کندانسور مورد نظر
-                        </label>
-                        <input type="text" class="input-text" id="inputCondensorName" name="name" dir="ltr"
-                               value="{{ $name }}">
-                    </div>
-                    @can('users')
-                        <div class="my-4 bg-red-300 p-4 rounded-md shadow-md">
-                            <label class="block mb-2 text-sm font-bold" for="inputStandard">
-                                تعیین استاندارد بودن کندانسور
-                            </label>
-                            <select name="standard" id="inputStandard" class="input-text">
-                                <option value="0">نباشد</option>
-                                <option value="1">باشد</option>
-                            </select>
-                        </div>
-                    @endcan
-                </div>
-
-                @can('users')
-                    <div class="my-4 bg-red-300 p-4 rounded-md shadow-md">
-                        <label class="block mb-2 text-sm font-bold" for="inputCoilCategory">
-                            دسته بندی کندانسور
-                        </label>
-                        <div class="grid grid-cols-3 gap-4">
-                            <div>
-                                <select name="categories[]" id="inputCoilCategory" class="input-text"
-                                        onchange="getCategory1()">
-                                    <option value="">انتخاب کنید</option>
-                                    @foreach($categories as $category)
+                            <td class="px-4 py-1">
+                                <select name="" id="inputCategory{{ $child->id }}" class="input-text"
+                                        onchange="changePart(event,{{ $child->id }})">
+                                    @foreach($category->children as $child2)
                                         <option
-                                            value="{{ $category->id }}" {{ request('category1') == $category->id ? 'selected' : '' }}>
-                                            {{ $category->name }}
+                                            value="{{ $child2->id }}" {{ $child2->id == $selectedCategory->id ? 'selected' : '' }}>
+                                            {{ $child2->name }}
                                         </option>
                                     @endforeach
                                 </select>
-                            </div>
-                            <div id="categorySection1">
-                            </div>
-                            <div id="categorySection2">
-                            </div>
-                        </div>
-                    </div>
+                            </td>
+                            <td class="px-4 py-1 whitespace-nowrap">
+                                @php
+                                    $selectedPart = \App\Models\Part::find($child->id);
+                                    $lastCategory = $selectedPart->categories()->latest()->first();
+                                    $categoryParts = $lastCategory->parts;
+                                @endphp
+                                <select name="part_ids[]" class="input-text" id="groupPartList{{ $child->id }}"
+                                        onchange="showCalculateButton('{{ $child->id }}')">
+                                    @foreach($categoryParts as $part2)
+                                        <option
+                                            value="{{ $part2->id }}" {{ $part2->id == $child->id ? 'selected' : '' }}>
+                                            {{ $part2->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </td>
+                            <td class="px-4 py-1 whitespace-nowrap">
+                                <p class="text-sm text-black text-center">
+                                    {{ $child->unit }}
+                                    @if(!is_null($child->unit2))
+                                        / {{ $child->unit2 }}
+                                    @endif
+                                </p>
+                            </td>
+                            <td class="px-4 py-1 whitespace-nowrap">
+                                <input type="text" name="values[]" id="inputValue{{ $child->id }}"
+                                       class="input-text w-24 text-center" onkeyup="changeUnit1(event,{{ $child }})"
+                                       value="{{ $child->pivot->value ?? '' }}">
+                                @if(!is_null($child->unit2))
+                                    <input type="text" id="inputUnit{{ $child->id }}"
+                                           class="input-text w-20 text-center" onkeyup="changeUnit2(event,{{ $child }})"
+                                           placeholder="{{ $child->unit2 }}" value="{{ $child->pivot->value2 }}">
+                                @endif
+                                <input type="hidden" name="units[]" id="inputUnitValue{{ $child->id }}"
+                                       value="{{ $child->pivot->value2 }}">
+                            </td>
+                            <td class="px-4 py-1 whitespace-nowrap">
+                                @if($child->price)
+                                    <p class="text-sm text-black font-medium text-center">
+                                        {{ number_format($child->price) }} تومان
+                                    </p>
+                                @else
+                                    <p class="text-sm font-medium text-center">
+                                        منتظر قیمت گذاری
+                                    </p>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
 
-                    <div class="mb-4">
-                        <button type="submit" class="form-submit-btn">
-                            ذخیره
-                        </button>
-                    </div>
-                @endcan
-            </form>
-        @endif
+            <div class="my-4">
+                <button type="submit" class="form-submit-btn">
+                    محاسبه
+                </button>
+            </div>
+
+        </form>
     </div>
-
 </x-layout>
