@@ -124,7 +124,7 @@
             @endforeach
         </div>
 
-        <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0 col-span-2">
+        <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
             <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">واحد و تبدیل واحد</p>
 
             <div class="grid grid-cols-2 gap-4">
@@ -171,22 +171,20 @@
 
         </div>
 
-        <div class="col-span-2">
-            <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
-                <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">قیمت</p>
+        <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
+            <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">قیمت</p>
 
-                <div class="mt-4">
-                    <label for="inputPrice" class="block mb-2 md:text-sm text-xs text-black">قیمت قطعه</label>
-                    <input type="text" id="inputPrice" name="price" class="input-text" value="{{ $part->price }}"
-                           onkeyup="showPrice(event)">
-                </div>
+            <div class="mt-4">
+                <label for="inputPrice" class="block mb-2 md:text-sm text-xs text-black">قیمت قطعه</label>
+                <input type="text" id="inputPrice" name="price" class="input-text" value="{{ $part->price }}"
+                       onkeyup="showPrice(event)">
+            </div>
 
-                <div class="mt-2">
-                    <p class="text-center text-lg font-bold">
-                        <span id="price">{{ number_format($part->price) }}</span>
-                        تومان
-                    </p>
-                </div>
+            <div class="mt-2">
+                <p class="text-center text-lg font-bold">
+                    <span id="price">{{ number_format($part->price) }}</span>
+                    تومان
+                </p>
             </div>
         </div>
 
