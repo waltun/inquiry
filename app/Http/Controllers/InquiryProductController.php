@@ -263,6 +263,7 @@ class InquiryProductController extends Controller
         $totalPrice = 0;
 
         if (!is_null($group) && !is_null($modell)) {
+
             foreach ($product->amounts as $amount) {
                 $part = Part::find($amount->part_id);
                 $totalPrice += ($part->price * $amount->value);
@@ -344,13 +345,14 @@ class InquiryProductController extends Controller
             $product = Product::find($id);
             $inquiry = Inquiry::find($product->inquiry_id);
             $user = User::find($inquiry->user_id);
-            $modell = Modell::find($product->model_id);
+            $totalPrice = 0;
 
-            foreach ($modell->parts as $part) {
-                $amount = $product->amounts()->where('part_id', $part->id)->first();
-                if ($amount) {
-                    $totalPrice += ($part->price * $amount->value);
-                }
+            foreach ($product->amounts as $amount) {
+                $part = Part::find($amount->part_id);
+                $totalPrice += ($part->price * $amount->value);
+                $amountPrice = Part::find($amount->part_id)->price;
+                $amount->price = $amountPrice;
+                $amount->save();
             }
 
             $finalPrice = $totalPrice * $request->percent;
