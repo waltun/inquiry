@@ -23,10 +23,28 @@ class InquiryController extends Controller
     {
         Gate::authorize('inquiries');
 
+        $inquiries = Inquiry::query();
+
+        if (request()->has('inquiry_number') && request()->get('inquiry_number') != null) {
+            $inquiries = $inquiries->where('inquiry_number', 'LIKE', "%" . request()->get('inquiry_number') . "%");
+        }
+
+        if (request()->has('name') && request()->get('name') != null) {
+            $inquiries = $inquiries->where('name', 'LIKE', "%" . request()->get('name') . "%");
+        }
+
+        if (request()->has('manager') && request()->get('manager') != null) {
+            $inquiries = $inquiries->where('manager', 'LIKE', "%" . request()->get('manager') . "%");
+        }
+
+        if (request()->has('marketer') && request()->get('marketer') != null) {
+            $inquiries = $inquiries->where('marketer', 'LIKE', "%" . request()->get('marketer') . "%");
+        }
+
         if (auth()->user()->role == 'admin') {
-            $inquiries = Inquiry::where('submit', 0)->latest()->paginate(25);
+            $inquiries = $inquiries->where('submit', 0)->latest()->paginate(25);
         } else {
-            $inquiries = Inquiry::where('submit', 0)->where('user_id', auth()->user()->id)->latest()->paginate(25);
+            $inquiries = $inquiries->where('submit', 0)->where('user_id', auth()->user()->id)->latest()->paginate(25);
         }
 
         return view('inquiries.index', compact('inquiries'));
@@ -156,10 +174,28 @@ class InquiryController extends Controller
     {
         Gate::authorize('submit-inquiry');
 
+        $inquiries = Inquiry::query();
+
+        if (request()->has('inquiry_number') && request()->get('inquiry_number') != null) {
+            $inquiries = $inquiries->where('inquiry_number', 'LIKE', "%" . request()->get('inquiry_number') . "%");
+        }
+
+        if (request()->has('name') && request()->get('name') != null) {
+            $inquiries = $inquiries->where('name', 'LIKE', "%" . request()->get('name') . "%");
+        }
+
+        if (request()->has('manager') && request()->get('manager') != null) {
+            $inquiries = $inquiries->where('manager', 'LIKE', "%" . request()->get('manager') . "%");
+        }
+
+        if (request()->has('marketer') && request()->get('marketer') != null) {
+            $inquiries = $inquiries->where('marketer', 'LIKE', "%" . request()->get('marketer') . "%");
+        }
+
         if (auth()->user()->role === 'admin') {
-            $inquiries = Inquiry::where('submit', 1)->where('archive_at', null)->latest()->paginate(25);
+            $inquiries = $inquiries->where('submit', 1)->where('archive_at', null)->latest()->paginate(25);
         } else {
-            $inquiries = Inquiry::where('submit', 1)->where('archive_at', null)->where('user_id', auth()->user()->id)->latest()->paginate(25);
+            $inquiries = $inquiries->where('submit', 1)->where('archive_at', null)->where('user_id', auth()->user()->id)->latest()->paginate(25);
         }
 
         return view('inquiries.submitted', compact('inquiries'));
@@ -199,10 +235,28 @@ class InquiryController extends Controller
     {
         Gate::authorize('priced-inquiry');
 
+        $inquiries = Inquiry::query();
+
+        if (request()->has('inquiry_number') && request()->get('inquiry_number') != null) {
+            $inquiries = $inquiries->where('inquiry_number', 'LIKE', "%" . request()->get('inquiry_number') . "%");
+        }
+
+        if (request()->has('name') && request()->get('name') != null) {
+            $inquiries = $inquiries->where('name', 'LIKE', "%" . request()->get('name') . "%");
+        }
+
+        if (request()->has('manager') && request()->get('manager') != null) {
+            $inquiries = $inquiries->where('manager', 'LIKE', "%" . request()->get('manager') . "%");
+        }
+
+        if (request()->has('marketer') && request()->get('marketer') != null) {
+            $inquiries = $inquiries->where('marketer', 'LIKE', "%" . request()->get('marketer') . "%");
+        }
+
         if (auth()->user()->role === 'admin') {
-            $inquiries = Inquiry::where('archive_at', '!=', null)->latest()->paginate(25);
+            $inquiries = $inquiries->where('archive_at', '!=', null)->latest()->paginate(25);
         } else {
-            $inquiries = Inquiry::where('archive_at', '!=', null)->where('user_id', auth()->user()->id)->latest()->paginate(25);
+            $inquiries = $inquiries->where('archive_at', '!=', null)->where('user_id', auth()->user()->id)->latest()->paginate(25);
         }
 
         return view('inquiries.priced', compact('inquiries'));

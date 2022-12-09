@@ -41,6 +41,51 @@
         </ol>
     </nav>
 
+    <!-- Search -->
+    <div class="bg-white shadow p-4 rounded-md border border-gray-200 mt-4"
+        {{ request()->query() ? 'x-data={open:true}' : 'x-data={open:false}' }}>
+        <div class="flex items-center justify-between cursor-pointer" @click="open=!open"
+             :class="{'border-b border-gray-300 pb-3' : open}">
+            <p class="text-sm font-bold text-black">جستجو در استعلام ها</p>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" class="w-6 h-6 transition" :class="{'rotate-180' : open}">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
+            </svg>
+        </div>
+        <form method="GET" action="" class="mt-4 grid grid-cols-4 gap-4" x-show="open" x-cloak>
+            <div class="mb-4">
+                <label for="inputInquiryNumber" class="block mb-2 text-sm font-bold">شماره استعلام</label>
+                <input type="text" id="inputInquiryNumber" class="input-text" name="inquiry_number"
+                       placeholder="جستجو براساس شماره استعلام (بدون INQ)" value="{{ request('inquiry_number') }}">
+            </div>
+            <div class="mb-4">
+                <label for="inputName" class="block mb-2 text-sm font-bold">نام پروژه</label>
+                <input type="text" id="inputName" class="input-text" name="name"
+                       placeholder="جستجو براساس نام پروژه" value="{{ request('name') }}">
+            </div>
+            <div class="mb-4">
+                <label for="inputManager" class="block mb-2 text-sm font-bold">مسئول پروژه</label>
+                <input type="text" id="inputManager" class="input-text" name="manager"
+                       placeholder="جستجو براساس مسئول پروژه" value="{{ request('manager') }}">
+            </div>
+            <div>
+                <label for="inputMarketer" class="block mb-2 text-sm font-bold">بازاریاب</label>
+                <input type="text" id="inputMarketer" class="input-text" name="marketer"
+                       placeholder="جستجو براساس بازاریاب" value="{{ request('marketer') }}">
+            </div>
+            <div class="col-span-4 flex justify-end space-x-2 space-x-reverse">
+                <button class="form-submit-btn" type="submit">
+                    جستجو
+                </button>
+                @if(request()->query())
+                    <a href="{{ route('inquiries.submitted') }}" class="form-detail-btn">
+                        پاکسازی
+                    </a>
+                @endif
+            </div>
+        </form>
+    </div>
+
     <!-- Navigation Btn -->
     <div class="mt-4 md:flex justify-between items-center">
         <div class="mb-4 md:mb-0">
