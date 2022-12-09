@@ -378,6 +378,41 @@ class InquiryProductController extends Controller
         }
     }
 
+    public function replicate(Request $request, Product $product)
+    {
+        $request->validate([
+            'quantity' => 'required|numeric',
+            'model_custom_name' => 'nullable|string|max:255'
+        ]);
+
+        $inquiry = Inquiry::find($product->inquiry_id);
+
+        $sort = 0;
+        if ($inquiry->products->isEmpty()) {
+            $sort = 1;
+        } else {
+            $inquiryProduct = $inquiry->products()->max('sort');
+            $sort = $inquiryProduct + 1;
+        }
+
+        $newProduct = $product->replicate()->fill([
+            'quantity' => $request['quantity'],
+            'model_custom_name' => $request['model_custom_name'] ?? null,
+            'sort' => $sort
+        ]);
+        $newProduct->save();
+
+        if (!$product->amounts->isEmpty()) {
+            foreach ($product->amounts as $amount) {
+                $newProduct->amounts()->save($amount->replicate());
+            }
+        }
+
+        alert()->success('کپی موفق', 'کپی محصول با موفقیت انجام شد');
+
+        return back();
+    }
+
     public function changePart(Request $request)
     {
         $category = Category::find($request->id);
