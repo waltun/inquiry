@@ -83,6 +83,13 @@ class InquiryPartController extends Controller
 
     public function destroy(Inquiry $inquiry, Part $part)
     {
+        foreach ($inquiry->products()->where('part_id', '!=', null)->get() as $product) {
+            if ($product->sort > $inquiry->products()->where('part_id', $part->id)->first()->sort) {
+                $product->sort = $product->sort - 1;
+                $product->save();
+            }
+        }
+
         $inquiry->products()->where('part_id', $part->id)->delete();
 
         alert()->success('حذف موفق', 'حذف قطعه تکی با موفقیت انجام شد');

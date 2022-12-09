@@ -71,6 +71,15 @@ class NewPartInquiryController extends Controller
 
     public function destroy(Amount $amount)
     {
+        $product = Product::find($amount->product_id);
+
+        foreach ($product->amounts as $amount2) {
+            if ($amount2->sort > $amount->sort) {
+                $amount2->sort = $amount2->sort - 1;
+                $amount2->save();
+            }
+        }
+
         $amount->delete();
 
         return response(['success']);

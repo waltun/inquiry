@@ -101,7 +101,8 @@
                         کاربر درخواست کننده : {{ $user->name }}
                     </p>
                 </div>
-                <form action="{{ route('inquiryPrice.update',$inquiry->id) }}" method="POST" class="mt-4 overflow-x-auto">
+                <form action="{{ route('inquiryPrice.update',$inquiry->id) }}" method="POST"
+                      class="mt-4 overflow-x-auto">
                     @csrf
                     @method('PATCH')
                     <table class="min-w-full bg-white shadow">

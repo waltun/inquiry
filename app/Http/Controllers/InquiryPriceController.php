@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Notification;
+use function Symfony\Component\String\b;
 
 class InquiryPriceController extends Controller
 {
@@ -72,37 +73,38 @@ class InquiryPriceController extends Controller
         foreach ($request->parts as $index => $part) {
             $updatedPart = Part::find($part);
             $inquiryPrices = InquiryPrice::where('part_id', $part)->get();
-
             foreach ($inquiryPrices as $inquiryPrice) {
                 if ($updatedPart->price !== (int)$request->prices[$index]) {
-                    $updatedPart->update([
-                        'price' => $request->prices[$index],
-                        'old_price' => $updatedPart->price,
-                        'price_updated_at' => now()
-                    ]);
+                    if (($request->prices[$index] >= ($updatedPart->price + $updatedPart->price / 5)) && !$temp) {
+                        dd("20%");
+                    } else {
+                        $updatedPart->update([
+                            'price' => $request->prices[$index],
+                            'old_price' => $updatedPart->price,
+                            'price_updated_at' => now()
+                        ]);
 
-                    if (!$updatedPart->parents->isEmpty()) {
-                        foreach ($updatedPart->parents as $parent) {
-                            $price = 0;
-                            foreach ($parent->children as $child) {
-                                $price += $child->price * $child->pivot->value;
+                        if (!$updatedPart->parents->isEmpty()) {
+                            foreach ($updatedPart->parents as $parent) {
+                                $price = 0;
+                                foreach ($parent->children as $child) {
+                                    $price += $child->price * $child->pivot->value;
+                                }
+                                $parent->update([
+                                    'price' => $price,
+                                    'old_price' => $parent->price,
+                                    'price_updated_at' => now(),
+                                    'updated_at' => now()
+                                ]);
                             }
-                            $parent->update([
-                                'price' => $price,
-                                'old_price' => $parent->price,
-                                'price_updated_at' => now(),
-                                'updated_at' => now()
-                            ]);
                         }
+                        $inquiryPrice->delete();
                     }
-
-                    $inquiryPrice->delete();
                 }
             }
         }
 
         alert()->success('ثبت موفق', 'ثبت قیمت گذاری با موفقیت انجام شد');
-
         return back();
     }
 
