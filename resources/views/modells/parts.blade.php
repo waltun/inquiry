@@ -3,19 +3,21 @@
         <script src="{{ asset('plugins/jquery.min.js') }}"></script>
         <script>
             function deletePartFromModell(modell, part) {
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
+                if (confirm('قطعه حذف شود ؟')) {
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
 
-                $.ajax({
-                    type: 'DELETE',
-                    url: '/models/' + modell + '/' + part + '/' + 'destroy-part',
-                    success: function () {
-                        location.reload();
-                    }
-                });
+                    $.ajax({
+                        type: 'DELETE',
+                        url: '/models/' + modell + '/' + part + '/' + 'destroy-part',
+                        success: function () {
+                            location.reload();
+                        }
+                    });
+                }
             }
         </script>
         <script>
@@ -238,7 +240,7 @@
                                 @endif
                             </td>
                             <td class="px-4 py-3 space-x-3 space-x-reverse">
-                                <button onclick="deletePartFromModell({{ $modell->id }},{{ $part->id }})">
+                                <button onclick="deletePartFromModell({{ $modell->id }},{{ $part->id }})" type="button">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                          stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-red-500">
                                         <path stroke-linecap="round" stroke-linejoin="round"

@@ -184,19 +184,21 @@
         </script>
         <script>
             function deletePartFromInquiry(inquiry, part) {
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
+                if (confirm('قطعه حذف شود ؟')) {
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
 
-                $.ajax({
-                    type: 'DELETE',
-                    url: '/inquiries/' + inquiry + '/' + part + '/destroy-part',
-                    success: function () {
-                        location.reload();
-                    }
-                });
+                    $.ajax({
+                        type: 'DELETE',
+                        url: '/inquiries/' + inquiry + '/' + part + '/destroy-part',
+                        success: function () {
+                            location.reload();
+                        }
+                    });
+                }
             }
         </script>
     </x-slot>
