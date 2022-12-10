@@ -191,7 +191,7 @@
 
                 //Converter Evaporator
                 if (selectedId === '1194') {
-                    let converterEvaporatorRoute = "/calculate/converter/" + 1194 + "/" + productId;
+                    let converterEvaporatorRoute = "/calculate/converter/" + 1194 + "/" + productId + "/evaporator";
                     converterEvaporatorSection.classList.remove('hidden')
                     converterEvaporatorSection.classList.add('block')
                     converterEvaporatorSection.innerHTML = `
@@ -209,13 +209,13 @@
                 }
 
                 if (selectedId === '1301') {
-                    let converterCondensorRoute = "/calculate/converter/" + 1301 + "/" + productId;
+                    let converterCondensorRoute = "/calculate/converter/" + 1301 + "/" + productId + "/condensor";
                     converterCondensorSection.classList.remove('hidden')
                     converterCondensorSection.classList.add('block')
                     converterCondensorSection.innerHTML = `
                         <a href="${converterCondensorRoute}"
                            class="form-submit-btn text-xs">
-                            محاسبه کندانسور آبی
+                            محاسبه کندانسور آبی پوسته لوله
                         </a>
                         `
                 } else {
@@ -703,7 +703,7 @@
 
                                             @case(1194)
                                                 @if(!session()->has('converter-btn-' . $part->id . $product->id))
-                                                    <a href=""
+                                                    <a href="{{ route('calculateConverter.evaporator.index',[$part->id,$product->id]) }}"
                                                        class="form-submit-btn text-xs">
                                                         محاسبه {{ $part->name }}
                                                     </a>
@@ -1009,7 +1009,7 @@
 
                                             @case(1194)
                                                 @if(!session()->has('converter-btn-' . $part->id . $product->id))
-                                                    <a href=""
+                                                    <a href="{{ route('calculateConverter.evaporator.index',[$part->id,$product->id]) }}"
                                                        class="form-submit-btn text-xs">
                                                         محاسبه {{ $part->name }}
                                                     </a>

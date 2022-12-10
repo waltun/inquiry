@@ -183,14 +183,14 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/calculate/damper-bargasht', [CalculateDamperController::class, 'calculateBargasht'])->name('calculateBargashtDamper');
 
     //Calculate converter routes
-    Route::get('/calculate/converter/{part}/{product}', [CalculateConverterController::class, 'evaporator'])
+    Route::get('/calculate/converter/{part}/{product}/evaporator', [CalculateConverterController::class, 'evaporator'])
         ->name('calculateConverter.evaporator.index');
     Route::post('/calculate/evaporator-converter', [CalculateConverterController::class, 'calculateEvaporator'])
         ->name('calculateEvaporatorConverter');
     Route::post('/calculate/converter/{part}/{product}/post-evaporator', [CalculateConverterController::class, 'storeEvaporator'])
         ->name('calculateConverter.storeEvaporator');
 
-    Route::get('/calculate/converter/{part}/{product}', [CalculateConverterController::class, 'condensor'])
+    Route::get('/calculate/converter/{part}/{product}/condensor', [CalculateConverterController::class, 'condensor'])
         ->name('calculateConverter.condensor.index');
     Route::post('/calculate/condensor-converter', [CalculateConverterController::class, 'calculateCondensor'])
         ->name('calculateCondensorConverter');
