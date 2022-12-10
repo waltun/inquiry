@@ -123,7 +123,7 @@
     </nav>
 
     <!-- Navigation Btn -->
-    <div class="mt-4 md:flex justify-between items-center md:space-x-4 space-x-reverse">
+    <div class="mt-4 md:flex justify-between items-center">
         <div class="mb-4 md:mb-0">
             <p class="text-lg font-bold text-black">
                 لیست قطعات مدل <span class="text-red-600">{{ $modell->name }}</span>

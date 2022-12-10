@@ -165,6 +165,13 @@ class ModellController extends Controller
     {
         Gate::authorize('groups');
 
+        foreach ($modell->parts as $part) {
+            if ($part->pivot->sort > $modell->parts()->where('part_id', $partId)->first()->pivot->sort) {
+                $part->pivot->sort = $part->pivot->sort - 1;
+                $part->pivot->save();
+            }
+        }
+
         $modell->parts()->detach($partId);
 
         alert()->success('حذف موفق', 'حذف قطعه از مدل با موفقیت انجام شد');
