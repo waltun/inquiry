@@ -172,7 +172,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($parentPart->children as $child)
+                    @foreach($parentPart->children()->orderBy('sort','ASC')->get() as $child)
                         @php
                             if ($setting) {
                                 if($setting->price_color_type == 'month') {

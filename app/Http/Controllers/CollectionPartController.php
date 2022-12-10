@@ -119,6 +119,13 @@ class CollectionPartController extends Controller
 
         $totalPrice = 0;
 
+        foreach ($parentPart->children as $child) {
+            if ($child->pivot->sort > $parentPart->children()->where('parent_part_id', $childId)->first()->pivot->sort) {
+                $child->pivot->sort = $child->pivot->sort - 1;
+                $child->pivot->save();
+            }
+        }
+
         $parentPart->children()->detach($childId);
 
         foreach ($parentPart->children as $child) {
@@ -155,7 +162,7 @@ class CollectionPartController extends Controller
 
         $totalPrice = 0;
 
-        foreach ($parentPart->children as $index => $childPart) {
+        foreach ($parentPart->children()->orderBy('sort', 'ASC')->get() as $index => $childPart) {
             $childPart->pivot->value = $request->values[$index];
             $childPart->pivot->save();
 
@@ -203,7 +210,7 @@ class CollectionPartController extends Controller
     public function changeParts(Request $request, Part $parentPart)
     {
         $totalPrice = 0;
-        foreach ($parentPart->children as $index => $child) {
+        foreach ($parentPart->children()->orderBy('sort', 'ASC')->get() as $index => $child) {
             $child->pivot->update([
                 'parent_part_id' => $request->part_ids[$index],
                 'value2' => $request->units[$index],

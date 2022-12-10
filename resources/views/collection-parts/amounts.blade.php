@@ -73,7 +73,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($parentPart->children as $childPart)
+                @foreach($parentPart->children()->orderBy('sort','ASC')->get() as $childPart)
                     @php
                         $code = '';
                         foreach($childPart->categories as $category){

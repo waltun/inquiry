@@ -736,37 +736,39 @@ class CalculateConverterController extends Controller
         $flanch = 2;
 
         $selectedParts = [
-            '0' => $looleMessiSucshenPart,
-            '1' => $looleMessiMayePart,
-            '4' => $navdaniPart,
-            '5' => $looleMessiPart,
-            '6' => $sensorPart,
-            '7' => $sizeLoolePoostePart,
-            '8' => $flanchPart,
-            '9' => $boshenAirPart,
-            '10' => $tubePart,
-            '11' => $ringPart,
-            '14' => $pichPart,
+            '0' => $sizeLoolePoostePart,
+            '1' => $looleMessiPart,
+            '2' => $tubePart,
+            '3' => $ringPart,
+            '4' => $pichPart,
+            '5' => $looleMessiSucshenPart,
+            '6' => $looleMessiMayePart,
+            '7' => $sensorPart,
+            '8' => $boshenAirPart,
+            '9' => $boshenFreezePart,
+            '10' => $navdaniPart,
+            '17' => $flanchPart,
         ];
 
         $values = [
-            $looleMessiSucshen,
-            $looleMessiMaye,
-            $azot,
-            $electrodBerenj,
-            $navdani,
-            $looleMessi,
-            $sensor,
             $vaznLoolePooste,
-            $flanch,
-            $boshenAir,
+            $looleMessi,
             $varaghMasrafiTube,
             $varaghMasrafiRing,
-            $khamirLikLak,
-            $electrodBargh,
             $roundPich,
-            $rang,
+            $looleMessiSucshen,
+            $looleMessiMaye,
+            $sensor,
+            $boshenAir,
+            $boshenFreeze,
+            $navdani,
+            $electrodBargh,
+            $electrodBerenj,
+            $azot,
             $tiner,
+            $rang,
+            $khamirLikLak,
+            $flanch,
         ];
 
         if ($looleMessiId == '79' || $looleMessiId == '1327') {
@@ -818,7 +820,7 @@ class CalculateConverterController extends Controller
             $newPart->categories()->sync($part->categories);
         }
 
-        $newPart->children()->sync($part->children);
+        $newPart->children()->sync($part->children()->orderBy('sort', 'ASC')->get());
 
         foreach ($newPart->children as $index => $childPart) {
             if ($index == 0) {
@@ -827,32 +829,35 @@ class CalculateConverterController extends Controller
             if ($index == 1) {
                 $childPart->pivot->parent_part_id = $request->parts[1];
             }
-            if ($index == 4) {
+            if ($index == 2) {
                 $childPart->pivot->parent_part_id = $request->parts[2];
             }
-            if ($index == 5) {
+            if ($index == 3) {
                 $childPart->pivot->parent_part_id = $request->parts[3];
             }
-            if ($index == 6) {
+            if ($index == 4) {
                 $childPart->pivot->parent_part_id = $request->parts[4];
             }
-            if ($index == 7) {
+            if ($index == 5) {
                 $childPart->pivot->parent_part_id = $request->parts[5];
             }
-            if ($index == 8) {
+            if ($index == 6) {
                 $childPart->pivot->parent_part_id = $request->parts[6];
             }
-            if ($index == 9) {
+            if ($index == 7) {
                 $childPart->pivot->parent_part_id = $request->parts[7];
             }
-            if ($index == 10) {
+            if ($index == 8) {
                 $childPart->pivot->parent_part_id = $request->parts[8];
             }
-            if ($index == 11) {
+            if ($index == 9) {
                 $childPart->pivot->parent_part_id = $request->parts[9];
             }
-            if ($index == 14) {
+            if ($index == 10) {
                 $childPart->pivot->parent_part_id = $request->parts[10];
+            }
+            if ($index == 17) {
+                $childPart->pivot->parent_part_id = $request->parts[11];
             }
 
             $childPart->pivot->value = $request->values[$index];
