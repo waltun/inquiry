@@ -12,7 +12,6 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Notification;
-use function Symfony\Component\String\b;
 
 class InquiryPriceController extends Controller
 {
@@ -75,13 +74,16 @@ class InquiryPriceController extends Controller
             $inquiryPrices = InquiryPrice::where('part_id', $part)->get();
             foreach ($inquiryPrices as $inquiryPrice) {
                 if ($updatedPart->price !== (int)$request->prices[$index]) {
-                    if (($request->prices[$index] >= ($updatedPart->price + $updatedPart->price / 5)) && !$temp) {
-                        dd("20%");
+                    $percentPrice = $updatedPart->price + $updatedPart->price / 5;
+                    if (($request->prices[$index] >= $percentPrice) && !$updatedPart->percent_submit) {
+                        $updatedPart->percent_submit = true;
+                        $updatedPart->save();
                     } else {
                         $updatedPart->update([
                             'price' => $request->prices[$index],
                             'old_price' => $updatedPart->price,
-                            'price_updated_at' => now()
+                            'price_updated_at' => now(),
+                            'percent_submit' => 0,
                         ]);
 
                         if (!$updatedPart->parents->isEmpty()) {

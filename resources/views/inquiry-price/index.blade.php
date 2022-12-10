@@ -142,7 +142,13 @@
                                     <p class="text-sm text-gray-500 text-center">{{ $loop->index + 1 }}</p>
                                 </td>
                                 <td class="px-4 py-1 whitespace-nowrap">
-                                    <p class="text-sm text-black text-center font-medium">{{ $part->name }}</p>
+                                    <p class="text-sm text-black text-center font-medium">
+                                        {{ $part->name }}
+                                        @if($part->percent_submit)
+                                            <br>
+                                            <span class="text-xs text-red-600">(قیمت این محصول یک بار بیشتر از 20 درصد وارد شده، برای تایید دوباره قیمت را وارد کنید)</span>
+                                        @endif
+                                    </p>
                                 </td>
                                 <td class="px-4 py-1 whitespace-nowrap">
                                     <p class="text-sm text-black text-center font-medium">{{ $part->unit }}</p>

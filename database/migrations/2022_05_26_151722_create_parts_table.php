@@ -36,6 +36,7 @@ return new class extends Migration {
 
             $table->index(['code', 'inquiry_id', 'product_id']);
 
+            $table->boolean('percent_submit')->default(0);
             $table->timestamp('price_updated_at')->nullable();
             $table->timestamps();
         });
