@@ -102,28 +102,44 @@ class PartPriceController extends Controller
         foreach ($request->parts as $index => $id) {
             $part = Part::where('id', $id)->first();
             if ($part->price !== (int)$request->prices[$index]) {
-
                 if ($part->price != 0) {
-                    $percentPrice = $part->price * 0.2;
-                    $sumPrice = $percentPrice + $part->price;
-                    if ($request->prices[$index] > $sumPrice) {
-                        dd("error");
-                    }
-                }
+                    $percentPrice = $part->price + $part->price / 5;
+                    if (($request->prices[$index] >= $percentPrice) && !$part->percent_submit) {
+                        $part->percent_submit = true;
+                        $part->save();
+                    } else {
+                        $part->update([
+                            'price' => $request->prices[$index],
+                            'old_price' => $part->price,
+                            'price_updated_at' => now(),
+                            'percent_submit' => 0,
+                        ]);
 
-                $part->update([
-                    'price' => $request->prices[$index],
-                    'old_price' => $part->price,
-                    'price_updated_at' => now()
-                ]);
-
-                foreach ($part->parents as $parent) {
-                    $price = 0;
-                    foreach ($parent->children as $child) {
-                        $price += ($child->price * $child->pivot->value);
+                        foreach ($part->parents as $parent) {
+                            $price = 0;
+                            foreach ($parent->children as $child) {
+                                $price += ($child->price * $child->pivot->value);
+                            }
+                            $parent->price = $price;
+                            $parent->save();
+                        }
                     }
-                    $parent->price = $price;
-                    $parent->save();
+                } else {
+                    $part->update([
+                        'price' => $request->prices[$index],
+                        'old_price' => $part->price,
+                        'price_updated_at' => now(),
+                        'percent_submit' => 0,
+                    ]);
+
+                    foreach ($part->parents as $parent) {
+                        $price = 0;
+                        foreach ($parent->children as $child) {
+                            $price += ($child->price * $child->pivot->value);
+                        }
+                        $parent->price = $price;
+                        $parent->save();
+                    }
                 }
             }
         }
