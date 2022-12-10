@@ -266,7 +266,6 @@ class InquiryController extends Controller
     {
         Gate::authorize('create-inquiry');
 
-
         $user = User::find($inquiry->user_id);
 
         $lastInquiry = Inquiry::all()->last();

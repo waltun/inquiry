@@ -500,9 +500,28 @@
             <p class="font-bold text-red-600 md:text-lg text-sm text-center">
                 دسته : {{ $modell->parent->name }}
             </p>
-            <p class="font-bold text-red-600 md:text-lg text-sm text-center">
-                مدل : {{ $product->model_custom_name ?? $modell->name }}
-            </p>
+            <div class="flex items-center">
+                <p class="font-bold text-red-600 md:text-lg text-sm text-center ml-2">
+                    مدل : {{ $product->model_custom_name ?? $modell->name }}
+                </p>
+                @can('users')
+                    @if($product->model_custom_name && !$product->amounts->isEmpty())
+                        @if($product->copy_model == '0')
+                            <form action="{{ route('inquiries.addToModell',$product->id) }}"
+                                  method="POST" onclick="return confirm('این مدل به مدل های استاندارد اضافه شود ؟')">
+                                @csrf
+                                <button class="form-percent-btn text-xs" type="submit">
+                                    افزودن به مدل های استاندارد
+                                </button>
+                            </form>
+                        @else
+                            <span class="text-xs font-bold text-gray-600">
+                            (این مدل به مدل های استاندارد اضافه شده است)
+                        </span>
+                        @endif
+                    @endif
+                @endcan
+            </div>
         </div>
     </div>
 
