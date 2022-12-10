@@ -994,7 +994,7 @@
                     @php
                         $finalPrice = 0;
                     @endphp
-                    @foreach($part->children as $index => $child)
+                    @foreach($part->children()->orderBy('sort','ASC')->get() as $index => $child)
                         <input type="hidden" name="values[]" id="value{{ $index }}"
                                value="{{ $values[$index] }}">
                         <tr>

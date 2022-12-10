@@ -309,54 +309,54 @@ class CalculateConverterController extends Controller
         $flanch = 2;
 
         $selectedParts = [
-            '0' => $sizeLooleAbPart,
-            '1' => $looleMessiSucshenPart,
-            '2' => $looleMessiMayePart,
-            '5' => $navdaniPart,
-            '6' => $looleMessiPart,
-            '7' => $ayeghPart,
-            '9' => $capPart,
-            '10' => $sizeLoolePoostePart,
-            '11' => $sensorPart,
-            '12' => $setarePart,
-            '13' => $noeBafelPart,
-            '14' => $spacerPart,
-            '15' => $flanchPart,
+            '0' => $sizeLoolePoostePart,
+            '1' => $looleMessiPart,
+            '2' => $setarePart,
+            '3' => $tubePart,
+            '4' => $ringPart,
+            '5' => $capPart,
+            '6' => $sizeLooleAbPart,
+            '7' => $flanchPart,
+            '8' => $noeBafelPart,
+            '9' => $spacerPart,
+            '10' => $looleMessiSucshenPart,
+            '11' => $looleMessiMayePart,
+            '12' => $navdaniPart,
+            '13' => $zanooyiPart,
+            '14' => $sensorPart,
+            '15' => $boshenFreezePart,
             '16' => $boshenAirPart,
-            '17' => $boshenFreezePart,
-            '18' => $tubePart,
-            '19' => $ringPart,
-            '22' => $pichPart,
-            '25' => $zanooyiPart,
+            '17' => $pichPart,
+            '24' => $ayeghPart,
         ];
 
         $values = [
-            $sizeLooleConnectionAb,
-            $looleMessiSucshen,
-            $looleMessiMaye,
-            $azot,
-            $electrodBerenj,
-            $navdani,
+            $vaznLoolePooste,
             $looleMessi,
-            $ayegh,
-            $chasb,
-            $cap,
-            $ghotreLoolePooste,
-            $sensor,
             $profilSetare,
-            $varaghPolyEtilenBafel,
-            $varaghPolyEtilenSpacer,
-            $flanch,
-            $boshenAir,
-            $boshenFreeze,
             $varaghMasrafiTube,
             $varaghMasrafiRing,
-            $khamirLikLak,
-            $electrodBargh,
+            $cap,
+            $sizeLooleConnectionAb,
+            $flanch,
+            $varaghPolyEtilenBafel,
+            $varaghPolyEtilenSpacer,
+            $looleMessiSucshen,
+            $looleMessiMaye,
+            $navdani,
+            $zanooyi,
+            $sensor,
+            $boshenFreeze,
+            $boshenAir,
             $roundPich,
-            $rang,
+            $electrodBargh,
+            $electrodBerenj,
+            $azot,
+            $khamirLikLak,
             $tiner,
-            $zanooyi
+            $rang,
+            $ayegh,
+            $chasb
         ];
 
         if (!array_key_exists('zanooyi', $inputs)) {
@@ -420,9 +420,9 @@ class CalculateConverterController extends Controller
             $newPart->categories()->sync($part->categories);
         }
 
-        $newPart->children()->syncWithoutDetaching($part->children);
+        $newPart->children()->syncWithoutDetaching($part->children()->orderBy('sort', 'ASC')->get());
 
-        foreach ($newPart->children as $index => $childPart) {
+        foreach ($newPart->children()->orderBy('sort', 'ASC')->get() as $index => $childPart) {
             if ($index == 0) {
                 $childPart->pivot->parent_part_id = $request->parts[0];
             }
@@ -432,65 +432,65 @@ class CalculateConverterController extends Controller
             if ($index == 2) {
                 $childPart->pivot->parent_part_id = $request->parts[2];
             }
-            if ($index == 5) {
+            if ($index == 3) {
                 $childPart->pivot->parent_part_id = $request->parts[3];
             }
-            if ($index == 6) {
+            if ($index == 4) {
                 $childPart->pivot->parent_part_id = $request->parts[4];
             }
-            if ($index == 7) {
-                $childPart->pivot->parent_part_id = $request->parts[5];
-            }
-            if ($index == 9) {
-                if (!is_null($request->parts[6]) && $request->parts[6] > 0) {
-                    $childPart->pivot->parent_part_id = $request->parts[6];
+            if ($index == 5) { //Cap
+                if (!is_null($request->parts[5]) && $request->parts[5] > 0) {
+                    $childPart->pivot->parent_part_id = $request->parts[5];
                 } else {
                     $childPart->pivot->parent_part_id = 1728;
                 }
             }
-            if ($index == 10) {
+            if ($index == 6) {
+                $childPart->pivot->parent_part_id = $request->parts[6];
+            }
+            if ($index == 7) {
                 $childPart->pivot->parent_part_id = $request->parts[7];
             }
-            if ($index == 11) {
+            if ($index == 8) {
                 $childPart->pivot->parent_part_id = $request->parts[8];
             }
-            if ($index == 12) {
-                $childPart->pivot->parent_part_id = $request->parts[9];
-            }
-            if ($index == 13) {
-                $childPart->pivot->parent_part_id = $request->parts[10];
-            }
-            if ($index == 14) {
-                if (!is_null($request->parts[11]) && $request->parts[11] > 0) {
-                    $childPart->pivot->parent_part_id = $request->parts[11];
+            if ($index == 9) { //Spacer
+                if (!is_null($request->parts[9]) && $request->parts[9] > 0) {
+                    $childPart->pivot->parent_part_id = $request->parts[9];
                 } else {
                     $childPart->pivot->parent_part_id = 1729;
                 }
             }
-            if ($index == 15) {
+            if ($index == 10) {
+                $childPart->pivot->parent_part_id = $request->parts[10];
+            }
+            if ($index == 11) {
+                $childPart->pivot->parent_part_id = $request->parts[11];
+            }
+            if ($index == 12) {
                 $childPart->pivot->parent_part_id = $request->parts[12];
             }
-            if ($index == 16) {
-                $childPart->pivot->parent_part_id = $request->parts[13];
-            }
-            if ($index == 17) {
-                $childPart->pivot->parent_part_id = $request->parts[14];
-            }
-            if ($index == 18) {
-                $childPart->pivot->parent_part_id = $request->parts[15];
-            }
-            if ($index == 19) {
-                $childPart->pivot->parent_part_id = $request->parts[16];
-            }
-            if ($index == 22) {
-                $childPart->pivot->parent_part_id = $request->parts[17];
-            }
-            if ($index == 25) {
-                if (!is_null($request->parts[18]) && $request->parts[18] > 0) {
-                    $childPart->pivot->parent_part_id = $request->parts[18];
+            if ($index == 13) { //Zanooyi
+                if (!is_null($request->parts[13]) && $request->parts[13] > 0) {
+                    $childPart->pivot->parent_part_id = $request->parts[13];
                 } else {
                     $childPart->pivot->parent_part_id = 1730;
                 }
+            }
+            if ($index == 14) {
+                $childPart->pivot->parent_part_id = $request->parts[14];
+            }
+            if ($index == 15) {
+                $childPart->pivot->parent_part_id = $request->parts[15];
+            }
+            if ($index == 16) {
+                $childPart->pivot->parent_part_id = $request->parts[16];
+            }
+            if ($index == 17) {
+                $childPart->pivot->parent_part_id = $request->parts[17];
+            }
+            if ($index == 24) {
+                $childPart->pivot->parent_part_id = $request->parts[18];
             }
 
             $childPart->pivot->value = $request->values[$index];
