@@ -73,6 +73,30 @@
                 <input type="text" id="inputMarketer" class="input-text" name="marketer"
                        placeholder="جستجو براساس بازاریاب" value="{{ request('marketer') }}">
             </div>
+            <div>
+                <label for="inputGroup" class="block mb-2 text-sm font-bold">دسته</label>
+                <select name="group_id" id="inputGroup" class="input-text">
+                    <option value="">جستجو براساس دسته</option>
+                    @foreach($groups as $group)
+                        <option
+                            value="{{ $group->id }}" {{ $group->id == request()->get('group_id') ? 'selected' : '' }}>
+                            {{ $group->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div>
+                <label for="inputModell" class="block mb-2 text-sm font-bold">مدل</label>
+                <select name="model_id" id="inputModell" class="input-text">
+                    <option value="">جستجو براساس مدل</option>
+                    @foreach($modells as $modell)
+                        <option
+                            value="{{ $modell->id }}" {{ $modell->id == request()->get('model_id') ? 'selected' : '' }}>
+                            {{ $modell->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
             <div class="col-span-4 flex justify-end space-x-2 space-x-reverse">
                 <button class="form-submit-btn" type="submit">
                     جستجو

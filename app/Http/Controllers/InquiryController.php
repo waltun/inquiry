@@ -41,13 +41,27 @@ class InquiryController extends Controller
             $inquiries = $inquiries->where('marketer', 'LIKE', "%" . request()->get('marketer') . "%");
         }
 
+        if (request()->has('model_id') && request()->get('model_id') != null) {
+            $inquiries = $inquiries->whereHas('products', function ($query) {
+                $query->where('model_id', request()->get('model_id'));
+            });
+        }
+
+        if (request()->has('group_id') && request()->get('group_id') != null) {
+            $inquiries = $inquiries->whereHas('products', function ($query) {
+                $query->where('group_id', request()->get('group_id'));
+            });
+        }
+
         if (auth()->user()->role == 'admin') {
             $inquiries = $inquiries->where('submit', 0)->latest()->paginate(25);
         } else {
             $inquiries = $inquiries->where('submit', 0)->where('user_id', auth()->user()->id)->latest()->paginate(25);
         }
 
-        return view('inquiries.index', compact('inquiries'));
+        $modells = Modell::where('parent_id', '!=', 0)->get();
+        $groups = Group::all();
+        return view('inquiries.index', compact('inquiries', 'modells', 'groups'));
     }
 
     public function create()
@@ -192,13 +206,27 @@ class InquiryController extends Controller
             $inquiries = $inquiries->where('marketer', 'LIKE', "%" . request()->get('marketer') . "%");
         }
 
+        if (request()->has('model_id') && request()->get('model_id') != null) {
+            $inquiries = $inquiries->whereHas('products', function ($query) {
+                $query->where('model_id', request()->get('model_id'));
+            });
+        }
+
+        if (request()->has('group_id') && request()->get('group_id') != null) {
+            $inquiries = $inquiries->whereHas('products', function ($query) {
+                $query->where('group_id', request()->get('group_id'));
+            });
+        }
+
         if (auth()->user()->role === 'admin') {
             $inquiries = $inquiries->where('submit', 1)->where('archive_at', null)->latest()->paginate(25);
         } else {
             $inquiries = $inquiries->where('submit', 1)->where('archive_at', null)->where('user_id', auth()->user()->id)->latest()->paginate(25);
         }
 
-        return view('inquiries.submitted', compact('inquiries'));
+        $modells = Modell::where('parent_id', '!=', 0)->get();
+        $groups = Group::all();
+        return view('inquiries.submitted', compact('inquiries', 'modells', 'groups'));
     }
 
     public function submit(Inquiry $inquiry)
@@ -253,13 +281,27 @@ class InquiryController extends Controller
             $inquiries = $inquiries->where('marketer', 'LIKE', "%" . request()->get('marketer') . "%");
         }
 
+        if (request()->has('model_id') && request()->get('model_id') != null) {
+            $inquiries = $inquiries->whereHas('products', function ($query) {
+                $query->where('model_id', request()->get('model_id'));
+            });
+        }
+
+        if (request()->has('group_id') && request()->get('group_id') != null) {
+            $inquiries = $inquiries->whereHas('products', function ($query) {
+                $query->where('group_id', request()->get('group_id'));
+            });
+        }
+
         if (auth()->user()->role === 'admin') {
             $inquiries = $inquiries->where('archive_at', '!=', null)->latest()->paginate(25);
         } else {
             $inquiries = $inquiries->where('archive_at', '!=', null)->where('user_id', auth()->user()->id)->latest()->paginate(25);
         }
 
-        return view('inquiries.priced', compact('inquiries'));
+        $modells = Modell::where('parent_id', '!=', 0)->get();
+        $groups = Group::all();
+        return view('inquiries.priced', compact('inquiries', 'modells', 'groups'));
     }
 
     public function copy(Inquiry $inquiry)
