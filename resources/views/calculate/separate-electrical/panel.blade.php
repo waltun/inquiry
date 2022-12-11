@@ -44,6 +44,7 @@
                     url: '{{ route('inquiries.product.changePart') }}',
                     data: {
                         id: id,
+                        part: part,
                     },
                     success: function (res) {
                         let parts = res.data;
@@ -575,7 +576,7 @@
                     <thead>
                     <tr class="bg-sky-200">
                         <th scope="col"
-                            class="px-4 py-2 text-sm font-bold text-gray-800 text-center rounded-r-md">
+                            class="px-4 py-2 text-sm font-bold text-gray-800 text-center rounded-tr-md">
                             ردیف
                         </th>
                         <th scope="col" class="px-4 py-2 text-sm font-bold text-gray-800 text-center">
@@ -596,11 +597,62 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($part->children()->orderBy('sort','ASC')->get() as $child)
+                    @foreach($part->children()->orderBy('sort','ASC')->get() as $index => $child)
                         @php
                             $category = $child->categories[1];
                             $selectedCategory = $child->categories[2];
                         @endphp
+                        @switch($index)
+                            @case('0')
+                                <tr class="bg-yellow-500">
+                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
+                                        مشخصات کلید و المانهای ورودی
+                                    </td>
+                                </tr>
+                                @break
+                            @case('6')
+                                <tr class="bg-yellow-500">
+                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
+                                        مشخصات کلید و کنتاکتور های کمپرسور
+                                    </td>
+                                </tr>
+                                @break
+                            @case('10')
+                                <tr class="bg-yellow-500">
+                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
+                                        مشخصات کلید و کنتاکتور های فن الکترو موتور فن هوارسان
+                                    </td>
+                                </tr>
+                                @break
+                            @case('15')
+                                <tr class="bg-yellow-500">
+                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
+                                        مشخصات کلید و کنتاکتور های فن الکتروفن های کندانسور
+                                    </td>
+                                </tr>
+                                @break
+                            @case('21')
+                                <tr class="bg-yellow-500">
+                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
+                                        مشخصات کلید ها و الکترو موتور های هیتر الکتریکی
+                                    </td>
+                                </tr>
+                                @break
+                            @case('25')
+                                <tr class="bg-yellow-500">
+                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
+                                        مشخصات کلید ها و کنتاکتور های رطوبت زن
+                                    </td>
+                                </tr>
+                                @break
+                            @case('30')
+                                <tr class="bg-yellow-500">
+                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
+                                        اطلاعات سیم و کابل
+                                    </td>
+                                </tr>
+                                @break
+                        @endswitch
                         <tr>
                             <td class="px-4 py-1 whitespace-nowrap">
                                 <input type="text" class="input-text w-14 text-center" name="sorts[]"
