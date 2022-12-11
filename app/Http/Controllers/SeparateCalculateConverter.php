@@ -53,7 +53,8 @@ class SeparateCalculateConverter extends Controller
             'toole_loole_pooste' => 'required',
             'tedad_bafel' => 'required',
             'zanooyi' => 'nullable',
-            'tonaj' => 'required'
+            'tonaj' => 'required',
+            'gaz' => 'required'
         ]);
 
         //Ids
@@ -84,9 +85,9 @@ class SeparateCalculateConverter extends Controller
         $tedadBafel = $request['tedad_bafel'];
         $tooleLooleMessi = $tooleLoolePooste;
         $tonaj = $request['tonaj'];
+        $gaz = $request['gaz'];
 
         //--------------------------------------------------------
-        $looleAhaniPart = Part::find($sizeLoolePoosteId);
         $looleMessiPart = Part::find($looleMessiId);
         $looleMessiSucshenPart = Part::find($looleMessiSucshenId);
         $looleMessiMayePart = Part::find($looleMessiMayeId);
@@ -122,7 +123,6 @@ class SeparateCalculateConverter extends Controller
         }
 
         // Values
-        $looleAhani = $tooleLoolePooste * $looleAhaniPart->formula1;
         $looleMessi = $tooleLooleMessi * $tedadLooleMessi * $looleMessiPart->formula1;
 
         $looleMessiSucshen = 0.2 * $looleMessiSucshenPart->formula1 * $tedadMadar;
@@ -391,7 +391,7 @@ class SeparateCalculateConverter extends Controller
             $looleMessiName = '12';
         }
 
-        $name = 'STE-' . $tonaj . "TR-" . $ghotreLoolePooste . 'inch-' . $tooleLooleMessi . 'm-' . $tedadLooleMessi . 'T-'
+        $name = 'STE-' . $tonaj . "TR-" . $gaz . "-" . $ghotreLoolePooste . 'inch-' . $tooleLooleMessi . 'm-' . $tedadLooleMessi . 'T-'
             . $looleMessiName . '-' . $tedadMadar . 'C';
 
         return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs' => $inputs, 'name' => $name]);

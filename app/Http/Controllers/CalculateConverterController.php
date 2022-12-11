@@ -43,7 +43,8 @@ class CalculateConverterController extends Controller
             'toole_loole_pooste' => 'required',
             'tedad_bafel' => 'required',
             'zanooyi' => 'nullable',
-            'tonaj' => 'required'
+            'tonaj' => 'required',
+            'gaz' => 'required'
         ]);
 
         //Ids
@@ -74,6 +75,7 @@ class CalculateConverterController extends Controller
         $tedadBafel = $request['tedad_bafel'];
         $tooleLooleMessi = $tooleLoolePooste;
         $tonaj = $request['tonaj'];
+        $gaz = $request['gaz'];
 
         //--------------------------------------------------------
         $looleMessiPart = Part::find($looleMessiId);
@@ -381,7 +383,7 @@ class CalculateConverterController extends Controller
 
         $serial = $request['serial'];
 
-        $name = $serial . '-STE-' . $tonaj . "TR-" . $ghotreLoolePooste . 'inch-' . $tooleLooleMessi . 'm-' . $tedadLooleMessi . 'T-'
+        $name = $serial . '-STE-' . $tonaj . "TR-" . $gaz . "-" . $ghotreLoolePooste . 'inch-' . $tooleLooleMessi . 'm-' . $tedadLooleMessi . 'T-'
             . $looleMessiName . '-' . $tedadMadar . 'C';
 
         return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs' => $inputs, 'name' => $name]);

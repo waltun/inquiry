@@ -959,6 +959,28 @@
                                id="inputTonaj"
                                value="{{ !is_null($inputs) ? $inputs['tonaj'] : old('tonaj') }}">
                     </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-bold" for="inputGaz">گاز مبرد</label>
+                        <select name="gaz" id="inputGaz" class="input-text bg-yellow-300">
+                            <option value="">انتخاب کنید</option>
+                            <option value="R22"
+                                {{ is_null($inputs) ? (old('gaz') == 'R22' ? 'selected' : '') : ($inputs['gaz'] == "R22" ? 'selected' : (old('gaz') == 'R22' ? 'selected' : '')) }}>
+                                R22
+                            </option>
+                            <option value="R134a"
+                                {{ is_null($inputs) ? (old('gaz') == 'R134a' ? 'selected' : '') : ($inputs['gaz'] == "R134a" ? 'selected' : (old('gaz') == 'R134a' ? 'selected' : '')) }}>
+                                R134a
+                            </option>
+                            <option value="R407c"
+                                {{ is_null($inputs) ? (old('gaz') == 'R407c' ? 'selected' : '') : ($inputs['gaz'] == "R407c" ? 'selected' : (old('gaz') == 'R407c' ? 'selected' : '')) }}>
+                                R407c
+                            </option>
+                            <option value="R407a"
+                                {{ is_null($inputs) ? (old('gaz') == 'R407a' ? 'selected' : '') : ($inputs['gaz'] == "R407a" ? 'selected' : (old('gaz') == 'R407a' ? 'selected' : '')) }}>
+                                R407a
+                            </option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
