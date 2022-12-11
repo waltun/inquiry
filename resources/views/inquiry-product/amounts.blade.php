@@ -479,7 +479,7 @@
     <div class="mt-4 md:flex justify-between">
         <div class="mb-4 md:mb-0">
             <p class="text-lg font-bold">
-                جزئیات محصول <span class="text-red-600">{{ $group->name }} - {{ $modell->name }}</span>
+                جزئیات محصول <span class="text-red-600">{{ $group->name }} - {{ $product->model_custom_name ?? $modell->name }}</span>
             </p>
         </div>
         <div class="flex md:justify-end space-x-2 space-x-reverse">
