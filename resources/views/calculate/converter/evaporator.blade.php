@@ -997,6 +997,7 @@
                     @foreach($part->children()->orderBy('sort','ASC')->get() as $index => $child)
                         <input type="hidden" name="values[]" id="value{{ $index }}"
                                value="{{ $values[$index] }}">
+                        <input type="hidden" name="sorts[]" id="sort{{ $index }}" value="{{ $child->pivot->sort }}">
                         <tr>
                             @if(!is_null($selectedParts))
                                 @php
@@ -1048,6 +1049,8 @@
                                     <input type="hidden" name="parts[]" id="part{{ $index }}"
                                            value="{{ $selectedParts[$index]->id }}">
                                 @else
+                                    <input type="hidden" name="parts[]" id="part{{ $child->id }}"
+                                           value="{{ $child->id }}">
                                     <td class="border border-gray-300 p-4 text-sm text-center">
                                         {{ $index + 1 }}
                                     </td>

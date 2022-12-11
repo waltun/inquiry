@@ -278,7 +278,7 @@
                             </svg>
                         </div>
                         <div class="flex justify-between w-full items-center">
-                            <span class="text-sm px-2">لیست کویل و دمپر</span>
+                            <span class="text-sm px-2">لیست محاسباتی ها</span>
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
                                  viewBox="0 0 20 20" fill="currentColor"
                                  :class="{'rotate-180' : open}">
@@ -291,7 +291,7 @@
                     <div class="mt-1 bg-gray-50 rounded-md p-2" x-show="open" x-cloak>
                         <a href="{{ route('collectionCoil.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
                             hover:text-black rounded-md {{ isActive('collectionCoil.index') }}">
-                            مدیریت کویل و دمپر
+                            مدیریت کویل و دمپر و مبدل
                         </a>
                     </div>
                 </div>
@@ -311,7 +311,7 @@
                         </svg>
                     </div>
                     <div class="flex justify-between w-full items-center">
-                        <span class="text-sm px-2">محاسبات قیمت کویل و دمپر  </span>
+                        <span class="text-sm px-2">محاسبات قیمت کویل و دمپر </span>
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
                              viewBox="0 0 20 20" fill="currentColor"
                              :class="{'rotate-180' : open}">
@@ -329,6 +329,10 @@
                     <a href="{{ route('separate.damper.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
                             hover:text-black rounded-md {{ isActive('separate.coil.index') }}">
                         قیمت دمپر
+                    </a>
+					<a href="{{ route('separate.converter.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
+                            hover:text-black rounded-md {{ isActive('separate.coil.index') }}">
+                        قیمت مبدل
                     </a>
                 </div>
             </div>

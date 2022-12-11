@@ -76,7 +76,6 @@ class CalculateConverterController extends Controller
         $tonaj = $request['tonaj'];
 
         //--------------------------------------------------------
-        $looleAhaniPart = Part::find($sizeLoolePoosteId);
         $looleMessiPart = Part::find($looleMessiId);
         $looleMessiSucshenPart = Part::find($looleMessiSucshenId);
         $looleMessiMayePart = Part::find($looleMessiMayeId);
@@ -112,7 +111,6 @@ class CalculateConverterController extends Controller
         }
 
         // Values
-        $looleAhani = $tooleLoolePooste * $looleAhaniPart->formula1;
         $looleMessi = $tooleLooleMessi * $tedadLooleMessi * $looleMessiPart->formula1;
 
         $looleMessiSucshen = 0.2 * $looleMessiSucshenPart->formula1 * $tedadMadar;
@@ -324,8 +322,8 @@ class CalculateConverterController extends Controller
             '12' => $navdaniPart,
             '13' => $zanooyiPart,
             '14' => $sensorPart,
-            '15' => $boshenFreezePart,
-            '16' => $boshenAirPart,
+            '15' => $boshenAirPart,
+            '16' => $boshenFreezePart,
             '17' => $pichPart,
             '24' => $ayeghPart,
         ];
@@ -346,8 +344,8 @@ class CalculateConverterController extends Controller
             $navdani,
             $zanooyi,
             $sensor,
-            $boshenFreeze,
             $boshenAir,
+            $boshenFreeze,
             $roundPich,
             $electrodBargh,
             $electrodBerenj,
@@ -420,81 +418,20 @@ class CalculateConverterController extends Controller
             $newPart->categories()->sync($part->categories);
         }
 
-        $newPart->children()->syncWithoutDetaching($part->children()->orderBy('sort', 'ASC')->get());
-
-        foreach ($newPart->children()->orderBy('sort', 'ASC')->get() as $index => $childPart) {
-            if ($index == 0) {
-                $childPart->pivot->parent_part_id = $request->parts[0];
+        foreach ($request->parts as $index => $id) {
+            if ($index == 5 && is_null($request->parts[5]) && $request->parts[5] > 0) {
+                $id = 1728;
             }
-            if ($index == 1) {
-                $childPart->pivot->parent_part_id = $request->parts[1];
+            if ($index == 9 && is_null($request->parts[9]) && $request->parts[9] > 0) {
+                $id = 1729;
             }
-            if ($index == 2) {
-                $childPart->pivot->parent_part_id = $request->parts[2];
+            if ($index == 13 && is_null($request->parts[13]) && $request->parts[13] > 0) {
+                $id = 1730;
             }
-            if ($index == 3) {
-                $childPart->pivot->parent_part_id = $request->parts[3];
-            }
-            if ($index == 4) {
-                $childPart->pivot->parent_part_id = $request->parts[4];
-            }
-            if ($index == 5) { //Cap
-                if (!is_null($request->parts[5]) && $request->parts[5] > 0) {
-                    $childPart->pivot->parent_part_id = $request->parts[5];
-                } else {
-                    $childPart->pivot->parent_part_id = 1728;
-                }
-            }
-            if ($index == 6) {
-                $childPart->pivot->parent_part_id = $request->parts[6];
-            }
-            if ($index == 7) {
-                $childPart->pivot->parent_part_id = $request->parts[7];
-            }
-            if ($index == 8) {
-                $childPart->pivot->parent_part_id = $request->parts[8];
-            }
-            if ($index == 9) { //Spacer
-                if (!is_null($request->parts[9]) && $request->parts[9] > 0) {
-                    $childPart->pivot->parent_part_id = $request->parts[9];
-                } else {
-                    $childPart->pivot->parent_part_id = 1729;
-                }
-            }
-            if ($index == 10) {
-                $childPart->pivot->parent_part_id = $request->parts[10];
-            }
-            if ($index == 11) {
-                $childPart->pivot->parent_part_id = $request->parts[11];
-            }
-            if ($index == 12) {
-                $childPart->pivot->parent_part_id = $request->parts[12];
-            }
-            if ($index == 13) { //Zanooyi
-                if (!is_null($request->parts[13]) && $request->parts[13] > 0) {
-                    $childPart->pivot->parent_part_id = $request->parts[13];
-                } else {
-                    $childPart->pivot->parent_part_id = 1730;
-                }
-            }
-            if ($index == 14) {
-                $childPart->pivot->parent_part_id = $request->parts[14];
-            }
-            if ($index == 15) {
-                $childPart->pivot->parent_part_id = $request->parts[15];
-            }
-            if ($index == 16) {
-                $childPart->pivot->parent_part_id = $request->parts[16];
-            }
-            if ($index == 17) {
-                $childPart->pivot->parent_part_id = $request->parts[17];
-            }
-            if ($index == 24) {
-                $childPart->pivot->parent_part_id = $request->parts[18];
-            }
-
-            $childPart->pivot->value = $request->values[$index];
-            $childPart->pivot->save();
+            $newPart->children()->attach($id, [
+                'sort' => $request->sorts[$index],
+                'value' => $request->values[$index]
+            ]);
         }
 
         $request->session()->put('converter-btn-' . $part->id . $product->id, 'calculated');
@@ -555,7 +492,6 @@ class CalculateConverterController extends Controller
         $gaz = $request['gaz'];
 
         //--------------------------------------------------------
-        $looleAhaniPart = Part::find($sizeLoolePoosteId);
         $looleMessiPart = Part::find($looleMessiId);
         $looleMessiSucshenPart = Part::find($looleMessiSucshenId);
         $looleMessiMayePart = Part::find($looleMessiMayeId);
@@ -570,7 +506,6 @@ class CalculateConverterController extends Controller
         $sensorPart = Part::find($sensorId);
 
         // Values
-        //$looleAhani = $tooleLoolePooste * $looleAhaniPart->formula1;
         $looleMessi = $tooleLooleMessi * $tedadLooleMessi * $looleMessiPart->formula1;
 
         $looleMessiSucshen = 0.2 * $looleMessiSucshenPart->formula1;
@@ -820,48 +755,11 @@ class CalculateConverterController extends Controller
             $newPart->categories()->sync($part->categories);
         }
 
-        $newPart->children()->sync($part->children()->orderBy('sort', 'ASC')->get());
-
-        foreach ($newPart->children as $index => $childPart) {
-            if ($index == 0) {
-                $childPart->pivot->parent_part_id = $request->parts[0];
-            }
-            if ($index == 1) {
-                $childPart->pivot->parent_part_id = $request->parts[1];
-            }
-            if ($index == 2) {
-                $childPart->pivot->parent_part_id = $request->parts[2];
-            }
-            if ($index == 3) {
-                $childPart->pivot->parent_part_id = $request->parts[3];
-            }
-            if ($index == 4) {
-                $childPart->pivot->parent_part_id = $request->parts[4];
-            }
-            if ($index == 5) {
-                $childPart->pivot->parent_part_id = $request->parts[5];
-            }
-            if ($index == 6) {
-                $childPart->pivot->parent_part_id = $request->parts[6];
-            }
-            if ($index == 7) {
-                $childPart->pivot->parent_part_id = $request->parts[7];
-            }
-            if ($index == 8) {
-                $childPart->pivot->parent_part_id = $request->parts[8];
-            }
-            if ($index == 9) {
-                $childPart->pivot->parent_part_id = $request->parts[9];
-            }
-            if ($index == 10) {
-                $childPart->pivot->parent_part_id = $request->parts[10];
-            }
-            if ($index == 17) {
-                $childPart->pivot->parent_part_id = $request->parts[11];
-            }
-
-            $childPart->pivot->value = $request->values[$index];
-            $childPart->pivot->save();
+        foreach ($request->parts as $index => $id) {
+            $newPart->children()->attach($id, [
+                'sort' => $request->sorts[$index],
+                'value' => $request->values[$index]
+            ]);
         }
 
         $request->session()->put('converter-btn-' . $part->id . $product->id, 'calculated');

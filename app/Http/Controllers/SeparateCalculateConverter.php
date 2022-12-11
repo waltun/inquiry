@@ -319,54 +319,54 @@ class SeparateCalculateConverter extends Controller
         $flanch = 2;
 
         $selectedParts = [
-            '0' => $sizeLooleAbPart,
-            '1' => $looleMessiSucshenPart,
-            '2' => $looleMessiMayePart,
-            '5' => $navdaniPart,
-            '6' => $looleMessiPart,
-            '7' => $ayeghPart,
-            '9' => $capPart,
-            '10' => $sizeLoolePoostePart,
-            '11' => $sensorPart,
-            '12' => $setarePart,
-            '13' => $noeBafelPart,
-            '14' => $spacerPart,
-            '15' => $flanchPart,
-            '16' => $boshenAirPart,
-            '17' => $boshenFreezePart,
-            '18' => $tubePart,
-            '19' => $ringPart,
-            '22' => $pichPart,
-            '25' => $zanooyiPart,
+            '0' => $sizeLoolePoostePart,
+            '1' => $looleMessiPart,
+            '2' => $setarePart,
+            '3' => $tubePart,
+            '4' => $ringPart,
+            '5' => $capPart,
+            '6' => $sizeLooleAbPart,
+            '7' => $flanchPart,
+            '8' => $noeBafelPart,
+            '9' => $spacerPart,
+            '10' => $looleMessiSucshenPart,
+            '11' => $looleMessiMayePart,
+            '12' => $navdaniPart,
+            '13' => $zanooyiPart,
+            '14' => $sensorPart,
+            '15' => $boshenAirPart,
+            '16' => $boshenFreezePart,
+            '17' => $pichPart,
+            '24' => $ayeghPart,
         ];
 
         $values = [
-            $sizeLooleConnectionAb,
-            $looleMessiSucshen,
-            $looleMessiMaye,
-            $azot,
-            $electrodBerenj,
-            $navdani,
+            $vaznLoolePooste,
             $looleMessi,
-            $ayegh,
-            $chasb,
-            $cap,
-            $ghotreLoolePooste,
-            $sensor,
             $profilSetare,
-            $varaghPolyEtilenBafel,
-            $varaghPolyEtilenSpacer,
-            $flanch,
-            $boshenAir,
-            $boshenFreeze,
             $varaghMasrafiTube,
             $varaghMasrafiRing,
-            $khamirLikLak,
-            $electrodBargh,
+            $cap,
+            $sizeLooleConnectionAb,
+            $flanch,
+            $varaghPolyEtilenBafel,
+            $varaghPolyEtilenSpacer,
+            $looleMessiSucshen,
+            $looleMessiMaye,
+            $navdani,
+            $zanooyi,
+            $sensor,
+            $boshenAir,
+            $boshenFreeze,
             $roundPich,
-            $rang,
+            $electrodBargh,
+            $electrodBerenj,
+            $azot,
+            $khamirLikLak,
             $tiner,
-            $zanooyi
+            $rang,
+            $ayegh,
+            $chasb
         ];
 
         if (!array_key_exists('zanooyi', $inputs)) {
@@ -440,7 +440,6 @@ class SeparateCalculateConverter extends Controller
         $gaz = $request['gaz'];
 
         //--------------------------------------------------------
-        $looleAhaniPart = Part::find($sizeLoolePoosteId);
         $looleMessiPart = Part::find($looleMessiId);
         $looleMessiSucshenPart = Part::find($looleMessiSucshenId);
         $looleMessiMayePart = Part::find($looleMessiMayeId);
@@ -459,7 +458,6 @@ class SeparateCalculateConverter extends Controller
         $sensorPart = Part::find($sensorId);
 
         // Values
-        //$looleAhani = $tooleLoolePooste * $looleAhaniPart->formula1;
         $looleMessi = $tooleLooleMessi * $tedadLooleMessi * $looleMessiPart->formula1;
 
         $looleMessiSucshen = 0.2 * $looleMessiSucshenPart->formula1;
@@ -620,50 +618,48 @@ class SeparateCalculateConverter extends Controller
         $azotA = ($ghotreLoolePooste * 2.54);
         $azot = (((($azotA * $azotA * 3.14) / 4) * ($tooleLoolePooste * 100)) / 1000) / 3;
 
-        //$chasb = (($ghotreLoolePooste * 2.54 * 3.14 / 100 * 10) + (4 * $tooleLoolePooste)) / 45;
-
         $tiner = $rang * 2;
 
-        if($flanchId == '0' || is_null($flanchId)) {
+        if ($flanchId == '0' || is_null($flanchId)) {
             $flanch = 0;
         } else {
             $flanch = 2;
         }
 
         $selectedParts = [
-            '0' => $looleMessiSucshenPart,
-            '1' => $looleMessiMayePart,
-            '4' => $navdaniPart,
-            '5' => $looleMessiPart,
-            '6' => $sensorPart,
-            '7' => $sizeLoolePoostePart,
-            '8' => $flanchPart,
-            '9' => $boshenAirPart,
-            '10' => $boshenFreezePart,
-            '11' => $tubePart,
-            '12' => $ringPart,
-            '15' => $pichPart,
+            '0' => $sizeLoolePoostePart,
+            '1' => $looleMessiPart,
+            '2' => $tubePart,
+            '3' => $ringPart,
+            '4' => $pichPart,
+            '5' => $looleMessiSucshenPart,
+            '6' => $looleMessiMayePart,
+            '7' => $sensorPart,
+            '8' => $boshenAirPart,
+            '9' => $boshenFreezePart,
+            '10' => $navdaniPart,
+            '17' => $flanchPart,
         ];
 
         $values = [
-            $looleMessiSucshen,
-            $looleMessiMaye,
-            $azot,
-            $electrodBerenj,
-            $navdani,
-            $looleMessi,
-            $sensor,
             $vaznLoolePooste,
-            $flanch,
-            $boshenAir,
-            $boshenFreeze,
+            $looleMessi,
             $varaghMasrafiTube,
             $varaghMasrafiRing,
-            $khamirLikLak,
-            $electrodBargh,
             $roundPich,
-            $rang,
+            $looleMessiSucshen,
+            $looleMessiMaye,
+            $sensor,
+            $boshenAir,
+            $boshenFreeze,
+            $navdani,
+            $electrodBargh,
+            $electrodBerenj,
+            $azot,
             $tiner,
+            $rang,
+            $khamirLikLak,
+            $flanch,
         ];
 
         if ($looleMessiId == '79' || $looleMessiId == '1327') {
@@ -712,85 +708,21 @@ class SeparateCalculateConverter extends Controller
             $newPart->categories()->sync($part->categories);
         }
 
-        $newPart->children()->syncWithoutDetaching($part->children);
-
-        foreach ($newPart->children as $index => $childPart) {
-            if ($index == 0) {
-                $childPart->pivot->parent_part_id = $request->parts[0];
+        foreach ($request->parts as $index => $id) {
+            if ($index == 5 && is_null($request->parts[5]) && $request->parts[5] > 0) {
+                $id = 1728;
             }
-            if ($index == 1) {
-                $childPart->pivot->parent_part_id = $request->parts[1];
+            if ($index == 9 && is_null($request->parts[9]) && $request->parts[9] > 0) {
+                $id = 1729;
             }
-            if ($index == 2) {
-                $childPart->pivot->parent_part_id = $request->parts[2];
+            if ($index == 13 && is_null($request->parts[13]) && $request->parts[13] > 0) {
+                $id = 1730;
             }
-            if ($index == 3) {
-                $childPart->pivot->parent_part_id = $request->parts[3];
-            }
-            if ($index == 4) {
-                $childPart->pivot->parent_part_id = $request->parts[4];
-            }
-            if ($index == 5) {
-                $childPart->pivot->parent_part_id = $request->parts[5];
-            }
-            if ($index == 6) {
-                if (!is_null($request->parts[6]) && $request->parts[6] > 0) {
-                    $childPart->pivot->parent_part_id = $request->parts[6];
-                } else {
-                    $childPart->pivot->parent_part_id = 1728;
-                }
-            }
-            if ($index == 7) {
-                $childPart->pivot->parent_part_id = $request->parts[7];
-            }
-            if ($index == 8) {
-                $childPart->pivot->parent_part_id = $request->parts[8];
-            }
-            if ($index == 9) {
-                $childPart->pivot->parent_part_id = $request->parts[9];
-            }
-            if ($index == 10) {
-                $childPart->pivot->parent_part_id = $request->parts[10];
-            }
-            if ($index == 11) {
-                if (!is_null($request->parts[11]) && $request->parts[11] > 0) {
-                    $childPart->pivot->parent_part_id = $request->parts[11];
-                } else {
-                    $childPart->pivot->parent_part_id = 1729;
-                }
-            }
-            if ($index == 12) {
-                $childPart->pivot->parent_part_id = $request->parts[12];
-            }
-            if ($index == 13) {
-                $childPart->pivot->parent_part_id = $request->parts[13];
-            }
-            if ($index == 14) {
-                $childPart->pivot->parent_part_id = $request->parts[14];
-            }
-            if ($index == 15) {
-                $childPart->pivot->parent_part_id = $request->parts[15];
-            }
-            if ($index == 16) {
-                $childPart->pivot->parent_part_id = $request->parts[16];
-            }
-            if ($index == 17) {
-                $childPart->pivot->parent_part_id = $request->parts[17];
-            }
-            if ($index == 18) {
-                if (!is_null($request->parts[18]) && $request->parts[18] > 0) {
-                    $childPart->pivot->parent_part_id = $request->parts[18];
-                } else {
-                    $childPart->pivot->parent_part_id = 1730;
-                }
-            }
-
-            $childPart->pivot->value = $request->values[$index];
-            $childPart->pivot->save();
+            $newPart->children()->attach($id, [
+                'sort' => $request->sorts[$index],
+                'value' => $request->values[$index]
+            ]);
         }
-
-        $request->session()->put('price' . $part->id, $request->final_price);
-        $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
 
         alert()->success('محاسبه موفق', 'محاسبه اواپراتور پوسته و لوله با موفقیت انجام شد');
 
@@ -827,49 +759,12 @@ class SeparateCalculateConverter extends Controller
             $newPart->categories()->sync($part->categories);
         }
 
-        $newPart->children()->sync($part->children);
-
-        foreach ($newPart->children as $index => $childPart) {
-            if ($index == 0) {
-                $childPart->pivot->parent_part_id = $request->parts[0];
-            }
-            if ($index == 1) {
-                $childPart->pivot->parent_part_id = $request->parts[1];
-            }
-            if ($index == 4) {
-                $childPart->pivot->parent_part_id = $request->parts[2];
-            }
-            if ($index == 5) {
-                $childPart->pivot->parent_part_id = $request->parts[3];
-            }
-            if ($index == 6) {
-                $childPart->pivot->parent_part_id = $request->parts[4];
-            }
-            if ($index == 7) {
-                $childPart->pivot->parent_part_id = $request->parts[5];
-            }
-            if ($index == 8) {
-                $childPart->pivot->parent_part_id = $request->parts[6];
-            }
-            if ($index == 9) {
-                $childPart->pivot->parent_part_id = $request->parts[7];
-            }
-            if ($index == 10) {
-                $childPart->pivot->parent_part_id = $request->parts[8];
-            }
-            if ($index == 11) {
-                $childPart->pivot->parent_part_id = $request->parts[9];
-            }
-            if ($index == 14) {
-                $childPart->pivot->parent_part_id = $request->parts[10];
-            }
-
-            $childPart->pivot->value = $request->values[$index];
-            $childPart->pivot->save();
+        foreach ($request->parts as $index => $id) {
+            $newPart->children()->attach($id, [
+                'sort' => $request->sorts[$index],
+                'value' => $request->values[$index]
+            ]);
         }
-
-        $request->session()->put('price' . $part->id, $request->final_price);
-        $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
 
         alert()->success('محاسبه موفق', 'محاسبه اواپراتور پوسته و لوله با موفقیت انجام شد');
 
