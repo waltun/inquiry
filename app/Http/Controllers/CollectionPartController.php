@@ -165,18 +165,16 @@ class CollectionPartController extends Controller
     {
         Gate::authorize('collections');
 
-        $request->validate([
-            'values' => 'required|array',
-            'values.*' => 'required|numeric'
-        ]);
-
         $totalPrice = 0;
+        foreach ($parentPart->children()->orderBy('sort', 'ASC')->get() as $index => $child) {
+            $child->pivot->update([
+                'parent_part_id' => $request->part_ids[$index],
+                'value2' => $request->units[$index],
+                'value' => $request->values[$index],
+                'sort' => $request->sorts[$index]
+            ]);
 
-        foreach ($parentPart->children()->orderBy('sort', 'ASC')->get() as $index => $childPart) {
-            $childPart->pivot->value = $request->values[$index];
-            $childPart->pivot->save();
-
-            $totalPrice += ($childPart->price * $request->values[$index]);
+            $totalPrice += ($child->price * $request->values[$index]);
         }
 
         $parentPart->price = $totalPrice;
@@ -184,7 +182,7 @@ class CollectionPartController extends Controller
 
         alert()->success('ثبت موفق', 'ثبت مقادیر با موفقیت انجام شد');
 
-        return redirect()->route('collections.index');
+        return back();
     }
 
     public function replicate(Part $parentPart)

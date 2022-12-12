@@ -1,4 +1,68 @@
 <x-layout>
+    <x-slot name="js">
+        <script src="{{ asset('plugins/jquery.min.js') }}"></script>
+        <script>
+            function changePart(event, part) {
+                let id = event.target.value;
+                let section = document.getElementById('groupPartList' + part);
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('inquiries.product.changePart') }}',
+                    data: {
+                        id: id,
+                        part: part
+                    },
+                    success: function (res) {
+                        let parts = res.data;
+                        section.innerHTML = `
+                            <select class="input-text" onchange="changePart(event,${part})" id="inputCategory${part}">
+                                    ${
+                            parts.map(function (part) {
+                                return `<option value="${part.id}">${part.name}</option>`
+                            })
+                        }
+                            </select>`
+                    }
+                });
+            }
+        </script>
+        <script>
+            function changeUnit1(event, part) {
+                let value = event.target.value;
+                let input2 = document.getElementById('inputUnit' + part.id);
+                let inputValue = document.getElementById('inputUnitValue' + part.id);
+                let operator1 = part.operator2;
+                let formula1 = part.formula2;
+                let result = 0;
+
+                result = eval(value + operator1 + formula1);
+                let formatResult = Intl.NumberFormat().format(result);
+                input2.value = formatResult.replace(',', '');
+                inputValue.value = value;
+            }
+
+            function changeUnit2(event, part) {
+                let value = event.target.value;
+                let input1 = document.getElementById('inputValue' + part.id);
+                let inputValue = document.getElementById('inputUnitValue' + part.id);
+                let operator2 = part.operator1;
+                let formula2 = part.formula1;
+                let result = 0;
+
+                result = eval(value + operator2 + formula2);
+                let formatResult = Intl.NumberFormat().format(result);
+                input1.value = formatResult.replace(',', '');
+                inputValue.value = value;
+            }
+        </script>
+    </x-slot>
     <!-- Breadcrumb -->
     <nav class="flex bg-gray-100 p-4 rounded-md overflow-x-auto whitespace-nowrap" aria-label="Breadcrumb">
         <ol class="inline-flex items-center space-x-2 space-x-reverse">
@@ -66,58 +130,79 @@
             <table class="border-collapse border border-gray-400 w-full">
                 <thead>
                 <tr>
-                    <th class="border border-gray-300 p-4 text-sm">کد قطعه</th>
+                    <th class="border border-gray-300 p-4 text-sm">ردیف</th>
+                    <th class="border border-gray-300 p-4 text-sm">دسته بندی</th>
                     <th class="border border-gray-300 p-4 text-sm">نام قطعه</th>
                     <th class="border border-gray-300 p-4 text-sm">واحد قطعه</th>
                     <th class="border border-gray-300 p-4 text-sm">مقادیر</th>
+                    <th class="border border-gray-300 p-4 text-sm">قیمت</th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($parentPart->children()->orderBy('sort','ASC')->get() as $childPart)
                     @php
-                        $code = '';
-                        foreach($childPart->categories as $category){
-                            $code = $code . $category->code;
-                        }
-
-                        if ($setting) {
-                            if($setting->price_color_type == 'month') {
-                                $lastTime = \Carbon\Carbon::now()->subMonth($setting->price_color_last_time);
-                                $midTime = \Carbon\Carbon::now()->subMonth($setting->price_color_mid_time);
-                            }
-                            if($setting->price_color_type == 'day') {
-                                $lastTime = \Carbon\Carbon::now()->subDay($setting->price_color_last_time);
-                                $midTime = \Carbon\Carbon::now()->subDay($setting->price_color_mid_time);
-                            }
-                            if($setting->price_color_type == 'hour') {
-                                $lastTime = \Carbon\Carbon::now()->subHour($setting->price_color_last_time);
-                                $midTime = \Carbon\Carbon::now()->subHour($setting->price_color_mid_time);
-                            }
-                        }
-
-                        if ($childPart->updated_at < $lastTime && $childPart->price > 0) {
-                            $color = 'bg-red-500';
-                        }
-                        if ($childPart->updated_at > $lastTime && $childPart->updated_at < $midTime && $childPart->price > 0) {
-                            $color = 'bg-yellow-500';
-                        }
-                        if ($childPart->updated_at < $lastTime && $childPart->price == 0) {
-                            $color = 'bg-red-600';
-                        }
+                        $category = $childPart->categories[1];
+                        $selectedCategory = $childPart->categories[2];
                     @endphp
-                    <tr class="{{ $color ?? 'bg-white' }}">
+                    <tr>
                         <td class="border border-gray-300 p-4 text-sm text-center">
-                            {{ $code . "-" . $childPart->code }}
+                            <input type="text" class="input-text w-14 text-center" name="sorts[]"
+                                   id="partSort{{ $childPart->id }}"
+                                   value="{{ $childPart->pivot->sort == 0 ||  $childPart->pivot->sort == null ? $loop->index+1 : $childPart->pivot->sort }}">
+                        </td>
+                        <td class="border border-gray-300 px-4 py-1">
+                            <select name="" id="inputCategory{{ $childPart->id }}" class="input-text"
+                                    onchange="changePart(event,{{ $childPart->id }})">
+                                @foreach($category->children as $child2)
+                                    <option
+                                        value="{{ $child2->id }}" {{ $child2->id == $selectedCategory->id ? 'selected' : '' }}>
+                                        {{ $child2->name }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </td>
                         <td class="border border-gray-300 p-4 text-sm text-center">
-                            {{ $childPart->name }}
+                            @php
+                                $selectedPart = \App\Models\Part::find($childPart->id);
+                                $lastCategory = $selectedPart->categories()->latest()->first();
+                                $categoryParts = $lastCategory->parts;
+                            @endphp
+                            <select name="part_ids[]" class="input-text" id="groupPartList{{ $childPart->id }}">
+                                @foreach($categoryParts as $part2)
+                                    <option
+                                        value="{{ $part2->id }}" {{ $part2->id == $childPart->id ? 'selected' : '' }}>
+                                        {{ $part2->name }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </td>
-                        <td class="border border-gray-300 p-4 text-sm text-center">
-                            {{ $childPart->unit }}
+                        <td class="border border-gray-300 p-4 text-sm text-center whitespace-nowrap">
+                            <input type="text" name="values[]" id="inputValue{{ $childPart->id }}"
+                                   class="input-text w-20 text-center" onkeyup="changeUnit1(event,{{ $childPart }})"
+                                   value="{{ $childPart->pivot->value ?? '' }}">
+                            @if(!is_null($childPart->unit2))
+                                /
+                                <input type="text" id="inputUnit{{ $childPart->id }}"
+                                       class="input-text w-20 text-center" onkeyup="changeUnit2(event,{{ $childPart }})"
+                                       placeholder="{{ $childPart->unit2 }}" value="{{ $childPart->pivot->value2 }}">
+                            @endif
+                            <input type="hidden" name="units[]" id="inputUnitValue{{ $childPart->id }}"
+                                   value="{{ $childPart->pivot->value2 }}">
                         </td>
                         <td class="border border-gray-300 p-4 text-sm text-center font-bold">
                             <input type="text" name="values[]" id="inputValue{{ $childPart->id }}" class="input-text"
                                    value="{{ $childPart->pivot->value ?? '' }}">
+                        </td>
+                        <td class="border border-gray-300 px-4 py-1 whitespace-nowrap">
+                            @if($childPart->price)
+                                <p class="text-sm text-black font-medium text-center">
+                                    {{ number_format($childPart->price) }} تومان
+                                </p>
+                            @else
+                                <p class="text-sm font-medium text-center">
+                                    منتظر قیمت گذاری
+                                </p>
+                            @endif
                         </td>
                     </tr>
                 @endforeach
