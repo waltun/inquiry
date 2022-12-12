@@ -393,23 +393,76 @@ class InquiryController extends Controller
             'message' => 'required'
         ]);
 
-        $inquiry->update([
-            'message' => $request['message'],
-            'price' => 0,
-            'submit' => false,
+        $lastInquiry = Inquiry::all()->last();
+        $inquiryNumber = str_pad($lastInquiry->inquiry_number + 1, 5, "0", STR_PAD_LEFT);
+
+        $newInquiry = $inquiry->replicate()->fill([
             'archive_at' => null,
+            'submit' => false,
+            'price' => 0,
+            'inquiry_number' => $inquiryNumber,
+            'message' => $request['message']
         ]);
+        $newInquiry->save();
 
         foreach ($inquiry->products as $product) {
-            $product->price = 0;
-            $product->percent = 0;
-            $product->save();
+            $newProduct = $product->replicate()->fill([
+                'percent' => 0,
+                'inquiry_id' => $newInquiry->id,
+                'price' => 0,
+            ]);
+            $newProduct->save();
+
+            foreach ($product->amounts as $amount) {
+                $part = Part::find($amount->part_id);
+                $category = $part->categories()->latest()->first();
+                $lastPart = $category->parts()->latest()->first();
+                $code = str_pad($lastPart->code + 1, 4, "0", STR_PAD_LEFT);
+
+                if ($part->coil == '1' && $part->collection == '1' && !is_null($part->inquiry_id)) {
+                    $name = $part->name;
+                    $explode = explode('-', $name);
+                    $explode[0] = $inquiryNumber;
+                    $newName = implode('-', $explode);
+
+                    $newPart = $part->replicate()->fill([
+                        'code' => $code,
+                        'name' => $newName,
+                        'inquiry_id' => $newInquiry->id
+                    ]);
+                    $newPart->save();
+
+                    $newPart->categories()->syncWithoutDetaching($part->categories);
+
+                    foreach ($part->children as $child) {
+                        $newPart->children()->syncWithoutDetaching([
+                            $child->id => [
+                                'value' => $child->pivot->value
+                            ]
+                        ]);
+                    }
+
+                    $totalPrice = 0;
+                    foreach ($newPart->children as $child) {
+                        $totalPrice += ($child->price * $child->pivot->value);
+                    }
+                    $newPart->save();
+                }
+
+                $newAmount = $amount->replicate()->fill([
+                    'value' => $amount->value,
+                    'product_id' => $newProduct->id,
+                    'part_id' => $amount->part_id,
+                    'price' => $amount->price > 0 ? $amount->price : 0
+                ]);
+                $newAmount->save();
+            }
         }
 
         //Send Notification
-        $user->notify(new CorrectionInquiryNotification($inquiry));
+        $user->notify(new CorrectionInquiryNotification($newInquiry));
 
-        alert()->success('اصلاح موفق', 'اصلاح استعلام با موفقیت انجام شد و برای کاربر ارسال شد');
+        alert()->success('اطلاح موفق', 'اصلاح استعلام با موفقیت انجام شد و برای کاربر ارسال شد');
 
         return back();
     }
