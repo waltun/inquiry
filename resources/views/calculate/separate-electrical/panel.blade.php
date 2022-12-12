@@ -2,33 +2,6 @@
     <x-slot name="js">
         <script src="{{ asset('plugins/jquery.min.js') }}"></script>
         <script>
-            function changeUnit1(event, part) {
-                let value = event.target.value;
-                let input2 = document.getElementById('inputUnit' + part.id);
-                let inputValue = document.getElementById('inputUnitValue' + part.id);
-                let operator1 = part.operator2;
-                let formula1 = part.formula2;
-                let result = 0;
-
-                result = eval(value + operator1 + formula1);
-                input2.value = Intl.NumberFormat().format(result);
-                inputValue.value = Intl.NumberFormat().format(result);
-            }
-
-            function changeUnit2(event, part) {
-                let value = event.target.value;
-                let input1 = document.getElementById('inputValue' + part.id);
-                let inputValue = document.getElementById('inputUnitValue' + part.id);
-                let operator2 = part.operator1;
-                let formula2 = part.formula1;
-                let result = 0;
-
-                result = eval(value + operator2 + formula2);
-                input1.value = Intl.NumberFormat().format(result);
-                inputValue.value = value;
-            }
-        </script>
-        <script>
             function changePart(event, part) {
                 let id = event.target.value;
                 let section = document.getElementById('groupPartList' + part);
@@ -56,6 +29,71 @@
                             })
                         }
                             </select>`
+                    }
+                });
+            }
+        </script>
+        <script>
+            function getCategory1() {
+                let id = document.getElementById('inputCoilCategory').value;
+                let section = document.getElementById('categorySection1');
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('parts.getCategory') }}',
+                    data: {
+                        id: id,
+                    },
+                    success: function (res) {
+                        if (res.data != null) {
+                            section.innerHTML = `
+                            <select class="input-text" onchange="getCategory2()" id="inputCategory2" name="categories[]">
+                                <option value="">انتخاب کنید</option>
+                                    ${
+                                res.data.map(function (category) {
+                                    return `<option value="${category.id}">${category.name}</option>`
+                                })
+                            }
+                            </select>`
+                        }
+                    }
+                });
+            }
+
+            function getCategory2() {
+                let id = document.getElementById('inputCategory2').value;
+                let section = document.getElementById('categorySection2');
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('parts.getCategory') }}',
+                    data: {
+                        id: id,
+                    },
+                    success: function (res) {
+                        if (res.data != null) {
+                            section.innerHTML = `
+                            <select class="input-text" name="categories[]" id="inputCategory3">
+                                <option value="">انتخاب کنید</option>
+                                    ${
+                                res.data.map(function (category) {
+                                    return `<option value="${category.id}">${category.name}</option>`
+                                })
+                            }
+                            </select>`;
+                        }
                     }
                 });
             }
@@ -104,17 +142,10 @@
         </ol>
     </nav>
 
-    @php
-        $values = Session::get('values');
-        $selectedParts = Session::get('selectedParts');
-        $inputs = Session::get('inputs');
-        $name = Session::get('name');
-    @endphp
-
     <!-- Content -->
     <div class="mt-4">
         <!-- Laptop List -->
-        <form method="POST" action="">
+        <form method="POST" action="{{ route('separate.electrical.storePanel',$part->id) }}">
             @csrf
 
             <div class="bg-white shadow overflow-x-auto rounded-lg hidden md:block">
@@ -256,8 +287,6 @@
                                            class="input-text w-20 text-center" onkeyup="changeUnit2(event,{{ $child }})"
                                            placeholder="{{ $child->unit2 }}" value="{{ $child->pivot->value2 }}">
                                 @endif
-                                <input type="hidden" name="units[]" id="inputUnitValue{{ $child->id }}"
-                                       value="{{ $child->pivot->value2 }}">
                             </td>
                             <td class="px-4 py-1 whitespace-nowrap">
                                 @if($child->price)
@@ -276,9 +305,35 @@
                 </table>
             </div>
 
+            @can('users')
+                <div class="my-4 bg-red-300 p-4 rounded-md shadow-md">
+                    <label class="block mb-2 text-sm font-bold" for="inputCoilCategory">
+                        دسته بندی تابلو برق
+                    </label>
+                    <div class="grid grid-cols-3 gap-4">
+                        <div>
+                            <select name="categories[]" id="inputCoilCategory" class="input-text"
+                                    onchange="getCategory1()">
+                                <option value="">انتخاب کنید</option>
+                                @foreach($categories as $category)
+                                    <option
+                                        value="{{ $category->id }}" {{ request('category1') == $category->id ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div id="categorySection1">
+                        </div>
+                        <div id="categorySection2">
+                        </div>
+                    </div>
+                </div>
+            @endcan
+
             <div class="my-4">
                 <button type="submit" class="form-submit-btn">
-                    محاسبه
+                    ذخیره
                 </button>
             </div>
 

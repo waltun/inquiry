@@ -250,6 +250,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     //Separate Electrical Routes
     Route::get('/separate-calculate-electrical', [SeparateCalculateElectricalController::class, 'index'])->name('separate.electrical.index');
     Route::get('/separate-calculate-electrical/{part}/panel', [SeparateCalculateElectricalController::class, 'panel'])->name('separate.electrical.panel');
+    Route::post('/separate-calculate-electrical/{part}/store-panel', [SeparateCalculateElectricalController::class, 'storePanel'])->name('separate.electrical.storePanel');
 
     //Inquiry Part Coils
     Route::post('/inquiry-part-coil/{inquiry}', [InquiryPartCoilController::class, 'index'])->name('inquiryPart.coil.index');
