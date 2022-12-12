@@ -610,45 +610,52 @@
                                     </td>
                                 </tr>
                                 @break
-                            @case('6')
+                            @case('3')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
-                                        مشخصات کلید و کنتاکتور های کمپرسور
+                                        مشخصات کلید و کنتاکتورهای کمپرسور
                                     </td>
                                 </tr>
                                 @break
-                            @case('10')
+                            @case('9')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
-                                        مشخصات کلید و کنتاکتور های فن الکترو موتور فن هوارسان
+                                        مشخصات کلید و کنتاکتورهای فن الکترو موتور فن هوارسان
                                     </td>
                                 </tr>
                                 @break
-                            @case('15')
+                            @case('13')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
-                                        مشخصات کلید و کنتاکتور های فن الکتروفن های کندانسور
+                                        مشخصات کلید و کنتاکتورهای فن الکتروفن‌های کندانسور
+                                    </td>
+                                </tr>
+                                @break
+                            @case('17')
+                                <tr class="bg-yellow-500">
+                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
+                                        مشخصات کلیدها و کنتاکتورهای هیتر الکتریکی
+                                    </td>
+                                </tr>
+                                @break
+                            @case('19')
+                                <tr class="bg-yellow-500">
+                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
+                                        مشخصات کلیدها و کنتاکتورهای رطوبت زن
                                     </td>
                                 </tr>
                                 @break
                             @case('21')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
-                                        مشخصات کلید ها و الکترو موتور های هیتر الکتریکی
-                                    </td>
-                                </tr>
-                                @break
-                            @case('25')
-                                <tr class="bg-yellow-500">
-                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
-                                        مشخصات کلید ها و کنتاکتور های رطوبت زن
-                                    </td>
-                                </tr>
-                                @break
-                            @case('30')
-                                <tr class="bg-yellow-500">
-                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
                                         اطلاعات سیم و کابل
+                                    </td>
+                                </tr>
+                                @break
+                            @case('24')
+                                <tr class="bg-yellow-500">
+                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
+                                        سایر تجهیزات
                                     </td>
                                 </tr>
                                 @break

@@ -85,7 +85,17 @@ class CollectionPartController extends Controller
     {
         Gate::authorize('collections');
 
-        $parentPart->children()->syncWithoutDetaching($childPart->id);
+        $sort = 0;
+        if ($parentPart->children->isEmpty()) {
+            $sort = 1;
+        } else {
+            $parentSort = $parentPart->children()->max('sort');
+            $sort = $parentSort + 1;
+        }
+
+        $parentPart->children()->attach($childPart->id, [
+            'sort' => $sort
+        ]);
 
         alert()->success('ثبت موفق', 'افزودن قطعه به مجموعه با موفقیت انجام شد');
 
