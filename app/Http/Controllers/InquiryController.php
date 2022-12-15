@@ -114,11 +114,11 @@ class InquiryController extends Controller
         $colspan = '';
         $colspan2 = '';
         if (auth()->user()->role == 'admin' || auth()->user()->role == 'technical') {
-            $colspan = '4';
-            $colspan2 = '2';
+            $colspan = '5';
+            $colspan2 = '3';
         } else {
-            $colspan = '2';
-            $colspan2 = '1';
+            $colspan = '3';
+            $colspan2 = '2';
         }
 
         return view('inquiries.show', compact('inquiry', 'colspan', 'colspan2'));

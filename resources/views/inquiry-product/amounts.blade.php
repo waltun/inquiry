@@ -552,11 +552,14 @@
                 @php
                     $showPivotPrice = 0;
                     $showAmountPrice = 0;
+                    $amountWeight = 0;
+                    $partWeight = 0;
                 @endphp
                 @if($amounts->isEmpty() && !$modell->parts->isEmpty())
                     @foreach($modell->parts()->orderBy('sort','ASC')->get() as $index => $part)
                         @php
                             $showPivotPrice += $part->price * $part->pivot->value;
+                            $partWeight += $part->weight * $part->pivot->value;
                             $color = '';
                             if ($setting) {
                                 if($setting->price_color_type == 'month') {
@@ -864,6 +867,7 @@
                         @php
                             $part = Part::find($amount->part_id);
                             $showAmountPrice += $part->price * $amount->value;
+                            $amountWeight += $amount->weight * $amount->value;
                             $color = '';
                             if ($setting) {
                                 if($setting->price_color_type == 'month') {
@@ -1199,15 +1203,21 @@
             </table>
             @can('users')
                 @if($product->percent == 0)
-                    <div class="mt-4 flex justify-end">
+                    <div class="mt-4 flex justify-end space-x-2 space-x-reverse">
                         @if($showPivotPrice != 0)
                             <p class="text-base font-bold text-white bg-green-500 px-6 py-1 rounded-md">
                                 قیمت : {{ number_format($showPivotPrice) }} تومان
+                            </p>
+                            <p class="text-base font-bold text-white bg-green-500 px-6 py-1 rounded-md">
+                                قیمت : {{ $partWeight }} کلیوگرم
                             </p>
                         @endif
                         @if($showAmountPrice != 0)
                             <p class="text-base font-bold text-white bg-green-500 px-6 py-1 rounded-md">
                                 قیمت : {{ number_format($showAmountPrice) }} تومان
+                            </p>
+                            <p class="text-base font-bold text-white bg-green-500 px-6 py-1 rounded-md">
+                                وزن دستگاه : {{ $amountWeight }} کلیوگرم
                             </p>
                         @endif
                     </div>

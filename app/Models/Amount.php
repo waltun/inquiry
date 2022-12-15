@@ -10,7 +10,7 @@ class Amount extends Model
     use HasFactory;
 
     protected $fillable = [
-        'value', 'part_id', 'product_id', 'price', 'sort', 'value2'
+        'value', 'part_id', 'product_id', 'price', 'sort', 'value2', 'weight'
     ];
 
     public function product()

@@ -128,6 +128,7 @@
                     $modell = \App\Models\Modell::find($product->model_id);
                     $finalPrice += $product->price;
                     $totalPrice = 0;
+                    $weight = 0;
                 @endphp
                     <!-- Laptop Product List -->
                 <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4 hidden md:block">
@@ -143,12 +144,12 @@
                                       method="POST">
                                     @csrf
                                     <button class="form-detail-btn text-xs" type="submit">
-                                        افزودن به مدل ها استاندارد
+                                        افزودن به مدل‌ها استاندارد
                                     </button>
                                 </form>
                             @else
                                 <p class="text-sm font-bold text-gray-600">
-                                    این مدل به مدل های استاندارد اضافه شده است
+                                    این مدل به مدل‌های استاندارد اضافه شده است
                                 </p>
                             @endif
                         @endif
@@ -158,6 +159,7 @@
                         <tr class="bg-indigo-200">
                             <th class="border border-white p-4 text-sm">نام قطعه</th>
                             <th class="border border-white p-4 text-sm">واحد</th>
+                            <th class="border border-white p-4 text-sm">وزن</th>
                             @can('detail-inquiry')
                                 <th class="border border-white p-4 text-sm">قیمت واحد</th>
                             @endcan
@@ -173,6 +175,7 @@
                             @php
                                 $part = \App\Models\Part::find($amount->part_id);
                                 $totalPrice += ($amount->price * $amount->value);
+                                $weight += $amount->weight * $amount->value;
                             @endphp
                             <tr>
                                 <td class="border border-gray-300 p-4 text-sm text-center">
@@ -183,6 +186,9 @@
                                     @if(!is_null($part->unit2))
                                         / {{ $part->unit2 }}
                                     @endif
+                                </td>
+                                <td class="border border-gray-300 p-4 text-sm text-center">
+                                    {{ $part->weight }}
                                 </td>
                                 @can('detail-inquiry')
                                     <td class="border border-gray-300 p-4 text-sm text-center font-bold">
@@ -251,6 +257,15 @@
                             </td>
                             <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
                                 {{ number_format($totalPrice * $product->percent * $product->quantity) }} تومان
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="border border-gray-300 p-4 text-lg text-center font-bold"
+                                colspan="{{ $colspan }}">
+                                وزن دستگاه
+                            </td>
+                            <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
+                                {{ $weight }} کیلوگرم
                             </td>
                         </tr>
                         </tbody>

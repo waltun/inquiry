@@ -159,16 +159,18 @@ class InquiryProductController extends Controller
                 }
             }
 
-            foreach ($request['part_ids'] as $index => $part) {
+            foreach ($request['part_ids'] as $index => $id) {
+                $part = Part::find($id);
                 $createdAmount = Amount::create([
                     'value' => $request->modellAmounts[$index] ?? 0,
                     'value2' => $request->units[$index] ?? null,
                     'product_id' => $product->id,
-                    'part_id' => $part,
+                    'part_id' => $id,
                     'sort' => $request->sorts[$index] ?? 0,
+                    'weigth' => $part->weigth
                 ]);
 
-                $special = Special::where('part_id', $part)->first();
+                $special = Special::where('part_id', $id)->first();
 
                 if (!is_null($special)) {
                     $createdAmount->price = session('price' . $part) ?? 0;
@@ -190,16 +192,18 @@ class InquiryProductController extends Controller
                 }
             }
 
-            foreach ($request['part_ids'] as $index => $part) {
+            foreach ($request['part_ids'] as $index => $id) {
+                $part = Part::find($id);
                 $createdAmount = Amount::create([
                     'value' => $request->amounts[$index] ?? 0,
                     'value2' => $request->units[$index] ?? null,
                     'product_id' => $product->id,
-                    'part_id' => $part,
+                    'part_id' => $id,
                     'sort' => $request->sorts[$index] ?? 0,
+                    'weight' => $part->weight
                 ]);
 
-                $special = Special::where('part_id', $part)->first();
+                $special = Special::where('part_id', $id)->first();
 
                 if (!is_null($special)) {
                     $createdAmount->price = session('price' . $part) ?? 0;
@@ -261,12 +265,13 @@ class InquiryProductController extends Controller
         $user = User::find($inquiry->user_id);
 
         $totalPrice = 0;
+        $weight = 0;
 
         if (!is_null($group) && !is_null($modell)) {
-
             foreach ($product->amounts as $amount) {
                 $part = Part::find($amount->part_id);
                 $totalPrice += ($part->price * $amount->value);
+                $weight += $part->weight * $amount->value;
             }
             $finalPrice = $totalPrice * $request['percent'];
         }
@@ -280,11 +285,14 @@ class InquiryProductController extends Controller
         $product->update([
             'price' => $finalPrice,
             'percent' => $request['percent'],
+            'weight' => $weight
         ]);
 
         foreach ($product->amounts as $amount) {
             $amountPrice = Part::find($amount->part_id)->price;
+            $amountWeight = Part::find($amount->part_id)->weight;
             $amount->price = $amountPrice;
+            $amount->weight = $amountWeight;
             $amount->save();
         }
 
