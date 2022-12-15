@@ -98,6 +98,21 @@
                 });
             }
         </script>
+        <script>
+            function changeRoute(type, part) {
+                let form = document.getElementById('form');
+
+                if (type == 'calculate') {
+                    form.action = '/separate-calculate-electrical/panel';
+                    form.submit();
+                }
+
+                if (type == 'post') {
+                    form.action = '/separate-calculate-electrical/' + part + '/store-panel'
+                    form.submit();
+                }
+            }
+        </script>
     </x-slot>
 
     <!-- Breadcrumb -->
@@ -142,10 +157,17 @@
         </ol>
     </nav>
 
-    <!-- Content -->
+    @php
+        $sorts = Session::get('sorts');
+        $name = Session::get('name');
+        $values = Session::get('values');
+        $part_ids = Session::get('part_ids');
+    @endphp
+
+        <!-- Content -->
     <div class="mt-4">
         <!-- Laptop List -->
-        <form method="POST" action="{{ route('separate.electrical.storePanel',$part->id) }}">
+        <form method="POST" action="" id="form">
             @csrf
 
             <div class="bg-white shadow overflow-x-auto rounded-lg hidden md:block">
@@ -176,6 +198,9 @@
                     <tbody>
                     @foreach($part->children()->orderBy('sort','ASC')->get() as $index => $child)
                         @php
+                            if (!is_null($part_ids)){
+                                $child = \App\Models\Part::find($part_ids[$index]);
+                            }
                             $category = $child->categories[1];
                             $selectedCategory = $child->categories[2];
                         @endphp
@@ -187,61 +212,73 @@
                                     </td>
                                 </tr>
                                 @break
-                            @case('3')
+                            @case('8')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
                                         مشخصات کلید و کنتاکتورهای کمپرسور
                                     </td>
                                 </tr>
                                 @break
-                            @case('9')
+                            @case('17')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
                                         مشخصات کلید و کنتاکتورهای فن الکترو موتور فن هوارسان
                                     </td>
                                 </tr>
                                 @break
-                            @case('13')
+                            @case('22')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
                                         مشخصات کلید و کنتاکتورهای فن الکتروفن‌های کندانسور
                                     </td>
                                 </tr>
                                 @break
-                            @case('17')
+                            @case('26')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
                                         مشخصات کلیدها و کنتاکتورهای هیتر الکتریکی
                                     </td>
                                 </tr>
                                 @break
-                            @case('19')
+                            @case('30')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
                                         مشخصات کلیدها و کنتاکتورهای رطوبت زن
                                     </td>
                                 </tr>
                                 @break
-                            @case('21')
+                            @case('32')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
                                         اطلاعات سیم و کابل
                                     </td>
                                 </tr>
                                 @break
-                            @case('24')
+                            @case('36')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
                                         سایر تجهیزات
                                     </td>
                                 </tr>
                                 @break
+                            @case('46')
+                                <tr class="bg-yellow-500">
+                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
+                                        اقلام کنترلی
+                                    </td>
+                                </tr>
+                                @break
                         @endswitch
                         <tr>
                             <td class="px-4 py-1 whitespace-nowrap">
-                                <input type="text" class="input-text w-14 text-center" name="sorts[]"
-                                       id="partSort{{ $child->id }}"
-                                       value="{{ $child->pivot->sort == 0 ||  $child->pivot->sort == null ? $loop->index+1 : $child->pivot->sort }}">
+                                @if(!is_null($part_ids))
+                                    <input type="text" class="input-text w-14 text-center" name="sorts[]"
+                                           id="partSort{{ $child->id }}" value="{{ $sorts[$index] }}">
+                                @else
+                                    <input type="text" class="input-text w-14 text-center" name="sorts[]"
+                                           id="partSort{{ $child->id }}"
+                                           value="{{ $child->pivot->sort == 0 ||  $child->pivot->sort == null ? $loop->index+1 : $child->pivot->sort }}">
+                                @endif
                             </td>
                             <td class="px-4 py-1">
                                 <select name="" id="inputCategory{{ $child->id }}" class="input-text"
@@ -260,8 +297,7 @@
                                     $lastCategory = $selectedPart->categories()->latest()->first();
                                     $categoryParts = $lastCategory->parts;
                                 @endphp
-                                <select name="part_ids[]" class="input-text" id="groupPartList{{ $child->id }}"
-                                        onchange="showCalculateButton('{{ $child->id }}')">
+                                <select name="part_ids[]" class="input-text" id="groupPartList{{ $child->id }}">
                                     @foreach($categoryParts as $part2)
                                         <option
                                             value="{{ $part2->id }}" {{ $part2->id == $child->id ? 'selected' : '' }}>
@@ -273,19 +309,15 @@
                             <td class="px-4 py-1 whitespace-nowrap">
                                 <p class="text-sm text-black text-center">
                                     {{ $child->unit }}
-                                    @if(!is_null($child->unit2))
-                                        / {{ $child->unit2 }}
-                                    @endif
                                 </p>
                             </td>
                             <td class="px-4 py-1 whitespace-nowrap">
-                                <input type="text" name="values[]" id="inputValue{{ $child->id }}"
-                                       class="input-text w-24 text-center" onkeyup="changeUnit1(event,{{ $child }})"
-                                       value="{{ $child->pivot->value ?? '' }}">
-                                @if(!is_null($child->unit2))
-                                    <input type="text" id="inputUnit{{ $child->id }}"
-                                           class="input-text w-20 text-center" onkeyup="changeUnit2(event,{{ $child }})"
-                                           placeholder="{{ $child->unit2 }}" value="{{ $child->pivot->value2 }}">
+                                @if(!is_null($part_ids))
+                                    <input type="text" name="values[]" id="inputValue{{ $child->id }}"
+                                           class="input-text w-24 text-center" value="{{ $values[$index] }}">
+                                @else
+                                    <input type="text" name="values[]" id="inputValue{{ $child->id }}"
+                                           class="input-text w-24 text-center" value="{{ $child->pivot->value ?? '' }}">
                                 @endif
                             </td>
                             <td class="px-4 py-1 whitespace-nowrap">
@@ -305,37 +337,66 @@
                 </table>
             </div>
 
-            @can('users')
-                <div class="my-4 bg-red-300 p-4 rounded-md shadow-md">
-                    <label class="block mb-2 text-sm font-bold" for="inputCoilCategory">
-                        دسته بندی تابلو برق
-                    </label>
-                    <div class="grid grid-cols-3 gap-4">
-                        <div>
-                            <select name="categories[]" id="inputCoilCategory" class="input-text"
-                                    onchange="getCategory1()">
-                                <option value="">انتخاب کنید</option>
-                                @foreach($categories as $category)
-                                    <option
-                                        value="{{ $category->id }}" {{ request('category1') == $category->id ? 'selected' : '' }}>
-                                        {{ $category->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div id="categorySection1">
-                        </div>
-                        <div id="categorySection2">
-                        </div>
-                    </div>
-                </div>
-            @endcan
-
             <div class="my-4">
-                <button type="submit" class="form-submit-btn">
-                    ذخیره
+                <button type="button" class="form-submit-btn" onclick="changeRoute('calculate',{{ $part->id }})">
+                    محاسبه
                 </button>
             </div>
+
+            @if(!is_null($part_ids))
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="my-4 bg-red-300 p-4 rounded-md shadow-md">
+                        <label class="block mb-2 text-sm font-bold" for="inputCoilName">
+                            نام تابلو برق مورد نظر
+                        </label>
+                        <input type="text" class="input-text" id="inputCoilName" name="name" dir="ltr"
+                               value="{{ $name }}">
+                    </div>
+                    @can('users')
+                        <div class="my-4 bg-red-300 p-4 rounded-md shadow-md">
+                            <label class="block mb-2 text-sm font-bold" for="inputStandard">
+                                تعیین استاندارد بودن تابلو برق
+                            </label>
+                            <select name="standard" id="inputStandard" class="input-text">
+                                <option value="0">نباشد</option>
+                                <option value="1">باشد</option>
+                            </select>
+                        </div>
+                    @endcan
+                </div>
+
+                @can('users')
+                    <div class="my-4 bg-red-300 p-4 rounded-md shadow-md">
+                        <label class="block mb-2 text-sm font-bold" for="inputCoilCategory">
+                            دسته بندی تابلو برق
+                        </label>
+                        <div class="grid grid-cols-3 gap-4">
+                            <div>
+                                <select name="categories[]" id="inputCoilCategory" class="input-text"
+                                        onchange="getCategory1()">
+                                    <option value="">انتخاب کنید</option>
+                                    @foreach($categories as $category)
+                                        <option
+                                            value="{{ $category->id }}" {{ request('category1') == $category->id ? 'selected' : '' }}>
+                                            {{ $category->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div id="categorySection1">
+                            </div>
+                            <div id="categorySection2">
+                            </div>
+                        </div>
+                    </div>
+                @endcan
+
+                <div class="mb-4">
+                    <button type="button" class="form-submit-btn" onclick="changeRoute('post',{{ $part->id }})">
+                        ذخیره
+                    </button>
+                </div>
+            @endif
 
         </form>
     </div>

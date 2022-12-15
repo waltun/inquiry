@@ -319,7 +319,7 @@
                         result = eval(value + operator1 + formula1);
                         let formatResult = Intl.NumberFormat().format(result);
                         input2.value = formatResult.replace(',', '');
-                        inputValue.value = value;
+                        inputValue.value = result;
                     }
                 });
             }
@@ -352,7 +352,7 @@
                         result = eval(value + operator2 + formula2);
                         let formatResult = Intl.NumberFormat().format(result);
                         input1.value = formatResult.replace(',', '');
-                        inputValue.value = value;
+                        inputValue.value = result;
                     }
                 });
             }
@@ -796,7 +796,7 @@
                             <td class="p-2 border border-gray-300 {{ $color ?? 'bg-white' }}">
                                 <div class="flex items-center">
                                     <input type="text" name="modellAmounts[]" id="inputAmount{{ $part->id }}"
-                                           class="input-text w-20 {{ $part->pivot->value == '0' ? 'border-yellow-500' : '' }}"
+                                           class="input-text w-24 {{ $part->pivot->value == '0' ? 'border-yellow-500' : '' }}"
                                            value="{{ $part->pivot->value }}"
                                            onkeyup="changeUnit1(event,{{ $part->id }})">
                                     @if(!is_null($part->unit2))
@@ -1104,7 +1104,7 @@
                             <td class="border border-gray-300 p-2 {{ $color ?? 'bg-white' }}">
                                 <div class="flex items-center">
                                     <input type="text" name="amounts[]" id="inputAmount{{ $part->id }}"
-                                           class="input-text w-20 {{ $amount->value == '0' ? 'border-yellow-500' : '' }}"
+                                           class="input-text w-24 {{ $amount->value == '0' ? 'border-yellow-500' : '' }}"
                                            value="{{ $amount->value }}" onkeyup="changeUnit1(event,{{ $part->id }})">
                                     @if(!is_null($part->unit2))
                                         <p class="mr-2">/</p>

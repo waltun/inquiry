@@ -97,6 +97,11 @@
                        value="{{ $part->name }}">
             </div>
             <div class="mt-4">
+                <label for="inputWeight" class="block mb-2 md:text-sm text-xs text-black">وزن قطعه (کیلوگرم)</label>
+                <input type="text" id="inputWeight" name="weight" class="input-text"
+                       placeholder="مثال : 120" value="{{ $part->weight }}">
+            </div>
+            <div class="mt-4">
                 <label for="inputCollection" class="block mb-2 md:text-sm text-xs text-black">قطعه مجموعه ای</label>
                 <select name="collection" id="inputCollection" class="input-text">
                     <option value="false" {{ !$part->collection ? 'selected' : '' }}>نباشد</option>

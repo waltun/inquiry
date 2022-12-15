@@ -42,7 +42,7 @@ class NewPartInquiryController extends Controller
             }
         }
 
-        $parts = $parts->whereNotIn('id', $product->amounts->pluck('part_id'))->latest()->paginate(25);
+        $parts = $parts->whereNotIn('id', $product->amounts->pluck('part_id'))->latest()->paginate(25)->withQueryString();
 
         return view('inquiry-new-part.create', compact('product', 'group', 'modell', 'categories', 'parts'));
     }

@@ -17,8 +17,7 @@ class PartController extends Controller
         $categories = Category::where('parent_id', 0)->get();
 
         if ($keyword = request('search')) {
-            $parts->where('collection', false)
-                ->where('coil', false)
+            $parts->where('coil', false)
                 ->where('name', 'LIKE', "%{$keyword}%");
         }
 
@@ -26,7 +25,7 @@ class PartController extends Controller
             if (request()->has('category3')) {
                 $parts = $parts->whereHas('categories', function ($q) {
                     $q->where('category_id', request('category3'));
-                })->where('collection', false)->where('coil', false);
+                })->where('coil', false);
             }
         }
 
@@ -34,11 +33,11 @@ class PartController extends Controller
             if (request()->has('category2')) {
                 $parts = $parts->whereHas('categories', function ($q) {
                     $q->where('category_id', request('category2'));
-                })->where('collection', false)->where('coil', false);
+                })->where('coil', false);
             }
         }
 
-        $parts = $parts->where('collection', false)->where('coil', false)->latest()
+        $parts = $parts->where('coil', false)->latest()
             ->paginate(25)->withQueryString();
 
         return view('parts.index', compact('parts', 'categories'));
@@ -68,6 +67,7 @@ class PartController extends Controller
             'operator2' => 'nullable|string|max:255',
             'formula1' => 'nullable|numeric',
             'formula2' => 'nullable|numeric',
+            'weight' => 'nullable|numeric'
         ]);
 
         if ($data['collection'] == 'true') {
@@ -119,6 +119,7 @@ class PartController extends Controller
             'operator2' => 'nullable|string|max:255',
             'formula1' => 'nullable|numeric',
             'formula2' => 'nullable|numeric',
+            'weight' => 'nullable|numeric'
         ]);
 
         if ($data['collection'] == 'true') {

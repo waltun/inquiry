@@ -20,6 +20,18 @@ class SeparateCalculateElectricalController extends Controller
         return view('calculate.separate-electrical.panel', compact('part', 'categories'));
     }
 
+    public function calculatePanel(Request $request)
+    {
+        $sorts = $request->sorts;
+        $part_ids = $request->part_ids;
+        $values = $request->values;
+        $name = "LCP-PU-";
+
+        alert()->success('محاسبه موفق', 'محاسبه با موفقیت انجام شد');
+
+        return back()->with(['sorts' => $sorts, 'name' => $name, 'part_ids' => $part_ids, 'values' => $values]);
+    }
+
     public function storePanel(Request $request, Part $part)
     {
         $request->validate([
@@ -30,7 +42,7 @@ class SeparateCalculateElectricalController extends Controller
         $code = $this->getLastCode($part);
 
         $newPart = $part->replicate()->fill([
-            'name' => 'tablo bargh',
+            'name' => $request->name,
             'code' => $code,
             'coil' => true,
             'price_updated_at' => now(),

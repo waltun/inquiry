@@ -187,7 +187,7 @@
                             </form>
                             <div x-data="{ open:false }" class="inline-flex">
                                 <button class="form-cancel-btn text-xs" type="button" @click="open=!open">
-                                    اصلاح
+                                    اصلاح یا آپدیت
                                 </button>
                                 <div class="relative z-50" x-show="open" x-cloak>
                                     <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>

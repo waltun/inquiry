@@ -54,8 +54,7 @@ class CollectionPartController extends Controller
         $categories = Category::where('parent_id', 0)->get();
 
         if ($keyword = request('search')) {
-            $parts->where('collection', false)
-                ->where('coil', false)
+            $parts->where('coil', false)
                 ->where('name', 'LIKE', "%{$keyword}%");
         }
 
@@ -63,7 +62,7 @@ class CollectionPartController extends Controller
             if (request()->has('category3')) {
                 $parts = $parts->whereHas('categories', function ($q) {
                     $q->where('category_id', request('category3'));
-                })->where('collection', false)->where('coil', false);
+                })->where('coil', false);
             }
         }
 
@@ -71,11 +70,11 @@ class CollectionPartController extends Controller
             if (request()->has('category2')) {
                 $parts = $parts->whereHas('categories', function ($q) {
                     $q->where('category_id', request('category2'));
-                })->where('collection', false)->where('coil', false);
+                })->where('coil', false);
             }
         }
 
-        $parts = $parts->where('collection', false)->where('coil', false)->latest()->paginate(25)->except($parentPart->id)
+        $parts = $parts->where('coil', false)->latest()->paginate(25)->except($parentPart->id)
             ->except($parentPart->children()->pluck('parent_part_id')->toArray());
 
         return view('collection-parts.create', compact('parts', 'parentPart', 'categories'));
