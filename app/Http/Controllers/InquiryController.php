@@ -317,7 +317,8 @@ class InquiryController extends Controller
             'archive_at' => null,
             'submit' => false,
             'price' => 0,
-            'inquiry_number' => $inquiryNumber
+            'inquiry_number' => $inquiryNumber,
+            'copy_id' => $inquiry->id
         ]);
         $newInquiry->save();
 
@@ -401,7 +402,8 @@ class InquiryController extends Controller
             'submit' => false,
             'price' => 0,
             'inquiry_number' => $inquiryNumber,
-            'message' => $request['message']
+            'message' => $request['message'],
+            'correction_id' => $inquiry->id
         ]);
         $newInquiry->save();
 

@@ -29,6 +29,9 @@ return new class extends Migration {
 
             $table->boolean('submit')->default(false);
 
+            $table->unsignedBigInteger('copy_id')->nullable();
+            $table->unsignedBigInteger('correction_id')->nullable();
+
             $table->unsignedBigInteger('user_id');
 
             $table->index(['user_id', 'inquiry_number']);

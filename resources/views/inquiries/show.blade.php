@@ -91,6 +91,32 @@
             </div>
         </div>
 
+        @if(!is_null($inquiry->correction_id) || !is_null($inquiry->copy_id))
+            @can('users')
+                <div class="my-4 bg-yellow-500 p-2 rounded-md">
+                    @if(!is_null($inquiry->correction_id))
+                        @php
+                            $correctionInquiry = \App\Models\Inquiry::find($inquiry->correction_id)
+                        @endphp
+                        <p class="text-sm font-bold text-black">
+                            اصلاحیه : این استعلام، از استعلام {{ $inquiry->name }} - {{ $inquiry->inquiry_number }}
+                            اطلاح
+                            شده است.
+                        </p>
+                    @endif
+                    @if(!is_null($inquiry->copy_id))
+                        @php
+                            $correctionInquiry = \App\Models\Inquiry::find($inquiry->correction_id)
+                        @endphp
+                        <p class="text-sm font-bold text-black">
+                            کپی : این استعلام، از استعلام {{ $inquiry->name }} - {{ $inquiry->inquiry_number }} کپی شده
+                            است.
+                        </p>
+                    @endif
+                </div>
+            @endcan
+        @endif
+
         @php
             $finalPrice = 0;
         @endphp
