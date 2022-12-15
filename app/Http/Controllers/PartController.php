@@ -59,7 +59,7 @@ class PartController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'unit' => 'required|string|max:255',
-            'price' => 'nullable',
+            'price' => 'nullable|numeric',
             'collection' => 'required|in:true,false',
             'categories' => 'required|array|min:3|max:3',
             'unit2' => 'nullable|string|max:255',
