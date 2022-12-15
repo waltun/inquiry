@@ -30,6 +30,7 @@ return new class extends Migration {
             $table->decimal('formula1')->nullable();
             $table->string('operator2')->nullable();
             $table->decimal('formula2')->nullable();
+            $table->bigInteger('weight')->default(0);
 
             $table->unsignedBigInteger('inquiry_id')->nullable();
             $table->unsignedBigInteger('product_id')->nullable();

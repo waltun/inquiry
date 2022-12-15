@@ -128,8 +128,8 @@ class CollectionPartController extends Controller
 
         $totalPrice = 0;
 
-        foreach ($parentPart->children as $child) {
-            if ($child->pivot->sort > $parentPart->children()->where('parent_part_id', $childId)->first()->pivot->sort) {
+        foreach ($parentPart->children()->orderBy('sort', 'ASC')->get() as $child) {
+            if ($child->pivot->sort > $parentPart->children()->orderBy('sort', 'ASC')->where('parent_part_id', $childId)->first()->pivot->sort) {
                 $child->pivot->sort = $child->pivot->sort - 1;
                 $child->pivot->save();
             }
@@ -201,8 +201,8 @@ class CollectionPartController extends Controller
 
         $newPart->categories()->syncWithoutDetaching($parentPart->categories);
 
-        foreach ($parentPart->children as $part) {
-            $newPart->children()->syncWithoutDetaching([
+        foreach ($parentPart->children()->orderBy('sort', 'ASC')->get() as $part) {
+            $newPart->children()->orderBy('sort', 'ASC')->syncWithoutDetaching([
                 $part->id => [
                     'value' => $part->pivot->value
                 ]

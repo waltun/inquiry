@@ -253,6 +253,11 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/separate-calculate-electrical/panel', [SeparateCalculateElectricalController::class, 'calculatePanel'])->name('separate.electrical.calculatePanel');
     Route::post('/separate-calculate-electrical/{part}/store-panel', [SeparateCalculateElectricalController::class, 'storePanel'])->name('separate.electrical.storePanel');
 
+    Route::get('/separate-calculate-electrical', [SeparateCalculateElectricalController::class, 'index'])->name('separate.electrical.index');
+    Route::get('/separate-calculate-electrical/{chiller}/chiller', [SeparateCalculateElectricalController::class, 'chiller'])->name('separate.electrical.chiller');
+    Route::post('/separate-calculate-electrical/chiller', [SeparateCalculateElectricalController::class, 'calculateChiller'])->name('separate.electrical.calculateChiller');
+    Route::post('/separate-calculate-electrical/{chiller}/store-chiller', [SeparateCalculateElectricalController::class, 'storeChiller'])->name('separate.electrical.storeChiller');
+
     //Inquiry Part Coils
     Route::post('/inquiry-part-coil/{inquiry}', [InquiryPartCoilController::class, 'index'])->name('inquiryPart.coil.index');
     Route::get('/inquiry-part-coil/{inquiry}/{part}/fancoil', [InquiryPartCoilController::class, 'fancoil'])->name('inquiryPart.coil.fancoil');
