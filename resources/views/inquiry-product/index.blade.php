@@ -97,6 +97,31 @@
 
     </div>
 
+    @if(!is_null($inquiry->correction_id) || !is_null($inquiry->copy_id))
+        @can('users')
+            <div class="my-4 bg-red-500 p-2 rounded-md">
+                @if(!is_null($inquiry->correction_id))
+                    @php
+                        $correctionInquiry = \App\Models\Inquiry::find($inquiry->correction_id)
+                    @endphp
+                    <p class="text-sm font-bold text-white">
+                        توجه : این استعلام، درخواست اصلاح استعلام {{ $inquiry->name }} - {{ $inquiry->inquiry_number }}
+                        است.
+                    </p>
+                @endif
+                @if(!is_null($inquiry->copy_id))
+                    @php
+                        $correctionInquiry = \App\Models\Inquiry::find($inquiry->correction_id)
+                    @endphp
+                    <p class="text-sm font-bold text-white">
+                        توجه : این استعلام، کپی شده از استعلام {{ $inquiry->name }} - {{ $inquiry->inquiry_number }}
+                        است.
+                    </p>
+                @endif
+            </div>
+        @endcan
+    @endif
+
     <!-- Content -->
     <div class="mt-4">
         <!-- Laptop List -->
