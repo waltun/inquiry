@@ -1692,38 +1692,20 @@ class SeparateCalculateCoilController extends Controller
 
     public function calculateZekhamatFrame($zekhamatFrameId, $masahatVaraghMasrafi)
     {
-        if ($zekhamatFrameId === '1') {
-            $zekhamatFrame = $masahatVaraghMasrafi * 0.5 * 7.874;
-        }
-        if ($zekhamatFrameId === '2') {
-            $zekhamatFrame = $masahatVaraghMasrafi * 0.6 * 7.874;
-        }
-        if ($zekhamatFrameId === '3') {
-            $zekhamatFrame = $masahatVaraghMasrafi * 0.8 * 7.874;
-        }
-        if ($zekhamatFrameId === '4') {
-            $zekhamatFrame = $masahatVaraghMasrafi * 0.9 * 7.874;
-        }
-        if ($zekhamatFrameId === '5') {
+        if ($zekhamatFrameId === '5' || $zekhamatFrameId === '660' || $zekhamatFrameId === '667') {
             $zekhamatFrame = $masahatVaraghMasrafi * 7.874;
         }
-        if ($zekhamatFrameId === '7') {
+        if ($zekhamatFrameId === '7' || $zekhamatFrameId === '661' || $zekhamatFrameId === '668') {
             $zekhamatFrame = $masahatVaraghMasrafi * 1.25 * 7.874;
         }
-        if ($zekhamatFrameId === '8') {
+        if ($zekhamatFrameId === '8' || $zekhamatFrameId === '662' || $zekhamatFrameId === '669') {
             $zekhamatFrame = $masahatVaraghMasrafi * 1.5 * 7.874;
         }
-        if ($zekhamatFrameId === '9') {
+        if ($zekhamatFrameId === '9' || $zekhamatFrameId === '663' || $zekhamatFrameId === '670') {
             $zekhamatFrame = $masahatVaraghMasrafi * 2 * 7.874;
         }
-        if ($zekhamatFrameId === '10') {
+        if ($zekhamatFrameId === '10' || $zekhamatFrameId === '664' || $zekhamatFrameId === '671') {
             $zekhamatFrame = $masahatVaraghMasrafi * 2.5 * 7.874;
-        }
-        if ($zekhamatFrameId === '11') {
-            $zekhamatFrame = $masahatVaraghMasrafi * 3 * 7.874;
-        }
-        if ($zekhamatFrameId === '12') {
-            $zekhamatFrame = $masahatVaraghMasrafi * 4 * 7.874;
         }
 
         return $zekhamatFrame;

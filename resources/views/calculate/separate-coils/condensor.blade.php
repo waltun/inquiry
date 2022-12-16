@@ -331,22 +331,6 @@
                         <label class="block mb-2 text-sm font-bold" for="inputZekhamatFrame">ضخامت فریم کویل</label>
                         <select name="zekhamat_frame_coil" id="inputZekhamatFrame" class="input-text bg-yellow-300">
                             <option value="">انتخاب کنید</option>
-                            <option value="{{ \App\Models\Part::where('id','1')->first()->id }}"
-                                {{ is_null($inputs) ? (old('zekhamat_frame_coil') == '1' ? 'selected' : '') : ($inputs['zekhamat_frame_coil'] == "1" ? 'selected' : (old('zekhamat_frame_coil') == '1' ? 'selected' : '')) }}>
-                                {{ \App\Models\Part::where('id','1')->first()->name }}
-                            </option>
-                            <option value="{{ \App\Models\Part::where('id','2')->first()->id }}"
-                                {{ is_null($inputs) ? (old('zekhamat_frame_coil') == '2' ? 'selected' : '') : ($inputs['zekhamat_frame_coil'] == "2" ? 'selected' : (old('zekhamat_frame_coil') == '2' ? 'selected' : '')) }}>
-                                {{ \App\Models\Part::where('id','2')->first()->name }}
-                            </option>
-                            <option value="{{ \App\Models\Part::where('id','3')->first()->id }}"
-                                {{ is_null($inputs) ? (old('zekhamat_frame_coil') == '3' ? 'selected' : '') : ($inputs['zekhamat_frame_coil'] == "3" ? 'selected' : (old('zekhamat_frame_coil') == '3' ? 'selected' : '')) }}>
-                                {{ \App\Models\Part::where('id','3')->first()->name }}
-                            </option>
-                            <option value="{{ \App\Models\Part::where('id','4')->first()->id }}"
-                                {{ is_null($inputs) ? (old('zekhamat_frame_coil') == '4' ? 'selected' : '') : ($inputs['zekhamat_frame_coil'] == "4" ? 'selected' : (old('zekhamat_frame_coil') == '4' ? 'selected' : '')) }}>
-                                {{ \App\Models\Part::where('id','4')->first()->name }}
-                            </option>
                             <option value="{{ \App\Models\Part::where('id','5')->first()->id }}"
                                 {{ is_null($inputs) ? (old('zekhamat_frame_coil') == '5' ? 'selected' : '') : ($inputs['zekhamat_frame_coil'] == "5" ? 'selected' : (old('zekhamat_frame_coil') == '5' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','5')->first()->name }}
@@ -367,13 +351,45 @@
                                 {{ is_null($inputs) ? (old('zekhamat_frame_coil') == '10' ? 'selected' : '') : ($inputs['zekhamat_frame_coil'] == "10" ? 'selected' : (old('zekhamat_frame_coil') == '10' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','10')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('id','11')->first()->id }}"
-                                {{ is_null($inputs) ? (old('zekhamat_frame_coil') == '11' ? 'selected' : '') : ($inputs['zekhamat_frame_coil'] == "11" ? 'selected' : (old('zekhamat_frame_coil') == '11' ? 'selected' : '')) }}>
-                                {{ \App\Models\Part::where('id','11')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','660')->first()->id }}"
+                                {{ is_null($inputs) ? (old('zekhamat_frame_coil') == '660' ? 'selected' : '') : ($inputs['zekhamat_frame_coil'] == "660" ? 'selected' : (old('zekhamat_frame_coil') == '660' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::where('id','660')->first()->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::where('id','12')->first()->id }}"
-                                {{ is_null($inputs) ? (old('zekhamat_frame_coil') == '12' ? 'selected' : '') : ($inputs['zekhamat_frame_coil'] == "12" ? 'selected' : (old('zekhamat_frame_coil') == '12' ? 'selected' : '')) }}>
-                                {{ \App\Models\Part::where('id','12')->first()->name }}
+                            <option value="{{ \App\Models\Part::where('id','661')->first()->id }}"
+                                {{ is_null($inputs) ? (old('zekhamat_frame_coil') == '661' ? 'selected' : '') : ($inputs['zekhamat_frame_coil'] == "661" ? 'selected' : (old('zekhamat_frame_coil') == '661' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::where('id','661')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('id','662')->first()->id }}"
+                                {{ is_null($inputs) ? (old('zekhamat_frame_coil') == '662' ? 'selected' : '') : ($inputs['zekhamat_frame_coil'] == "662" ? 'selected' : (old('zekhamat_frame_coil') == '662' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::where('id','662')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('id','663')->first()->id }}"
+                                {{ is_null($inputs) ? (old('zekhamat_frame_coil') == '663' ? 'selected' : '') : ($inputs['zekhamat_frame_coil'] == "663" ? 'selected' : (old('zekhamat_frame_coil') == '663' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::where('id','663')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('id','664')->first()->id }}"
+                                {{ is_null($inputs) ? (old('zekhamat_frame_coil') == '664' ? 'selected' : '') : ($inputs['zekhamat_frame_coil'] == "664" ? 'selected' : (old('zekhamat_frame_coil') == '664' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::where('id','664')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('id','667')->first()->id }}"
+                                {{ is_null($inputs) ? (old('zekhamat_frame_coil') == '667' ? 'selected' : '') : ($inputs['zekhamat_frame_coil'] == "667" ? 'selected' : (old('zekhamat_frame_coil') == '667' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::where('id','667')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('id','668')->first()->id }}"
+                                {{ is_null($inputs) ? (old('zekhamat_frame_coil') == '668' ? 'selected' : '') : ($inputs['zekhamat_frame_coil'] == "668" ? 'selected' : (old('zekhamat_frame_coil') == '668' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::where('id','668')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('id','669')->first()->id }}"
+                                {{ is_null($inputs) ? (old('zekhamat_frame_coil') == '669' ? 'selected' : '') : ($inputs['zekhamat_frame_coil'] == "669" ? 'selected' : (old('zekhamat_frame_coil') == '669' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::where('id','669')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('id','670')->first()->id }}"
+                                {{ is_null($inputs) ? (old('zekhamat_frame_coil') == '670' ? 'selected' : '') : ($inputs['zekhamat_frame_coil'] == "670" ? 'selected' : (old('zekhamat_frame_coil') == '670' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::where('id','670')->first()->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::where('id','671')->first()->id }}"
+                                {{ is_null($inputs) ? (old('zekhamat_frame_coil') == '671' ? 'selected' : '') : ($inputs['zekhamat_frame_coil'] == "671" ? 'selected' : (old('zekhamat_frame_coil') == '671' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::where('id','671')->first()->name }}
                             </option>
                         </select>
                     </div>
