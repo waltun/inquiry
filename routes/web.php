@@ -102,6 +102,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/inquiries/priced', [InquiryController::class, 'priced'])->name('inquiries.priced');
     Route::post('/inquiries/{inquiry}/copy', [InquiryController::class, 'copy'])->name('inquiries.copy');
     Route::patch('/inquiries/{inquiry}/correction', [InquiryController::class, 'correction'])->name('inquiries.correction');
+    Route::patch('/inquiries/{inquiry}/submit-correction', [InquiryController::class, 'submittedCorrection'])->name('inquiries.submittedCorrection');
     Route::delete('/inquiries/{inquiry}', [InquiryController::class, 'destroy'])->name('inquiries.destroy');
     Route::get('/inquiries/products/{inquiry}', [InquiryController::class, 'products'])->name('inquiries.products');
     Route::get('/inquiries/products/{inquiry}/print-page', [InquiryController::class, 'printProduct'])->name('inquiries.products.print');

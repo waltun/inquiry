@@ -217,7 +217,7 @@
                                         <div
                                             class="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
                                             <form method="POST"
-                                                  action="{{ route('inquiries.correction',$inquiry->id) }}"
+                                                  action="{{ route('inquiries.submittedCorrection',$inquiry->id) }}"
                                                   class="relative bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full">
                                                 @csrf
                                                 @method('PATCH')

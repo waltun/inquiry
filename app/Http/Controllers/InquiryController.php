@@ -469,6 +469,37 @@ class InquiryController extends Controller
         return back();
     }
 
+    public function submittedCorrection(Request $request, Inquiry $inquiry)
+    {
+        Gate::authorize('correction-inquiry');
+
+        $user = User::find($inquiry->user_id);
+
+        $request->validate([
+            'message' => 'required'
+        ]);
+
+        $inquiry->update([
+            'message' => $request['message'],
+            'price' => 0,
+            'submit' => false,
+            'archive_at' => null,
+        ]);
+
+        foreach ($inquiry->products as $product) {
+            $product->price = 0;
+            $product->percent = 0;
+            $product->save();
+        }
+
+        //Send Notification
+        $user->notify(new CorrectionInquiryNotification($inquiry));
+
+        alert()->success('اصلاح موفق', 'اصلاح استعلام با موفقیت انجام شد و برای کاربر ارسال شد');
+
+        return back();
+    }
+
     public function referral(Request $request, Inquiry $inquiry)
     {
         Gate::authorize('create-inquiry');
