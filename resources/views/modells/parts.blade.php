@@ -30,8 +30,9 @@
                 let result = 0;
 
                 result = eval(value + operator1 + formula1);
-                input2.value = Intl.NumberFormat().format(result);
-                inputValue.value = Intl.NumberFormat().format(result);
+                let formatResult = Intl.NumberFormat().format(result);
+                input2.value = formatResult.replace(',', '');
+                inputValue.value = result;
             }
 
             function changeUnit2(event, part) {
@@ -43,7 +44,8 @@
                 let result = 0;
 
                 result = eval(value + operator2 + formula2);
-                input1.value = Intl.NumberFormat().format(result);
+                let formatResult = Intl.NumberFormat().format(result);
+                input1.value = formatResult.replace(',', '');
                 inputValue.value = value;
             }
         </script>

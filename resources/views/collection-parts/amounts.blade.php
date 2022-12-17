@@ -45,7 +45,7 @@
                 result = eval(value + operator1 + formula1);
                 let formatResult = Intl.NumberFormat().format(result);
                 input2.value = formatResult.replace(',', '');
-                inputValue.value = value;
+                inputValue.value = result;
             }
 
             function changeUnit2(event, part) {

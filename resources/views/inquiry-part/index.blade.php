@@ -80,8 +80,9 @@
                         let result = 0;
 
                         result = eval(value + operator2 + formula2);
-                        input.value = Intl.NumberFormat().format(result);
-                        inputValue.value = value;
+                        let formatResult = Intl.NumberFormat().format(result);
+                        input.value = formatResult.replace(',', '');
+                        inputValue.value = result;
                     }
                 });
             }
@@ -113,8 +114,9 @@
                         let result = 0;
 
                         result = eval(value + operator1 + formula1);
-                        input2.value = Intl.NumberFormat().format(result);
-                        inputValue.value = value;
+                        let formatResult = Intl.NumberFormat().format(result);
+                        input2.value = formatResult.replace(',', '');
+                        inputValue.value = result;
                     }
                 });
             }
@@ -145,8 +147,9 @@
                         let result = 0;
 
                         result = eval(value + operator2 + formula2);
-                        input1.value = Intl.NumberFormat().format(result);
-                        inputValue.value = value;
+                        let formatResult = Intl.NumberFormat().format(result);
+                        input1.value = formatResult.replace(',', '');
+                        inputValue.value = result;
                     }
                 });
             }

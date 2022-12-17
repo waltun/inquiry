@@ -352,7 +352,7 @@
                         result = eval(value + operator2 + formula2);
                         let formatResult = Intl.NumberFormat().format(result);
                         input1.value = formatResult.replace(',', '');
-                        inputValue.value = result;
+                        inputValue.value = value;
                     }
                 });
             }
