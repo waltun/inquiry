@@ -135,11 +135,14 @@ class PartController extends Controller
         if (!$part->parents->isEmpty()) {
             foreach ($part->parents as $parent) {
                 $price = 0;
+                $weight = 0;
                 foreach ($parent->children as $child) {
                     $price += $child->price * $child->pivot->value;
+                    $weight += $child->weight * $child->pivot->value;
                 }
                 $parent->update([
                     'price' => $price,
+                    'weight' => $weight,
                     'old_price' => $parent->price,
                     'price_updated_at' => now(),
                     'updated_at' => now()

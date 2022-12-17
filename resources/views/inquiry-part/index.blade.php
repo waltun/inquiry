@@ -391,11 +391,13 @@
                     @php
                         $color = '';
                         $totalPrice = 0;
+                        $totalWeight = 0;
                     @endphp
                     @foreach($inquiry->products()->where('part_id','!=',0)->orderBy('sort','ASC')->get() as $product)
                         @php
                             $part = \App\Models\Part::find($product->part_id);
                             $totalPrice += $part->price * $product->quantity;
+                            $totalWeight += $part->weight * $product->weight;
 
                             if ($setting) {
                                 if($setting->price_color_type == 'month') {
@@ -564,21 +566,28 @@
                     @endforeach
                     </tbody>
                 </table>
-                <a href="{{ route('inquiries.parts.create',$inquiry->id) }}"
-                   class="w-8 h-8 rounded-full bg-green-500 block grid place-content-center mr-3"
-                   title="افزودن قطعه جدید">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                         stroke="currentColor" class="w-6 h-6 text-white">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path>
-                    </svg>
-                </a>
-                @can('users')
-                    <div class="mt-4 flex justify-end p-4">
-                        <p class="px-4 py-2 rounded-md bg-green-500 text-white text-sm font-bold">
-                            قیمت کل : {{ number_format($totalPrice) }}
-                        </p>
+                <div class="flex justify-between items-center p-4">
+                    <div>
+                        <a href="{{ route('inquiries.parts.create',$inquiry->id) }}"
+                           class="w-8 h-8 rounded-full bg-green-500 block grid place-content-center"
+                           title="افزودن قطعه جدید">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                                 stroke="currentColor" class="w-6 h-6 text-white">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path>
+                            </svg>
+                        </a>
                     </div>
-                @endcan
+                    @can('users')
+                        <div class="space-y-2">
+                            <p class="px-4 py-2 rounded-md bg-green-500 text-white text-sm font-bold">
+                                قیمت کل : {{ number_format($totalPrice) }} تومان
+                            </p>
+                            <p class="px-4 py-2 rounded-md bg-gray-500 text-white text-sm font-bold">
+                                وزن : {{ $totalWeight }} کلیوگرم
+                            </p>
+                        </div>
+                    @endcan
+                </div>
             </div>
 
             <div class="mt-4">

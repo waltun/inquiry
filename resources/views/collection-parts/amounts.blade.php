@@ -139,10 +139,15 @@
                 </tr>
                 </thead>
                 <tbody>
+                @php
+                    $totalWeight = 0;
+                @endphp
                 @foreach($parentPart->children()->orderBy('sort','ASC')->get() as $childPart)
                     @php
                         $category = $childPart->categories[1];
                         $selectedCategory = $childPart->categories[2];
+
+                        $totalWeight += $childPart->weight * $childPart->pivot->value;
                     @endphp
                     <tr>
                         <td class="border border-gray-300 p-4 text-sm text-center">

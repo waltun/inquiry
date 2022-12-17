@@ -127,6 +127,7 @@ class CollectionPartController extends Controller
         Gate::authorize('collections');
 
         $totalPrice = 0;
+        $totalWeight = 0;
 
         foreach ($parentPart->children()->orderBy('sort', 'ASC')->get() as $child) {
             if ($child->pivot->sort > $parentPart->children()->orderBy('sort', 'ASC')->where('parent_part_id', $childId)->first()->pivot->sort) {
@@ -140,10 +141,12 @@ class CollectionPartController extends Controller
         foreach ($parentPart->children as $child) {
             if ($child) {
                 $totalPrice += $child->price * $child->pivot->value;
+                $totalWeight += $child->weight * $child->pivot->value;
             }
         }
 
         $parentPart->price = $totalPrice;
+        $parentPart->weight = $totalWeight;
         $parentPart->save();
 
         alert()->success('حذف موفق', 'حذف قطعه از مجموعه با موفقیت انجام شد');
@@ -165,6 +168,7 @@ class CollectionPartController extends Controller
         Gate::authorize('collections');
 
         $totalPrice = 0;
+        $totalWeight = 0;
         foreach ($parentPart->children()->orderBy('sort', 'ASC')->get() as $index => $child) {
             $child->pivot->update([
                 'parent_part_id' => $request->part_ids[$index],
@@ -173,10 +177,12 @@ class CollectionPartController extends Controller
                 'sort' => $request->sorts[$index]
             ]);
 
-            $totalPrice += ($child->price * $request->values[$index]);
+            $totalPrice += $child->price * $request->values[$index];
+            $totalWeight += $child->weight * $request->values[$index];
         }
 
         $parentPart->price = $totalPrice;
+        $parentPart->weight = $totalWeight;
         $parentPart->save();
 
         alert()->success('ثبت موفق', 'ثبت مقادیر با موفقیت انجام شد');
@@ -195,7 +201,8 @@ class CollectionPartController extends Controller
         $newPart = $parentPart->replicate()->fill([
             'code' => $code,
             'name' => $parentPart->name . " کپی شده ",
-            'price' => 0
+            'price' => 0,
+            'weight' => 0,
         ]);
         $newPart->save();
 
@@ -217,6 +224,7 @@ class CollectionPartController extends Controller
     public function changeParts(Request $request, Part $parentPart)
     {
         $totalPrice = 0;
+        $totalWeight = 0;
         foreach ($parentPart->children()->orderBy('sort', 'ASC')->get() as $index => $child) {
             $child->pivot->update([
                 'parent_part_id' => $request->part_ids[$index],
@@ -225,10 +233,12 @@ class CollectionPartController extends Controller
                 'sort' => $request->sorts[$index]
             ]);
 
-            $totalPrice += ($child->price * $request->values[$index]);
+            $totalPrice += $child->price * $request->values[$index];
+            $totalWeight += $child->weight * $request->values[$index];
         }
 
         $parentPart->price = $totalPrice;
+        $parentPart->weight = $totalWeight;
         $parentPart->save();
 
         alert()->success('مقادیر', 'مقدار قطعات برای مجموعه با موفقیت ثبت شد');

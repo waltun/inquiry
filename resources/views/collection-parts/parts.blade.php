@@ -174,6 +174,10 @@
                     </tr>
                     </thead>
                     <tbody>
+                    @php
+                        $totalWeight = 0;
+                        $totalPrice = 0;
+                    @endphp
                     @foreach($parentPart->children()->orderBy('sort','ASC')->get() as $child)
                         @php
                             if ($setting) {
@@ -206,6 +210,9 @@
 
                             $category = $child->categories[1];
                             $selectedCategory = $child->categories[2];
+
+                            $totalWeight += $child->weight * $child->pivot->value;
+                            $totalPrice += $child->price * $child->pivot->value;
                         @endphp
                         <tr>
                             <td class="px-4 py-1 whitespace-nowrap">
@@ -285,15 +292,25 @@
                     @endforeach
                     </tbody>
                 </table>
-                <div class="p-4">
-                    <a href="{{ route('collections.create',$parentPart->id) }}"
-                       class="w-8 h-8 rounded-full bg-green-500 block grid place-content-center mr-2"
-                       title="افزودن قطعه جدید">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                             stroke="currentColor" class="w-6 h-6 text-white">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path>
-                        </svg>
-                    </a>
+                <div class="p-4 flex justify-between items-center">
+                    <div>
+                        <a href="{{ route('collections.create',$parentPart->id) }}"
+                           class="w-8 h-8 rounded-full bg-green-500 block grid place-content-center mr-2"
+                           title="افزودن قطعه جدید">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                                 stroke="currentColor" class="w-6 h-6 text-white">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path>
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="text-sm font-bold text-white bg-green-500 rounded-md px-4 py-1">
+                            قیمت کل : {{ number_format($totalPrice) }} تومان
+                        </p>
+                        <p class="text-sm font-bold text-white bg-gray-500 rounded-md px-4 py-1">
+                            وزن : {{ $totalWeight }} کیلوگرم
+                        </p>
+                    </div>
                 </div>
             </div>
 
