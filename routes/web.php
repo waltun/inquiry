@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CalculateCoilController;
 use App\Http\Controllers\CalculateConverterController;
 use App\Http\Controllers\CalculateDamperController;
+use App\Http\Controllers\CalculateElectricalController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CollectionCoilController;
 use App\Http\Controllers\CollectionPartController;
@@ -197,6 +198,21 @@ Route::middleware(['auth', 'web'])->group(function () {
         ->name('calculateCondensorConverter');
     Route::post('/calculate/converter/{part}/{product}/post-condensor', [CalculateConverterController::class, 'storeCondensor'])
         ->name('calculateConverter.storeCondensor');
+
+    //Calculate Electrical routes
+    Route::get('/calculate/electrical/{part}/{product}/panel', [CalculateElectricalController::class, 'panel'])
+        ->name('calculateElectrical.panel.index');
+    Route::post('/calculate/panel-electrical', [CalculateElectricalController::class, 'calculatePanel'])
+        ->name('calculatePanelElectrical');
+    Route::post('/calculate/electrical/{part}/{product}/post-panel', [CalculateElectricalController::class, 'storePanel'])
+        ->name('calculateElectrical.storePanel');
+
+    Route::get('/calculate/electrical/{part}/{product}/chiller', [CalculateElectricalController::class, 'chiller'])
+        ->name('calculateElectrical.chiller.index');
+    Route::post('/calculate/chiller-electrical', [CalculateElectricalController::class, 'calculateChiller'])
+        ->name('calculateChillerElectrical');
+    Route::post('/calculate/electrical/{part}/{product}/post-chiller', [CalculateElectricalController::class, 'storeChiller'])
+        ->name('calculateElectrical.storeChiller');
 
     //Notification routes
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');

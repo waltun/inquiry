@@ -35,6 +35,9 @@
                 let converterEvaporatorSection = document.getElementById('converterEvaporatorSection' + id);
                 let converterCondensorSection = document.getElementById('converterCondensorSection' + id);
 
+                let electricalPanelSection = document.getElementById('electricalPanelSection' + id);
+                let electricalChillerSection = document.getElementById('chillerPanelSection' + id);
+
                 //Coil Fancoil
                 if (selectedId === '170') {
                     let fancoilRoute = "/calculate/coil/fancoil/" + 170 + "/" + productId;
@@ -208,6 +211,7 @@
                     }
                 }
 
+                //Converter Condensor
                 if (selectedId === '1301') {
                     let converterCondensorRoute = "/calculate/converter/" + 1301 + "/" + productId + "/condensor";
                     converterCondensorSection.classList.remove('hidden')
@@ -223,6 +227,44 @@
                         converterCondensorSection.classList.remove('block')
                         converterCondensorSection.classList.add('hidden')
                         converterCondensorSection.innerHTML = ""
+                    }
+                }
+
+                //Electrical Panel
+                if (selectedId === '1879') {
+                    let electricalPanelRoute = "/calculate/electrical/" + 1879 + "/" + productId + "/panel";
+                    electricalPanelSection.classList.remove('hidden')
+                    electricalPanelSection.classList.add('block')
+                    electricalPanelSection.innerHTML = `
+                        <a href="${electricalPanelRoute}"
+                           class="form-submit-btn text-xs">
+                            محاسبه
+                        </a>
+                        `
+                } else {
+                    if (electricalPanelSection) {
+                        electricalPanelSection.classList.remove('block')
+                        electricalPanelSection.classList.add('hidden')
+                        electricalPanelSection.innerHTML = ""
+                    }
+                }
+
+                //Electrical Chiller
+                if (selectedId === '2144') {
+                    let electricalChillerRoute = "/calculate/electrical/" + 2144 + "/" + productId + "/chiller";
+                    electricalChillerSection.classList.remove('hidden')
+                    electricalChillerSection.classList.add('block')
+                    electricalChillerSection.innerHTML = `
+                        <a href="${electricalChillerRoute}"
+                           class="form-submit-btn text-xs">
+                            محاسبه
+                        </a>
+                        `
+                } else {
+                    if (electricalChillerSection) {
+                        electricalChillerSection.classList.remove('block')
+                        electricalChillerSection.classList.add('hidden')
+                        electricalChillerSection.innerHTML = ""
                     }
                 }
             }
@@ -743,6 +785,23 @@
                                                     </a>
                                                 @endif
                                                 @break
+
+                                            @case(1879)
+                                                @if(!session()->has('electrical-btn-' . $part->id . $product->id))
+                                                    <a href="{{ route('calculateElectrical.panel.index',[$part->id,$product->id]) }}"
+                                                       class="form-submit-btn text-xs">
+                                                        محاسبه
+                                                    </a>
+                                                @endif
+                                                @break
+                                            @case(2144)
+                                                @if(!session()->has('electrical-btn-' . $part->id . $product->id))
+                                                    <a href="{{ route('calculateElectrical.chiller.index',[$part->id,$product->id]) }}"
+                                                       class="form-submit-btn text-xs">
+                                                        محاسبه
+                                                    </a>
+                                                @endif
+                                                @break
                                         @endswitch
                                     </div>
                                 @endif
@@ -780,6 +839,13 @@
 
                                     </div>
                                     <div id="converterCondensorSection{{ $part->id }}" class="hidden">
+
+                                    </div>
+
+                                    <div id="electricalPanelSection{{ $part->id }}" class="hidden">
+
+                                    </div>
+                                    <div id="electricalChillerSection{{ $part->id }}" class="hidden">
 
                                     </div>
                                 </div>
@@ -1050,6 +1116,23 @@
                                                     </a>
                                                 @endif
                                                 @break
+
+                                            @case(1879)
+                                                @if(!session()->has('converter-btn-' . $part->id . $product->id))
+                                                    <a href="{{ route('calculateElectrical.panel.index',[$part->id,$product->id]) }}"
+                                                       class="form-submit-btn text-xs">
+                                                        محاسبه {{ $part->name }}
+                                                    </a>
+                                                @endif
+                                                @break
+                                            @case(2144)
+                                                @if(!session()->has('converter-btn-' . $part->id . $product->id))
+                                                    <a href="{{ route('calculateElectrical.chiller.index',[$part->id,$product->id]) }}"
+                                                       class="form-submit-btn text-xs">
+                                                        محاسبه {{ $part->name }}
+                                                    </a>
+                                                @endif
+                                                @break
                                         @endswitch
                                     </div>
                                 @endif
@@ -1087,6 +1170,13 @@
 
                                     </div>
                                     <div id="converterCondensorSection{{ $part->id }}" class="hidden">
+
+                                    </div>
+
+                                    <div id="electricalPanelSection{{ $part->id }}" class="hidden">
+
+                                    </div>
+                                    <div id="electricalChillerSection{{ $part->id }}" class="hidden">
 
                                     </div>
                                 </div>
