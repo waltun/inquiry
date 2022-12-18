@@ -595,8 +595,8 @@
                     <tr>
                         <th class="border border-gray-300 p-4 text-sm">ردیف</th>
                         <th class="border border-gray-300 p-4 text-sm">شرح</th>
-                        <th class="border border-gray-300 p-4 text-sm">مقدار / سایز</th>
                         <th class="border border-gray-300 p-4 text-sm">واحد</th>
+                        <th class="border border-gray-300 p-4 text-sm">مقدار / سایز</th>
                         @can('coil-table')
                             <th class="border border-gray-300 p-4 text-sm">قیمت واحد</th>
                             <th class="border border-gray-300 p-4 text-sm">قیمت کل</th>
@@ -606,6 +606,7 @@
                     <tbody>
                     @php
                         $finalPrice = 0;
+                        $finalWeight = 0;
                     @endphp
                     @foreach($part->children as $index => $child)
                         <input type="hidden" name="values[]" id="value{{ $index }}"
@@ -624,13 +625,24 @@
                                             <td class="border border-gray-300 p-4 text-sm text-center">
                                                 {{ $selectedParts[$index]->name }}
                                             </td>
+                                            <td class="border border-gray-300 p-4 text-sm text-center">
+                                                {{ $selectedParts[$index]->unit }}
+                                                @if(!is_null($selectedParts[$index]->unit2))
+                                                    /
+                                                    {{ $selectedParts[$index]->unit2 }}
+                                                @endif
+                                            </td>
                                             <td class="border border-gray-300 p-4 text-sm text-center font-bold">
                                                 @if(!is_null($values))
                                                     <span>{{ number_format($values[$index], 2) }}</span>
+                                                    @if(!is_null($selectedParts[$index]->unit2))
+                                                        @php
+                                                            $string = $values[$index] . $selectedParts[$index]->operator2 . $selectedParts[$index]->formula2;
+                                                        @endphp
+                                                        /
+                                                        {{ number_format(eval("return " . $string . ';'), 2) }}
+                                                    @endif
                                                 @endif
-                                            </td>
-                                            <td class="border border-gray-300 p-4 text-sm text-center">
-                                                {{ $selectedParts[$index]->unit }}
                                             </td>
                                             @can('coil-table')
                                                 <td class="border border-gray-300 p-4 text-sm text-center font-bold">
@@ -646,6 +658,7 @@
                                     @endforeach
                                     @php
                                         $finalPrice += $values[$index] * $selectedParts[$index]->price;
+                                        $finalWeight += $values[$index] * $selectedParts[$index]->weight;
                                     @endphp
                                     <input type="hidden" name="parts[]" id="part{{ $index }}"
                                            value="{{ $selectedParts[$index]->id }}">
@@ -656,11 +669,22 @@
                                     <td class="border border-gray-300 p-4 text-sm text-center">
                                         {{ $child->name }}
                                     </td>
-                                    <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                                        <span>{{ number_format($values[$index], 2) }}</span>
-                                    </td>
                                     <td class="border border-gray-300 p-4 text-sm text-center">
                                         {{ $child->unit }}
+                                        @if(!is_null($child->unit2))
+                                            /
+                                            {{ $child->unit2 }}
+                                        @endif
+                                    </td>
+                                    <td class="border border-gray-300 p-4 text-sm text-center font-bold">
+                                        <span>{{ number_format($values[$index], 2) }}</span>
+                                        @if(!is_null($child->unit2))
+                                            @php
+                                                $string = $values[$index] . $child->operator2 . $child->formula2;
+                                            @endphp
+                                            /
+                                            {{ number_format(eval("return " . $string . ';'), 2) }}
+                                        @endif
                                     </td>
                                     @can('coil-table')
                                         <td class="border border-gray-300 p-4 text-sm text-center font-bold">
@@ -672,6 +696,7 @@
                                     @endcan
                                     @php
                                         $finalPrice += $values[$index] * $child->price;
+                                        $finalWeight += $values[$index] * $child->weight;
                                     @endphp
                                 @endif
                             @endif
@@ -685,18 +710,21 @@
                             <td class="border border-gray-300 p-4 text-lg font-bold text-center text-green-600"
                                 colspan="2">
                                 <span>{{ number_format($finalPrice) }} تومان </span>
-                                <input type="hidden" name="final_price" value="{{ $finalPrice }}">
                             </td>
                         </tr>
                     @endcan
                     </tbody>
                 </table>
 
-                <div class="my-4 bg-gray-100 p-4 rounded-md shadow-md">
+                <div class="my-4 bg-gray-100 p-4 rounded-md shadow-md space-y-4">
                     <p class="text-xl font-bold text-black text-center">
                         قیمت نهایی : {{ number_format($finalPrice) }} تومان
                     </p>
                     <input type="hidden" name="price" value="{{ $finalPrice }}">
+                    <p class="text-xl font-bold text-black text-center">
+                        وزن دستگاه : {{ round($finalWeight) }} کلیوگرم
+                    </p>
+                    <input type="hidden" name="weight" value="{{ $finalWeight }}">
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">

@@ -325,7 +325,9 @@ class SeparateCalculateCoilController extends Controller
             'code' => $code,
             'coil' => true,
             'price_updated_at' => now(),
-            'standard' => $request['standard'] ?? 0
+            'standard' => $request['standard'] ?? 0,
+            'price' => $request['price'],
+            'weight' => $request['weight']
         ]);
 
         $newPart->save();
@@ -371,11 +373,6 @@ class SeparateCalculateCoilController extends Controller
             $childPart->pivot->value = $request->values[$index];
             $childPart->pivot->save();
         }
-        $newPart->price = $request['price'];
-        $newPart->save();
-
-        $request->session()->put('price' . $part->id, $request->final_price);
-        $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
 
         alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');
 
@@ -654,7 +651,9 @@ class SeparateCalculateCoilController extends Controller
             'code' => $code,
             'coil' => true,
             'price_updated_at' => now(),
-            'standard' => $request['standard'] ?? 0
+            'standard' => $request['standard'] ?? 0,
+            'price' => $request['price'],
+            'weight' => $request['weight']
         ]);
 
         $newPart->save();
@@ -697,11 +696,6 @@ class SeparateCalculateCoilController extends Controller
             $childPart->pivot->value = $request->values[$index];
             $childPart->pivot->save();
         }
-        $newPart->price = $request['price'];
-        $newPart->save();
-
-        $request->session()->put('price' . $part->id, $request->final_price);
-        $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
 
         alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');
 
@@ -980,7 +974,9 @@ class SeparateCalculateCoilController extends Controller
             'code' => $code,
             'coil' => true,
             'price_updated_at' => now(),
-            'standard' => $request['standard'] ?? 0
+            'standard' => $request['standard'] ?? 0,
+            'price' => $request['price'],
+            'weight' => $request['weight']
         ]);
 
         $newPart->save();
@@ -1023,11 +1019,6 @@ class SeparateCalculateCoilController extends Controller
             $childPart->pivot->value = $request->values[$index];
             $childPart->pivot->save();
         }
-        $newPart->price = $request['price'];
-        $newPart->save();
-
-        $request->session()->put('price' . $part->id, $request->final_price);
-        $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
 
         alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');
 
@@ -1291,7 +1282,9 @@ class SeparateCalculateCoilController extends Controller
             'code' => $code,
             'coil' => true,
             'price_updated_at' => now(),
-            'standard' => $request['standard'] ?? 0
+            'standard' => $request['standard'] ?? 0,
+            'price' => $request['price'],
+            'weight' => $request['weight']
         ]);
 
         $newPart->save();
@@ -1334,11 +1327,6 @@ class SeparateCalculateCoilController extends Controller
             $childPart->pivot->value = $request->values[$index];
             $childPart->pivot->save();
         }
-        $newPart->price = $request['price'];
-        $newPart->save();
-
-        $request->session()->put('price' . $part->id, $request->final_price);
-        $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
 
         alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');
 
@@ -1625,7 +1613,9 @@ class SeparateCalculateCoilController extends Controller
             'code' => $code,
             'coil' => true,
             'price_updated_at' => now(),
-            'standard' => $request['standard'] ?? 0
+            'standard' => $request['standard'] ?? 0,
+            'price' => $request['price'],
+            'weight' => $request['weight']
         ]);
 
         $newPart->save();
@@ -1668,11 +1658,6 @@ class SeparateCalculateCoilController extends Controller
             $childPart->pivot->value = $request->values[$index];
             $childPart->pivot->save();
         }
-        $newPart->price = $request['price'];
-        $newPart->save();
-
-        $request->session()->put('price' . $part->id, $request->final_price);
-        $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
 
         alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');
 

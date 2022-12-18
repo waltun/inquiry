@@ -99,7 +99,8 @@
                             $correctionInquiry = \App\Models\Inquiry::find($inquiry->correction_id)
                         @endphp
                         <p class="text-sm font-bold text-white">
-                            توجه : این استعلام، درخواست اصلاح استعلام {{ $inquiry->name }} - {{ $inquiry->inquiry_number }}
+                            توجه : این استعلام، درخواست اصلاح استعلام {{ $inquiry->name }}
+                            - {{ $inquiry->inquiry_number }}
                             است.
                         </p>
                     @endif
@@ -377,6 +378,7 @@
                 @php
                     $finalPrice += $product->price;
                     $part = \App\Models\Part::find($product->part_id);
+                    $totalWeight = $product->weight * $product->quantity;
                 @endphp
                     <!-- Laptop Parts List -->
                 <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4 hidden md:block">
@@ -390,6 +392,7 @@
                         <tr class="bg-indigo-200">
                             <th class="border border-white p-4 text-sm">نام قطعه</th>
                             <th class="border border-white p-4 text-sm">واحد قطعه</th>
+                            <th class="border border-white p-4 text-sm">وزن قطعه</th>
                             @can('detail-inquiry')
                                 <th class="border border-white p-4 text-sm">قیمت</th>
                             @endcan
@@ -402,6 +405,9 @@
                             </td>
                             <td class="border border-gray-300 p-4 text-sm text-center">
                                 {{ $part->unit }}
+                            </td>
+                            <td class="border border-gray-300 p-4 text-sm text-center">
+                                {{ $part->weight }} کیلوگرم
                             </td>
                             @can('detail-inquiry')
                                 <td class="border border-gray-300 p-4 text-sm text-center font-bold">
@@ -447,6 +453,15 @@
                             </td>
                             <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
                                 {{ number_format($product->price * $product->quantity) }} تومان
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="border border-gray-300 p-4 text-lg text-center font-bold"
+                                colspan="{{ $colspan2 }}">
+                                وزن
+                            </td>
+                            <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
+                                {{ $totalWeight }} کیلوگرم
                             </td>
                         </tr>
                         </tbody>

@@ -410,6 +410,7 @@ class SeparateCalculateDamperController extends Controller
             'code' => $code,
             'coil' => true,
             'price_updated_at' => now(),
+            'weight' => $request['weight']
         ]);
 
         $newPart->save();

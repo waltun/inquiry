@@ -73,7 +73,8 @@ class InquiryPartController extends Controller
             'quantity' => $request['quantity'],
             'sort' => $sort,
             'quantity2' => $request['quantity2'] ?? null,
-            'description' => $request['tag']
+            'description' => $request['tag'],
+            'weight' => $part->weight * $request['quantity']
         ]);
 
         alert()->success('ثبت موفق', 'ثبت قطعه برای استعلام با موفقیت انجام شد');

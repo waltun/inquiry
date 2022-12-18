@@ -110,8 +110,8 @@
                     <tr>
                         <th class="border border-gray-300 p-1 text-sm">ردیف</th>
                         <th class="border border-gray-300 p-1 text-sm">شرح</th>
-                        <th class="border border-gray-300 p-1 text-sm">مقدار / سایز</th>
                         <th class="border border-gray-300 p-1 text-sm">واحد</th>
+                        <th class="border border-gray-300 p-1 text-sm">مقدار / سایز</th>
                         <th class="border border-gray-300 p-1 text-sm">قیمت واحد</th>
                         <th class="border border-gray-300 p-1 text-sm">قیمت کل</th>
                     </tr>
@@ -119,6 +119,7 @@
                     <tbody>
                     @php
                         $finalPrice = 0;
+                        $finalWeight = 0;
                     @endphp
                     @foreach($part->children as $index => $child)
                         <input type="hidden" name="values[]" id="value{{ $index }}"
@@ -131,10 +132,21 @@
                                 {{ $child->name }}
                             </td>
                             <td class="border border-gray-300 p-2 text-sm text-center">
-                                <span>{{ number_format($values[$index], 2) }}</span>
+                                {{ $child->unit }}
+                                @if(!is_null($child->unit2))
+                                    /
+                                    {{ $child->unit2 }}
+                                @endif
                             </td>
                             <td class="border border-gray-300 p-2 text-sm text-center">
-                                {{ $child->unit }}
+                                <span>{{ number_format($values[$index], 2) }}</span>
+                                @if(!is_null($child->unit2))
+                                    @php
+                                        $string = $values[$index] . $child->operator2 . $child->formula2;
+                                    @endphp
+                                    /
+                                    {{ number_format(eval("return " . $string . ';'), 2) }}
+                                @endif
                             </td>
                             <td class="border border-gray-300 p-2 text-sm text-center">
                                 <span>{{ number_format($child->price) }}</span>
@@ -145,6 +157,7 @@
                         </tr>
                         @php
                             $finalPrice += $values[$index] * $child->price;
+                            $finalWeight += $values[$index] * $child->weight;
                         @endphp
                     @endforeach
 
@@ -155,6 +168,15 @@
                         <td class="border border-gray-300 p-2 text-lg font-bold text-center text-green-600" colspan="2">
                             <span>{{ number_format($finalPrice) }} تومان </span>
                             <input type="hidden" name="final_price" value="{{ $finalPrice }}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="border border-gray-300 p-2 text-lg font-bold text-center" colspan="4">
+                            وزن دستگاه
+                        </td>
+                        <td class="border border-gray-300 p-2 text-lg font-bold text-center text-green-600" colspan="2">
+                            <span>{{ round($finalWeight) }} کیلوگرم </span>
+                            <input type="hidden" name="weight" value="{{ $finalWeight }}">
                         </td>
                     </tr>
 

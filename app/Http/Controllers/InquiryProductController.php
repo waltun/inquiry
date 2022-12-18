@@ -167,7 +167,7 @@ class InquiryProductController extends Controller
                     'product_id' => $product->id,
                     'part_id' => $id,
                     'sort' => $request->sorts[$index] ?? 0,
-                    'weigth' => $part->weigth
+                    'weigth' => $part->weight
                 ]);
 
                 $special = Special::where('part_id', $id)->first();
@@ -265,19 +265,21 @@ class InquiryProductController extends Controller
         $user = User::find($inquiry->user_id);
 
         $totalPrice = 0;
-        $weight = 0;
+        $totalWeight = 0;
 
         if (!is_null($group) && !is_null($modell)) {
             foreach ($product->amounts as $amount) {
                 $part = Part::find($amount->part_id);
-                $totalPrice += ($part->price * $amount->value);
-                $weight += $part->weight * $amount->value;
+                $totalPrice += $part->price * $amount->value;
+                $totalWeight += $part->weight * $amount->value;
             }
             $finalPrice = $totalPrice * $request['percent'];
+            $finalWeight = $totalWeight * $product->quantity;
         }
 
         if (!is_null($inquiryPart)) {
             $finalPrice = $inquiryPart->price * $request['percent'];
+            $finalWeight = $inquiryPart->weight * $product->quantity;
             $product->part_price = $inquiryPart->price;
             $product->save();
         }
@@ -285,7 +287,7 @@ class InquiryProductController extends Controller
         $product->update([
             'price' => $finalPrice,
             'percent' => $request['percent'],
-            'weight' => $weight
+            'weight' => $finalWeight
         ]);
 
         foreach ($product->amounts as $amount) {

@@ -397,7 +397,7 @@
                         @php
                             $part = \App\Models\Part::find($product->part_id);
                             $totalPrice += $part->price * $product->quantity;
-                            $totalWeight += $part->weight * $product->weight;
+                            $totalWeight += $part->weight * $product->quantity;
 
                             if ($setting) {
                                 if($setting->price_color_type == 'month') {

@@ -724,6 +724,7 @@
                     <tbody>
                     @php
                         $finalPrice = 0;
+                        $finalWeight = 0;
                     @endphp
                     @foreach($part->children()->orderBy('sort','ASC')->get() as $index => $child)
                         <input type="hidden" name="values[]" id="value{{ $index }}"
@@ -776,6 +777,7 @@
                                     @endforeach
                                     @php
                                         $finalPrice += $values[$index] * $selectedParts[$index]->price;
+                                        $finalWeight += $values[$index] * $selectedParts[$index]->weight;
                                     @endphp
                                     <input type="hidden" name="parts[]" id="part{{ $index }}"
                                            value="{{ $selectedParts[$index]->id }}">
@@ -815,6 +817,7 @@
                                     @endcan
                                     @php
                                         $finalPrice += $values[$index] * $child->price;
+                                        $finalWeight += $values[$index] * $child->weight;
                                     @endphp
                                 @endif
                             @endif
@@ -828,18 +831,21 @@
                             <td class="border border-gray-300 p-4 text-lg font-bold text-center text-green-600"
                                 colspan="2">
                                 <span>{{ number_format($finalPrice) }} تومان </span>
-                                <input type="hidden" name="final_price" value="{{ $finalPrice }}">
                             </td>
                         </tr>
                     @endcan
                     </tbody>
                 </table>
 
-                <div class="my-4 bg-gray-100 p-4 rounded-md shadow-md">
+                <div class="my-4 bg-gray-100 p-4 rounded-md shadow-md space-y-4">
                     <p class="text-xl font-bold text-black text-center">
                         قیمت نهایی : {{ number_format($finalPrice) }} تومان
                     </p>
                     <input type="hidden" name="price" value="{{ $finalPrice }}">
+                    <p class="text-xl font-bold text-black text-center">
+                        وزن دستگاه : {{ round($finalWeight) }} کیلوگرم
+                    </p>
+                    <input type="hidden" name="weight" value="{{ $finalWeight }}">
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">

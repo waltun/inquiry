@@ -694,6 +694,7 @@ class SeparateCalculateConverter extends Controller
             'price' => $request['price'],
             'standard' => $request['standard'] ?? 0,
             'price_updated_at' => now(),
+            'weight' => $request['weight']
         ]);
 
         $newPart->save();
@@ -744,7 +745,8 @@ class SeparateCalculateConverter extends Controller
             'coil' => true,
             'price_updated_at' => now(),
             'price' => $request['price'],
-            'standard' => $request['standard'] ?? 0
+            'standard' => $request['standard'] ?? 0,
+            'weight' => $request['weight']
         ]);
 
         $newPart->save();

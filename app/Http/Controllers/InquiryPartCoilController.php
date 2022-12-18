@@ -348,6 +348,8 @@ class InquiryPartCoilController extends Controller
             'coil' => true,
             'inquiry_id' => $inquiry->id,
             'price_updated_at' => now(),
+            'price' => $request['price'],
+            'weight' => $request['weight']
         ]);
 
         $newPart->save();
@@ -393,8 +395,6 @@ class InquiryPartCoilController extends Controller
             $childPart->pivot->value = $request->values[$index];
             $childPart->pivot->save();
         }
-        $newPart->price = $request['price'];
-        $newPart->save();
 
         $sort = 0;
         if ($inquiry->products()->where('part_id', '!=', 0)->get()->isEmpty()) {
@@ -407,11 +407,9 @@ class InquiryPartCoilController extends Controller
         $inquiry->products()->create([
             'part_id' => $newPart->id,
             'quantity' => $request['quantity'],
-            'sort' => $sort
+            'sort' => $sort,
+            'weight' => $request['weight'] * $request['quantity']
         ]);
-
-        $request->session()->put('price' . $part->id, $request->final_price);
-        $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
 
         alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');
 
@@ -694,6 +692,8 @@ class InquiryPartCoilController extends Controller
             'coil' => true,
             'inquiry_id' => $inquiry->id,
             'price_updated_at' => now(),
+            'price' => $request['price'],
+            'weight' => $request['weight']
         ]);
 
         $newPart->save();
@@ -736,8 +736,6 @@ class InquiryPartCoilController extends Controller
             $childPart->pivot->value = $request->values[$index];
             $childPart->pivot->save();
         }
-        $newPart->price = $request['price'];
-        $newPart->save();
 
         $sort = 0;
         if ($inquiry->products()->where('part_id', '!=', 0)->get()->isEmpty()) {
@@ -750,11 +748,9 @@ class InquiryPartCoilController extends Controller
         $inquiry->products()->create([
             'part_id' => $newPart->id,
             'quantity' => $request['quantity'],
-            'sort' => $sort
+            'sort' => $sort,
+            'weight' => $request['weight'] * $request['quantity']
         ]);
-
-        $request->session()->put('price' . $part->id, $request->final_price);
-        $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
 
         alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');
 
@@ -1037,6 +1033,8 @@ class InquiryPartCoilController extends Controller
             'coil' => true,
             'inquiry_id' => $inquiry->id,
             'price_updated_at' => now(),
+            'price' => $request['price'],
+            'weight' => $request['weight']
         ]);
 
         $newPart->save();
@@ -1079,8 +1077,6 @@ class InquiryPartCoilController extends Controller
             $childPart->pivot->value = $request->values[$index];
             $childPart->pivot->save();
         }
-        $newPart->price = $request['price'];
-        $newPart->save();
 
         $sort = 0;
         if ($inquiry->products()->where('part_id', '!=', 0)->get()->isEmpty()) {
@@ -1093,11 +1089,9 @@ class InquiryPartCoilController extends Controller
         $inquiry->products()->create([
             'part_id' => $newPart->id,
             'quantity' => $request['quantity'],
-            'sort' => $sort
+            'sort' => $sort,
+            'weight' => $request['weight'] * $request['quantity']
         ]);
-
-        $request->session()->put('price' . $part->id, $request->final_price);
-        $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
 
         alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');
 
@@ -1365,6 +1359,8 @@ class InquiryPartCoilController extends Controller
             'coil' => true,
             'inquiry_id' => $inquiry->id,
             'price_updated_at' => now(),
+            'price' => $request['price'],
+            'weight' => $request['weight']
         ]);
 
         $newPart->save();
@@ -1407,8 +1403,6 @@ class InquiryPartCoilController extends Controller
             $childPart->pivot->value = $request->values[$index];
             $childPart->pivot->save();
         }
-        $newPart->price = $request['price'];
-        $newPart->save();
 
         $sort = 0;
         if ($inquiry->products()->where('part_id', '!=', 0)->get()->isEmpty()) {
@@ -1421,11 +1415,9 @@ class InquiryPartCoilController extends Controller
         $inquiry->products()->create([
             'part_id' => $newPart->id,
             'quantity' => $request['quantity'],
-            'sort' => $sort
+            'sort' => $sort,
+            'weight' => $request['weight'] * $request['quantity']
         ]);
-
-        $request->session()->put('price' . $part->id, $request->final_price);
-        $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
 
         alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');
 
@@ -1716,6 +1708,8 @@ class InquiryPartCoilController extends Controller
             'coil' => true,
             'inquiry_id' => $inquiry->id,
             'price_updated_at' => now(),
+            'price' => $request['price'],
+            'weight' => $request['weight']
         ]);
 
         $newPart->save();
@@ -1758,8 +1752,6 @@ class InquiryPartCoilController extends Controller
             $childPart->pivot->value = $request->values[$index];
             $childPart->pivot->save();
         }
-        $newPart->price = $request['price'];
-        $newPart->save();
 
         $sort = 0;
         if ($inquiry->products()->where('part_id', '!=', 0)->get()->isEmpty()) {
@@ -1772,11 +1764,9 @@ class InquiryPartCoilController extends Controller
         $inquiry->products()->create([
             'part_id' => $newPart->id,
             'quantity' => $request['quantity'],
-            'sort' => $sort
+            'sort' => $sort,
+            'weight' => $request['weight'] * $request['quantity']
         ]);
-
-        $request->session()->put('price' . $part->id, $request->final_price);
-        $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
 
         alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');
 

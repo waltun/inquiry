@@ -405,7 +405,8 @@ class CalculateConverterController extends Controller
             'price_updated_at' => now(),
             'product_id' => $product->id,
             'price' => $request['price'],
-            'standard' => $request['standard'] ?? 0
+            'standard' => $request['standard'] ?? 0,
+            'weight' => $request['weight']
         ]);
 
         $newPart->save();
@@ -742,7 +743,8 @@ class CalculateConverterController extends Controller
             'price_updated_at' => now(),
             'product_id' => $product->id,
             'price' => $request['price'],
-            'standard' => $request['standard'] ?? 0
+            'standard' => $request['standard'] ?? 0,
+            'weight' => $request['weight']
         ]);
 
         $newPart->save();

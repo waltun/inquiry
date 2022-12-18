@@ -45,7 +45,8 @@ class CalculateDamperController extends Controller
             'inquiry_id' => $product->inquiry_id,
             'price_updated_at' => now(),
             'product_id' => $product->id,
-            'price' => $request['final_price']
+            'price' => $request['final_price'],
+            'weight' => $request['weight']
         ]);
 
         $newPart->save();

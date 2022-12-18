@@ -182,6 +182,13 @@
                             </select>
                         </td>
                         <td class="border border-gray-300 p-4 text-sm text-center whitespace-nowrap">
+                            {{ $childPart->unit }}
+                            @if(!is_null($childPart->unit2))
+                                /
+                                {{ $childPart->unit2 }}
+                            @endif
+                        </td>
+                        <td class="border border-gray-300 p-4 text-sm text-center font-bold whitespace-nowrap">
                             <input type="text" name="values[]" id="inputValue{{ $childPart->id }}"
                                    class="input-text w-20 text-center" onkeyup="changeUnit1(event,{{ $childPart }})"
                                    value="{{ $childPart->pivot->value ?? '' }}">
@@ -193,10 +200,6 @@
                             @endif
                             <input type="hidden" name="units[]" id="inputUnitValue{{ $childPart->id }}"
                                    value="{{ $childPart->pivot->value2 }}">
-                        </td>
-                        <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                            <input type="text" name="values[]" id="inputValue{{ $childPart->id }}" class="input-text"
-                                   value="{{ $childPart->pivot->value ?? '' }}">
                         </td>
                         <td class="border border-gray-300 px-4 py-1 whitespace-nowrap">
                             @if($childPart->price)

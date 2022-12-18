@@ -63,7 +63,8 @@ class CalculateCoilController extends Controller
             'inquiry_id' => $product->inquiry_id,
             'price_updated_at' => now(),
             'product_id' => $product->id,
-            'price' => $request['price']
+            'price' => $request['price'],
+            'weight' => $request['weight']
         ]);
 
         $newPart->save();
@@ -131,7 +132,8 @@ class CalculateCoilController extends Controller
             'inquiry_id' => $product->inquiry_id,
             'price_updated_at' => now(),
             'product_id' => $product->id,
-            'price' => $request['price']
+            'price' => $request['price'],
+            'weight' => $request['weight']
         ]);
 
         $newPart->save();
@@ -199,7 +201,8 @@ class CalculateCoilController extends Controller
             'inquiry_id' => $product->inquiry_id,
             'price_updated_at' => now(),
             'product_id' => $product->id,
-            'price' => $request['price']
+            'price' => $request['price'],
+            'weight' => $request['weight']
         ]);
 
         $newPart->save();
@@ -271,6 +274,7 @@ class CalculateCoilController extends Controller
             'price_updated_at' => now(),
             'product_id' => $product->id,
             'price' => $request['price'],
+            'weight' => $request['weight']
         ]);
 
         $newPart->save();
@@ -338,7 +342,8 @@ class CalculateCoilController extends Controller
             'inquiry_id' => $product->inquiry_id,
             'price_updated_at' => now(),
             'product_id' => $product->id,
-            'price' => $request['price']
+            'price' => $request['price'],
+            'weight' => $request['weight']
         ]);
 
         $newPart->save();
