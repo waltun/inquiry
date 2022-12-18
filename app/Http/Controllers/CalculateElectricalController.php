@@ -22,7 +22,8 @@ class CalculateElectricalController extends Controller
         $sorts = $request->sorts;
         $part_ids = $request->part_ids;
         $values = $request->values;
-        $name = $request['serial'] . "-LCP-PU-";
+        $productModel = $request['product_model'];
+        $name = $request['serial'] . "-" . $productModel . "-LCP-PU";
 
         alert()->success('محاسبه موفق', 'محاسبه با موفقیت انجام شد');
 
@@ -88,7 +89,8 @@ class CalculateElectricalController extends Controller
         $sorts = $request->sorts;
         $part_ids = $request->part_ids;
         $values = $request->values;
-        $name = $request['serial'] . "-LCP-AC-";
+        $productModel = $request['product_model'];
+        $name = $request['serial'] . "-" . $productModel . "-LCP-ACH";
 
         alert()->success('محاسبه موفق', 'محاسبه با موفقیت انجام شد');
 

@@ -162,14 +162,16 @@
         $name = Session::get('name');
         $values = Session::get('values');
         $part_ids = Session::get('part_ids');
-    @endphp
 
+        $modell = \App\Models\Modell::find($product->model_id);
+    @endphp
         <!-- Content -->
     <div class="mt-4">
         <!-- Laptop List -->
         <form method="POST" action="" id="form">
             @csrf
             <input type="hidden" name="serial" value="{{ $inquiry->inquiry_number }}">
+            <input type="hidden" name="product_model" value="{{ $product->model_custom_name ?? $modell->name }}">
 
             <div class="bg-white shadow overflow-x-auto rounded-lg hidden md:block">
                 <table class="min-w-full">
