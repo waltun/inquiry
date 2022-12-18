@@ -1307,7 +1307,7 @@
                                 قیمت : {{ number_format($showAmountPrice) }} تومان
                             </p>
                             <p class="text-base font-bold text-white bg-gray-500 px-6 py-1 rounded-md">
-                                وزن دستگاه : {{ $amountWeight }} کلیوگرم
+                                وزن دستگاه : {{ $amountWeight }} کیلوگرم
                             </p>
                         @endif
                     </div>

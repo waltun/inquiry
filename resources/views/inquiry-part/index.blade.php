@@ -391,13 +391,11 @@
                     @php
                         $color = '';
                         $totalPrice = 0;
-                        $totalWeight = 0;
                     @endphp
                     @foreach($inquiry->products()->where('part_id','!=',0)->orderBy('sort','ASC')->get() as $product)
                         @php
                             $part = \App\Models\Part::find($product->part_id);
                             $totalPrice += $part->price * $product->quantity;
-                            $totalWeight += $part->weight * $product->quantity;
 
                             if ($setting) {
                                 if($setting->price_color_type == 'month') {
@@ -578,12 +576,9 @@
                         </a>
                     </div>
                     @can('users')
-                        <div class="space-y-2">
+                        <div>
                             <p class="px-4 py-2 rounded-md bg-green-500 text-white text-sm font-bold">
                                 قیمت کل : {{ number_format($totalPrice) }} تومان
-                            </p>
-                            <p class="px-4 py-2 rounded-md bg-gray-500 text-white text-sm font-bold">
-                                وزن : {{ $totalWeight }} کلیوگرم
                             </p>
                         </div>
                     @endcan
@@ -638,66 +633,5 @@
                 </div>
             </div>
         @endif
-
-        <!-- Mobile List -->
-        <div class="block md:hidden">
-            @foreach($inquiry->products()->where('part_id','!=',0)->get() as $product)
-                @php
-                    $part = \App\Models\Part::find($product->part_id);
-                @endphp
-                <div class="bg-white rounded-md p-4 border border-gray-200 shadow-sm mb-4 relative z-30">
-                    <span
-                        class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
-                        {{ $loop->index+1 }}
-                    </span>
-
-                    @if($inquiry->submit)
-                        <div class="mb-4">
-                            <input type="checkbox" value="{{ $product->id }}"
-                                   class="checkboxes w-5 h-5 focus:ring-blue-500 focus:ring-2 focus:ring-offset-1 mx-auto block">
-                        </div>
-                    @endif
-
-                    <div class="space-y-4">
-                        <p class="text-xs text-black text-center font-bold">
-                            نام قطعه : {{ $part->name }}
-                        </p>
-                        <p class="text-xs text-black text-center">
-                            تعداد : {{ $product->quantity }}
-                        </p>
-                        <div class="flex w-full justify-between">
-                            @can('percent-inquiry')
-                                @if($inquiry->submit)
-                                    <a href="{{ route('inquiries.product.percent',$product->id) }}"
-                                       class="form-submit-btn text-xs">
-                                        ثبت ضریب
-                                    </a>
-                                @endif
-                            @endcan
-                            <a href="{{ route('inquiries.product.edit',$product->id) }}"
-                               class="form-edit-btn text-xs">
-                                ویرایش تعداد
-                            </a>
-                            <form action="{{ route('inquiries.product.destroy',$product->id) }}" method="POST"
-                                  class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="form-cancel-btn text-xs"
-                                        onclick="return confirm('قطعه از استعلام شود ؟')">
-                                    حذف
-                                </button>
-                            </form>
-                        </div>
-                        @if($product->percent > 0)
-                            <div class="mt-4">
-                                <p class="text-sm font-bold text-green-600 inline">
-                                    ضریب ثبت شده
-                                </p>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-            @endforeach
-        </div>
     </div>
 </x-layout>
