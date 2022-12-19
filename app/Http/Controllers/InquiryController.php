@@ -345,7 +345,8 @@ class InquiryController extends Controller
                     $newPart = $part->replicate()->fill([
                         'code' => $code,
                         'name' => $newName,
-                        'inquiry_id' => $newInquiry->id
+                        'inquiry_id' => $newInquiry->id,
+                        'product_id' => $newProduct->id
                     ]);
                     $newPart->save();
 
@@ -430,7 +431,8 @@ class InquiryController extends Controller
                     $newPart = $part->replicate()->fill([
                         'code' => $code,
                         'name' => $newName,
-                        'inquiry_id' => $newInquiry->id
+                        'inquiry_id' => $newInquiry->id,
+                        'product_id' => $newProduct->id
                     ]);
                     $newPart->save();
 
@@ -455,7 +457,7 @@ class InquiryController extends Controller
                     'value' => $amount->value,
                     'product_id' => $newProduct->id,
                     'part_id' => $amount->part_id,
-                    'price' => $amount->price > 0 ? $amount->price : 0
+                    'price' => $amount->price
                 ]);
                 $newAmount->save();
             }

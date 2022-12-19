@@ -692,6 +692,12 @@
                                         @endif
                                     @endforeach
                                 </select>
+                                @if($part->coil == '1' && !$part->standard)
+                                    <a href="{{ route('collections.amounts',$part->id) }}" target="_blank"
+                                       class="text-xs mr-1 text-indigo-500 underline underline-offset-4 whitespace-nowrap">
+                                        مشاهده جزئیات
+                                    </a>
+                                @endif
                                 @if(in_array($part->id,$specials))
                                     <div class="whitespace-nowrap mr-2">
                                         @switch($part->id)
@@ -1023,6 +1029,12 @@
                                         @endif
                                     @endforeach
                                 </select>
+                                @if($part->coil == '1' && !$part->standard)
+                                    <a href="{{ route('collections.amounts',$part->id) }}" target="_blank"
+                                       class="text-xs mr-1 text-indigo-500 underline underline-offset-4 whitespace-nowrap">
+                                        مشاهده جزئیات
+                                    </a>
+                                @endif
                                 @if(in_array($part->id,$specials))
                                     <div class="whitespace-nowrap mr-2">
                                         @switch($part->id)
