@@ -90,6 +90,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::patch('/collection-parts/{parentPart}/store-amounts', [CollectionPartController::class, 'storeAmounts'])->name('collections.storeAmounts');
     Route::post('/collection-parts/{parentPart}/replicate', [CollectionPartController::class, 'replicate'])->name('collections.replicate');
     Route::post('/collection-parts/{parentPart}/change-parts', [CollectionPartController::class, 'changeParts'])->name('collections.changeParts');
+    Route::get('/collection-parts/{parentPart}/print', [CollectionPartController::class, 'print'])->name('collections.print');
 
     //Collection Coils routes
     Route::get('/collection-coil', [CollectionCoilController::class, 'index'])->name('collectionCoil.index');

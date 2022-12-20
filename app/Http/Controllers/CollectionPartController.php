@@ -245,4 +245,9 @@ class CollectionPartController extends Controller
 
         return back();
     }
+
+    public function print(Part $parentPart)
+    {
+        return view('collection-parts.print', compact('parentPart'));
+    }
 }

@@ -140,6 +140,7 @@
                 </thead>
                 <tbody>
                 @php
+                    $totalPrice = 0;
                     $totalWeight = 0;
                 @endphp
                 @foreach($parentPart->children()->orderBy('sort','ASC')->get() as $childPart)
@@ -147,6 +148,7 @@
                         $category = $childPart->categories[1];
                         $selectedCategory = $childPart->categories[2];
 
+                        $totalPrice += $childPart->price * $childPart->pivot->value;
                         $totalWeight += $childPart->weight * $childPart->pivot->value;
                     @endphp
                     <tr>
@@ -220,56 +222,30 @@
                 @endforeach
                 </tbody>
             </table>
+            <div class="mt-4 flex justify-end">
+                <p class="px-4 py-2 bg-green-500 rounded-md text-white font-bold text-sm">
+                    قیمت کل : {{ number_format($totalPrice) }}
+                </p>
+            </div>
         </div>
-        <div class="space-x-2 space-x-reverse">
-            <button type="submit" class="form-submit-btn">
-                ثبت مقادیر
-            </button>
-            <a href="{{ route('collections.index') }}" class="form-cancel-btn">
-                انصراف
-            </a>
-        </div>
-    </form>
-
-    <!-- Mobile List -->
-    <form method="POST" action="{{ route('collections.storeAmounts',$parentPart->id) }}" class="mt-4 block md:hidden">
-        @csrf
-        @method('PATCH')
-        <div class="md:hidden block">
-            @foreach($parentPart->children as $childPart)
-                @php
-                    $code = '';
-                    foreach($childPart->categories as $category){
-                        $code = $code . $category->code;
-                    }
-                @endphp
-                <div class="bg-white rounded-md p-4 border border-gray-200 shadow-md mb-4 relative z-30">
-                    <span
-                        class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
-                            {{ $loop->index+1 }}
-                    </span>
-                    <div class="space-y-4">
-                        <p class="text-xs text-black font-bold text-center">
-                            {{ $childPart->name }}
-                        </p>
-                        <p class="text-xs text-black text-center">
-                            واحد : {{ $childPart->unit }}
-                        </p>
-                        <p class="text-xs text-black text-center">
-                            کد : {{ $childPart->code . "-" . $code }}
-                        </p>
-                        <input type="text" name="values[]" id="inputValue{{ $childPart->id }}" class="input-text"
-                               value="{{ $childPart->pivot->value ?? '' }}">
-                    </div>
-                </div>
-            @endforeach
-        </div>
-        <div class="space-x-2 space-x-reverse">
-            <button type="submit" class="form-submit-btn">
-                ثبت مقادیر
-            </button>
-            <a href="{{ route('collections.index') }}" class="form-cancel-btn">
-                انصراف
+        <div class="flex justify-between items-center">
+            <div class="space-x-2 space-x-reverse">
+                <button type="submit" class="form-submit-btn">
+                    ثبت مقادیر
+                </button>
+                <a href="{{ route('collections.index') }}" class="form-cancel-btn">
+                    انصراف (خروج)
+                </a>
+            </div>
+            <a href="{{ route('collections.print',$parentPart->id) }}"
+               class="form-percent-btn inline-flex items-center"
+               target="_blank">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                     stroke="currentColor" class="w-5 h-5 ml-2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0l.229 2.523a1.125 1.125 0 01-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0021 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 00-1.913-.247M6.34 18H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 011.913-.247m10.5 0a48.536 48.536 0 00-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659M18 10.5h.008v.008H18V10.5zm-3 0h.008v.008H15V10.5z"/>
+                </svg>
+                پرینت
             </a>
         </div>
     </form>
