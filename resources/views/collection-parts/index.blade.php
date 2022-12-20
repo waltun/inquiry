@@ -295,33 +295,31 @@
                                 </p>
                             </td>
                         @endif
-                        @if(!in_array($part->id,$specials))
-                            <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
-                                <a href="{{ route('collections.parts',$part->id) }}" class="form-detail-btn text-xs">
-                                    قطعات
-                                </a>
-                            </td>
-                            <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
-                                <a href="{{ route('parts.edit',$part->id) }}" class="form-edit-btn text-xs">
-                                    ویرایش
-                                </a>
-                                <form action="{{ route('collections.replicate',$part->id) }}" method="POST"
-                                      class="inline">
-                                    @csrf
-                                    <button class="form-detail-btn text-xs">
-                                        کپی
-                                    </button>
-                                </form>
-                                <form action="{{ route('collections.destroy',$part->id) }}" method="POST"
-                                      class="inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="form-cancel-btn text-xs" onclick="return confirm('قطعه حذف شود ؟')">
-                                        حذف
-                                    </button>
-                                </form>
-                            </td>
-                        @endif
+                        <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
+                            <a href="{{ route('collections.parts',$part->id) }}" class="form-detail-btn text-xs">
+                                قطعات
+                            </a>
+                        </td>
+                        <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
+                            <a href="{{ route('parts.edit',$part->id) }}" class="form-edit-btn text-xs">
+                                ویرایش
+                            </a>
+                            <form action="{{ route('collections.replicate',$part->id) }}" method="POST"
+                                  class="inline">
+                                @csrf
+                                <button class="form-detail-btn text-xs">
+                                    کپی
+                                </button>
+                            </form>
+                            <form action="{{ route('collections.destroy',$part->id) }}" method="POST"
+                                  class="inline">
+                                @csrf
+                                @method('DELETE')
+                                <button class="form-cancel-btn text-xs" onclick="return confirm('قطعه حذف شود ؟')">
+                                    حذف
+                                </button>
+                            </form>
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>

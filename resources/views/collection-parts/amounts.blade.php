@@ -203,7 +203,7 @@
                                        value="{{ $childPart->pivot->value2 ?? number_format(eval("return " . $string . ';'), 2) }}">
                             @endif
                             <input type="hidden" name="units[]" id="inputUnitValue{{ $childPart->id }}"
-                                   value="{{ $childPart->pivot->value2 ?? number_format(eval("return " . $string . ';'), 2) }}">
+                                   value="{{ $childPart->pivot->value2 }}">
                         </td>
                         <td class="border border-gray-300 px-4 py-1 whitespace-nowrap">
                             @if($childPart->price)
