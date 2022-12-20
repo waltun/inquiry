@@ -9,266 +9,13 @@
     <x-slot name="js">
         <script src="{{ asset('plugins/jquery.min.js') }}"></script>
         <script>
-            function multiFunctions(event, part, id, cid) {
+            function multiFunctions(event, part, cid) {
                 changePrice(event, part);
-
-                showCalculateButton(id);
 
                 changeFormula(event, cid);
             }
         </script>
         <script>
-            function showCalculateButton(id) {
-                let productId = '{{ $product->id }}'
-                let selectedId = document.getElementById("groupPartList" + id).value;
-                let fancoilSection = document.getElementById("fancoilSection" + id);
-                let warmWaterSection = document.getElementById("warmWaterSection" + id);
-                let coldWaterSection = document.getElementById("coldWaterSection" + id);
-                let condensorSection = document.getElementById("condensorSection" + id);
-                let evaperatorSection = document.getElementById("evaperatorSection" + id);
-
-                let damperTazeSection = document.getElementById("damperTazeSection" + id);
-                let damperRaftSection = document.getElementById("damperRaftSection" + id);
-                let damperBargashtSection = document.getElementById("damperBargashtSection" + id);
-                let damperExastSection = document.getElementById("damperExastSection" + id);
-
-                let converterEvaporatorSection = document.getElementById('converterEvaporatorSection' + id);
-                let converterCondensorSection = document.getElementById('converterCondensorSection' + id);
-
-                let electricalPanelSection = document.getElementById('electricalPanelSection' + id);
-                let electricalChillerSection = document.getElementById('chillerPanelSection' + id);
-
-                //Coil Fancoil
-                if (selectedId === '170') {
-                    let fancoilRoute = "/calculate/coil/fancoil/" + 170 + "/" + productId;
-                    fancoilSection.classList.remove('hidden')
-                    fancoilSection.classList.add('block')
-                    fancoilSection.innerHTML = `
-                        <a href="${fancoilRoute}"
-                           class="form-submit-btn text-xs">
-                            محاسبه کویل فن کویل سقفی یا زمینی
-                        </a>
-                        `
-                } else {
-                    fancoilSection.classList.remove('block')
-                    fancoilSection.classList.add('hidden')
-                    fancoilSection.innerHTML = ""
-                }
-                //Coil Warm Water
-                if (selectedId === '169') {
-                    let warmWaterRoute = "/calculate/coil/water-warm/" + 169 + "/" + productId;
-                    warmWaterSection.classList.remove('hidden')
-                    warmWaterSection.classList.add('block')
-                    warmWaterSection.innerHTML = `
-                        <a href="${warmWaterRoute}"
-                           class="form-submit-btn text-xs">
-                            محاسبه کویل آبگرم
-                        </a>
-                        `
-                } else {
-                    warmWaterSection.classList.remove('block')
-                    warmWaterSection.classList.add('hidden')
-                    warmWaterSection.innerHTML = ""
-                }
-                //Coil Cold Water
-                if (selectedId === '168') {
-                    let coldWaterRoute = "/calculate/coil/water-cold/" + 168 + "/" + productId;
-                    coldWaterSection.classList.remove('hidden')
-                    coldWaterSection.classList.add('block')
-                    coldWaterSection.innerHTML = `
-                        <a href="${coldWaterRoute}"
-                           class="form-submit-btn text-xs">
-                            محاسبه کویل آبسرد
-                        </a>
-                        `
-                } else {
-                    coldWaterSection.classList.remove('block')
-                    coldWaterSection.classList.add('hidden')
-                    coldWaterSection.innerHTML = ""
-                }
-                //Coil Condensor
-                if (selectedId === '167') {
-                    let condensorRoute = "/calculate/coil/condensor/" + 167 + "/" + productId;
-                    condensorSection.classList.remove('hidden')
-                    condensorSection.classList.add('block')
-                    condensorSection.innerHTML = `
-                        <a href="${condensorRoute}"
-                           class="form-submit-btn text-xs">
-                            محاسبه کویل کندانسوری
-                        </a>
-                        `
-                } else {
-                    condensorSection.classList.remove('block')
-                    condensorSection.classList.add('hidden')
-                    condensorSection.innerHTML = ""
-                }
-                //Coil DX
-                if (selectedId === '150') {
-                    let evaperatorRoute = "/calculate/coil/evaperator/" + 150 + "/" + productId;
-                    evaperatorSection.classList.remove('hidden')
-                    evaperatorSection.classList.add('block')
-                    evaperatorSection.innerHTML = `
-                        <a href="${evaperatorRoute}"
-                           class="form-submit-btn text-xs">
-                            محاسبه کویل اواپراتوری DX
-                        </a>
-                        `
-                } else {
-                    evaperatorSection.classList.remove('block')
-                    evaperatorSection.classList.add('hidden')
-                    evaperatorSection.innerHTML = ""
-                }
-
-                //Damper Exast
-                if (selectedId === '149') {
-                    let damperExastRoute = "/calculate/damperExast/" + 149 + "/" + productId;
-                    damperExastSection.classList.remove('hidden')
-                    damperExastSection.classList.add('block')
-                    damperExastSection.innerHTML = `
-                        <a href="${damperExastRoute}"
-                           class="form-submit-btn text-xs">
-                            محاسبه دمپر اگزاست
-                        </a>
-                        `
-                } else {
-                    if (damperExastSection) {
-                        damperExastSection.classList.remove('block')
-                        damperExastSection.classList.add('hidden')
-                        damperExastSection.innerHTML = ""
-                    }
-                }
-                //Damper Raft
-                if (selectedId === '148') {
-                    let damperRaftRoute = "/calculate/damperRaft/" + 148 + "/" + productId;
-                    damperRaftSection.classList.remove('hidden')
-                    damperRaftSection.classList.add('block')
-                    damperRaftSection.innerHTML = `
-                        <a href="${damperRaftRoute}"
-                           class="form-submit-btn text-xs">
-                            محاسبه دمپر رفت
-                        </a>
-                        `
-                } else {
-                    if (damperRaftSection) {
-                        damperRaftSection.classList.remove('block')
-                        damperRaftSection.classList.add('hidden')
-                        damperRaftSection.innerHTML = ""
-                    }
-                }
-                //Damper Bargasht
-                if (selectedId === '147') {
-                    let damperBargashtRoute = "/calculate/damperBargasht/" + 147 + "/" + productId;
-                    damperBargashtSection.classList.remove('hidden')
-                    damperBargashtSection.classList.add('block')
-                    damperBargashtSection.innerHTML = `
-                        <a href="${damperBargashtRoute}"
-                           class="form-submit-btn text-xs">
-                            محاسبه دمپر برگشت
-                        </a>
-                        `
-                } else {
-                    if (damperBargashtSection) {
-                        damperBargashtSection.classList.remove('block')
-                        damperBargashtSection.classList.add('hidden')
-                        damperBargashtSection.innerHTML = ""
-                    }
-                }
-                //Damper Taze
-                if (selectedId === '146') {
-                    let damperTazeRoute = "/calculate/damperTaze/" + 146 + "/" + productId;
-                    damperTazeSection.classList.remove('hidden')
-                    damperTazeSection.classList.add('block')
-                    damperTazeSection.innerHTML = `
-                        <a href="${damperTazeRoute}"
-                           class="form-submit-btn text-xs">
-                            محاسبه دمپر تازه
-                        </a>
-                        `
-                } else {
-                    if (damperTazeSection) {
-                        damperTazeSection.classList.remove('block')
-                        damperTazeSection.classList.add('hidden')
-                        damperTazeSection.innerHTML = ""
-                    }
-                }
-
-                //Converter Evaporator
-                if (selectedId === '1194') {
-                    let converterEvaporatorRoute = "/calculate/converter/" + 1194 + "/" + productId + "/evaporator";
-                    converterEvaporatorSection.classList.remove('hidden')
-                    converterEvaporatorSection.classList.add('block')
-                    converterEvaporatorSection.innerHTML = `
-                        <a href="${converterEvaporatorRoute}"
-                           class="form-submit-btn text-xs">
-                            محاسبه اواپراتور پوسته و لوله
-                        </a>
-                        `
-                } else {
-                    if (converterEvaporatorSection) {
-                        converterEvaporatorSection.classList.remove('block')
-                        converterEvaporatorSection.classList.add('hidden')
-                        converterEvaporatorSection.innerHTML = ""
-                    }
-                }
-
-                //Converter Condensor
-                if (selectedId === '1301') {
-                    let converterCondensorRoute = "/calculate/converter/" + 1301 + "/" + productId + "/condensor";
-                    converterCondensorSection.classList.remove('hidden')
-                    converterCondensorSection.classList.add('block')
-                    converterCondensorSection.innerHTML = `
-                        <a href="${converterCondensorRoute}"
-                           class="form-submit-btn text-xs">
-                            محاسبه کندانسور آبی پوسته لوله
-                        </a>
-                        `
-                } else {
-                    if (converterCondensorSection) {
-                        converterCondensorSection.classList.remove('block')
-                        converterCondensorSection.classList.add('hidden')
-                        converterCondensorSection.innerHTML = ""
-                    }
-                }
-
-                //Electrical Panel
-                if (selectedId === '1879') {
-                    let electricalPanelRoute = "/calculate/electrical/" + 1879 + "/" + productId + "/panel";
-                    electricalPanelSection.classList.remove('hidden')
-                    electricalPanelSection.classList.add('block')
-                    electricalPanelSection.innerHTML = `
-                        <a href="${electricalPanelRoute}"
-                           class="form-submit-btn text-xs">
-                            محاسبه
-                        </a>
-                        `
-                } else {
-                    if (electricalPanelSection) {
-                        electricalPanelSection.classList.remove('block')
-                        electricalPanelSection.classList.add('hidden')
-                        electricalPanelSection.innerHTML = ""
-                    }
-                }
-
-                //Electrical Chiller
-                if (selectedId === '2144') {
-                    let electricalChillerRoute = "/calculate/electrical/" + 2144 + "/" + productId + "/chiller";
-                    electricalChillerSection.classList.remove('hidden')
-                    electricalChillerSection.classList.add('block')
-                    electricalChillerSection.innerHTML = `
-                        <a href="${electricalChillerRoute}"
-                           class="form-submit-btn text-xs">
-                            محاسبه
-                        </a>
-                        `
-                } else {
-                    if (electricalChillerSection) {
-                        electricalChillerSection.classList.remove('block')
-                        electricalChillerSection.classList.add('hidden')
-                        electricalChillerSection.innerHTML = ""
-                    }
-                }
-            }
-
             function changeFormula(event, cid) {
                 let id = event.target.value;
 
@@ -677,7 +424,7 @@
                                     }
                                 @endphp
                                 <select name="part_ids[]" class="input-text" id="groupPartList{{ $part->id }}"
-                                        onchange="multiFunctions(event,{{ $part->id }},{{ $part->id }},{{ $part->id }})">
+                                        onchange="multiFunctions(event,{{ $part->id }},{{ $part->id }})">
                                     @foreach($categoryParts as $part2)
                                         @if(!session()->has('selectedPart' . $part2->id))
                                             <option
@@ -693,11 +440,125 @@
                                     @endforeach
                                 </select>
                                 @if($part->coil == '1' && $part->collection == '1' && !$part->standard)
-                                    <a href="" class="form-submit-btn text-xs">
-                                        محاسبه {{ $part->name }}
-                                    </a>
+                                    @switch($lastCategory->id)
+                                        @case('400')
+                                            <span class="hidden">DX Coil</span>
+                                            <a href="{{ route('calculateCoil.evaperator.index',[150,$product->id]) }}"
+                                               class="form-submit-btn text-xs mr-1">
+                                                محاسبه
+                                            </a>
+                                            @break
+                                        @case('402')
+                                            <span class="hidden">Condensor Coil</span>
+                                            <a href="{{ route('calculateCoil.condensor.index',[167,$product->id]) }}"
+                                               class="form-submit-btn text-xs mr-1">
+                                                محاسبه
+                                            </a>
+                                            @break
+                                        @case('404')
+                                            <span class="hidden">Water Cold Coil</span>
+                                            <a href="{{ route('calculateCoil.waterCold.index',[168,$product->id]) }}"
+                                               class="form-submit-btn text-xs mr-1">
+                                                محاسبه
+                                            </a>
+                                            @break
+                                        @case('406')
+                                            <span class="hidden">Water Warm Coil</span>
+                                            <a href="{{ route('calculateCoil.waterWarm.index',[169,$product->id]) }}"
+                                               class="form-submit-btn text-xs mr-1">
+                                                محاسبه
+                                            </a>
+                                            @break
+                                        @case('408')
+                                            <span class="hidden">Fancoil Coil</span>
+                                            <a href="{{ route('calculateCoil.fancoil.index',[170,$product->id]) }}"
+                                               class="form-submit-btn text-xs mr-1">
+                                                محاسبه
+                                            </a>
+                                            @break
+
+                                        @case('469')
+                                            <span class="hidden">Evaporator Converter</span>
+                                            <a href="{{ route('calculateConverter.evaporator.index',[1194,$product->id]) }}"
+                                               class="form-submit-btn text-xs mr-1">
+                                                محاسبه
+                                            </a>
+                                            @break
+
+                                        @case('232')
+                                            <span class="hidden">Damper Raft</span>
+                                            <a href="{{ route('calculateDamper.raft.index',[148,$product->id]) }}"
+                                               class="form-submit-btn text-xs mr-1">
+                                                محاسبه
+                                            </a>
+                                            @break
+                                        @case('275')
+                                            <span class="hidden">Damper Taze</span>
+                                            <a href="{{ route('calculateDamper.taze.index',[146,$product->id]) }}"
+                                               class="form-submit-btn text-xs mr-1">
+                                                محاسبه
+                                            </a>
+                                            @break
+                                        @case('276')
+                                            <span class="hidden">Damper Bargasht</span>
+                                            <a href="{{ route('calculateDamper.bargasht.index',[147,$product->id]) }}"
+                                               class="form-submit-btn text-xs mr-1">
+                                                محاسبه
+                                            </a>
+                                            @break
+                                        @case('277')
+                                            <span class="hidden">Damper Exast</span>
+                                            <a href="{{ route('calculateDamper.exast.index',[149,$product->id]) }}"
+                                               class="form-submit-btn text-xs mr-1">
+                                                محاسبه
+                                            </a>
+                                            @break
+
+                                        @case('128')
+                                            <span class="hidden">Chiller Electrical</span>
+                                            <a href="{{ route('calculateElectrical.chiller.index',[2144,$product->id]) }}"
+                                               class="form-submit-btn text-xs mr-1">
+                                                محاسبه
+                                            </a>
+                                            @break
+                                        @case('129')
+                                            <span class="hidden">Chiller Electrical</span>
+                                            <a href="{{ route('calculateElectrical.chiller.index',[2144,$product->id]) }}"
+                                               class="form-submit-btn text-xs mr-1">
+                                                محاسبه
+                                            </a>
+                                            @break
+                                        @case('130')
+                                            <span class="hidden">Chiller Electrical</span>
+                                            <a href="{{ route('calculateElectrical.chiller.index',[2144,$product->id]) }}"
+                                               class="form-submit-btn text-xs mr-1">
+                                                محاسبه
+                                            </a>
+                                            @break
+                                        @case('132')
+                                            <span class="hidden">Panel Electrical</span>
+                                            <a href="{{ route('calculateElectrical.panel.index',[1879,$product->id]) }}"
+                                               class="form-submit-btn text-xs mr-1">
+                                                محاسبه
+                                            </a>
+                                            @break
+                                        @case('471')
+                                            <span class="hidden">Air Condition Electrical</span>
+                                            <a href="{{ route('calculateElectrical.air.index',[2249,$product->id]) }}"
+                                               class="form-submit-btn text-xs mr-1">
+                                                محاسبه
+                                            </a>
+                                            @break
+                                        @case('472')
+                                            <span class="hidden">Zent Electrical</span>
+                                            <a href="{{ route('calculateElectrical.zent.index',[2256,$product->id]) }}"
+                                               class="form-submit-btn text-xs mr-1">
+                                                محاسبه
+                                            </a>
+                                            @break
+                                    @endswitch
                                 @endif
-                                @if($part->coil == '1' && !$part->standard)
+                                @if($part->coil == '1' && !$part->standard && !in_array($part->id,$specials))
                                     <a href="{{ route('collections.amounts',$part->id) }}" target="_blank"
                                        class="text-xs mr-1 text-indigo-500 underline underline-offset-4 whitespace-nowrap">
                                         مشاهده جزئیات
@@ -878,11 +739,125 @@
                                     @endforeach
                                 </select>
                                 @if($part->coil == '1' && $part->collection == '1' && !$part->standard)
-                                    <a href="" class="form-submit-btn text-xs mr-1">
-                                        محاسبه
-                                    </a>
+                                    @switch($lastCategory->id)
+                                        @case('400')
+                                            <span class="hidden">DX Coil</span>
+                                            <a href="{{ route('calculateCoil.evaperator.index',[150,$product->id]) }}"
+                                               class="form-submit-btn text-xs mr-1">
+                                                محاسبه
+                                            </a>
+                                            @break
+                                        @case('402')
+                                            <span class="hidden">Condensor Coil</span>
+                                            <a href="{{ route('calculateCoil.condensor.index',[167,$product->id]) }}"
+                                               class="form-submit-btn text-xs mr-1">
+                                                محاسبه
+                                            </a>
+                                            @break
+                                        @case('404')
+                                            <span class="hidden">Water Cold Coil</span>
+                                            <a href="{{ route('calculateCoil.waterCold.index',[168,$product->id]) }}"
+                                               class="form-submit-btn text-xs mr-1">
+                                                محاسبه
+                                            </a>
+                                            @break
+                                        @case('406')
+                                            <span class="hidden">Water Warm Coil</span>
+                                            <a href="{{ route('calculateCoil.waterWarm.index',[169,$product->id]) }}"
+                                               class="form-submit-btn text-xs mr-1">
+                                                محاسبه
+                                            </a>
+                                            @break
+                                        @case('408')
+                                            <span class="hidden">Fancoil Coil</span>
+                                            <a href="{{ route('calculateCoil.fancoil.index',[170,$product->id]) }}"
+                                               class="form-submit-btn text-xs mr-1">
+                                                محاسبه
+                                            </a>
+                                            @break
+
+                                        @case('469')
+                                            <span class="hidden">Evaporator Converter</span>
+                                            <a href="{{ route('calculateConverter.evaporator.index',[1194,$product->id]) }}"
+                                               class="form-submit-btn text-xs mr-1">
+                                                محاسبه
+                                            </a>
+                                            @break
+
+                                        @case('232')
+                                            <span class="hidden">Damper Raft</span>
+                                            <a href="{{ route('calculateDamper.raft.index',[148,$product->id]) }}"
+                                               class="form-submit-btn text-xs mr-1">
+                                                محاسبه
+                                            </a>
+                                            @break
+                                        @case('275')
+                                            <span class="hidden">Damper Taze</span>
+                                            <a href="{{ route('calculateDamper.taze.index',[146,$product->id]) }}"
+                                               class="form-submit-btn text-xs mr-1">
+                                                محاسبه
+                                            </a>
+                                            @break
+                                        @case('276')
+                                            <span class="hidden">Damper Bargasht</span>
+                                            <a href="{{ route('calculateDamper.bargasht.index',[147,$product->id]) }}"
+                                               class="form-submit-btn text-xs mr-1">
+                                                محاسبه
+                                            </a>
+                                            @break
+                                        @case('277')
+                                            <span class="hidden">Damper Exast</span>
+                                            <a href="{{ route('calculateDamper.exast.index',[149,$product->id]) }}"
+                                               class="form-submit-btn text-xs mr-1">
+                                                محاسبه
+                                            </a>
+                                            @break
+
+                                        @case('128')
+                                            <span class="hidden">Chiller Electrical</span>
+                                            <a href="{{ route('calculateElectrical.chiller.index',[2144,$product->id]) }}"
+                                               class="form-submit-btn text-xs mr-1">
+                                                محاسبه
+                                            </a>
+                                            @break
+                                        @case('129')
+                                            <span class="hidden">Chiller Electrical</span>
+                                            <a href="{{ route('calculateElectrical.chiller.index',[2144,$product->id]) }}"
+                                               class="form-submit-btn text-xs mr-1">
+                                                محاسبه
+                                            </a>
+                                            @break
+                                        @case('130')
+                                            <span class="hidden">Chiller Electrical</span>
+                                            <a href="{{ route('calculateElectrical.chiller.index',[2144,$product->id]) }}"
+                                               class="form-submit-btn text-xs mr-1">
+                                                محاسبه
+                                            </a>
+                                            @break
+                                        @case('132')
+                                            <span class="hidden">Panel Electrical</span>
+                                            <a href="{{ route('calculateElectrical.panel.index',[1879,$product->id]) }}"
+                                               class="form-submit-btn text-xs mr-1">
+                                                محاسبه
+                                            </a>
+                                            @break
+                                        @case('471')
+                                            <span class="hidden">Air Condition Electrical</span>
+                                            <a href="{{ route('calculateElectrical.air.index',[2249,$product->id]) }}"
+                                               class="form-submit-btn text-xs mr-1">
+                                                محاسبه
+                                            </a>
+                                            @break
+                                        @case('472')
+                                            <span class="hidden">Zent Electrical</span>
+                                            <a href="{{ route('calculateElectrical.zent.index',[2256,$product->id]) }}"
+                                               class="form-submit-btn text-xs mr-1">
+                                                محاسبه
+                                            </a>
+                                            @break
+                                    @endswitch
                                 @endif
-                                @if($part->coil == '1' && !$part->standard)
+                                @if($part->coil == '1' && !$part->standard && !in_array($part->id,$specials))
                                     <a href="{{ route('collections.amounts',$part->id) }}" target="_blank"
                                        class="text-xs mr-1 text-indigo-500 underline underline-offset-4 whitespace-nowrap">
                                         مشاهده جزئیات
@@ -1006,8 +981,8 @@
                             <p class="text-base font-bold text-white bg-green-500 px-6 py-1 rounded-md">
                                 قیمت : {{ number_format($showPivotPrice) }} تومان
                             </p>
-                            <p class="text-base font-bold text-white bg-green-500 px-6 py-1 rounded-md">
-                                قیمت : {{ $partWeight }} کلیوگرم
+                            <p class="text-base font-bold text-white bg-gray-500 px-6 py-1 rounded-md">
+                                وزن دستگاه : {{ $partWeight }} کلیوگرم
                             </p>
                         @endif
                         @if($showAmountPrice != 0)
