@@ -260,9 +260,14 @@
                                        class="input-text w-20 text-center" onkeyup="changeUnit1(event,{{ $child }})"
                                        value="{{ $child->pivot->value ?? '' }}">
                                 @if(!is_null($child->unit2))
+                                    @php
+                                        $string = $child->pivot->value . $child->operator2 . $child->formula2;
+                                    @endphp
+                                    /
                                     <input type="text" id="inputUnit{{ $child->id }}"
                                            class="input-text w-20 text-center" onkeyup="changeUnit2(event,{{ $child }})"
-                                           placeholder="{{ $child->unit2 }}" value="{{ $child->pivot->value2 }}">
+                                           placeholder="{{ $child->unit2 }}" name="values2[]"
+                                           value="{{ $child->pivot->value2 ?? number_format(eval("return " . $string . ';'), 2) }}">
                                 @endif
                                 <input type="hidden" name="units[]" id="inputUnitValue{{ $child->id }}"
                                        value="{{ $child->pivot->value2 }}">

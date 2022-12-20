@@ -193,13 +193,17 @@
                                    class="input-text w-20 text-center" onkeyup="changeUnit1(event,{{ $childPart }})"
                                    value="{{ $childPart->pivot->value ?? '' }}">
                             @if(!is_null($childPart->unit2))
+                                @php
+                                    $string = $childPart->pivot->value . $childPart->operator2 . $childPart->formula2;
+                                @endphp
                                 /
                                 <input type="text" id="inputUnit{{ $childPart->id }}"
                                        class="input-text w-20 text-center" onkeyup="changeUnit2(event,{{ $childPart }})"
-                                       placeholder="{{ $childPart->unit2 }}" value="{{ $childPart->pivot->value2 }}">
+                                       placeholder="{{ $childPart->unit2 }}" name="values2[]"
+                                       value="{{ $childPart->pivot->value2 ?? number_format(eval("return " . $string . ';'), 2) }}">
                             @endif
                             <input type="hidden" name="units[]" id="inputUnitValue{{ $childPart->id }}"
-                                   value="{{ $childPart->pivot->value2 }}">
+                                   value="{{ $childPart->pivot->value2 ?? number_format(eval("return " . $string . ';'), 2) }}">
                         </td>
                         <td class="border border-gray-300 px-4 py-1 whitespace-nowrap">
                             @if($childPart->price)
