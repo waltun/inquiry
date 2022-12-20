@@ -215,6 +215,20 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/calculate/electrical/{part}/{product}/post-chiller', [CalculateElectricalController::class, 'storeChiller'])
         ->name('calculateElectrical.storeChiller');
 
+    Route::get('/calculate/electrical/{part}/{product}/air-condition', [CalculateElectricalController::class, 'air'])
+        ->name('calculateElectrical.air.index');
+    Route::post('/calculate/air-condition-electrical', [CalculateElectricalController::class, 'calculateAir'])
+        ->name('calculateAirElectrical');
+    Route::post('/calculate/electrical/{part}/{product}/post-air-condition', [CalculateElectricalController::class, 'storeAir'])
+        ->name('calculateElectrical.storeAir');
+
+    Route::get('/calculate/electrical/{part}/{product}/zent', [CalculateElectricalController::class, 'zent'])
+        ->name('calculateElectrical.zent.index');
+    Route::post('/calculate/zent-electrical', [CalculateElectricalController::class, 'calculateZent'])
+        ->name('calculateZentElectrical');
+    Route::post('/calculate/electrical/{part}/{product}/post-zent', [CalculateElectricalController::class, 'storeZent'])
+        ->name('calculateElectrical.storeZent');
+
     //Notification routes
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
     Route::post('/notifications/{notification}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
@@ -267,14 +281,26 @@ Route::middleware(['auth', 'web'])->group(function () {
 
     //Separate Electrical Routes
     Route::get('/separate-calculate-electrical', [SeparateCalculateElectricalController::class, 'index'])->name('separate.electrical.index');
+
+    //Separate Electrical Panel Routes
     Route::get('/separate-calculate-electrical/{part}/panel', [SeparateCalculateElectricalController::class, 'panel'])->name('separate.electrical.panel');
     Route::post('/separate-calculate-electrical/panel', [SeparateCalculateElectricalController::class, 'calculatePanel'])->name('separate.electrical.calculatePanel');
     Route::post('/separate-calculate-electrical/{part}/store-panel', [SeparateCalculateElectricalController::class, 'storePanel'])->name('separate.electrical.storePanel');
 
-    Route::get('/separate-calculate-electrical', [SeparateCalculateElectricalController::class, 'index'])->name('separate.electrical.index');
+    //Separate Electrical Chiller Routes
     Route::get('/separate-calculate-electrical/{chiller}/chiller', [SeparateCalculateElectricalController::class, 'chiller'])->name('separate.electrical.chiller');
     Route::post('/separate-calculate-electrical/chiller', [SeparateCalculateElectricalController::class, 'calculateChiller'])->name('separate.electrical.calculateChiller');
     Route::post('/separate-calculate-electrical/{chiller}/store-chiller', [SeparateCalculateElectricalController::class, 'storeChiller'])->name('separate.electrical.storeChiller');
+
+    //Separate Electrical Air Condition Routes
+    Route::get('/separate-calculate-electrical/{part}/air-condition', [SeparateCalculateElectricalController::class, 'air'])->name('separate.electrical.air');
+    Route::post('/separate-calculate-electrical/air-condition', [SeparateCalculateElectricalController::class, 'calculateAir'])->name('separate.electrical.calculateAir');
+    Route::post('/separate-calculate-electrical/{part}/store-air-condition', [SeparateCalculateElectricalController::class, 'storeAir'])->name('separate.electrical.storeAir');
+
+    //Separate Electrical Zent Routes
+    Route::get('/separate-calculate-electrical/{part}/zent', [SeparateCalculateElectricalController::class, 'zent'])->name('separate.electrical.zent');
+    Route::post('/separate-calculate-electrical/zent', [SeparateCalculateElectricalController::class, 'calculateZent'])->name('separate.electrical.calculateZent');
+    Route::post('/separate-calculate-electrical/{part}/store-zent', [SeparateCalculateElectricalController::class, 'storeZent'])->name('separate.electrical.storeZent');
 
     //Inquiry Part Coils
     Route::post('/inquiry-part-coil/{inquiry}', [InquiryPartCoilController::class, 'index'])->name('inquiryPart.coil.index');
