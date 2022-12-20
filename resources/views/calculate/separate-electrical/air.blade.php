@@ -103,12 +103,12 @@
                 let form = document.getElementById('form');
 
                 if (type == 'calculate') {
-                    form.action = '/separate-calculate-electrical/panel';
+                    form.action = '/separate-calculate-electrical/air-condition';
                     form.submit();
                 }
 
                 if (type == 'post') {
-                    form.action = '/separate-calculate-electrical/' + part + '/store-panel'
+                    form.action = '/separate-calculate-electrical/' + part + '/store-air-condition'
                     form.submit();
                 }
             }
@@ -215,53 +215,46 @@
                             @case('8')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
-                                        مشخصات کلید و کنتاکتورهای کمپرسور
+                                        مشخصات کلید و کنتاکتورهای فن الکترو موتور فن هوارسان
+                                    </td>
+                                </tr>
+                                @break
+                            @case('13')
+                                <tr class="bg-yellow-500">
+                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
+                                        مشخصات کلید و کنتاکتور الکترو پمپ‌ ها
                                     </td>
                                 </tr>
                                 @break
                             @case('17')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
-                                        مشخصات کلید و کنتاکتورهای فن الکترو موتور فن هوارسان
-                                    </td>
-                                </tr>
-                                @break
-                            @case('22')
-                                <tr class="bg-yellow-500">
-                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
-                                        مشخصات کلید و کنتاکتورهای فن الکتروفن‌های کندانسور
-                                    </td>
-                                </tr>
-                                @break
-                            @case('26')
-                                <tr class="bg-yellow-500">
-                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
                                         مشخصات کلیدها و کنتاکتورهای هیتر الکتریکی
                                     </td>
                                 </tr>
                                 @break
-                            @case('30')
+                            @case('21')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
                                         مشخصات کلیدها و کنتاکتورهای رطوبت زن
                                     </td>
                                 </tr>
                                 @break
-                            @case('33')
+                            @case('23')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
                                         اطلاعات سیم و کابل
                                     </td>
                                 </tr>
                                 @break
-                            @case('37')
+                            @case('27')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
                                         سایر تجهیزات
                                     </td>
                                 </tr>
                                 @break
-                            @case('47')
+                            @case('37')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
                                         اقلام کنترلی

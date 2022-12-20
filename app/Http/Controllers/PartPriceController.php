@@ -113,14 +113,18 @@ class PartPriceController extends Controller
                             'old_price' => $part->price,
                             'price_updated_at' => now(),
                             'percent_submit' => 0,
+                            'weight' => $request->weights[$index]
                         ]);
 
                         foreach ($part->parents as $parent) {
                             $price = 0;
+                            $weight = 0;
                             foreach ($parent->children as $child) {
-                                $price += ($child->price * $child->pivot->value);
+                                $price += $child->price * $child->pivot->value;
+                                $weight += $child->weight * $child->pivot->value;
                             }
                             $parent->price = $price;
+                            $parent->weight = $weight;
                             $parent->save();
                         }
                     }
@@ -130,16 +134,33 @@ class PartPriceController extends Controller
                         'old_price' => $part->price,
                         'price_updated_at' => now(),
                         'percent_submit' => 0,
+                        'weight' => $request->weights[$index]
                     ]);
 
                     foreach ($part->parents as $parent) {
                         $price = 0;
+                        $weight = 0;
                         foreach ($parent->children as $child) {
-                            $price += ($child->price * $child->pivot->value);
+                            $price += $child->price * $child->pivot->value;
+                            $weight += $child->weight * $child->pivot->value;
                         }
                         $parent->price = $price;
+                        $parent->weight = $weight;
                         $parent->save();
                     }
+                }
+            } else if ($part->weight !== (int)$request->weights[$index]) {
+                $part->update([
+                    'weight' => $request->weights[$index]
+                ]);
+
+                foreach ($part->parents as $parent) {
+                    $weight = 0;
+                    foreach ($parent->children as $child) {
+                        $weight += $child->weight * $child->pivot->value;
+                    }
+                    $parent->weight = $weight;
+                    $parent->save();
                 }
             }
         }

@@ -692,169 +692,17 @@
                                         @endif
                                     @endforeach
                                 </select>
+                                @if($part->coil == '1' && $part->collection == '1' && !$part->standard)
+                                    <a href="" class="form-submit-btn text-xs">
+                                        محاسبه {{ $part->name }}
+                                    </a>
+                                @endif
                                 @if($part->coil == '1' && !$part->standard)
                                     <a href="{{ route('collections.amounts',$part->id) }}" target="_blank"
                                        class="text-xs mr-1 text-indigo-500 underline underline-offset-4 whitespace-nowrap">
                                         مشاهده جزئیات
                                     </a>
                                 @endif
-                                @if(in_array($part->id,$specials))
-                                    <div class="whitespace-nowrap mr-2">
-                                        @switch($part->id)
-                                            @case(150)
-                                                @if(!session()->has('coil-btn-' . $part->id . $product->id))
-                                                    <a href="{{ route('calculateCoil.evaperator.index',[$part->id,$product->id]) }}"
-                                                       class="form-submit-btn text-xs">
-                                                        محاسبه {{ $part->name }}
-                                                    </a>
-                                                @endif
-                                                @break
-                                            @case(167)
-                                                @if(!session()->has('coil-btn-' . $part->id . $product->id))
-                                                    <a href="{{ route('calculateCoil.condensor.index',[$part->id,$product->id]) }}"
-                                                       class="form-submit-btn text-xs">
-                                                        محاسبه {{ $part->name }}
-                                                    </a>
-                                                @endif
-                                                @break
-                                            @case(168)
-                                                @if(!session()->has('coil-btn-' . $part->id . $product->id))
-                                                    <a href="{{ route('calculateCoil.waterCold.index',[$part->id,$product->id]) }}"
-                                                       class="form-submit-btn text-xs">
-                                                        محاسبه {{ $part->name }}
-                                                    </a>
-                                                @endif
-                                                @break
-                                            @case(169)
-                                                @if(!session()->has('coil-btn-' . $part->id . $product->id))
-                                                    <a href="{{ route('calculateCoil.waterWarm.index',[$part->id,$product->id]) }}"
-                                                       class="form-submit-btn text-xs">
-                                                        محاسبه {{ $part->name }}
-                                                    </a>
-                                                @endif
-                                                @break
-                                            @case(170)
-                                                @if(!session()->has('coil-btn-' . $part->id . $product->id))
-                                                    <a href="{{ route('calculateCoil.fancoil.index',[$part->id,$product->id]) }}"
-                                                       class="form-submit-btn text-xs">
-                                                        محاسبه {{ $part->name }}
-                                                    </a>
-                                                @endif
-                                                @break
-
-                                            @case(146)
-                                                @if(!session()->has('damper-btn-' . $part->id . $product->id))
-                                                    <a href="{{ route('calculateDamper.taze.index',[$part->id,$product->id]) }}"
-                                                       class="form-submit-btn text-xs">
-                                                        محاسبه {{ $part->name }}
-                                                    </a>
-                                                @endif
-                                                @break
-                                            @case(148)
-                                                @if(!session()->has('damper-btn-' . $part->id . $product->id))
-                                                    <a href="{{ route('calculateDamper.raft.index',[$part->id,$product->id]) }}"
-                                                       class="form-submit-btn text-xs">
-                                                        محاسبه {{ $part->name }}
-                                                    </a>
-                                                @endif
-                                                @break
-                                            @case(147)
-                                                @if(!session()->has('damper-btn-' . $part->id . $product->id))
-                                                    <a href="{{ route('calculateDamper.bargasht.index',[$part->id,$product->id]) }}"
-                                                       class="form-submit-btn text-xs">
-                                                        محاسبه {{ $part->name }}
-                                                    </a>
-                                                @endif
-                                                @break
-                                            @case(149)
-                                                @if(!session()->has('damper-btn-' . $part->id . $product->id))
-                                                    <a href="{{ route('calculateDamper.exast.index',[$part->id,$product->id]) }}"
-                                                       class="form-submit-btn text-xs">
-                                                        محاسبه {{ $part->name }}
-                                                    </a>
-                                                @endif
-                                                @break
-
-                                            @case(1194)
-                                                @if(!session()->has('converter-btn-' . $part->id . $product->id))
-                                                    <a href="{{ route('calculateConverter.evaporator.index',[$part->id,$product->id]) }}"
-                                                       class="form-submit-btn text-xs">
-                                                        محاسبه {{ $part->name }}
-                                                    </a>
-                                                @endif
-                                                @break
-                                            @case(1301)
-                                                @if(!session()->has('converter-btn-' . $part->id . $product->id))
-                                                    <a href="{{ route('calculateConverter.condensor.index',[$part->id,$product->id]) }}"
-                                                       class="form-submit-btn text-xs">
-                                                        محاسبه {{ $part->name }}
-                                                    </a>
-                                                @endif
-                                                @break
-
-                                            @case(1879)
-                                                @if(!session()->has('electrical-btn-' . $part->id . $product->id))
-                                                    <a href="{{ route('calculateElectrical.panel.index',[$part->id,$product->id]) }}"
-                                                       class="form-submit-btn text-xs">
-                                                        محاسبه
-                                                    </a>
-                                                @endif
-                                                @break
-                                            @case(2144)
-                                                @if(!session()->has('electrical-btn-' . $part->id . $product->id))
-                                                    <a href="{{ route('calculateElectrical.chiller.index',[$part->id,$product->id]) }}"
-                                                       class="form-submit-btn text-xs">
-                                                        محاسبه
-                                                    </a>
-                                                @endif
-                                                @break
-                                        @endswitch
-                                    </div>
-                                @endif
-                                <div class="whitespace-nowrap mr-2">
-                                    <div id="fancoilSection{{ $part->id }}" class="hidden">
-
-                                    </div>
-                                    <div id="warmWaterSection{{ $part->id }}" class="hidden">
-
-                                    </div>
-                                    <div id="coldWaterSection{{ $part->id }}" class="hidden">
-
-                                    </div>
-                                    <div id="condensorSection{{ $part->id }}" class="hidden">
-
-                                    </div>
-                                    <div id="evaperatorSection{{ $part->id }}" class="hidden">
-
-                                    </div>
-
-                                    <div id="damperTazeSection{{ $part->id }}" class="hidden">
-
-                                    </div>
-                                    <div id="damperRaftSection{{ $part->id }}" class="hidden">
-
-                                    </div>
-                                    <div id="damperBargashtSection{{ $part->id }}" class="hidden">
-
-                                    </div>
-                                    <div id="damperExastSection{{ $part->id }}" class="hidden">
-
-                                    </div>
-
-                                    <div id="converterEvaporatorSection{{ $part->id }}" class="hidden">
-
-                                    </div>
-                                    <div id="converterCondensorSection{{ $part->id }}" class="hidden">
-
-                                    </div>
-
-                                    <div id="electricalPanelSection{{ $part->id }}" class="hidden">
-
-                                    </div>
-                                    <div id="electricalChillerSection{{ $part->id }}" class="hidden">
-
-                                    </div>
-                                </div>
                             </td>
                             <td class="p-2 text-sm text-center border border-gray-300">
                                 <span id="changePriceSection{{ $part->id }}">
@@ -1029,169 +877,17 @@
                                         @endif
                                     @endforeach
                                 </select>
+                                @if($part->coil == '1' && $part->collection == '1' && !$part->standard)
+                                    <a href="" class="form-submit-btn text-xs mr-1">
+                                        محاسبه
+                                    </a>
+                                @endif
                                 @if($part->coil == '1' && !$part->standard)
                                     <a href="{{ route('collections.amounts',$part->id) }}" target="_blank"
                                        class="text-xs mr-1 text-indigo-500 underline underline-offset-4 whitespace-nowrap">
                                         مشاهده جزئیات
                                     </a>
                                 @endif
-                                @if(in_array($part->id,$specials))
-                                    <div class="whitespace-nowrap mr-2">
-                                        @switch($part->id)
-                                            @case(150)
-                                                @if(!session()->has('coil-btn-' . $part->id . $product->id))
-                                                    <a href="{{ route('calculateCoil.evaperator.index',[$part->id,$product->id]) }}"
-                                                       class="form-submit-btn text-xs">
-                                                        محاسبه {{ $part->name }}
-                                                    </a>
-                                                @endif
-                                                @break
-                                            @case(167)
-                                                @if(!session()->has('coil-btn-' . $part->id . $product->id))
-                                                    <a href="{{ route('calculateCoil.condensor.index',[$part->id,$product->id]) }}"
-                                                       class="form-submit-btn text-xs">
-                                                        محاسبه {{ $part->name }}
-                                                    </a>
-                                                @endif
-                                                @break
-                                            @case(168)
-                                                @if(!session()->has('coil-btn-' . $part->id . $product->id))
-                                                    <a href="{{ route('calculateCoil.waterCold.index',[$part->id,$product->id]) }}"
-                                                       class="form-submit-btn text-xs">
-                                                        محاسبه {{ $part->name }}
-                                                    </a>
-                                                @endif
-                                                @break
-                                            @case(169)
-                                                @if(!session()->has('coil-btn-' . $part->id . $product->id))
-                                                    <a href="{{ route('calculateCoil.waterWarm.index',[$part->id,$product->id]) }}"
-                                                       class="form-submit-btn text-xs">
-                                                        محاسبه {{ $part->name }}
-                                                    </a>
-                                                @endif
-                                                @break
-                                            @case(170)
-                                                @if(!session()->has('coil-btn-' . $part->id . $product->id))
-                                                    <a href="{{ route('calculateCoil.fancoil.index',[$part->id,$product->id]) }}"
-                                                       class="form-submit-btn text-xs">
-                                                        محاسبه {{ $part->name }}
-                                                    </a>
-                                                @endif
-                                                @break
-
-                                            @case(146)
-                                                @if(!session()->has('damper-btn-' . $part->id . $product->id))
-                                                    <a href="{{ route('calculateDamper.taze.index',[$part->id,$product->id]) }}"
-                                                       class="form-submit-btn text-xs">
-                                                        محاسبه {{ $part->name }}
-                                                    </a>
-                                                @endif
-                                                @break
-                                            @case(148)
-                                                @if(!session()->has('damper-btn-' . $part->id . $product->id))
-                                                    <a href="{{ route('calculateDamper.raft.index',[$part->id,$product->id]) }}"
-                                                       class="form-submit-btn text-xs">
-                                                        محاسبه {{ $part->name }}
-                                                    </a>
-                                                @endif
-                                                @break
-                                            @case(147)
-                                                @if(!session()->has('damper-btn-' . $part->id . $product->id))
-                                                    <a href="{{ route('calculateDamper.bargasht.index',[$part->id,$product->id]) }}"
-                                                       class="form-submit-btn text-xs">
-                                                        محاسبه {{ $part->name }}
-                                                    </a>
-                                                @endif
-                                                @break
-                                            @case(149)
-                                                @if(!session()->has('damper-btn-' . $part->id . $product->id))
-                                                    <a href="{{ route('calculateDamper.exast.index',[$part->id,$product->id]) }}"
-                                                       class="form-submit-btn text-xs">
-                                                        محاسبه {{ $part->name }}
-                                                    </a>
-                                                @endif
-                                                @break
-
-                                            @case(1194)
-                                                @if(!session()->has('converter-btn-' . $part->id . $product->id))
-                                                    <a href="{{ route('calculateConverter.evaporator.index',[$part->id,$product->id]) }}"
-                                                       class="form-submit-btn text-xs">
-                                                        محاسبه {{ $part->name }}
-                                                    </a>
-                                                @endif
-                                                @break
-                                            @case(1301)
-                                                @if(!session()->has('converter-btn-' . $part->id . $product->id))
-                                                    <a href="{{ route('calculateConverter.condensor.index',[$part->id,$product->id]) }}"
-                                                       class="form-submit-btn text-xs">
-                                                        محاسبه {{ $part->name }}
-                                                    </a>
-                                                @endif
-                                                @break
-
-                                            @case(1879)
-                                                @if(!session()->has('converter-btn-' . $part->id . $product->id))
-                                                    <a href="{{ route('calculateElectrical.panel.index',[$part->id,$product->id]) }}"
-                                                       class="form-submit-btn text-xs">
-                                                        محاسبه {{ $part->name }}
-                                                    </a>
-                                                @endif
-                                                @break
-                                            @case(2144)
-                                                @if(!session()->has('converter-btn-' . $part->id . $product->id))
-                                                    <a href="{{ route('calculateElectrical.chiller.index',[$part->id,$product->id]) }}"
-                                                       class="form-submit-btn text-xs">
-                                                        محاسبه {{ $part->name }}
-                                                    </a>
-                                                @endif
-                                                @break
-                                        @endswitch
-                                    </div>
-                                @endif
-                                <div class="whitespace-nowrap mr-2">
-                                    <div id="fancoilSection{{ $part->id }}" class="hidden">
-
-                                    </div>
-                                    <div id="warmWaterSection{{ $part->id }}" class="hidden">
-
-                                    </div>
-                                    <div id="coldWaterSection{{ $part->id }}" class="hidden">
-
-                                    </div>
-                                    <div id="condensorSection{{ $part->id }}" class="hidden">
-
-                                    </div>
-                                    <div id="evaperatorSection{{ $part->id }}" class="hidden">
-
-                                    </div>
-
-                                    <div id="damperTazeSection{{ $part->id }}" class="hidden">
-
-                                    </div>
-                                    <div id="damperRaftSection{{ $part->id }}" class="hidden">
-
-                                    </div>
-                                    <div id="damperBargashtSection{{ $part->id }}" class="hidden">
-
-                                    </div>
-                                    <div id="damperExastSection{{ $part->id }}" class="hidden">
-
-                                    </div>
-
-                                    <div id="converterEvaporatorSection{{ $part->id }}" class="hidden">
-
-                                    </div>
-                                    <div id="converterCondensorSection{{ $part->id }}" class="hidden">
-
-                                    </div>
-
-                                    <div id="electricalPanelSection{{ $part->id }}" class="hidden">
-
-                                    </div>
-                                    <div id="electricalChillerSection{{ $part->id }}" class="hidden">
-
-                                    </div>
-                                </div>
                             </td>
                             <td class="border border-gray-300 p-2 text-sm text-center">
                                 <span id="changePriceSection{{ $part->id }}">

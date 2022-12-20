@@ -347,6 +347,9 @@
                         قیمت (تومان)
                     </th>
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                        وزن (کیلوگرم)
+                    </th>
+                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                         آخرین بروزرسانی
                     </th>
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
@@ -424,6 +427,10 @@
                                 {{ number_format($part->price) ?? '0' }} تومان
                             </span>
                             <input type="hidden" name="parts[]" value="{{ $part->id }}">
+                        </td>
+                        <td class="px-4 py-1 whitespace-nowrap">
+                            <input type="text" class="input-text w-24 py-0.5 text-center" id="inputWeight{{ $part->id }}"
+                                   name="weights[]" value="{{ $part->weight }}">
                         </td>
                         <td class="px-4 py-1 whitespace-nowrap">
                             <p class="text-sm text-black text-center">
