@@ -35,6 +35,31 @@
                 });
             }
         </script>
+        <script>
+            $(".deleteAllBtn").on('click', function () {
+                let ids = [];
+                $(".checkboxes:checked").each(function () {
+                    ids.push($(this).val());
+                });
+
+                if (ids.length <= 0) {
+                    alert("لطفا موارد مورد نظر را انتخاب کنید")
+                } else {
+                    $.ajax({
+                        url: '{{ route('inquiryPrice.multiUpdateDate') }}',
+                        type: 'POST',
+                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                        data: {
+                            ids: ids,
+                        },
+                        success: function () {
+                            alert("آیتم های مورد نظر با موفقیت بروزرسانی شدند");
+                            location.reload();
+                        }
+                    });
+                }
+            });
+        </script>
     </x-slot>
 
     <!-- Breadcrumb -->
@@ -110,7 +135,7 @@
                         <tr class="bg-sky-200">
                             <th scope="col"
                                 class="px-4 py-3 text-sm font-bold text-gray-800 text-center rounded-r-md">
-                                ردیف
+                                #
                             </th>
                             <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                                 نام
@@ -139,7 +164,8 @@
                             @endphp
                             <tr>
                                 <td class="px-4 py-1 whitespace-nowrap">
-                                    <p class="text-sm text-gray-500 text-center">{{ $loop->index + 1 }}</p>
+                                    <input type="checkbox" value="{{ $part->id }}"
+                                           class="checkboxes w-4 h-4 focus:ring-blue-500 focus:ring-2 focus:ring-offset-1 mx-auto block">
                                 </td>
                                 <td class="px-4 py-1 whitespace-nowrap">
                                     <p class="text-sm text-black text-center font-medium">
@@ -193,6 +219,9 @@
                     <div class="mt-4">
                         <button type="submit" class="form-submit-btn">
                             ثبت قیمت
+                        </button>
+                        <button type="button" class="form-detail-btn deleteAllBtn">
+                            بروزرسانی تاریخ (انتخاب شده ها)
                         </button>
                     </div>
                 </form>

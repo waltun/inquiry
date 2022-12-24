@@ -104,7 +104,7 @@
             </div>
 
             <div class="col-span-2 space-y-4">
-                <a href="{{ route('separate.electrical.air',$air->id) }}"
+                <a href="{{ route('separate.electrical.zent',$zent->id) }}"
                    class="flex items-center justify-between p-2 rounded-md bg-emerald-300">
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"

@@ -125,4 +125,23 @@ class InquiryPriceController extends Controller
             }
         }
     }
+
+    public function multiUpdateDate(Request $request)
+    {
+        foreach ($request->ids as $id) {
+            $part = Part::find($id);
+            $inquiryPrices = InquiryPrice::where('part_id', $part->id)->get();
+
+            foreach ($inquiryPrices as $inquiryPrice) {
+                if ($part->price != 0 && !is_null($part->price)) {
+                    $part->price_updated_at = Carbon::now();
+                    $part->save();
+                    $inquiryPrice->delete();
+                } else {
+                    return response(['data' => 'error']);
+                }
+            }
+        }
+        return response('success', '200');
+    }
 }

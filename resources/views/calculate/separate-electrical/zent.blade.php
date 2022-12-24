@@ -226,7 +226,7 @@
                                     </td>
                                 </tr>
                                 @break
-                            @case('18')
+                            @case('17')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
                                         مشخصات کلیدها و کنتاکتورهای هیتر الکتریکی
@@ -261,7 +261,6 @@
                                     </td>
                                 </tr>
                                 @break
-                        @endswitch
                         @endswitch
                         <tr>
                             <td class="px-4 py-1 whitespace-nowrap">
