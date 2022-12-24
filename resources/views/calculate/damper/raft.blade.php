@@ -143,7 +143,7 @@
                                 <span>{{ number_format($values[$index], 2) }}</span>
                                 @if(!is_null($child->unit2))
                                     @php
-                                        $string = $values[$index] . $child->operator2 . $child->formula2;
+                                        $string = $values[$index] . $child->operator1 . $child->formula1;
                                     @endphp
                                     /
                                     {{ number_format(eval("return " . $string . ';'), 2) }}
