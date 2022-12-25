@@ -101,6 +101,31 @@
                 });
             }
         </script>
+        <script>
+            $(".deleteAllBtn").on('click', function () {
+                let ids = [];
+                $(".checkboxes:checked").each(function () {
+                    ids.push($(this).val());
+                });
+
+                if (ids.length <= 0) {
+                    alert("لطفا موارد مورد نظر را انتخاب کنید")
+                } else {
+                    $.ajax({
+                        url: '{{ route('parts.price.multi-update-date') }}',
+                        type: 'POST',
+                        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                        data: {
+                            ids: ids,
+                        },
+                        success: function () {
+                            alert("آیتم های مورد نظر با موفقیت بروزرسانی شدند");
+                            location.reload();
+                        }
+                    });
+                }
+            });
+        </script>
     </x-slot>
 
     <!-- Breadcrumb -->
@@ -394,7 +419,8 @@
                     @endphp
                     <tr class="{{ $color }}">
                         <td class="px-4 py-1 whitespace-nowrap">
-                            <p class="text-sm text-gray-500 text-center">{{ $loop->index + 1 }}</p>
+                            <input type="checkbox" value="{{ $part->id }}"
+                                   class="checkboxes w-4 h-4 focus:ring-blue-500 focus:ring-2 focus:ring-offset-1 mx-auto block">
                         </td>
                         <td class="px-4 py-1 whitespace-nowrap">
                             <p class="text-sm text-black text-center font-medium">
@@ -429,7 +455,8 @@
                             <input type="hidden" name="parts[]" value="{{ $part->id }}">
                         </td>
                         <td class="px-4 py-1 whitespace-nowrap">
-                            <input type="text" class="input-text w-24 py-0.5 text-center" id="inputWeight{{ $part->id }}"
+                            <input type="text" class="input-text w-24 py-0.5 text-center"
+                                   id="inputWeight{{ $part->id }}"
                                    name="weights[]" value="{{ $part->weight }}">
                         </td>
                         <td class="px-4 py-1 whitespace-nowrap">
@@ -451,52 +478,15 @@
                 <button type="submit" class="form-submit-btn">
                     ثبت قیمت
                 </button>
+                <button type="button" class="form-detail-btn deleteAllBtn">
+                    بروزرسانی تاریخ (انتخاب شده‌ها)
+                </button>
             </div>
 
             <div class="mt-4 ml-2">
                 {{ $parts->links() }}
             </div>
 
-        </form>
-
-        <!-- Mobile List -->
-        <form action="{{ route('parts.price.update') }}" class="block md:hidden" method="POST">
-            @csrf
-            @method('PATCH')
-
-            @foreach($parts as $part)
-                <div class="bg-white rounded-md p-4 border border-gray-200 shadow-md mb-4 relative z-30">
-                    <span
-                        class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
-                        {{ $loop->index + 1 }}
-                    </span>
-                    <div class="space-y-4">
-                        <p class="text-xs text-black text-center font-bold">
-                            {{ $part->name }}
-                        </p>
-                        <p class="text-xs text-black text-center">
-                            واحد : {{ $part->unit }}
-                        </p>
-                        <div>
-                            <input type="text" name="prices[]" class="input-text" id="inputPrice{{ $part->id }}"
-                                   value="{{ $part->price ?? '' }}" onkeyup="showPrice({{ $part->id }})">
-                            <input type="hidden" value="{{ $part->id }}" name="parts[]">
-                        </div>
-                        <p class="text-xs text-green-600 font-medium text-center" id="priceSection{{ $part->id }}">
-                            {{ number_format($part->price) ?? '0' }} تومان
-                        </p>
-                        <p class="text-xs text-black text-center">
-                            اخرین بروزرسانی : {{ jdate($part->price_updated_at)->format('%A, %d %B %Y') }}
-                        </p>
-                    </div>
-                </div>
-            @endforeach
-
-            <div class="mt-4">
-                <button type="submit" class="form-submit-btn">
-                    ثبت قیمت
-                </button>
-            </div>
         </form>
     </div>
 </x-layout>

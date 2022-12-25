@@ -180,4 +180,19 @@ class PartPriceController extends Controller
             return response(['data' => 'error']);
         }
     }
+
+    public function multiUpdateDate(Request $request)
+    {
+        foreach ($request->ids as $id) {
+            $part = Part::find($id);
+
+            if ($part->price != 0 && !is_null($part->price)) {
+                $part->price_updated_at = Carbon::now();
+                $part->save();
+            } else {
+                return response(['data' => 'error']);
+            }
+        }
+        return response('success', '200');
+    }
 }

@@ -221,7 +221,7 @@
                             ثبت قیمت
                         </button>
                         <button type="button" class="form-detail-btn deleteAllBtn">
-                            بروزرسانی تاریخ (انتخاب شده ها)
+                            بروزرسانی تاریخ (انتخاب شده‌ها)
                         </button>
                     </div>
                 </form>

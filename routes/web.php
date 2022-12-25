@@ -77,6 +77,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/parts/{part}/replicate', [PartController::class, 'replicate'])->name('parts.replicate');
     Route::post('/parts/getCategory', [PartController::class, 'getCategory'])->name('parts.getCategory');
     Route::patch('/parts/price/{part}/update-date', [PartPriceController::class, 'updateDate'])->name('parts.price.updateDate');
+    Route::post('/parts/price/multi-update-date', [PartPriceController::class, 'multiUpdateDate'])->name('parts.price.multi-update-date');
     Route::resource('parts', PartController::class)->except(['show']);
 
     //Collection Part routes
