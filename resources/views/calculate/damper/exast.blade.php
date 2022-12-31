@@ -56,7 +56,7 @@
             </div>
             <div class="grid grid-cols-5 gap-4">
                 <div>
-                    <label class="block mb-2 text-sm font-bold" for="inputDebiHavaTaze">دبی هوای اگزاست (CSM)</label>
+                    <label class="block mb-2 text-sm font-bold" for="inputDebiHavaTaze">دبی هوای اگزاست (CFM)</label>
                     <input type="text" class="input-text" id="inputDebiHavaTaze" name="debi_hava_exast"
                            value="{{ !is_null($inputs) ? $inputs['debi_hava_exast'] : '' }}">
                 </div>
@@ -82,7 +82,7 @@
                         ابعاد داخلی دمپر :
                         @if(!is_null($toolePare) && !is_null($ertefa))
                             @if($sotoonVasat > 0)
-                                {{ $toolePare }} * {{ $ertefa }} با ستون وسط دمپر
+                                {{ $toolePare + 3 }} * {{ $ertefa }} با ستون وسط دمپر
                             @else
                                 {{ $toolePare }} * {{ $ertefa }}
                             @endif
@@ -140,31 +140,40 @@
                                 @endif
                             </td>
                             <td class="border border-gray-300 p-2 text-sm text-center">
-                                <span>{{ number_format($values[$index], 2) }}</span>
                                 @if(!is_null($child->unit2))
                                     @php
                                         $string = $values[$index] . $child->operator1 . $child->formula1;
                                     @endphp
-                                    /
                                     {{ number_format(eval("return " . $string . ';'), 2) }}
+                                    /
                                 @endif
+                                <span>{{ number_format($values[$index], 2) }}</span>
                             </td>
                             <td class="border border-gray-300 p-2 text-sm text-center">
                                 <span>{{ number_format($child->price) }}</span>
                             </td>
                             <td class="border border-gray-300 p-2 text-sm text-center">
-                                <span>{{ number_format($values[$index] * $child->price) }}</span>
+                                @if($child->unit2)
+                                    <span>{{ number_format(eval("return " . $string . ';') * $child->price) }}</span>
+                                @else
+                                    <span>{{ number_format($values[$index] * $child->price) }}</span>
+                                @endif
                             </td>
                         </tr>
                         @php
-                            $finalPrice += $values[$index] * $child->price;
-                            $finalWeight += $values[$index] * $child->weight;
+                            if ($child->unit2) {
+                                $finalPrice += eval("return " . $string . ';') * $child->price;
+                                $finalWeight += eval("return " . $string . ';') * $child->weight;
+                            } else {
+                                $finalPrice += $values[$index] * $child->price;
+                                $finalWeight += $values[$index] * $child->weight;
+                            }
                         @endphp
                     @endforeach
 
                     <tr>
                         <td class="border border-gray-300 p-2 text-lg font-bold text-center" colspan="4">
-                            قیمت نهایی متریال
+                            قیمت نهایی
                         </td>
                         <td class="border border-gray-300 p-2 text-lg font-bold text-center text-green-600" colspan="2">
                             <span>{{ number_format($finalPrice) }} تومان </span>
@@ -176,7 +185,7 @@
                             وزن دستگاه
                         </td>
                         <td class="border border-gray-300 p-2 text-lg font-bold text-center text-green-600" colspan="2">
-                            <span>{{ round($finalWeight) }}</span>
+                            <span>{{ round($finalWeight) }} کیلوگرم </span>
                             <input type="hidden" name="weight" value="{{ $finalWeight }}">
                         </td>
                     </tr>
@@ -186,7 +195,7 @@
 
                 <div class="my-4 bg-red-300 p-4 rounded-md shadow-md">
                     <label class="block mb-2 text-sm font-bold" for="inputCoilName">
-                        نام کویل مورد نظر
+                        نام دمپر مورد نظر
                     </label>
                     <input type="text" class="input-text" id="inputCoilName" name="name" dir="ltr" value="{{ $name }}">
                 </div>
