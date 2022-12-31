@@ -167,6 +167,9 @@
                         <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                             قیمت
                         </th>
+                        <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                            قیمت کل
+                        </th>
                         <th scope="col" class="relative px-4 py-3 rounded-l-md">
                             <span class="sr-only">اقدامات</span>
                         </th>
@@ -240,13 +243,18 @@
                             <td class="px-4 py-3 whitespace-nowrap">
                                 @if($part->price)
                                     <p class="text-sm text-black text-center font-medium">
-                                        {{ number_format($part->price) }} تومان
+                                        {{ number_format($part->price) }}
                                     </p>
                                 @else
                                     <p class="text-sm text-red-600 text-center font-medium">
                                         منتظر قیمت گذاری
                                     </p>
                                 @endif
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                <p class="text-sm text-black text-center font-medium">
+                                    {{ number_format($part->price * $part->pivot->value) }}
+                                </p>
                             </td>
                             <td class="px-4 py-3 space-x-3 space-x-reverse">
                                 <button onclick="deletePartFromModell({{ $modell->id }},{{ $part->id }})" type="button">

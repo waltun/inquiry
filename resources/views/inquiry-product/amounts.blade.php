@@ -332,6 +332,7 @@
                     <th class="p-2 text-sm border border-gray-300">قیمت</th>
                     <th class="p-2 text-sm border border-gray-300">واحد</th>
                     <th class="p-2 text-sm border border-gray-300">مقادیر</th>
+                    <th class="p-2 text-sm border border-gray-300">قیمت کل</th>
                     @if(!$amounts->isEmpty())
                         <th class="p-2 text-sm border border-gray-300">حذف</th>
                     @endif
@@ -641,6 +642,9 @@
                                     @endif
                                 </div>
                             </td>
+                            <td class="p-2 text-sm text-center border border-gray-300">
+                                {{ number_format($part->price * $part->pivot->value) }}
+                            </td>
                         </tr>
                     @endforeach
                 @else
@@ -943,6 +947,9 @@
                                     @endif
                                 </div>
                             </td>
+                            <td class="p-2 text-sm text-center border border-gray-300">
+                                {{ number_format($part->price * $amount->value) }}
+                            </td>
                             @if(!$amounts->isEmpty())
                                 <td class="border border-gray-300 p-2 text-sm text-center">
                                     <button type="button" onclick="deletePartFromAmount({{ $amount->id }})">
@@ -958,7 +965,7 @@
                     @endforeach
                     @if(!$amounts->isEmpty())
                         <tr>
-                            <td class="border border-gray-300 p-2" colspan="6">
+                            <td class="border border-gray-300 p-2" colspan="8">
                                 <a href="{{ route('inquiries.newPart.create',$product->id) }}"
                                    class="w-8 h-8 rounded-full bg-green-500 block grid place-content-center mr-2"
                                    title="افزودن قطعه جدید">

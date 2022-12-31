@@ -43,20 +43,20 @@ class SeparateCalculateDamperController extends Controller
         $profilePare = (($tedadPare * $toolePare) / 100);
 
         //Profile Sotoon
-        $profileSotoon = ((2 * (6 + ($tedadPare * 10)) + 2 * (6 + $toolePare)) / 100) * 0.85;
+        $profileSotoon = (2 * (($tedadPare * 10) + 1)) / 100;
 
         //Profile Bala Payin
         if ($toolePare <= 120) {
-            $profileBalaPayin = ((($toolePare + 6) * 2) / 100) * 0.85;
+            $profileBalaPayin = ((($toolePare + 6) * 2) / 100);
         } else {
-            $profileBalaPayin = ((($toolePare + 9) * 2) / 100) * 0.85;
+            $profileBalaPayin = ((($toolePare + 9) * 2) / 100);
         }
 
         //Profile Sotoon Vasat
         if ($toolePare <= 120) {
             $profileSotoonVasat = 0;
         } else {
-            $profileSotoonVasat = ((($tedadPare * 10) + 1) / 100) * 0.85;
+            $profileSotoonVasat = ((($tedadPare * 10) + 1) / 100);
         }
 
         //Charkh Dande
@@ -88,7 +88,7 @@ class SeparateCalculateDamperController extends Controller
         $gerdi = $charkhDande;
 
         //Navar Havabandi
-        $navarHavaBandi = $profilePare + $profileSotoon;
+        $navarHavaBandi = $profilePare + $profileBalaPayin;
 
         $values = [
             $profilePare,
@@ -139,20 +139,20 @@ class SeparateCalculateDamperController extends Controller
         $profilePare = (($tedadPare * $toolePare) / 100);
 
         //Profile Sotoon
-        $profileSotoon = ((2 * (6 + ($tedadPare * 10)) + 2 * (6 + $toolePare)) / 100) * 0.85;
+        $profileSotoon = ((2 * (6 + ($tedadPare * 10)) + 2 * (6 + $toolePare)) / 100);
 
         //Profile Bala Payin
         if ($toolePare <= 120) {
-            $profileBalaPayin = ((($toolePare + 6) * 2) / 100) * 0.85;
+            $profileBalaPayin = ((($toolePare + 6) * 2) / 100);
         } else {
-            $profileBalaPayin = ((($toolePare + 9) * 2) / 100) * 0.85;
+            $profileBalaPayin = ((($toolePare + 9) * 2) / 100);
         }
 
         //Profile Sotoon Vasat
         if ($toolePare <= 120) {
             $profileSotoonVasat = 0;
         } else {
-            $profileSotoonVasat = ((($tedadPare * 10) + 1) / 100) * 0.85;
+            $profileSotoonVasat = ((($tedadPare * 10) + 1) / 100);
         }
 
         //Charkh Dande
@@ -235,20 +235,20 @@ class SeparateCalculateDamperController extends Controller
         $profilePare = (($tedadPare * $toolePare) / 100);
 
         //Profile Sotoon
-        $profileSotoon = ((2 * (6 + ($tedadPare * 10)) + 2 * (6 + $toolePare)) / 100) * 0.85;
+        $profileSotoon = ((2 * (6 + ($tedadPare * 10)) + 2 * (6 + $toolePare)) / 100);
 
         //Profile Bala Payin
         if ($toolePare <= 120) {
-            $profileBalaPayin = ((($toolePare + 6) * 2) / 100) * 0.85;
+            $profileBalaPayin = ((($toolePare + 6) * 2) / 100);
         } else {
-            $profileBalaPayin = ((($toolePare + 9) * 2) / 100) * 0.85;
+            $profileBalaPayin = ((($toolePare + 9) * 2) / 100);
         }
 
         //Profile Sotoon Vasat
         if ($toolePare <= 120) {
             $profileSotoonVasat = 0;
         } else {
-            $profileSotoonVasat = ((($tedadPare * 10) + 1) / 100) * 0.85;
+            $profileSotoonVasat = ((($tedadPare * 10) + 1) / 100);
         }
 
         //Charkh Dande
@@ -331,20 +331,20 @@ class SeparateCalculateDamperController extends Controller
         $profilePare = (($tedadPare * $toolePare) / 100);
 
         //Profile Sotoon
-        $profileSotoon = ((2 * (6 + ($tedadPare * 10)) + 2 * (6 + $toolePare)) / 100) * 0.85;
+        $profileSotoon = ((2 * (6 + ($tedadPare * 10)) + 2 * (6 + $toolePare)) / 100);
 
         //Profile Bala Payin
         if ($toolePare <= 120) {
-            $profileBalaPayin = ((($toolePare + 6) * 2) / 100) * 0.85;
+            $profileBalaPayin = ((($toolePare + 6) * 2) / 100);
         } else {
-            $profileBalaPayin = ((($toolePare + 9) * 2) / 100) * 0.85;
+            $profileBalaPayin = ((($toolePare + 9) * 2) / 100);
         }
 
         //Profile Sotoon Vasat
         if ($toolePare <= 120) {
             $profileSotoonVasat = 0;
         } else {
-            $profileSotoonVasat = ((($tedadPare * 10) + 1) / 100) * 0.85;
+            $profileSotoonVasat = ((($tedadPare * 10) + 1) / 100);
         }
 
         //Charkh Dande
