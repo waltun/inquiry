@@ -88,7 +88,7 @@ class CalculateDamperController extends Controller
         $profilePare = (($tedadPare * $toolePare) / 100);
 
         //Profile Sotoon
-        $profileSotoon = ((2 * (6 + ($tedadPare * 10)) + 2 * (6 + $toolePare)) / 100);
+        $profileSotoon = (2 * (($tedadPare * 10) + 1)) / 100;
 
         //Profile Bala Payin
         if ($toolePare <= 120) {
@@ -133,7 +133,7 @@ class CalculateDamperController extends Controller
         $gerdi = $charkhDande;
 
         //Navar Havabandi
-        $navarHavaBandi = $profilePare + $profileSotoon;
+        $navarHavaBandi = $profilePare + $profileBalaPayin;
 
         $values = [
             $profilePare,
@@ -181,7 +181,7 @@ class CalculateDamperController extends Controller
         $profilePare = (($tedadPare * $toolePare) / 100);
 
         //Profile Sotoon
-        $profileSotoon = ((2 * (6 + ($tedadPare * 10)) + 2 * (6 + $toolePare)) / 100);
+        $profileSotoon = (2 * (($tedadPare * 10) + 1)) / 100;
 
         //Profile Bala Payin
         if ($toolePare <= 120) {
@@ -226,7 +226,7 @@ class CalculateDamperController extends Controller
         $gerdi = $charkhDande;
 
         //Navar Havabandi
-        $navarHavaBandi = $profilePare + $profileSotoon;
+        $navarHavaBandi = $profilePare + $profileBalaPayin;
 
         $values = [
             $profilePare,
@@ -274,7 +274,7 @@ class CalculateDamperController extends Controller
         $profilePare = (($tedadPare * $toolePare) / 100);
 
         //Profile Sotoon
-        $profileSotoon = ((2 * (6 + ($tedadPare * 10)) + 2 * (6 + $toolePare)) / 100);
+        $profileSotoon = (2 * (($tedadPare * 10) + 1)) / 100;
 
         //Profile Bala Payin
         if ($toolePare <= 120) {
@@ -319,7 +319,7 @@ class CalculateDamperController extends Controller
         $gerdi = $charkhDande;
 
         //Navar Havabandi
-        $navarHavaBandi = $profilePare + $profileSotoon;
+        $navarHavaBandi = $profilePare + $profileBalaPayin;
 
         $values = [
             $profilePare,
@@ -367,7 +367,7 @@ class CalculateDamperController extends Controller
         $profilePare = (($tedadPare * $toolePare) / 100);
 
         //Profile Sotoon
-        $profileSotoon = ((2 * (6 + ($tedadPare * 10)) + 2 * (6 + $toolePare)) / 100);
+        $profileSotoon = (2 * (($tedadPare * 10) + 1)) / 100;
 
         //Profile Bala Payin
         if ($toolePare <= 120) {
@@ -412,7 +412,7 @@ class CalculateDamperController extends Controller
         $gerdi = $charkhDande;
 
         //Navar Havabandi
-        $navarHavaBandi = $profilePare + $profileSotoon;
+        $navarHavaBandi = $profilePare + $profileBalaPayin;
 
         $values = [
             $profilePare,

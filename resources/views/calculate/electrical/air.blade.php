@@ -214,56 +214,56 @@
                         @switch($index)
                             @case('0')
                                 <tr class="bg-yellow-500">
-                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
+                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
                                         مشخصات کلید و المانهای ورودی
                                     </td>
                                 </tr>
                                 @break
-                            @case('8')
+                            @case('3')
                                 <tr class="bg-yellow-500">
-                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
-                                        مشخصات کلید و کنتاکتورهای فن الکترو موتور فن هوارسان
+                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
+                                        مشخصات کلید و کنتاکتورهای الکترو موتور فن هوارسان
                                     </td>
                                 </tr>
                                 @break
-                            @case('14')
+                            @case('7')
                                 <tr class="bg-yellow-500">
-                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
-                                        مشخصات کلید و کنتاکتور الکترو پمپ‌ ها
-                                    </td>
-                                </tr>
-                                @break
-                            @case('18')
-                                <tr class="bg-yellow-500">
-                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
+                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
                                         مشخصات کلیدها و کنتاکتورهای هیتر الکتریکی
                                     </td>
                                 </tr>
                                 @break
-                            @case('22')
+                            @case('13')
                                 <tr class="bg-yellow-500">
-                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
+                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
                                         مشخصات کلیدها و کنتاکتورهای رطوبت زن
                                     </td>
                                 </tr>
                                 @break
-                            @case('24')
+                            @case('16')
                                 <tr class="bg-yellow-500">
-                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
+                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
+                                        مشخصات کلید و کنتاکتور الکترو پمپ‌ ها
+                                    </td>
+                                </tr>
+                                @break
+                            @case('19')
+                                <tr class="bg-yellow-500">
+                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
                                         اطلاعات سیم و کابل
                                     </td>
                                 </tr>
                                 @break
-                            @case('28')
+                            @case('23')
                                 <tr class="bg-yellow-500">
-                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
+                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
                                         سایر تجهیزات
                                     </td>
                                 </tr>
                                 @break
-                            @case('38')
+                            @case('30')
                                 <tr class="bg-yellow-500">
-                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
+                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
                                         اقلام کنترلی
                                     </td>
                                 </tr>

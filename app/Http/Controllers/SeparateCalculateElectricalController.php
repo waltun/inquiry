@@ -14,7 +14,8 @@ class SeparateCalculateElectricalController extends Controller
         $chiller = Part::find('2144');
         $air = Part::find('2249');
         $zent = Part::find('2256');
-        return view('calculate.separate-electrical.index', compact('panel', 'chiller', 'air', 'zent'));
+        $mini = Part::find('2264');
+        return view('calculate.separate-electrical.index', compact('panel', 'chiller', 'air', 'zent', 'mini'));
     }
 
     public function panel(Part $part)
@@ -236,6 +237,72 @@ class SeparateCalculateElectricalController extends Controller
     }
 
     public function storeZent(Request $request, Part $part)
+    {
+        $request->validate([
+            'values' => 'required|array',
+            'values.*' => 'required|numeric'
+        ]);
+
+        $code = $this->getLastCode($part);
+
+        $newPart = $part->replicate()->fill([
+            'name' => $request->name,
+            'code' => $code,
+            'coil' => true,
+            'price_updated_at' => now(),
+            'standard' => $request['standard']
+        ]);
+        $newPart->save();
+
+        if (isset($request->categories)) {
+            if (!is_null($request->categories[0])) {
+                $newPart->categories()->sync($request['categories']);
+            } else {
+                $newPart->categories()->sync($part->categories);
+            }
+        } else {
+            $newPart->categories()->sync($part->categories);
+        }
+
+        $totalPrice = 0;
+        foreach ($request['part_ids'] as $index => $id) {
+            $childPart = Part::find($id);
+
+            $newPart->children()->attach($id, [
+                'parent_part_id' => $request->part_ids[$index],
+                'value' => $request->values[$index],
+                'sort' => $request->sorts[$index]
+            ]);
+
+            $totalPrice += ($childPart->price * $request->values[$index]);
+        }
+        $newPart->price = $totalPrice;
+        $newPart->save();
+
+        alert()->success('محاسبه موفق', 'محاسبه تابلو برق با موفقیت انجام شد');
+
+        return redirect()->route('separate.electrical.index');
+    }
+
+    public function mini(Part $part)
+    {
+        $categories = Category::where('parent_id', 0)->get();
+        return view('calculate.separate-electrical.mini', compact('part', 'categories'));
+    }
+
+    public function calculateMini(Request $request)
+    {
+        $sorts = $request->sorts;
+        $part_ids = $request->part_ids;
+        $values = $request->values;
+        $name = "LCP-MACH-";
+
+        alert()->success('محاسبه موفق', 'محاسبه با موفقیت انجام شد');
+
+        return back()->with(['sorts' => $sorts, 'name' => $name, 'part_ids' => $part_ids, 'values' => $values]);
+    }
+
+    public function storeMini(Request $request, Part $part)
     {
         $request->validate([
             'values' => 'required|array',

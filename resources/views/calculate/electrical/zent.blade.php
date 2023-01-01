@@ -219,49 +219,42 @@
                                     </td>
                                 </tr>
                                 @break
-                            @case('8')
+                            @case('3')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
                                         مشخصات کلید و کنتاکتورهای فن الکترو موتور فن هوارسان
                                     </td>
                                 </tr>
                                 @break
-                            @case('14')
+                            @case('9')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
                                         مشخصات کلید و کنتاکتور الکترو پمپ‌ ها
                                     </td>
                                 </tr>
                                 @break
-                            @case('18')
-                                <tr class="bg-yellow-500">
-                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
-                                        مشخصات کلیدها و کنتاکتورهای هیتر الکتریکی
-                                    </td>
-                                </tr>
-                                @break
-                            @case('22')
+                            @case('12')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
                                         مشخصات کلیدها و کنتاکتورهای رطوبت زن
                                     </td>
                                 </tr>
                                 @break
-                            @case('24')
-                                <tr class="bg-yellow-500">
-                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
-                                        اطلاعات سیم و کابل
-                                    </td>
-                                </tr>
-                                @break
-                            @case('28')
+                            @case('15')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
                                         سایر تجهیزات
                                     </td>
                                 </tr>
                                 @break
-                            @case('38')
+                            @case('22')
+                                <tr class="bg-yellow-500">
+                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
+                                        اطلاعات سیم و کابل
+                                    </td>
+                                </tr>
+                                @break
+                            @case('26')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
                                         اقلام کنترلی

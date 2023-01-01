@@ -99,16 +99,16 @@
             }
         </script>
         <script>
-            function changeRoute(type, part, product) {
+            function changeRoute(type, part) {
                 let form = document.getElementById('form');
 
                 if (type == 'calculate') {
-                    form.action = '/calculate/panel-electrical';
+                    form.action = '/separate-calculate-electrical/mini-chiller';
                     form.submit();
                 }
 
                 if (type == 'post') {
-                    form.action = '/calculate/electrical/' + part + '/' + product + '/post-panel';
+                    form.action = '/separate-calculate-electrical/' + part + '/store-mini-chiller'
                     form.submit();
                 }
             }
@@ -162,8 +162,6 @@
         $name = Session::get('name');
         $values = Session::get('values');
         $part_ids = Session::get('part_ids');
-
-        $modell = \App\Models\Modell::find($product->model_id);
     @endphp
 
         <!-- Content -->
@@ -171,8 +169,6 @@
         <!-- Laptop List -->
         <form method="POST" action="" id="form">
             @csrf
-            <input type="hidden" name="serial" value="{{ $inquiry->inquiry_number }}">
-            <input type="hidden" name="product_model" value="{{ $product->model_custom_name ?? $modell->name }}">
 
             <div class="bg-white shadow overflow-x-auto rounded-lg hidden md:block">
                 <table class="min-w-full">
@@ -200,9 +196,6 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @php
-                        $finalPrice = 0;
-                    @endphp
                     @foreach($part->children()->orderBy('sort','ASC')->get() as $index => $child)
                         @php
                             if (!is_null($part_ids)){
@@ -219,59 +212,45 @@
                                     </td>
                                 </tr>
                                 @break
-                            @case('8')
+                            @case('2')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
                                         مشخصات کلید و کنتاکتورهای کمپرسور
                                     </td>
                                 </tr>
                                 @break
-                            @case('17')
-                                <tr class="bg-yellow-500">
-                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
-                                        مشخصات کلید و کنتاکتورهای فن الکترو موتور فن هوارسان
-                                    </td>
-                                </tr>
-                                @break
-                            @case('22')
+                            @case('5')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
                                         مشخصات کلید و کنتاکتورهای فن الکتروفن‌های کندانسور
                                     </td>
                                 </tr>
                                 @break
-                            @case('26')
+                            @case('10')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
-                                        مشخصات کلیدها و کنتاکتورهای هیتر الکتریکی
+                                        مشخصات کلید و کنتاکتورهای الکترو پمپ
                                     </td>
                                 </tr>
                                 @break
-                            @case('30')
-                                <tr class="bg-yellow-500">
-                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
-                                        مشخصات کلیدها و کنتاکتورهای رطوبت زن
-                                    </td>
-                                </tr>
-                                @break
-                            @case('33')
-                                <tr class="bg-yellow-500">
-                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
-                                        اطلاعات سیم و کابل
-                                    </td>
-                                </tr>
-                                @break
-                            @case('37')
+                            @case('13')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
                                         سایر تجهیزات
                                     </td>
                                 </tr>
                                 @break
-                            @case('47')
+                            @case('19')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
                                         اقلام کنترلی
+                                    </td>
+                                </tr>
+                                @break
+                            @case('26')
+                                <tr class="bg-yellow-500">
+                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
+                                        اطلاعات سیم و کابل
                                     </td>
                                 </tr>
                                 @break
@@ -339,28 +318,13 @@
                                 @endif
                             </td>
                         </tr>
-                        @php
-                            if (!is_null($part_ids)) {
-                                $finalPrice += $values[$index] * $child->price;
-                            } else {
-                                $finalPrice += $child->pivot->value * $child->price;
-                            }
-                        @endphp
                     @endforeach
                     </tbody>
                 </table>
             </div>
 
-            <div class="my-4 bg-gray-100 p-4 rounded-md shadow-md">
-                <p class="text-xl font-bold text-black text-center">
-                    قیمت نهایی : {{ number_format($finalPrice) }} تومان
-                </p>
-                <input type="hidden" name="price" value="{{ $finalPrice }}">
-            </div>
-
             <div class="my-4">
-                <button type="button" class="form-submit-btn"
-                        onclick="changeRoute('calculate',{{ $part->id }},{{ $product->id }})">
+                <button type="button" class="form-submit-btn" onclick="changeRoute('calculate',{{ $part->id }})">
                     محاسبه
                 </button>
             </div>
@@ -414,8 +378,7 @@
                 @endcan
 
                 <div class="mb-4">
-                    <button type="button" class="form-submit-btn"
-                            onclick="changeRoute('post',{{ $part->id }},{{ $product->id }})">
+                    <button type="button" class="form-submit-btn" onclick="changeRoute('post',{{ $part->id }})">
                         ذخیره
                     </button>
                 </div>

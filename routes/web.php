@@ -230,6 +230,13 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/calculate/electrical/{part}/{product}/post-zent', [CalculateElectricalController::class, 'storeZent'])
         ->name('calculateElectrical.storeZent');
 
+    Route::get('/calculate/electrical/{part}/{product}/mini-chiller', [CalculateElectricalController::class, 'mini'])
+        ->name('calculateElectrical.mini.index');
+    Route::post('/calculate/mini-chiller-electrical', [CalculateElectricalController::class, 'calculateMini'])
+        ->name('calculateMiniElectrical');
+    Route::post('/calculate/electrical/{part}/{product}/post-mini-chiller', [CalculateElectricalController::class, 'storeMini'])
+        ->name('calculateElectrical.storeMini');
+
     //Notification routes
     Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
     Route::post('/notifications/{notification}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
@@ -302,6 +309,11 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/separate-calculate-electrical/{part}/zent', [SeparateCalculateElectricalController::class, 'zent'])->name('separate.electrical.zent');
     Route::post('/separate-calculate-electrical/zent', [SeparateCalculateElectricalController::class, 'calculateZent'])->name('separate.electrical.calculateZent');
     Route::post('/separate-calculate-electrical/{part}/store-zent', [SeparateCalculateElectricalController::class, 'storeZent'])->name('separate.electrical.storeZent');
+
+    //Separate Electrical Mini Chiller Routes
+    Route::get('/separate-calculate-electrical/{part}/mini-chiller', [SeparateCalculateElectricalController::class, 'mini'])->name('separate.electrical.mini');
+    Route::post('/separate-calculate-electrical/mini-chiller', [SeparateCalculateElectricalController::class, 'calculateMini'])->name('separate.electrical.calculateMini');
+    Route::post('/separate-calculate-electrical/{part}/store-mini-chiller', [SeparateCalculateElectricalController::class, 'storeMini'])->name('separate.electrical.storeMini');
 
     //Inquiry Part Coils
     Route::post('/inquiry-part-coil/{inquiry}', [InquiryPartCoilController::class, 'index'])->name('inquiryPart.coil.index');
