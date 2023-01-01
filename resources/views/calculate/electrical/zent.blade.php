@@ -197,16 +197,25 @@
                         <th scope="col" class="px-4 py-2 text-sm font-bold text-gray-800 text-center">
                             قیمت
                         </th>
+                        <th scope="col" class="px-4 py-2 text-sm font-bold text-gray-800 text-center">
+                            قیمت کل
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
                     @php
                         $finalPrice = 0;
+                        $finalWeight = 0;
                     @endphp
                     @foreach($part->children()->orderBy('sort','ASC')->get() as $index => $child)
                         @php
                             if (!is_null($part_ids)){
                                 $child = \App\Models\Part::find($part_ids[$index]);
+                                $finalPrice += $child->price * $values[$index];
+                                $finalWeight += $child->weight * $values[$index];
+                            } else {
+                                $finalPrice += $child->price * $child->pivot->value;
+                                $finalWeight += $child->weight * $child->pivot->value;
                             }
                             $category = $child->categories[1];
                             $selectedCategory = $child->categories[2];
@@ -214,49 +223,49 @@
                         @switch($index)
                             @case('0')
                                 <tr class="bg-yellow-500">
-                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
+                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
                                         مشخصات کلید و المانهای ورودی
                                     </td>
                                 </tr>
                                 @break
                             @case('3')
                                 <tr class="bg-yellow-500">
-                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
+                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
                                         مشخصات کلید و کنتاکتورهای فن الکترو موتور فن هوارسان
                                     </td>
                                 </tr>
                                 @break
                             @case('9')
                                 <tr class="bg-yellow-500">
-                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
+                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
                                         مشخصات کلید و کنتاکتور الکترو پمپ‌ ها
                                     </td>
                                 </tr>
                                 @break
                             @case('12')
                                 <tr class="bg-yellow-500">
-                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
+                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
                                         مشخصات کلیدها و کنتاکتورهای رطوبت زن
                                     </td>
                                 </tr>
                                 @break
                             @case('15')
                                 <tr class="bg-yellow-500">
-                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
+                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
                                         سایر تجهیزات
                                     </td>
                                 </tr>
                                 @break
                             @case('22')
                                 <tr class="bg-yellow-500">
-                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
+                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
                                         اطلاعات سیم و کابل
                                     </td>
                                 </tr>
                                 @break
                             @case('26')
                                 <tr class="bg-yellow-500">
-                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="6">
+                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
                                         اقلام کنترلی
                                     </td>
                                 </tr>
@@ -324,14 +333,18 @@
                                     </p>
                                 @endif
                             </td>
+                            <td class="px-4 py-1 whitespace-nowrap">
+                                @if(!is_null($part_ids))
+                                    <p class="text-sm text-black font-medium text-center">
+                                        {{ number_format($child->price * $values[$index]) }} تومان
+                                    </p>
+                                @else
+                                    <p class="text-sm text-black font-medium text-center">
+                                        {{ number_format($child->price * $child->pivot->value) }} تومان
+                                    </p>
+                                @endif
+                            </td>
                         </tr>
-                        @php
-                            if (!is_null($part_ids)) {
-                                $finalPrice += $values[$index] * $child->price;
-                            } else {
-                                $finalPrice += $child->pivot->value * $child->price;
-                            }
-                        @endphp
                     @endforeach
                     </tbody>
                 </table>
@@ -344,11 +357,24 @@
                 <input type="hidden" name="price" value="{{ $finalPrice }}">
             </div>
 
-            <div class="my-4">
-                <button type="button" class="form-submit-btn"
-                        onclick="changeRoute('calculate',{{ $part->id }},{{ $product->id }})">
-                    محاسبه
-                </button>
+            <div class="my-4 flex justify-between items-center">
+                <div class="flex items-center space-x-2 space-x-reverse">
+                    <button type="button" class="form-submit-btn"
+                            onclick="changeRoute('calculate',{{ $part->id }},{{ $product->id }})">
+                        محاسبه
+                    </button>
+                    <a href="{{ route('inquiries.product.amounts',$product->id) }}" class="form-cancel-btn">
+                        انصراف (خروج)
+                    </a>
+                </div>
+                <div class="space-y-2">
+                    <p class="px-4 py-2 text-sm rounded-md bg-green-500 font-bold text-white">
+                        قیمت کل : {{ number_format($finalPrice) }} تومان
+                    </p>
+                    <p class="px-4 py-2 text-sm rounded-md bg-gray-500 font-bold text-white">
+                        وزن دستگاه : {{ number_format($finalWeight) }} کیلوگرم
+                    </p>
+                </div>
             </div>
 
             @if(!is_null($part_ids))

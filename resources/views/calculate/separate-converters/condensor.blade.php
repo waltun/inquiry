@@ -158,7 +158,7 @@
                 </div>
                 <div class="grid grid-cols-4 gap-4">
                     <div>
-                        <label class="block mb-2 text-sm font-bold" for="inputLooleMessi">لوله مسی اواپراتور</label>
+                        <label class="block mb-2 text-sm font-bold" for="inputLooleMessi">لوله مسی کندانسور</label>
                         <select name="loole_messi" id="inputLooleMessi" class="input-text bg-yellow-300">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::find('1324')->id }}"
@@ -184,6 +184,10 @@
                             <option value="{{ \App\Models\Part::find('1327')->id }}"
                                 {{ is_null($inputs) ? (old('loole_messi') == '1327' ? 'selected' : '') : ($inputs['loole_messi'] == "1327" ? 'selected' : (old('loole_messi') == '1327' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::find('1327')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('1882')->id }}"
+                                {{ is_null($inputs) ? (old('loole_messi') == '1882' ? 'selected' : '') : ($inputs['loole_messi'] == "1882" ? 'selected' : (old('loole_messi') == '1882' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1882')->name }}
                             </option>
                         </select>
                     </div>

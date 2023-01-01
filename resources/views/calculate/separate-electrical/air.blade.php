@@ -201,14 +201,17 @@
                     <tbody>
                     @php
                         $finalPrice = 0;
+                        $finalWeight = 0;
                     @endphp
                     @foreach($part->children()->orderBy('sort','ASC')->get() as $index => $child)
                         @php
                             if (!is_null($part_ids)){
                                 $child = \App\Models\Part::find($part_ids[$index]);
                                 $finalPrice += $child->price * $values[$index];
+                                $finalWeight += $child->weight * $values[$index];
                             } else {
                                 $finalPrice += $child->price * $child->pivot->value;
+                                $finalWeight += $child->weight * $child->pivot->value;
                             }
                             $category = $child->categories[1];
                             $selectedCategory = $child->categories[2];
@@ -351,7 +354,7 @@
             </div>
 
             <div class="my-4 flex justify-between items-center">
-                <div class="flex items-center">
+                <div class="flex items-center space-x-2 space-x-reverse">
                     <button type="button" class="form-submit-btn" onclick="changeRoute('calculate',{{ $part->id }})">
                         محاسبه
                     </button>
@@ -359,9 +362,12 @@
                         انصراف (خروج)
                     </a>
                 </div>
-                <div>
+                <div class="space-y-2">
                     <p class="px-4 py-2 text-sm rounded-md bg-green-500 font-bold text-white">
                         قیمت کل : {{ number_format($finalPrice) }} تومان
+                    </p>
+                    <p class="px-4 py-2 text-sm rounded-md bg-gray-500 font-bold text-white">
+                        وزن دستگاه : {{ number_format($finalWeight) }} کیلوگرم
                     </p>
                 </div>
             </div>

@@ -694,7 +694,7 @@
                     </p>
                     <input type="hidden" name="price" value="{{ $finalPrice }}">
                     <p class="text-xl font-bold text-black text-center">
-                        وزن دستگاه : {{ round($finalWeight) }} کلیوگرم
+                        وزن دستگاه : {{ round($finalWeight) }} کیلوگرم
                     </p>
                     <input type="hidden" name="weight" value="{{ $finalWeight }}">
                 </div>
