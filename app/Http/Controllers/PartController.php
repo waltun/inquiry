@@ -18,7 +18,7 @@ class PartController extends Controller
 
         if ($keyword = request('search')) {
             $parts->where('coil', false)
-                ->where('collection',false)
+                ->where('collection', false)
                 ->where('name', 'LIKE', "%{$keyword}%");
         }
 
@@ -26,7 +26,7 @@ class PartController extends Controller
             if (request()->has('category3')) {
                 $parts = $parts->whereHas('categories', function ($q) {
                     $q->where('category_id', request('category3'));
-                })->where('coil', false)->where('collection',false);
+                })->where('coil', false)->where('collection', false);
             }
         }
 
@@ -34,11 +34,11 @@ class PartController extends Controller
             if (request()->has('category2')) {
                 $parts = $parts->whereHas('categories', function ($q) {
                     $q->where('category_id', request('category2'));
-                })->where('coil', false)->where('collection',false);
+                })->where('coil', false)->where('collection', false);
             }
         }
 
-        $parts = $parts->where('coil', false)->where('collection',false)->latest()
+        $parts = $parts->where('coil', false)->where('collection', false)->latest()
             ->paginate(25)->withQueryString();
 
         return view('parts.index', compact('parts', 'categories'));
@@ -100,7 +100,7 @@ class PartController extends Controller
     {
         Gate::authorize('parts');
 
-        $categories = Category::with(['parts'])->get();
+        $categories = Category::with(['parts'])->where('parent_id', 0)->get();
 
         return view('parts.edit', compact('part', 'categories'));
     }

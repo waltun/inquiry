@@ -112,21 +112,46 @@
 
         <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
             <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">دسته بندی</p>
-            @foreach($part->categories as $category)
-                <div class="mt-4">
-                    <label for="inputCategory{{ $category->id }}" class="block mb-2 md:text-sm text-xs text-black">
-                        دسته بندی قطعه
-                    </label>
-                    <select name="categories[]" id="inputCategory{{ $category->id }}" class="input-text">
-                        @foreach($categories as $category2)
-                            <option
-                                value="{{ $category2->id }}" {{ $category->id == $category2->id ? 'selected' : '' }}>
-                                {{ $category2->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-            @endforeach
+            @php
+                $partCategory = $part->categories;
+            @endphp
+            <div class="mt-4">
+                <label for="inputCategory1" class="block mb-2 md:text-sm text-xs text-black">
+                    دسته اصلی قطعه
+                </label>
+                <select name="categories[]" id="inputCategory1" class="input-text">
+                    @foreach($categories as $category)
+                        <option
+                            value="{{ $category->id }}" {{ $partCategory[0]->id == $category->id ? 'selected' : '' }}>
+                            {{ $category->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="mt-4">
+                <label for="inputCategory2" class="block mb-2 md:text-sm text-xs text-black">
+                    زیردسته اول قطعه
+                </label>
+                <select name="categories[]" id="inputCategory2" class="input-text">
+                    @foreach($partCategory[0]->children as $child)
+                        <option value="{{ $child->id }}" {{ $partCategory[1]->id == $child->id ? 'selected' : '' }}>
+                            {{ $child->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="mt-4">
+                <label for="inputCategory3" class="block mb-2 md:text-sm text-xs text-black">
+                    زیردسته دوم قطعه
+                </label>
+                <select name="categories[]" id="inputCategory3" class="input-text">
+                    @foreach($partCategory[1]->children as $child2)
+                        <option value="{{ $child2->id }}" {{ $partCategory[2]->id == $child2->id ? 'selected' : '' }}>
+                            {{ $child2->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
         </div>
 
         <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">

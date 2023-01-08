@@ -168,13 +168,13 @@
                     success: function (res) {
                         let parts = res.data;
                         section.innerHTML = `
-                            <select class="input-text" onchange="changePart(event,${part}) changePrice(event,${part})" id="inputCategory${part}">
-                                    ${
+                        <select class="input-text" onchange="changePart(event,${part}) changePrice(event,${part})" id="inputCategory${part}">
+                            ${
                             parts.map(function (part) {
                                 return `<option value="${part.id}">${part.name}</option>`
                             })
                         }
-                            </select>`
+                        </select>`
                     }
                 });
             }
@@ -515,42 +515,35 @@
                                             </a>
                                             @break
 
-                                        @case('128')
+                                        @case('492')
                                             <span class="hidden">Chiller Electrical</span>
                                             <a href="{{ route('calculateElectrical.chiller.index',[2144,$product->id]) }}"
                                                class="form-submit-btn text-xs mr-1">
                                                 محاسبه
                                             </a>
                                             @break
-                                        @case('129')
-                                            <span class="hidden">Chiller Electrical</span>
-                                            <a href="{{ route('calculateElectrical.chiller.index',[2144,$product->id]) }}"
+                                        @case('493')
+                                            <span class="hidden">Mini Chiller Electrical</span>
+                                            <a href="{{ route('calculateElectrical.mini.index',[2264,$product->id]) }}"
                                                class="form-submit-btn text-xs mr-1">
                                                 محاسبه
                                             </a>
                                             @break
-                                        @case('130')
-                                            <span class="hidden">Chiller Electrical</span>
-                                            <a href="{{ route('calculateElectrical.chiller.index',[2144,$product->id]) }}"
-                                               class="form-submit-btn text-xs mr-1">
-                                                محاسبه
-                                            </a>
-                                            @break
-                                        @case('132')
+                                        @case('494')
                                             <span class="hidden">Panel Electrical</span>
                                             <a href="{{ route('calculateElectrical.panel.index',[1879,$product->id]) }}"
                                                class="form-submit-btn text-xs mr-1">
                                                 محاسبه
                                             </a>
                                             @break
-                                        @case('471')
+                                        @case('495')
                                             <span class="hidden">Air Condition Electrical</span>
                                             <a href="{{ route('calculateElectrical.air.index',[2249,$product->id]) }}"
                                                class="form-submit-btn text-xs mr-1">
                                                 محاسبه
                                             </a>
                                             @break
-                                        @case('472')
+                                        @case('496')
                                             <span class="hidden">Zent Electrical</span>
                                             <a href="{{ route('calculateElectrical.zent.index',[2256,$product->id]) }}"
                                                class="form-submit-btn text-xs mr-1">
@@ -817,42 +810,35 @@
                                             </a>
                                             @break
 
-                                        @case('128')
+                                        @case('492')
                                             <span class="hidden">Chiller Electrical</span>
                                             <a href="{{ route('calculateElectrical.chiller.index',[2144,$product->id]) }}"
                                                class="form-submit-btn text-xs mr-1">
                                                 محاسبه
                                             </a>
                                             @break
-                                        @case('129')
-                                            <span class="hidden">Chiller Electrical</span>
-                                            <a href="{{ route('calculateElectrical.chiller.index',[2144,$product->id]) }}"
+                                        @case('493')
+                                            <span class="hidden">Mini Chiller Electrical</span>
+                                            <a href="{{ route('calculateElectrical.mini.index',[2264,$product->id]) }}"
                                                class="form-submit-btn text-xs mr-1">
                                                 محاسبه
                                             </a>
                                             @break
-                                        @case('130')
-                                            <span class="hidden">Chiller Electrical</span>
-                                            <a href="{{ route('calculateElectrical.chiller.index',[2144,$product->id]) }}"
-                                               class="form-submit-btn text-xs mr-1">
-                                                محاسبه
-                                            </a>
-                                            @break
-                                        @case('132')
+                                        @case('494')
                                             <span class="hidden">Panel Electrical</span>
                                             <a href="{{ route('calculateElectrical.panel.index',[1879,$product->id]) }}"
                                                class="form-submit-btn text-xs mr-1">
                                                 محاسبه
                                             </a>
                                             @break
-                                        @case('471')
+                                        @case('495')
                                             <span class="hidden">Air Condition Electrical</span>
                                             <a href="{{ route('calculateElectrical.air.index',[2249,$product->id]) }}"
                                                class="form-submit-btn text-xs mr-1">
                                                 محاسبه
                                             </a>
                                             @break
-                                        @case('472')
+                                        @case('496')
                                             <span class="hidden">Zent Electrical</span>
                                             <a href="{{ route('calculateElectrical.zent.index',[2256,$product->id]) }}"
                                                class="form-submit-btn text-xs mr-1">

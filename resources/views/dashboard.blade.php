@@ -104,32 +104,54 @@
         @endcan
 
         @can('groups')
-            <div class="col-span-2">
-                <div class="bg-red-500 rounded-md p-4 shadow-md">
-                    <a href="{{ route('groups.index') }}" class="flex justify-between items-center group">
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-black group-hover:text-white"
-                                 fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <p class="text-lg text-black font-medium group-hover:text-white">
-                                محصولات و مدل ها
-                            </p>
-                        </div>
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-black group-hover:text-white"
-                                 fill="none" viewBox="0 0 24 24"
-                                 stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
-                            </svg>
-                        </div>
-                    </a>
-                </div>
+            <div class="bg-red-500 rounded-md p-4 shadow-md">
+                <a href="{{ route('groups.index') }}" class="flex justify-between items-center group">
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-black group-hover:text-white"
+                             fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-lg text-black font-medium group-hover:text-white">
+                            محصولات و مدل ها
+                        </p>
+                    </div>
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-black group-hover:text-white"
+                             fill="none" viewBox="0 0 24 24"
+                             stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+                        </svg>
+                    </div>
+                </a>
             </div>
         @endcan
+
+        <div class="bg-blue-400 rounded-md p-4 shadow-md">
+            <a href="{{ route('collectionCoil.index') }}" class="flex justify-between items-center group">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-black group-hover:text-white"
+                         fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"/>
+                    </svg>
+                </div>
+                <div>
+                    <p class="text-lg text-black font-medium group-hover:text-white">
+                        کویل و دمپر و مبدل و تابلوبرق
+                    </p>
+                </div>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-black group-hover:text-white"
+                         fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                </div>
+            </a>
+        </div>
 
         @can('users')
             <div class="bg-gray-300 rounded-md p-4 shadow-md">

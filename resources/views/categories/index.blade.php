@@ -97,14 +97,6 @@
                         <a href="{{ route('categories.edit',$category->id) }}" class="form-edit-btn text-xs">
                             ویرایش
                         </a>
-                        <form action="{{ route('categories.destroy',$category->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-
-                            <button class="form-cancel-btn text-xs" onclick="return confirm('دسته بندی حذف شود ؟')">
-                                حذف
-                            </button>
-                        </form>
                         @if(count($category->children) > 0)
                             <button type="button" @click="open = !open">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 transform transition-transform"

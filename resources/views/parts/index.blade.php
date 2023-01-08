@@ -259,14 +259,6 @@
                                     کپی
                                 </button>
                             </form>
-                            <form action="{{ route('parts.destroy',$part->id) }}" method="POST"
-                                  class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <button class="form-cancel-btn text-xs" onclick="return confirm('قطعه حذف شود ؟')">
-                                    حذف
-                                </button>
-                            </form>
                         </td>
                     </tr>
                 @endforeach
@@ -284,69 +276,6 @@
             <p class="text-sm font-bold text-indigo-600 underline underline-offset-4">
                 تعداد کل قطعات : {{ \App\Models\Part::where('collection',false)->count() }}
             </p>
-        </div>
-
-        <!-- Mobile List -->
-        <div class="block md:hidden">
-            @foreach($parts as $part)
-                <div class="bg-white rounded-md p-4 border border-gray-200 shadow-md mb-4 relative z-30">
-                    <span
-                        class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
-                        {{ $loop->index+1 }}
-                    </span>
-                    <div class="space-y-4">
-                        <p class="text-xs text-black text-center font-bold">
-                            {{ $part->name }}
-                        </p>
-                        <p class="text-xs text-black text-center">
-                            واحد : {{ $part->unit }}
-                        </p>
-                        @if($part->price)
-                            <p class="text-xs text-green-600 text-center font-bold">
-                                قیمت : {{ number_format($part->price) }}
-                            </p>
-                        @else
-                            <p class="text-xs text-red-600 text-center">
-                                منتظر قیمت گذاری
-                            </p>
-                        @endif
-                        @php
-                            $code = '';
-                            foreach($part->categories as $category){
-                                $code = $code . $category->code;
-                            }
-
-                        @endphp
-                        <p class="text-xs text-black text-center">
-                            کد : {{ $part->code . "-" . $code }}
-                        </p>
-                        <div class="flex w-full justify-between">
-                            <a href="{{ route('parts.edit',$part->id) }}" class="form-edit-btn text-xs">
-                                ویرایش
-                            </a>
-                            <form action="{{ route('parts.replicate',$part->id) }}" method="POST"
-                                  class="inline">
-                                @csrf
-                                <button class="form-detail-btn text-xs">
-                                    کپی
-                                </button>
-                            </form>
-                            <form action="{{ route('parts.destroy',$part->id) }}" method="POST"
-                                  class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <button class="form-cancel-btn text-xs" onclick="return confirm('قطعه حذف شود ؟')">
-                                    حذف
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
-            <!-- Pagination -->
-            <div class="mt-4">
-                {{ $parts->links() }}
-            </div>
         </div>
     </div>
 </x-layout>

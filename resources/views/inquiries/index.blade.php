@@ -144,9 +144,20 @@
                 </thead>
                 <tbody>
                 @foreach($inquiries as $inquiry)
+                    @php
+                        $color = '';
+                        $twoDays = \Carbon\Carbon::now()->subDays(2);
+                        $oneDay = \Carbon\Carbon::now()->subDay();
+                        if ($inquiry->created_at < $twoDays) {
+                            $color = 'text-red-500';
+                        }
+                        if ($inquiry->created_at > $twoDays && $inquiry->created_at < $oneDay) {
+                            $color = 'text-yellow-500';
+                        }
+                    @endphp
                     <tr>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-gray-500 text-center">
+                            <p class="text-sm text-gray-500 text-center {{ $color ?? 'text-gray-500' }}">
                                 {{ "INQ-" . $inquiry->inquiry_number }}
                             </p>
                         </td>

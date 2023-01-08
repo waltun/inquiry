@@ -307,6 +307,11 @@
             </button>
         </div>
 
+        <!-- Pagination -->
+        <div class="my-4 md:block hidden">
+            {{ $parts->links() }}
+        </div>
+
         <!-- Parts count -->
         <div class="mt-4 mb-4">
             <p class="text-sm font-bold text-indigo-600 underline underline-offset-4">

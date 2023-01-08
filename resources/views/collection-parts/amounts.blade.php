@@ -136,6 +136,7 @@
                     <th class="border border-gray-300 p-4 text-sm">واحد قطعه</th>
                     <th class="border border-gray-300 p-4 text-sm">مقادیر</th>
                     <th class="border border-gray-300 p-4 text-sm">قیمت</th>
+                    <th class="border border-gray-300 p-4 text-sm">قیمت کل</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -217,6 +218,11 @@
                                     منتظر قیمت گذاری
                                 </p>
                             @endif
+                        </td>
+                        <td class="border border-gray-300 px-4 py-1 whitespace-nowrap">
+                            <p class="text-sm text-black font-medium text-center">
+                                {{ number_format($childPart->price * $childPart->pivot->value) }} تومان
+                            </p>
                         </td>
                     </tr>
                 @endforeach
