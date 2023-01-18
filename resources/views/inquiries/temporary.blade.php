@@ -13,6 +13,19 @@
                     داشبورد
                 </a>
             </li>
+            <li>
+                <div class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                              clip-rule="evenodd"/>
+                    </svg>
+                    <a href="{{ route('inquiries.index') }}"
+                       class="mr-2 text-xs md:text-sm font-medium text-gray-500 hover:text-gray-900">
+                        مدیریت استعلام ها
+                    </a>
+                </div>
+            </li>
             <li aria-current="page">
                 <div class="flex items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -21,94 +34,24 @@
                               clip-rule="evenodd"/>
                     </svg>
                     <span class="mr-2 text-xs md:text-sm font-medium text-gray-400">
-                        مدیریت استعلام ها
+                        استعلام های موقتی
                     </span>
                 </div>
             </li>
         </ol>
     </nav>
 
-    <!-- Search -->
-    <div class="bg-white shadow p-4 rounded-md border border-gray-200 mt-4"
-        {{ request()->query() ? 'x-data={open:true}' : 'x-data={open:false}' }}>
-        <div class="flex items-center justify-between cursor-pointer" @click="open=!open"
-             :class="{'border-b border-gray-300 pb-3' : open}">
-            <p class="text-sm font-bold text-black">جستجو در استعلام ها</p>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                 stroke="currentColor" class="w-6 h-6 transition" :class="{'rotate-180' : open}">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
-            </svg>
-        </div>
-        <form method="GET" action="" class="mt-4 grid grid-cols-4 gap-4" x-show="open" x-cloak>
-            <div class="mb-4">
-                <label for="inputInquiryNumber" class="block mb-2 text-sm font-bold">شماره استعلام</label>
-                <input type="text" id="inputInquiryNumber" class="input-text" name="inquiry_number"
-                       placeholder="جستجو براساس شماره استعلام (بدون INQ)" value="{{ request('inquiry_number') }}">
-            </div>
-            <div class="mb-4">
-                <label for="inputName" class="block mb-2 text-sm font-bold">نام پروژه</label>
-                <input type="text" id="inputName" class="input-text" name="name"
-                       placeholder="جستجو براساس نام پروژه" value="{{ request('name') }}">
-            </div>
-            <div class="mb-4">
-                <label for="inputManager" class="block mb-2 text-sm font-bold">مسئول پروژه</label>
-                <input type="text" id="inputManager" class="input-text" name="manager"
-                       placeholder="جستجو براساس مسئول پروژه" value="{{ request('manager') }}">
-            </div>
-            <div>
-                <label for="inputMarketer" class="block mb-2 text-sm font-bold">بازاریاب</label>
-                <input type="text" id="inputMarketer" class="input-text" name="marketer"
-                       placeholder="جستجو براساس بازاریاب" value="{{ request('marketer') }}">
-            </div>
-            <div>
-                <label for="inputGroup" class="block mb-2 text-sm font-bold">دسته</label>
-                <select name="group_id" id="inputGroup" class="input-text">
-                    <option value="">جستجو براساس دسته</option>
-                    @foreach($groups as $group)
-                        <option
-                            value="{{ $group->id }}" {{ $group->id == request()->get('group_id') ? 'selected' : '' }}>
-                            {{ $group->name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-            <div>
-                <label for="inputModell" class="block mb-2 text-sm font-bold">مدل</label>
-                <select name="model_id" id="inputModell" class="input-text">
-                    <option value="">جستجو براساس مدل</option>
-                    @foreach($modells as $modell)
-                        <option
-                            value="{{ $modell->id }}" {{ $modell->id == request()->get('model_id') ? 'selected' : '' }}>
-                            {{ $modell->name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="col-span-4 flex justify-end space-x-2 space-x-reverse">
-                <button class="form-submit-btn" type="submit">
-                    جستجو
-                </button>
-                @if(request()->query())
-                    <a href="{{ route('inquiries.index') }}" class="form-detail-btn">
-                        پاکسازی
-                    </a>
-                @endif
-            </div>
-        </form>
-    </div>
-
     <!-- Navigation Btn -->
     <div class="mt-4 md:flex justify-between items-center">
         <div class="mb-4 md:mb-0">
             <p class="text-lg text-black font-bold">
-                لیست استعلام ها
+                لیست استعلام های موقتی
             </p>
         </div>
         <div class="space-x-2 space-x-reverse flex items-center overflow-x-auto whitespace-nowrap">
-            <a href="{{ route('inquiries.create') }}" class="form-submit-btn text-xs">ایجاد استعلام جدید</a>
+            <a href="{{ route('inquiries.index') }}" class="form-submit-btn text-xs">لیست استعلام ها</a>
             <a href="{{ route('inquiries.priced') }}" class="form-detail-btn text-xs">استعلام های قیمت گذاری شده</a>
             <a href="{{ route('inquiries.submitted') }}" class="form-edit-btn text-xs">استعلام های منتظر قیمت</a>
-            <a href="{{ route('inquiries.temporary') }}" class="form-cancel-btn text-xs">استعلام های موقت</a>
         </div>
     </div>
 
@@ -272,73 +215,6 @@
                 @endforeach
                 </tbody>
             </table>
-        </div>
-
-        <!-- Mobile List -->
-        <div class="block md:hidden">
-            @foreach($inquiries as $inquiry)
-                <div class="bg-white rounded-md p-4 border border-gray-200 shadow-sm mb-4 relative z-30">
-                    <span
-                        class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
-                        {{ $loop->index+1 }}
-                    </span>
-                    <div class="space-y-4">
-                        <p class="text-xs text-black text-center font-bold">
-                            پروژه : {{ $inquiry->name }}
-                        </p>
-                        <p class="text-xs text-black text-center">
-                            مسئول پروژه : {{ $inquiry->manager }}
-                        </p>
-                        <p class="text-xs text-black text-center">
-                            بازاریاب : {{ $inquiry->marketer }}
-                        </p>
-                        <p class="text-xs text-gray-600 text-center">
-                            شماره استعلام : {{ "INQ-" . $inquiry->inquiry_number }}
-                        </p>
-                        <div class="flex w-full justify-between">
-                            @can('create-inquiry')
-                                <a href="{{ route('inquiries.edit',$inquiry->id) }}" class="form-edit-btn text-xs">
-                                    ویرایش
-                                </a>
-                            @endcan
-                            @can('create-inquiry')
-                                <a href="{{ route('inquiries.product.index',$inquiry->id) }}"
-                                   class="form-detail-btn text-xs">
-                                    محصولات
-                                </a>
-                            @endcan
-                            @can('create-inquiry')
-                                <a href="{{ route('inquiries.parts.index',$inquiry->id) }}"
-                                   class="form-edit-btn text-xs">
-                                    قطعات تکی
-                                </a>
-                            @endcan
-                            @can('create-inquiry')
-                                <form action="{{ route('inquiries.submit',$inquiry->id) }}" method="POST"
-                                      class="inline">
-                                    @csrf
-                                    @method('PATCH')
-                                    <button class="form-submit-btn text-xs"
-                                            onclick="return confirm('استعلام ثبت نهایی شود ؟')">
-                                        ثبت نهایی
-                                    </button>
-                                </form>
-                            @endcan
-                            @can('delete-inquiry')
-                                <form action="{{ route('inquiries.destroy',$inquiry->id) }}" method="POST"
-                                      class="inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="form-cancel-btn text-xs"
-                                            onclick="return confirm('استعلام حذف شود ؟')">
-                                        حذف
-                                    </button>
-                                </form>
-                            @endcan
-                        </div>
-                    </div>
-                </div>
-            @endforeach
         </div>
     </div>
 </x-layout>

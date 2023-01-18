@@ -54,9 +54,9 @@ class InquiryController extends Controller
         }
 
         if (auth()->user()->role == 'admin') {
-            $inquiries = $inquiries->where('submit', 0)->latest()->paginate(25);
+            $inquiries = $inquiries->where('submit', 0)->where('tmp', '0')->latest()->paginate(25);
         } else {
-            $inquiries = $inquiries->where('submit', 0)->where('user_id', auth()->user()->id)->latest()->paginate(25);
+            $inquiries = $inquiries->where('submit', 0)->where('tmp', '0')->where('user_id', auth()->user()->id)->latest()->paginate(25);
         }
 
         $modells = Modell::where('parent_id', '!=', 0)->get();
@@ -138,8 +138,18 @@ class InquiryController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'marketer' => 'required|string|max:255',
-            'type' => 'required|in:product,part,both'
+            'type' => 'required|in:product,part,both',
+            'tmp' => 'required|in:0,1',
+            'inquiry_number' => 'nullable',
         ]);
+
+        if ($data['tmp'] == '1') {
+            $year = jdate(now())->getYear();
+            $data['inquiry_number'] = $year . '00000';
+        }
+        if ($data['tmp'] == '0') {
+            $data = $this->getCode($data);
+        }
 
         $inquiry->update($data);
 
@@ -653,6 +663,19 @@ class InquiryController extends Controller
         alert()->success('ثبت موفق', 'مدل مورد نظر با موفقیت به مدل های استاندارد اضافه شد');
 
         return back();
+    }
+
+    public function temporary()
+    {
+        Gate::authorize('inquiries');
+
+        if (auth()->user()->role == 'admin') {
+            $inquiries = Inquiry::where('tmp', '1')->latest()->paginate(25);
+        } else {
+            $inquiries = $inquiries->where('tmp', '1')->where('user_id', auth()->user()->id)->latest()->paginate(25);
+        }
+
+        return view('inquiries.temporary', compact('inquiries'));
     }
 
     public function getParentLastCode($modell)

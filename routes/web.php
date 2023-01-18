@@ -147,6 +147,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/inquiries/{product}/{part}/new-part-inquiry', [NewPartInquiryController::class, 'store'])->name('inquiries.newPart.store');
     Route::delete('/inquiries/{amount}/destroy-amount', [NewPartInquiryController::class, 'destroy'])->name('inquiries.newPart.destroy');
 
+    Route::get('/inquiries/temporary',[InquiryController::class,'temporary'])->name('inquiries.temporary');
     Route::resource('inquiries', InquiryController::class);
 
     //Category routes

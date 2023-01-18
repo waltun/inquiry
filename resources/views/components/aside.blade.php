@@ -223,6 +223,12 @@
                                 استعلام های قیمت گذاری شده
                             </a>
                         @endcan
+                            @can('inquiries')
+                                <a href="{{ route('inquiries.temporary') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
+                            hover:text-black rounded-md {{ isActive('inquiries.temporary') }}">
+                                    استعلام های موقت
+                                </a>
+                            @endcan
                     </div>
                 </div>
             @endcanany
