@@ -34,8 +34,6 @@ return new class extends Migration {
 
             $table->unsignedBigInteger('user_id');
 
-            $table->enum('tmp',['0','1'])->default('0');
-
             $table->index(['user_id', 'inquiry_number']);
 
             $table->timestamps();

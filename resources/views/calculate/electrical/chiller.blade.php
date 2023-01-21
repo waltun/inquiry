@@ -170,7 +170,6 @@
         <!-- Laptop List -->
         <form method="POST" action="" id="form">
             @csrf
-            <input type="hidden" name="serial" value="{{ $inquiry->inquiry_number }}">
             <input type="hidden" name="product_model" value="{{ $product->model_custom_name ?? $modell->name }}">
 
             <div class="bg-white shadow overflow-x-auto rounded-lg hidden md:block">

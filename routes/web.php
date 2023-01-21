@@ -13,6 +13,7 @@ use App\Http\Controllers\GroupController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\InquiryPartCoilController;
 use App\Http\Controllers\InquiryPartController;
+use App\Http\Controllers\InquiryPartElectricalController;
 use App\Http\Controllers\InquiryPriceController;
 use App\Http\Controllers\InquiryProductController;
 use App\Http\Controllers\ModellController;
@@ -147,7 +148,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/inquiries/{product}/{part}/new-part-inquiry', [NewPartInquiryController::class, 'store'])->name('inquiries.newPart.store');
     Route::delete('/inquiries/{amount}/destroy-amount', [NewPartInquiryController::class, 'destroy'])->name('inquiries.newPart.destroy');
 
-    Route::get('/inquiries/temporary',[InquiryController::class,'temporary'])->name('inquiries.temporary');
+    Route::get('/inquiries/temporary', [InquiryController::class, 'temporary'])->name('inquiries.temporary');
     Route::resource('inquiries', InquiryController::class);
 
     //Category routes
@@ -333,6 +334,12 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/inquiry-part-coil/{inquiry}/{part}/evaperator', [InquiryPartCoilController::class, 'evaperator'])->name('inquiryPart.coil.evaperator');
     Route::post('/inquiry-part-coil/calculate/evaperator', [InquiryPartCoilController::class, 'calculateEvaperator'])->name('inquiryPart.coil.calculateEvaperator');
     Route::post('/inquiry-part-coil/{inquiry}/{part}/store-evaperator', [InquiryPartCoilController::class, 'storeEvaperator'])->name('inquiryPart.coil.storeEvaperator');
+
+    //Inquiry Part Electricals
+    Route::post('/inquiry-part-electrical/{inquiry}', [InquiryPartElectricalController::class, 'index'])->name('inquiryPart.electrical.index');
+    Route::get('/inquiry-part-electrical/{inquiry}/{part}/air', [InquiryPartElectricalController::class, 'air'])->name('inquiryPart.electrical.air');
+    Route::post('/inquiry-part-electrical/calculate/air', [InquiryPartElectricalController::class, 'calculateAir'])->name('inquiryPart.electrical.calculateAir');
+    Route::post('/inquiry-part-electrical/{inquiry}/{part}/store-air', [InquiryPartElectricalController::class, 'storeAir'])->name('inquiryPart.electrical.storeAir');
 
     //Inquiry Price Routes
     Route::get('/inquiry-price', [InquiryPriceController::class, 'index'])->name('inquiryPrice.index');

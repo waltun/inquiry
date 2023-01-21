@@ -381,9 +381,7 @@ class CalculateConverterController extends Controller
             $looleMessiName = '12';
         }
 
-        $serial = $request['serial'];
-
-        $name = $serial . '-STE-' . $tonaj . "TR-" . $gaz . "-" . $ghotreLoolePooste . 'inch-' . $tooleLooleMessi . 'm-' . $tedadLooleMessi . 'T-'
+        $name = 'STE-' . $tonaj . "TR-" . $gaz . "-" . $ghotreLoolePooste . 'inch-' . $tooleLooleMessi . 'm-' . $tedadLooleMessi . 'T-'
             . $looleMessiName . '-' . $tedadMadar . 'C';
 
         return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs' => $inputs, 'name' => $name]);
@@ -404,6 +402,7 @@ class CalculateConverterController extends Controller
             'coil' => true,
             'price_updated_at' => now(),
             'product_id' => $product->id,
+            'inquiry_id' => $product->inquiry_id,
             'price' => $request['price'],
             'standard' => $request['standard'] ?? 0,
             'weight' => $request['weight']
@@ -719,9 +718,7 @@ class CalculateConverterController extends Controller
             $looleMessiName = '12';
         }
 
-        $serial = $request['serial'];
-
-        $name = $serial . '-STC-' . $tonaj . "TR-" . $gaz . "-" . $ghotreLoolePooste . 'inch-' . $tooleLooleMessi . 'm-' . $tedadLooleMessi . 'T-'
+        $name = 'STC-' . $tonaj . "TR-" . $gaz . "-" . $ghotreLoolePooste . 'inch-' . $tooleLooleMessi . 'm-' . $tedadLooleMessi . 'T-'
             . $looleMessiName;
 
         return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs' => $inputs, 'name' => $name]);
@@ -742,6 +739,7 @@ class CalculateConverterController extends Controller
             'coil' => true,
             'price_updated_at' => now(),
             'product_id' => $product->id,
+            'inquiry_id' => $product->inquiry_id,
             'price' => $request['price'],
             'standard' => $request['standard'] ?? 0,
             'weight' => $request['weight']

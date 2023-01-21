@@ -23,7 +23,7 @@ class CalculateElectricalController extends Controller
         $part_ids = $request->part_ids;
         $values = $request->values;
         $productModel = $request['product_model'];
-        $name = $request['serial'] . "-" . $productModel . "-LCP-PU";
+        $name = $productModel . "-LCP-PU";
 
         alert()->success('محاسبه موفق', 'محاسبه با موفقیت انجام شد');
 
@@ -90,7 +90,7 @@ class CalculateElectricalController extends Controller
         $part_ids = $request->part_ids;
         $values = $request->values;
         $productModel = $request['product_model'];
-        $name = $request['serial'] . "-" . $productModel . "-LCP-ACH";
+        $name = $productModel . "-LCP-ACH";
 
         alert()->success('محاسبه موفق', 'محاسبه با موفقیت انجام شد');
 
@@ -157,7 +157,7 @@ class CalculateElectricalController extends Controller
         $part_ids = $request->part_ids;
         $values = $request->values;
         $productModel = $request['product_model'];
-        $name = $request['serial'] . "-" . $productModel . "-LCP-AHU";
+        $name = $productModel . "-LCP-AHU";
 
         alert()->success('محاسبه موفق', 'محاسبه با موفقیت انجام شد');
 
@@ -224,7 +224,7 @@ class CalculateElectricalController extends Controller
         $part_ids = $request->part_ids;
         $values = $request->values;
         $productModel = $request['product_model'];
-        $name = $request['serial'] . "-" . $productModel . "-LCP-AHW";
+        $name = $productModel . "-LCP-AHW";
 
         alert()->success('محاسبه موفق', 'محاسبه با موفقیت انجام شد');
 
@@ -291,7 +291,7 @@ class CalculateElectricalController extends Controller
         $part_ids = $request->part_ids;
         $values = $request->values;
         $productModel = $request['product_model'];
-        $name = $request['serial'] . "-" . $productModel . "-LCP-MACH-";
+        $name = $productModel . "-LCP-MACH-";
 
         alert()->success('محاسبه موفق', 'محاسبه با موفقیت انجام شد');
 

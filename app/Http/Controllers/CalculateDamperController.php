@@ -151,9 +151,7 @@ class CalculateDamperController extends Controller
             $pin4Pahloo,
         ];
 
-        $serial = $request['serial'];
-
-        $name = $serial . "-FD-OPB-" . $tedadPare . "BL-" . number_format($toolePare, 2) . "L";
+        $name = "-FD-OPB-" . $tedadPare . "BL-" . number_format($toolePare, 2) . "L";
 
         return back()->with(['values' => $values, 'name' => $name, 'inputs' => $inputs, 'toolePare' => $toolePare, 'ertefa' => $ertefaDamper
             , 'sotoonVasat' => $profileSotoonVasat]);
@@ -244,9 +242,7 @@ class CalculateDamperController extends Controller
             $pin4Pahloo,
         ];
 
-        $serial = $request['serial'];
-
-        $name = $serial . "-ED-OPB-" . $tedadPare . "BL-" . number_format($toolePare, 2) . "L";
+        $name = "ED-OPB-" . $tedadPare . "BL-" . number_format($toolePare, 2) . "L";
 
         return back()->with(['values' => $values, 'name' => $name, 'inputs' => $inputs, 'toolePare' => $toolePare, 'ertefa' => $ertefaDamper
             , 'sotoonVasat' => $profileSotoonVasat]);
@@ -337,9 +333,7 @@ class CalculateDamperController extends Controller
             $pin4Pahloo,
         ];
 
-        $serial = $request['serial'];
-
-        $name = $serial . "-SD-OPB-" . $tedadPare . "BL-" . number_format($toolePare, 2) . "L";
+        $name = "SD-OPB-" . $tedadPare . "BL-" . number_format($toolePare, 2) . "L";
 
         return back()->with(['values' => $values, 'name' => $name, 'inputs' => $inputs, 'toolePare' => $toolePare, 'ertefa' => $ertefaDamper
             , 'sotoonVasat' => $profileSotoonVasat]);
@@ -430,9 +424,7 @@ class CalculateDamperController extends Controller
             $pin4Pahloo,
         ];
 
-        $serial = $request['serial'];
-
-        $name = $serial . "-RD-OPB-" . $tedadPare . "BL-" . number_format($toolePare, 2) . "L";
+        $name = "RD-OPB-" . $tedadPare . "BL-" . number_format($toolePare, 2) . "L";
 
         return back()->with(['values' => $values, 'name' => $name, 'inputs' => $inputs, 'toolePare' => $toolePare, 'ertefa' => $ertefaDamper
             , 'sotoonVasat' => $profileSotoonVasat]);

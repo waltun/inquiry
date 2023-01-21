@@ -54,9 +54,9 @@ class InquiryController extends Controller
         }
 
         if (auth()->user()->role == 'admin') {
-            $inquiries = $inquiries->where('submit', 0)->where('tmp', '0')->latest()->paginate(25);
+            $inquiries = $inquiries->where('submit', 0)->latest()->paginate(25);
         } else {
-            $inquiries = $inquiries->where('submit', 0)->where('tmp', '0')->where('user_id', auth()->user()->id)->latest()->paginate(25);
+            $inquiries = $inquiries->where('submit', 0)->where('user_id', auth()->user()->id)->latest()->paginate(25);
         }
 
         $modells = Modell::where('parent_id', '!=', 0)->get();
@@ -78,13 +78,10 @@ class InquiryController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'marketer' => 'required|string|max:255',
-            'inquiry_number' => 'numeric|nullable',
             'type' => 'required|in:product,part,both'
         ]);
 
         $data['manager'] = auth()->user()->name;
-
-        $data = $this->getCode($data);
 
         $data['user_id'] = $request->user()->id;
 
@@ -139,17 +136,7 @@ class InquiryController extends Controller
             'name' => 'required|string|max:255',
             'marketer' => 'required|string|max:255',
             'type' => 'required|in:product,part,both',
-            'tmp' => 'required|in:0,1',
-            'inquiry_number' => 'nullable',
         ]);
-
-        if ($data['tmp'] == '1') {
-            $year = jdate(now())->getYear();
-            $data['inquiry_number'] = $year . '00000';
-        }
-        if ($data['tmp'] == '0') {
-            $data = $this->getCode($data);
-        }
 
         $inquiry->update($data);
 
@@ -255,9 +242,13 @@ class InquiryController extends Controller
             }
         }
 
+        $data['inquiry_number'] = '';
+        $data = $this->getCode($data);
+
         $inquiry->update([
             'submit' => true,
             'message' => null,
+            'inquiry_number' => $data['inquiry_number']
         ]);
         //Send Notification
         $adminUsers = User::where('role', 'admin')->get();
@@ -474,7 +465,9 @@ class InquiryController extends Controller
         }
 
         //Send Notification
-        $user->notify(new CorrectionInquiryNotification($newInquiry));
+        if ($user) {
+            $user->notify(new CorrectionInquiryNotification($newInquiry));
+        }
 
         alert()->success('اطلاح موفق', 'اصلاح استعلام با موفقیت انجام شد و برای کاربر ارسال شد');
 
@@ -505,7 +498,9 @@ class InquiryController extends Controller
         }
 
         //Send Notification
-        $user->notify(new CorrectionInquiryNotification($inquiry));
+        if ($user) {
+            $user->notify(new CorrectionInquiryNotification($inquiry));
+        }
 
         alert()->success('اصلاح موفق', 'اصلاح استعلام با موفقیت انجام شد و برای کاربر ارسال شد');
 
@@ -517,7 +512,11 @@ class InquiryController extends Controller
         Gate::authorize('create-inquiry');
 
         $lastInquiry = Inquiry::all()->last();
-        $inquiryNumber = str_pad($lastInquiry->inquiry_number + 1, 5, "0", STR_PAD_LEFT);
+        if (!is_null($inquiry->inquiry_number)) {
+            $inquiryNumber = str_pad($lastInquiry->inquiry_number + 1, 5, "0", STR_PAD_LEFT);
+        } else {
+            $inquiryNumber = null;
+        }
         $user = User::find($request['user_id']);
 
         $newInquiry = $inquiry->replicate()->fill([
@@ -539,6 +538,37 @@ class InquiryController extends Controller
             $newProduct->save();
 
             foreach ($product->amounts as $amount) {
+                $part = Part::find($amount->part_id);
+                $category = $part->categories()->latest()->first();
+                $lastPart = $category->parts()->latest()->first();
+                $code = str_pad($lastPart->code + 1, 4, "0", STR_PAD_LEFT);
+
+                if ($part->coil == '1' && $part->collection == '1' && !is_null($part->inquiry_id)) {
+                    $newPart = $part->replicate()->fill([
+                        'code' => $code,
+                        'name' => $part->name,
+                        'inquiry_id' => $newInquiry->id,
+                        'product_id' => $newProduct->id
+                    ]);
+                    $newPart->save();
+
+                    $newPart->categories()->syncWithoutDetaching($part->categories);
+
+                    foreach ($part->children as $child) {
+                        $newPart->children()->syncWithoutDetaching([
+                            $child->id => [
+                                'value' => $child->pivot->value
+                            ]
+                        ]);
+                    }
+
+                    $totalPrice = 0;
+                    foreach ($newPart->children as $child) {
+                        $totalPrice += ($child->price * $child->pivot->value);
+                    }
+                    $newPart->save();
+                }
+
                 $newAmount = $amount->replicate()->fill([
                     'value' => $amount->value,
                     'product_id' => $newProduct->id,
@@ -604,9 +634,9 @@ class InquiryController extends Controller
 
     public function getCode(array $data)
     {
-        $lastInquiry = Inquiry::all()->last();
+        $lastInquiry = Inquiry::where('inquiry_number', '!=', null)->get()->last();
         $year = jdate(now())->getYear();
-        if (!is_null($lastInquiry)) {
+        if (!is_null($lastInquiry) && !is_null($lastInquiry->inquiry_number)) {
             $inquiryNumber = str_pad($lastInquiry->inquiry_number + 1, 5, "0", STR_PAD_LEFT);
             $data['inquiry_number'] = $inquiryNumber;
         } else {
@@ -663,19 +693,6 @@ class InquiryController extends Controller
         alert()->success('ثبت موفق', 'مدل مورد نظر با موفقیت به مدل های استاندارد اضافه شد');
 
         return back();
-    }
-
-    public function temporary()
-    {
-        Gate::authorize('inquiries');
-
-        if (auth()->user()->role == 'admin') {
-            $inquiries = Inquiry::where('tmp', '1')->latest()->paginate(25);
-        } else {
-            $inquiries = $inquiries->where('tmp', '1')->where('user_id', auth()->user()->id)->latest()->paginate(25);
-        }
-
-        return view('inquiries.temporary', compact('inquiries'));
     }
 
     public function getParentLastCode($modell)

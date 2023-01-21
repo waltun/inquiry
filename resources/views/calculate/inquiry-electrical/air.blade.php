@@ -99,16 +99,16 @@
             }
         </script>
         <script>
-            function changeRoute(type, part, product) {
+            function changeRoute(type, part, inquiry) {
                 let form = document.getElementById('form');
 
                 if (type == 'calculate') {
-                    form.action = '/calculate/panel-electrical';
+                    form.action = '/inquiry-part-electrical/calculate/air';
                     form.submit();
                 }
 
                 if (type == 'post') {
-                    form.action = '/calculate/electrical/' + part + '/' + product + '/post-panel';
+                    form.action = '/inquiry-part-electrical/' + inquiry + '/' + part + '/store-air';
                     form.submit();
                 }
             }
@@ -162,8 +162,6 @@
         $name = Session::get('name');
         $values = Session::get('values');
         $part_ids = Session::get('part_ids');
-
-        $modell = \App\Models\Modell::find($product->model_id);
     @endphp
 
         <!-- Content -->
@@ -171,7 +169,7 @@
         <!-- Laptop List -->
         <form method="POST" action="" id="form">
             @csrf
-            <input type="hidden" name="product_model" value="{{ $product->model_custom_name ?? $modell->name }}">
+            <input type="hidden" name="serial" value="{{ $inquiry->inquiry_number }}">
 
             <div class="bg-white shadow overflow-x-auto rounded-lg hidden md:block">
                 <table class="min-w-full">
@@ -227,56 +225,49 @@
                                     </td>
                                 </tr>
                                 @break
-                            @case('8')
+                            @case('3')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
-                                        مشخصات کلید و کنتاکتورهای کمپرسور
+                                        مشخصات کلید و کنتاکتورهای الکترو موتور فن هوارسان
                                     </td>
                                 </tr>
                                 @break
-                            @case('17')
-                                <tr class="bg-yellow-500">
-                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
-                                        مشخصات کلید و کنتاکتورهای فن الکترو موتور فن هوارسان
-                                    </td>
-                                </tr>
-                                @break
-                            @case('22')
-                                <tr class="bg-yellow-500">
-                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
-                                        مشخصات کلید و کنتاکتورهای فن الکتروفن‌های کندانسور
-                                    </td>
-                                </tr>
-                                @break
-                            @case('26')
+                            @case('7')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
                                         مشخصات کلیدها و کنتاکتورهای هیتر الکتریکی
                                     </td>
                                 </tr>
                                 @break
-                            @case('30')
+                            @case('13')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
                                         مشخصات کلیدها و کنتاکتورهای رطوبت زن
                                     </td>
                                 </tr>
                                 @break
-                            @case('33')
+                            @case('16')
+                                <tr class="bg-yellow-500">
+                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
+                                        مشخصات کلید و کنتاکتور الکترو پمپ‌ ها
+                                    </td>
+                                </tr>
+                                @break
+                            @case('19')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
                                         اطلاعات سیم و کابل
                                     </td>
                                 </tr>
                                 @break
-                            @case('37')
+                            @case('23')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
                                         سایر تجهیزات
                                     </td>
                                 </tr>
                                 @break
-                            @case('47')
+                            @case('30')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
                                         اقلام کنترلی
@@ -373,10 +364,10 @@
             <div class="my-4 flex justify-between items-center">
                 <div class="flex items-center space-x-2 space-x-reverse">
                     <button type="button" class="form-submit-btn"
-                            onclick="changeRoute('calculate',{{ $part->id }},{{ $product->id }})">
+                            onclick="changeRoute('calculate')">
                         محاسبه
                     </button>
-                    <a href="{{ route('inquiries.product.amounts',$product->id) }}" class="form-cancel-btn">
+                    <a href="#" class="form-cancel-btn">
                         انصراف (خروج)
                     </a>
                 </div>
@@ -391,25 +382,19 @@
             </div>
 
             @if(!is_null($part_ids))
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="my-4 bg-red-300 p-4 rounded-md shadow-md">
-                        <label class="block mb-2 text-sm font-bold" for="inputCoilName">
-                            نام تابلو برق مورد نظر
-                        </label>
-                        <input type="text" class="input-text" id="inputCoilName" name="name" dir="ltr"
-                               value="{{ $name }}">
-                    </div>
-                    @can('users')
-                        <div class="my-4 bg-red-300 p-4 rounded-md shadow-md">
-                            <label class="block mb-2 text-sm font-bold" for="inputStandard">
-                                تعیین استاندارد بودن تابلو برق
-                            </label>
-                            <select name="standard" id="inputStandard" class="input-text">
-                                <option value="0">نباشد</option>
-                                <option value="1">باشد</option>
-                            </select>
-                        </div>
-                    @endcan
+                <div class="my-4 bg-red-300 p-4 rounded-md shadow-md">
+                    <label class="block mb-2 text-sm font-bold" for="inputCoilName">
+                        نام تابلو برق مورد نظر
+                    </label>
+                    <input type="text" class="input-text" id="inputCoilName" name="name" dir="ltr"
+                           value="{{ $name }}">
+                </div>
+
+                <div class="my-4 bg-red-300 p-4 rounded-md shadow-md">
+                    <label class="block mb-2 text-sm font-bold" for="inputQuantity">
+                        تعداد تابلو برق مورد نظر
+                    </label>
+                    <input type="text" class="input-text" id="inputQuantity" name="quantity">
                 </div>
 
                 @can('users')
@@ -440,7 +425,7 @@
 
                 <div class="mb-4">
                     <button type="button" class="form-submit-btn"
-                            onclick="changeRoute('post',{{ $part->id }},{{ $product->id }})">
+                            onclick="changeRoute('post',{{ $part->id }},{{ $inquiry->id }})">
                         ذخیره
                     </button>
                 </div>

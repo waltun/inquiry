@@ -108,15 +108,6 @@
                 <input type="text" id="inputMarketer" name="marketer" class="input-text"
                        placeholder="مثال : احمد رضایی" value="{{ $inquiry->marketer }}">
             </div>
-
-            <div class="mt-4">
-                <label for="inputTemporary" class="block mb-2 md:text-sm text-xs text-black">استعلام موقت</label>
-                <select name="tmp" id="inputTemporary" class="input-text">
-                    <option value="">انتخاب کنید</option>
-                    <option value="1" {{ $inquiry->tmp == '1' ? 'selected' : '' }}>باشد</option>
-                    <option value="0" {{ $inquiry->tmp == '0' ? 'selected' : '' }}>نباشد</option>
-                </select>
-            </div>
         </div>
 
         <div class="col-span-2 space-x-2 space-x-reverse">

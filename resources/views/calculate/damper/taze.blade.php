@@ -46,7 +46,6 @@
         <form method="POST" action="{{ route('calculateTazeDamper') }}"
               class="bg-white rounded-md shadow-md border border-gray-200 py-4 px-6">
             @csrf
-            <input type="hidden" name="serial" value="{{ $inquiry->inquiry_number }}">
             <div class="mb-4 border-b border-gray-300 pb-3 flex justify-between items-center">
                 <div>
                     <p class="text-lg text-black">
