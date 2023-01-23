@@ -255,11 +255,6 @@
             </p>
         </div>
         <div class="space-x-2 space-x-reverse flex items-center">
-            @can('create-inquiry')
-                <a href="{{ route('inquiries.parts.create',$inquiry->id) }}" class="form-submit-btn text-xs">
-                    افزودن قطعه جدید به استعلام
-                </a>
-            @endcan
             <div x-data="{open:false}">
                 <button type="button" class="form-edit-btn text-xs" @click="open = !open">
                     افزودن کویل جدید به استعلام
@@ -299,7 +294,7 @@
                                                     کویل {{ \App\Models\Part::select('name')->where('id','150')->first()->name }}
                                                 </option>
                                                 <option value="air">
-                                                     {{ \App\Models\Part::select('name')->where('id','2249')->first()->name }}
+                                                    {{ \App\Models\Part::select('name')->where('id','2249')->first()->name }}
                                                 </option>
                                             </select>
                                         </div>
@@ -319,63 +314,115 @@
                     </div>
                 </div>
             </div>
-                <div x-data="{open:false}">
-                    <button type="button" class="form-edit-btn text-xs" @click="open = !open">
-                        افزودن تابلو محلی جدید به استعلام
-                    </button>
-                    <div class="relative z-10" x-show="open" x-cloak>
-                        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
-                        <div class="fixed z-10 inset-0 overflow-y-auto">
-                            <div
-                                class="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
-                                <form method="POST" action="{{ route('inquiryPart.electrical.index',$inquiry->id) }}"
-                                      class="relative bg-white rounded-lg text-right overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full">
-                                    @csrf
-                                    <div class="bg-white p-4">
-                                        <div class="mt-3 text-center sm:mt-0 sm:text-right">
-                                            <h3 class="text-lg font-medium text-gray-900 border-b border-gray-300 pb-3">
-                                                محاسبه تابلو محلی جدید
-                                            </h3>
-                                            <div class="mt-4">
-                                                <label class="block mb-2 text-sm font-bold" for="inputElectricalType">
-                                                    انتخاب نوع تابلو محلی
-                                                </label>
-                                                <select name="electrical_type" id="inputElectricalType" class="input-text">
-                                                    <option value="">انتخاب کنید</option>
-                                                    <option value="air">
-                                                        {{ \App\Models\Part::select('name')->where('id','2249')->first()->name }}
-                                                    </option>
-                                                    <option value="chiller">
-                                                        {{ \App\Models\Part::select('name')->where('id','2144')->first()->name }}
-                                                    </option>
-                                                    <option value="panel">
-                                                        {{ \App\Models\Part::select('name')->where('id','1879')->first()->name }}
-                                                    </option>
-                                                    <option value="zent">
-                                                        {{ \App\Models\Part::select('name')->where('id','2256')->first()->name }}
-                                                    </option>
-                                                    <option value="mini">
-                                                        {{ \App\Models\Part::select('name')->where('id','2264')->first()->name }}
-                                                    </option>
-                                                </select>
-                                            </div>
+            <div x-data="{open:false}">
+                <button type="button" class="form-edit-btn text-xs" @click="open = !open">
+                    افزودن تابلو محلی جدید به استعلام
+                </button>
+                <div class="relative z-10" x-show="open" x-cloak>
+                    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+                    <div class="fixed z-10 inset-0 overflow-y-auto">
+                        <div
+                            class="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
+                            <form method="POST" action="{{ route('inquiryPart.electrical.index',$inquiry->id) }}"
+                                  class="relative bg-white rounded-lg text-right overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full">
+                                @csrf
+                                <div class="bg-white p-4">
+                                    <div class="mt-3 text-center sm:mt-0 sm:text-right">
+                                        <h3 class="text-lg font-medium text-gray-900 border-b border-gray-300 pb-3">
+                                            محاسبه تابلو محلی جدید
+                                        </h3>
+                                        <div class="mt-4">
+                                            <label class="block mb-2 text-sm font-bold" for="inputElectricalType">
+                                                انتخاب نوع تابلو محلی
+                                            </label>
+                                            <select name="electrical_type" id="inputElectricalType" class="input-text">
+                                                <option value="">انتخاب کنید</option>
+                                                <option value="air">
+                                                    {{ \App\Models\Part::select('name')->where('id','2249')->first()->name }}
+                                                </option>
+                                                <option value="chiller">
+                                                    {{ \App\Models\Part::select('name')->where('id','2144')->first()->name }}
+                                                </option>
+                                                <option value="panel">
+                                                    {{ \App\Models\Part::select('name')->where('id','1879')->first()->name }}
+                                                </option>
+                                                <option value="zent">
+                                                    {{ \App\Models\Part::select('name')->where('id','2256')->first()->name }}
+                                                </option>
+                                                <option value="mini">
+                                                    {{ \App\Models\Part::select('name')->where('id','2264')->first()->name }}
+                                                </option>
+                                            </select>
                                         </div>
                                     </div>
-                                    <div class="bg-gray-100 px-4 py-2">
-                                        <button type="submit" class="form-submit-btn">
-                                            ثبت
-                                        </button>
-                                        <button type="button" class="form-cancel-btn"
-                                                @click="open = !open">
-                                            انصراف
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
+                                </div>
+                                <div class="bg-gray-100 px-4 py-2">
+                                    <button type="submit" class="form-submit-btn">
+                                        ثبت
+                                    </button>
+                                    <button type="button" class="form-cancel-btn"
+                                            @click="open = !open">
+                                        انصراف
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
-            <a href="{{ route('inquiries.index') }}" class="form-detail-btn text-xs">لیست استعلام ها</a>
+            </div>
+            <div x-data="{open:false}">
+                <button type="button" class="form-edit-btn text-xs" @click="open = !open">
+                    افزودن دمپر جدید به استعلام
+                </button>
+                <div class="relative z-10" x-show="open" x-cloak>
+                    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+                    <div class="fixed z-10 inset-0 overflow-y-auto">
+                        <div
+                            class="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
+                            <form method="POST" action="{{ route('inquiryPart.damper.index',$inquiry->id) }}"
+                                  class="relative bg-white rounded-lg text-right overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full">
+                                @csrf
+                                <div class="bg-white p-4">
+                                    <div class="mt-3 text-center sm:mt-0 sm:text-right">
+                                        <h3 class="text-lg font-medium text-gray-900 border-b border-gray-300 pb-3">
+                                            محاسبه دمپر جدید
+                                        </h3>
+                                        <div class="mt-4">
+                                            <label class="block mb-2 text-sm font-bold" for="inputElectricalType">
+                                                انتخاب نوع دمپر
+                                            </label>
+                                            <select name="damper_type" id="inputElectricalType" class="input-text">
+                                                <option value="">انتخاب کنید</option>
+                                                <option value="taze">
+                                                    {{ \App\Models\Part::select('name')->where('id','146')->first()->name }}
+                                                </option>
+                                                <option value="bargasht">
+                                                    {{ \App\Models\Part::select('name')->where('id','147')->first()->name }}
+                                                </option>
+                                                <option value="raft">
+                                                    {{ \App\Models\Part::select('name')->where('id','148')->first()->name }}
+                                                </option>
+                                                <option value="exast">
+                                                    {{ \App\Models\Part::select('name')->where('id','149')->first()->name }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bg-gray-100 px-4 py-2">
+                                    <button type="submit" class="form-submit-btn">
+                                        ثبت
+                                    </button>
+                                    <button type="button" class="form-cancel-btn"
+                                            @click="open = !open">
+                                        انصراف
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

@@ -13,6 +13,7 @@ use App\Http\Controllers\GroupController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\InquiryPartCoilController;
 use App\Http\Controllers\InquiryPartController;
+use App\Http\Controllers\InquiryPartDamperController;
 use App\Http\Controllers\InquiryPartElectricalController;
 use App\Http\Controllers\InquiryPriceController;
 use App\Http\Controllers\InquiryProductController;
@@ -338,6 +339,7 @@ Route::middleware(['auth', 'web'])->group(function () {
 
     //Inquiry Part Electricals
     Route::post('/inquiry-part-electrical/{inquiry}', [InquiryPartElectricalController::class, 'index'])->name('inquiryPart.electrical.index');
+
     Route::get('/inquiry-part-electrical/{inquiry}/{part}/air', [InquiryPartElectricalController::class, 'air'])->name('inquiryPart.electrical.air');
     Route::post('/inquiry-part-electrical/calculate/air', [InquiryPartElectricalController::class, 'calculateAir'])->name('inquiryPart.electrical.calculateAir');
     Route::post('/inquiry-part-electrical/{inquiry}/{part}/store-air', [InquiryPartElectricalController::class, 'storeAir'])->name('inquiryPart.electrical.storeAir');
@@ -357,6 +359,22 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/inquiry-part-electrical/{inquiry}/{part}/zent', [InquiryPartElectricalController::class, 'zent'])->name('inquiryPart.electrical.zent');
     Route::post('/inquiry-part-electrical/calculate/zent', [InquiryPartElectricalController::class, 'calculateZent'])->name('inquiryPart.electrical.calculateZent');
     Route::post('/inquiry-part-electrical/{inquiry}/{part}/store-zent', [InquiryPartElectricalController::class, 'storeZent'])->name('inquiryPart.electrical.storeZent');
+
+    //Inquiry Part Dampers
+    Route::post('/inquiry-part-damper/{inquiry}', [InquiryPartDamperController::class, 'index'])->name('inquiryPart.damper.index');
+    Route::post('/inquiry-part-damper/{inquiry}/{part}/store', [InquiryPartDamperController::class, 'store'])->name('inquiryPart.damper.store');
+
+    Route::get('/inquiry-part-damper/{inquiry}/{part}/bargasht', [InquiryPartDamperController::class, 'bargasht'])->name('inquiryPart.damper.bargasht');
+    Route::post('/inquiry-part-damper/calculate/bargasht', [InquiryPartDamperController::class, 'calculateBargasht'])->name('inquiryPart.damper.calculateBargasht');
+
+    Route::get('/inquiry-part-damper/{inquiry}/{part}/exast', [InquiryPartDamperController::class, 'exast'])->name('inquiryPart.damper.exast');
+    Route::post('/inquiry-part-damper/calculate/exast', [InquiryPartDamperController::class, 'calculateExast'])->name('inquiryPart.damper.calculateExast');
+
+    Route::get('/inquiry-part-damper/{inquiry}/{part}/raft', [InquiryPartDamperController::class, 'raft'])->name('inquiryPart.damper.raft');
+    Route::post('/inquiry-part-damper/calculate/raft', [InquiryPartDamperController::class, 'calculateRaft'])->name('inquiryPart.damper.calculateRaft');
+
+    Route::get('/inquiry-part-damper/{inquiry}/{part}/taze', [InquiryPartDamperController::class, 'taze'])->name('inquiryPart.damper.taze');
+    Route::post('/inquiry-part-damper/calculate/taze', [InquiryPartDamperController::class, 'calculateTaze'])->name('inquiryPart.damper.calculateTaze');
 
     //Inquiry Price Routes
     Route::get('/inquiry-price', [InquiryPriceController::class, 'index'])->name('inquiryPrice.index');
