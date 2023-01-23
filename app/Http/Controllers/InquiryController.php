@@ -81,8 +81,6 @@ class InquiryController extends Controller
             'type' => 'required|in:product,part,both'
         ]);
 
-        $data['manager'] = auth()->user()->name;
-
         $data['user_id'] = $request->user()->id;
 
         Inquiry::create($data);
@@ -578,6 +576,19 @@ class InquiryController extends Controller
                 $newAmount->save();
             }
         }
+
+        alert()->success('ارجاع موفق', 'ارجاع با موفقیت انجام شد و برای کاربر ارسال شد');
+
+        return back();
+    }
+
+    public function tmpReferral(Request $request, Inquiry $inquiry)
+    {
+        Gate::authorize('create-inquiry');
+
+        $inquiry->update([
+            'user_id' => $request['user_id']
+        ]);
 
         alert()->success('ارجاع موفق', 'ارجاع با موفقیت انجام شد و برای کاربر ارسال شد');
 

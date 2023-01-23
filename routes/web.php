@@ -115,6 +115,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::patch('/inquiries/{inquiry}/description', [InquiryController::class, 'storeDescription'])->name('inquiries.storeDescription');
     Route::get('/inquiries/{inquiry}/show-description', [InquiryController::class, 'showDescription'])->name('inquiries.showDescription');
     Route::post('/inquiries/{inquiry}/referral', [InquiryController::class, 'referral'])->name('inquiries.referral');
+    Route::post('/inquiries/{inquiry}/tmp-referral', [InquiryController::class, 'tmpReferral'])->name('inquiries.tmpReferral');
     Route::post('/inquiries/{product}/add-to-models', [InquiryController::class, 'addToModell'])->name('inquiries.addToModell');
 
     //Inquiry Product routes

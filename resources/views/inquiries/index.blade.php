@@ -170,8 +170,13 @@
                                 {{ $inquiry->name }}
                             </p>
                         </td>
+                        @php
+                            $user = \App\Models\User::find($inquiry->user_id);
+                        @endphp
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ $inquiry->manager }}</p>
+                            <p class="text-sm text-black text-center">
+                                {{ $user->name }}
+                            </p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center">{{ $inquiry->marketer }}</p>
@@ -210,7 +215,7 @@
                                 <div x-data="{ open:false }" class="inline-flex">
                                     <button class="form-cancel-btn text-xs bg-gray-600 hover:bg-gray-700" type="button"
                                             @click="open=!open">
-                                        ارجاع
+                                        انتقال
                                     </button>
                                     <div class="relative z-50" x-show="open" x-cloak>
                                         <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
@@ -218,14 +223,14 @@
                                             <div
                                                 class="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
                                                 <form method="POST"
-                                                      action="{{ route('inquiries.referral',$inquiry->id) }}"
+                                                      action="{{ route('inquiries.tmpReferral',$inquiry->id) }}"
                                                       class="relative bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full">
                                                     @csrf
 
                                                     <div class="bg-white p-4">
                                                         <div class="mt-3 text-center sm:mt-0 sm:text-right">
                                                             <h3 class="text-lg font-medium text-gray-900 border-b border-gray-300 pb-3">
-                                                                ارجاع استعلام
+                                                                انتقال استعلام
                                                             </h3>
                                                             <div class="mt-2">
                                                                 <label for="inputUser" class="text-sm mb-2 block">

@@ -174,8 +174,13 @@
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center font-medium">{{ $inquiry->name }}</p>
                         </td>
+                        @php
+                            $user = \App\Models\User::find($inquiry->user_id);
+                        @endphp
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ $inquiry->manager }}</p>
+                            <p class="text-sm text-black text-center">
+                                {{ $user->name }}
+                            </p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center">{{ $inquiry->marketer }}</p>

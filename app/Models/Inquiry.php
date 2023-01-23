@@ -11,7 +11,7 @@ Inquiry extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'manager', 'submit', 'inquiry_number', 'price', 'archive_at', 'user_id', 'marketer', 'message',
+        'name', 'submit', 'inquiry_number', 'price', 'archive_at', 'user_id', 'marketer', 'message',
         'description', 'type', 'copy_id', 'correction_id'
     ];
 
