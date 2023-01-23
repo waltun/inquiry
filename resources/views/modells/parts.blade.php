@@ -131,7 +131,21 @@
                 لیست قطعات مدل <span class="text-red-600">{{ $modell->name }}</span>
             </p>
         </div>
-        <div class="space-x-2 space-x-reverse">
+        <div class="space-x-2 space-x-reverse flex items-center">
+            <form action="" method="get">
+                <div class="mt-1 flex rounded-md shadow-sm">
+                    <input type="text" name="search" id="inputSearch" class="input-text rounded-none rounded-r-md"
+                           placeholder="مثال : پیچ" value="{{ request('search') }}">
+                    <button type="submit"
+                            class="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-sm text-gray-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </form>
             <a href="{{ route('modells.parts.index',$modell->id) }}" class="form-submit-btn text-xs">
                 افزودن قطعه
             </a>
@@ -149,28 +163,28 @@
                     <thead>
                     <tr class="bg-sky-200">
                         <th scope="col"
-                            class="px-4 py-3 text-sm font-bold text-gray-800 text-center rounded-r-md">
+                            class="px-4 py-2 text-sm font-bold text-gray-800 text-center rounded-r-md">
                             ردیف
                         </th>
-                        <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                        <th scope="col" class="px-4 py-2 text-sm font-bold text-gray-800 text-center">
                             دسته بندی
                         </th>
-                        <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                        <th scope="col" class="px-4 py-2 text-sm font-bold text-gray-800 text-center">
                             نام
                         </th>
-                        <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                        <th scope="col" class="px-4 py-2 text-sm font-bold text-gray-800 text-center">
                             واحد
                         </th>
-                        <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                        <th scope="col" class="px-4 py-2-sm font-bold text-gray-800 text-center">
                             مقدار
                         </th>
-                        <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                        <th scope="col" class="px-4 py-2 text-sm font-bold text-gray-800 text-center">
                             قیمت
                         </th>
-                        <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                        <th scope="col" class="px-4 py-2 text-sm font-bold text-gray-800 text-center">
                             قیمت کل
                         </th>
-                        <th scope="col" class="relative px-4 py-3 rounded-l-md">
+                        <th scope="col" class="relative px-4 py-2 rounded-l-md">
                             <span class="sr-only">اقدامات</span>
                         </th>
                     </tr>
@@ -180,7 +194,7 @@
                         $totalWeight = 0;
                         $totalPrice = 0;
                     @endphp
-                    @foreach($modell->parts()->orderBy('sort','ASC')->get() as $part)
+                    @foreach($parts as $part)
                         @php
                             $category = $part->categories[1];
                             $selectedCategory = $part->categories[2];
@@ -189,12 +203,12 @@
                             $totalPrice += $part->price * $part->pivot->value;
                         @endphp
                         <tr>
-                            <td class="px-4 py-3 whitespace-nowrap">
+                            <td class="px-4 py-0.5 whitespace-nowrap">
                                 <input type="text" class="input-text w-14 text-center" name="sorts[]"
                                        id="partSort{{ $part->id }}"
                                        value="{{ $part->pivot->sort }}">
                             </td>
-                            <td class="px-4 py-3">
+                            <td class="px-4 py-0.5">
                                 <select id="inputCategory{{ $part->id }}" class="input-text"
                                         onchange="changePart(event,{{ $part->id }})">
                                     @foreach($category->children as $child)
@@ -205,7 +219,7 @@
                                     @endforeach
                                 </select>
                             </td>
-                            <td class="px-4 py-3 whitespace-nowrap">
+                            <td class="px-4 py-0.5 whitespace-nowrap">
                                 @php
                                     $selectedPart = \App\Models\Part::find($part->id);
                                     $lastCategory = $selectedPart->categories()->latest()->first();
@@ -220,7 +234,7 @@
                                     @endforeach
                                 </select>
                             </td>
-                            <td class="px-4 py-3 whitespace-nowrap">
+                            <td class="px-4 py-0.5 whitespace-nowrap">
                                 <p class="text-sm text-black text-center">
                                     {{ $part->unit }}
                                     @if(!is_null($part->unit2))
@@ -228,7 +242,7 @@
                                     @endif
                                 </p>
                             </td>
-                            <td class="px-4 py-3 whitespace-nowrap">
+                            <td class="px-4 py-0.5 whitespace-nowrap">
                                 <input type="text" class="input-text w-20 text-center" name="values[]"
                                        id="partValue{{ $part->id }}" onkeyup="changeUnit1(event,{{ $part }})"
                                        value="{{ $part->pivot->value }}">
@@ -240,7 +254,7 @@
                                 <input type="hidden" name="units[]" id="inputUnitValue{{ $part->id }}"
                                        value="{{ $part->pivot->value2 }}">
                             </td>
-                            <td class="px-4 py-3 whitespace-nowrap">
+                            <td class="px-4 py-0.5 whitespace-nowrap">
                                 @if($part->price)
                                     <p class="text-sm text-black text-center font-medium">
                                         {{ number_format($part->price) }}
@@ -251,12 +265,12 @@
                                     </p>
                                 @endif
                             </td>
-                            <td class="px-4 py-3 whitespace-nowrap">
+                            <td class="px-4 py-0.5 whitespace-nowrap">
                                 <p class="text-sm text-black text-center font-medium">
                                     {{ number_format($part->price * $part->pivot->value) }}
                                 </p>
                             </td>
-                            <td class="px-4 py-3 space-x-3 space-x-reverse">
+                            <td class="px-4 py-0.5 space-x-3 space-x-reverse">
                                 <button onclick="deletePartFromModell({{ $modell->id }},{{ $part->id }})" type="button">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                          stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-red-500">

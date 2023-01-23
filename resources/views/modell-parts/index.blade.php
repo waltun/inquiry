@@ -147,7 +147,7 @@
         </div>
         <div class="space-x-2 space-x-reverse">
             <a href="{{ route('modells.index',$group->id) }}" class="form-detail-btn text-xs">
-                لیست مدل های گروه {{ $group->name }}
+                لیست مدل‌های گروه {{ $group->name }}
             </a>
             <a href="{{ route('modells.parts',$modell->id) }}" class="form-edit-btn text-xs">
                 لیست قطعات مدل {{ $modell->name }}

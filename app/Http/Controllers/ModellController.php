@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Group;
 use App\Models\Modell;
+use App\Models\Part;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -158,7 +159,14 @@ class ModellController extends Controller
     {
         Gate::authorize('groups');
 
-        return view('modells.parts', compact('modell'));
+        if (request()->has('search')) {
+            $parts = $modell->parts()->where('name', 'LIKE', '%' . request('search') . '%')
+                ->orderBy('sort','ASC')->get();
+        } else {
+            $parts = $modell->parts()->orderBy('sort','ASC')->get();
+        }
+
+        return view('modells.parts', compact('modell', 'parts'));
     }
 
     public function destroyPart(Modell $modell, $partId)
