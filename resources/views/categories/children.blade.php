@@ -29,7 +29,7 @@
                 }
             }
         @endphp
-        <div class="border border-gray-400 rounded-md p-4 bg-gray-50 my-4" x-data="{open : false}"
+        <div class="border border-gray-400 rounded-md px-4 py-1 bg-gray-50 my-4" x-data="{open : false}"
              :class="{'bg-indigo-300' : open}" onmouseenter="showButtons({{ $children->id }})"
              onmouseleave="hideButtons({{ $children->id }})">
             <div class="md:flex items-center justify-between space-y-4 md:space-y-0">

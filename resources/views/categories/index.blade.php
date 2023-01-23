@@ -57,7 +57,7 @@
     <!-- Content -->
     <div class="mt-4">
         @foreach($categories as $category)
-            <div class="border border-gray-400 rounded-md p-4 bg-white shadow-sm mb-4" x-data="{open:false}"
+            <div class="border border-gray-400 rounded-md px-4 py-1 bg-white shadow-sm mb-4" x-data="{open:false}"
                  :class="{'bg-indigo-200' : open}" onmouseenter="showButtons({{ $category->id }})"
                  onmouseleave="hideButtons({{ $category->id }})">
                 <div class="md:flex items-center justify-between space-y-4 md:space-y-0">
