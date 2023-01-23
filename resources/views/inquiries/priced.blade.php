@@ -145,6 +145,9 @@
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                         بازاریاب
                     </th>
+                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                        تاریخ
+                    </th>
                     <th scope="col" class="relative px-4 py-3 rounded-l-md">
                         <span class="sr-only">اقدامات</span>
                     </th>
@@ -171,6 +174,9 @@
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center">{{ $inquiry->marketer }}</p>
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <p class="text-sm text-black text-center">{{ jdate($inquiry->updated_at)->format('%A, %d %B %Y') }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap space-x-2 space-x-reverse">
                             @can('priced-inquiry')

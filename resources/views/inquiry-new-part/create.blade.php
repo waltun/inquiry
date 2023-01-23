@@ -275,6 +275,9 @@
                         نام
                     </th>
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                        استعلام مربوطه
+                    </th>
+                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                         واحد
                     </th>
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
@@ -287,12 +290,30 @@
                 </thead>
                 <tbody>
                 @foreach($parts as $part)
+                    @php
+                        if(!is_null($part->inquiry_id)) {
+                            $inquiry = \App\Models\Inquiry::find($part->inquiry_id);
+                        }
+                    @endphp
                     <tr>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-gray-500 text-center">{{ $loop->index + 1 }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center font-medium">{{ $part->name }}</p>
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <p class="text-sm text-black text-center" dir="ltr">
+                                @if(isset($inquiry))
+                                    @if(!is_null($inquiry->inquiry_number))
+                                        INQ-{{ $inquiry->inquiry_number }} ({{ $inquiry->name }})
+                                    @else
+                                        {{ $inquiry->name }}
+                                    @endif
+                                @else
+                                    -
+                                @endif
+                            </p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center">{{ $part->unit }}</p>

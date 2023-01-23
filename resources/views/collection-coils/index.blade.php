@@ -277,12 +277,12 @@
                             <p class="text-sm text-black text-center" dir="ltr">
                                 @if(isset($inquiry))
                                     @if(!is_null($inquiry->inquiry_number))
-                                        INQ-{{ $inquiry->inquiry_number }}
+                                        INQ-{{ $inquiry->inquiry_number }} ({{ $inquiry->name }})
                                     @else
-                                        -
+                                        {{ $inquiry->name }}
                                     @endif
                                 @else
-                                    -
+                                    {{ $inquiry->name }}
                                 @endif
                             </p>
                         </td>

@@ -131,6 +131,9 @@
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                         بازاریاب
                     </th>
+                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                        تاریخ
+                    </th>
                     <th scope="col" class="relative px-4 py-3">
                         <span class="sr-only">محصولات</span>
                     </th>
@@ -180,6 +183,9 @@
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center">{{ $inquiry->marketer }}</p>
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <p class="text-sm text-black text-center">{{ jdate($inquiry->created_at)->format('%A, %d %B %Y') }}</p>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
                             @if($inquiry->type == 'product' || $inquiry->type == 'both')
