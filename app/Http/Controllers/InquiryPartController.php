@@ -7,6 +7,7 @@ use App\Models\Inquiry;
 use App\Models\Part;
 use App\Models\Product;
 use App\Models\Setting;
+use App\Models\Special;
 use App\Models\User;
 use App\Notifications\PercentInquiryNotification;
 use Illuminate\Http\Request;
@@ -19,8 +20,9 @@ class InquiryPartController extends Controller
         Gate::authorize('create-inquiry');
 
         $setting = Setting::where('active', '1')->first();
+        $specials = Special::all()->pluck('part_id')->toArray();
 
-        return view('inquiry-part.index', compact('inquiry', 'setting'));
+        return view('inquiry-part.index', compact('inquiry', 'setting', 'specials'));
     }
 
     public function create(Inquiry $inquiry)

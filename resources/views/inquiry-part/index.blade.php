@@ -554,7 +554,7 @@
                                     @endforeach
                                 </select>
                             </td>
-                            <td class="px-4 py-3 whitespace-nowrap {{ $color ?? 'bg-white' }}">
+                            <td class="px-4 py-3 flex items-center {{ $color ?? 'bg-white' }}">
                                 @php
                                     $selectedPart = \App\Models\Part::find($part->id);
                                     $lastCategory = $selectedPart->categories()->latest()->first();
@@ -569,6 +569,12 @@
                                         </option>
                                     @endforeach
                                 </select>
+                                @if($part->coil == '1' && !$part->standard && !in_array($part->id,$specials))
+                                    <a href="{{ route('collections.amounts',$part->id) }}" target="_blank"
+                                       class="text-xs mr-1 text-indigo-500 underline underline-offset-4 whitespace-nowrap">
+                                        مشاهده جزئیات
+                                    </a>
+                                @endif
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap">
                                 <input type="text" name="tags[]" class="input-text" value="{{ $product->description }}"
