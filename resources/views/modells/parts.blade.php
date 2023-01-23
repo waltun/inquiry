@@ -80,6 +80,28 @@
                 });
             }
         </script>
+        <script>
+            function searchParts(event) {
+                let value = event.target.value;
+                let currentUrl = '{{ url()->current() }}';
+                let url = new URL(currentUrl);
+
+                if (value == 'sort') {
+                    url.searchParams.append('sort_type', 'sort');
+                }
+                if (value == 'name') {
+                    url.searchParams.append('sort_type', 'name');
+                }
+                if (value == 'unit') {
+                    url.searchParams.append('sort_type', 'unit');
+                }
+                if (value == 'price') {
+                    url.searchParams.append('sort_type', 'price');
+                }
+
+                window.location.href = url.href;
+            }
+        </script>
     </x-slot>
 
     <!-- Breadcrumb -->
@@ -131,9 +153,26 @@
                 لیست قطعات مدل <span class="text-red-600">{{ $modell->name }}</span>
             </p>
         </div>
-        <div class="space-x-2 space-x-reverse flex items-center">
+        <div class="flex items-center space-x-2 space-x-reverse">
+            <p class="text-xs text-black font-medium">
+                مرتب سازی بر اساس :
+            </p>
+            <select name="sort_type" id="inputSort" class="input-text w-24 py-1" onchange="searchParts(event)">
+                <option value="sort" {{ request('sort_type') == 'sort' ? 'selected' : '' }}>
+                    ردیف
+                </option>
+                <option value="name" {{ request('sort_type') == 'name' ? 'selected' : '' }}>
+                    نام
+                </option>
+                <option value="unit" {{ request('sort_type') == 'unit' ? 'selected' : '' }}>
+                    واحد
+                </option>
+                <option value="price" {{ request('sort_type') == 'price' ? 'selected' : '' }}>
+                    قیمت
+                </option>
+            </select>
             <form action="" method="get">
-                <div class="mt-1 flex rounded-md shadow-sm">
+                <div class="flex rounded-md shadow-sm">
                     <input type="text" name="search" id="inputSearch" class="input-text rounded-none rounded-r-md"
                            placeholder="مثال : پیچ" value="{{ request('search') }}">
                     <button type="submit"
@@ -146,6 +185,8 @@
                     </button>
                 </div>
             </form>
+        </div>
+        <div class="space-x-2 space-x-reverse flex items-center">
             <a href="{{ route('modells.parts.index',$modell->id) }}" class="form-submit-btn text-xs">
                 افزودن قطعه
             </a>

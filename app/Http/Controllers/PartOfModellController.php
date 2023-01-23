@@ -40,7 +40,7 @@ class PartOfModellController extends Controller
             }
         }
 
-        $parts = $parts->whereNotIn('id', $modell->parts->pluck('id'))->latest()->paginate(25);
+        $parts = $parts->whereNotIn('id', $modell->parts->pluck('id'))->latest()->paginate(25)->withQueryString();
 
         return view('modell-parts.index', compact('parts', 'modell', 'group', 'categories'));
     }

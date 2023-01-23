@@ -106,7 +106,7 @@
                     </svg>
                     <a href="{{ route('modells.index',$group->id) }}"
                        class="mr-2 text-xs md:text-sm font-medium text-gray-500 hover:text-gray-900">
-                        لیست مدل های گروه هواساز
+                        لیست مدل‌های گروه {{ $group->name }}
                     </a>
                 </div>
             </li>
@@ -316,6 +316,10 @@
                 @endforeach
                 </tbody>
             </table>
+        </div>
+
+        <div class="mt-4">
+            {{ $parts->links() }}
         </div>
 
         <!-- Mobile List -->

@@ -67,7 +67,7 @@
     <!-- Content -->
     <div class="mt-4">
         @foreach($groups as $group)
-            <div class="border border-gray-400 rounded-md p-4 bg-white shadow-sm mb-4" x-data="{open:false}"
+            <div class="border border-gray-400 rounded-md px-4 py-1 bg-white shadow-sm mb-4" x-data="{open:false}"
                  :class="{'bg-indigo-200' : open}" onmouseenter="showButtons({{ $group->id }})"
                  onmouseleave="hideButtons({{ $group->id }})">
                 <div class="md:flex items-center justify-between space-y-4 md:space-y-0">
@@ -126,7 +126,7 @@
                 </div>
                 <div x-show="open" x-cloak>
                     @foreach($group->modells()->where('parent_id',0)->get() as $modell)
-                        <div class="border border-gray-400 rounded-md p-4 bg-white shadow-sm my-4"
+                        <div class="border border-gray-400 rounded-md px-4 py-1 bg-white shadow-sm my-4"
                              x-data="{open:false}"
                              :class="{'bg-indigo-200' : open}" onmouseenter="showButtons2({{ $modell->id }})"
                              onmouseleave="hideButtons2({{ $modell->id }})">
@@ -191,7 +191,7 @@
                             </div>
                             <div x-show="open">
                                 @foreach($modell->children as $children)
-                                    <div class="border border-gray-400 rounded-md p-4 bg-white shadow-sm my-4"
+                                    <div class="border border-gray-400 rounded-md px-4 py-1 bg-white shadow-sm my-4"
                                          x-data="{open:false}"
                                          :class="{'bg-indigo-200' : open}"
                                          onmouseenter="showButtons2({{ $children->id }})"
