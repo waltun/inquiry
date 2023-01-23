@@ -341,6 +341,22 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/inquiry-part-electrical/calculate/air', [InquiryPartElectricalController::class, 'calculateAir'])->name('inquiryPart.electrical.calculateAir');
     Route::post('/inquiry-part-electrical/{inquiry}/{part}/store-air', [InquiryPartElectricalController::class, 'storeAir'])->name('inquiryPart.electrical.storeAir');
 
+    Route::get('/inquiry-part-electrical/{inquiry}/{part}/chiller', [InquiryPartElectricalController::class, 'chiller'])->name('inquiryPart.electrical.chiller');
+    Route::post('/inquiry-part-electrical/calculate/chiller', [InquiryPartElectricalController::class, 'calculateChiller'])->name('inquiryPart.electrical.calculateChiller');
+    Route::post('/inquiry-part-electrical/{inquiry}/{part}/store-chiller', [InquiryPartElectricalController::class, 'storeChiller'])->name('inquiryPart.electrical.storeChiller');
+
+    Route::get('/inquiry-part-electrical/{inquiry}/{part}/mini', [InquiryPartElectricalController::class, 'mini'])->name('inquiryPart.electrical.mini');
+    Route::post('/inquiry-part-electrical/calculate/mini', [InquiryPartElectricalController::class, 'calculateMini'])->name('inquiryPart.electrical.calculateMini');
+    Route::post('/inquiry-part-electrical/{inquiry}/{part}/store-mini', [InquiryPartElectricalController::class, 'storeMini'])->name('inquiryPart.electrical.storeMini');
+
+    Route::get('/inquiry-part-electrical/{inquiry}/{part}/panel', [InquiryPartElectricalController::class, 'panel'])->name('inquiryPart.electrical.panel');
+    Route::post('/inquiry-part-electrical/calculate/panel', [InquiryPartElectricalController::class, 'calculatePanel'])->name('inquiryPart.electrical.calculatePanel');
+    Route::post('/inquiry-part-electrical/{inquiry}/{part}/store-panel', [InquiryPartElectricalController::class, 'storePanel'])->name('inquiryPart.electrical.storePanel');
+
+    Route::get('/inquiry-part-electrical/{inquiry}/{part}/zent', [InquiryPartElectricalController::class, 'zent'])->name('inquiryPart.electrical.zent');
+    Route::post('/inquiry-part-electrical/calculate/zent', [InquiryPartElectricalController::class, 'calculateZent'])->name('inquiryPart.electrical.calculateZent');
+    Route::post('/inquiry-part-electrical/{inquiry}/{part}/store-zent', [InquiryPartElectricalController::class, 'storeZent'])->name('inquiryPart.electrical.storeZent');
+
     //Inquiry Price Routes
     Route::get('/inquiry-price', [InquiryPriceController::class, 'index'])->name('inquiryPrice.index');
     Route::post('/inquiry-price/{part}/{inquiry}/store', [InquiryPriceController::class, 'store'])->name('inquiryPrice.store');

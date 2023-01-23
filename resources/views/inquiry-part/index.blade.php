@@ -345,6 +345,18 @@
                                                     <option value="air">
                                                         {{ \App\Models\Part::select('name')->where('id','2249')->first()->name }}
                                                     </option>
+                                                    <option value="chiller">
+                                                        {{ \App\Models\Part::select('name')->where('id','2144')->first()->name }}
+                                                    </option>
+                                                    <option value="panel">
+                                                        {{ \App\Models\Part::select('name')->where('id','1879')->first()->name }}
+                                                    </option>
+                                                    <option value="zent">
+                                                        {{ \App\Models\Part::select('name')->where('id','2256')->first()->name }}
+                                                    </option>
+                                                    <option value="mini">
+                                                        {{ \App\Models\Part::select('name')->where('id','2264')->first()->name }}
+                                                    </option>
                                                 </select>
                                             </div>
                                         </div>
@@ -366,6 +378,8 @@
             <a href="{{ route('inquiries.index') }}" class="form-detail-btn text-xs">لیست استعلام ها</a>
         </div>
     </div>
+
+    <x-errors/>
 
     @if(!is_null($inquiry->correction_id) || !is_null($inquiry->copy_id))
         @can('users')

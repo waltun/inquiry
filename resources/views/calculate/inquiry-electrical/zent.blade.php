@@ -103,12 +103,12 @@
                 let form = document.getElementById('form');
 
                 if (type == 'calculate') {
-                    form.action = '/inquiry-part-electrical/calculate/air';
+                    form.action = '/inquiry-part-electrical/calculate/zent';
                     form.submit();
                 }
 
                 if (type == 'post') {
-                    form.action = '/inquiry-part-electrical/' + inquiry + '/' + part + '/store-air';
+                    form.action = '/inquiry-part-electrical/' + inquiry + '/' + part + '/store-zent';
                     form.submit();
                 }
             }
@@ -164,12 +164,13 @@
         $part_ids = Session::get('part_ids');
     @endphp
 
+    <x-errors />
+
         <!-- Content -->
     <div class="mt-4">
         <!-- Laptop List -->
         <form method="POST" action="" id="form">
             @csrf
-            <input type="hidden" name="serial" value="{{ $inquiry->inquiry_number }}">
 
             <div class="bg-white shadow overflow-x-auto rounded-lg hidden md:block">
                 <table class="min-w-full">
@@ -228,46 +229,39 @@
                             @case('3')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
-                                        مشخصات کلید و کنتاکتورهای الکترو موتور فن هوارسان
+                                        مشخصات کلید و کنتاکتورهای فن الکترو موتور فن هوارسان
                                     </td>
                                 </tr>
                                 @break
-                            @case('7')
-                                <tr class="bg-yellow-500">
-                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
-                                        مشخصات کلیدها و کنتاکتورهای هیتر الکتریکی
-                                    </td>
-                                </tr>
-                                @break
-                            @case('13')
-                                <tr class="bg-yellow-500">
-                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
-                                        مشخصات کلیدها و کنتاکتورهای رطوبت زن
-                                    </td>
-                                </tr>
-                                @break
-                            @case('16')
+                            @case('9')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
                                         مشخصات کلید و کنتاکتور الکترو پمپ‌ ها
                                     </td>
                                 </tr>
                                 @break
-                            @case('19')
+                            @case('12')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
-                                        اطلاعات سیم و کابل
+                                        مشخصات کلیدها و کنتاکتورهای رطوبت زن
                                     </td>
                                 </tr>
                                 @break
-                            @case('23')
+                            @case('15')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
                                         سایر تجهیزات
                                     </td>
                                 </tr>
                                 @break
-                            @case('30')
+                            @case('22')
+                                <tr class="bg-yellow-500">
+                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
+                                        اطلاعات سیم و کابل
+                                    </td>
+                                </tr>
+                                @break
+                            @case('26')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
                                         اقلام کنترلی

@@ -103,12 +103,12 @@
                 let form = document.getElementById('form');
 
                 if (type == 'calculate') {
-                    form.action = '/inquiry-part-electrical/calculate/air';
+                    form.action = '/inquiry-part-electrical/calculate/chiller';
                     form.submit();
                 }
 
                 if (type == 'post') {
-                    form.action = '/inquiry-part-electrical/' + inquiry + '/' + part + '/store-air';
+                    form.action = '/inquiry-part-electrical/' + inquiry + '/' + part + '/store-chiller';
                     form.submit();
                 }
             }
@@ -163,13 +163,11 @@
         $values = Session::get('values');
         $part_ids = Session::get('part_ids');
     @endphp
-
         <!-- Content -->
     <div class="mt-4">
         <!-- Laptop List -->
         <form method="POST" action="" id="form">
             @csrf
-            <input type="hidden" name="serial" value="{{ $inquiry->inquiry_number }}">
 
             <div class="bg-white shadow overflow-x-auto rounded-lg hidden md:block">
                 <table class="min-w-full">
@@ -225,49 +223,35 @@
                                     </td>
                                 </tr>
                                 @break
-                            @case('3')
+                            @case('8')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
-                                        مشخصات کلید و کنتاکتورهای الکترو موتور فن هوارسان
+                                        مشخصات کلید و کنتاکتورهای کمپرسور
                                     </td>
                                 </tr>
                                 @break
-                            @case('7')
+                            @case('17')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
-                                        مشخصات کلیدها و کنتاکتورهای هیتر الکتریکی
+                                        مشخصات کلید و کنتاکتورهای فن الکتروفن‌های کندانسور
                                     </td>
                                 </tr>
                                 @break
-                            @case('13')
-                                <tr class="bg-yellow-500">
-                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
-                                        مشخصات کلیدها و کنتاکتورهای رطوبت زن
-                                    </td>
-                                </tr>
-                                @break
-                            @case('16')
-                                <tr class="bg-yellow-500">
-                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
-                                        مشخصات کلید و کنتاکتور الکترو پمپ‌ ها
-                                    </td>
-                                </tr>
-                                @break
-                            @case('19')
+                            @case('21')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
                                         اطلاعات سیم و کابل
                                     </td>
                                 </tr>
                                 @break
-                            @case('23')
+                            @case('25')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
                                         سایر تجهیزات
                                     </td>
                                 </tr>
                                 @break
-                            @case('30')
+                            @case('35')
                                 <tr class="bg-yellow-500">
                                     <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
                                         اقلام کنترلی
@@ -382,19 +366,21 @@
             </div>
 
             @if(!is_null($part_ids))
-                <div class="my-4 bg-red-300 p-4 rounded-md shadow-md">
-                    <label class="block mb-2 text-sm font-bold" for="inputCoilName">
-                        نام تابلو برق مورد نظر
-                    </label>
-                    <input type="text" class="input-text" id="inputCoilName" name="name" dir="ltr"
-                           value="{{ $name }}">
-                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="my-4 bg-red-300 p-4 rounded-md shadow-md">
+                        <label class="block mb-2 text-sm font-bold" for="inputCoilName">
+                            نام تابلو برق مورد نظر
+                        </label>
+                        <input type="text" class="input-text" id="inputCoilName" name="name" dir="ltr"
+                               value="{{ $name }}">
+                    </div>
 
-                <div class="my-4 bg-red-300 p-4 rounded-md shadow-md">
-                    <label class="block mb-2 text-sm font-bold" for="inputQuantity">
-                        تعداد تابلو برق مورد نظر
-                    </label>
-                    <input type="text" class="input-text" id="inputQuantity" name="quantity">
+                    <div class="my-4 bg-red-300 p-4 rounded-md shadow-md">
+                        <label class="block mb-2 text-sm font-bold" for="inputQuantity">
+                            تعداد تابلو برق مورد نظر
+                        </label>
+                        <input type="text" class="input-text" id="inputQuantity" name="quantity">
+                    </div>
                 </div>
 
                 @can('users')
