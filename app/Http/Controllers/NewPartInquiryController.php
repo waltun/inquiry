@@ -9,6 +9,7 @@ use App\Models\Inquiry;
 use App\Models\Modell;
 use App\Models\Part;
 use App\Models\Product;
+use App\Models\Special;
 use Illuminate\Http\Request;
 
 class NewPartInquiryController extends Controller
@@ -40,6 +41,11 @@ class NewPartInquiryController extends Controller
                     $q->where('category_id', request('category2'));
                 });
             }
+        }
+
+        if (request()->has('calculate')) {
+            $parts = $parts
+                ->whereIn('id', [170, 169, 168, 167, 149, 148, 147, 146, 150, 1194, 1301, 1879, 2144, 2249, 2256, 2264]);
         }
 
         $parts = $parts->whereNotIn('id', $product->amounts->pluck('part_id'))->latest()->paginate(25)->withQueryString();

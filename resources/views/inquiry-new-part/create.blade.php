@@ -175,7 +175,7 @@
     <!-- Search -->
     <div class="mt-4">
         <div class="bg-white p-4 shadow-md rounded-md border border-gray-200">
-            <div class="md:grid grid-cols-4 gap-4">
+            <div class="md:grid grid-cols-5 gap-4">
                 <form class="col-span-1 bg-white rounded-md p-4 shadow-sm border border-gray-200 mb-4 md:mb-0">
                     <div class="mb-4">
                         <label for="inputSearch" class="block mb-2 md:text-sm text-xs text-black">
@@ -183,6 +183,25 @@
                         </label>
                         <input type="text" id="inputSearch" name="search" class="input-text" placeholder="مثال : پیچ"
                                value="{{ request('search') }}">
+                    </div>
+                    <div class="flex justify-end">
+                        <button class="form-submit-btn" type="submit">
+                            جستجو
+                        </button>
+                    </div>
+                </form>
+
+                <form class="col-span-1 bg-white rounded-md p-4 shadow-sm border border-gray-200 mb-4 md:mb-0">
+                    <div class="mb-4">
+                        <label for="inputCalculate" class="block mb-2 md:text-sm text-xs text-black">
+                            قطعات محاسباتی
+                        </label>
+                        <select name="calculate" id="inputCalculate" class="input-text">
+                            <option value="">انتخاب کنید</option>
+                            <option value="1" {{ request('calculate') == '1' ? 'selected' : '' }}>
+                                نمایش قطعات محاسباتی
+                            </option>
+                        </select>
                     </div>
                     <div class="flex justify-end">
                         <button class="form-submit-btn" type="submit">
@@ -250,7 +269,7 @@
 
             </div>
 
-            @if(request()->has('search') || request()->has('category1') || request()->has('category2') || request()->has('category3'))
+            @if(request()->has('search') || request()->has('category1') || request()->has('category2') || request()->has('category3') || request()->has('calculate'))
                 <div class="mt-4">
                     <a href="{{ route('inquiries.newPart.create',$product->id) }}" class="form-detail-btn text-xs">
                         پاکسازی جستجو
