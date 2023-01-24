@@ -296,8 +296,6 @@
                                     @endcan
                                 </div>
                             </div>
-
-
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             @can('create-inquiry')

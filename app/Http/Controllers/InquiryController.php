@@ -293,9 +293,9 @@ class InquiryController extends Controller
         }
 
         if (auth()->user()->role === 'admin') {
-            $inquiries = $inquiries->where('archive_at', '!=', null)->orderBy('inquiry_number','DESC')->paginate(25);
+            $inquiries = $inquiries->where('archive_at', '!=', null)->orderBy('inquiry_number', 'DESC')->paginate(25);
         } else {
-            $inquiries = $inquiries->where('archive_at', '!=', null)->where('user_id', auth()->user()->id)->orderBy('inquiry_number','DESC')->paginate(25);
+            $inquiries = $inquiries->where('archive_at', '!=', null)->where('user_id', auth()->user()->id)->orderBy('inquiry_number', 'DESC')->paginate(25);
         }
 
         $modells = Modell::where('parent_id', '!=', 0)->get();
@@ -309,14 +309,11 @@ class InquiryController extends Controller
 
         $user = User::find($inquiry->user_id);
 
-        $lastInquiry = Inquiry::all()->last();
-        $inquiryNumber = str_pad($lastInquiry->inquiry_number + 1, 5, "0", STR_PAD_LEFT);
-
         $newInquiry = $inquiry->replicate()->fill([
             'archive_at' => null,
             'submit' => false,
             'price' => 0,
-            'inquiry_number' => $inquiryNumber,
+            'inquiry_number' => null,
             'copy_id' => $inquiry->id
         ]);
         $newInquiry->save();
@@ -394,14 +391,11 @@ class InquiryController extends Controller
             'message' => 'required'
         ]);
 
-        $lastInquiry = Inquiry::all()->last();
-        $inquiryNumber = str_pad($lastInquiry->inquiry_number + 1, 5, "0", STR_PAD_LEFT);
-
         $newInquiry = $inquiry->replicate()->fill([
             'archive_at' => null,
             'submit' => false,
             'price' => 0,
-            'inquiry_number' => $inquiryNumber,
+            'inquiry_number' => null,
             'message' => $request['message'],
             'correction_id' => $inquiry->id
         ]);
@@ -509,19 +503,13 @@ class InquiryController extends Controller
     {
         Gate::authorize('create-inquiry');
 
-        $lastInquiry = Inquiry::all()->last();
-        if (!is_null($inquiry->inquiry_number)) {
-            $inquiryNumber = str_pad($lastInquiry->inquiry_number + 1, 5, "0", STR_PAD_LEFT);
-        } else {
-            $inquiryNumber = null;
-        }
         $user = User::find($request['user_id']);
 
         $newInquiry = $inquiry->replicate()->fill([
             'archive_at' => null,
             'submit' => false,
             'price' => 0,
-            'inquiry_number' => $inquiryNumber,
+            'inquiry_number' => null,
             'user_id' => $request['user_id'],
             'manager' => $user->name
         ]);
@@ -645,10 +633,18 @@ class InquiryController extends Controller
 
     public function getCode(array $data)
     {
-        $lastInquiry = Inquiry::where('inquiry_number', '!=', null)->get()->last();
+        $inquiries = Inquiry::select('inquiry_number')->where('inquiry_number', '!=', null)->get();
+
+        $number = 0;
+        foreach ($inquiries as $inquiry) {
+            if ((int)$inquiry->inquiry_number > $number) {
+                $number = (int)$inquiry->inquiry_number;
+            }
+        }
+
         $year = jdate(now())->getYear();
-        if (!is_null($lastInquiry) && !is_null($lastInquiry->inquiry_number)) {
-            $inquiryNumber = str_pad($lastInquiry->inquiry_number + 1, 5, "0", STR_PAD_LEFT);
+        if (!$inquiries->isEmpty()) {
+            $inquiryNumber = str_pad($number + 1, 5, "0", STR_PAD_LEFT);
             $data['inquiry_number'] = $inquiryNumber;
         } else {
             $inquiryNumber = '00001';

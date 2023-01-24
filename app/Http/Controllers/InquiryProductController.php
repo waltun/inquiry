@@ -141,7 +141,6 @@ class InquiryProductController extends Controller
     {
         Gate::authorize('create-inquiry');
 
-        $inquiry = Inquiry::find($product->inquiry_id);
         $modell = Modell::find($product->model_id);
         $amounts = Amount::where('product_id', $product->id)->get();
 

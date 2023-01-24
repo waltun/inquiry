@@ -14,6 +14,7 @@ class CategoryController extends Controller
         Gate::authorize('categories');
 
         $categories = Category::where('parent_id', 0)->with(['children'])->latest()->paginate(25);
+
         return view('categories.index', compact('categories'));
     }
 

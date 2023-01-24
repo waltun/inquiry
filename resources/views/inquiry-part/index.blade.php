@@ -558,7 +558,14 @@
                                 @php
                                     $selectedPart = \App\Models\Part::find($part->id);
                                     $lastCategory = $selectedPart->categories()->latest()->first();
-                                    $categoryParts = $lastCategory->parts;
+                                    if ((in_array($part->id,$specials) && !$part->standard) || ($part->coil && !$part->standard)) {
+                                        $categoryParts = $lastCategory->parts()->where('inquiry_id',$inquiry->id)->get();
+                                        if ($categoryParts->isEmpty()) {
+                                            $categoryParts[] = $lastCategory->parts()->first();
+                                        }
+                                    } else {
+                                        $categoryParts = $lastCategory->parts;
+                                    }
                                 @endphp
                                 <select name="part_ids[]" class="input-text" id="groupPartList{{ $part->id }}"
                                         onchange="showCalculateButton('{{ $part->id }}'); changeFormula(event,{{ $part->id }});">
