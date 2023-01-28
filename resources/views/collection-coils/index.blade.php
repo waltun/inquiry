@@ -282,7 +282,7 @@
                                         {{ $inquiry->name }}
                                     @endif
                                 @else
-                                    {{ $inquiry->name }}
+                                    -
                                 @endif
                             </p>
                         </td>

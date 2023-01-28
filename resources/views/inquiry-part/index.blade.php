@@ -428,6 +428,7 @@
 
     <x-errors/>
 
+    <!-- Copy & Correction Message -->
     @if(!is_null($inquiry->correction_id) || !is_null($inquiry->copy_id))
         @can('users')
             <div class="my-4 bg-red-500 p-2 rounded-md">
@@ -482,13 +483,16 @@
                             تگ
                         </th>
                         <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
-                            قیمت واحد
-                        </th>
-                        <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                             واحد
                         </th>
                         <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                            قیمت واحد
+                        </th>
+                        <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                             تعداد
+                        </th>
+                        <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                            قیمت کل
                         </th>
                         <th scope="col" class="relative px-4 py-3 rounded-l-md">
                             <span class="sr-only">اقدامات</span>
@@ -589,15 +593,15 @@
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap">
                                 <p class="text-sm text-black text-center">
-                                    {{ number_format($part->price) }}
-                                </p>
-                            </td>
-                            <td class="px-4 py-3 whitespace-nowrap">
-                                <p class="text-sm text-black text-center">
                                     {{ $part->unit }}
                                     @if(!is_null($part->unit2))
                                         / {{ $part->unit2 }}
                                     @endif
+                                </p>
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                <p class="text-sm text-black text-center">
+                                    {{ number_format($part->price) }}
                                 </p>
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap">
@@ -613,6 +617,15 @@
                                 <input type="hidden" id="inputUnitValue{{ $part->id }}"
                                        value="{{ $product->quantity2 }}"
                                        name="quantities2[]">
+                            </td>
+                            <td class="px-4 py-3 whitespace-nowrap">
+                                <p class="text-sm text-black text-center">
+                                    @if(!is_null($part->unit2))
+                                        {{ number_format($part->price * $product->quantity2) }}
+                                    @else
+                                        {{ number_format($part->price * $product->quantity) }}
+                                    @endif
+                                </p>
                             </td>
                             <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
                                 @can('percent-inquiry')

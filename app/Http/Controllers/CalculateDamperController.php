@@ -151,7 +151,7 @@ class CalculateDamperController extends Controller
             $pin4Pahloo,
         ];
 
-        $name = "-FD-OPB-" . $tedadPare . "BL-" . number_format($toolePare, 2) . "L";
+        $name = "FD-OPB-" . $tedadPare . "BL-" . number_format($toolePare, 2) . "L";
 
         return back()->with(['values' => $values, 'name' => $name, 'inputs' => $inputs, 'toolePare' => $toolePare, 'ertefa' => $ertefaDamper
             , 'sotoonVasat' => $profileSotoonVasat]);
