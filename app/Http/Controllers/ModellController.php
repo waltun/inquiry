@@ -145,7 +145,8 @@ class ModellController extends Controller
         foreach ($modell->parts as $part) {
             $newModell->parts()->syncWithoutDetaching([
                 $part->id => [
-                    'value' => $part->pivot->value
+                    'value' => $part->pivot->value,
+                    'sort' => $part->pivot->sort
                 ]
             ]);
         }

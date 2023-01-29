@@ -60,16 +60,7 @@
                         $group = \App\Models\Group::find($product->group_id);
                         $modell = \App\Models\Modell::find($product->model_id);
                         $totalPrice = 0;
-                        foreach($product->amounts as $amount)
-                        {
-                            $part = \App\Models\Part::find($amount->part_id);
-                            if ($amount->price > 0) {
-                                $totalPrice += ($part->price * $amount->value) + ($amount->price * $amount->value);
-                            } else {
-                                $totalPrice += ($part->price * $amount->value);
-                            }
-                        }
-                        $productFinalPrice += ($totalPrice * $product->percent) * $product->quantity;
+                        $productFinalPrice += $product->price * $product->quantity;
                     @endphp
                     <tr>
                         <td class="border border-gray-300 p-4 text-xs text-center">

@@ -525,13 +525,13 @@
                             }
 
                             if ($part->updated_at < $lastTime && $part->price > 0) {
-                                $color = 'bg-red-500';
+                                $color = 'text-red-500';
                             }
                             if ($part->updated_at > $lastTime && $part->updated_at < $midTime && $part->price > 0) {
-                                $color = 'bg-yellow-500';
+                                $color = 'text-yellow-500';
                             }
                             if ($part->updated_at < $lastTime && $part->price == 0) {
-                                $color = 'bg-red-600';
+                                $color = 'text-red-600';
                             }
 
                             $category = $part->categories[1];
@@ -558,7 +558,7 @@
                                     @endforeach
                                 </select>
                             </td>
-                            <td class="px-4 py-3 flex items-center {{ $color ?? 'bg-white' }}">
+                            <td class="px-4 py-3 flex items-center">
                                 @php
                                     $selectedPart = \App\Models\Part::find($part->id);
                                     $lastCategory = $selectedPart->categories()->latest()->first();
@@ -600,7 +600,7 @@
                                 </p>
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap">
-                                <p class="text-sm text-black text-center">
+                                <p class="text-sm text-center">
                                     {{ number_format($part->price) }}
                                 </p>
                             </td>
@@ -619,12 +619,8 @@
                                        name="quantities2[]">
                             </td>
                             <td class="px-4 py-3 whitespace-nowrap">
-                                <p class="text-sm text-black text-center">
-                                    @if(!is_null($part->unit2))
-                                        {{ number_format($part->price * $product->quantity2) }}
-                                    @else
-                                        {{ number_format($part->price * $product->quantity) }}
-                                    @endif
+                                <p class="text-sm text-center {{ $color ?? 'text-black' }}">
+                                    {{ number_format($part->price * $product->quantity) }}
                                 </p>
                             </td>
                             <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
@@ -652,7 +648,7 @@
                                 @php
                                     $parents = [];
                                 @endphp
-                                @if($color == 'bg-red-500' || $color == 'bg-red-600')
+                                @if($color == 'text-red-500' || $color == 'text-red-600')
                                     @php
                                         $inquiryPrice = \App\Models\InquiryPrice::where('part_id',$part->id)->pluck('part_id')->all();
                                         $inquiryPrices = \App\Models\InquiryPrice::all()->pluck('part_id');

@@ -368,26 +368,26 @@
 
                             if(!in_array($part->id,$specials) && $part->collection == '0') {
                                 if ($part->price_updated_at < $lastTime && $part->price > 0) {
-                                    $color = 'bg-red-500';
+                                    $color = 'text-red-500';
                                 }
                                 if ($part->price_updated_at > $lastTime && $part->price_updated_at > $midTime && $part->price > 0) {
-                                    $color = 'bg-white';
+                                    $color = 'tex-black';
                                 }
                                 if ($part->price_updated_at > $lastTime && $part->price_updated_at < $midTime && $part->price > 0) {
-                                    $color = 'bg-yellow-500';
+                                    $color = 'text-yellow-500';
                                 }
                                 if ($part->price_updated_at < $lastTime && $part->price == 0) {
-                                    $color = 'bg-red-600';
+                                    $color = 'text-red-600';
                                 }
                             }
 
                             if (!in_array($part->id,$specials) && $part->collection == '1') {
                                 foreach ($part->children as $child) {
                                     if ($child->price_updated_at < $lastTime && $child->price > 0) {
-                                        $color = 'bg-red-500';
+                                        $color = 'text-red-500';
                                     }
                                     if ($child->price_updated_at < $lastTime && $child->price == 0) {
-                                        $color = 'bg-red-600';
+                                        $color = 'text-red-600';
                                     }
                                 }
                             }
@@ -559,7 +559,7 @@
                                     </a>
                                 @endif
                             </td>
-                            <td class="p-2 text-sm text-center border border-gray-300">
+                            <td class="p-2 text-sm text-center border border-gray-300 {{ $color ?? '' }}">
                                 <span id="changePriceSection{{ $part->id }}">
                                     {{ number_format($part->price) }}
                                 </span>
@@ -571,7 +571,7 @@
                                     {{ $part->unit }} / {{ $part->unit2 }}
                                 @endif
                             </td>
-                            <td class="p-2 border border-gray-300 {{ $color ?? 'bg-white' }}">
+                            <td class="p-2 border border-gray-300">
                                 <div class="flex items-center">
                                     <input type="text" name="modellAmounts[]" id="inputAmount{{ $part->id }}"
                                            class="input-text w-24 {{ $part->pivot->value == '0' ? 'border-yellow-500' : '' }}"
@@ -591,7 +591,7 @@
                                         @php
                                             $parents = [];
                                         @endphp
-                                        @if($color == 'bg-red-500' || $color == 'bg-red-600' || $part->price == '0')
+                                        @if($color == 'text-red-500' || $color == 'text-red-600' || $part->price == '0')
                                             @php
                                                 $inquiryPrice = InquiryPrice::where('part_id',$part->id)->pluck('part_id')->all();
                                                 $inquiryPrices = InquiryPrice::all()->pluck('part_id');
@@ -608,7 +608,7 @@
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                          title="ارسال درخواست بروزرسانی قیمت"
                                                          viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                         class="w-6 h-6 text-white">
+                                                         class="w-6 h-6 text-red-600">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
                                                               d="M12 9v3.75m0-10.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.249-8.25-3.286zm0 13.036h.008v.008H12v-.008z"/>
                                                     </svg>
@@ -617,7 +617,7 @@
                                                 <p class="mr-2">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                          viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                         class="w-6 h-6 text-white">
+                                                         class="w-6 h-6 text-red-600">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
                                                               d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                                     </svg>
@@ -626,7 +626,7 @@
                                             <p class="mr-2 hidden" id="successUpdatePrice{{ $part->id }}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                      viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                     class="w-6 h-6 text-white">
+                                                     class="w-6 h-6 text-red-600">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
                                                           d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                                 </svg>
@@ -635,7 +635,7 @@
                                     @endif
                                 </div>
                             </td>
-                            <td class="p-2 text-sm text-center border border-gray-300">
+                            <td class="p-2 text-sm text-center border border-gray-300 {{ $color ?? '' }}">
                                 {{ number_format($part->price * $part->pivot->value) }}
                             </td>
                         </tr>
@@ -664,26 +664,26 @@
 
                             if (!in_array($part->id,$specials) && $part->collection == '0') {
                                 if ($part->price_updated_at < $lastTime && $part->price > 0) {
-								    $color = 'bg-red-500';
+								    $color = 'text-red-500';
                                 }
                                 if ($part->price_updated_at > $lastTime && $part->price_updated_at > $midTime && $part->price > 0) {
-                                    $color = 'bg-white';
+                                    $color = 'text-black';
                                 }
                                 if ($part->price_updated_at > $lastTime && $part->price_updated_at < $midTime && $part->price > 0) {
-                                    $color = 'bg-yellow-500';
+                                    $color = 'text-yellow-500';
                                 }
                                 if ($part->price_updated_at < $lastTime && $part->price == 0) {
-                                    $color = 'bg-red-600';
+                                    $color = 'text-red-600';
                                 }
                             }
 
                             if (!in_array($part->id,$specials) && $part->collection == '1') {
                                     foreach ($part->children as $child) {
                                         if ($child->price_updated_at < $lastTime && $child->price > 0) {
-                                            $color = 'bg-red-500';
+                                            $color = 'text-red-500';
                                         }
                                         if ($child->price_updated_at < $lastTime && $child->price == 0) {
-                                            $color = 'bg-red-600';
+                                            $color = 'text-red-600';
                                         }
                                     }
                                 }
@@ -854,7 +854,7 @@
                                     </a>
                                 @endif
                             </td>
-                            <td class="border border-gray-300 p-2 text-sm text-center">
+                            <td class="border border-gray-300 p-2 text-sm text-center {{ $color ?? '' }}">
                                 <span id="changePriceSection{{ $part->id }}">
                                     {{ number_format($part->price) }}
                                 </span>
@@ -868,7 +868,7 @@
                                     </span>
                                 @endif
                             </td>
-                            <td class="border border-gray-300 p-2 {{ $color ?? 'bg-white' }}">
+                            <td class="border border-gray-300 p-2">
                                 <div class="flex items-center">
                                     <input type="text" name="amounts[]" id="inputAmount{{ $part->id }}"
                                            class="input-text w-24 {{ $amount->value == '0' ? 'border-yellow-500' : '' }}"
@@ -887,7 +887,7 @@
                                         @php
                                             $parents = [];
                                         @endphp
-                                        @if($color == 'bg-red-500' || $color == 'bg-red-600')
+                                        @if($color == 'text-red-500' || $color == 'text-red-600')
                                             @php
                                                 $inquiryPrice = InquiryPrice::where('part_id',$part->id)->pluck('part_id')->all();
                                                 $inquiryPrices = InquiryPrice::all()->pluck('part_id');
@@ -906,7 +906,7 @@
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                          title="ارسال درخواست بروزرسانی قیمت"
                                                          viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                         class="w-6 h-6 text-white">
+                                                         class="w-6 h-6 text-red-600">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
                                                               d="M12 9v3.75m0-10.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.249-8.25-3.286zm0 13.036h.008v.008H12v-.008z"/>
                                                     </svg>
@@ -915,7 +915,7 @@
                                                 <p class="mr-2">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                          viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                         class="w-6 h-6 text-white">
+                                                         class="w-6 h-6 text-red-600">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
                                                               d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                                     </svg>
@@ -924,7 +924,7 @@
                                             <p class="mr-2 hidden" id="successUpdatePrice{{ $part->id }}">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                      viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                     class="w-6 h-6 text-white">
+                                                     class="w-6 h-6 text-red-600">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
                                                           d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                                 </svg>
@@ -933,7 +933,7 @@
                                     @endif
                                 </div>
                             </td>
-                            <td class="p-2 text-sm text-center border border-gray-300">
+                            <td class="p-2 text-sm text-center border border-gray-300 {{ $color ?? '' }}">
                                 {{ number_format($part->price * $amount->value) }}
                             </td>
                             @if(!$amounts->isEmpty())

@@ -65,6 +65,7 @@
                     url: '{{ route('inquiries.product.changePart') }}',
                     data: {
                         id: id,
+                        part: part
                     },
                     success: function (res) {
                         let parts = res.data;

@@ -288,7 +288,11 @@
                             <p class="text-sm text-gray-500 text-center">{{ $loop->index + 1 }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ $part->name }}</p>
+                            @if(in_array($part->id,$inquiry->products->pluck('part_id')->toArray()))
+                                <p class="text-sm text-red-600 text-center">{{ $part->name }}</p>
+                            @else
+                                <p class="text-sm text-black text-center">{{ $part->name }}</p>
+                            @endif
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center">{{ $part->unit }}</p>

@@ -405,25 +405,19 @@
                         }
 
                         if ($part->price_updated_at < $lastTime && $part->price > 0) {
-                            $color = 'bg-red-500';
-                        }
-                        if ($part->price_updated_at > $lastTime && $part->price_updated_at > $midTime && $part->price > 0) {
-                            $color = 'bg-green-500';
-                        }
-                        if ($part->price_updated_at > $lastTime && $part->price_updated_at < $midTime && $part->price > 0) {
-                            $color = 'bg-yellow-500';
+                            $color = 'text-red-500';
                         }
                         if ($part->price_updated_at < $lastTime && $part->price == 0) {
-                            $color = 'bg-red-600';
+                            $color = 'text-red-600';
                         }
                     @endphp
-                    <tr class="{{ $color }}">
+                    <tr>
                         <td class="px-4 py-1 whitespace-nowrap">
                             <input type="checkbox" value="{{ $part->id }}"
                                    class="checkboxes w-4 h-4 focus:ring-blue-500 focus:ring-2 focus:ring-offset-1 mx-auto block">
                         </td>
                         <td class="px-4 py-1 whitespace-nowrap">
-                            <p class="text-sm text-black text-center font-medium">
+                            <p class="text-sm text-center font-medium {{ $color ?? '' }}">
                                 {{ $part->name }}
                                 @if($part->percent_submit)
                                     <br>

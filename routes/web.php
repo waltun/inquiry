@@ -250,7 +250,21 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::delete('/notifications/destroy-all', [NotificationController::class, 'destroyAll'])->name('notifications.destroyAll');
 
     //Setting routes
-    Route::resource('settings', SettingController::class);
+    Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
+
+    Route::get('/settings/price-color', [SettingController::class, 'priceColorIndex'])->name('settings.price-color.index');
+    Route::get('/settings/price-color/create', [SettingController::class, 'priceColorCreate'])->name('settings.price-color.create');
+    Route::post('/settings/price-color', [SettingController::class, 'priceColorStore'])->name('settings.price-color.store');
+    Route::get('/settings/price-color/{setting}/edit', [SettingController::class, 'priceColorEdit'])->name('settings.price-color.edit');
+    Route::patch('/settings/price-color/{setting}', [SettingController::class, 'priceColorUpdate'])->name('settings.price-color.update');
+    Route::delete('/settings/price-color/{setting}', [SettingController::class, 'priceColorDestroy'])->name('settings.price-color.destroy');
+
+    Route::get('/settings/delete-button', [SettingController::class, 'deleteButtonIndex'])->name('settings.delete-button.index');
+    Route::get('/settings/delete-button/create', [SettingController::class, 'deleteButtonCreate'])->name('settings.delete-button.create');
+    Route::post('/settings/delete-button', [SettingController::class, 'deleteButtonStore'])->name('settings.delete-button.store');
+    Route::get('/settings/delete-button/{deleteButton}/edit', [SettingController::class, 'deleteButtonEdit'])->name('settings.delete-button.edit');
+    Route::patch('/settings/delete-button/{deleteButton}', [SettingController::class, 'deleteButtonUpdate'])->name('settings.delete-button.update');
+    Route::delete('/settings/delete-button/{deleteButton}', [SettingController::class, 'deleteButtonDestroy'])->name('settings.delete-button.destroy');
 
     //Separate Coil Routes
     Route::get('/separate-calculate-coil', [SeparateCalculateCoilController::class, 'index'])->name('separate.coil.index');
