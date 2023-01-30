@@ -383,7 +383,7 @@ class InquiryController extends Controller
 
     public function correction(Request $request, Inquiry $inquiry)
     {
-        Gate::authorize('correction-inquiry');
+        Gate::authorize('create-inquiry');
 
         $user = User::find($inquiry->user_id);
 
@@ -416,14 +416,9 @@ class InquiryController extends Controller
                 $code = str_pad($lastPart->code + 1, 4, "0", STR_PAD_LEFT);
 
                 if ($part->coil == '1' && $part->collection == '1' && !is_null($part->inquiry_id)) {
-                    $name = $part->name;
-                    $explode = explode('-', $name);
-                    $explode[0] = $inquiryNumber;
-                    $newName = implode('-', $explode);
-
                     $newPart = $part->replicate()->fill([
                         'code' => $code,
-                        'name' => $newName,
+                        'name' => $part->name,
                         'inquiry_id' => $newInquiry->id,
                         'product_id' => $newProduct->id
                     ]);

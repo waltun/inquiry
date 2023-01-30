@@ -105,7 +105,7 @@
                         $correctionInquiry = \App\Models\Inquiry::find($inquiry->correction_id)
                     @endphp
                     <p class="text-sm font-bold text-white">
-                        توجه : این استعلام، درخواست اصلاح استعلام {{ $inquiry->name }} - {{ $inquiry->inquiry_number }}
+                        توجه : این استعلام، درخواست اصلاح استعلام {{ $correctionInquiry->name }} - {{ $correctionInquiry->inquiry_number }}
                         است.
                     </p>
                 @endif
@@ -114,7 +114,7 @@
                         $correctionInquiry = \App\Models\Inquiry::find($inquiry->correction_id)
                     @endphp
                     <p class="text-sm font-bold text-white">
-                        توجه : این استعلام، کپی شده از استعلام {{ $inquiry->name }} - {{ $inquiry->inquiry_number }}
+                        توجه : این استعلام، کپی شده از استعلام {{ $correctionInquiry->name }} - {{ $correctionInquiry->inquiry_number }}
                         است.
                     </p>
                 @endif

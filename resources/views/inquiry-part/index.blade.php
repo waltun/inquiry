@@ -599,7 +599,7 @@
                                     @endif
                                 </p>
                             </td>
-                            <td class="px-4 py-3 whitespace-nowrap">
+                            <td class="px-4 py-3 whitespace-nowrap {{ $color ?? '' }}">
                                 <p class="text-sm text-center">
                                     {{ number_format($part->price) }}
                                 </p>

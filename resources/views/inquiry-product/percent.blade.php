@@ -132,7 +132,7 @@
             <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">قیمت نهایی استعلام</p>
             <div class="mt-4">
                 <p class="text-center text-lg font-bold text-green-600" id="finalPrice">
-                    0 تومان
+                    {{ number_format($totalPrice * $product->percent) }} تومان
                 </p>
             </div>
         </div>
