@@ -206,8 +206,18 @@
                                             کپی
                                         </button>
                                     </form>
+                                    @can('users')
+                                        <form action="{{ route('inquiries.restore',$inquiry->id) }}" method="POST">
+                                            @csrf
+                                            <button class="form-submit-btn text-xs w-full"
+                                                    onclick="return confirm('استعلام بازگردانی شود ؟')">
+                                                بازگردانی
+                                            </button>
+                                        </form>
+                                    @endcan
                                     <div x-data="{ open:false }">
-                                        <button class="form-cancel-btn text-xs w-full" type="button" @click="open=!open">
+                                        <button class="form-cancel-btn text-xs w-full" type="button"
+                                                @click="open=!open">
                                             اصلاح یا آپدیت
                                         </button>
                                         <div class="relative z-50" x-show="open" x-cloak>

@@ -126,6 +126,13 @@
                        placeholder="مثال : 0.3" value="{{ $product->percent ?? old('percent') }}"
                        onkeyup="showPrice(event)">
             </div>
+            @if($product->old_percent > 0)
+                <div class="mt-4">
+                    <p class="text-center text-indigo-500 font-medium">
+                        ضریب قبلی ثبت شده : {{ $product->old_percent }}
+                    </p>
+                </div>
+            @endif
         </div>
 
         <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">

@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->id();
 
             $table->decimal('percent', 5, 2)->default(0);
+            $table->decimal('old_percent', 5, 2)->default(0);
             $table->integer('quantity')->default(0);
             $table->bigInteger('price')->default(0);
             $table->string('description')->nullable();

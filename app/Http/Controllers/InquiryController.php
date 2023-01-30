@@ -321,6 +321,7 @@ class InquiryController extends Controller
         foreach ($inquiry->products as $product) {
             $newProduct = $product->replicate()->fill([
                 'percent' => 0,
+                'old_percent' => $product->percent,
                 'inquiry_id' => $newInquiry->id,
                 'price' => 0,
             ]);
@@ -333,14 +334,9 @@ class InquiryController extends Controller
                 $code = str_pad($lastPart->code + 1, 4, "0", STR_PAD_LEFT);
 
                 if ($part->coil == '1' && $part->collection == '1' && !is_null($part->inquiry_id)) {
-                    $name = $part->name;
-                    $explode = explode('-', $name);
-                    $explode[0] = $inquiryNumber;
-                    $newName = implode('-', $explode);
-
                     $newPart = $part->replicate()->fill([
                         'code' => $code,
-                        'name' => $newName,
+                        'name' => $part->name,
                         'inquiry_id' => $newInquiry->id,
                         'product_id' => $newProduct->id
                     ]);
@@ -374,7 +370,7 @@ class InquiryController extends Controller
         }
 
         //Send Notification
-        $user->notify(new CopyInquiryNotification($newInquiry));
+        //$user->notify(new CopyInquiryNotification($newInquiry));
 
         alert()->success('کپی موفق', 'کپی با موفقیت انجام شد و برای کاربر ارسال شد');
 
@@ -404,6 +400,7 @@ class InquiryController extends Controller
         foreach ($inquiry->products as $product) {
             $newProduct = $product->replicate()->fill([
                 'percent' => 0,
+                'old_percent' => $product->percent,
                 'inquiry_id' => $newInquiry->id,
                 'price' => 0,
             ]);
@@ -452,9 +449,9 @@ class InquiryController extends Controller
         }
 
         //Send Notification
-        if ($user) {
-            $user->notify(new CorrectionInquiryNotification($newInquiry));
-        }
+        //if ($user) {
+        //    $user->notify(new CorrectionInquiryNotification($newInquiry));
+        //}
 
         alert()->success('اطلاح موفق', 'اصلاح استعلام با موفقیت انجام شد و برای کاربر ارسال شد');
 
@@ -481,13 +478,14 @@ class InquiryController extends Controller
         foreach ($inquiry->products as $product) {
             $product->price = 0;
             $product->percent = 0;
+            $product->old_percent = $product->percent;
             $product->save();
         }
 
         //Send Notification
-        if ($user) {
-            $user->notify(new CorrectionInquiryNotification($inquiry));
-        }
+        //if ($user) {
+        //    $user->notify(new CorrectionInquiryNotification($inquiry));
+        //}
 
         alert()->success('اصلاح موفق', 'اصلاح استعلام با موفقیت انجام شد و برای کاربر ارسال شد');
 
@@ -513,6 +511,7 @@ class InquiryController extends Controller
         foreach ($inquiry->products as $product) {
             $newProduct = $product->replicate()->fill([
                 'percent' => 0,
+                'old_percent' => $product->percent,
                 'inquiry_id' => $newInquiry->id,
                 'price' => 0,
             ]);
@@ -574,6 +573,28 @@ class InquiryController extends Controller
         ]);
 
         alert()->success('ارجاع موفق', 'ارجاع با موفقیت انجام شد و برای کاربر ارسال شد');
+
+        return back();
+    }
+
+    public function restore(Inquiry $inquiry)
+    {
+        Gate::authorize('users');
+
+        foreach ($inquiry->products as $product) {
+            $product->old_percent = $product->percent;
+            $product->percent = 0;
+            $product->price = 0;
+            $product->save();
+        }
+
+        $inquiry->update([
+            'archive_at' => null,
+            'submit' => false,
+            'price' => 0,
+        ]);
+
+        alert()->success('بازگردانی موفق', 'بازگردانی استعلام با موفقیت انجام شد');
 
         return back();
     }

@@ -118,6 +118,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/inquiries/{inquiry}/referral', [InquiryController::class, 'referral'])->name('inquiries.referral');
     Route::post('/inquiries/{inquiry}/tmp-referral', [InquiryController::class, 'tmpReferral'])->name('inquiries.tmpReferral');
     Route::post('/inquiries/{product}/add-to-models', [InquiryController::class, 'addToModell'])->name('inquiries.addToModell');
+    Route::post('/inquiries/{inquiry}/restore', [InquiryController::class, 'restore'])->name('inquiries.restore');
 
     //Inquiry Product routes
     Route::get('/inquiries/{inquiry}/products', [InquiryProductController::class, 'index'])->name('inquiries.product.index');
