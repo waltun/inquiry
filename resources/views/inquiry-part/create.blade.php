@@ -78,8 +78,9 @@
                 let result = 0;
 
                 result = eval(value + operator1 + formula1);
-                input2.value = Intl.NumberFormat().format(result);
-                inputValue.value = Intl.NumberFormat().format(result);
+                let formatResult = Intl.NumberFormat().format(result);
+                input2.value = formatResult.replace(',', '');
+                inputValue.value = result;
             }
 
             function changeUnit2(event, part) {
@@ -347,9 +348,28 @@
                                                                    for="inputTag">
                                                                 تگ
                                                             </label>
-                                                            <input type="text" class="input-text w-40" name="tag"
+                                                            <input type="text" class="input-text" name="tag"
                                                                    id="inputTag"
                                                                    placeholder="تگ / شماره سریال و...">
+                                                        </div>
+                                                        <div class="mt-4">
+                                                            <label class="block mb-2 text-sm font-bold"
+                                                                   for="inputType">
+                                                                نوع قطعه
+                                                            </label>
+                                                            <select name="type" id="inputType" class="input-text">
+                                                                <option value="">انتخاب کنید</option>
+                                                                <option value="setup">قطعات یدکی راه اندازی</option>
+                                                                <option value="years">قطعات یدکی دو سالانه</option>
+                                                                <option value="control">قطعات کنترلی</option>
+                                                                <option value="power_cable">لیست کابل قدرت</option>
+                                                                <option value="control_cable">لیست کابل کنترلی</option>
+                                                                <option value="pipe">لیست لوله و اتصالات</option>
+                                                                <option value="setup_price">دستمزد راه‌اندازی و نصب</option>
+                                                                <option value="supervision">دستمزد نظارت</option>
+                                                                <option value="transport">هزینه حمل</option>
+                                                                <option value="other">سایر تجهیزات</option>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                 </div>

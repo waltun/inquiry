@@ -485,6 +485,13 @@
                                                 محاسبه
                                             </a>
                                             @break
+                                        @case('531')
+                                            <span class="hidden">Condensor Converter</span>
+                                            <a href="{{ route('calculateConverter.condensor.index',[1301,$product->id]) }}"
+                                               class="form-submit-btn text-xs mr-1">
+                                                محاسبه
+                                            </a>
+                                            @break
 
                                         @case('232')
                                             <span class="hidden">Damper Raft</span>
@@ -780,6 +787,13 @@
                                                 محاسبه
                                             </a>
                                             @break
+                                        @case('531')
+                                            <span class="hidden">Condensor Converter</span>
+                                            <a href="{{ route('calculateConverter.condensor.index',[1301,$product->id]) }}"
+                                               class="form-submit-btn text-xs mr-1">
+                                                محاسبه
+                                            </a>
+                                            @break
 
                                         @case('232')
                                             <span class="hidden">Damper Raft</span>
@@ -967,28 +981,32 @@
                 @endif
                 </tbody>
             </table>
-            @can('users')
-                @if($product->percent == 0)
-                    <div class="mt-4 flex justify-end space-x-2 space-x-reverse">
-                        @if($showPivotPrice != 0)
+
+            @if($product->percent == 0)
+                <div class="mt-4 flex justify-end space-x-2 space-x-reverse">
+                    @if($showPivotPrice != 0)
+                        @can('users')
                             <p class="text-base font-bold text-white bg-green-500 px-6 py-1 rounded-md">
                                 قیمت : {{ number_format($showPivotPrice) }} تومان
                             </p>
-                            <p class="text-base font-bold text-white bg-gray-500 px-6 py-1 rounded-md">
-                                وزن دستگاه : {{ $partWeight }} کلیوگرم
-                            </p>
-                        @endif
-                        @if($showAmountPrice != 0)
+                        @endcan
+                        <p class="text-base font-bold text-white bg-gray-500 px-6 py-1 rounded-md">
+                            وزن دستگاه : {{ $partWeight }} کلیوگرم
+                        </p>
+                    @endif
+                    @if($showAmountPrice != 0)
+                        @can('users')
                             <p class="text-base font-bold text-white bg-green-500 px-6 py-1 rounded-md">
                                 قیمت : {{ number_format($showAmountPrice) }} تومان
                             </p>
-                            <p class="text-base font-bold text-white bg-gray-500 px-6 py-1 rounded-md">
-                                وزن دستگاه : {{ $amountWeight }} کیلوگرم
-                            </p>
-                        @endif
-                    </div>
-                @endif
-            @endcan
+                        @endcan
+                        <p class="text-base font-bold text-white bg-gray-500 px-6 py-1 rounded-md">
+                            وزن دستگاه : {{ $amountWeight }} کیلوگرم
+                        </p>
+                    @endif
+                </div>
+            @endif
+
         </div>
         <div class="space-x-2 space-x-reverse">
             <button type="submit" class="form-submit-btn">

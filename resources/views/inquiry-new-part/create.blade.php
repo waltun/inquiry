@@ -78,9 +78,9 @@
                 let result = 0;
 
                 result = eval(value + operator1 + formula1);
-                let formatResult = Intl.NumberFormat().format(result);
-                input2.value = formatResult.replace(',', '');
-                inputValue.value = result;
+				let formatResult = Intl.NumberFormat().format(result);
+				input2.value = formatResult.replace(',', '');
+				inputValue.value = result;
             }
 
             function changeUnit2(event, part) {
@@ -92,9 +92,9 @@
                 let result = 0;
 
                 result = eval(value + operator2 + formula2);
-                let formatResult = Intl.NumberFormat().format(result);
-                input1.value = formatResult.replace(',', '');
-                inputValue.value = value;
+				let formatResult = Intl.NumberFormat().format(result);
+				input1.value = formatResult.replace(',', '');
+				inputValue.value = value;
             }
         </script>
     </x-slot>
@@ -175,7 +175,7 @@
     <!-- Search -->
     <div class="mt-4">
         <div class="bg-white p-4 shadow-md rounded-md border border-gray-200">
-            <div class="md:grid grid-cols-5 gap-4">
+            <div class="md:grid grid-cols-4 gap-4">
                 <form class="col-span-1 bg-white rounded-md p-4 shadow-sm border border-gray-200 mb-4 md:mb-0">
                     <div class="mb-4">
                         <label for="inputSearch" class="block mb-2 md:text-sm text-xs text-black">
@@ -183,25 +183,6 @@
                         </label>
                         <input type="text" id="inputSearch" name="search" class="input-text" placeholder="مثال : پیچ"
                                value="{{ request('search') }}">
-                    </div>
-                    <div class="flex justify-end">
-                        <button class="form-submit-btn" type="submit">
-                            جستجو
-                        </button>
-                    </div>
-                </form>
-
-                <form class="col-span-1 bg-white rounded-md p-4 shadow-sm border border-gray-200 mb-4 md:mb-0">
-                    <div class="mb-4">
-                        <label for="inputCalculate" class="block mb-2 md:text-sm text-xs text-black">
-                            قطعات محاسباتی
-                        </label>
-                        <select name="calculate" id="inputCalculate" class="input-text">
-                            <option value="">انتخاب کنید</option>
-                            <option value="1" {{ request('calculate') == '1' ? 'selected' : '' }}>
-                                نمایش قطعات محاسباتی
-                            </option>
-                        </select>
                     </div>
                     <div class="flex justify-end">
                         <button class="form-submit-btn" type="submit">
@@ -269,7 +250,7 @@
 
             </div>
 
-            @if(request()->has('search') || request()->has('category1') || request()->has('category2') || request()->has('category3') || request()->has('calculate'))
+            @if(request()->has('search') || request()->has('category1') || request()->has('category2') || request()->has('category3'))
                 <div class="mt-4">
                     <a href="{{ route('inquiries.newPart.create',$product->id) }}" class="form-detail-btn text-xs">
                         پاکسازی جستجو
@@ -294,9 +275,6 @@
                         نام
                     </th>
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
-                        استعلام مربوطه
-                    </th>
-                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                         واحد
                     </th>
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
@@ -309,30 +287,12 @@
                 </thead>
                 <tbody>
                 @foreach($parts as $part)
-                    @php
-                        if(!is_null($part->inquiry_id)) {
-                            $inquiry = \App\Models\Inquiry::find($part->inquiry_id);
-                        }
-                    @endphp
                     <tr>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-gray-500 text-center">{{ $loop->index + 1 }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center font-medium">{{ $part->name }}</p>
-                        </td>
-                        <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center" dir="ltr">
-                                @if(isset($inquiry))
-                                    @if(!is_null($inquiry->inquiry_number))
-                                        INQ-{{ $inquiry->inquiry_number }} ({{ $inquiry->name }})
-                                    @else
-                                        {{ $inquiry->name }}
-                                    @endif
-                                @else
-                                    -
-                                @endif
-                            </p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center">{{ $part->unit }}</p>

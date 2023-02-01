@@ -19,7 +19,7 @@
                 نام پروژه : {{ $inquiry->name }}
             </p>
             <p class="text-black text-sm">
-                تاریخ استعلام : {{ jdate($inquiry->created_at)->format('%A, %d %B %Y') }}
+                تاریخ استعلام : {{ jdate($inquiry->updated_at)->format('%A, %d %B %Y') }}
             </p>
         </div>
         <div class="flex justify-between items-center">

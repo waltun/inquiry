@@ -21,6 +21,7 @@ return new class extends Migration {
             $table->bigInteger('price')->default(0);
             $table->string('description')->nullable();
             $table->string('model_custom_name')->nullable();
+            $table->enum('type', ['setup', 'years', 'control', 'power_cable', 'control_cable', 'pipe', 'setup_price', 'supervision', 'transport', 'other'])->nullable();
 
             $table->unsignedBigInteger('group_id')->default(0);
             $table->unsignedBigInteger('model_id')->default(0);

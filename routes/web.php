@@ -13,6 +13,7 @@ use App\Http\Controllers\GroupController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\InquiryPartCoilController;
 use App\Http\Controllers\InquiryPartController;
+use App\Http\Controllers\InquiryPartConverterController;
 use App\Http\Controllers\InquiryPartDamperController;
 use App\Http\Controllers\InquiryPartElectricalController;
 use App\Http\Controllers\InquiryPriceController;
@@ -390,6 +391,17 @@ Route::middleware(['auth', 'web'])->group(function () {
 
     Route::get('/inquiry-part-damper/{inquiry}/{part}/taze', [InquiryPartDamperController::class, 'taze'])->name('inquiryPart.damper.taze');
     Route::post('/inquiry-part-damper/calculate/taze', [InquiryPartDamperController::class, 'calculateTaze'])->name('inquiryPart.damper.calculateTaze');
+
+    //Inquiry Part Converter
+    Route::post('/inquiry-part-converter/{inquiry}', [InquiryPartConverterController::class, 'index'])->name('inquiryPart.converter.index');
+
+    Route::get('/inquiry-part-converter/{inquiry}/{part}/evaporator', [InquiryPartConverterController::class, 'evaporator'])->name('inquiryPart.converter.evaporator');
+    Route::post('/inquiry-part-converter/calculate/evaporator', [InquiryPartConverterController::class, 'calculateEvaporator'])->name('inquiryPart.converter.calculateEvaporator');
+    Route::post('/inquiry-part-converter/{inquiry}/{part}/store-evaporator', [InquiryPartConverterController::class, 'storeEvaporator'])->name('inquiryPart.converter.storeEvaporator');
+
+    Route::get('/inquiry-part-converter/{inquiry}/{part}/condensor', [InquiryPartConverterController::class, 'condensor'])->name('inquiryPart.converter.condensor');
+    Route::post('/inquiry-part-converter/calculate/condensor', [InquiryPartConverterController::class, 'calculateCondensor'])->name('inquiryPart.converter.calculateCondensor');
+    Route::post('/inquiry-part-converter/{inquiry}/{part}/store-condensor', [InquiryPartConverterController::class, 'storeCondensor'])->name('inquiryPart.converter.storeCondensor');
 
     //Inquiry Price Routes
     Route::get('/inquiry-price', [InquiryPriceController::class, 'index'])->name('inquiryPrice.index');

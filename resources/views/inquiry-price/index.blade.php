@@ -94,7 +94,7 @@
     <!-- Navigation Btn -->
     <div class="md:flex justify-between items-center mt-4">
         <div class="mb-4 md:mb-0">
-            <p class="text-lg font-bold">لیست درخواست های بروزرسانی قیمت</p>
+            <p class="text-lg font-bold">لیست درخواست‌های بروزرسانی قیمت</p>
         </div>
         <div class="flex md:justify-end space-x-2 space-x-reverse">
             <a href="{{ route('parts.price.index') }}" class="form-detail-btn text-xs">بخش قیمت گذاری</a>
@@ -117,7 +117,7 @@
             <div class="bg-white rounded-md p-4 shadow border border-gray-200 mb-8">
                 <div class="flex items-center justify-between border-b border-gray-200 pb-3">
                     <p class="text-sm font-bold text-black">
-                        درخواست های استعلام {{ $inquiry->name }} - INQ-{{ $inquiry->inquiry_number }}
+                        درخواست های استعلام {{ $inquiry->name }}
                     </p>
                     <p class="text-sm font-bold text-indigo-700">
                         تاریخ ارسال درخواست : {{ jdate($inquiryPrice->created_at)->format('%A, %d %B %Y - H:m') }}

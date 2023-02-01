@@ -410,6 +410,9 @@
                         if ($part->price_updated_at < $lastTime && $part->price == 0) {
                             $color = 'text-red-600';
                         }
+                        if ($part->price_updated_at > $lastTime && $part->price > 0) {
+                            $color = 'text-black';
+                        }
                     @endphp
                     <tr>
                         <td class="px-4 py-1 whitespace-nowrap">
@@ -421,7 +424,7 @@
                                 {{ $part->name }}
                                 @if($part->percent_submit)
                                     <br>
-                                    <span class="text-xs text-white">(قیمت این محصول یک بار بیشتر از 20 درصد وارد شده، برای تایید دوباره قیمت را وارد کنید)</span>
+                                    <span class="text-xs text-black">(قیمت این محصول یک بار بیشتر از 20 درصد وارد شده، برای تایید دوباره قیمت را وارد کنید)</span>
                                 @endif
                             </p>
                         </td>

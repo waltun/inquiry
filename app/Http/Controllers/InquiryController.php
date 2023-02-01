@@ -249,9 +249,9 @@ class InquiryController extends Controller
             'inquiry_number' => $data['inquiry_number']
         ]);
         //Send Notification
-        $adminUsers = User::where('role', 'admin')->get();
-        auth()->user()->notify(new NewInquiryNotification($inquiry));
-        Notification::send($adminUsers, new NewInquiryNotification($inquiry));
+        //$adminUsers = User::where('role', 'admin')->get();
+        //auth()->user()->notify(new NewInquiryNotification($inquiry));
+        //Notification::send($adminUsers, new NewInquiryNotification($inquiry));
 
         alert()->success('ثبت نهایی موفق', 'ثبت نهایی با موفقیت انجام شد و برای مدیریت ارسال شد');
 

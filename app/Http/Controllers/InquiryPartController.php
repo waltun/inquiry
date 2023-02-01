@@ -31,8 +31,7 @@ class InquiryPartController extends Controller
         $categories = Category::where('parent_id', 0)->get();
 
         if ($keyword = request('search')) {
-            $parts->where('name', 'LIKE', "%{$keyword}%")
-                ->whereNotIn('id', $inquiry->products->pluck('part_id'));
+            $parts->where('name', 'LIKE', "%{$keyword}%");
         }
 
         if (!is_null(request('category3'))) {
@@ -60,6 +59,7 @@ class InquiryPartController extends Controller
     {
         $request->validate([
             'quantity' => 'required|numeric',
+            'type' => 'required'
         ]);
 
         $sort = 0;
@@ -76,7 +76,8 @@ class InquiryPartController extends Controller
             'sort' => $sort,
             'quantity2' => $request['quantity2'] ?? null,
             'description' => $request['tag'],
-            'weight' => $part->weight * $request['quantity']
+            'weight' => $part->weight * $request['quantity'],
+            'type' => $request['type']
         ]);
 
         alert()->success('ثبت موفق', 'ثبت قطعه برای استعلام با موفقیت انجام شد');
@@ -144,16 +145,128 @@ class InquiryPartController extends Controller
             'quantities' => 'required|array',
             'quantities.*' => 'required|numeric',
             'part_ids' => 'required|array',
-            'tags' => 'nullable|array'
+            'tags' => 'nullable|array',
+            'types' => 'required'
         ]);
 
-        foreach ($inquiry->products()->where('part_id', '!=', 0)->get() as $index => $product) {
-            $product->update([
-                'part_id' => $request->part_ids[$index],
-                'quantity' => $request->quantities[$index],
-                'quantity2' => $request->quantities2[$index] ?? null,
-                'description' => $request->tags[$index]
-            ]);
+        if ($request['type'] == 'setup') {
+            foreach ($inquiry->products()->where('part_id', '!=', 0)->where('type', 'setup')->get() as $index => $product) {
+                $product->update([
+                    'part_id' => $request->part_ids[$index],
+                    'quantity' => $request->quantities[$index],
+                    'quantity2' => $request->quantities2[$index] ?? null,
+                    'description' => $request->tags[$index],
+                    'types' => $request->types[$index]
+                ]);
+            }
+        }
+
+        if ($request['type'] == 'years') {
+            foreach ($inquiry->products()->where('part_id', '!=', 0)->where('type', 'years')->get() as $index => $product) {
+                $product->update([
+                    'part_id' => $request->part_ids[$index],
+                    'quantity' => $request->quantities[$index],
+                    'quantity2' => $request->quantities2[$index] ?? null,
+                    'description' => $request->tags[$index],
+                    'types' => $request->types[$index]
+                ]);
+            }
+        }
+
+        if ($request['type'] == 'control') {
+            foreach ($inquiry->products()->where('part_id', '!=', 0)->where('type', 'control')->get() as $index => $product) {
+                $product->update([
+                    'part_id' => $request->part_ids[$index],
+                    'quantity' => $request->quantities[$index],
+                    'quantity2' => $request->quantities2[$index] ?? null,
+                    'description' => $request->tags[$index],
+                    'types' => $request->types[$index]
+                ]);
+            }
+        }
+
+        if ($request['type'] == 'power_cable') {
+            foreach ($inquiry->products()->where('part_id', '!=', 0)->where('type', 'power_cable')->get() as $index => $product) {
+                $product->update([
+                    'part_id' => $request->part_ids[$index],
+                    'quantity' => $request->quantities[$index],
+                    'quantity2' => $request->quantities2[$index] ?? null,
+                    'description' => $request->tags[$index],
+                    'types' => $request->types[$index]
+                ]);
+            }
+        }
+
+        if ($request['type'] == 'control_cable') {
+            foreach ($inquiry->products()->where('part_id', '!=', 0)->where('type', 'control_cable')->get() as $index => $product) {
+                $product->update([
+                    'part_id' => $request->part_ids[$index],
+                    'quantity' => $request->quantities[$index],
+                    'quantity2' => $request->quantities2[$index] ?? null,
+                    'description' => $request->tags[$index],
+                    'types' => $request->types[$index]
+                ]);
+            }
+        }
+
+        if ($request['type'] == 'pipe') {
+            foreach ($inquiry->products()->where('part_id', '!=', 0)->where('type', 'pipe')->get() as $index => $product) {
+                $product->update([
+                    'part_id' => $request->part_ids[$index],
+                    'quantity' => $request->quantities[$index],
+                    'quantity2' => $request->quantities2[$index] ?? null,
+                    'description' => $request->tags[$index],
+                    'types' => $request->types[$index]
+                ]);
+            }
+        }
+
+        if ($request['type'] == 'setup_price') {
+            foreach ($inquiry->products()->where('part_id', '!=', 0)->where('type', 'setup_price')->get() as $index => $product) {
+                $product->update([
+                    'part_id' => $request->part_ids[$index],
+                    'quantity' => $request->quantities[$index],
+                    'quantity2' => $request->quantities2[$index] ?? null,
+                    'description' => $request->tags[$index],
+                    'types' => $request->types[$index]
+                ]);
+            }
+        }
+
+        if ($request['type'] == 'supervision') {
+            foreach ($inquiry->products()->where('part_id', '!=', 0)->where('type', 'supervision')->get() as $index => $product) {
+                $product->update([
+                    'part_id' => $request->part_ids[$index],
+                    'quantity' => $request->quantities[$index],
+                    'quantity2' => $request->quantities2[$index] ?? null,
+                    'description' => $request->tags[$index],
+                    'types' => $request->types[$index]
+                ]);
+            }
+        }
+
+        if ($request['type'] == 'transport') {
+            foreach ($inquiry->products()->where('part_id', '!=', 0)->where('type', 'transport')->get() as $index => $product) {
+                $product->update([
+                    'part_id' => $request->part_ids[$index],
+                    'quantity' => $request->quantities[$index],
+                    'quantity2' => $request->quantities2[$index] ?? null,
+                    'description' => $request->tags[$index],
+                    'types' => $request->types[$index]
+                ]);
+            }
+        }
+
+        if ($request['type'] == 'other') {
+            foreach ($inquiry->products()->where('part_id', '!=', 0)->where('type', 'other')->orWhere('type', 'null')->get() as $index => $product) {
+                $product->update([
+                    'part_id' => $request->part_ids[$index],
+                    'quantity' => $request->quantities[$index],
+                    'quantity2' => $request->quantities2[$index] ?? null,
+                    'description' => $request->tags[$index],
+                    'types' => $request->types[$index]
+                ]);
+            }
         }
 
         alert()->success('ثبت موفق', 'ثبت مقادیر با موفقیت انجام شد');
