@@ -258,7 +258,19 @@ class InquiryPartController extends Controller
         }
 
         if ($request['type'] == 'other') {
-            foreach ($inquiry->products()->where('part_id', '!=', 0)->where('type', 'other')->orWhere('type', 'null')->get() as $index => $product) {
+            foreach ($inquiry->products()->where('part_id', '!=', 0)->where('type', 'other')->get() as $index => $product) {
+                $product->update([
+                    'part_id' => $request->part_ids[$index],
+                    'quantity' => $request->quantities[$index],
+                    'quantity2' => $request->quantities2[$index] ?? null,
+                    'description' => $request->tags[$index],
+                    'types' => $request->types[$index]
+                ]);
+            }
+        }
+
+        if ($request['type'] == 'previous') {
+            foreach ($inquiry->products()->where('part_id', '!=', 0)->where('type', null)->get() as $index => $product) {
                 $product->update([
                     'part_id' => $request->part_ids[$index],
                     'quantity' => $request->quantities[$index],
