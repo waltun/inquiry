@@ -253,16 +253,16 @@
 
                         foreach ($part->children as $child) {
                             if ($child->price_updated_at < $lastTime && $child->price > 0) {
-                                $color = 'bg-red-500';
+                                $color = 'text-red-500';
                             }
                             if ($child->price_updated_at > $lastTime && $child->price_updated_at > $midTime && $child->price > 0) {
-                                $color = 'bg-green-500';
+                                $color = 'text-black';
                             }
                             if ($child->price_updated_at > $lastTime && $child->price_updated_at < $midTime && $child->price > 0) {
-                                $color = 'bg-yellow-500';
+                                $color = 'text-yellow-500';
                             }
                             if ($child->price_updated_at < $lastTime && $child->price == 0) {
-                                $color = 'bg-red-600';
+                                $color = 'text-red-600';
                             }
                         }
                     @endphp
@@ -277,13 +277,13 @@
                             <p class="text-sm text-black text-center">{{ $part->unit }}</p>
                         </td>
                         @if(!in_array($part->id,$specials))
-                            <td class="px-4 py-3 whitespace-nowrap {{ $color ?? '' }}">
+                            <td class="px-4 py-3 whitespace-nowrap">
                                 @if($part->price)
-                                    <p class="text-sm text-black text-center {{ $color ? 'text-white' : 'text-red-600' }}">
+                                    <p class="text-sm text-black text-center {{ $color }}">
                                         {{ number_format($part->price) }} تومان
                                     </p>
                                 @else
-                                    <p class="text-sm text-center {{ $color ? 'text-white' : 'text-red-600' }}">
+                                    <p class="text-sm text-center {{ $color }}">
                                         منتظر ثبت مقادیر
                                     </p>
                                 @endif

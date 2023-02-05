@@ -196,16 +196,16 @@
                             }
 
                             if ($child->price_updated_at < $lastTime && $child->price > 0) {
-                                $color = 'bg-red-500';
+                                $color = 'text-red-500';
                             }
                             if ($child->price_updated_at > $lastTime && $child->price_updated_at > $midTime && $child->price > 0) {
-                                $color = 'bg-green-500';
+                                $color = 'text-black';
                             }
                             if ($child->price_updated_at > $lastTime && $child->price_updated_at < $midTime && $child->price > 0) {
-                                $color = 'bg-yellow-500';
+                                $color = 'text-yellow-500';
                             }
                             if ($child->price_updated_at < $lastTime && $child->price == 0) {
-                                $color = 'bg-red-600';
+                                $color = 'text-red-600';
                             }
 
                             $category = $child->categories[1];
@@ -272,13 +272,13 @@
                                 <input type="hidden" name="units[]" id="inputUnitValue{{ $child->id }}"
                                        value="{{ $child->pivot->value2 }}">
                             </td>
-                            <td class="px-4 py-1 whitespace-nowrap {{ $color ?? '' }}">
+                            <td class="px-4 py-1 whitespace-nowrap">
                                 @if($child->price)
-                                    <p class="text-sm text-black font-medium text-center {{ $color ? 'text-white' : 'text-red-600' }}">
+                                    <p class="text-sm text-black font-medium text-center {{ $color }}">
                                         {{ number_format($child->price) }} تومان
                                     </p>
                                 @else
-                                    <p class="text-sm font-medium text-center {{ $color ? 'text-white' : 'text-red-600' }}">
+                                    <p class="text-sm font-medium text-center {{ $color }}">
                                         منتظر قیمت گذاری
                                     </p>
                                 @endif
