@@ -114,7 +114,10 @@
                 $user = \App\Models\User::find($inquiryPrice->user_id);
                 $parts = \App\Models\InquiryPrice::select('part_id')->where('inquiry_id',$inquiry->id)->get()->unique('part_id');
             @endphp
-            <div class="bg-white rounded-md p-4 shadow border border-gray-200 mb-8">
+            <form action="{{ route('inquiryPrice.update',$inquiry->id) }}" method="POST"
+                  class="bg-white rounded-md p-4 shadow border border-gray-200 mb-8">
+                @csrf
+                @method('PATCH')
                 <div class="flex items-center justify-between border-b border-gray-200 pb-3">
                     <p class="text-sm font-bold text-black">
                         درخواست های استعلام {{ $inquiry->name }}
@@ -126,10 +129,7 @@
                         کاربر درخواست کننده : {{ $user->name }}
                     </p>
                 </div>
-                <form action="{{ route('inquiryPrice.update',$inquiry->id) }}" method="POST"
-                      class="mt-4 overflow-x-auto">
-                    @csrf
-                    @method('PATCH')
+                <div class="mt-4 overflow-x-auto">
                     <table class="min-w-full bg-white shadow">
                         <thead>
                         <tr class="bg-sky-200">
@@ -215,17 +215,16 @@
                         @endforeach
                         </tbody>
                     </table>
-
-                    <div class="mt-4">
-                        <button type="submit" class="form-submit-btn">
-                            ثبت قیمت
-                        </button>
-                        <button type="button" class="form-detail-btn deleteAllBtn">
-                            بروزرسانی تاریخ (انتخاب شده‌ها)
-                        </button>
-                    </div>
-                </form>
-            </div>
+                </div>
+                <div class="mt-4 bg-white p-2 rounded-md border border-gray-200 shadow-sm sticky bottom-4">
+                    <button type="submit" class="form-submit-btn">
+                        ثبت قیمت
+                    </button>
+                    <button type="button" class="form-detail-btn deleteAllBtn">
+                        بروزرسانی تاریخ (انتخاب شده‌ها)
+                    </button>
+                </div>
+            </form>
         @endforeach
     </div>
 </x-layout>
