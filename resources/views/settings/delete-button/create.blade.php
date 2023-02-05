@@ -67,6 +67,36 @@
             <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">مشخصات کلی</p>
 
             <div class="mt-4">
+                <label for="inputCategories" class="block mb-2 md:text-sm text-xs text-black">
+                    دکمه های حذف بخش دسته بندی ها
+                </label>
+                <select name="categories" id="inputCategories" class="input-text w-1/3">
+                    <option value="">انتخاب کنید</option>
+                    <option value="1">
+                        نمایش
+                    </option>
+                    <option value="0">
+                        عدم نمایش
+                    </option>
+                </select>
+            </div>
+
+            <div class="mt-4">
+                <label for="inputProducts" class="block mb-2 md:text-sm text-xs text-black">
+                    دکمه های حذف بخش محصولات و مدل ها
+                </label>
+                <select name="products" id="inputProducts" class="input-text w-1/3">
+                    <option value="">انتخاب کنید</option>
+                    <option value="1">
+                        نمایش
+                    </option>
+                    <option value="0">
+                        عدم نمایش
+                    </option>
+                </select>
+            </div>
+
+            <div class="mt-4">
                 <label for="inputParts" class="block mb-2 md:text-sm text-xs text-black">
                     دکمه های حذف بخش قطعات
                 </label>

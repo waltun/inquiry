@@ -100,19 +100,21 @@
                     </div>
                     <div class="flex items-center space-x-3 space-x-reverse hidden"
                          id="buttonSection{{ $group->id }}">
+                        @if($delete->products)
+                            <form action="{{ route('groups.destroy',$group->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button class="form-cancel-btn text-xs" onclick="return confirm('گروه حذف شود ؟')">
+                                    حذف
+                                </button>
+                            </form>
+                        @endif
                         <a href="{{ route('modells.create',$group->id) }}" class="form-submit-btn text-xs">
                             زیردسته جدید
                         </a>
                         <a href="{{ route('groups.edit',$group->id) }}" class="form-edit-btn text-xs">
                             ویرایش نام گروه
                         </a>
-                        <!--<form action="{{ route('groups.destroy',$group->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button class="form-cancel-btn text-xs" onclick="return confirm('گروه حذف شود ؟')">
-                                حذف
-                            </button>
-                        </form>-->
                         @if(count($group->modells) > 0)
                             <button type="button" @click="open = !open">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 transform transition-transform"
@@ -153,6 +155,17 @@
                                 </div>
                                 <div class="flex items-center space-x-3 space-x-reverse hidden"
                                      id="buttonSection2{{ $modell->id }}">
+                                    @if($delete->products)
+                                        <form action="{{ route('modells.destroy',$modell->id) }}" method="POST"
+                                              class="inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="form-cancel-btn text-xs"
+                                                    onclick="return confirm('مدل حذف شود ؟')">
+                                                حذف
+                                            </button>
+                                        </form>
+                                    @endif
                                     <a href="{{ route('modells.create',$group->id) }}?parent={{ $modell->id }}"
                                        class="form-submit-btn text-xs">
                                         افزودن مدل جدید
@@ -160,15 +173,6 @@
                                     <a href="{{ route('modells.edit',$modell->id) }}" class="form-edit-btn text-xs">
                                         ویرایش مدل
                                     </a>
-                                    <!--<form action="{{ route('modells.destroy',$modell->id) }}" method="POST"
-                                          class="inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="form-cancel-btn text-xs"
-                                                onclick="return confirm('مدل حذف شود ؟')">
-                                            حذف
-                                        </button>
-                                    </form>-->
                                     <form action="{{ route('modells.replicate',$modell->id) }}" method="POST"
                                           class="inline">
                                         @csrf
@@ -219,6 +223,18 @@
                                             </div>
                                             <div class="flex items-center space-x-3 space-x-reverse hidden"
                                                  id="buttonSection2{{ $children->id }}">
+                                                @if($delete->products)
+                                                    <form action="{{ route('modells.destroy',$children->id) }}"
+                                                          method="POST"
+                                                          class="inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button class="form-cancel-btn text-xs"
+                                                                onclick="return confirm('مدل حذف شود ؟')">
+                                                            حذف
+                                                        </button>
+                                                    </form>
+                                                @endif
                                                 <a href="{{ route('modells.parts',$children->id) }}"
                                                    class="form-submit-btn text-xs">
                                                     قطعات مدل
@@ -227,16 +243,6 @@
                                                    class="form-edit-btn text-xs">
                                                     ویرایش مدل
                                                 </a>
-                                                <!--<form action="{{ route('modells.destroy',$children->id) }}"
-                                                      method="POST"
-                                                      class="inline">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button class="form-cancel-btn text-xs"
-                                                            onclick="return confirm('مدل حذف شود ؟')">
-                                                        حذف
-                                                    </button>
-                                                </form>-->
                                                 <form action="{{ route('modells.replicate',$children->id) }}"
                                                       method="POST"
                                                       class="inline">

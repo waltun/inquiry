@@ -20,6 +20,8 @@ return new class extends Migration {
             $table->boolean('collection-coil');
             $table->boolean('users');
             $table->boolean('inquiries');
+            $table->boolean('categories');
+            $table->boolean('products');
 
             $table->boolean('active')->default(false);
 

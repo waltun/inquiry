@@ -190,18 +190,7 @@
                             <p class="text-sm text-black text-center">{{ $product->description ?? '-' }}</p>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap relative flex items-center">
-                            <a href="{{ route('inquiries.product.amounts',$product->id) }}"
-                               class="form-submit-btn text-xs">
-                                جزئیات
-                            </a>
-                            @can('percent-inquiry')
-                                @if($inquiry->submit)
-                                    <a href="{{ route('inquiries.product.percent',$product->id) }}"
-                                       class="form-percent-btn text-xs block">
-                                        ثبت ضریب
-                                    </a>
-                                @endif
-                            @endcan
+
                             <div x-data="{open:false}" class="mt-1">
                                 <button type="button" @click="open = !open">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -211,7 +200,7 @@
                                     </svg>
                                 </button>
                                 <div x-show="open" @click.away="open = false"
-                                     class="absolute bg-white rounded-md shadow border border-gray-300 px-2 py-3 z-50 top-10 space-y-2">
+                                     class="absolute bg-white rounded-md shadow border border-gray-300 px-2 py-3 z-50 -top-8 right-12 space-y-2">
                                     <a href="{{ route('inquiries.product.edit',$product->id) }}"
                                        class="form-edit-btn text-xs block">
                                         ویرایش تعداد
@@ -280,7 +269,18 @@
                                 </div>
                             </div>
 
-
+                            <a href="{{ route('inquiries.product.amounts',$product->id) }}"
+                               class="form-submit-btn text-xs">
+                                جزئیات
+                            </a>
+                            @can('percent-inquiry')
+                                @if($inquiry->submit)
+                                    <a href="{{ route('inquiries.product.percent',$product->id) }}"
+                                       class="form-percent-btn text-xs block">
+                                        ثبت ضریب
+                                    </a>
+                                @endif
+                            @endcan
                             @if($product->percent > 0)
                                 <p class="text-sm font-bold text-green-600 inline">
                                     ضریب ثبت شده

@@ -61,6 +61,12 @@
                         ردیف
                     </th>
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                        بخش دسته بندی ها
+                    </th>
+                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                        بخش محصولات و مدل ها
+                    </th>
+                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                         بخش قطعات
                     </th>
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
@@ -88,6 +94,24 @@
                     <tr>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-gray-500 text-center">{{ $loop->index + 1 }}</p>
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <p class="text-sm text-black text-center">
+                                @if($setting->categories)
+                                    نمایش دکمه ها
+                                @else
+                                    عدم نمایش دکمه ها
+                                @endif
+                            </p>
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <p class="text-sm text-black text-center">
+                                @if($setting->products)
+                                    نمایش دکمه ها
+                                @else
+                                    عدم نمایش دکمه ها
+                                @endif
+                            </p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <p class="text-sm text-black text-center">

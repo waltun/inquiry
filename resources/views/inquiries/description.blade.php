@@ -114,19 +114,64 @@
                         {{ $inquiry->description }}
                     @else
                         <ol>
-                        <li><strong><span style="font-size: 10pt;">مدت زمان تحویل کالا :&nbsp;</span></strong></li>
-                        <li><strong><span style="font-size: 10pt;">مدت گارانتی :&nbsp;</span></strong></li>
-                        <li><strong><span style="font-size: 10pt;">نحوه پرداخت :&nbsp;</span></strong></li>
-                        <li><strong><span style="font-size: 10pt;">محل تحویل :&nbsp;</span></strong></li>
-                        <li><strong><span style="font-size: 10pt;">نوع تضامین درخواستی خریدار :&nbsp;
-                        </span></strong></li>
-                        <li><strong><span style="font-size: 10pt;">قیمت پیشنهادی بر اساس چه ارزی هست ؟&nbsp;
-                        </span></strong></li>
-                        <li><strong><span style="font-size: 10pt;">نرخ تسعیر ارز :&nbsp;</span></strong></li>
-                        <li><strong><span style="font-size: 10pt;">زمان عودت تضامین پیش پرداخت :&nbsp;
-                        </span></strong></li>
-                        <li><strong><span style="font-size: 10pt;">تعهدات پیمانکار :&nbsp;</span></strong></li>
-                        <li><strong><span style="font-size: 10pt;">تعهدات کارفرما :&nbsp;</span></strong></li>
+                        <li><strong><span style="font-size: 10pt;">مدت زمان تحویل کالا : <span style="color: #3598db;">دستگاه های این پیشنهاد 90 روز کاری پس از وصول پیش پرداخت و تایید مشخصات فنی تحویل می گردد.</span></span></strong></li>
+                        <li><strong><span style="font-size: 10pt;">مدت گارانتی : <span style="color: #3598db;">مدت گارانتی دستگاه های این پیشنهاد 12 ماه از زمان راه اندازی یا 18 ماه از زمان ارسال (هر یک زودتر فرا رسد) می باشد.</span></span></strong></li>
+                        <li><strong><span style="font-size: 10pt;">نحوه پرداخت : <span style="color: #3598db;">پیشنهاد می گردد 50 درصد مبلغ بابت پیش پرداخت و الباقی پس از پایان ساخت دستگاه ها و قبل از ارسال آن ها پرداخت گردد.</span></span></strong></li>
+                        <li><strong><span style="font-size: 10pt;">محل تحویل : <span style="color: #3598db;">درب کارخانه شرکت تهویه آذرباد.</span></span></strong></li>
+                        <li><strong><span style="font-size: 10pt;"><span style="color: #3598db;"><span style="color: #000000;">مدت اعتبار</span> : مدت زمان اعتبار این پیشنهاد مالی 5 روز می باشد.</span></span></strong></li>
+                        <li><strong><span style="font-size: 10pt;">نوع تضامین درخواستی خریدار :</span></strong>
+                        <ul>
+                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">ضمانت نامه بانکی معادل</span></strong></span></li>
+                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">ضمانت نامه با 20 درصد اُور</span></strong></span></li>
+                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">چک تضمین شرکتی</span></strong></span></li>
+                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">تضمین ندارد.</span></strong></span></li>
+                        </ul>
+                        </li>
+                        <li><strong><span style="font-size: 10pt;">قیمت پیشنهادی بر اساس چه ارزی هست ؟&nbsp;</span></strong>
+                        <ul>
+                        <li><strong><span style="color: #3598db; font-size: 10pt;">ریال</span></strong></li>
+                        <li><strong><span style="color: #3598db; font-size: 10pt;">یورو</span></strong></li>
+                        <li><strong><span style="color: #3598db; font-size: 10pt;">دلار</span></strong></li>
+                        </ul>
+                        </li>
+                        <li><strong><span style="font-size: 10pt;">نرخ تسعیر ارز :&nbsp;</span></strong>
+                        <ul>
+                        <li><strong><span style="color: #3598db; font-size: 10pt;">یورو با نرخ آزاد</span></strong></li>
+                        <li><strong><span style="color: #3598db; font-size: 10pt;">یورو با نرخ سامانه ثنا و میانگین حواله خرید و فروش روزانه</span></strong></li>
+                        <li><strong><span style="color: #3598db; font-size: 10pt;">دلار با نرخ آزاد</span></strong></li>
+                        <li><strong><span style="color: #3598db; font-size: 10pt;">دلار با نرخ سامانه ثنا و میانگین حواله خرید و فروش روزانه</span></strong></li>
+                        <li><strong><span style="color: #3598db; font-size: 10pt;">موضوعیت ندارد</span></strong></li>
+                        </ul>
+                        </li>
+                        <li><strong><span style="font-size: 10pt;">زمان عودت تضامین پیش پرداخت :&nbsp;</span></strong>
+                        <ul>
+                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">تضمین پیش پرداخت هم زمان با ارسال دستگاه ها عودت می گردد.</span></strong></span></li>
+                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">تضمین پیش پرداخت پس از ارسال دستگاه ها و حداکثر یک ماه پس از تحویل عودت می گردد.</span></strong></span></li>
+                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">تضمین حسن انجام کار هم زمان با ارسال دستگاه ها عودت می گردد.</span></strong></span></li>
+                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">تضمین حسن انجام کار پس از ارسال دستگاه ها و حداکثر یک ماه پس از تحویل عودت می گردد.</span></strong></span></li>
+                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">تضمین دوره گارانتی پس از اتمام دوره گارانتی عودت می گردد.</span></strong></span></li>
+                        </ul>
+                        </li>
+                        <li><strong><span style="font-size: 10pt;">مالیات ارزش افزوده به مبلغ پیشنهادی فوق اضافه می گردد.</span></strong></li>
+                        <li><strong><span style="font-size: 10pt;">مدت خدمات پس از فروش 10 سال می باشد که در این دوره هزینه های مربوطه دریافت می گردد.</span></strong></li>
+                        <li><strong><span style="font-size: 10pt;">نصب، راه اندازی و تامین متریال مربوط به دستگاه های این پیشنهاد به عهده خریدار می باشد.</span></strong></li>
+                        <li><strong><span style="font-size: 10pt;">تعهدات کارفرما :&nbsp;</span></strong>
+                        <ul>
+                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">تامین متریال راه اندازی از قبیل گاز مبرد، روغن مبرد، مغزی فیلتر درایر، تامین گاز شست و شو.</span></strong></span></li>
+                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">اجرای فوندانسیون مناسب با دستگاه ها.</span></strong></span></li>
+                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">حمل، تخلیه و انتقال دستگاه ها بر روی فوندانسیون.</span></strong></span></li>
+                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">حمل، تخلیه و انتقال ابزارآلات و قطعات راه اندازی تا محل نصب دستگاه ها.</span></strong></span></li>
+                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">انجام لوله کشی، کابل کشی، کانال کشی و اتصال آن ها به دستگاه ها.</span></strong></span></li>
+                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">استارت و راه اندازی دستگاه ها.</span></strong></span></li>
+                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">فراهم نمودن شرایط برقی و کنترلی استاندارد مطابق نیاز دستگاه ها.</span></strong></span></li>
+                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">ارائه محل اقامت و غذا برای پرسنل نصاب و راه انداز شرکت در صورت داشتن تعهد نصب و راه اندازی.</span></strong></span></li>
+                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">پرداخت هزینه های ایاب و ذهاب در دوره گارانتی و خدمات پس از فروش.</span></strong></span></li>
+                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">نصب الکترو پمپ ها و اجرای لوله کشی مربوطه و اتصال به دستگاه.</span></strong></span></li>
+                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">تامین تابلو برق و کنترل مناسب و استاندارد جهت دستگاه ها.</span></strong></span></li>
+                        </ul>
+                        </li>
+                        <li><strong><span style="font-size: 10pt;">نصب دستگاه ها</span></strong> :&nbsp;<span style="color: #3598db;"><strong><span style="font-size: 10pt;">نصب دستگاه ها توسط فروشنده یا توسط شرکت های مورد تایید یا کارشناس ناظر فروشنده الزامی است.</span></strong></span></li>
+                        <li><strong><span style="font-size: 10pt;">تعهدات پیمانکار :</span></strong></li>
                         <li><strong><span style="font-size: 10pt;">سایر :</span></strong></li>
                         </ol>
                     @endif

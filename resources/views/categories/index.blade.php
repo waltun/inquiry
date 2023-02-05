@@ -90,6 +90,12 @@
                     </div>
                     <div class="flex items-center space-x-3 space-x-reverse hidden"
                          id="buttonSection{{ $category->id }}">
+                        @if($delete->categories)
+                            <form action="{{ route('categories.destroy',$category->id) }}" class="inline">
+                                @csrf
+                                <button type="submit" class="form-cancel-btn text-xs">حذف</button>
+                            </form>
+                        @endif
                         <a href="{{ route('categories.create') }}?parent={{ $category->id }}"
                            class="form-detail-btn text-xs">
                             ثبت زیردسته
@@ -109,7 +115,7 @@
                     </div>
                 </div>
                 <div x-show="open" x-cloak>
-                    @include('categories.children',['category' => $category])
+                    @include('categories.children',['category' => $category, 'delete' => $delete])
                 </div>
             </div>
         @endforeach

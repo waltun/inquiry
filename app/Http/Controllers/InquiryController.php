@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Amount;
+use App\Models\DeleteButton;
 use App\Models\Group;
 use App\Models\Inquiry;
 use App\Models\Modell;
@@ -300,7 +301,8 @@ class InquiryController extends Controller
 
         $modells = Modell::where('parent_id', '!=', 0)->get();
         $groups = Group::all();
-        return view('inquiries.priced', compact('inquiries', 'modells', 'groups'));
+        $delete = DeleteButton::where('active', '1')->first();
+        return view('inquiries.priced', compact('inquiries', 'modells', 'groups', 'delete'));
     }
 
     public function copy(Inquiry $inquiry)

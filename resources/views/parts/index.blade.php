@@ -249,6 +249,13 @@
                             @endif
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
+                            @if($delete->parts)
+                                <form action="{{ route('parts.destroy',$part->id) }}" class="inline">
+                                    @csrf
+
+                                    <button type="submit" class="form-cancel-btn text-xs">حذف</button>
+                                </form>
+                            @endif
                             <a href="{{ route('parts.edit',$part->id) }}" class="form-edit-btn text-xs">
                                 ویرایش
                             </a>

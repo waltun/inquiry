@@ -323,6 +323,24 @@
             @endif
         </div>
 
+        <!-- Inquiry Description -->
+        <div class="mt-4 bg-white rounded-md p-4 border border-gray-200 shadow-md">
+            <div class="mb-4">
+                <p class="text-lg font-bold text-black border-b pb-3 border-gray-400">
+                    شرایط استعلام
+                </p>
+            </div>
+            <div class="leading-7 text-sm text-gray-700 list-decimal">
+                @if($inquiry->description)
+                    {!! $inquiry->description !!}
+                @else
+                    <p class="text-sm text-center text-lg text-red-600 font-bold">
+                        شرایطی برای این استعلام تعیین نشده است!
+                    </p>
+                @endif
+            </div>
+        </div>
+
         <!-- Inquiry Dates -->
         <div class="md:grid grid-cols-3 gap-4 mt-4">
             <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4 space-y-2">

@@ -311,14 +311,16 @@
                                     کپی
                                 </button>
                             </form>
-                            <form action="{{ route('collections.destroy',$part->id) }}" method="POST"
-                                  class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <button class="form-cancel-btn text-xs" onclick="return confirm('قطعه حذف شود ؟')">
-                                    حذف
-                                </button>
-                            </form>
+                            @if($delete->collection_parts)
+                                <form action="{{ route('collections.destroy',$part->id) }}" method="POST"
+                                      class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="form-cancel-btn text-xs" onclick="return confirm('قطعه حذف شود ؟')">
+                                        حذف
+                                    </button>
+                                </form>
+                            @endif
                         </td>
                     </tr>
                 @endforeach

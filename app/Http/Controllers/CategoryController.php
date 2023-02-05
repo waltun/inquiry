@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\DeleteButton;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
@@ -14,8 +15,9 @@ class CategoryController extends Controller
         Gate::authorize('categories');
 
         $categories = Category::where('parent_id', 0)->with(['children'])->latest()->paginate(25);
+        $delete = DeleteButton::where('active', '1')->first();
 
-        return view('categories.index', compact('categories'));
+        return view('categories.index', compact('categories', 'delete'));
     }
 
     public function create()

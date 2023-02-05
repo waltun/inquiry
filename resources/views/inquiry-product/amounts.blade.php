@@ -981,9 +981,19 @@
                 @endif
                 </tbody>
             </table>
+        </div>
+        <div class="bg-white p-4 rounded-md border border-gray-200 shadow-sm sticky bottom-4 flex items-center justify-between">
+            <div class="flex items-center space-x-2 space-x-reverse">
+                <button type="submit" class="form-submit-btn">
+                    ثبت مقادیر
+                </button>
+                <a href="{{ route('inquiries.index') }}" class="form-cancel-btn">
+                    انصراف (خروج)
+                </a>
+            </div>
 
             @if($product->percent == 0)
-                <div class="mt-4 flex justify-end space-x-2 space-x-reverse">
+                <div class="flex justify-end space-x-2 space-x-reverse">
                     @if($showPivotPrice != 0)
                         @can('users')
                             <p class="text-base font-bold text-white bg-green-500 px-6 py-1 rounded-md">
@@ -1006,15 +1016,6 @@
                     @endif
                 </div>
             @endif
-
-        </div>
-        <div class="space-x-2 space-x-reverse">
-            <button type="submit" class="form-submit-btn">
-                ثبت مقادیر
-            </button>
-            <a href="{{ route('inquiries.index') }}" class="form-cancel-btn">
-                انصراف (خروج)
-            </a>
         </div>
     </form>
 </x-layout>

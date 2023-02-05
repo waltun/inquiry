@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\DeleteButton;
 use App\Models\Part;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -15,6 +16,7 @@ class PartController extends Controller
 
         $parts = Part::query();
         $categories = Category::where('parent_id', 0)->get();
+        $delete = DeleteButton::where('active', '1')->first();
 
         if ($keyword = request('search')) {
             $parts->where('coil', false)
@@ -41,7 +43,7 @@ class PartController extends Controller
         $parts = $parts->where('coil', false)->where('collection', false)->latest()
             ->paginate(25)->withQueryString();
 
-        return view('parts.index', compact('parts', 'categories'));
+        return view('parts.index', compact('parts', 'categories', 'delete'));
     }
 
     public function create()

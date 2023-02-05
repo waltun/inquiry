@@ -61,6 +61,12 @@
                     </div>
                 </div>
                 <div class="flex items-center space-x-3 space-x-reverse hidden" id="buttonSection{{ $children->id }}">
+                    @if($delete->categories)
+                        <form action="{{ route('categories.destroy',$category->id) }}" class="inline">
+                            @csrf
+                            <button type="submit" class="form-cancel-btn text-xs">حذف</button>
+                        </form>
+                    @endif
                     @if($count != 2)
                         <a href="{{ route('categories.create') }}?parent={{ $children->id }}"
                            class="form-detail-btn text-xs">
@@ -83,7 +89,7 @@
             </div>
             @if(count($children->children) > 0)
                 <div x-show="open">
-                    @include('categories.children',['category' => $children])
+                    @include('categories.children',['category' => $children, 'delete' => $delete])
                 </div>
             @endif
         </div>

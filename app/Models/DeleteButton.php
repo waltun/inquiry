@@ -10,6 +10,6 @@ class DeleteButton extends Model
     use HasFactory;
 
     protected $fillable = [
-        'parts', 'collection_parts', 'collection_coil', 'users', 'inquiries', 'active'
+        'parts', 'collection_parts', 'collection_coil', 'users', 'inquiries', 'active', 'categories', 'products'
     ];
 }

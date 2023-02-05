@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DeleteButton;
 use App\Models\Group;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -14,7 +15,9 @@ class GroupController extends Controller
         Gate::authorize('groups');
 
         $groups = Group::all();
-        return view('groups.index', compact('groups'));
+        $delete = DeleteButton::where('active', '1')->first();
+
+        return view('groups.index', compact('groups', 'delete'));
     }
 
     public function create()

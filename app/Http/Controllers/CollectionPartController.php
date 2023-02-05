@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\DeleteButton;
 use App\Models\Part;
 use App\Models\Setting;
 use Illuminate\Http\Request;
@@ -16,6 +17,7 @@ class CollectionPartController extends Controller
 
         $parts = Part::query();
         $setting = Setting::where('active', '1')->first();
+        $delete = DeleteButton::where('active', '1')->first();
         $categories = Category::where('parent_id', 0)->get();
 
         if ($keyword = request('search')) {
@@ -43,7 +45,7 @@ class CollectionPartController extends Controller
         $parts = $parts->where('collection', true)->where('coil', false)->latest()
             ->paginate(25)->withQueryString();
 
-        return view('collection-parts.index', compact('parts', 'categories', 'setting'));
+        return view('collection-parts.index', compact('parts', 'categories', 'setting', 'delete'));
     }
 
     public function create(Part $parentPart)

@@ -105,6 +105,8 @@ class SettingController extends Controller
             'collection_coil' => 'required',
             'users' => 'required',
             'inquiries' => 'required',
+            'categories' => 'required',
+            'products' => 'required',
             'active' => 'required',
         ]);
 
@@ -120,6 +122,8 @@ class SettingController extends Controller
             'collection_coil' => $request['collection_coil'],
             'users' => $request['users'],
             'inquiries' => $request['inquiries'],
+            'categories' => $request['categories'],
+            'products' => $request['products'],
             'active' => $request['active'],
         ]);
 
@@ -141,6 +145,8 @@ class SettingController extends Controller
             'collection_coil' => 'required',
             'users' => 'required',
             'inquiries' => 'required',
+            'categories' => 'required',
+            'products' => 'required',
             'active' => 'required',
         ]);
 
@@ -150,6 +156,8 @@ class SettingController extends Controller
             'collection_coil' => $request['collection_coil'],
             'users' => $request['users'],
             'inquiries' => $request['inquiries'],
+            'categories' => $request['categories'],
+            'products' => $request['products'],
             'active' => $request['active'],
         ]);
 

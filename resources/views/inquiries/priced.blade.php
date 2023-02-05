@@ -179,16 +179,6 @@
                             <p class="text-sm text-black text-center">{{ jdate($inquiry->updated_at)->format('%A, %d %B %Y') }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap space-x-2 space-x-reverse flex items-center">
-                            @can('priced-inquiry')
-                                <a href="{{ route('inquiries.show',$inquiry->id) }}" class="form-detail-btn text-xs">
-                                    جزئیات
-                                </a>
-                            @endcan
-                            <a href="{{ route('inquiries.products',$inquiry->id) }}"
-                               class="form-submit-btn text-xs">
-                                مشاهده قیمت محصولات
-                            </a>
-
                             <div x-data="{open:false}" class="relative">
                                 <button type="button" @click="open = !open">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -311,18 +301,29 @@
                                             </div>
                                         </div>
                                     </div>
-                                    @can('users')
-                                        <form action="{{ route('inquiries.destroy',$inquiry->id) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="form-cancel-btn text-xs w-full"
-                                                    onclick="return confirm('استعلام حذف شود ؟')">
-                                                حذف
-                                            </button>
-                                        </form>
-                                    @endcan
+                                    @if($delete->inquiries)
+                                        @can('users')
+                                            <form action="{{ route('inquiries.destroy',$inquiry->id) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="form-cancel-btn text-xs w-full"
+                                                        onclick="return confirm('استعلام حذف شود ؟')">
+                                                    حذف
+                                                </button>
+                                            </form>
+                                        @endcan
+                                    @endif
                                 </div>
                             </div>
+                            @can('priced-inquiry')
+                                <a href="{{ route('inquiries.show',$inquiry->id) }}" class="form-detail-btn text-xs">
+                                    جزئیات
+                                </a>
+                            @endcan
+                            <a href="{{ route('inquiries.products',$inquiry->id) }}"
+                               class="form-submit-btn text-xs">
+                                مشاهده قیمت محصولات
+                            </a>
                         </td>
                     </tr>
                 @endforeach

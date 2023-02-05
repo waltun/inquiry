@@ -67,6 +67,37 @@
 
         <div class="col-span-2 bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
             <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">مشخصات کلی</p>
+
+            <div class="mt-4">
+                <label for="inputCategories" class="block mb-2 md:text-sm text-xs text-black">
+                    دکمه های حذف بخش دسته بندی ها
+                </label>
+                <select name="categories" id="inputCategories" class="input-text w-1/3">
+                    <option value="">انتخاب کنید</option>
+                    <option value="1" {{ $deleteButton->categories ? 'selected' : '' }}>
+                        نمایش
+                    </option>
+                    <option value="0" {{ !$deleteButton->categories ? 'selected' : '' }}>
+                        عدم نمایش
+                    </option>
+                </select>
+            </div>
+
+            <div class="mt-4">
+                <label for="inputProducts" class="block mb-2 md:text-sm text-xs text-black">
+                    دکمه های حذف بخش محصولات و مدل ها
+                </label>
+                <select name="products" id="inputProducts" class="input-text w-1/3">
+                    <option value="">انتخاب کنید</option>
+                    <option value="1" {{ $deleteButton->products ? 'selected' : '' }}>
+                        نمایش
+                    </option>
+                    <option value="0" {{ !$deleteButton->products ? 'selected' : '' }}>
+                        عدم نمایش
+                    </option>
+                </select>
+            </div>
+
             <div class="mt-4">
                 <label for="inputParts" class="block mb-2 md:text-sm text-xs text-black">
                     دکمه های حذف بخش قطعات

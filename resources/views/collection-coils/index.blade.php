@@ -306,14 +306,16 @@
                             </a>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
-                            <form action="{{ route('collections.destroy',$part->id) }}" method="POST"
-                                  class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <button class="form-cancel-btn text-xs" onclick="return confirm('قطعه حذف شود ؟')">
-                                    حذف
-                                </button>
-                            </form>
+                            @if($delete->collection_coil)
+                                <form action="{{ route('collections.destroy',$part->id) }}" method="POST"
+                                      class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="form-cancel-btn text-xs" onclick="return confirm('قطعه حذف شود ؟')">
+                                        حذف
+                                    </button>
+                                </form>
+                            @endif
                         </td>
                     </tr>
                 @endforeach

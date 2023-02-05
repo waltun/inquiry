@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DeleteButton;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -20,9 +21,10 @@ class UserController extends Controller
             $users->where('role', request('role'))->get();
         }
 
+        $delete = DeleteButton::where('active', '1')->first();
         $users = $users->get();
 
-        return view('users.index', compact('users'));
+        return view('users.index', compact('users', 'delete'));
     }
 
     public function create()

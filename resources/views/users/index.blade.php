@@ -146,14 +146,16 @@
                             <a href="{{ route('users.edit',$user->id) }}" class="form-edit-btn text-xs">
                                 ویرایش
                             </a>
-                            <form action="{{ route('users.destroy',$user->id) }}" method="POST"
-                                  class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <button class="form-cancel-btn text-xs" onclick="return confirm('کاربر حذف شود ؟')">
-                                    حذف
-                                </button>
-                            </form>
+                            @if($delete->users)
+                                <form action="{{ route('users.destroy',$user->id) }}" method="POST"
+                                      class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="form-cancel-btn text-xs" onclick="return confirm('کاربر حذف شود ؟')">
+                                        حذف
+                                    </button>
+                                </form>
+                            @endif
                         </td>
                     </tr>
                 @endforeach
