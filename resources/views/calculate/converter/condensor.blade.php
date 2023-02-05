@@ -517,6 +517,10 @@
                                 {{ is_null($inputs) ? (old('flanch') == '1161' ? 'selected' : '') : ($inputs['flanch'] == "1161" ? 'selected' : (old('flanch') == '1161' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::find('1161')->name }}
                             </option>
+                            <option value="{{ \App\Models\Part::find('2647')->id }}"
+                                {{ is_null($inputs) ? (old('flanch') == '2647' ? 'selected' : '') : ($inputs['flanch'] == "2647" ? 'selected' : (old('flanch') == '2647' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('2647')->name }}
+                            </option>
                             <option value="{{ \App\Models\Part::find('1162')->id }}"
                                 {{ is_null($inputs) ? (old('flanch') == '1162' ? 'selected' : '') : ($inputs['flanch'] == "1162" ? 'selected' : (old('flanch') == '1162' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::find('1162')->name }}
