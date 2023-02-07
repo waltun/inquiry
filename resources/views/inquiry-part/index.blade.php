@@ -508,7 +508,7 @@
                 <form action="{{ route('inquiries.parts.storeAmounts',$inquiry->id) }}" method="POST"
                       class="border border-indigo-400 p-4 rounded-md mb-4">
                     @csrf
-                    <input type="hidden" name="type" value="setup">
+                    <input type="hidden" name="submitType" value="setup">
                     <div class="mb-4">
                         <p class="text-sm font-bold text-black">
                             قطعات یدکی راه اندازی
@@ -828,7 +828,7 @@
                 <form action="{{ route('inquiries.parts.storeAmounts',$inquiry->id) }}" method="POST"
                       class="border border-indigo-400 p-4 rounded-md mb-4">
                     @csrf
-                    <input type="hidden" name="type" value="years">
+                    <input type="hidden" name="submitType" value="years">
                     <div class="mb-4">
                         <p class="text-sm font-bold text-black">
                             قطعات یدکی دوسالانه
@@ -1148,7 +1148,7 @@
                 <form action="{{ route('inquiries.parts.storeAmounts',$inquiry->id) }}" method="POST"
                       class="border border-indigo-400 p-4 rounded-md mb-4">
                     @csrf
-                    <input type="hidden" name="type" value="control">
+                    <input type="hidden" name="submitType" value="control">
                     <div class="mb-4">
                         <p class="text-sm font-bold text-black">
                             قطعات کنترلی
@@ -1468,7 +1468,7 @@
                 <form action="{{ route('inquiries.parts.storeAmounts',$inquiry->id) }}" method="POST"
                       class="border border-indigo-400 p-4 rounded-md mb-4">
                     @csrf
-                    <input type="hidden" name="type" value="power_cable">
+                    <input type="hidden" name="submitType" value="power_cable">
                     <div class="mb-4">
                         <p class="text-sm font-bold text-black">
                             قطعات کابل قدرت
@@ -1785,7 +1785,7 @@
                 <form action="{{ route('inquiries.parts.storeAmounts',$inquiry->id) }}" method="POST"
                       class="border border-indigo-400 p-4 rounded-md mb-4">
                     @csrf
-                    <input type="hidden" name="type" value="control_cable">
+                    <input type="hidden" name="submitType" value="control_cable">
                     <div class="mb-4">
                         <p class="text-sm font-bold text-black">
                             قطعات کابل کنترلی
@@ -2105,7 +2105,7 @@
                 <form action="{{ route('inquiries.parts.storeAmounts',$inquiry->id) }}" method="POST"
                       class="border border-indigo-400 p-4 rounded-md mb-4">
                     @csrf
-                    <input type="hidden" name="type" value="pipe">
+                    <input type="hidden" name="submitType" value="pipe">
                     <div class="mb-4">
                         <p class="text-sm font-bold text-black">
                             قطعات لوله و اتصالات
@@ -2425,7 +2425,7 @@
                 <form action="{{ route('inquiries.parts.storeAmounts',$inquiry->id) }}" method="POST"
                       class="border border-indigo-400 p-4 rounded-md mb-4">
                     @csrf
-                    <input type="hidden" name="type" value="setup_price">
+                    <input type="hidden" name="submitType" value="setup_price">
                     <div class="mb-4">
                         <p class="text-sm font-bold text-black">
                             دستمزد راه‌اندازی و نصب
@@ -2745,7 +2745,7 @@
                 <form action="{{ route('inquiries.parts.storeAmounts',$inquiry->id) }}" method="POST"
                       class="border border-indigo-400 p-4 rounded-md mb-4">
                     @csrf
-                    <input type="hidden" name="type" value="supervision">
+                    <input type="hidden" name="submitType" value="supervision">
                     <div class="mb-4">
                         <p class="text-sm font-bold text-black">
                             دستمزد نظارت
@@ -3065,7 +3065,7 @@
                 <form action="{{ route('inquiries.parts.storeAmounts',$inquiry->id) }}" method="POST"
                       class="border border-indigo-400 p-4 rounded-md mb-4">
                     @csrf
-                    <input type="hidden" name="type" value="transport">
+                    <input type="hidden" name="submitType" value="transport">
                     <div class="mb-4">
                         <p class="text-sm font-bold text-black">
                             هزینه حمل
@@ -3385,7 +3385,7 @@
                 <form action="{{ route('inquiries.parts.storeAmounts',$inquiry->id) }}" method="POST"
                       class="border border-indigo-400 p-4 rounded-md mb-4">
                     @csrf
-                    <input type="hidden" name="type" value="other">
+                    <input type="hidden" name="submitType" value="other">
                     <div class="mb-4">
                         <p class="text-sm font-bold text-black">
                             سایر تجهیزات
@@ -3706,7 +3706,7 @@
                 <form action="{{ route('inquiries.parts.storeAmounts',$inquiry->id) }}" method="POST"
                       class="border border-indigo-400 p-4 rounded-md mb-4">
                     @csrf
-                    <input type="hidden" name="type" value="previous">
+                    <input type="hidden" name="submitType" value="previous">
                     <div class="mb-4">
                         <p class="text-sm font-bold text-black">
                             سایر تجهیزات (قطعات موجود از قبل)

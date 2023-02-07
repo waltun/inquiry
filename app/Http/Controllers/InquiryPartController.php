@@ -149,134 +149,134 @@ class InquiryPartController extends Controller
             'types' => 'required'
         ]);
 
-        if ($request['type'] == 'setup') {
+        if ($request['submitType'] == 'setup') {
             foreach ($inquiry->products()->where('part_id', '!=', 0)->where('type', 'setup')->get() as $index => $product) {
                 $product->update([
                     'part_id' => $request->part_ids[$index],
                     'quantity' => $request->quantities[$index],
                     'quantity2' => $request->quantities2[$index] ?? null,
                     'description' => $request->tags[$index],
-                    'types' => $request->types[$index]
+                    'type' => $request->types[$index]
                 ]);
             }
         }
 
-        if ($request['type'] == 'years') {
+        if ($request['submitType'] == 'years') {
             foreach ($inquiry->products()->where('part_id', '!=', 0)->where('type', 'years')->get() as $index => $product) {
                 $product->update([
                     'part_id' => $request->part_ids[$index],
                     'quantity' => $request->quantities[$index],
                     'quantity2' => $request->quantities2[$index] ?? null,
                     'description' => $request->tags[$index],
-                    'types' => $request->types[$index]
+                    'type' => $request->types[$index]
                 ]);
             }
         }
 
-        if ($request['type'] == 'control') {
+        if ($request['submitType'] == 'control') {
             foreach ($inquiry->products()->where('part_id', '!=', 0)->where('type', 'control')->get() as $index => $product) {
                 $product->update([
                     'part_id' => $request->part_ids[$index],
                     'quantity' => $request->quantities[$index],
                     'quantity2' => $request->quantities2[$index] ?? null,
                     'description' => $request->tags[$index],
-                    'types' => $request->types[$index]
+                    'type' => $request->types[$index]
                 ]);
             }
         }
 
-        if ($request['type'] == 'power_cable') {
+        if ($request['submitType'] == 'power_cable') {
             foreach ($inquiry->products()->where('part_id', '!=', 0)->where('type', 'power_cable')->get() as $index => $product) {
                 $product->update([
                     'part_id' => $request->part_ids[$index],
                     'quantity' => $request->quantities[$index],
                     'quantity2' => $request->quantities2[$index] ?? null,
                     'description' => $request->tags[$index],
-                    'types' => $request->types[$index]
+                    'type' => $request->types[$index]
                 ]);
             }
         }
 
-        if ($request['type'] == 'control_cable') {
+        if ($request['submitType'] == 'control_cable') {
             foreach ($inquiry->products()->where('part_id', '!=', 0)->where('type', 'control_cable')->get() as $index => $product) {
                 $product->update([
                     'part_id' => $request->part_ids[$index],
                     'quantity' => $request->quantities[$index],
                     'quantity2' => $request->quantities2[$index] ?? null,
                     'description' => $request->tags[$index],
-                    'types' => $request->types[$index]
+                    'type' => $request->types[$index]
                 ]);
             }
         }
 
-        if ($request['type'] == 'pipe') {
+        if ($request['submitType'] == 'pipe') {
             foreach ($inquiry->products()->where('part_id', '!=', 0)->where('type', 'pipe')->get() as $index => $product) {
                 $product->update([
                     'part_id' => $request->part_ids[$index],
                     'quantity' => $request->quantities[$index],
                     'quantity2' => $request->quantities2[$index] ?? null,
                     'description' => $request->tags[$index],
-                    'types' => $request->types[$index]
+                    'type' => $request->types[$index]
                 ]);
             }
         }
 
-        if ($request['type'] == 'setup_price') {
+        if ($request['submitType'] == 'setup_price') {
             foreach ($inquiry->products()->where('part_id', '!=', 0)->where('type', 'setup_price')->get() as $index => $product) {
                 $product->update([
                     'part_id' => $request->part_ids[$index],
                     'quantity' => $request->quantities[$index],
                     'quantity2' => $request->quantities2[$index] ?? null,
                     'description' => $request->tags[$index],
-                    'types' => $request->types[$index]
+                    'type' => $request->types[$index]
                 ]);
             }
         }
 
-        if ($request['type'] == 'supervision') {
+        if ($request['submitType'] == 'supervision') {
             foreach ($inquiry->products()->where('part_id', '!=', 0)->where('type', 'supervision')->get() as $index => $product) {
                 $product->update([
                     'part_id' => $request->part_ids[$index],
                     'quantity' => $request->quantities[$index],
                     'quantity2' => $request->quantities2[$index] ?? null,
                     'description' => $request->tags[$index],
-                    'types' => $request->types[$index]
+                    'type' => $request->types[$index]
                 ]);
             }
         }
 
-        if ($request['type'] == 'transport') {
+        if ($request['submitType'] == 'transport') {
             foreach ($inquiry->products()->where('part_id', '!=', 0)->where('type', 'transport')->get() as $index => $product) {
                 $product->update([
                     'part_id' => $request->part_ids[$index],
                     'quantity' => $request->quantities[$index],
                     'quantity2' => $request->quantities2[$index] ?? null,
                     'description' => $request->tags[$index],
-                    'types' => $request->types[$index]
+                    'type' => $request->types[$index]
                 ]);
             }
         }
 
-        if ($request['type'] == 'other') {
+        if ($request['submitType'] == 'other') {
             foreach ($inquiry->products()->where('part_id', '!=', 0)->where('type', 'other')->get() as $index => $product) {
                 $product->update([
                     'part_id' => $request->part_ids[$index],
                     'quantity' => $request->quantities[$index],
                     'quantity2' => $request->quantities2[$index] ?? null,
                     'description' => $request->tags[$index],
-                    'types' => $request->types[$index]
+                    'type' => $request->types[$index]
                 ]);
             }
         }
 
-        if ($request['type'] == 'previous') {
+        if ($request['submitType'] == 'previous') {
             foreach ($inquiry->products()->where('part_id', '!=', 0)->where('type', null)->get() as $index => $product) {
                 $product->update([
                     'part_id' => $request->part_ids[$index],
                     'quantity' => $request->quantities[$index],
                     'quantity2' => $request->quantities2[$index] ?? null,
                     'description' => $request->tags[$index],
-                    'types' => $request->types[$index]
+                    'type' => $request->types[$index]
                 ]);
             }
         }
