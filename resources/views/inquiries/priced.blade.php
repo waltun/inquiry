@@ -188,7 +188,7 @@
                                     </svg>
                                 </button>
                                 <div x-show="open" @click.away="open = false"
-                                     class="absolute bg-white rounded-md shadow border border-gray-300 px-2 py-3 z-50 top-10 space-y-2">
+                                     class="absolute bg-white rounded-md shadow border border-gray-300 px-2 py-3 z-50 -top-14 right-12 space-y-2">
                                     <form action="{{ route('inquiries.copy',$inquiry->id) }}" method="POST">
                                         @csrf
                                         <button class="form-edit-btn text-xs w-full"

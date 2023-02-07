@@ -351,46 +351,46 @@
                             $showPivotPrice += $part->price * $part->pivot->value;
                             $partWeight += $part->weight * $part->pivot->value;
                             $color = '';
-                            if ($setting) {
-                                if($setting->price_color_type == 'month') {
-                                    $lastTime = Carbon::now()->subMonth($setting->price_color_last_time);
-                                    $midTime = Carbon::now()->subMonth($setting->price_color_mid_time);
-                                }
-                                if($setting->price_color_type == 'day') {
-                                    $lastTime = Carbon::now()->subDay($setting->price_color_last_time);
-                                    $midTime = Carbon::now()->subDay($setting->price_color_mid_time);
-                                }
-                                if($setting->price_color_type == 'hour') {
-                                    $lastTime = Carbon::now()->subHour($setting->price_color_last_time);
-                                    $midTime = Carbon::now()->subHour($setting->price_color_mid_time);
-                                }
-                            }
+//                            if ($setting) {
+//                                if($setting->price_color_type == 'month') {
+//                                    $lastTime = Carbon::now()->subMonth($setting->price_color_last_time);
+//                                    $midTime = Carbon::now()->subMonth($setting->price_color_mid_time);
+//                                }
+//                                if($setting->price_color_type == 'day') {
+//                                    $lastTime = Carbon::now()->subDay($setting->price_color_last_time);
+//                                    $midTime = Carbon::now()->subDay($setting->price_color_mid_time);
+//                                }
+//                                if($setting->price_color_type == 'hour') {
+//                                    $lastTime = Carbon::now()->subHour($setting->price_color_last_time);
+//                                    $midTime = Carbon::now()->subHour($setting->price_color_mid_time);
+//                                }
+//                            }
 
-                            if(!in_array($part->id,$specials) && $part->collection == '0') {
-                                if ($part->price_updated_at < $lastTime && $part->price > 0) {
-                                    $color = 'text-red-500';
-                                }
-                                if ($part->price_updated_at > $lastTime && $part->price_updated_at > $midTime && $part->price > 0) {
-                                    $color = 'tex-black';
-                                }
-                                if ($part->price_updated_at > $lastTime && $part->price_updated_at < $midTime && $part->price > 0) {
-                                    $color = 'text-yellow-500';
-                                }
-                                if ($part->price_updated_at < $lastTime && $part->price == 0) {
-                                    $color = 'text-red-600';
-                                }
-                            }
+//                            if(!in_array($part->id,$specials) && $part->collection == '0') {
+//                                if ($part->price_updated_at < $lastTime && $part->price > 0) {
+//                                    $color = 'text-red-500';
+//                                }
+//                                if ($part->price_updated_at > $lastTime && $part->price_updated_at > $midTime && $part->price > 0) {
+//                                    $color = 'tex-black';
+//                                }
+//                                if ($part->price_updated_at > $lastTime && $part->price_updated_at < $midTime && $part->price > 0) {
+//                                    $color = 'text-yellow-500';
+//                                }
+//                                if ($part->price_updated_at < $lastTime && $part->price == 0) {
+//                                    $color = 'text-red-600';
+//                                }
+//                            }
 
-                            if (!in_array($part->id,$specials) && $part->collection == '1') {
-                                foreach ($part->children as $child) {
-                                    if ($child->price_updated_at < $lastTime && $child->price > 0) {
-                                        $color = 'text-red-500';
-                                    }
-                                    if ($child->price_updated_at < $lastTime && $child->price == 0) {
-                                        $color = 'text-red-600';
-                                    }
-                                }
-                            }
+//                            if (!in_array($part->id,$specials) && $part->collection == '1') {
+//                                foreach ($part->children as $child) {
+//                                    if ($child->price_updated_at < $lastTime && $child->price > 0) {
+//                                        $color = 'text-red-500';
+//                                    }
+//                                    if ($child->price_updated_at < $lastTime && $child->price == 0) {
+//                                        $color = 'text-red-600';
+//                                    }
+//                                }
+//                            }
 
                             $category = $part->categories[1];
                             $selectedCategory = $part->categories[2];
@@ -654,46 +654,47 @@
                             $showAmountPrice += $part->price * $amount->value;
                             $amountWeight += $amount->weight * $amount->value;
                             $color = '';
-                            if ($setting) {
-                                if($setting->price_color_type == 'month') {
-                                    $lastTime = Carbon::now()->subMonth($setting->price_color_last_time);
-                                    $midTime = Carbon::now()->subMonth($setting->price_color_mid_time);
-                                }
-                                if($setting->price_color_type == 'day') {
-                                    $lastTime = Carbon::now()->subDay($setting->price_color_last_time);
-                                    $midTime = Carbon::now()->subDay($setting->price_color_mid_time);
-                                }
-                                if($setting->price_color_type == 'hour') {
-                                    $lastTime = Carbon::now()->subHour($setting->price_color_last_time);
-                                    $midTime = Carbon::now()->subHour($setting->price_color_mid_time);
-                                }
-                            }
 
-                            if (!in_array($part->id,$specials) && $part->collection == '0') {
-                                if ($part->price_updated_at < $lastTime && $part->price > 0) {
-								    $color = 'text-red-500';
-                                }
-                                if ($part->price_updated_at > $lastTime && $part->price_updated_at > $midTime && $part->price > 0) {
-                                    $color = 'text-black';
-                                }
-                                if ($part->price_updated_at > $lastTime && $part->price_updated_at < $midTime && $part->price > 0) {
-                                    $color = 'text-yellow-500';
-                                }
-                                if ($part->price_updated_at < $lastTime && $part->price == 0) {
-                                    $color = 'text-red-600';
-                                }
-                            }
+//                            if ($setting) {
+//                                if($setting->price_color_type == 'month') {
+//                                    $lastTime = Carbon::now()->subMonth($setting->price_color_last_time);
+//                                    $midTime = Carbon::now()->subMonth($setting->price_color_mid_time);
+//                                }
+//                                if($setting->price_color_type == 'day') {
+//                                    $lastTime = Carbon::now()->subDay($setting->price_color_last_time);
+//                                    $midTime = Carbon::now()->subDay($setting->price_color_mid_time);
+//                                }
+//                                if($setting->price_color_type == 'hour') {
+//                                    $lastTime = Carbon::now()->subHour($setting->price_color_last_time);
+//                                    $midTime = Carbon::now()->subHour($setting->price_color_mid_time);
+//                                }
+//                            }
 
-                            if (!in_array($part->id,$specials) && $part->collection == '1') {
-                                    foreach ($part->children as $child) {
-                                        if ($child->price_updated_at < $lastTime && $child->price > 0) {
-                                            $color = 'text-red-500';
-                                        }
-                                        if ($child->price_updated_at < $lastTime && $child->price == 0) {
-                                            $color = 'text-red-600';
-                                        }
-                                    }
-                                }
+//                            if (!in_array($part->id,$specials) && $part->collection == '0') {
+//                                if ($part->price_updated_at < $lastTime && $part->price > 0) {
+//								    $color = 'text-red-500';
+//                                }
+//                                if ($part->price_updated_at > $lastTime && $part->price_updated_at > $midTime && $part->price > 0) {
+//                                    $color = 'text-black';
+//                                }
+//                                if ($part->price_updated_at > $lastTime && $part->price_updated_at < $midTime && $part->price > 0) {
+//                                    $color = 'text-yellow-500';
+//                                }
+//                                if ($part->price_updated_at < $lastTime && $part->price == 0) {
+//                                    $color = 'text-red-600';
+//                                }
+//                            }
+
+//                            if (!in_array($part->id,$specials) && $part->collection == '1') {
+//                                foreach ($part->children as $child) {
+//                                    if ($child->price_updated_at < $lastTime && $child->price > 0) {
+//                                        $color = 'text-red-500';
+//                                    }
+//                                    if ($child->price_updated_at < $lastTime && $child->price == 0) {
+//                                        $color = 'text-red-600';
+//                                    }
+//                                }
+//                            }
 
                             $category = $part->categories[1];
                             $selectedCategory = $part->categories[2];
