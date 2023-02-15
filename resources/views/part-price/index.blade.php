@@ -424,7 +424,7 @@
                                 {{ $part->name }}
                                 @if($part->percent_submit)
                                     <br>
-                                    <span class="text-xs text-black">(قیمت این محصول یک بار بیشتر از 20 درصد وارد شده، برای تایید دوباره قیمت را وارد کنید)</span>
+                                    <span class="text-xs text-black">(قیمت این محصول یک بار بیشتر از 50 درصد وارد شده، برای تایید دوباره قیمت را وارد کنید)</span>
                                 @endif
                             </p>
                         </td>

@@ -167,8 +167,12 @@
                     @endphp
                     <tr class="hover:bg-gray-100">
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-center {{ $color ?? 'text-gray-500' }}">
-                                {{ "INQ-" . $inquiry->inquiry_number }}
+                            <p class="text-sm text-gray-500 text-center {{ $color ?? 'text-gray-500' }}">
+                                @if($inquiry->inquiry_number)
+                                    {{ "INQ-" . $inquiry->inquiry_number }}
+                                @else
+                                    استعلام موقت
+                                @endif
                             </p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">

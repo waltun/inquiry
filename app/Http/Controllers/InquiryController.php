@@ -241,13 +241,9 @@ class InquiryController extends Controller
             }
         }
 
-        $data['inquiry_number'] = '';
-        $data = $this->getCode($data);
-
         $inquiry->update([
             'submit' => true,
             'message' => null,
-            'inquiry_number' => $data['inquiry_number']
         ]);
         //Send Notification
         //$adminUsers = User::where('role', 'admin')->get();

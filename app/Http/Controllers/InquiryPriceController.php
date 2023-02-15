@@ -74,7 +74,7 @@ class InquiryPriceController extends Controller
             $inquiryPrices = InquiryPrice::where('part_id', $part)->get();
             foreach ($inquiryPrices as $inquiryPrice) {
                 if ($updatedPart->price !== (int)$request->prices[$index]) {
-                    $percentPrice = $updatedPart->price + $updatedPart->price / 5;
+                    $percentPrice = $updatedPart->price + $updatedPart->price / 2;
                     if (($request->prices[$index] >= $percentPrice) && !$updatedPart->percent_submit) {
                         $updatedPart->percent_submit = true;
                         $updatedPart->save();

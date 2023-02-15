@@ -103,7 +103,7 @@ class PartPriceController extends Controller
             $part = Part::where('id', $id)->first();
             if ($part->price !== (int)$request->prices[$index]) {
                 if ($part->price != 0) {
-                    $percentPrice = $part->price + $part->price / 5;
+                    $percentPrice = $part->price + $part->price / 2;
                     if (($request->prices[$index] >= $percentPrice) && !$part->percent_submit) {
                         $part->percent_submit = true;
                         $part->save();

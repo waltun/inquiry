@@ -428,7 +428,7 @@
                     شرایط استعلام
                 </p>
             </div>
-            <div class="leading-7 text-sm text-gray-700">
+            <div class="leading-7 text-sm text-gray-700 list-decimal">
                 @if($inquiry->description)
                     {!! $inquiry->description !!}
                 @else

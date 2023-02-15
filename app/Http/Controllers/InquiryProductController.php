@@ -304,6 +304,9 @@ class InquiryProductController extends Controller
                 $finalTotalPrice += $product->price * $product->quantity;
             }
             $inquiry->price = $finalTotalPrice;
+            $data['inquiry_number'] = '';
+            $data = $this->getCode($data);
+            $inquiry->inquiry_number = $data['inquiry_number'];
             $inquiry->save();
 
             //Send Notification
@@ -452,5 +455,27 @@ class InquiryProductController extends Controller
     {
         $part = Part::find($request->id);
         return response(['data' => $part]);
+    }
+
+    public function getCode(array $data)
+    {
+        $inquiries = Inquiry::select('inquiry_number')->where('inquiry_number', '!=', null)->get();
+
+        $number = 0;
+        foreach ($inquiries as $inquiry) {
+            if ((int)$inquiry->inquiry_number > $number) {
+                $number = (int)$inquiry->inquiry_number;
+            }
+        }
+
+        $year = jdate(now())->getYear();
+        if (!$inquiries->isEmpty()) {
+            $inquiryNumber = str_pad($number + 1, 5, "0", STR_PAD_LEFT);
+            $data['inquiry_number'] = $inquiryNumber;
+        } else {
+            $inquiryNumber = '00001';
+            $data['inquiry_number'] = $year . $inquiryNumber;
+        }
+        return $data;
     }
 }

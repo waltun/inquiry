@@ -351,46 +351,43 @@
                             $showPivotPrice += $part->price * $part->pivot->value;
                             $partWeight += $part->weight * $part->pivot->value;
                             $color = '';
-//                            if ($setting) {
-//                                if($setting->price_color_type == 'month') {
-//                                    $lastTime = Carbon::now()->subMonth($setting->price_color_last_time);
-//                                    $midTime = Carbon::now()->subMonth($setting->price_color_mid_time);
-//                                }
-//                                if($setting->price_color_type == 'day') {
-//                                    $lastTime = Carbon::now()->subDay($setting->price_color_last_time);
-//                                    $midTime = Carbon::now()->subDay($setting->price_color_mid_time);
-//                                }
-//                                if($setting->price_color_type == 'hour') {
-//                                    $lastTime = Carbon::now()->subHour($setting->price_color_last_time);
-//                                    $midTime = Carbon::now()->subHour($setting->price_color_mid_time);
-//                                }
-//                            }
+                            switch ($setting->price_color_type) {
+                                case 'month' :
+                                    $lastTime = Carbon::now()->subMonth($setting->price_color_last_time);
+                                    $midTime = Carbon::now()->subMonth($setting->price_color_mid_time);
+                                    break;
+                                case 'day' :
+                                    $lastTime = Carbon::now()->subDay($setting->price_color_last_time);
+                                    $midTime = Carbon::now()->subDay($setting->price_color_mid_time);
+                                    break;
+                                case 'hour' :
+                                    $lastTime = Carbon::now()->subHour($setting->price_color_last_time);
+                                    $midTime = Carbon::now()->subHour($setting->price_color_mid_time);
+                                    break;
+                            }
 
-//                            if(!in_array($part->id,$specials) && $part->collection == '0') {
-//                                if ($part->price_updated_at < $lastTime && $part->price > 0) {
-//                                    $color = 'text-red-500';
-//                                }
-//                                if ($part->price_updated_at > $lastTime && $part->price_updated_at > $midTime && $part->price > 0) {
-//                                    $color = 'tex-black';
-//                                }
-//                                if ($part->price_updated_at > $lastTime && $part->price_updated_at < $midTime && $part->price > 0) {
-//                                    $color = 'text-yellow-500';
-//                                }
-//                                if ($part->price_updated_at < $lastTime && $part->price == 0) {
-//                                    $color = 'text-red-600';
-//                                }
-//                            }
+                            if ($part->collection == '0') {
+                                if ($part->price_updated_at < $lastTime && $part->price > 0) {
+								    $color = 'text-red-500';
+                                }
+                                if ($part->price_updated_at > $lastTime && $part->price_updated_at > $midTime && $part->price > 0) {
+                                    $color = 'text-black';
+                                }
+                                if ($part->price_updated_at < $lastTime && $part->price == 0) {
+                                    $color = 'text-red-600';
+                                }
+                            }
 
-//                            if (!in_array($part->id,$specials) && $part->collection == '1') {
-//                                foreach ($part->children as $child) {
-//                                    if ($child->price_updated_at < $lastTime && $child->price > 0) {
-//                                        $color = 'text-red-500';
-//                                    }
-//                                    if ($child->price_updated_at < $lastTime && $child->price == 0) {
-//                                        $color = 'text-red-600';
-//                                    }
-//                                }
-//                            }
+                            $part->children()->chunk(100, function ($children) use ($lastTime) {
+                               foreach ($children as $child) {
+                                   if ($child->price_updated_at < $lastTime && $child->price > 0) {
+                                        $color = 'text-red-500';
+                                    }
+                                    if ($child->price_updated_at < $lastTime && $child->price == 0) {
+                                        $color = 'text-red-600';
+                                    }
+                               }
+                            });
 
                             $category = $part->categories[1];
                             $selectedCategory = $part->categories[2];
@@ -600,16 +597,10 @@
                                         @endphp
                                         @if($color == 'text-red-500' || $color == 'text-red-600' || $part->price == '0')
                                             @php
-                                                $inquiryPrice = InquiryPrice::where('part_id',$part->id)->pluck('part_id')->all();
-                                                $inquiryPrices = InquiryPrice::all()->pluck('part_id');
-                                                foreach ($inquiryPrices as $item) {
-                                                    $inquiryPart = Part::find($item);
-                                                    if (!$inquiryPart->parents->isEmpty()) {
-                                                        $parents = $inquiryPart->parents->pluck('id')->toArray();
-                                                    }
-                                                }
+                                                $inquiryPriceIds = InquiryPrice::where('part_id', $part->id)->pluck('part_id')->toArray();
+                                                $parentIds = Part::whereIn('id', InquiryPrice::all()->pluck('part_id'))->whereHas('parents')->pluck('id')->flatten()->toArray();
                                             @endphp
-                                            @if(!in_array($part->id,$inquiryPrice) && !in_array($part->id,$parents))
+                                            @if(!in_array($part->id, $inquiryPriceIds) && !in_array($part->id, $parentIds))
                                                 <button type="button" class="mr-2" id="updatePriceBtn{{ $part->id }}"
                                                         onclick="storeInquiryPrice({{ $part->id }},{{ $inquiry->id }})">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -655,46 +646,43 @@
                             $amountWeight += $amount->weight * $amount->value;
                             $color = '';
 
-//                            if ($setting) {
-//                                if($setting->price_color_type == 'month') {
-//                                    $lastTime = Carbon::now()->subMonth($setting->price_color_last_time);
-//                                    $midTime = Carbon::now()->subMonth($setting->price_color_mid_time);
-//                                }
-//                                if($setting->price_color_type == 'day') {
-//                                    $lastTime = Carbon::now()->subDay($setting->price_color_last_time);
-//                                    $midTime = Carbon::now()->subDay($setting->price_color_mid_time);
-//                                }
-//                                if($setting->price_color_type == 'hour') {
-//                                    $lastTime = Carbon::now()->subHour($setting->price_color_last_time);
-//                                    $midTime = Carbon::now()->subHour($setting->price_color_mid_time);
-//                                }
-//                            }
+                            switch ($setting->price_color_type) {
+                                case 'month' :
+                                    $lastTime = Carbon::now()->subMonth($setting->price_color_last_time);
+                                    $midTime = Carbon::now()->subMonth($setting->price_color_mid_time);
+                                    break;
+                                case 'day' :
+                                    $lastTime = Carbon::now()->subDay($setting->price_color_last_time);
+                                    $midTime = Carbon::now()->subDay($setting->price_color_mid_time);
+                                    break;
+                                case 'hour' :
+                                    $lastTime = Carbon::now()->subHour($setting->price_color_last_time);
+                                    $midTime = Carbon::now()->subHour($setting->price_color_mid_time);
+                                    break;
+                            }
 
-//                            if (!in_array($part->id,$specials) && $part->collection == '0') {
-//                                if ($part->price_updated_at < $lastTime && $part->price > 0) {
-//								    $color = 'text-red-500';
-//                                }
-//                                if ($part->price_updated_at > $lastTime && $part->price_updated_at > $midTime && $part->price > 0) {
-//                                    $color = 'text-black';
-//                                }
-//                                if ($part->price_updated_at > $lastTime && $part->price_updated_at < $midTime && $part->price > 0) {
-//                                    $color = 'text-yellow-500';
-//                                }
-//                                if ($part->price_updated_at < $lastTime && $part->price == 0) {
-//                                    $color = 'text-red-600';
-//                                }
-//                            }
+                            if ($part->collection == '0') {
+                                if ($part->price_updated_at < $lastTime && $part->price > 0) {
+								    $color = 'text-red-500';
+                                }
+                                if ($part->price_updated_at > $lastTime && $part->price_updated_at > $midTime && $part->price > 0) {
+                                    $color = 'text-black';
+                                }
+                                if ($part->price_updated_at < $lastTime && $part->price == 0) {
+                                    $color = 'text-red-600';
+                                }
+                            }
 
-//                            if (!in_array($part->id,$specials) && $part->collection == '1') {
-//                                foreach ($part->children as $child) {
-//                                    if ($child->price_updated_at < $lastTime && $child->price > 0) {
-//                                        $color = 'text-red-500';
-//                                    }
-//                                    if ($child->price_updated_at < $lastTime && $child->price == 0) {
-//                                        $color = 'text-red-600';
-//                                    }
-//                                }
-//                            }
+                            $part->children()->chunk(100, function ($children) use ($lastTime) {
+                               foreach ($children as $child) {
+                                   if ($child->price_updated_at < $lastTime && $child->price > 0) {
+                                        $color = 'text-red-500';
+                                    }
+                                    if ($child->price_updated_at < $lastTime && $child->price == 0) {
+                                        $color = 'text-red-600';
+                                    }
+                               }
+                            });
 
                             $category = $part->categories[1];
                             $selectedCategory = $part->categories[2];
@@ -898,45 +886,27 @@
 
                                     <input type="hidden" name="units[]" id="inputUnitValue{{ $part->id }}"
                                            value="{{ $amount->value2 }}">
-                                    @if(!in_array($part->id,$specials))
+                                    @php
+                                        $parents = [];
+                                    @endphp
+                                    @if($color == 'text-red-500' || $color == 'text-red-600')
                                         @php
-                                            $parents = [];
+                                            $inquiryPriceIds = InquiryPrice::where('part_id', $part->id)->pluck('part_id')->toArray();
+                                            $parentIds = Part::whereIn('id', InquiryPrice::all()->pluck('part_id'))->whereHas('parents')->pluck('id')->flatten()->toArray();
                                         @endphp
-                                        @if($color == 'text-red-500' || $color == 'text-red-600')
-                                            @php
-                                                $inquiryPrice = InquiryPrice::where('part_id',$part->id)->pluck('part_id')->all();
-                                                $inquiryPrices = InquiryPrice::all()->pluck('part_id');
-                                                    foreach ($inquiryPrices as $item) {
-                                                        $inquiryPart = Part::find($item);
-                                                        if (!$inquiryPart->parents->isEmpty()) {
-                                                            $parents = $inquiryPart->parents->pluck('id')->toArray();
-                                                        } else {
-                                                            $parents = [];
-                                                        }
-                                                    }
-                                            @endphp
-                                            @if(!in_array($part->id,$inquiryPrice) && !in_array($part->id,$parents))
-                                                <button type="button" class="mr-2" id="updatePriceBtn{{ $part->id }}"
-                                                        onclick="storeInquiryPrice({{ $part->id }},{{ $inquiry->id }})">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                         title="ارسال درخواست بروزرسانی قیمت"
-                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                         class="w-6 h-6 text-red-600">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                              d="M12 9v3.75m0-10.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.249-8.25-3.286zm0 13.036h.008v.008H12v-.008z"/>
-                                                    </svg>
-                                                </button>
-                                            @else
-                                                <p class="mr-2">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                         class="w-6 h-6 text-red-600">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                              d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                                    </svg>
-                                                </p>
-                                            @endif
-                                            <p class="mr-2 hidden" id="successUpdatePrice{{ $part->id }}">
+                                        @if(!in_array($part->id, $inquiryPriceIds) && !in_array($part->id, $parentIds))
+                                            <button type="button" class="mr-2" id="updatePriceBtn{{ $part->id }}"
+                                                    onclick="storeInquiryPrice({{ $part->id }},{{ $inquiry->id }})">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                     title="ارسال درخواست بروزرسانی قیمت"
+                                                     viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                     class="w-6 h-6 text-red-600">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          d="M12 9v3.75m0-10.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.249-8.25-3.286zm0 13.036h.008v.008H12v-.008z"/>
+                                                </svg>
+                                            </button>
+                                        @else
+                                            <p class="mr-2">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                      viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                      class="w-6 h-6 text-red-600">
@@ -945,6 +915,14 @@
                                                 </svg>
                                             </p>
                                         @endif
+                                        <p class="mr-2 hidden" id="successUpdatePrice{{ $part->id }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                 class="w-6 h-6 text-red-600">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                      d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                            </svg>
+                                        </p>
                                     @endif
                                 </div>
                             </td>
@@ -983,7 +961,8 @@
                 </tbody>
             </table>
         </div>
-        <div class="bg-white p-4 rounded-md border border-gray-200 shadow-sm sticky bottom-4 flex items-center justify-between">
+        <div
+            class="bg-white p-4 rounded-md border border-gray-200 shadow-sm sticky bottom-4 flex items-center justify-between">
             <div class="flex items-center space-x-2 space-x-reverse">
                 <button type="submit" class="form-submit-btn">
                     ثبت مقادیر
