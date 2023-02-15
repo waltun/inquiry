@@ -73,4 +73,8 @@
         display: flex !important;
         align-items: center !important;
     }
+
+    .test-decimal ol {
+        list-style: decimal !important;
+    }
 }

@@ -24,34 +24,27 @@ class InquiryController extends Controller
     {
         Gate::authorize('inquiries');
 
+        $searchableFields = [
+            'inquiry_number' => 'LIKE',
+            'name' => 'LIKE',
+            'manager' => 'LIKE',
+            'marketer' => 'LIKE',
+            'model_id' => '=',
+            'group_id' => '=',
+        ];
+
         $inquiries = Inquiry::query();
 
-        if (request()->has('inquiry_number') && request()->get('inquiry_number') != null) {
-            $inquiries = $inquiries->where('inquiry_number', 'LIKE', "%" . request()->get('inquiry_number') . "%");
-        }
-
-        if (request()->has('name') && request()->get('name') != null) {
-            $inquiries = $inquiries->where('name', 'LIKE', "%" . request()->get('name') . "%");
-        }
-
-        if (request()->has('manager') && request()->get('manager') != null) {
-            $inquiries = $inquiries->where('manager', 'LIKE', "%" . request()->get('manager') . "%");
-        }
-
-        if (request()->has('marketer') && request()->get('marketer') != null) {
-            $inquiries = $inquiries->where('marketer', 'LIKE', "%" . request()->get('marketer') . "%");
-        }
-
-        if (request()->has('model_id') && request()->get('model_id') != null) {
-            $inquiries = $inquiries->whereHas('products', function ($query) {
-                $query->where('model_id', request()->get('model_id'));
-            });
-        }
-
-        if (request()->has('group_id') && request()->get('group_id') != null) {
-            $inquiries = $inquiries->whereHas('products', function ($query) {
-                $query->where('group_id', request()->get('group_id'));
-            });
+        foreach ($searchableFields as $field => $operator) {
+            if (request()->has($field) && request()->get($field) != null) {
+                if ($field == 'model_id' || $field == 'group_id') {
+                    $inquiries = $inquiries->whereHas('products', function ($query) use ($field, $operator) {
+                        $query->where($field, $operator, request()->get($field));
+                    });
+                } else {
+                    $inquiries = $inquiries->where($field, $operator, "%" . request()->get($field) . "%");
+                }
+            }
         }
 
         if (auth()->user()->role == 'admin') {

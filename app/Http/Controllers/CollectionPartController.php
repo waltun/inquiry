@@ -158,8 +158,6 @@ class CollectionPartController extends Controller
 
     public function amounts(Part $parentPart)
     {
-        Gate::authorize('collections');
-
         $setting = Setting::where('active', '1')->first();
 
         return view('collection-parts.amounts', compact('parentPart', 'setting'));
@@ -167,8 +165,6 @@ class CollectionPartController extends Controller
 
     public function storeAmounts(Request $request, Part $parentPart)
     {
-        Gate::authorize('collections');
-
         $totalPrice = 0;
         $totalWeight = 0;
         foreach ($parentPart->children()->orderBy('sort', 'ASC')->get() as $index => $child) {

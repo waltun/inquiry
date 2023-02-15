@@ -717,6 +717,9 @@ class CalculateConverterController extends Controller
         if ($looleMessiId == '78' || $looleMessiId == '1326') {
             $looleMessiName = '12';
         }
+        if ($looleMessiId == '1882') {
+            $looleMessiName = '34';
+        }
 
         $name = 'STC-' . $tonaj . "TR-" . $gaz . "-" . $ghotreLoolePooste . 'inch-' . $tooleLooleMessi . 'm-' . $tedadLooleMessi . 'T-'
             . $looleMessiName;

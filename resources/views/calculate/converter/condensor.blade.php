@@ -174,6 +174,10 @@
                                 {{ is_null($inputs) ? (old('loole_messi') == '1327' ? 'selected' : '') : ($inputs['loole_messi'] == "1327" ? 'selected' : (old('loole_messi') == '1327' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::find('1327')->name }}
                             </option>
+                            <option value="{{ \App\Models\Part::find('1882')->id }}"
+                                {{ is_null($inputs) ? (old('loole_messi') == '1882' ? 'selected' : '') : ($inputs['loole_messi'] == "1882" ? 'selected' : (old('loole_messi') == '1882' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1882')->name }}
+                            </option>
                         </select>
                     </div>
                     <div>
