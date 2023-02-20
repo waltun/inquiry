@@ -504,7 +504,7 @@
     <div class="mt-4">
         <!-- Laptop List -->
         @php
-            $types = ['setup','years','control','power_cable','control_cable','pipe','setup_price','supervision','transport','other',null];
+            $types = ['setup','years','control','power_cable','control_cable','pipe','install_setup_price','setup_price','supervision','transport','other',null];
         @endphp
         <div>
             @foreach($types as $type)
@@ -537,8 +537,11 @@
                                     @case('pipe')
                                         قطعات لوله و اتصالات
                                         @break
+                                    @case('install_setup_price')
+                                        دستمزد نصب و راه اندازی
+                                        @break
                                     @case('setup_price')
-                                        دستمزد راه‌اندازی و نصب
+                                        دستمزد راه اندازی
                                         @break
                                     @case('supervision')
                                         دستمزد نظارت
@@ -605,7 +608,11 @@
                                 @foreach($products as $product)
                                     @php
                                         $part = \App\Models\Part::find($product->part_id);
-                                        $totalPrice += $part->price * $product->quantity;
+                                        if ($product->price) {
+                                            $totalPrice += $product->price * $product->quantity;
+                                        } else {
+                                            $totalPrice += $part->price * $product->quantity;
+                                        }
 
                                         switch ($setting->price_color_type) {
                                             case 'month' :
@@ -712,8 +719,12 @@
                                                     لیست لوله و اتصالات
                                                 </option>
                                                 <option
+                                                    value="install_setup_price" {{ $product->type == 'install_setup_price' ? 'selected' : '' }}>
+                                                    دستمزد نصب و راه اندازی
+                                                </option>
+                                                <option
                                                     value="setup_price" {{ $product->type == 'setup_price' ? 'selected' : '' }}>
-                                                    دستمزد راه‌اندازی و نصب
+                                                    دستمزد راه‌اندازی
                                                 </option>
                                                 <option
                                                     value="supervision" {{ $product->type == 'supervision' ? 'selected' : '' }}>
@@ -742,11 +753,20 @@
                                             </p>
                                         </td>
                                         <td class="px-4 py-1 whitespace-nowrap {{ $color ?? '' }}">
-                                            <p class="text-sm text-center">
-                                                {{ number_format($part->price) }}
-                                            </p>
+                                            @if($type == 'transport' || $type  == 'supervision' || $type == 'setup_price' || $type == 'install_setup_price')
+                                                <div class="flex justify-center">
+                                                    <input type="text" name="prices[]"
+                                                           class="input-text w-28 text-center"
+                                                           value="{{ $product->price == 0 ? $part->price : $product->price }}"
+                                                           placeholder="قیمت">
+                                                </div>
+                                            @else
+                                                <p class="text-sm text-center">
+                                                    {{ number_format($part->price) }}
+                                                </p>
+                                            @endif
                                         </td>
-                                        <td class="px-4 py-1 whitespace-nowrap">
+                                        <td class="px-4 py-1 whitespace-nowrap flex justify-center">
                                             <input type="text" class="input-text w-20 text-center"
                                                    value="{{ $product->quantity }}"
                                                    name="quantities[]"
@@ -764,9 +784,15 @@
                                                    name="quantities2[]">
                                         </td>
                                         <td class="px-4 py-1 whitespace-nowrap">
-                                            <p class="text-sm text-center {{ $color ?? 'text-black' }}">
-                                                {{ number_format($part->price * $product->quantity) }}
-                                            </p>
+                                            @if($product->price)
+                                                <p class="text-sm text-center {{ $color ?? 'text-black' }}">
+                                                    {{ number_format($product->price * $product->quantity) }}
+                                                </p>
+                                            @else
+                                                <p class="text-sm text-center {{ $color ?? 'text-black' }}">
+                                                    {{ number_format($part->price * $product->quantity) }}
+                                                </p>
+                                            @endif
                                         </td>
                                         <td class="px-4 py-1 space-x-3 space-x-reverse whitespace-nowrap">
                                             @can('percent-inquiry')

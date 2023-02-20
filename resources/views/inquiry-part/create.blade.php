@@ -365,7 +365,8 @@
                                                                 <option value="power_cable">لیست کابل قدرت</option>
                                                                 <option value="control_cable">لیست کابل کنترلی</option>
                                                                 <option value="pipe">لیست لوله و اتصالات</option>
-                                                                <option value="setup_price">دستمزد راه‌اندازی و نصب</option>
+                                                                <option value="install_setup_price">دستمزد نصب و راه اندازی</option>
+                                                                <option value="setup_price">دستمزد راه اندازی</option>
                                                                 <option value="supervision">دستمزد نظارت</option>
                                                                 <option value="transport">هزینه حمل</option>
                                                                 <option value="other">سایر تجهیزات</option>

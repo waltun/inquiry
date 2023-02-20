@@ -149,7 +149,7 @@ class InquiryPartController extends Controller
             'types' => 'required'
         ]);
 
-        $types = ['setup','years','control','power_cable','control_cable','pipe','setup_price','supervision','transport','other',null];
+        $types = ['setup', 'years', 'control', 'power_cable', 'control_cable', 'pipe', 'install_setup_price', 'setup_price', 'supervision', 'transport', 'other', null];
 
         foreach ($types as $type) {
             if ($request['submitType'] == $type) {
@@ -159,7 +159,8 @@ class InquiryPartController extends Controller
                         'quantity' => $request->quantities[$index],
                         'quantity2' => $request->quantities2[$index] ?? null,
                         'description' => $request->tags[$index],
-                        'type' => $request->types[$index]
+                        'type' => $request->types[$index],
+                        'price' => $request->prices[$index] ?? 0,
                     ]);
                 }
             }

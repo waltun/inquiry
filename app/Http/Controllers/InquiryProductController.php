@@ -243,7 +243,12 @@ class InquiryProductController extends Controller
         }
 
         if (!is_null($inquiryPart)) {
-            $totalPrice = $inquiryPart->price;
+            if ($product->price) {
+                $totalPrice = $product->price;
+            } else {
+                $totalPrice = $inquiryPart->price;
+            }
+
         }
 
         return view('inquiry-product.percent', compact('inquiry', 'group', 'modell', 'totalPrice', 'product'));

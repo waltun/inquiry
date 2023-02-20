@@ -157,6 +157,7 @@
                     <table class="border-collapse border border-gray-400 w-full">
                         <thead class="sticky top-2">
                         <tr class="bg-indigo-200">
+                            <th class="border border-white p-4 text-sm">ردیف</th>
                             <th class="border border-white p-4 text-sm">نام قطعه</th>
                             <th class="border border-white p-4 text-sm">واحد</th>
                             <th class="border border-white p-4 text-sm">وزن</th>
@@ -178,6 +179,9 @@
                                 $weight += $amount->weight * $amount->value;
                             @endphp
                             <tr>
+                                <td class="border border-gray-300 p-4 text-sm text-center">
+                                    {{ $loop->index + 1 }}
+                                </td>
                                 <td class="border border-gray-300 p-4 text-sm text-center">
                                     {{ $part->name }}
                                 </td>
