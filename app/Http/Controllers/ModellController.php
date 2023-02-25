@@ -41,7 +41,15 @@ class ModellController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
+            'percent' => 'nullable|numeric',
+            'standard' => 'required|integer'
         ]);
+
+        if (is_null($request->percent)) {
+            $percent = 0.00;
+        } else {
+            $percent = $request->percent;
+        }
 
         $group = Group::find($id);
 
@@ -52,7 +60,9 @@ class ModellController extends Controller
                 'name' => $request['name'],
                 'code' => $code,
                 'group_id' => $id,
-                'parent_id' => $modell->id
+                'parent_id' => $modell->id,
+                'percent' => $percent,
+                'standard' => $request['standard'],
             ]);
         } else {
             $code = $this->getLastCode($group);
@@ -60,7 +70,9 @@ class ModellController extends Controller
                 'name' => $request['name'],
                 'code' => $code,
                 'group_id' => $id,
-                'parent_id' => 0
+                'parent_id' => 0,
+                'percent' => $percent,
+                'standard' => $request['standard'],
             ]);
         }
 
@@ -89,7 +101,15 @@ class ModellController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:2550',
+            'percent' => 'nullable|numeric',
+            'standard' => 'required|integer'
         ]);
+
+        if (is_null($request->percent)) {
+            $percent = 0.00;
+        } else {
+            $percent = $request->percent;
+        }
 
         if ($request['parent_id']) {
             $request->validate([
@@ -98,7 +118,9 @@ class ModellController extends Controller
 
             $modell->update([
                 'name' => $request['name'],
-                'parent_id' => $request['parent_id']
+                'parent_id' => $request['parent_id'],
+                'percent' => $percent,
+                'standard' => $request['standard'],
             ]);
         }
 
@@ -109,7 +131,9 @@ class ModellController extends Controller
 
             $modell->update([
                 'name' => $request['name'],
-                'group_id' => $request['group_id']
+                'group_id' => $request['group_id'],
+                'percent' => $percent,
+                'standard' => $request['standard'],
             ]);
         }
 

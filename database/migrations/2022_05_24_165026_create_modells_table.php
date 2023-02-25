@@ -17,6 +17,8 @@ return new class extends Migration {
 
             $table->string('name');
             $table->string('code');
+            $table->decimal(5, 2)->default(0.00);
+            $table->boolean('standard')->default(false);
             $table->unsignedBigInteger('group_id');
             $table->unsignedBigInteger('parent_id')->default(0);
 

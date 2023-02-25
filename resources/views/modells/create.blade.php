@@ -54,34 +54,6 @@
         </ol>
     </nav>
 
-    <!-- Alert -->
-    <div class="mt-4">
-        <div class="bg-yellow-500 rounded-md p-4" x-data="{ open:false }">
-            <div class="flex justify-between items-center cursor-pointer" @click="open = !open">
-                <p class="text-xs md:text-sm text-black">نکات قابل توجه</p>
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     class="md:h-5 md:w-5 h-4 w-4 transition-transform transform text-black"
-                     fill="none" viewBox="0 0 24 24" stroke="currentColor" :class="{'rotate-180' : open}">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"/>
-                </svg>
-            </div>
-            <div class="bg-yellow-500 rounded-b-md mt-4" x-show="open" x-cloak>
-                <ul class="list-disc mr-4 space-y-2">
-                    <li class="text-xs md:text-sm text-black">تمامی فیلد های موجود برای اضافه کردن کاربر جدید ضروری می
-                        باشد.
-                    </li>
-                    <li class="text-xs md:text-sm text-black">شماره تماس 11 رقم و با صفر شروع می شود.</li>
-                    <li class="text-xs md:text-sm text-black">رمز عبور حداقل باید 8 رقم یا حرف باشد.</li>
-                    <li class="text-xs md:text-sm text-black">کد ملی باید 10 رقم و فقط شامل عدد باشد.</li>
-                    <li class="text-xs md:text-sm text-black">
-                        در انتخاب نقش کاربر دقت کنید، چون هر نقش دسترسی های مختلفی دارد (البته این قسمت قابل ویرایش می
-                        باشد).
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
     <!-- Errors -->
     <div class="mt-4">
         <x-errors/>
@@ -127,6 +99,21 @@
                 <label for="inputCode" class="block mb-2 md:text-sm text-xs text-black">کد مدل</label>
                 <input type="text" id="inputCode" name="code" class="input-text" placeholder="مثال : 01"
                        value="{{ $code }}">
+            </div>
+
+            <div class="mt-4">
+                <label for="inputPercent" class="block mb-2 md:text-sm text-xs text-black">ضریب پیش فرض</label>
+                <input type="text" id="inputPercent" name="percent" class="input-text" placeholder="مثال : 1.6"
+                       value="{{ old('percent') }}">
+            </div>
+
+            <div class="mt-4">
+                <label for="inputPercent" class="block mb-2 md:text-sm text-xs text-black">محصول استاندارد</label>
+                <select name="standard" id="inputStandard" class="input-text">
+                    <option value="">انتخاب کنید</option>
+                    <option value="0">نباشد</option>
+                    <option value="1">باشد</option>
+                </select>
             </div>
         </div>
 

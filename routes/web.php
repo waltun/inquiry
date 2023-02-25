@@ -25,6 +25,7 @@ use App\Http\Controllers\PartController;
 use App\Http\Controllers\PartOfGroupController;
 use App\Http\Controllers\PartOfModellController;
 use App\Http\Controllers\PartPriceController;
+use App\Http\Controllers\ProductCurrentPriceController;
 use App\Http\Controllers\SeparateCalculateCoilController;
 use App\Http\Controllers\SeparateCalculateConverter;
 use App\Http\Controllers\SeparateCalculateDamperController;
@@ -409,4 +410,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::patch('/inquiry-price/{inquiry}/update', [InquiryPriceController::class, 'update'])->name('inquiryPrice.update');
     Route::patch('/inquiry-price/{part}/update-date', [InquiryPriceController::class, 'updateDate'])->name('inquiryPrice.updateDate');
     Route::post('/inquiry-price/multi-update-date', [InquiryPriceController::class, 'multiUpdateDate'])->name('inquiryPrice.multiUpdateDate');
+
+    //Product Current Price Rotues
+    Route::get('/products/current-price', [ProductCurrentPriceController::class, 'index'])->name('products.currentPrice');
 });

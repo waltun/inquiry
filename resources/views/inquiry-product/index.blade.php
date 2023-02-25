@@ -90,7 +90,7 @@
             @endcan
             @can('inquiries')
                 <a href="{{ route('inquiries.submitted') }}" class="form-edit-btn text-xs">
-                    لیست استعلام های منتظر قیمت گذاری
+                    لیست استعلام‌های منتظر قیمت گذاری
                 </a>
             @endcan
         </div>
