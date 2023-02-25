@@ -81,5 +81,14 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('detail-inquiry', function (User $user) {
             return $user->role === 'technical';
         });
+
+        Gate::define('current-price', function (User $user) {
+            return $user->role === 'agent' || $user->role === 'technical' || $user->role === 'sale-manager' || $user->role === 'sale-expert';
+        });
+
+        Gate::define('all', function (User $user) {
+            return $user->role === 'technical' || $user->role === 'sale-manager' || $user->role === 'sale-expert' ||
+                $user->role === 'admin' || $user->role === 'it' || $user->role === 'price' || $user->role === 'logistic';
+        });
     }
 }
