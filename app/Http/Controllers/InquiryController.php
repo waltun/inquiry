@@ -46,7 +46,7 @@ class InquiryController extends Controller
             }
         }
 
-        if (request()->has('user_id')) {
+        if (request()->has('user_id') && !is_null(request('user_id'))) {
             $inquiries = $inquiries->where('user_id',request('user_id'));
         }
 
