@@ -29,18 +29,53 @@
     </nav>
 
     <!-- Navigation Btn -->
-    <div class="mt-4 md:flex justify-between items-center">
+    <div class="mt-4 md:flex justify-between items-center md:mx-36">
         <div class="mb-4 md:mb-0">
             <p class="text-lg text-black font-bold">
                 مشاهده لیست قیمت لحظه ای محصولات استاندارد
             </p>
         </div>
+
+        <!-- Description -->
+        <div x-data="{open:false}">
+            <button type="button" class="form-submit-btn text-xs" @click="open=!open">
+                مشاهده شرایط فروش
+            </button>
+            <div class="relative z-10" x-show="open" x-cloak>
+                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+                <div class="fixed z-10 inset-0 overflow-y-auto">
+                    <div
+                        class="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
+                        <div
+                            class="relative bg-white rounded-lg text-right overflow-hidden shadow-xl transform transition-all sm:my-8 max-w-2xl">
+                            <div class="bg-white p-4">
+                                <div class="mt-3 text-center sm:mt-0 sm:text-right">
+                                    <h3 class="text-lg font-medium text-gray-900 border-b border-gray-300 pb-3">
+                                        مشاهده شرایط فروش
+                                    </h3>
+                                    <div class="mt-4">
+                                        {!! \App\Models\CurrentPrice::first()->description !!}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-100 px-4 py-2">
+                                <button type="button" class="form-cancel-btn"
+                                        @click="open = !open">
+                                    انصراف
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <!-- Content -->
-    <div class="mt-4">
+    <div class="mt-8 md:mx-36">
         <!-- Laptop List -->
-        <div class="bg-white shadow overflow-x-auto rounded-lg hidden md:block">
+        <div class="bg-white shadow overflow-x-auto rounded-lg">
             <table class="min-w-full">
                 <thead>
                 <tr class="bg-sky-200">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CurrentPrice;
 use App\Models\DeleteButton;
 use App\Models\Setting;
 use Illuminate\Http\Request;
@@ -173,5 +174,31 @@ class SettingController extends Controller
         alert()->success('حذف موفق', 'حذف تنظیمات با موفقیت انجام شد');
 
         return back();
+    }
+
+    public function create()
+    {
+        $description = CurrentPrice::first();
+        return view('settings.current-price-description.create', compact('description'));
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'description' => 'required'
+        ]);
+
+        $descriptions = CurrentPrice::all();
+        foreach ($descriptions as $description) {
+            $description->delete();
+        }
+
+        CurrentPrice::create([
+            'description' => $request['description']
+        ]);
+
+        alert()->success('ثبت موفق', 'ثبت توضیحات با موفقیت انجام شد');
+
+        return redirect()->route('settings.index');
     }
 }

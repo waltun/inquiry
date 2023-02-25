@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CurrentPrice;
 use App\Models\Modell;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;

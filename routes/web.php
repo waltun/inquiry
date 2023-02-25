@@ -269,6 +269,9 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::patch('/settings/delete-button/{deleteButton}', [SettingController::class, 'deleteButtonUpdate'])->name('settings.delete-button.update');
     Route::delete('/settings/delete-button/{deleteButton}', [SettingController::class, 'deleteButtonDestroy'])->name('settings.delete-button.destroy');
 
+    Route::get('/settings/current-price/create', [SettingController::class, 'create'])->name('settings.currentPrice.create');
+    Route::post('/settings/current-price/store', [SettingController::class, 'store'])->name('settings.currentPrice.store');
+
     //Separate Coil Routes
     Route::get('/separate-calculate-coil', [SeparateCalculateCoilController::class, 'index'])->name('separate.coil.index');
     Route::get('/separate-calculate-coil/{part}/fancoil', [SeparateCalculateCoilController::class, 'fancoil'])->name('separate.coil.fancoil');
@@ -413,4 +416,5 @@ Route::middleware(['auth', 'web'])->group(function () {
 
     //Product Current Price Rotues
     Route::get('/products/current-price', [ProductCurrentPriceController::class, 'index'])->name('products.currentPrice');
+
 });
