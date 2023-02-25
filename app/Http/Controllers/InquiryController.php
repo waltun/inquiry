@@ -27,7 +27,6 @@ class InquiryController extends Controller
         $searchableFields = [
             'inquiry_number' => 'LIKE',
             'name' => 'LIKE',
-            'manager' => 'LIKE',
             'marketer' => 'LIKE',
             'model_id' => '=',
             'group_id' => '=',
@@ -45,6 +44,10 @@ class InquiryController extends Controller
                     $inquiries = $inquiries->where($field, $operator, "%" . request()->get($field) . "%");
                 }
             }
+        }
+
+        if (request()->has('user_id')) {
+            $inquiries = $inquiries->where('user_id',request('user_id'));
         }
 
         if (auth()->user()->role == 'admin') {
