@@ -73,54 +73,66 @@
     </div>
 
     <!-- Content -->
-    <div class="mt-8 md:mx-36">
+    <div class="mt-8 md:mx-36 space-y-4">
         <!-- Laptop List -->
-        <div class="bg-white shadow overflow-x-auto rounded-lg">
-            <table class="min-w-full">
-                <thead>
-                <tr class="bg-sky-200">
-                    <th scope="col"
-                        class="px-4 py-3 text-sm font-bold text-gray-800 text-center rounded-r-md">
-                        ردیف
-                    </th>
-                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
-                        نام محصول
-                    </th>
-                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
-                        قیمت
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($modells as $modell)
-                    @php
-                        $price = 0;
-                        foreach ($modell->parts as $part) {
-                            $price += $part->price * $part->pivot->value;
-                        }
+        @foreach($modells->groupBy('group') as $groups => $modell)
+            @php
+                $group = json_decode($groups);
+            @endphp
+            <div class="p-4 border border-indigo-400 rounded-md">
+                <div class="mb-4">
+                    <p class="text-lg font-bold text-black">
+                        {{ $group->name }}
+                    </p>
+                </div>
+                <div class="bg-white shadow overflow-x-auto rounded-lg">
+                    <table class="min-w-full">
+                        <thead>
+                        <tr class="bg-sky-200">
+                            <th scope="col"
+                                class="px-4 py-3 text-sm font-bold text-gray-800 text-center rounded-tr-md">
+                                ردیف
+                            </th>
+                            <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                                نام محصول
+                            </th>
+                            <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                                قیمت
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($modell as $model)
+                            @php
+                                $price = 0;
+                                foreach ($model->parts as $part) {
+                                    $price += $part->price * $part->pivot->value;
+                                }
 
-                        $finalPrice = $price * $modell->percent;
-                    @endphp
-                    <tr class="hover:bg-gray-100 {{ $loop->index % 2 == 0 ? '' : 'bg-gray-200' }}">
-                        <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-gray-500 text-center">
-                                {{ $loop->index + 1 }}
-                            </p>
-                        </td>
-                        <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center font-medium">
-                                {{ $modell->name }}
-                            </p>
-                        </td>
-                        <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center font-medium">
-                                {{ number_format($finalPrice) }} تومان
-                            </p>
-                        </td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
-        </div>
+                                $finalPrice = $price * $model->percent;
+                            @endphp
+                            <tr class="hover:bg-gray-100 {{ $loop->index % 2 == 0 ? '' : 'bg-gray-200' }}">
+                                <td class="px-4 py-3 whitespace-nowrap">
+                                    <p class="text-sm text-gray-500 text-center">
+                                        {{ $loop->index + 1 }}
+                                    </p>
+                                </td>
+                                <td class="px-4 py-3 whitespace-nowrap">
+                                    <p class="text-sm text-black text-center font-medium">
+                                        {{ $model->name }}
+                                    </p>
+                                </td>
+                                <td class="px-4 py-3 whitespace-nowrap">
+                                    <p class="text-sm text-black text-center font-medium">
+                                        {{ number_format($finalPrice) }} تومان
+                                    </p>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        @endforeach
     </div>
 </x-layout>
