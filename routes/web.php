@@ -34,11 +34,11 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-//Authenticate routes
+//Auth routes
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'storeLogin'])->name('login.store');
-Route::get('/register', [AuthController::class, 'register'])->name('register');
-Route::post('/register', [AuthController::class, 'storeRegister'])->name('register.sore');
+Route::get('/login/phone', [AuthController::class, 'phone'])->name('login.phone');
+Route::post('/login/phone', [AuthController::class, 'storePhone'])->name('login.phone.store');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth', 'web'])->group(function () {

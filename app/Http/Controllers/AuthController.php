@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActiveCode;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+use Melipayamak;
 
 class AuthController extends Controller
 {
@@ -16,59 +17,85 @@ class AuthController extends Controller
 
     public function storeLogin(Request $request)
     {
-        $user = User::where('phone', $request['phone'])->first();
-
-        $credentials = $request->validate([
-            'phone' => ['required', 'numeric', 'digits:11', 'regex:/(09)[0-9]{9}/'],
-            'password' => ['required', 'string', 'max:255'],
+        $request->validate([
+            'phone' => 'required|numeric|digits:11|regex:/(09)[0-9]{9}/'
         ]);
 
-        if ($user) {
-            if ($user->active != 0) {
-                if (Auth::attempt($credentials)) {
-                    $request->session()->regenerate();
+        $user = User::where('phone', $request->phone)->first();
 
-                    alert()->success('ورود موفق', 'شما با موفقیت به بخش استعلام قیمت وارد شدید');
+        if (!is_null($user)) {
+            $code = ActiveCode::generateCode($user);
+            $api = new Melipayamak\MelipayamakApi('9022228553', '0PM@N');
+            $smsSoap = $api->sms('soap');
+            $to = $request->phone;
+            $smsSoap->sendByBaseNumber([$code], $to, '125970');
+            $request->session()->flash('phone', $user->phone);
+            $request->session()->flash('success-login', 'کد ارسال با موفقیت به شماره وارد شده ارسال شد.');
+            $activeCode = ActiveCode::where('user_id', $user->id)->orderBy('expired_at', 'desc')->first();
+        } else {
+            $createdUser = User::create([
+                'phone' => $request->phone,
+                'role' => 'user'
+            ]);
+            $code = ActiveCode::generateCode($createdUser);
+            $api = new Melipayamak\MelipayamakApi('9022228553', '0PM@N');
+            $smsSoap = $api->sms('soap');
+            $to = $request->phone;
+            $smsSoap->sendByBaseNumber([$code], $to, '123453');
+            $request->session()->flash('phone', $createdUser->phone);
+            $activeCode = ActiveCode::where('user_id', $createdUser->id)->orderBy('expired_at', 'desc')->first();
+        }
+
+        $expiredTime = (jdate($activeCode->expired_at)->getTimestamp());
+        $expiredTime *= 1000;
+
+        $request->session()->flash('expired', $expiredTime);
+
+        return redirect()->route('login.phone');
+    }
+
+    public function phone()
+    {
+        session()->reflash();
+        if (session()->has('phone')) {
+            $expiredTime = session()->get('expired');
+            return view('auth.phone', compact('expiredTime'));
+        }
+        return redirect()->route('login')->with('session-error', 'لطفا شماره موبایل خود را وارد کنید!');
+    }
+
+    public function storePhone(Request $request)
+    {
+        session()->reflash();
+
+        if (session()->has('phone')) {
+            $request->validate([
+                'code' => 'required|numeric|digits:4'
+            ]);
+
+            $user = User::where('phone', session()->get('phone'))->first();
+
+            if (!is_null($user)) {
+                $status = ActiveCode::verifyCode($request->code, $user);
+                if ($status) {
+                    $user->activeCode()->delete();
+                    if (!$user->active) {
+                        $user->update([
+                            'active' => true
+                        ]);
+                    }
+                    Auth::loginUsingId($user->id);
+
+                    alert()->success('ورود موفق', 'شما با موفقیت وارد سیستم شدید');
 
                     return redirect()->intended('/');
+                } else {
+                    return back()->with('code-error', 'کد وارد شده صحیح نمی باشد!');
                 }
-
-                return back()->withErrors([
-                    'phone' => 'شماره تماس یا رمز عبور صحیح نمی باشد.',
-                ]);
             }
-            return back()->withErrors([
-                'active' => 'کاربر مورد نظر هنوز از سوی مدیریت تایید نشده است.'
-            ]);
         }
-        return back()->withErrors([
-            'active' => 'کاربری با این مشخصات وجود ندارد'
-        ]);
-    }
 
-    public function register()
-    {
-        return view('auth.register');
-    }
-
-    public function storeRegister(Request $request)
-    {
-        $data = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255', 'unique:users'],
-            'phone' => ['required', 'digits:11', 'regex:/(09)[0-9]{9}/', 'numeric', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'nation' => ['required', 'digits:10', 'numeric', 'unique:users'],
-            'gender' => ['required', 'in:male,female'],
-            'role' => ['required', 'in:user']
-        ]);
-
-        $data['password'] = Hash::make($request['password']);
-
-        User::create($data);
-
-        $request->session()->flash('register');
-        return redirect()->route('login');
+        return redirect()->route('login')->with('session-error', 'لطفا شماره موبایل خود را وارد کنید!');
     }
 
     public function logout(Request $request)
@@ -78,8 +105,6 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        alert()->success('خروج موفق', 'شما با موفقیت از بخش استعلام خارج شدید');
-
-        return redirect('/');
+        return redirect()->intended('/');
     }
 }

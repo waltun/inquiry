@@ -30,4 +30,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(InquiryPrice::class);
     }
+
+    public function activeCode()
+    {
+        return $this->hasMany(ActiveCode::class);
+    }
 }
