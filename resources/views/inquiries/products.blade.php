@@ -106,6 +106,7 @@
                         <th class="border border-white p-4 text-sm">تعداد</th>
                         <th class="border border-white p-4 text-sm">قیمت واحد</th>
                         <th class="border border-white p-4 text-sm">قیمت کل</th>
+                        <th class="border border-white p-4 text-sm">تاییدیه قیمت</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -143,6 +144,16 @@
                             </td>
                             <td class="border border-gray-300 p-4 text-sm text-center font-bold">
                                 {{ number_format($product->price * $product->quantity) }} تومان
+                            </td>
+                            <td class="border border-gray-300 p-4 text-sm text-center">
+                                @if(!is_null($product->percent_by))
+                                    @php
+                                        $user = \App\Models\User::where('id',$product->percent_by)->first();
+                                    @endphp
+                                    {{ $user->name }}
+                                @else
+                                    -
+                                @endif
                             </td>
                         </tr>
                     @endforeach

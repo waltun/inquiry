@@ -49,6 +49,7 @@
                     <th class="border border-gray-300 p-4 text-xs">دسته</th>
                     <th class="border border-gray-300 p-4 text-xs">مدل</th>
                     <th class="border border-gray-300 p-4 text-xs">تگ</th>
+                    <th class="border border-gray-300 p-4 text-xs">وزن</th>
                     <th class="border border-gray-300 p-4 text-xs">تعداد</th>
                     <th class="border border-gray-300 p-4 text-xs">قیمت واحد (تومان)</th>
                     <th class="border border-gray-300 p-4 text-xs">قیمت کل (تومان)</th>
@@ -80,6 +81,9 @@
                         </td>
                         <td class="border border-gray-300 p-4 text-xs text-center">
                             {{ $product->description }}
+                        </td>
+                        <td class="border border-gray-300 p-4 text-sm text-center">
+                            {{ $product->weight }}
                         </td>
                         <td class="border border-gray-300 p-4 text-xs text-center">
                             {{ $product->quantity }}

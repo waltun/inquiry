@@ -121,6 +121,7 @@ class InquiryPartController extends Controller
             $product->update([
                 'price' => $finalPrice,
                 'percent' => $request->percent,
+                'percent_by' => $request->user()->id
             ]);
         }
 

@@ -275,6 +275,22 @@
                                 {{ $weight }} کیلوگرم
                             </td>
                         </tr>
+                        <tr>
+                            <td class="border border-gray-300 p-4 text-lg text-center font-bold"
+                                colspan="{{ $colspan }}">
+                                تاییدیه قیمت توسط
+                            </td>
+                            <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
+                                @if(!is_null($product->percent_by))
+                                    @php
+                                        $user = \App\Models\User::where('id',$product->percent_by)->first();
+                                    @endphp
+                                    {{ $user->name }}
+                                @else
+                                    -
+                                @endif
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>

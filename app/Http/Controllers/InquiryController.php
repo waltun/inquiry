@@ -106,8 +106,8 @@ class InquiryController extends Controller
         $colspan = '';
         $colspan2 = '';
         if (auth()->user()->role == 'admin' || auth()->user()->role == 'technical') {
-            $colspan = '5';
-            $colspan2 = '3';
+            $colspan = '6';
+            $colspan2 = '4';
         } else {
             $colspan = '3';
             $colspan2 = '2';

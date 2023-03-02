@@ -291,7 +291,8 @@ class InquiryProductController extends Controller
         $product->update([
             'price' => $finalPrice,
             'percent' => $request['percent'],
-            'weight' => $finalWeight
+            'weight' => $finalWeight,
+            'percent_by' => $request->user()->id,
         ]);
 
         foreach ($product->amounts as $amount) {
@@ -377,6 +378,7 @@ class InquiryProductController extends Controller
             $product->update([
                 'price' => $finalPrice,
                 'percent' => $request->percent,
+                'percent_by' => $request->user()->id,
             ]);
         }
 
