@@ -78,9 +78,9 @@
                 let result = 0;
 
                 result = eval(value + operator1 + formula1);
-				let formatResult = Intl.NumberFormat().format(result);
-				input2.value = formatResult.replace(',', '');
-				inputValue.value = result;
+                let formatResult = Intl.NumberFormat().format(result);
+                input2.value = formatResult.replace(',', '');
+                inputValue.value = result;
             }
 
             function changeUnit2(event, part) {
@@ -92,9 +92,9 @@
                 let result = 0;
 
                 result = eval(value + operator2 + formula2);
-				let formatResult = Intl.NumberFormat().format(result);
-				input1.value = formatResult.replace(',', '');
-				inputValue.value = value;
+                let formatResult = Intl.NumberFormat().format(result);
+                input1.value = formatResult.replace(',', '');
+                inputValue.value = value;
             }
         </script>
     </x-slot>
@@ -190,9 +190,27 @@
                         </button>
                     </div>
                 </form>
-
+                <form action=""
+                      class="col-span-1 bg-white rounded-md p-4 shadow-sm border border-gray-200 mb-4 md:mb-0">
+                    <div class="mb-4">
+                        <label for="inputCalculate" class="block mb-2 md:text-sm text-xs text-black">
+                            جستجوی محاسباتی ها
+                        </label>
+                        <select name="calculate" id="inputCalculate" class="input-text">
+                            <option value="">انتخاب کنید</option>
+                            <option value="1" {{ request()->has('calculate') ? 'selected' : '' }}>
+                                نمایش فقط محاسباتی ها
+                            </option>
+                        </select>
+                    </div>
+                    <div class="flex justify-end">
+                        <button class="form-submit-btn" type="submit">
+                            جستجو
+                        </button>
+                    </div>
+                </form>
                 <form
-                    class="col-span-3 md:grid grid-cols-3 gap-4 bg-white rounded-md p-4 shadow-sm border border-gray-200 mb-4 md:mb-0">
+                    class="col-span-2 md:grid grid-cols-3 gap-4 bg-white rounded-md p-4 shadow-sm border border-gray-200 mb-4 md:mb-0">
                     <div>
                         <label for="inputCategory1" class="block mb-2 md:text-sm text-xs text-black">دسته بندی
                             قطعه</label>
@@ -250,7 +268,7 @@
 
             </div>
 
-            @if(request()->has('search') || request()->has('category1') || request()->has('category2') || request()->has('category3'))
+            @if(request()->has('search') || request()->has('category1') || request()->has('category2') || request()->has('category3') || request()->has('calculate'))
                 <div class="mt-4">
                     <a href="{{ route('inquiries.newPart.create',$product->id) }}" class="form-detail-btn text-xs">
                         پاکسازی جستجو

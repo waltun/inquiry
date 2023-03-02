@@ -129,7 +129,7 @@
     <div class="mt-4 flex justify-between items-center space-x-4 space-x-reverse">
         <div>
             <p class="text-lg text-black font-bold">
-                لیست مجموعه های کویل و دمپر
+                لیست مجموعه‌های کویل و دمپر و تابلوبرق و مبدل
             </p>
         </div>
         <div>
@@ -259,6 +259,53 @@
                 </tr>
                 </thead>
                 <tbody>
+                @foreach(\App\Models\Special::all() as $special)
+                    @php
+                        $part = \App\Models\Part::find($special->part_id);
+                    @endphp
+                    <tr>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <input type="checkbox" value="{{ $part->id }}"
+                                   class="checkboxes w-4 h-4 focus:ring-blue-500 focus:ring-2 focus:ring-offset-1 mx-auto block">
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <p class="text-sm text-black text-center" dir="ltr">{{ $part->name }}</p>
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <p class="text-sm text-black text-center">
+                                -
+                            </p>
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <p class="text-sm text-black text-center">{{ $part->unit }}</p>
+                        </td>
+                        <td class="px-4 py-3 whitespace-nowrap">
+                            <p class="text-sm text-black text-center">
+                                -
+                            </p>
+                        </td>
+                        <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
+                            <a href="{{ route('collections.amounts',$part->id) }}" class="form-submit-btn text-xs">
+                                مقادیر
+                            </a>
+                        </td>
+                        <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
+                            @if($delete->collection_coil)
+                                <form action="{{ route('collections.destroy',$part->id) }}" method="POST"
+                                      class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="form-cancel-btn text-xs" onclick="return confirm('قطعه حذف شود ؟')">
+                                        حذف
+                                    </button>
+                                </form>
+                            @endif
+                        </td>
+                    </tr>
+                @endforeach
+
+
+
                 @foreach($parts as $part)
                     @php
                         if(!is_null($part->inquiry_id)) {

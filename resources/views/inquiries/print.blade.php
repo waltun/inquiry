@@ -24,7 +24,10 @@
         </div>
         <div class="flex justify-between items-center">
             <p class="text-black text-sm font-bold">
-                مسئول پروژه : {{ $inquiry->manager }}
+                @php
+                    $user = \App\Models\User::where('id',$inquiry->user_id)->first();
+                @endphp
+                مسئول پروژه : {{ $user->name }}
             </p>
             <p class="text-black text-sm font-bold">
                 شماره استعلام : {{ "INQ-" . $inquiry->inquiry_number }}

@@ -203,6 +203,10 @@ class InquiryController extends Controller
             }
         }
 
+        if (request()->has('user_id') && !is_null(request('user_id'))) {
+            $inquiries = $inquiries->where('user_id',request('user_id'));
+        }
+
         if (auth()->user()->role === 'admin') {
             $inquiries = $inquiries->where('submit', 1)->where('archive_at', null)->latest()->paginate(25);
         } else {
@@ -269,6 +273,10 @@ class InquiryController extends Controller
                     $inquiries = $inquiries->where($field, $operator, "%" . request()->get($field) . "%");
                 }
             }
+        }
+
+        if (request()->has('user_id') && !is_null(request('user_id'))) {
+            $inquiries = $inquiries->where('user_id',request('user_id'));
         }
 
         if (auth()->user()->role === 'admin') {

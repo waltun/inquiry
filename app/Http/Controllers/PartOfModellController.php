@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Group;
 use App\Models\Modell;
 use App\Models\Part;
+use App\Models\Special;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -22,6 +23,12 @@ class PartOfModellController extends Controller
         if ($keyword = request('search')) {
             $parts->where('name', 'LIKE', "%{$keyword}%")
                 ->whereNotIn('id', $modell->parts->pluck('id'));
+        }
+
+        if (request()->has('calculate') && !is_null(request('calculate'))) {
+            $specials = Special::all()->pluck('part_id');
+            $parts->where('coil', '=', '1')->where('standard', '!=', '1')
+                ->whereIn('id',$specials);
         }
 
         if (!is_null(request('category3'))) {

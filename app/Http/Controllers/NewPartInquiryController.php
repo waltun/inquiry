@@ -27,6 +27,12 @@ class NewPartInquiryController extends Controller
                 ->whereNotIn('id', $modell->parts->pluck('id'));
         }
 
+        if (request()->has('calculate') && !is_null(request('calculate'))) {
+            $specials = Special::all()->pluck('part_id');
+            $parts->where('coil', '=', '1')->where('standard', '!=', '1')
+                ->whereIn('id',$specials);
+        }
+
         if (!is_null(request('category3'))) {
             if (request()->has('category3')) {
                 $parts = $parts->whereHas('categories', function ($q) {

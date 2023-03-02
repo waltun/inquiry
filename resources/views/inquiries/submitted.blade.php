@@ -65,8 +65,14 @@
             </div>
             <div class="mb-4">
                 <label for="inputManager" class="block mb-2 text-sm font-bold">مسئول پروژه</label>
-                <input type="text" id="inputManager" class="input-text" name="manager"
-                       placeholder="جستجو براساس مسئول پروژه" value="{{ request('manager') }}">
+                <select name="user_id" id="inputManager" class="input-text">
+                    <option value="">انتخاب کنید</option>
+                    @foreach(\App\Models\User::all() as $user)
+                        <option value="{{ $user->id }}" {{ request('user_id') == $user->id ? 'selected' : '' }}>
+                            {{ $user->name }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
             <div>
                 <label for="inputMarketer" class="block mb-2 text-sm font-bold">بازاریاب</label>

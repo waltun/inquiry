@@ -86,7 +86,10 @@
                     شماره استعلام : {{ "INQ-" . $inquiry->inquiry_number }}
                 </p>
                 <p class="font-bold text-black md:text-lg text-sm text-center">
-                    مسئول پروژه : {{ $inquiry->manager }}
+                    @php
+                        $user = \App\Models\User::where('id',$inquiry->user_id)->first();
+                    @endphp
+                    مسئول پروژه : {{ $user->name }}
                 </p>
             </div>
         </div>
