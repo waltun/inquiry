@@ -70,13 +70,18 @@ class AuthController extends Controller
 
         if (session()->has('phone')) {
             $request->validate([
-                'code' => 'required|numeric|digits:4'
+                'code1' => 'required|numeric|digits:1',
+                'code2' => 'required|numeric|digits:1',
+                'code3' => 'required|numeric|digits:1',
+                'code4' => 'required|numeric|digits:1',
             ]);
+
+            $code = $request->code1 . $request->code2 . $request->code3 . $request->code4;
 
             $user = User::where('phone', session()->get('phone'))->first();
 
             if (!is_null($user)) {
-                $status = ActiveCode::verifyCode($request->code, $user);
+                $status = ActiveCode::verifyCode($code, $user);
                 if ($status) {
                     $user->activeCode()->delete();
                     if (!$user->active) {

@@ -76,5 +76,6 @@
 
     .test-decimal ol {
         list-style: decimal !important;
+        margin-right: 30px;
     }
 }

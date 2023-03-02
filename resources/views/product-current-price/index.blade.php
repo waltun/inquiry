@@ -53,7 +53,7 @@
                                     <h3 class="text-lg font-medium text-gray-900 border-b border-gray-300 pb-3">
                                         مشاهده شرایط فروش
                                     </h3>
-                                    <div class="mt-4">
+                                    <div class="mt-4 test-decimal">
                                         {!! \App\Models\CurrentPrice::first()->description !!}
                                     </div>
                                 </div>
