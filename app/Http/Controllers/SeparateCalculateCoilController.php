@@ -304,8 +304,8 @@ class SeparateCalculateCoilController extends Controller
             $finName = 'Cu';
         }
 
-        $name = 'FC-' . $looleMessiName . '-' . $tedadRadifCoil . 'R-' . $finDarInch . 'FPI-' . $tedadMogheyiatLoole . 'T-'
-            . $tooleCoil . 'FL-' . $tedadMadarLoole . 'M-' . $finName . '-' . number_format($satheCoil, 2) . 'SQFT';
+        $name = 'FC-' . $looleMessiName . '-' . $tedadRadifCoil . 'R-' . $finDarInch . 'FPI-' . $tedadMogheyiatLoole . 'H-'
+            . $tedadLooleDarRadif . 'T-' . $tooleCoil . 'FL-' . $tedadMadarLoole . 'C-' . $finName . '-' . number_format($satheCoil, 2) . 'SQFT';
 
         return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs' => $inputs, 'satheCoil' => $satheCoil,
             'name' => $name]);
@@ -622,8 +622,8 @@ class SeparateCalculateCoilController extends Controller
             $finName = 'Cu';
         }
 
-        $name = 'HW-' . $looleMessiName . '-' . $tedadRadifCoil . 'R-' . $finDarInch . 'FPI-' . $tedadMogheyiatLoole . 'T-'
-            . $tooleCoil . 'FL-' . $tedadMadarLoole . 'M-' . $finName . '-' . number_format($satheCoil, 2) . 'SQFT';
+        $name = 'HW-' . $looleMessiName . '-' . $tedadRadifCoil . 'R-' . $finDarInch . 'FPI-' . $tedadMogheyiatLoole . 'H-'
+            . $tedadLooleDarRadif . 'T-' . $tooleCoil . 'FL-' . $tedadMadarLoole . 'C-' . $finName . '-' . number_format($satheCoil, 2) . 'SQFT';
 
         if (!array_key_exists('collector_messi', $inputs)) {
             $inputs['collector_messi'] = 0;
@@ -945,8 +945,8 @@ class SeparateCalculateCoilController extends Controller
             $finName = 'Cu';
         }
 
-        $name = 'CW-' . $looleMessiName . '-' . $tedadRadifCoil . 'R-' . $finDarInch . 'FPI-' . $tedadMogheyiatLoole . 'T-'
-            . $tooleCoil . 'FL-' . $tedadMadarLoole . 'M-' . $finName . '-' . number_format($satheCoil, 2) . 'SQFT';
+        $name = 'CW-' . $looleMessiName . '-' . $tedadRadifCoil . 'R-' . $finDarInch . 'FPI-' . $tedadMogheyiatLoole . 'H-'
+            . $tedadLooleDarRadif . 'T-' . $tooleCoil . 'FL-' . $tedadMadarLoole . 'C-' . $finName . '-' . number_format($satheCoil, 2) . 'SQFT';
 
         if (!array_key_exists('collector_messi', $inputs)) {
             $inputs['collector_messi'] = 0;
@@ -1262,8 +1262,8 @@ class SeparateCalculateCoilController extends Controller
             $finName = 'Cu';
         }
 
-        $name = 'CO-' . $looleMessiName . '-' . $tedadRadifCoil . 'R-' . $finDarInch . 'FPI-' . $tedadMogheyiatLoole . 'T-'
-            . $tooleCoil . 'FL-' . $tedadMadarLoole . 'M-' . $finName . '-' . number_format($satheCoil, 2) . 'SQFT';
+        $name = 'CO-' . $looleMessiName . '-' . $tedadRadifCoil . 'R-' . $finDarInch . 'FPI-' . $tedadMogheyiatLoole . 'H-'
+            . $tedadLooleDarRadif . 'T-' . $tooleCoil . 'FL-' . $tedadMadarLoole . 'C-' . $finName . '-' . number_format($satheCoil, 2) . 'SQFT';
 
         return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs' => $inputs, 'satheCoil' => $satheCoil, 'name' => $name]);
     }
@@ -1593,8 +1593,8 @@ class SeparateCalculateCoilController extends Controller
             $finName = 'Cu';
         }
 
-        $name = 'DX-' . $looleMessiName . '-' . $tedadRadifCoil . 'R-' . $finDarInch . 'FPI-' . $tedadMogheyiatLoole . 'T-'
-            . $tooleCoil . 'FL-' . $tedadMadarLoole . 'M-' . $finName . '-' . number_format($satheCoil, 2) . 'SQFT';
+        $name = 'DX-' . $looleMessiName . '-' . $tedadRadifCoil . 'R-' . $finDarInch . 'FPI-' . $tedadMogheyiatLoole . 'H-'
+            . $tedadLooleDarRadif . 'T-' . $tooleCoil . 'FL-' . $tedadMadarLoole . 'C-' . $finName . '-' . number_format($satheCoil, 2) . 'SQFT';
 
         return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs' => $inputs, 'satheCoil' => $satheCoil, 'name' => $name]);
     }
