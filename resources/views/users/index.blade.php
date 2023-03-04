@@ -41,34 +41,6 @@
         </div>
     </div>
 
-    <!-- Navigation links -->
-    <div class="space-x-2 space-x-reverse mt-4 flex md:block overflow-x-auto md:overflow-hidden">
-        <a href="{{ route('users.index') }}"
-           class="text-xs hover:text-indigo-600 whitespace-nowrap font-bold {{ !request()->has('role') ? 'text-indigo-600' : 'text-indigo-400' }}">
-            همه کاربران ({{ \App\Models\User::count() }})
-        </a>
-        <span> | </span>
-        <a href="{{ route('users.index') }}?role=admin"
-           class="text-xs hover:text-indigo-600 whitespace-nowrap font-bold {{ request('role') == 'admin' ? 'text-indigo-600' : 'text-indigo-400' }}">
-            کاربران مدیر ({{ \App\Models\User::where('role','admin')->count() }})
-        </a>
-        <span> | </span>
-        <a href="{{ route('users.index') }}?role=it"
-           class="text-xs hover:text-indigo-600 whitespace-nowrap font-bold {{ request('role') == 'it' ? 'text-indigo-600' : 'text-indigo-400' }}">
-            کاربران آی تی ({{ \App\Models\User::where('role','it')->count() }})
-        </a>
-        <span> | </span>
-        <a href="{{ route('users.index') }}?role=user"
-           class="text-xs hover:text-indigo-600 whitespace-nowrap font-bold {{ request('role') == 'user' ? 'text-indigo-600' : 'text-indigo-400' }}">
-            کاربران عادی - ثبت نام جدید ({{ \App\Models\User::where('role','user')->count() }})
-        </a>
-        <span> | </span>
-        <a href="{{ route('users.deleted') }}"
-           class="text-xs text-indigo-400 hover:text-indigo-600 whitespace-nowrap font-bold">
-            کاربران حذف شده ({{ \App\Models\User::onlyTrashed()->count() }})
-        </a>
-    </div>
-
     <!-- Content -->
     <div class="mt-4">
         <!-- Laptop List -->
@@ -90,7 +62,7 @@
                         ایمیل
                     </th>
                     <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
-                        نقش (سمت)
+                        دسترسی ها
                     </th>
                     <th scope="col" class="relative px-4 py-3 rounded-l-md">
                         <span class="sr-only">اقدامات</span>
@@ -113,34 +85,11 @@
                             <p class="text-sm text-black text-center">{{ $user->email }}</p>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            <span class="text-sm bg-gray-300 text-black rounded-md py-2 px-4 block text-center">
-                                @switch($user->role)
-                                    @case('user')
-                                        کاربر عادی - ثبت نام جدید
-                                        @break
-                                    @case('it')
-                                        مدیر آی تی (IT)
-                                        @break
-                                    @case('admin')
-                                        مدیر
-                                        @break
-                                    @case('technical')
-                                        مدیر فنی
-                                        @break
-                                    @case('sale-manager')
-                                        مدیر فروش
-                                        @break
-                                    @case('price')
-                                        قیمت گذار
-                                        @break
-                                    @case('logistic')
-                                        تدارکات
-                                        @break
-                                    @case('sale-expert')
-                                        کارشناس فروش
-                                        @break
-                                @endswitch
-                            </span>
+                            <div class="flex justify-center">
+                                <a href="{{ route('users.permissions',$user->id) }}" class="form-detail-btn text-xs">
+                                    دسترسی ها
+                                </a>
+                            </div>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
                             <a href="{{ route('users.edit',$user->id) }}" class="form-edit-btn text-xs">

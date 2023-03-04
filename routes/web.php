@@ -25,7 +25,9 @@ use App\Http\Controllers\PartController;
 use App\Http\Controllers\PartOfGroupController;
 use App\Http\Controllers\PartOfModellController;
 use App\Http\Controllers\PartPriceController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductCurrentPriceController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SeparateCalculateCoilController;
 use App\Http\Controllers\SeparateCalculateConverter;
 use App\Http\Controllers\SeparateCalculateDamperController;
@@ -49,6 +51,8 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/users/deleted', [UserController::class, 'deleted'])->name('users.deleted');
     Route::get('/users/{user}/restore', [UserController::class, 'restore'])->name('users.restore');
     Route::get('/users/{user}/force-delete', [UserController::class, 'forceDelete'])->name('users.forceDelete');
+    Route::get('/users/{user}/permissions', [UserController::class, 'permissions'])->name('users.permissions');
+    Route::post('/users/{user}/permissions', [UserController::class, 'storePermissions'])->name('users.storePermissions');
     Route::resource('users', UserController::class);
 
     //Modell routes
@@ -417,4 +421,9 @@ Route::middleware(['auth', 'web'])->group(function () {
     //Product Current Price Rotues
     Route::get('/products/current-price', [ProductCurrentPriceController::class, 'index'])->name('products.currentPrice');
 
+    //Permissions
+    Route::resource('permissions', PermissionController::class);
+
+    //Roles
+    Route::resource('roles', RoleController::class);
 });

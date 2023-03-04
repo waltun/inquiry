@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\DeleteButton;
+use App\Models\Permission;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -13,8 +15,6 @@ class UserController extends Controller
 {
     public function index()
     {
-        Gate::authorize('users');
-
         $users = User::query();
 
         if (request('role')) {
@@ -29,15 +29,11 @@ class UserController extends Controller
 
     public function create()
     {
-        Gate::authorize('users');
-
         return view('users.create');
     }
 
     public function store(Request $request)
     {
-        Gate::authorize('users');
-
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users'],
@@ -65,15 +61,11 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        Gate::authorize('users');
-
         return view('users.edit', compact('user'));
     }
 
     public function update(Request $request, User $user)
     {
-        Gate::authorize('users');
-
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
@@ -101,8 +93,6 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        Gate::authorize('users');
-
         $user->delete();
 
         alert()->success('حذف موفق', 'حذف کاربر با موفقیت انجام شد');
@@ -112,16 +102,12 @@ class UserController extends Controller
 
     public function deleted()
     {
-        Gate::authorize('users');
-
         $users = User::onlyTrashed()->latest()->paginate(20);
         return view('users.deleted', compact('users'));
     }
 
     public function restore($id)
     {
-        Gate::authorize('users');
-
         $user = User::where('id', $id)->withTrashed()->first();
 
         $user->restore();
@@ -133,8 +119,6 @@ class UserController extends Controller
 
     public function forceDelete($id)
     {
-        Gate::authorize('users');
-
         $user = User::where('id', $id)->withTrashed()->first();
 
         $user->forceDelete();
@@ -142,5 +126,27 @@ class UserController extends Controller
         alert()->success('حذف کامل موفق', 'حذف کامل کاربر با موفقیت انجام شد');
 
         return redirect()->route('users.deleted');
+    }
+
+    public function permissions(User $user)
+    {
+        $permissions = Permission::all();
+        $roles = Role::all();
+        return view('users.permissions', compact('user', 'permissions', 'roles'));
+    }
+
+    public function storePermissions(Request $request, User $user)
+    {
+        $data = $request->validate([
+            'roles' => 'required|array',
+            'permissions' => 'required|array',
+        ]);
+
+        $user->roles()->sync($data['roles']);
+        $user->permissions()->sync($data['permissions']);
+
+        alert()->success('ثبت دسترسی موفق', 'ثبت دسترسی کاربر با موفقیت انجام شد');
+
+        return redirect()->route('users.index');
     }
 }
