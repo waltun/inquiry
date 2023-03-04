@@ -11,10 +11,20 @@ use Illuminate\Support\Facades\Gate;
 
 class CollectionPartController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:collections')->only(['index']);
+        $this->middleware('can:collection-parts')->only(['parts']);
+        $this->middleware('can:collection-add-part')->only(['create', 'store']);
+        $this->middleware('can:delete-collection')->only(['destroy']);
+        $this->middleware('can:collection-delete-part')->only(['destroyPart']);
+        $this->middleware('can:collection-amounts')->only(['amounts', 'storeAmounts']);
+        $this->middleware('can:replicate-collection')->only(['replicate']);
+        $this->middleware('can:print-collection')->only(['print']);
+    }
+
     public function index()
     {
-        Gate::authorize('collections');
-
         $parts = Part::query();
         $setting = Setting::where('active', '1')->first();
         $delete = DeleteButton::where('active', '1')->first();
@@ -50,8 +60,6 @@ class CollectionPartController extends Controller
 
     public function create(Part $parentPart)
     {
-        Gate::authorize('collections');
-
         $parts = Part::query();
         $categories = Category::where('parent_id', 0)->get();
 
@@ -84,8 +92,6 @@ class CollectionPartController extends Controller
 
     public function store(Part $parentPart, Part $childPart)
     {
-        Gate::authorize('collections');
-
         $sort = 0;
         if ($parentPart->children->isEmpty()) {
             $sort = 1;
@@ -105,8 +111,6 @@ class CollectionPartController extends Controller
 
     public function parts(Part $parentPart)
     {
-        Gate::authorize('collections');
-
         $setting = Setting::where('active', '1')->first();
 
         return view('collection-parts.parts', compact('parentPart', 'setting'));
@@ -114,8 +118,6 @@ class CollectionPartController extends Controller
 
     public function destroy(Part $parentPart)
     {
-        Gate::authorize('collections');
-
         $parentPart->children()->detach();
         $parentPart->delete();
 
@@ -126,8 +128,6 @@ class CollectionPartController extends Controller
 
     public function destroyPart(Part $parentPart, $childId)
     {
-        Gate::authorize('collections');
-
         $totalPrice = 0;
         $totalWeight = 0;
 
@@ -190,8 +190,6 @@ class CollectionPartController extends Controller
 
     public function replicate(Part $parentPart)
     {
-        Gate::authorize('collections');
-
         $category = $parentPart->categories()->latest()->first();
         $lastPart = $category->parts()->latest()->first();
         $code = str_pad($lastPart->code + 1, 4, "0", STR_PAD_LEFT);

@@ -15,10 +15,15 @@ use Illuminate\Support\Facades\Notification;
 
 class InquiryPriceController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:inquiry-price')->only(['index']);
+        $this->middleware('can:store-inquiry-price')->only(['store']);
+        $this->middleware('can:update-inquiry-price')->only(['update', 'updateDate', 'multiUpdateDate']);
+    }
+
     public function index()
     {
-        Gate::authorize('price');
-
         $inquiryPrices = InquiryPrice::all()->unique('inquiry_id');
         return view('inquiry-price.index', compact('inquiryPrices'));
     }
@@ -62,8 +67,6 @@ class InquiryPriceController extends Controller
 
     public function update(Request $request, Inquiry $inquiry)
     {
-        Gate::authorize('price');
-
         $request->validate([
             'prices' => 'required|array',
             'prices.*' => 'nullable|numeric'

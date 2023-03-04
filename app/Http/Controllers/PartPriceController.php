@@ -11,10 +11,14 @@ use Illuminate\Support\Facades\Gate;
 
 class PartPriceController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:part-price')->only(['index']);
+        $this->middleware('can:part-price-update')->only(['update', 'updateDate', 'multiUpdateDate']);
+    }
+
     public function index()
     {
-        Gate::authorize('price');
-
         $parts = Part::query();
         $categories = Category::where('parent_id', 0)->get();
         $setting = Setting::where('active', '1')->first();
@@ -92,8 +96,6 @@ class PartPriceController extends Controller
 
     public function update(Request $request)
     {
-        Gate::authorize('price');
-
         $request->validate([
             'prices' => 'required|array',
             'prices.*' => 'nullable|numeric'

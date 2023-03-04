@@ -10,10 +10,19 @@ use Illuminate\Support\Facades\Gate;
 
 class ModellController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:models')->only(['index']);
+        $this->middleware('can:create-model')->only(['create','store']);
+        $this->middleware('can:edit-model')->only(['edit','update']);
+        $this->middleware('can:delete-model')->only(['destroy']);
+        $this->middleware('can:replicate-model')->only(['replicate']);
+        $this->middleware('can:model-parts')->only(['parts']);
+        $this->middleware('can:model-part-values')->only(['partValues']);
+    }
+
     public function index($id)
     {
-        Gate::authorize('groups');
-
         $group = Group::find($id);
         $modells = $group->modells()->paginate(25);
         return view('modells.index', compact('modells', 'group'));
@@ -21,8 +30,6 @@ class ModellController extends Controller
 
     public function create($id)
     {
-        Gate::authorize('groups');
-
         $group = Group::find($id);
 
         if (request()->has('parent')) {
@@ -37,8 +44,6 @@ class ModellController extends Controller
 
     public function store(Request $request, $id)
     {
-        Gate::authorize('groups');
-
         $request->validate([
             'name' => 'required|string|max:255',
             'percent' => 'nullable|numeric',
@@ -81,15 +86,8 @@ class ModellController extends Controller
         return redirect()->route('groups.index');
     }
 
-    public function show(Modell $modell)
-    {
-        //
-    }
-
     public function edit(Modell $modell)
     {
-        Gate::authorize('groups');
-
         $group = Group::find($modell->group_id);
 
         return view('modells.edit', compact('modell', 'group'));
@@ -97,8 +95,6 @@ class ModellController extends Controller
 
     public function update(Request $request, Modell $modell)
     {
-        Gate::authorize('groups');
-
         $request->validate([
             'name' => 'required|string|max:2550',
             'percent' => 'nullable|numeric',
@@ -144,8 +140,6 @@ class ModellController extends Controller
 
     public function destroy(Modell $modell)
     {
-        Gate::authorize('groups');
-
         $modell->delete();
 
         alert()->success('حذف موفق', 'حذف مدل با موفقیت انجام شد');
@@ -155,8 +149,6 @@ class ModellController extends Controller
 
     public function replicate(Modell $modell)
     {
-        Gate::authorize('groups');
-
         $group = Group::find($modell->group_id);
         $lastModellCode = $this->getLastCode($group);
 
@@ -202,8 +194,6 @@ class ModellController extends Controller
 
     public function destroyPart(Modell $modell, $partId)
     {
-        Gate::authorize('groups');
-
         foreach ($modell->parts as $part) {
             if ($part->pivot->sort > $modell->parts()->where('part_id', $partId)->first()->pivot->sort) {
                 $part->pivot->sort = $part->pivot->sort - 1;
@@ -218,8 +208,6 @@ class ModellController extends Controller
 
     public function partValues(Request $request, Modell $modell)
     {
-        Gate::authorize('groups');
-
         $request->validate([
             'values' => 'array|required',
             'values.*' => 'numeric|nullable',

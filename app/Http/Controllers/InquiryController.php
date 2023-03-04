@@ -20,10 +20,29 @@ use Illuminate\Support\Facades\Notification;
 
 class InquiryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:inquiries')->only(['index']);
+        $this->middleware('can:create-inquiry')->only(['create', 'store']);
+        $this->middleware('can:show-inquiry')->only(['show']);
+        $this->middleware('can:edit-inquiry')->only(['edit', 'update']);
+        $this->middleware('can:delete-inquiry')->only(['destroy']);
+        $this->middleware('can:submitted-inquiries')->only(['submitted']);
+        $this->middleware('can:submit-inquiry')->only(['submit']);
+        $this->middleware('can:priced-inquiries')->only(['priced']);
+        $this->middleware('can:copy-inquiry')->only(['copy']);
+        $this->middleware('can:correction-inquiry')->only(['correction', 'submittedCorrection']);
+        $this->middleware('can:referral-inquiry')->only(['referral', 'tmpReferral']);
+        $this->middleware('can:restore-inquiry')->only(['restore']);
+        $this->middleware('can:inquiry-products')->only(['products']);
+        $this->middleware('can:inquiry-description')->only(['description','showDescription','storeDescription']);
+        $this->middleware('can:inquiry-add-to-model')->only(['addToModell']);
+        $this->middleware('can:print-inquiry')->only(['print']);
+        $this->middleware('can:print-inquiry-product')->only(['printProduct']);
+    }
+
     public function index()
     {
-        Gate::authorize('inquiries');
-
         $searchableFields = [
             'inquiry_number' => 'LIKE',
             'name' => 'LIKE',
@@ -47,7 +66,7 @@ class InquiryController extends Controller
         }
 
         if (request()->has('user_id') && !is_null(request('user_id'))) {
-            $inquiries = $inquiries->where('user_id',request('user_id'));
+            $inquiries = $inquiries->where('user_id', request('user_id'));
         }
 
         if (auth()->user()->role == 'admin') {
@@ -63,15 +82,11 @@ class InquiryController extends Controller
 
     public function create()
     {
-        Gate::authorize('create-inquiry');
-
         return view('inquiries.create');
     }
 
     public function store(Request $request)
     {
-        Gate::authorize('create-inquiry');
-
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'marketer' => 'required|string|max:255',
@@ -89,8 +104,6 @@ class InquiryController extends Controller
 
     public function show(Inquiry $inquiry)
     {
-        Gate::authorize('priced-inquiry');
-
         if ($inquiry->products->isEmpty()) {
             alert()->error('محصولات', 'لطفا ابتدا محصولات را مشخص کنید');
             return back();
@@ -118,15 +131,11 @@ class InquiryController extends Controller
 
     public function edit(Inquiry $inquiry)
     {
-        Gate::authorize('create-inquiry');
-
         return view('inquiries.edit', compact('inquiry'));
     }
 
     public function update(Request $request, Inquiry $inquiry)
     {
-        Gate::authorize('create-inquiry');
-
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'marketer' => 'required|string|max:255',
@@ -142,8 +151,6 @@ class InquiryController extends Controller
 
     public function destroy(Inquiry $inquiry)
     {
-        Gate::authorize('delete-inquiry');
-
         $specials = Special::all()->pluck('id')->toArray();
 
         if (!$inquiry->products->isEmpty()) {
@@ -178,8 +185,6 @@ class InquiryController extends Controller
 
     public function submitted()
     {
-        Gate::authorize('submit-inquiry');
-
         $searchableFields = [
             'inquiry_number' => 'LIKE',
             'name' => 'LIKE',
@@ -204,7 +209,7 @@ class InquiryController extends Controller
         }
 
         if (request()->has('user_id') && !is_null(request('user_id'))) {
-            $inquiries = $inquiries->where('user_id',request('user_id'));
+            $inquiries = $inquiries->where('user_id', request('user_id'));
         }
 
         if (auth()->user()->role === 'admin') {
@@ -220,8 +225,6 @@ class InquiryController extends Controller
 
     public function submit(Inquiry $inquiry)
     {
-        Gate::authorize('submit-inquiry');
-
         if ($inquiry->products->isEmpty()) {
             alert()->error('محصولات', 'لطفا ابتدا محصولات را مشخص کنید');
             return back();
@@ -250,8 +253,6 @@ class InquiryController extends Controller
 
     public function priced()
     {
-        Gate::authorize('priced-inquiry');
-
         $searchableFields = [
             'inquiry_number' => 'LIKE',
             'name' => 'LIKE',
@@ -276,7 +277,7 @@ class InquiryController extends Controller
         }
 
         if (request()->has('user_id') && !is_null(request('user_id'))) {
-            $inquiries = $inquiries->where('user_id',request('user_id'));
+            $inquiries = $inquiries->where('user_id', request('user_id'));
         }
 
         if (auth()->user()->role === 'admin') {
@@ -293,8 +294,6 @@ class InquiryController extends Controller
 
     public function copy(Inquiry $inquiry)
     {
-        Gate::authorize('create-inquiry');
-
         $user = User::find($inquiry->user_id);
 
         $newInquiry = $inquiry->replicate()->fill([
@@ -367,8 +366,6 @@ class InquiryController extends Controller
 
     public function correction(Request $request, Inquiry $inquiry)
     {
-        Gate::authorize('create-inquiry');
-
         $user = User::find($inquiry->user_id);
 
         $request->validate([
@@ -448,8 +445,6 @@ class InquiryController extends Controller
 
     public function submittedCorrection(Request $request, Inquiry $inquiry)
     {
-        Gate::authorize('correction-inquiry');
-
         $user = User::find($inquiry->user_id);
 
         $request->validate([
@@ -482,8 +477,6 @@ class InquiryController extends Controller
 
     public function referral(Request $request, Inquiry $inquiry)
     {
-        Gate::authorize('create-inquiry');
-
         $user = User::find($request['user_id']);
 
         $newInquiry = $inquiry->replicate()->fill([
@@ -554,8 +547,6 @@ class InquiryController extends Controller
 
     public function tmpReferral(Request $request, Inquiry $inquiry)
     {
-        Gate::authorize('create-inquiry');
-
         $inquiry->update([
             'user_id' => $request['user_id']
         ]);
@@ -567,8 +558,6 @@ class InquiryController extends Controller
 
     public function restore(Inquiry $inquiry)
     {
-        Gate::authorize('users');
-
         foreach ($inquiry->products as $product) {
             $product->old_percent = $product->percent;
             $product->percent = 0;
@@ -589,8 +578,6 @@ class InquiryController extends Controller
 
     public function products(Inquiry $inquiry)
     {
-        Gate::authorize('create-inquiry');
-
         return view('inquiries.products', compact('inquiry'));
     }
 

@@ -10,10 +10,16 @@ use Illuminate\Validation\Rule;
 
 class GroupController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:groups')->only(['index']);
+        $this->middleware('can:create-group')->only(['create','store']);
+        $this->middleware('can:edit-group')->only(['edit','update']);
+        $this->middleware('can:delete-group')->only(['destroy']);
+    }
+
     public function index()
     {
-        Gate::authorize('groups');
-
         $groups = Group::all();
         $delete = DeleteButton::where('active', '1')->first();
 
@@ -22,8 +28,6 @@ class GroupController extends Controller
 
     public function create()
     {
-        Gate::authorize('groups');
-
         $code = $this->getCode();
 
         return view('groups.create', compact('code'));
@@ -31,8 +35,6 @@ class GroupController extends Controller
 
     public function store(Request $request)
     {
-        Gate::authorize('groups');
-
         $request->validate([
             'name' => 'required|string|max:255',
             'code' => 'required|numeric|digits:2|unique:groups'
@@ -48,22 +50,13 @@ class GroupController extends Controller
         return redirect()->route('groups.index');
     }
 
-    public function show(Group $group)
-    {
-        //
-    }
-
     public function edit(Group $group)
     {
-        Gate::authorize('groups');
-
         return view('groups.edit', compact('group'));
     }
 
     public function update(Request $request, Group $group)
     {
-        Gate::authorize('groups');
-
         $request->validate([
             'name' => 'required|string|max:255',
             'code' => ['required', 'numeric', 'digits:2', Rule::unique('groups')->ignore($group->id)]

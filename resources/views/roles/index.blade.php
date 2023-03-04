@@ -76,8 +76,9 @@
                             <p class="text-sm text-black text-center">{{ $role->label }}</p>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
-                            <form action="{{ route('roles.destroy',$role->id) }}" class="inline">
+                            <form action="{{ route('roles.destroy',$role->id) }}" class="inline" method="POST">
                                 @csrf
+                                @method('DELETE')
 
                                 <button type="submit" class="form-cancel-btn text-xs">حذف</button>
                             </form>

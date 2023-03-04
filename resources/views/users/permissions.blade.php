@@ -94,7 +94,7 @@
 
         <div class="space-x-2 space-x-reverse">
             <button type="submit" class="form-submit-btn">
-                ثبت نقش
+                ثبت دسترسی ها
             </button>
             <a href="{{ route('roles.index') }}" class="form-cancel-btn">
                 انصراف

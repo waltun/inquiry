@@ -10,6 +10,15 @@ use Illuminate\Support\Facades\Gate;
 
 class PartController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:parts')->only(['index']);
+        $this->middleware('can:create-part')->only(['create', 'store']);
+        $this->middleware('can:edit-part')->only(['edit', 'update']);
+        $this->middleware('can:delete-part')->only(['destroy']);
+        $this->middleware('can:replicate-part')->only(['replicate']);
+    }
+
     public function index()
     {
         Gate::authorize('parts');

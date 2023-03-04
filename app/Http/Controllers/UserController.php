@@ -13,6 +13,17 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:create-user')->only(['create', 'store']);
+        $this->middleware('can:users')->only(['index']);
+        $this->middleware('can:edit-user')->only(['edit', 'update']);
+        $this->middleware('can:delete-user')->only(['destroy', 'forceDelete']);
+        $this->middleware('can:deleted-users')->only(['deleted']);
+        $this->middleware('can:restore-user')->only(['restore']);
+        $this->middleware('can:user-permissions')->only(['permissions', 'storePermissions']);
+    }
+
     public function index()
     {
         $users = User::query();
@@ -137,13 +148,8 @@ class UserController extends Controller
 
     public function storePermissions(Request $request, User $user)
     {
-        $data = $request->validate([
-            'roles' => 'required|array',
-            'permissions' => 'required|array',
-        ]);
-
-        $user->roles()->sync($data['roles']);
-        $user->permissions()->sync($data['permissions']);
+        $user->roles()->sync($request->roles);
+        $user->permissions()->sync($request->permissions);
 
         alert()->success('ثبت دسترسی موفق', 'ثبت دسترسی کاربر با موفقیت انجام شد');
 
