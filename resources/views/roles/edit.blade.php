@@ -3,7 +3,7 @@
         <script src="{{ asset('plugins/jquery.min.js') }}"></script>
         <script src="{{ asset('plugins/select2/select2.min.js') }}"></script>
         <script>
-            $("#inputPermissions").select2()
+            //$("#inputPermissions").select2()
         </script>
     </x-slot>
 
@@ -80,7 +80,7 @@
 
             <div class="mt-4">
                 <label for="inputPermissions" class="block mb-2 md:text-sm text-xs text-black">دسترسی ها</label>
-                <select name="permissions[]" id="inputPermissions" class="input-text" multiple>
+                <select name="permissions[]" id="inputPermissions" class="input-text h-screen" multiple>
                     @foreach($permissions as $permission)
                         <option
                             value="{{ $permission->id }}" {{ in_array($permission->id,$role->permissions->pluck('id')->toArray()) ? 'selected' : '' }}>

@@ -126,26 +126,8 @@
                     <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>
                         مدیر عامل
                     </option>
-                    <option value="technical" {{ $user->role == 'technical' ? 'selected' : '' }}>
-                        مدیر فنی
-                    </option>
-                    <option value="sale-manager" {{ $user->role == 'sale-manager' ? 'selected' : '' }}>
-                        مدیر فروش
-                    </option>
-                    <option value="it" {{ $user->role == 'it' ? 'selected' : '' }}>
-                        مدیر آی تی
-                    </option>
-                    <option value="price" {{ $user->role == 'price' ? 'selected' : '' }}>
-                        قیمت گذار
-                    </option>
-                    <option value="logistic" {{ $user->role == 'logistic' ? 'selected' : '' }}>
-                        تدارکات
-                    </option>
-                    <option value="sale-expert" {{ $user->role == 'sale-expert' ? 'selected' : '' }}>
-                        کارشناس فروش
-                    </option>
-                    <option value="agent" {{ $user->role == 'agent' ? 'selected' : '' }}>
-                        نماینده
+                    <option value="staff" {{ $user->role == 'staff' ? 'selected' : '' }}>
+                        کارمند
                     </option>
                     <option value="user" {{ $user->role == 'user' ? 'selected' : '' }}>
                         کاربر عادی

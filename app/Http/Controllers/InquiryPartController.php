@@ -139,6 +139,9 @@ class InquiryPartController extends Controller
                 $finalTotalPrice += $product->price * $product->quantity;
             }
             $inquiry->price = $finalTotalPrice;
+            $data['inquiry_number'] = '';
+            $data = $this->getCode($data);
+            $inquiry->inquiry_number = $data['inquiry_number'];
             $inquiry->save();
 
             //Send Notification

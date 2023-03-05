@@ -111,9 +111,15 @@
             </p>
         </div>
         <div class="space-x-2 space-x-reverse flex items-center overflow-x-auto whitespace-nowrap">
-            <a href="{{ route('inquiries.create') }}" class="form-submit-btn text-xs">ایجاد استعلام جدید</a>
-            <a href="{{ route('inquiries.priced') }}" class="form-detail-btn text-xs">استعلام های قیمت گذاری شده</a>
-            <a href="{{ route('inquiries.submitted') }}" class="form-edit-btn text-xs">استعلام های منتظر قیمت</a>
+            @can('create-inquiry')
+                <a href="{{ route('inquiries.create') }}" class="form-submit-btn text-xs">ایجاد استعلام جدید</a>
+            @endcan
+            @can('priced-inquiries')
+                <a href="{{ route('inquiries.priced') }}" class="form-detail-btn text-xs">استعلام های قیمت گذاری شده</a>
+            @endcan
+            @can('submitted-inquiries')
+                <a href="{{ route('inquiries.submitted') }}" class="form-edit-btn text-xs">استعلام های منتظر قیمت</a>
+            @endcan
         </div>
     </div>
 
@@ -195,7 +201,7 @@
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
                             @if($inquiry->type == 'product' || $inquiry->type == 'both')
-                                @can('create-inquiry')
+                                @can('inquiry-products')
                                     <a href="{{ route('inquiries.product.index',$inquiry->id) }}"
                                        class="form-detail-btn text-xs">
                                         محصولات
@@ -203,7 +209,7 @@
                                 @endcan
                             @endif
                             @if($inquiry->type == 'part' || $inquiry->type == 'both')
-                                @can('create-inquiry')
+                                @can('inquiry-parts')
                                     <a href="{{ route('inquiries.parts.index',$inquiry->id) }}"
                                        class="form-submit-btn text-xs">
                                         قطعات تکی
@@ -222,89 +228,89 @@
                                 </button>
                                 <div x-show="open" @click.away="open = false"
                                      class="absolute bg-white rounded-md shadow border border-gray-300 px-2 py-3 z-50 -top-14 right-12 space-y-2">
-                                    @can('create-inquiry')
+                                    @can('edit-inquiry')
                                         <a href="{{ route('inquiries.edit',$inquiry->id) }}"
                                            class="form-edit-btn text-xs block">
                                             ویرایش اطلاعات پروژه
                                         </a>
-                                        @can('users')
-                                            <div x-data="{ open:false }">
-                                                <button
-                                                    class="form-cancel-btn text-xs bg-gray-600 hover:bg-gray-700 w-full"
-                                                    type="button"
-                                                    @click="open=!open">
-                                                    انتقال
-                                                </button>
-                                                <div class="relative z-50" x-show="open" x-cloak>
+                                    @endcan
+                                    @can('referral-inquiry')
+                                        <div x-data="{ open:false }">
+                                            <button
+                                                class="form-cancel-btn text-xs bg-gray-600 hover:bg-gray-700 w-full"
+                                                type="button"
+                                                @click="open=!open">
+                                                انتقال
+                                            </button>
+                                            <div class="relative z-50" x-show="open" x-cloak>
+                                                <div
+                                                    class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+                                                <div class="fixed inset-0 overflow-y-auto">
                                                     <div
-                                                        class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
-                                                    <div class="fixed inset-0 overflow-y-auto">
-                                                        <div
-                                                            class="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
-                                                            <form method="POST"
-                                                                  action="{{ route('inquiries.tmpReferral',$inquiry->id) }}"
-                                                                  class="relative bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full">
-                                                                @csrf
+                                                        class="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
+                                                        <form method="POST"
+                                                              action="{{ route('inquiries.tmpReferral',$inquiry->id) }}"
+                                                              class="relative bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full">
+                                                            @csrf
 
-                                                                <div class="bg-white p-4">
-                                                                    <div class="mt-3 text-center sm:mt-0 sm:text-right">
-                                                                        <h3 class="text-lg font-medium text-gray-900 border-b border-gray-300 pb-3">
-                                                                            انتقال استعلام
-                                                                        </h3>
-                                                                        <div class="mt-2">
-                                                                            <label for="inputUser"
-                                                                                   class="text-sm mb-2 block">
-                                                                                کاربر مورد نظر
-                                                                            </label>
-                                                                            <select name="user_id" id="inputUser"
-                                                                                    class="input-text">
-                                                                                @foreach(\App\Models\User::all() as $user)
-                                                                                    <option value="{{ $user->id }}">
-                                                                                        {{ $user->name }}
-                                                                                    </option>
-                                                                                @endforeach
-                                                                            </select>
-                                                                        </div>
+                                                            <div class="bg-white p-4">
+                                                                <div class="mt-3 text-center sm:mt-0 sm:text-right">
+                                                                    <h3 class="text-lg font-medium text-gray-900 border-b border-gray-300 pb-3">
+                                                                        انتقال استعلام
+                                                                    </h3>
+                                                                    <div class="mt-2">
+                                                                        <label for="inputUser"
+                                                                               class="text-sm mb-2 block">
+                                                                            کاربر مورد نظر
+                                                                        </label>
+                                                                        <select name="user_id" id="inputUser"
+                                                                                class="input-text">
+                                                                            @foreach(\App\Models\User::all() as $user)
+                                                                                <option value="{{ $user->id }}">
+                                                                                    {{ $user->name }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
                                                                     </div>
                                                                 </div>
-                                                                <div
-                                                                    class="bg-gray-100 space-x-4 space-x-reverse px-4 py-2">
-                                                                    <button type="button" class="form-cancel-btn"
-                                                                            @click="open=!open">
-                                                                        انصراف
-                                                                    </button>
-                                                                    <button type="submit" class="form-submit-btn">
-                                                                        ثبت
-                                                                    </button>
-                                                                </div>
-                                                            </form>
-                                                        </div>
+                                                            </div>
+                                                            <div
+                                                                class="bg-gray-100 space-x-4 space-x-reverse px-4 py-2">
+                                                                <button type="button" class="form-cancel-btn"
+                                                                        @click="open=!open">
+                                                                    انصراف
+                                                                </button>
+                                                                <button type="submit" class="form-submit-btn">
+                                                                    ثبت
+                                                                </button>
+                                                            </div>
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>
-                                        @endcan
-                                        @can('delete-inquiry')
-                                            <form action="{{ route('inquiries.destroy',$inquiry->id) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button class="form-cancel-btn text-xs w-full"
-                                                        onclick="return confirm('استعلام حذف شود ؟')">
-                                                    حذف
-                                                </button>
-                                            </form>
-                                        @endcan
-                                        @can('create-inquiry')
-                                            <a href="{{ route('inquiries.description',$inquiry->id) }}"
-                                               class="form-submit-btn text-xs bg-gray-500 hover:bg-gray-600 block text-center">
-                                                شرایط استعلام
-                                            </a>
-                                        @endcan
+                                        </div>
+                                    @endcan
+                                    @can('delete-inquiry')
+                                        <form action="{{ route('inquiries.destroy',$inquiry->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="form-cancel-btn text-xs w-full"
+                                                    onclick="return confirm('استعلام حذف شود ؟')">
+                                                حذف
+                                            </button>
+                                        </form>
+                                    @endcan
+                                    @can('inquiry-description')
+                                        <a href="{{ route('inquiries.description',$inquiry->id) }}"
+                                           class="form-submit-btn text-xs bg-gray-500 hover:bg-gray-600 block text-center">
+                                            شرایط استعلام
+                                        </a>
                                     @endcan
                                 </div>
                             </div>
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
-                            @can('create-inquiry')
+                            @can('submit-inquiry')
                                 <form action="{{ route('inquiries.submit',$inquiry->id) }}" method="POST"
                                       class="inline">
                                     @csrf
@@ -360,73 +366,6 @@
                 @endforeach
                 </tbody>
             </table>
-        </div>
-
-        <!-- Mobile List -->
-        <div class="block md:hidden">
-            @foreach($inquiries as $inquiry)
-                <div class="bg-white rounded-md p-4 border border-gray-200 shadow-sm mb-4 relative z-30">
-                    <span
-                        class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
-                        {{ $loop->index+1 }}
-                    </span>
-                    <div class="space-y-4">
-                        <p class="text-xs text-black text-center font-bold">
-                            پروژه : {{ $inquiry->name }}
-                        </p>
-                        <p class="text-xs text-black text-center">
-                            مسئول پروژه : {{ $inquiry->manager }}
-                        </p>
-                        <p class="text-xs text-black text-center">
-                            بازاریاب : {{ $inquiry->marketer }}
-                        </p>
-                        <p class="text-xs text-gray-600 text-center">
-                            شماره استعلام : {{ "INQ-" . $inquiry->inquiry_number }}
-                        </p>
-                        <div class="flex w-full justify-between">
-                            @can('create-inquiry')
-                                <a href="{{ route('inquiries.edit',$inquiry->id) }}" class="form-edit-btn text-xs">
-                                    ویرایش
-                                </a>
-                            @endcan
-                            @can('create-inquiry')
-                                <a href="{{ route('inquiries.product.index',$inquiry->id) }}"
-                                   class="form-detail-btn text-xs">
-                                    محصولات
-                                </a>
-                            @endcan
-                            @can('create-inquiry')
-                                <a href="{{ route('inquiries.parts.index',$inquiry->id) }}"
-                                   class="form-edit-btn text-xs">
-                                    قطعات تکی
-                                </a>
-                            @endcan
-                            @can('create-inquiry')
-                                <form action="{{ route('inquiries.submit',$inquiry->id) }}" method="POST"
-                                      class="inline">
-                                    @csrf
-                                    @method('PATCH')
-                                    <button class="form-submit-btn text-xs"
-                                            onclick="return confirm('استعلام ثبت نهایی شود ؟')">
-                                        ثبت نهایی
-                                    </button>
-                                </form>
-                            @endcan
-                            @can('delete-inquiry')
-                                <form action="{{ route('inquiries.destroy',$inquiry->id) }}" method="POST"
-                                      class="inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="form-cancel-btn text-xs"
-                                            onclick="return confirm('استعلام حذف شود ؟')">
-                                        حذف
-                                    </button>
-                                </form>
-                            @endcan
-                        </div>
-                    </div>
-                </div>
-            @endforeach
         </div>
     </div>
 </x-layout>

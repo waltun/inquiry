@@ -52,7 +52,7 @@ class UserController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'nation' => ['required', 'digits:10', 'numeric', 'unique:users'],
             'gender' => ['required', 'in:male,female'],
-            'role' => ['required', 'in:admin,technical,sale-manager,price,logistic,sale-expert,it,user,agent'],
+            'role' => ['required', 'in:admin,staff,user'],
             'active' => ['required', 'integer', 'in:0,1']
         ]);
 
@@ -83,7 +83,7 @@ class UserController extends Controller
             'phone' => ['required', 'digits:11', 'regex:/(09)[0-9]{9}/', 'numeric', Rule::unique('users')->ignore($user->id)],
             'nation' => ['required', 'digits:10', 'numeric', Rule::unique('users')->ignore($user->id)],
             'gender' => ['required', 'in:male,female'],
-            'role' => ['required', 'in:admin,technical,sale-manager,price,logistic,sale-expert,it,user,agent'],
+            'role' => ['required', 'in:admin,staff,user'],
             'active' => ['required', 'integer', 'in:0,1']
         ]);
 

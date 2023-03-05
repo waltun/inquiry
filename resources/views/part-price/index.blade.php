@@ -345,13 +345,11 @@
     </div>
 
     <!-- Content -->
-    <div class="mt-4">
-        <!-- Laptop List -->
-        <form action="{{ route('parts.price.update') }}" method="POST"
-              class="overflow-x-auto rounded-lg hidden md:block">
-            @csrf
-            @method('PATCH')
+    <form action="{{ route('parts.price.update') }}" method="POST" class="mt-4">
+        @csrf
+        @method('PATCH')
 
+        <div class="overflow-x-auto rounded-lg hidden md:block">
             <table class="min-w-full bg-white shadow border border-gray-200">
                 <thead>
                 <tr class="bg-sky-200">
@@ -470,20 +468,18 @@
                 @endforeach
                 </tbody>
             </table>
+        </div>
+        <div class="mt-4 sticky bottom-4">
+            <button type="submit" class="form-submit-btn">
+                ثبت قیمت
+            </button>
+            <button type="button" class="form-detail-btn deleteAllBtn">
+                بروزرسانی تاریخ (انتخاب شده‌ها)
+            </button>
+        </div>
 
-            <div class="mt-4">
-                <button type="submit" class="form-submit-btn">
-                    ثبت قیمت
-                </button>
-                <button type="button" class="form-detail-btn deleteAllBtn">
-                    بروزرسانی تاریخ (انتخاب شده‌ها)
-                </button>
-            </div>
-
-            <div class="mt-4 ml-2">
-                {{ $parts->links() }}
-            </div>
-
-        </form>
-    </div>
+        <div class="mt-4 ml-2">
+            {{ $parts->links() }}
+        </div>
+    </form>
 </x-layout>

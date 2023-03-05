@@ -86,9 +86,16 @@
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap">
                             <div class="flex justify-center">
-                                <a href="{{ route('users.permissions',$user->id) }}" class="form-detail-btn text-xs">
-                                    دسترسی ها
-                                </a>
+                                @if($user->role != 'admin')
+                                    <a href="{{ route('users.permissions',$user->id) }}"
+                                       class="form-detail-btn text-xs">
+                                        دسترسی ها
+                                    </a>
+                                @else
+                                    <p class="text-sm font-medium text-black">
+                                        مدیر
+                                    </p>
+                                @endif
                             </div>
                         </td>
                         <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">

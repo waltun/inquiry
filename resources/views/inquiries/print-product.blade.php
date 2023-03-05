@@ -98,7 +98,7 @@
                 @endforeach
                 </tbody>
                 <tr>
-                    <td class="border border-gray-300 p-4 text-sm text-center" colspan="6">
+                    <td class="border border-gray-300 p-4 text-sm text-center" colspan="7">
                         قیمت کل (تومان)
                     </td>
                     <td class="border border-gray-300 p-4 text-sm text-center text-black" colspan="2">
@@ -407,6 +407,61 @@
                     $partFinalPrice = 0;
                 @endphp
                 @foreach($inquiry->products()->where('part_id','!=',0)->where('type','pipe')->orderBy('sort','ASC')->get() as $product)
+                    @php
+                        $part = \App\Models\Part::find($product->part_id);
+                        $partFinalPrice += $product->price * $product->quantity;
+                    @endphp
+                    <tr>
+                        <td class="border border-gray-300 p-4 text-sm text-center">
+                            {{ $loop->index + 1 }}
+                        </td>
+                        <td class="border border-gray-300 p-4 text-sm text-center">
+                            {{ $part->name }}
+                        </td>
+                        <td class="border border-gray-300 p-4 text-sm text-center">
+                            {{ $product->quantity }}
+                        </td>
+                        <td class="border border-gray-300 p-4 text-sm text-center font-bold">
+                            {{ number_format($product->price) }} تومان
+                        </td>
+                        <td class="border border-gray-300 p-4 text-sm text-center font-bold">
+                            {{ number_format($product->price * $product->quantity) }} تومان
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+                <tr>
+                    <td class="border border-gray-300 p-4 text-lg text-center font-bold" colspan="4">
+                        قیمت کل
+                    </td>
+                    <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
+                        {{ number_format($partFinalPrice) }} تومان
+                    </td>
+                </tr>
+            </table>
+        </div>
+    @endif
+
+    @if(!$inquiry->products()->where('part_id','!=',0)->where('type','install_setup_price')->orderBy('sort','ASC')->get()->isEmpty())
+        <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4 hidden md:block">
+            <div class="mb-4">
+                <p class="text-sm font-bold text-xl text-center">لیست قطعات دستمزد نصب و راه اندازی</p>
+            </div>
+            <table class="border-collapse border border-gray-400 w-full">
+                <thead>
+                <tr class="bg-indigo-200">
+                    <th class="border border-white p-4 text-sm">ردیف</th>
+                    <th class="border border-white p-4 text-sm">نام قطعه</th>
+                    <th class="border border-white p-4 text-sm">تعداد</th>
+                    <th class="border border-white p-4 text-sm">قیمت واحد</th>
+                    <th class="border border-white p-4 text-sm">قیمت کل</th>
+                </tr>
+                </thead>
+                <tbody>
+                @php
+                    $partFinalPrice = 0;
+                @endphp
+                @foreach($inquiry->products()->where('part_id','!=',0)->where('type','install_setup_price')->orderBy('sort','ASC')->get() as $product)
                     @php
                         $part = \App\Models\Part::find($product->part_id);
                         $partFinalPrice += $product->price * $product->quantity;

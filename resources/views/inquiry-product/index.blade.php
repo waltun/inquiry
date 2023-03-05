@@ -80,7 +80,7 @@
             </p>
         </div>
         <div class="space-x-2 space-x-reverse flex items-center overflow-x-auto whitespace-nowrap">
-            @can('create-inquiry')
+            @can('create-inquiry-product')
                 <a href="{{ route('inquiries.product.create',$inquiry->id) }}" class="form-submit-btn text-xs">
                     ایجاد محصول جدید
                 </a>
@@ -88,7 +88,7 @@
             @can('inquiries')
                 <a href="{{ route('inquiries.index') }}" class="form-detail-btn text-xs">لیست استعلام ها</a>
             @endcan
-            @can('inquiries')
+            @can('submitted-inquiries')
                 <a href="{{ route('inquiries.submitted') }}" class="form-edit-btn text-xs">
                     لیست استعلام‌های منتظر قیمت گذاری
                 </a>
@@ -98,28 +98,28 @@
     </div>
 
     @if(!is_null($inquiry->correction_id) || !is_null($inquiry->copy_id))
-        @can('users')
-            <div class="my-4 bg-red-500 p-2 rounded-md">
-                @if(!is_null($inquiry->correction_id))
-                    @php
-                        $correctionInquiry = \App\Models\Inquiry::find($inquiry->correction_id)
-                    @endphp
-                    <p class="text-sm font-bold text-white">
-                        توجه : این استعلام، درخواست اصلاح استعلام {{ $correctionInquiry->name }} - {{ $correctionInquiry->inquiry_number }}
-                        است.
-                    </p>
-                @endif
-                @if(!is_null($inquiry->copy_id))
-                    @php
-                        $correctionInquiry = \App\Models\Inquiry::find($inquiry->copy_id)
-                    @endphp
-                    <p class="text-sm font-bold text-white">
-                        توجه : این استعلام، کپی شده از استعلام {{ $correctionInquiry->name }} - {{ $correctionInquiry->inquiry_number }}
-                        است.
-                    </p>
-                @endif
-            </div>
-        @endcan
+        <div class="my-4 bg-red-500 p-2 rounded-md">
+            @if(!is_null($inquiry->correction_id))
+                @php
+                    $correctionInquiry = \App\Models\Inquiry::find($inquiry->correction_id)
+                @endphp
+                <p class="text-sm font-bold text-white">
+                    توجه : این استعلام، درخواست اصلاح استعلام {{ $correctionInquiry->name }}
+                    - {{ $correctionInquiry->inquiry_number }}
+                    است.
+                </p>
+            @endif
+            @if(!is_null($inquiry->copy_id))
+                @php
+                    $correctionInquiry = \App\Models\Inquiry::find($inquiry->copy_id)
+                @endphp
+                <p class="text-sm font-bold text-white">
+                    توجه : این استعلام، کپی شده از استعلام {{ $correctionInquiry->name }}
+                    - {{ $correctionInquiry->inquiry_number }}
+                    است.
+                </p>
+            @endif
+        </div>
     @endif
 
     <!-- Content -->
@@ -199,81 +199,89 @@
                                               d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/>
                                     </svg>
                                 </button>
-                                <div x-show="open" @click.away="open = false"
-                                     class="absolute bg-white rounded-md shadow border border-gray-300 px-2 py-3 z-50 -top-8 right-12 space-y-2">
-                                    <a href="{{ route('inquiries.product.edit',$product->id) }}"
-                                       class="form-edit-btn text-xs block">
-                                        ویرایش تعداد
-                                    </a>
-                                    <div class="flex" x-data="{open:false}">
-                                        <button type="button" class="form-detail-btn text-xs w-full" @click="open=!open">
-                                            کپی
-                                        </button>
-                                        <div class="relative z-10" x-show="open" x-cloak>
-                                            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
-                                            <div class="fixed z-10 inset-0 overflow-y-auto">
+                                @can('edit-inquiry-product')
+                                    <div x-show="open" @click.away="open = false"
+                                         class="absolute bg-white rounded-md shadow border border-gray-300 px-2 py-3 z-50 -top-8 right-12 space-y-2">
+                                        <a href="{{ route('inquiries.product.edit',$product->id) }}"
+                                           class="form-edit-btn text-xs block">
+                                            ویرایش تعداد
+                                        </a>
+                                        <div class="flex" x-data="{open:false}">
+                                            <button type="button" class="form-detail-btn text-xs w-full"
+                                                    @click="open=!open">
+                                                کپی
+                                            </button>
+                                            <div class="relative z-10" x-show="open" x-cloak>
                                                 <div
-                                                    class="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
-                                                    <form method="POST"
-                                                          action="{{ route('inquiries.product.replicate',$product->id) }}"
-                                                          class="relative bg-white rounded-lg text-right overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full">
-                                                        @csrf
-                                                        <div class="bg-white p-4">
-                                                            <div class="mt-3 text-center sm:mt-0 sm:text-right">
-                                                                <h3 class="text-lg font-medium text-gray-900 border-b border-gray-300 pb-3">
-                                                                    تعداد و مدل
-                                                                </h3>
-                                                                <div class="mt-4">
-                                                                    <label class="block mb-2 text-sm font-bold"
-                                                                           for="inputQuantity">
-                                                                        تعداد محصول
-                                                                    </label>
-                                                                    <input type="text" class="input-text" name="quantity"
-                                                                           id="inputQuantity"
-                                                                           placeholder="تعداد را به عدد وارد کنید">
-                                                                </div>
-                                                                <div class="mt-4">
-                                                                    <label class="block mb-2 text-sm font-bold"
-                                                                           for="inputModell">
-                                                                        مدل محصول
-                                                                    </label>
-                                                                    <input type="text" class="input-text"
-                                                                           name="model_custom_name"
-                                                                           id="inputModell"
-                                                                           placeholder="مدل محصول در صورت وجود">
+                                                    class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+                                                <div class="fixed z-10 inset-0 overflow-y-auto">
+                                                    <div
+                                                        class="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
+                                                        <form method="POST"
+                                                              action="{{ route('inquiries.product.replicate',$product->id) }}"
+                                                              class="relative bg-white rounded-lg text-right overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full">
+                                                            @csrf
+                                                            <div class="bg-white p-4">
+                                                                <div class="mt-3 text-center sm:mt-0 sm:text-right">
+                                                                    <h3 class="text-lg font-medium text-gray-900 border-b border-gray-300 pb-3">
+                                                                        تعداد و مدل
+                                                                    </h3>
+                                                                    <div class="mt-4">
+                                                                        <label class="block mb-2 text-sm font-bold"
+                                                                               for="inputQuantity">
+                                                                            تعداد محصول
+                                                                        </label>
+                                                                        <input type="text" class="input-text"
+                                                                               name="quantity"
+                                                                               id="inputQuantity"
+                                                                               placeholder="تعداد را به عدد وارد کنید">
+                                                                    </div>
+                                                                    <div class="mt-4">
+                                                                        <label class="block mb-2 text-sm font-bold"
+                                                                               for="inputModell">
+                                                                            مدل محصول
+                                                                        </label>
+                                                                        <input type="text" class="input-text"
+                                                                               name="model_custom_name"
+                                                                               id="inputModell"
+                                                                               placeholder="مدل محصول در صورت وجود">
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="bg-gray-100 px-4 py-2">
-                                                            <button type="submit" class="form-submit-btn">
-                                                                ثبت
-                                                            </button>
-                                                            <button type="button" class="form-cancel-btn"
-                                                                    @click="open = !open">
-                                                                انصراف
-                                                            </button>
-                                                        </div>
-                                                    </form>
+                                                            <div class="bg-gray-100 px-4 py-2">
+                                                                <button type="submit" class="form-submit-btn">
+                                                                    ثبت
+                                                                </button>
+                                                                <button type="button" class="form-cancel-btn"
+                                                                        @click="open = !open">
+                                                                    انصراف
+                                                                </button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <form action="{{ route('inquiries.product.destroy',$product->id) }}"
+                                              method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="form-cancel-btn text-xs w-full"
+                                                    onclick="return confirm('محصول حذف شود ؟')">
+                                                حذف
+                                            </button>
+                                        </form>
                                     </div>
-                                    <form action="{{ route('inquiries.product.destroy',$product->id) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="form-cancel-btn text-xs w-full"
-                                                onclick="return confirm('محصول حذف شود ؟')">
-                                            حذف
-                                        </button>
-                                    </form>
-                                </div>
+                                @endcan
                             </div>
 
-                            <a href="{{ route('inquiries.product.amounts',$product->id) }}"
-                               class="form-submit-btn text-xs">
-                                جزئیات
-                            </a>
-                            @can('percent-inquiry')
+                            @can('inquiry-product-amounts')
+                                <a href="{{ route('inquiries.product.amounts',$product->id) }}"
+                                   class="form-submit-btn text-xs">
+                                    جزئیات
+                                </a>
+                            @endcan
+                            @can('inquiry-product-percent')
                                 @if($inquiry->submit)
                                     <a href="{{ route('inquiries.product.percent',$product->id) }}"
                                        class="form-percent-btn text-xs block">
@@ -291,20 +299,22 @@
                 @endforeach
                 </tbody>
             </table>
-            <div class="p-4 pt-0">
-                <a href="{{ route('inquiries.product.create',$inquiry->id) }}"
-                   class="w-8 h-8 rounded-full bg-green-500 block grid place-content-center mr-2"
-                   title="افزودن قطعه جدید">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                         stroke="currentColor" class="w-6 h-6 text-white">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path>
-                    </svg>
-                </a>
-            </div>
+            @can('create-inquiry-product')
+                <div class="p-4 pt-0">
+                    <a href="{{ route('inquiries.product.create',$inquiry->id) }}"
+                       class="w-8 h-8 rounded-full bg-green-500 block grid place-content-center mr-2"
+                       title="افزودن قطعه جدید">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                             stroke="currentColor" class="w-6 h-6 text-white">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path>
+                        </svg>
+                    </a>
+                </div>
+            @endcan
         </div>
 
         <!-- Multi Percent -->
-        @can('users')
+        @can('inquiry-product-multi-percent')
             @if($inquiry->submit)
                 <div class="my-4" x-data="{open:false}">
                     <button type="button" class="form-edit-btn" @click="open=!open">
@@ -347,70 +357,5 @@
                 </div>
             @endif
         @endcan
-
-        <!-- Mobile List -->
-        <div class="block md:hidden">
-            @foreach($inquiry->products()->where('group_id','!=',0)->where('model_id','!=',0)->get() as $product)
-                @php
-                    $group = \App\Models\Group::find($product->group_id);
-                    $modell = \App\Models\Modell::find($product->model_id);
-                @endphp
-                <div class="bg-white rounded-md p-4 border border-gray-200 shadow-sm mb-4 relative z-30">
-                    <span
-                        class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
-                        {{ $loop->index+1 }}
-                    </span>
-
-                    @if($inquiry->submit)
-                        <div class="mb-4">
-                            <input type="checkbox" value="{{ $product->id }}"
-                                   class="checkboxes w-5 h-5 focus:ring-blue-500 focus:ring-2 focus:ring-offset-1 mx-auto block">
-                        </div>
-                    @endif
-
-                    <div class="space-y-4">
-                        <p class="text-xs text-black text-center font-bold">
-                            گروه : {{ $group->name }}
-                        </p>
-                        <p class="text-xs text-black text-center font-bold">
-                            مدل : {{ $modell->name }}
-                        </p>
-                        <p class="text-xs text-black text-center">
-                            تعداد : {{ $product->quantity }}
-                        </p>
-                        <div class="flex w-full justify-between">
-                            <a href="{{ route('inquiries.product.amounts',$product->id) }}"
-                               class="form-submit-btn text-xs">
-                                جزئیات
-                            </a>
-                            @can('percent-inquiry')
-                                @if($inquiry->submit)
-                                    <a href="{{ route('inquiries.product.percent',$product->id) }}"
-                                       class="form-edit-btn text-xs">
-                                        ثبت ضریب
-                                    </a>
-                                @endif
-                            @endcan
-                            <form action="{{ route('inquiries.product.destroy',$product->id) }}" method="POST"
-                                  class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="form-cancel-btn text-xs"
-                                        onclick="return confirm('محصول حذف شود ؟')">
-                                    حذف
-                                </button>
-                            </form>
-                        </div>
-                        @if($product->percent > 0)
-                            <div class="mt-4">
-                                <p class="text-sm font-bold text-green-600 inline">
-                                    ضریب ثبت شده
-                                </p>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-            @endforeach
-        </div>
     </div>
 </x-layout>
