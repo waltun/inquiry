@@ -34,7 +34,7 @@ class InquiryController extends Controller
         $this->middleware('can:correction-inquiry')->only(['correction', 'submittedCorrection']);
         $this->middleware('can:referral-inquiry')->only(['referral', 'tmpReferral']);
         $this->middleware('can:restore-inquiry')->only(['restore']);
-        $this->middleware('can:inquiry-products')->only(['products']);
+        $this->middleware('can:inquiry-product-list')->only(['products']);
         $this->middleware('can:inquiry-description')->only(['description','showDescription','storeDescription']);
         $this->middleware('can:inquiry-add-to-model')->only(['addToModell']);
         $this->middleware('can:print-inquiry')->only(['print']);

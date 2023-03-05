@@ -14,6 +14,12 @@ use Illuminate\Http\Request;
 
 class NewPartInquiryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:create-new-inquiry-part')->only(['create', 'store']);
+        $this->middleware('can:delete-new-inquiry-part')->only(['destroy']);
+    }
+
     public function create(Product $product)
     {
         $modell = Modell::find($product->model_id);
@@ -30,7 +36,7 @@ class NewPartInquiryController extends Controller
         if (request()->has('calculate') && !is_null(request('calculate'))) {
             $specials = Special::all()->pluck('part_id');
             $parts->where('coil', '=', '1')->where('standard', '!=', '1')
-                ->whereIn('id',$specials);
+                ->whereIn('id', $specials);
         }
 
         if (!is_null(request('category3'))) {

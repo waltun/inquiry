@@ -18,25 +18,32 @@ use Illuminate\Support\Facades\Gate;
 
 class InquiryProductController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:inquiry-products')->only(['index']);
+        $this->middleware('can:create-inquiry-product')->only(['create', 'store']);
+        $this->middleware('can:edit-inquiry-product')->only(['edit', 'update']);
+        $this->middleware('can:show-inquiry-product')->only(['show']);
+        $this->middleware('can:inquiry-product-amounts')->only(['amounts', 'storeAmounts']);
+        $this->middleware('can:inquiry-product-percent')->only(['percent', 'storePercent']);
+        $this->middleware('can:delete-inquiry-product')->only(['destroy']);
+        $this->middleware('can:inquiry-product-multi-percent')->only(['multiPercent']);
+        $this->middleware('can:inquiry-product-replicate')->only(['replicate']);
+    }
+
     public function index(Inquiry $inquiry)
     {
-        Gate::authorize('create-inquiry');
-
         return view('inquiry-product.index', compact('inquiry'));
     }
 
     public function create(Inquiry $inquiry)
     {
-        Gate::authorize('create-inquiry');
-
         $groups = Group::all();
         return view('inquiry-product.create', compact('groups', 'inquiry'));
     }
 
     public function store(Request $request, Inquiry $inquiry)
     {
-        Gate::authorize('create-inquiry');
-
         $request->validate([
             'group_id' => 'required|integer',
             'model_id' => 'required|integer',
@@ -69,8 +76,6 @@ class InquiryProductController extends Controller
 
     public function edit(Product $product)
     {
-        Gate::authorize('create-inquiry');
-
         $inquiry = Inquiry::find($product->inquiry_id);
 
         return view('inquiry-product.edit', compact('product', 'inquiry'));
@@ -78,8 +83,6 @@ class InquiryProductController extends Controller
 
     public function update(Request $request, Product $product)
     {
-        Gate::authorize('create-inquiry');
-
         $request->validate([
             'quantity' => 'required|numeric',
             'description' => 'nullable|string|max:255',
@@ -105,8 +108,6 @@ class InquiryProductController extends Controller
 
     public function show(Product $product)
     {
-        Gate::authorize('create-inquiry');
-
         if ($product->amounts->isEmpty()) {
             alert()->error('مقادیر محصولات', 'لطفا ابتدا مقادیر محصولات را مشخص کنید');
             return back();
@@ -126,8 +127,6 @@ class InquiryProductController extends Controller
 
     public function amounts(Product $product)
     {
-        Gate::authorize('create-inquiry');
-
         $group = Group::find($product->group_id);
         $modell = Modell::find($product->model_id);
         $inquiry = Inquiry::find($product->inquiry_id);
@@ -139,8 +138,6 @@ class InquiryProductController extends Controller
 
     public function storeAmounts(Request $request, Product $product)
     {
-        Gate::authorize('create-inquiry');
-
         $modell = Modell::find($product->model_id);
         $amounts = Amount::where('product_id', $product->id)->get();
 
@@ -225,8 +222,6 @@ class InquiryProductController extends Controller
 
     public function percent(Product $product)
     {
-        Gate::authorize('percent-inquiry');
-
         $group = Group::find($product->group_id);
         $modell = Modell::find($product->model_id);
         $inquiryPart = Part::find($product->part_id);
@@ -256,8 +251,6 @@ class InquiryProductController extends Controller
 
     public function storePercent(Request $request, Product $product)
     {
-        Gate::authorize('percent-inquiry');
-
         $request->validate([
             'percent' => 'required|numeric|between:1,3'
         ]);
@@ -332,8 +325,6 @@ class InquiryProductController extends Controller
 
     public function destroy(Product $product)
     {
-        Gate::authorize('create-inquiry');
-
         $collectionParts = Part::where('product_id', $product->id)->get();
         if (!$collectionParts->isEmpty()) {
             foreach ($collectionParts as $collectionPart) {

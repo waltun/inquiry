@@ -12,10 +12,13 @@ use Illuminate\Support\Facades\Gate;
 
 class PartOfModellController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:part-of-model')->only(['index', 'store']);
+    }
+
     public function index(Modell $modell)
     {
-        Gate::authorize('groups');
-
         $parts = Part::query();
         $group = Group::find($modell->group_id);
         $categories = Category::where('parent_id', 0)->get();
@@ -54,8 +57,6 @@ class PartOfModellController extends Controller
 
     public function store(Modell $modell, $partId)
     {
-        Gate::authorize('groups');
-
         $sort = 0;
         if ($modell->parts->isEmpty()) {
             $sort = 1;

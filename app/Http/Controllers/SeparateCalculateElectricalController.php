@@ -8,6 +8,15 @@ use Illuminate\Http\Request;
 
 class SeparateCalculateElectricalController extends Controller
 {
+    public function __construct()
+    {
+        $array = [
+            'index', 'panel', 'calculatePanel', 'storePanel', 'chiller', 'calculateChiller', 'storeChiller', 'air',
+            'calculateAir', 'storeAir', 'zent', 'calculateZent', 'storeZent', 'mini', 'calculateMini', 'storeMini'
+        ];
+        $this->middleware('can:separate-calculate-electricals')->only($array);
+    }
+
     public function index()
     {
         $panel = Part::find('1879');

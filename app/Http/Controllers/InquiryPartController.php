@@ -15,10 +15,17 @@ use Illuminate\Support\Facades\Gate;
 
 class InquiryPartController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:inquiry-parts')->only(['index']);
+        $this->middleware('can:create-inquiry-part')->only(['create', 'store']);
+        $this->middleware('can:delete-inquiry-part')->only(['destroy']);
+        $this->middleware('can:inquiry-part-multi-percent')->only(['multiPercent']);
+        $this->middleware('can:inquiry-part-amounts')->only(['storeAmounts']);
+    }
+
     public function index(Inquiry $inquiry)
     {
-        Gate::authorize('create-inquiry');
-
         $setting = Setting::where('active', '1')->first();
         $specials = Special::all()->pluck('part_id')->toArray();
 

@@ -8,6 +8,14 @@ use Illuminate\Http\Request;
 
 class SeparateCalculateConverter extends Controller
 {
+    public function __construct()
+    {
+        $array = [
+            'index', 'evaporator', 'condensor', 'calculateEvaporator', 'calculateCondensor', 'storeEvaporator', 'storeCondensor'
+        ];
+        $this->middleware('can:separate-calculate-converters')->only($array);
+    }
+
     public function index()
     {
         $evaporator = Part::find('1194');

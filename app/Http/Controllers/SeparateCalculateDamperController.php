@@ -7,6 +7,15 @@ use Illuminate\Http\Request;
 
 class SeparateCalculateDamperController extends Controller
 {
+    public function __construct()
+    {
+        $array = [
+            'index', 'taze', 'calculateTaze', 'raft', 'calculateRaft', 'bargasht', 'calculateBargasht', 'exast',
+            'calculateExast', 'store'
+        ];
+        $this->middleware('can:separate-calculate-dampers')->only($array);
+    }
+
     public function index()
     {
         $taze = Part::find('146');

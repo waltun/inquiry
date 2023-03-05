@@ -9,10 +9,13 @@ use Illuminate\Support\Facades\Gate;
 
 class PartOfGroupController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:part-of-group')->only(['index', 'store']);
+    }
+
     public function index(Group $group)
     {
-        Gate::authorize('groups');
-
         $parts = Part::query();
         $categories = Category::where('parent_id', 0)->get();
 
@@ -44,8 +47,6 @@ class PartOfGroupController extends Controller
 
     public function store(Group $group, $partId)
     {
-        Gate::authorize('groups');
-
         $group->parts()->syncWithoutDetaching($partId);
 
         alert()->success('ثبت موفق', 'افزودن قطعه به گروه با موفقیت انجام شد');

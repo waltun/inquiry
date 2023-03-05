@@ -8,6 +8,15 @@ use Illuminate\Http\Request;
 
 class SeparateCalculateCoilController extends Controller
 {
+    public function __construct()
+    {
+        $array = [
+            'index', 'fancoil', 'calculateFancoil', 'storeFancoil', 'warm', 'calculateWarm', 'storeWarm', 'cold', 'calculateCold',
+            'storeCold', 'condensor', 'calculateCondensor', 'storeCondensor', 'evaperator', 'calculateEvaperator', 'storeEvaperator'
+        ];
+        $this->middleware('can:separate-calculate-coils')->only($array);
+    }
+
     public function index()
     {
         $fancoil = Part::find('170');
