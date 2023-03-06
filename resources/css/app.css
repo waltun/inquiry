@@ -12,14 +12,43 @@
     @apply w-10 h-10 rounded-2xl flex items-center justify-center group-hover:bg-white;
 }
 
-.input-text {
-    @apply w-full border border-gray-300 rounded-md px-4 py-1.5 md:text-sm text-xs focus:outline-none focus:ring
-    focus:ring-violet-400 focus:ring-opacity-60;
+.aside {
+    @apply bg-white overflow-y-auto flex flex-col flex-grow shadow-aside dark:bg-slate-900
 }
 
-.form-submit-btn {
-    @apply px-4 py-2 bg-green-500 text-white md:text-sm text-xs rounded-md active:bg-green-700 hover:bg-green-600
-    focus:outline-none focus:ring focus:ring-green-600 focus:ring-opacity-70;
+.aside-items {
+    @apply flex items-center justify-between border-b border-gray-200 dark:border-gray-700 pb-4 relative cursor-pointer;
+}
+
+.logout-aside-btn {
+    @apply rounded-lg px-6 py-4 flex items-center text-base bg-[#FDE7E3] dark:bg-myBlue-900 text-myRed-100
+    dark:text-white whitespace-nowrap;
+}
+
+.header {
+    @apply flex justify-between items-center py-6 px-8 bg-transparent border-b border-gray-200 dark:border-black;
+}
+
+.header-notification {
+    @apply w-10 h-10 border-2 border-dashed border-gray-400 rounded-full flex items-center justify-center relative mr-5;
+}
+
+.header-dark-mode {
+    @apply w-10 h-10 border-2 border-dashed border-gray-400 rounded-full flex items-center justify-center relative
+    mr-5 cursor-pointer;
+}
+
+.header-toggle-menu {
+    @apply w-10 h-10 border-2 border-dashed border-gray-400 rounded-full flex items-center justify-center relative cursor-pointer;
+}
+
+.menu-active {
+    @apply text-myBlue-100 dark:text-mySky-100;
+}
+
+.input-text {
+    @apply bg-white w-full border border-gray-200 rounded-lg px-4 py-3 text-xs font-medium placeholder-mySky-200
+    placeholder-opacity-90 text-black dark:bg-slate-800 dark:border-black dark:text-white dark:placeholder-mySky-100;
 }
 
 .form-detail-btn {
@@ -27,14 +56,16 @@
     focus:outline-none focus:ring focus:ring-yellow-600 focus:ring-opacity-70;
 }
 
+.form-submit-btn {
+    @apply px-6 py-3 bg-myGreen-100 text-white text-xs rounded-lg hover:bg-green-600;
+}
+
 .form-cancel-btn {
-    @apply px-4 py-2 bg-red-500 text-white md:text-sm text-xs rounded-md active:bg-red-700 hover:bg-red-600
-    focus:outline-none focus:ring focus:ring-red-600 focus:ring-opacity-70
+    @apply px-6 py-3 bg-myRed-300 text-white text-xs rounded-lg hover:bg-red-600;
 }
 
 .form-edit-btn {
-    @apply px-4 py-2 bg-indigo-500 text-white md:text-sm text-xs rounded-md active:bg-indigo-700 hover:bg-indigo-600
-    focus:outline-none focus:ring focus:ring-indigo-600 focus:ring-opacity-70
+    @apply px-6 py-3 bg-myBlue-300 text-white text-xs rounded-lg hover:bg-indigo-600;
 }
 
 .form-percent-btn {
@@ -46,6 +77,99 @@
     @apply px-4 py-2 bg-gray-400 text-white md:text-sm text-xs rounded-md focus:outline-none cursor-not-allowed
 }
 
+.table-dropdown {
+    @apply absolute bg-white dark:bg-slate-800 dark:border-black rounded-md shadow-xl border border-gray-300 px-4 py-3 z-50 space-y-2;
+}
+
+.table-dropdown-btn {
+    @apply flex items-center text-sm px-6 py-2 hover:bg-gray-100;
+}
+
+.table-th-tr {
+    @apply bg-myBlue-300 text-sm text-white text-center;
+}
+
+.table-tb-tr {
+    @apply bg-transparent text-sm text-gray-500 dark:text-gray-200 text-center hover:bg-white dark:hover:bg-slate-900
+    hover:shadow-2xl hover:text-black dark:hover:text-white;
+}
+
+.table-tr-td {
+    @apply p-4 border border-gray-300 dark:border-black;
+}
+
+.table-dropdown-edit {
+    @apply text-gray-500 dark:text-gray-300 group-hover:text-indigo-600 dark:group-hover:text-indigo-300 flex items-center text-sm;
+}
+
+.table-dropdown-delete {
+    @apply text-gray-500 dark:text-gray-300 group-hover:text-red-600 dark:group-hover:text-red-300 flex items-center text-sm;
+}
+
+.table-dropdown-copy {
+    @apply text-gray-500 dark:text-gray-300 group-hover:text-yellow-600 dark:group-hover:text-yellow-300 flex items-center text-sm;
+}
+
+.breadcrumb {
+    @apply flex items-center space-x-2 space-x-reverse;
+}
+
+.breadcrumb-p {
+    @apply text-sm text-gray-500 dark:text-gray-300;
+}
+
+.breadcrumb-p-active {
+    @apply text-sm text-myBlue-100 dark:text-indigo-300;
+}
+
+.breadcrumb-svg {
+    @apply w-5 h-5 text-gray-500 dark:text-gray-300;
+}
+
+.breadcrumb-svg-active {
+    @apply w-5 h-5 text-myBlue-100 dark:text-indigo-300;
+}
+
+.breadcrumb-svg-arrow {
+    @apply w-5 h-5 text-black dark:text-white;
+}
+
+.page-success-btn {
+    @apply px-4 py-2 bg-myGreen-100 text-white text-xs rounded-lg flex items-center hover:bg-green-600;
+}
+
+.page-warning-btn {
+    @apply px-4 py-2 bg-myYellow-100 text-white text-xs rounded-lg flex items-center hover:bg-yellow-600;
+}
+
+.card {
+    @apply mb-4 bg-white rounded-lg border border-gray-200 p-5 dark:bg-slate-900 dark:border-black;
+}
+
+.card-header {
+    @apply border-b-2 border-myBlue-200 relative mb-8;
+}
+
+.card-title {
+    @apply absolute text-sm text-myGray-100 font-bold bg-white dark:bg-slate-900 dark:text-white -top-3 pl-4;
+}
+
+.card-search {
+    @apply mt-4 bg-white rounded-lg border border-gray-200 px-5 pt-7 dark:bg-slate-900 dark:border-black;
+}
+
+.card-header-search {
+    @apply border-b-2 border-myBlue-200 relative mb-8 flex items-center justify-between cursor-pointer;
+}
+
+.card-title-search {
+    @apply absolute text-sm text-myGray-100 font-bold bg-white dark:bg-slate-900 dark:text-white left-0 -top-3 pr-4;
+}
+
+.form-label {
+    @apply text-xs text-myGray-100 block mb-2 font-medium dark:text-white;
+}
+
 @tailwind utilities;
 
 @layer utilities {
@@ -54,8 +178,14 @@
         background: linear-gradient(217.5deg, #0643F2 21.71%, #F1F1F1 215.33%);
     }
 
-    input[type=number] {
-        -moz-appearance: textfield;
+    .decimal-list ol {
+        list-style: decimal !important;
+        margin-right: 32px;
+    }
+
+    .decimal-list ul {
+        list-style: disc !important;
+        margin-right: 32px;
     }
 
     input::-webkit-outer-spin-button,
@@ -64,32 +194,24 @@
         margin: 0;
     }
 
-    .menu-active {
-        background-color: #f3f4f6;
-        color: #000000 !important;
+    input[type=number] {
+        -moz-appearance: textfield;
     }
 
-    .select2-container {
-        font-size: 0.75rem;
+    .sidebar::-webkit-scrollbar {
+        width: 5px;
     }
 
-    .select2-container[dir="rtl"] .select2-selection--single .select2-selection__rendered {
-        padding-right: 2.5rem !important;
-        padding-left: 0;
+    .sidebar::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 5px #d1d5db;
     }
 
-    .select2-container--default .select2-search--dropdown .select2-search__field {
-        font-size: 0.75rem !important;
+    .sidebar::-webkit-scrollbar-thumb {
+        background: #d1d5db;
+        border-radius: 10px;
     }
 
-    .select2-container .select2-selection--single {
-        height: 34px !important;
-        display: flex !important;
-        align-items: center !important;
-    }
-
-    .test-decimal ol {
-        list-style: decimal !important;
-        margin-right: 30px;
+    .sidebar::-webkit-scrollbar-thumb:hover {
+        background: #9ca3af;
     }
 }

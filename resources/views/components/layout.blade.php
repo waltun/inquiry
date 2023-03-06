@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @stack('meta')
 
-    <title>استعلام</title>
+    <title>پنل استعلام قیمت تهویه آذرباد</title>
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     {{ $css ?? '' }}
@@ -18,69 +18,89 @@
             display: none;
         }
     </style>
+
+    <script>
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
 </head>
-<body class="font-IRANSans bg-gray-50">
-
-<!-- Overlay on mobile menu -->
-<div id="overlay" class="hidden w-full h-full fixed right-0 top-0 bg-gray-900 bg-opacity-50 z-50"></div>
-
+<body class="font-IRANSans bg-gray-50 dark:bg-slate-800">
 <!-- Sidebar -->
 <x-aside/>
 
-<div class="flex flex-col" id="main">
+<div class="flex flex-col" id="layout">
     <!-- Header -->
     <x-header/>
 
     <!-- Main -->
     <main>
-        <div class="p-4">
+        <div class="px-16 py-10">
             {{ $slot }}
         </div>
     </main>
 </div>
 
 <script>
-    //Open & Close Mobile Menu
-    const sidebar = document.getElementById('sidebar'),
-        sidebarCloseIcon = document.getElementById('sidebar-close-icon'),
-        sidebarOpenIcon = document.getElementById('sidebar-open-icon'),
-        overlay = document.getElementById('overlay'),
-        mainSection = document.getElementById('main');
+    let darkIcon = document.getElementById('dark-icon');
+    let lightIcon = document.getElementById('light-icon');
+    let toggleDarkBtn = document.getElementById('toggleDarkBtn');
 
-    function openSidebar() {
-        sidebar.classList.add('absolute', 'z-50', 'flex', 'flex-row-reverse');
-        sidebar.classList.remove('hidden');
-
-        sidebarCloseIcon.classList.remove('hidden');
-        sidebarCloseIcon.classList.add('flex');
-
-        document.body.classList.add('overflow-hidden');
-
-        //overlay.classList.remove('hidden');
-
-        mainSection.classList.add('md:pr-64');
+    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        lightIcon.classList.remove('hidden');
+    } else {
+        darkIcon.classList.remove('hidden');
     }
 
-    function closeSidebar() {
-        sidebar.classList.remove('absolute', 'z-50', 'flex', 'flex-row-reverse');
-        sidebar.classList.add('hidden');
+    toggleDarkBtn.addEventListener('click', function () {
+        darkIcon.classList.toggle('hidden');
+        lightIcon.classList.toggle('hidden');
 
-        sidebarCloseIcon.classList.add('hidden');
-        sidebarCloseIcon.classList.remove('flex');
-
-        document.body.classList.remove('overflow-hidden');
-
-        //overlay.classList.add('hidden');
-
-        mainSection.classList.remove('md:pr-64')
-    }
-
-    sidebarOpenIcon.addEventListener('click', () => openSidebar());
-    sidebarCloseIcon.addEventListener('click', () => closeSidebar());
-    overlay.addEventListener('click', () => closeSidebar());
-    window.addEventListener('resize', () => closeSidebar());
-
+        if (localStorage.getItem('color-theme')) {
+            if (localStorage.getItem('color-theme') === 'light') {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            }
+        } else {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            }
+        }
+    });
 </script>
+
+<script>
+    let sidebar = document.getElementById('sidebar');
+    let menuIcon = document.getElementById('menu-icon');
+    let closeIcon = document.getElementById('close-icon');
+    let layout = document.getElementById('layout');
+
+    menuIcon.addEventListener('click', function () {
+        sidebar.classList.remove('w-0');
+        sidebar.classList.add('w-72');
+        layout.classList.add('pr-72');
+        menuIcon.classList.add('hidden');
+        closeIcon.classList.remove('hidden');
+    });
+
+    closeIcon.addEventListener('click', function () {
+        sidebar.classList.add('w-0');
+        sidebar.classList.remove('w-72');
+        layout.classList.remove('pr-72');
+        menuIcon.classList.remove('hidden');
+        closeIcon.classList.add('hidden');
+    });
+</script>
+
 <script src="{{ asset('js/app.js') }}"></script>
 {{ $js ?? '' }}
 @include('sweetalert::alert')

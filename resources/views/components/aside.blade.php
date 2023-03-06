@@ -1,388 +1,362 @@
-<div class="fixed w-64 hidden h-full" id="sidebar">
-    <aside class="bg-white overflow-y-auto flex flex-col flex-grow border-l border-gray-200"
-           id="sidebar-content-layout">
-        <span class="justify-end pt-2 pl-2" id="sidebar-close-icon">
-            <svg xmlns="http://www.w3.org/2000/svg"
-                 class="h-7 w-7 bg-red-500 rounded-full text-white p-1 cursor-pointer" fill="none"
-                 viewBox="0 0 24 24"
-                 stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-            </svg>
-        </span>
+<div class="fixed w-0 flex h-full" id="sidebar">
+    <aside class="aside sidebar">
         <!-- Logo -->
-        <a href="{{ url('/') }}" class="px-4 py-2 flex items-center justify-center border-b border-gray-200">
+        <div class="py-8 px-4 flex items-center justify-between">
+            <div class="flex items-center">
+                <a href="{{ route('dashboard') }}" target="_blank">
+                    <img src="{{ asset('images/azarbad.png') }}" alt="" class="h-10">
+                </a>
+                <a href="{{ route('dashboard') }}" class="pr-2" target="_blank">
+                    <p class="font-bold text-lg dark:text-white text-black">آذرباد</p>
+                </a>
+            </div>
             <div>
-                <img src="{{ asset('images/azarbad.png') }}" alt="" class="w-20">
+                <span class="text-xs font-medium rounded-3xl bg-myYellow-100 text-white p-2 shadow-yellow">
+                    استعلام قیمت
+                </span>
             </div>
-            <div class="pr-2">
-                <p class="font-bold text-xl">تهویه آذرباد</p>
-            </div>
-        </a>
+        </div>
 
         <!-- Nav items -->
-        <div class="p-2 space-y-1">
-
+        <div class="mt-6 px-8 space-y-4">
             <!-- Dashboard -->
-            <a href="{{ route('dashboard') }}"
-               class="flex items-center text-gray-500 p-2 hover:bg-gray-100 rounded-md hover:text-black
-                        {{ isActive(['dashboard']) }}">
+            <a href="{{ route('dashboard') }}" class="aside-items">
+                <!-- Section Name -->
+                <div class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                         stroke="currentColor"
+                         class="w-5 h-5 dark:text-white {{ isActive('admin.dashboard','menu-active') }}">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3"/>
+                    </svg>
+                    <p class="text-base mr-2.5 dark:text-white {{ isActive('admin.dashboard','menu-active') }}">
+                        داشبورد
+                    </p>
+                </div>
+
+                <!-- Down Icon -->
                 <div>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                         stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                         class="w-5 h-5 dark:text-white {{ isActive('admin.dashboard','menu-active') }}">
+                        <path fill-rule="evenodd"
+                              d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                              clip-rule="evenodd"/>
                     </svg>
                 </div>
-                <span class="text-sm px-2">داشبورد</span>
+
+                <!-- Right Color when active -->
+                <span
+                    class="absolute h-7 bg-myBlue-100 rounded-md shadow-aside-active -right-9 {{ isActive('admin.dashboard','w-2.5') }}"></span>
             </a>
 
-            <div class="border border-gray-300"></div>
-
             <!-- Categories -->
-            @can('categories')
-                <div x-data="{open:false}">
-                    <div
-                        class="flex items-center text-gray-500 p-2 hover:bg-gray-100 rounded-md hover:text-black cursor-pointer
-                            {{ isActive(['categories.index','categories.create','categories.edit']) }}"
-                        @click="open = !open">
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                 stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
-                            </svg>
-                        </div>
-                        <div class="flex justify-between w-full items-center">
-                            <span class="text-sm px-2">دسته بندی قطعات</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
-                                 viewBox="0 0 20 20" fill="currentColor"
-                                 :class="{'rotate-180' : open}">
-                                <path fill-rule="evenodd"
-                                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                      clip-rule="evenodd"/>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="mt-1 bg-gray-50 rounded-md p-2" x-show="open" x-cloak>
-                        <a href="{{ route('categories.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive('categories.index') }}">
-                            مدیریت دسته بندی ها
-                        </a>
-                        <a href="{{ route('categories.create') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive('categories.create') }}">
-                            ایجاد دسته بندی جدید
-                        </a>
-                    </div>
+            @php
+                $categoryRoutes = [
+                    'categories.index','categories.create','categories.edit'
+                ];
+            @endphp
+            <a href="{{ route('categories.index') }}" class="aside-items">
+                <div class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="w-5 h-5 dark:text-white {{ isActive($categoryRoutes,'menu-active') }}"
+                         fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                    </svg>
+                    <p class="text-base mr-2.5 dark:text-white {{ isActive($categoryRoutes,'menu-active') }}">
+                        دسته بندی قطعات
+                    </p>
                 </div>
-            @endcan
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                         class="w-5 h-5 dark:text-white {{ isActive($categoryRoutes,'menu-active') }}">
+                        <path fill-rule="evenodd"
+                              d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                              clip-rule="evenodd"/>
+                    </svg>
+                </div>
+
+                <!-- Right Color when active -->
+                <span
+                    class="absolute h-7 bg-myBlue-100 rounded-md shadow-aside-active -right-9 {{ isActive($categoryRoutes,'w-2.5') }}"></span>
+            </a>
 
             <!-- Parts -->
-            @canany(['parts','collections','price'])
-                <div x-data="{open:false}">
-                    <div
-                        class="flex items-center text-gray-500 p-2 hover:bg-gray-100 rounded-md hover:text-black cursor-pointer
-                            {{ isActive(['parts.index','parts.create','parts.edit','collections.index','parts.price.index','parts.price.edit']) }}"
-                        @click="open = !open">
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                 stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                            </svg>
-                        </div>
-                        <div class="flex justify-between w-full items-center">
-                            <span class="text-sm px-2">قطعات و کالای نیم ساخته</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
-                                 viewBox="0 0 20 20" fill="currentColor"
-                                 :class="{'rotate-180' : open}">
-                                <path fill-rule="evenodd"
-                                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                      clip-rule="evenodd"/>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="mt-1 bg-gray-50 rounded-md p-2" x-show="open" x-cloak>
-                        @can('parts')
-                            <a href="{{ route('parts.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive('parts.index') }}">
-                                مدیریت قطعات
-                            </a>
-                            <a href="{{ route('parts.create') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive('parts.create') }}">
-                                ایجاد قطعه
-                            </a>
-                        @endcan
-                        @can('collections')
-                            <a href="{{ route('collections.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive('collections.index') }}">
-                                مدیریت کالا های نیم ساخته
-                            </a>
-                        @endcan
-                        @can('price')
-                            <a href="{{ route('parts.price.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive(['parts.price.index','parts.price.edit']) }}">
-                                بخش قیمت گذاری
-                            </a>
-                        @endcan
-                    </div>
+            @php
+                $partRoutes = [
+                    'parts.index','parts.create','parts.edit'
+                ];
+            @endphp
+            <a href="{{ route('parts.index') }}" class="aside-items">
+                <div class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="w-5 h-5 dark:text-white {{ isActive($partRoutes,'menu-active') }}" fill="none"
+                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                    <p class="text-base mr-2.5 dark:text-white {{ isActive($partRoutes,'menu-active') }}">
+                        قطعات
+                    </p>
                 </div>
-            @endcanany
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                         class="w-5 h-5 dark:text-white {{ isActive($partRoutes,'menu-active') }}">
+                        <path fill-rule="evenodd"
+                              d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                              clip-rule="evenodd"/>
+                    </svg>
+                </div>
 
-            <!-- Groups -->
-            @can('groups')
-                <div x-data="{open:false}">
-                    <div
-                        class="flex items-center text-gray-500 p-2 hover:bg-gray-100 rounded-md hover:text-black cursor-pointer
-                            {{ isActive(['groups.index','groups.create','groups.edit','modells.index','modells.create','modells.edit']) }}"
-                        @click="open = !open">
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                 stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"/>
-                            </svg>
-                        </div>
-                        <div class="flex justify-between w-full items-center">
-                            <span class="text-sm px-2">محصولات و مدل ها</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
-                                 viewBox="0 0 20 20" fill="currentColor"
-                                 :class="{'rotate-180' : open}">
-                                <path fill-rule="evenodd"
-                                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                      clip-rule="evenodd"/>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="mt-1 bg-gray-50 rounded-md p-2" x-show="open" x-cloak>
-                        <a href="{{ route('groups.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive('groups.index') }}">
-                            مدیریت محصولات
-                        </a>
-                        <a href="{{ route('groups.create') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive('groups.create') }}">
-                            ایجاد محصول جدید
-                        </a>
-                    </div>
+                <!-- Right Color when active -->
+                <span
+                    class="absolute h-7 bg-myBlue-100 rounded-md shadow-aside-active -right-9 {{ isActive($partRoutes,'w-2.5') }}"></span>
+            </a>
+
+            <!-- Collections -->
+            @php
+                $collectionRoutes = [
+                    'collections.index','collections.parts','parts.edit'
+                ];
+            @endphp
+            <a href="{{ route('collections.index') }}" class="aside-items">
+                <div class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="w-5 h-5 dark:text-white {{ isActive($collectionRoutes,'menu-active') }}" fill="none"
+                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
+                    </svg>
+                    <p class="text-base mr-2.5 dark:text-white {{ isActive($collectionRoutes,'menu-active') }}">
+                        کالاهای نیم ساخته
+                    </p>
                 </div>
-            @endcan
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                         class="w-5 h-5 dark:text-white {{ isActive($collectionRoutes,'menu-active') }}">
+                        <path fill-rule="evenodd"
+                              d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                              clip-rule="evenodd"/>
+                    </svg>
+                </div>
+
+                <!-- Right Color when active -->
+                <span
+                    class="absolute h-7 bg-myBlue-100 rounded-md shadow-aside-active -right-9 {{ isActive($collectionRoutes,'w-2.5') }}"></span>
+            </a>
+
+            <!-- Groups & Models -->
+            @php
+                $productRoutes = [
+                    'groups.index','groups.edit','groups.create','modells.edit','modells.parts','modells.create'
+                ];
+            @endphp
+            <a href="{{ route('groups.index') }}" class="aside-items">
+                <div class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="w-5 h-5 dark:text-white {{ isActive($productRoutes,'menu-active') }}" fill="none"
+                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"></path>
+                    </svg>
+                    <p class="text-base mr-2.5 dark:text-white {{ isActive($productRoutes,'menu-active') }}">
+                        محصولات و مدل ها
+                    </p>
+                </div>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                         class="w-5 h-5 dark:text-white {{ isActive($productRoutes,'menu-active') }}">
+                        <path fill-rule="evenodd"
+                              d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                              clip-rule="evenodd"/>
+                    </svg>
+                </div>
+
+                <!-- Right Color when active -->
+                <span
+                    class="absolute h-7 bg-myBlue-100 rounded-md shadow-aside-active -right-9 {{ isActive($productRoutes,'w-2.5') }}"></span>
+            </a>
 
             <!-- Inquiries -->
-            @canany(['inquiries','create-inquiry','submit-inquiry','priced-inquiry'])
-                <div x-data="{open:false}">
-                    <div
-                        class="flex items-center text-gray-500 p-2 hover:bg-gray-100 rounded-md hover:text-black cursor-pointer
-                            {{ isActive(['inquiries.index','inquiries.create','inquiries.edit','inquiries.show','inquiries.amounts','inquiries.submitted','inquiries.priced']) }}"
-                        @click="open = !open">
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                 stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
-                        </div>
-                        <div class="flex justify-between w-full items-center">
-                            <span class="text-sm px-2">استعلام ها</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
-                                 viewBox="0 0 20 20" fill="currentColor"
-                                 :class="{'rotate-180' : open}">
-                                <path fill-rule="evenodd"
-                                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                      clip-rule="evenodd"/>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="mt-1 bg-gray-50 rounded-md p-2" x-show="open" x-cloak>
-                        @can('inquiries')
-                            <a href="{{ route('inquiries.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive('inquiries.index') }}">
-                                مدیریت استعلام ها
-                            </a>
-                        @endcan
-                        @can('create-inquiry')
-                            <a href="{{ route('inquiries.create') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive('inquiries.create') }}">
-                                ایجاد استعلام
-                            </a>
-                        @endcan
-                        @can('submit-inquiry')
-                            <a href="{{ route('inquiries.submitted') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive('inquiries.submitted') }}">
-                                استعلام های منتظر قیمت
-                            </a>
-                        @endcan
-                        @can('priced-inquiry')
-                            <a href="{{ route('inquiries.priced') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive('inquiries.priced') }}">
-                                استعلام های قیمت گذاری شده
-                            </a>
-                        @endcan
-                        @can('inquiries')
-                            <a href="{{ route('inquiries.temporary') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive('inquiries.temporary') }}">
-                                استعلام های موقت
-                            </a>
-                        @endcan
-                    </div>
+            @php
+                $inquiryRoutes = [
+                    'inquiries.index','inquiries.product.index','inquiries.product.amounts','inquiries.parts.index'
+                ];
+            @endphp
+            <a href="{{ route('inquiries.index') }}" class="aside-items">
+                <div class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         class="w-5 h-5 dark:text-white {{ isActive($inquiryRoutes,'menu-active') }}" fill="none"
+                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <p class="text-base mr-2.5 dark:text-white {{ isActive($inquiryRoutes,'menu-active') }}">
+                        استعلام ها
+                    </p>
                 </div>
-            @endcanany
-
-            <!-- Inquiries -->
-            @can('price')
-                <div x-data="{open:false}">
-                    <div
-                        class="flex items-center text-gray-500 p-2 hover:bg-gray-100 rounded-md hover:text-black cursor-pointer
-                            {{ isActive(['inquiryPrice.index']) }}"
-                        @click="open = !open">
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                 stroke="currentColor" class="w-6 h-6">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z"/>
-                            </svg>
-                        </div>
-                        <div class="flex justify-between w-full items-center">
-                            <span class="text-sm px-2">درخواست های بروزرسانی</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
-                                 viewBox="0 0 20 20" fill="currentColor"
-                                 :class="{'rotate-180' : open}">
-                                <path fill-rule="evenodd"
-                                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                      clip-rule="evenodd"/>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="mt-1 bg-gray-50 rounded-md p-2" x-show="open" x-cloak>
-                        <a href="{{ route('inquiryPrice.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive('inquiryPrice.index') }}">
-                            مشاهده درخواست های بروزرسانی
-                        </a>
-                    </div>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                         class="w-5 h-5 dark:text-white {{ isActive($inquiryRoutes,'menu-active') }}">
+                        <path fill-rule="evenodd"
+                              d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                              clip-rule="evenodd"/>
+                    </svg>
                 </div>
-            @endcan
 
-            <div class="border border-gray-300"></div>
+                <!-- Right Color when active -->
+                <span
+                    class="absolute h-7 bg-myBlue-100 rounded-md shadow-aside-active -right-9 {{ isActive($inquiryRoutes,'w-2.5') }}"></span>
+            </a>
 
-            <!-- Collection coils -->
-            @can('collections')
-                <div x-data="{open:false}">
-                    <div
-                        class="flex items-center text-gray-500 p-2 hover:bg-gray-100 rounded-md hover:text-black cursor-pointer
-                            {{ isActive(['collectionCoil.index']) }}"
-                        @click="open = !open">
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                 stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
-                            </svg>
-                        </div>
-                        <div class="flex justify-between w-full items-center">
-                            <span class="text-sm px-2">لیست محاسباتی ها</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
-                                 viewBox="0 0 20 20" fill="currentColor"
-                                 :class="{'rotate-180' : open}">
-                                <path fill-rule="evenodd"
-                                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                      clip-rule="evenodd"/>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="mt-1 bg-gray-50 rounded-md p-2" x-show="open" x-cloak>
-                        <a href="{{ route('collectionCoil.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive('collectionCoil.index') }}">
-                            مدیریت کویل و دمپر و مبدل
-                        </a>
-                    </div>
+            <!-- Pricing -->
+            @php
+                $pricingRoutes = [
+                    'parts.price.index'
+                ];
+            @endphp
+            <a href="{{ route('parts.price.index') }}" class="aside-items">
+                <div class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                         stroke="currentColor"
+                         class="w-5 h-5 dark:text-white {{ isActive($pricingRoutes,'menu-active') }}">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z"></path>
+                    </svg>
+                    <p class="text-base mr-2.5 dark:text-white {{ isActive($pricingRoutes,'menu-active') }}">
+                        قیمت گذاری
+                    </p>
                 </div>
-            @endcan
-
-            <!-- Separate Calculate Coils -->
-            @can('all')
-                <div x-data="{open:false}">
-                    <div
-                        class="flex items-center text-gray-500 p-2 hover:bg-gray-100 rounded-md hover:text-black cursor-pointer
-                            {{ isActive(['separate.coil.index']) }}"
-                        @click="open = !open">
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                 stroke="currentColor" class="w-6 h-6">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V13.5zm0 2.25h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V18zm2.498-6.75h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V13.5zm0 2.25h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V18zm2.504-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zm0 2.25h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V18zm2.498-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zM8.25 6h7.5v2.25h-7.5V6zM12 2.25c-1.892 0-3.758.11-5.593.322C5.307 2.7 4.5 3.65 4.5 4.757V19.5a2.25 2.25 0 002.25 2.25h10.5a2.25 2.25 0 002.25-2.25V4.757c0-1.108-.806-2.057-1.907-2.185A48.507 48.507 0 0012 2.25z"/>
-                            </svg>
-                        </div>
-                        <div class="flex justify-between w-full items-center">
-                            <span class="text-sm px-2">محاسبات قیمت کویل و دمپر </span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
-                                 viewBox="0 0 20 20" fill="currentColor"
-                                 :class="{'rotate-180' : open}">
-                                <path fill-rule="evenodd"
-                                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                      clip-rule="evenodd"/>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="mt-1 bg-gray-50 rounded-md p-2" x-show="open" x-cloak>
-                        <a href="{{ route('separate.coil.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive('separate.coil.index') }}">
-                            قیمت کویل
-                        </a>
-                        <a href="{{ route('separate.damper.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive('separate.coil.index') }}">
-                            قیمت دمپر
-                        </a>
-                        <a href="{{ route('separate.converter.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive('separate.coil.index') }}">
-                            قیمت مبدل
-                        </a>
-                    </div>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                         class="w-5 h-5 dark:text-white {{ isActive($pricingRoutes,'menu-active') }}">
+                        <path fill-rule="evenodd"
+                              d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                              clip-rule="evenodd"/>
+                    </svg>
                 </div>
-            @endcan
 
-            <div class="border border-gray-300"></div>
+                <!-- Right Color when active -->
+                <span
+                    class="absolute h-7 bg-myBlue-100 rounded-md shadow-aside-active -right-9 {{ isActive($pricingRoutes,'w-2.5') }}"></span>
+            </a>
+
+            <!-- Pricing Request -->
+            @php
+                $pricingRequestRoutes = [
+                    'inquiryPrice.index'
+                ];
+            @endphp
+            <a href="{{ route('inquiryPrice.index') }}" class="aside-items">
+                <div class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                         stroke="currentColor"
+                         class="w-5 h-5 dark:text-white {{ isActive($pricingRequestRoutes,'menu-active') }}">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z"></path>
+                    </svg>
+                    <p class="text-base mr-2.5 dark:text-white {{ isActive($pricingRequestRoutes,'menu-active') }}">
+                        درخواست های بروزرسانی
+                    </p>
+                </div>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                         class="w-5 h-5 dark:text-white {{ isActive($pricingRequestRoutes,'menu-active') }}">
+                        <path fill-rule="evenodd"
+                              d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                              clip-rule="evenodd"/>
+                    </svg>
+                </div>
+
+                <!-- Right Color when active -->
+                <span
+                    class="absolute h-7 bg-myBlue-100 rounded-md shadow-aside-active -right-9 {{ isActive($pricingRequestRoutes,'w-2.5') }}"></span>
+            </a>
+
+            <!-- Pricing Request -->
+            @php
+                $calculateRoutes = [
+                    'collectionCoil.index'
+                ];
+            @endphp
+            <a href="{{ route('collectionCoil.index') }}" class="aside-items">
+                <div class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                         stroke="currentColor"
+                         class="w-5 h-5 dark:text-white {{ isActive($calculateRoutes,'menu-active') }}">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V13.5zm0 2.25h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V18zm2.498-6.75h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V13.5zm0 2.25h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V18zm2.504-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zm0 2.25h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V18zm2.498-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zM8.25 6h7.5v2.25h-7.5V6zM12 2.25c-1.892 0-3.758.11-5.593.322C5.307 2.7 4.5 3.65 4.5 4.757V19.5a2.25 2.25 0 002.25 2.25h10.5a2.25 2.25 0 002.25-2.25V4.757c0-1.108-.806-2.057-1.907-2.185A48.507 48.507 0 0012 2.25z"></path>
+                    </svg>
+                    <p class="text-base mr-2.5 dark:text-white {{ isActive($calculateRoutes,'menu-active') }}">
+                        لیست محاسباتی ها
+                    </p>
+                </div>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                         class="w-5 h-5 dark:text-white {{ isActive($calculateRoutes,'menu-active') }}">
+                        <path fill-rule="evenodd"
+                              d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                              clip-rule="evenodd"/>
+                    </svg>
+                </div>
+
+                <!-- Right Color when active -->
+                <span
+                    class="absolute h-7 bg-myBlue-100 rounded-md shadow-aside-active -right-9 {{ isActive($calculateRoutes,'w-2.5') }}"></span>
+            </a>
 
             <!-- Users -->
-            @can('users')
-                <div x-data="{open:false}">
-                    <div
-                        class="flex items-center text-gray-500 p-2 hover:bg-gray-100 rounded-md hover:text-black cursor-pointer
-                            {{ isActive(['users.index','users.create','users.edit','users.deleted']) }}"
-                        @click="open = !open">
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                 stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                            </svg>
-                        </div>
-                        <div class="flex justify-between w-full items-center">
-                            <span class="text-sm px-2">کاربران</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform transform"
-                                 viewBox="0 0 20 20" fill="currentColor"
-                                 :class="{'rotate-180' : open}">
-                                <path fill-rule="evenodd"
-                                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                      clip-rule="evenodd"/>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="mt-1 bg-gray-50 rounded-md p-2" x-show="open" x-cloak>
-                        <a href="{{ route('users.index') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive('users.index') }}">
-                            مدیریت کاربران
-                        </a>
-                        <a href="{{ route('users.create') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive('users.create') }}">
-                            ایجاد کاربر جدید
-                        </a>
-                        <a href="{{ route('users.deleted') }}" class="block text-sm text-gray-600 py-2 px-4 hover:bg-gray-100
-                            hover:text-black rounded-md {{ isActive('users.deleted') }}">
-                            کاربران حذف شده
-                        </a>
-                    </div>
+            @php
+                $userRoutes = [
+                    'users.index','users.create','users.edit'
+                ];
+            @endphp
+            <a href="{{ route('users.index') }}" class="aside-items">
+                <div class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                         stroke="currentColor"
+                         class="w-5 h-5 dark:text-white {{ isActive($userRoutes,'menu-active') }}">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/>
+                    </svg>
+                    <p class="text-base mr-2.5 dark:text-white {{ isActive($userRoutes,'menu-active') }}">
+                        کاربران
+                    </p>
                 </div>
-            @endcan
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                         class="w-5 h-5 dark:text-white {{ isActive($userRoutes,'menu-active') }}">
+                        <path fill-rule="evenodd"
+                              d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                              clip-rule="evenodd"/>
+                    </svg>
+                </div>
+
+                <!-- Right Color when active -->
+                <span
+                    class="absolute h-7 bg-myBlue-100 rounded-md shadow-aside-active -right-9 {{ isActive($userRoutes,'w-2.5') }}"></span>
+            </a>
+
         </div>
+
+        <!-- Logout -->
+        <div class="bg-white dark:bg-slate-900 sticky bottom-0.5 p-4">
+            <form class="flex h-full w-full items-center justify-center" method="post" action="{{ route('logout') }}">
+                @csrf
+                <button class="logout-aside-btn" type="submit">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                        <path fill-rule="evenodd"
+                              d="M10 2a.75.75 0 01.75.75v7.5a.75.75 0 01-1.5 0v-7.5A.75.75 0 0110 2zM5.404 4.343a.75.75 0 010 1.06 6.5 6.5 0 109.192 0 .75.75 0 111.06-1.06 8 8 0 11-11.313 0 .75.75 0 011.06 0z"
+                              clip-rule="evenodd"/>
+                    </svg>
+                    <span class="mr-2">
+                    خروج از حساب کاربری
+                </span>
+                </button>
+            </form>
+        </div>
+
     </aside>
 </div>
