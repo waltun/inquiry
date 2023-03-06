@@ -3,6 +3,15 @@
 @tailwind base;
 @tailwind components;
 
+.dashboard-cards {
+    @apply flex items-center justify-between py-6 px-4 bg-sky-50 border border-sky-100 dark:bg-slate-900 rounded-2xl shadow-search
+    hover:dashboard-card-hover-gradient hover:shadow-card-hover hover:border-transparent;
+}
+
+.dashboard-card-icon {
+    @apply w-10 h-10 rounded-2xl flex items-center justify-center group-hover:bg-white;
+}
+
 .input-text {
     @apply w-full border border-gray-300 rounded-md px-4 py-1.5 md:text-sm text-xs focus:outline-none focus:ring
     focus:ring-violet-400 focus:ring-opacity-60;
@@ -40,6 +49,11 @@
 @tailwind utilities;
 
 @layer utilities {
+
+    .dashboard-card-hover-gradient {
+        background: linear-gradient(217.5deg, #0643F2 21.71%, #F1F1F1 215.33%);
+    }
+
     input[type=number] {
         -moz-appearance: textfield;
     }
