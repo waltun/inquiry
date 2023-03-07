@@ -161,6 +161,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::resource('inquiries', InquiryController::class);
 
     //Category routes
+    Route::get('/categories/{category}/children', [CategoryController::class, 'children'])->name('categories.children');
     Route::resource('categories', CategoryController::class);
 
     //Calculate coil routes

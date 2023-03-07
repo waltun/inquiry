@@ -170,6 +170,10 @@
     @apply text-xs text-myGray-100 block mb-2 font-medium dark:text-white;
 }
 
+.category-back {
+    @apply flex items-center text-indigo-600 underline underline-offset-4 dark:text-indigo-300;
+}
+
 @tailwind utilities;
 
 @layer utilities {

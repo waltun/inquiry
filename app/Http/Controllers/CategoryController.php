@@ -35,6 +35,7 @@ class CategoryController extends Controller
         $categories = Category::all();
 
         $code = $this->getCode();
+        session()->put('prev-url', url()->previous());
 
         return view('categories.create', compact('categories', 'code'));
     }
@@ -65,8 +66,9 @@ class CategoryController extends Controller
         ]);
 
         alert()->success('ثبت موفق', 'ثبت دسته بندی با موفقیت انجام شد');
+        $prevUrl = session('prev-url', route('categories.index'));
 
-        return redirect()->route('categories.index');
+        return redirect()->to($prevUrl);
     }
 
     public function edit(Category $category)
@@ -74,6 +76,8 @@ class CategoryController extends Controller
         Gate::authorize('categories');
 
         $categories = Category::all();
+        session()->put('prev-url', url()->previous());
+
         return view('categories.edit', compact('category', 'categories'));
     }
 
@@ -103,8 +107,9 @@ class CategoryController extends Controller
         ]);
 
         alert()->success('ویرایش موفق', 'ویرایش دسته بندی با موفقیت انجام شد');
+        $prevUrl = session('prev-url', route('categories.index'));
 
-        return redirect()->route('categories.index');
+        return redirect()->to($prevUrl);
     }
 
     public function destroy(Category $category)
@@ -120,6 +125,13 @@ class CategoryController extends Controller
         alert()->success('حذف موفق', 'حذف دسته بندی با موفقیت انجام شد');
 
         return back();
+    }
+
+    public function children(Category $category)
+    {
+        session()->put('prev-url', url()->previous());
+
+        return view('categories.children', compact('category'));
     }
 
     public function getCode()
