@@ -142,8 +142,7 @@
     </div>
 
     <!-- Search -->
-    <div
-        class="card-search" {{ request()->has('search') || request()->has('category1') || request()->has('category2') || request()->has('category3') ? 'x-data={open:true}' : 'x-data={open:false}' }}>
+    <div class="card-search" {{ request()->has('search') || request()->has('category1') || request()->has('category2') || request()->has('category3') ? 'x-data={open:true}' : 'x-data={open:false}' }}>
         <div class="card-header-search" @click="open = !open">
             <p class="card-title">
                 جستجو

@@ -77,7 +77,8 @@ class InquiryController extends Controller
 
         $modells = Modell::where('parent_id', '!=', 0)->get();
         $groups = Group::all();
-        return view('inquiries.index', compact('inquiries', 'modells', 'groups'));
+        $delete = DeleteButton::where('active', '1')->first();
+        return view('inquiries.index', compact('inquiries', 'modells', 'groups','delete'));
     }
 
     public function create()

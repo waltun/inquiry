@@ -25,7 +25,7 @@ class AuthController extends Controller
 
         if (!is_null($user)) {
             $code = ActiveCode::generateCode($user);
-            $api = new Melipayamak\MelipayamakApi('9022228553', '0PM@N');
+            $api = new Melipayamak\MelipayamakApi('9022228553', '@2047507881Pp');
             $smsSoap = $api->sms('soap');
             $to = $request->phone;
             $smsSoap->sendByBaseNumber([$code], $to, '125970');
@@ -93,7 +93,7 @@ class AuthController extends Controller
 
                     alert()->success('ورود موفق', 'شما با موفقیت وارد سیستم شدید');
 
-                    return redirect()->intended('/');
+                    return redirect()->route('dashboard');
                 } else {
                     return back()->with('code-error', 'کد وارد شده صحیح نمی باشد!');
                 }

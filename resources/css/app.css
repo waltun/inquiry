@@ -5,7 +5,7 @@
 
 .dashboard-cards {
     @apply flex items-center justify-between py-6 px-4 bg-sky-50 border border-sky-100 dark:bg-slate-900 rounded-2xl shadow-search
-    hover:dashboard-card-hover-gradient hover:shadow-card-hover hover:border-transparent;
+    hover:dashboard-card-hover-gradient hover:shadow-card-hover hover:border-transparent dark:border-black;
 }
 
 .dashboard-card-icon {
@@ -110,6 +110,10 @@
     @apply text-gray-500 dark:text-gray-300 group-hover:text-yellow-600 dark:group-hover:text-yellow-300 flex items-center text-sm;
 }
 
+.table-dropdown-description {
+    @apply text-gray-500 dark:text-gray-300 group-hover:text-gray-600 dark:group-hover:text-gray-300 flex items-center text-sm;
+}
+
 .table-warning-btn {
     @apply text-gray-500 group-hover:text-yellow-600 flex items-center dark:text-gray-300 dark:group-hover:text-yellow-300;
 }
@@ -120,6 +124,26 @@
 
 .table-delete-btn {
     @apply text-gray-500 group-hover:text-red-600 flex items-center dark:text-gray-300 dark:group-hover:text-red-300;
+}
+
+.table-info-btn {
+    @apply text-gray-500 group-hover:text-myBlue-100 flex items-center dark:text-gray-300 dark:group-hover:text-blue-300;
+}
+
+.modal-backdrop {
+    @apply fixed inset-0 bg-gray-700 bg-opacity-80 transition-opacity backdrop-blur-sm;
+}
+
+.modal {
+    @apply flex items-center justify-center min-h-full p-4 text-center;
+}
+
+.modal-body {
+    @apply relative bg-white rounded-lg text-right overflow-hidden shadow-2xl md:w-3/4 w-full;
+}
+
+.modal-close {
+    @apply w-7 h-7 bg-gray-200 dark:bg-gray-600 rounded-full flex items-center justify-center;
 }
 
 .breadcrumb {
