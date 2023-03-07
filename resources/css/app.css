@@ -110,6 +110,14 @@
     @apply text-gray-500 dark:text-gray-300 group-hover:text-yellow-600 dark:group-hover:text-yellow-300 flex items-center text-sm;
 }
 
+.table-warning-btn {
+    @apply text-gray-500 group-hover:text-yellow-600 flex items-center dark:text-gray-300 dark:group-hover:text-yellow-300;
+}
+
+.table-success-btn {
+    @apply text-gray-500 group-hover:text-green-600 flex items-center dark:text-gray-300 dark:group-hover:text-green-300;
+}
+
 .breadcrumb {
     @apply flex items-center space-x-2 space-x-reverse;
 }
@@ -172,6 +180,14 @@
 
 .category-back {
     @apply flex items-center text-indigo-600 underline underline-offset-4 dark:text-indigo-300;
+}
+
+.table-weight-label {
+    @apply text-sm font-bold text-white bg-gray-400 rounded-lg px-4 py-2 group-hover:bg-gray-500;
+}
+
+.table-price-label {
+    @apply text-sm font-bold text-white bg-green-400 rounded-lg px-4 py-2 group-hover:bg-green-500;
 }
 
 @tailwind utilities;

@@ -255,7 +255,7 @@
                     <th scope="col" class="p-4">
                         قیمت
                     </th>
-                    <th scope="col" class="p-4 rounded-tl-lgd">
+                    <th scope="col" class="p-4 rounded-tl-lg">
                         <span class="sr-only">اقدامات</span>
                     </th>
                 </tr>
