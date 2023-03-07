@@ -118,6 +118,10 @@
     @apply text-gray-500 group-hover:text-green-600 flex items-center dark:text-gray-300 dark:group-hover:text-green-300;
 }
 
+.table-delete-btn {
+    @apply text-gray-500 group-hover:text-red-600 flex items-center dark:text-gray-300 dark:group-hover:text-red-300;
+}
+
 .breadcrumb {
     @apply flex items-center space-x-2 space-x-reverse;
 }
@@ -148,6 +152,10 @@
 
 .page-warning-btn {
     @apply px-4 py-2 bg-myYellow-100 text-white text-xs rounded-lg flex items-center hover:bg-yellow-600;
+}
+
+.page-info-btn {
+    @apply px-4 py-2 bg-myBlue-300 text-white text-xs rounded-lg flex items-center hover:bg-blue-600;
 }
 
 .card {

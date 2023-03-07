@@ -339,10 +339,15 @@
                 </table>
             </div>
 
-            <div class="my-4 flex justify-between items-center">
-                <button type="submit" class="form-submit-btn">
-                    ثبت مقادیر
-                </button>
+            <div class="my-4 flex justify-between items-center sticky bottom-4">
+                <div class="flex items-center space-x-4 space-x-reverse">
+                    <button type="submit" class="form-submit-btn">
+                        ثبت مقادیر
+                    </button>
+                    <a href="{{ route('collections.index') }}" class="form-cancel-btn">
+                        انصراف
+                    </a>
+                </div>
                 <a href="{{ route('collections.print',$parentPart->id) }}"
                    class="form-percent-btn inline-flex items-center"
                    target="_blank">
