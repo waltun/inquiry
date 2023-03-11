@@ -778,22 +778,24 @@
                                                     $categoryParts = $lastCategory->parts;
                                                 }
                                             @endphp
-                                            <select name="part_ids[]" class="input-text"
-                                                    id="groupPartList{{ $part->id }}"
-                                                    onchange="showCalculateButton('{{ $part->id }}'); changeFormula(event,{{ $part->id }});">
-                                                @foreach($categoryParts as $part2)
-                                                    <option
-                                                        value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
-                                                        {{ $part2->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                            @if($part->coil == '1' && !$part->standard && !in_array($part->id,$specials))
-                                                <a href="{{ route('collections.amounts',$part->id) }}" target="_blank"
-                                                   class="text-xs mr-1 text-indigo-500 underline underline-offset-4 whitespace-nowrap">
-                                                    مشاهده جزئیات
-                                                </a>
-                                            @endif
+                                            <div class="flex items-center space-x-2 space-x-reverse">
+                                                <select name="part_ids[]" class="input-text"
+                                                        id="groupPartList{{ $part->id }}"
+                                                        onchange="showCalculateButton('{{ $part->id }}'); changeFormula(event,{{ $part->id }});">
+                                                    @foreach($categoryParts as $part2)
+                                                        <option
+                                                            value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
+                                                            {{ $part2->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                @if($part->coil == '1' && !$part->standard && !in_array($part->id,$specials))
+                                                    <a href="{{ route('collections.amounts',$part->id) }}" target="_blank"
+                                                       class="text-xs mr-1 text-indigo-500 underline underline-offset-4 whitespace-nowrap">
+                                                        جزئیات
+                                                    </a>
+                                                @endif
+                                            </div>
                                         </td>
                                         <td class="table-tr-td border-t-0 border-x-0">
                                             <select name="types[]" id="inputType{{ $product->id }}" class="input-text">
