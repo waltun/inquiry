@@ -947,6 +947,7 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 
 .table-th-tr{
+  white-space: nowrap;
   --tw-bg-opacity: 1;
   background-color: rgb(55 154 255 / var(--tw-bg-opacity));
   text-align: center;
@@ -957,6 +958,7 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 
 .table-tb-tr{
+  white-space: nowrap;
   background-color: transparent;
   text-align: center;
   font-size: 0.875rem;

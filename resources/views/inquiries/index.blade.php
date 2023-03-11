@@ -265,6 +265,69 @@
                                             شرایط استعلام
                                         </a>
                                     @endcan
+                                    @can('referral-inquiry')
+                                        <div x-data="{open:false}">
+                                            <button class="table-dropdown-description" @click="open = !open">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                     stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"/>
+                                                </svg>
+                                                ارجاع
+                                            </button>
+                                            <div class="relative z-10" x-show="open" x-cloak>
+                                                <div class="modal-backdrop"></div>
+                                                <div class="fixed z-10 inset-0 overflow-y-auto">
+                                                    <div class="modal">
+                                                        <div class="modal-body">
+                                                            <form method="POST" class="bg-white dark:bg-slate-800 p-4"
+                                                                  action="{{ route('inquiries.tmpReferral',$inquiry->id) }}">
+                                                                @csrf
+                                                                <div class="mb-4 flex justify-between items-center">
+                                                                    <h3 class="text-lg font-bold text-gray-900 dark:text-white">
+                                                                        ارجاع استعلام به شخص دیگر
+                                                                    </h3>
+                                                                    <button type="button" @click="open = false">
+                                                                    <span class="modal-close">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                             fill="none"
+                                                                             viewBox="0 0 24 24"
+                                                                             stroke-width="1.5" stroke="currentColor"
+                                                                             class="w-5 h-5 dark:text-white">
+                                                                            <path stroke-linecap="round"
+                                                                                  stroke-linejoin="round"
+                                                                                  d="M6 18L18 6M6 6l12 12"/>
+                                                                        </svg>
+                                                                    </span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="mt-6">
+                                                                    <div class="mb-4">
+                                                                        <label for="inputUser" class="form-label">
+                                                                            انتخاب کاربر
+                                                                        </label>
+                                                                        <select name="user_id" id="inputUser"
+                                                                                class="input-text">
+                                                                            @foreach(\App\Models\User::all() as $user)
+                                                                                <option
+                                                                                    value="{{ $user->id }}">{{ $user->name }}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                    <div
+                                                                        class="flex justify-end items-center space-x-4 space-x-reverse">
+                                                                        <button type="submit" class="form-submit-btn">
+                                                                            ثبت
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endcan
                                     @can('edit-inquiry')
                                         <a href="{{ route('inquiries.edit',$inquiry->id) }}"
                                            class="table-dropdown-edit">

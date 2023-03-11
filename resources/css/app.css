@@ -86,12 +86,12 @@
 }
 
 .table-th-tr {
-    @apply bg-myBlue-300 text-sm text-white text-center;
+    @apply bg-myBlue-300 text-sm text-white text-center whitespace-nowrap;
 }
 
 .table-tb-tr {
     @apply bg-transparent text-sm text-gray-500 dark:text-gray-200 text-center hover:bg-white dark:hover:bg-slate-900
-    hover:shadow-2xl hover:text-black dark:hover:text-white;
+    hover:shadow-2xl hover:text-black dark:hover:text-white whitespace-nowrap;
 }
 
 .table-tr-td {

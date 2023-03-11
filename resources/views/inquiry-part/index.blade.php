@@ -208,74 +208,131 @@
     </x-slot>
 
     <!-- Breadcrumb -->
-    <nav class="flex bg-gray-100 p-4 rounded-md overflow-x-auto whitespace-nowrap" aria-label="Breadcrumb">
-        <ol class="inline-flex items-center space-x-2 space-x-reverse">
-            <li class="inline-flex items-center">
-                <a href="{{ route('dashboard') }}"
-                   class="inline-flex items-center text-xs md:text-sm text-gray-500 hover:text-gray-900">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20"
-                         fill="currentColor">
-                        <path
-                            d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
-                    </svg>
+    <div class="flex items-center space-x-2 space-x-reverse">
+        <a href="{{ route('dashboard') }}" class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" class="breadcrumb-svg">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3"/>
+            </svg>
+            <div class="mr-2">
+                <p class="breadcrumb-p">
                     داشبورد
-                </a>
-            </li>
-            <li>
-                <div class="flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd"
-                              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                              clip-rule="evenodd"/>
-                    </svg>
-                    <a href="{{ route('inquiries.index') }}"
-                       class="mr-2 text-xs md:text-sm font-medium text-gray-500 hover:text-gray-900">
-                        مدیریت استعلام ها
-                    </a>
-                </div>
-            </li>
-            <li aria-current="page">
-                <div class="flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd"
-                              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                              clip-rule="evenodd"/>
-                    </svg>
-                    <span class="mr-2 text-xs md:text-sm font-medium text-gray-400">
-                        لیست قطعات استعلام {{ $inquiry->name }} - {{ $inquiry->inquiry_number }}
-                    </span>
-                </div>
-            </li>
-        </ol>
-    </nav>
-
-    <!-- Navigation Btn -->
-    <div class="mt-4 md:flex justify-between items-center">
-        <div class="mb-4 md:mb-0">
-            <p class="text-lg text-black font-bold">
-                لیست قطعات استعلام {{ $inquiry->name }}
-            </p>
+                </p>
+            </div>
+        </a>
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                 class="breadcrumb-svg-arrow">
+                <path fill-rule="evenodd"
+                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                      clip-rule="evenodd"/>
+            </svg>
         </div>
-        <div class="space-x-2 space-x-reverse flex items-center">
+        @if($inquiry->submit)
+            <a href="{{ route('inquiries.submitted') }}" class="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="breadcrumb-svg"
+                     fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <div class="mr-2">
+                    <p class="breadcrumb-p">
+                        استعلام های منتظر قیمت
+                    </p>
+                </div>
+            </a>
+        @else
+            <a href="{{ route('inquiries.index') }}" class="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="breadcrumb-svg"
+                     fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <div class="mr-2">
+                    <p class="breadcrumb-p">
+                        لیست استعلام ها
+                    </p>
+                </div>
+            </a>
+        @endif
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                 class="breadcrumb-svg-arrow">
+                <path fill-rule="evenodd"
+                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                      clip-rule="evenodd"/>
+            </svg>
+        </div>
+        <div class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" class="breadcrumb-svg-active">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            <div class="mr-2">
+                <p class="breadcrumb-p-active">
+                    قطعات تکی استعلام {{ $inquiry->name }}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="flex items-center justify-between mt-8">
+        <div class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" class="w-8 h-8 dark:text-white">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            <div class="mr-2">
+                <p class="font-bold text-2xl text-black dark:text-white">
+                    لیست قطعات تکی استعلام {{ $inquiry->name }}
+                </p>
+            </div>
+        </div>
+        <div class="flex items-center space-x-4 space-x-reverse">
             <div x-data="{open:false}">
-                <button type="button" class="form-edit-btn text-xs" @click="open = !open">
-                    افزودن کویل جدید به استعلام
+                <button type="button" class="page-info-btn" @click="open = !open">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                         stroke="currentColor" class="w-5 h-5 ml-1">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+                    </svg>
+                    افزودن کویل
                 </button>
                 <div class="relative z-10" x-show="open" x-cloak>
-                    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+                    <div class="modal-backdrop"></div>
                     <div class="fixed z-10 inset-0 overflow-y-auto">
-                        <div
-                            class="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
-                            <form method="POST" action="{{ route('inquiryPart.coil.index',$inquiry->id) }}"
-                                  class="relative bg-white rounded-lg text-right overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full">
-                                @csrf
-                                <div class="bg-white p-4">
-                                    <div class="mt-3 text-center sm:mt-0 sm:text-right">
-                                        <h3 class="text-lg font-medium text-gray-900 border-b border-gray-300 pb-3">
-                                            محاسبه کویل جدید
+                        <div class="modal">
+                            <div class="modal-body">
+                                <div class="bg-white dark:bg-slate-800 p-4">
+                                    <div class="mb-4 flex justify-between items-center">
+                                        <h3 class="text-lg font-bold text-gray-900 dark:text-white">
+                                            افزودن کویل جدید به قطعات تکی
                                         </h3>
-                                        <div class="mt-4">
-                                            <label class="block mb-2 text-sm font-bold" for="inputCoilType">
+                                        <button type="button" @click="open = false">
+                                            <span class="modal-close">
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                     fill="none"
+                                                     viewBox="0 0 24 24"
+                                                     stroke-width="1.5"
+                                                     stroke="currentColor"
+                                                     class="w-5 h-5 dark:text-white">
+                                                    <path stroke-linecap="round"
+                                                          stroke-linejoin="round"
+                                                          d="M6 18L18 6M6 6l12 12"/>
+                                                </svg>
+                                            </span>
+                                        </button>
+                                    </div>
+                                    <form class="mt-6" method="POST"
+                                          action="{{ route('inquiryPart.coil.index',$inquiry->id) }}">
+                                        @csrf
+                                        <div class="mb-4">
+                                            <label class="form-label">
                                                 انتخاب نوع کویل
                                             </label>
                                             <select name="coil_type" id="inputCoilType" class="input-text">
@@ -297,41 +354,57 @@
                                                 </option>
                                             </select>
                                         </div>
-                                    </div>
+                                        <div class="flex justify-end items-center space-x-4 space-x-reverse">
+                                            <button type="submit" class="form-submit-btn">
+                                                ثبت
+                                            </button>
+                                        </div>
+                                    </form>
                                 </div>
-                                <div class="bg-gray-100 px-4 py-2">
-                                    <button type="submit" class="form-submit-btn">
-                                        ثبت
-                                    </button>
-                                    <button type="button" class="form-cancel-btn"
-                                            @click="open = !open">
-                                        انصراف
-                                    </button>
-                                </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div x-data="{open:false}">
-                <button type="button" class="form-edit-btn text-xs" @click="open = !open">
-                    افزودن تابلو محلی جدید به استعلام
+                <button type="button" class="page-info-btn" @click="open = !open">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                         stroke="currentColor" class="w-5 h-5 ml-1">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+                    </svg>
+                    افزودن تابلو محلی
                 </button>
                 <div class="relative z-10" x-show="open" x-cloak>
-                    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+                    <div class="modal-backdrop"></div>
                     <div class="fixed z-10 inset-0 overflow-y-auto">
-                        <div
-                            class="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
-                            <form method="POST" action="{{ route('inquiryPart.electrical.index',$inquiry->id) }}"
-                                  class="relative bg-white rounded-lg text-right overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full">
-                                @csrf
-                                <div class="bg-white p-4">
-                                    <div class="mt-3 text-center sm:mt-0 sm:text-right">
-                                        <h3 class="text-lg font-medium text-gray-900 border-b border-gray-300 pb-3">
-                                            محاسبه تابلو محلی جدید
+                        <div class="modal">
+                            <div class="modal-body">
+                                <div class="bg-white dark:bg-slate-800 p-4">
+                                    <div class="mb-4 flex justify-between items-center">
+                                        <h3 class="text-lg font-bold text-gray-900 dark:text-white">
+                                            افزودن تابلو محلی جدید به قطعات تکی
                                         </h3>
-                                        <div class="mt-4">
-                                            <label class="block mb-2 text-sm font-bold" for="inputElectricalType">
+                                        <button type="button" @click="open = false">
+                                            <span class="modal-close">
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                     fill="none"
+                                                     viewBox="0 0 24 24"
+                                                     stroke-width="1.5"
+                                                     stroke="currentColor"
+                                                     class="w-5 h-5 dark:text-white">
+                                                    <path stroke-linecap="round"
+                                                          stroke-linejoin="round"
+                                                          d="M6 18L18 6M6 6l12 12"/>
+                                                </svg>
+                                            </span>
+                                        </button>
+                                    </div>
+                                    <form class="mt-6" method="POST"
+                                          action="{{ route('inquiryPart.electrical.index',$inquiry->id) }}">
+                                        @csrf
+                                        <div class="mb-4">
+                                            <label class="form-label">
                                                 انتخاب نوع تابلو محلی
                                             </label>
                                             <select name="electrical_type" id="inputElectricalType" class="input-text">
@@ -353,41 +426,57 @@
                                                 </option>
                                             </select>
                                         </div>
-                                    </div>
+                                        <div class="flex justify-end items-center space-x-4 space-x-reverse">
+                                            <button type="submit" class="form-submit-btn">
+                                                ثبت
+                                            </button>
+                                        </div>
+                                    </form>
                                 </div>
-                                <div class="bg-gray-100 px-4 py-2">
-                                    <button type="submit" class="form-submit-btn">
-                                        ثبت
-                                    </button>
-                                    <button type="button" class="form-cancel-btn"
-                                            @click="open = !open">
-                                        انصراف
-                                    </button>
-                                </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div x-data="{open:false}">
-                <button type="button" class="form-edit-btn text-xs" @click="open = !open">
-                    افزودن دمپر جدید به استعلام
+                <button type="button" class="page-info-btn" @click="open = !open">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                         stroke="currentColor" class="w-5 h-5 ml-1">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+                    </svg>
+                    افزودن دمپر
                 </button>
                 <div class="relative z-10" x-show="open" x-cloak>
-                    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+                    <div class="modal-backdrop"></div>
                     <div class="fixed z-10 inset-0 overflow-y-auto">
-                        <div
-                            class="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
-                            <form method="POST" action="{{ route('inquiryPart.damper.index',$inquiry->id) }}"
-                                  class="relative bg-white rounded-lg text-right overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full">
-                                @csrf
-                                <div class="bg-white p-4">
-                                    <div class="mt-3 text-center sm:mt-0 sm:text-right">
-                                        <h3 class="text-lg font-medium text-gray-900 border-b border-gray-300 pb-3">
-                                            محاسبه دمپر جدید
+                        <div class="modal">
+                            <div class="modal-body">
+                                <div class="bg-white dark:bg-slate-800 p-4">
+                                    <div class="mb-4 flex justify-between items-center">
+                                        <h3 class="text-lg font-bold text-gray-900 dark:text-white">
+                                            افزودن دمپر جدید به قطعات تکی
                                         </h3>
-                                        <div class="mt-4">
-                                            <label class="block mb-2 text-sm font-bold" for="inputElectricalType">
+                                        <button type="button" @click="open = false">
+                                            <span class="modal-close">
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                     fill="none"
+                                                     viewBox="0 0 24 24"
+                                                     stroke-width="1.5"
+                                                     stroke="currentColor"
+                                                     class="w-5 h-5 dark:text-white">
+                                                    <path stroke-linecap="round"
+                                                          stroke-linejoin="round"
+                                                          d="M6 18L18 6M6 6l12 12"/>
+                                                </svg>
+                                            </span>
+                                        </button>
+                                    </div>
+                                    <form class="mt-6" method="POST"
+                                          action="{{ route('inquiryPart.damper.index',$inquiry->id) }}">
+                                        @csrf
+                                        <div class="mb-4">
+                                            <label class="form-label">
                                                 انتخاب نوع دمپر
                                             </label>
                                             <select name="damper_type" id="inputElectricalType" class="input-text">
@@ -406,41 +495,57 @@
                                                 </option>
                                             </select>
                                         </div>
-                                    </div>
+                                        <div class="flex justify-end items-center space-x-4 space-x-reverse">
+                                            <button type="submit" class="form-submit-btn">
+                                                ثبت
+                                            </button>
+                                        </div>
+                                    </form>
                                 </div>
-                                <div class="bg-gray-100 px-4 py-2">
-                                    <button type="submit" class="form-submit-btn">
-                                        ثبت
-                                    </button>
-                                    <button type="button" class="form-cancel-btn"
-                                            @click="open = !open">
-                                        انصراف
-                                    </button>
-                                </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div x-data="{open:false}">
-                <button type="button" class="form-edit-btn text-xs" @click="open = !open">
-                    افزودن مبدل جدید به استعلام
+                <button type="button" class="page-info-btn" @click="open = !open">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                         stroke="currentColor" class="w-5 h-5 ml-1">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+                    </svg>
+                    افزودن مبدل
                 </button>
                 <div class="relative z-10" x-show="open" x-cloak>
-                    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+                    <div class="modal-backdrop"></div>
                     <div class="fixed z-10 inset-0 overflow-y-auto">
-                        <div
-                            class="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
-                            <form method="POST" action="{{ route('inquiryPart.converter.index',$inquiry->id) }}"
-                                  class="relative bg-white rounded-lg text-right overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full">
-                                @csrf
-                                <div class="bg-white p-4">
-                                    <div class="mt-3 text-center sm:mt-0 sm:text-right">
-                                        <h3 class="text-lg font-medium text-gray-900 border-b border-gray-300 pb-3">
-                                            محاسبه مبدل جدید
+                        <div class="modal">
+                            <div class="modal-body">
+                                <div class="bg-white dark:bg-slate-800 p-4">
+                                    <div class="mb-4 flex justify-between items-center">
+                                        <h3 class="text-lg font-bold text-gray-900 dark:text-white">
+                                            افزودن مبدل جدید به قطعات تکی
                                         </h3>
-                                        <div class="mt-4">
-                                            <label class="block mb-2 text-sm font-bold" for="inputElectricalType">
+                                        <button type="button" @click="open = false">
+                                            <span class="modal-close">
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                     fill="none"
+                                                     viewBox="0 0 24 24"
+                                                     stroke-width="1.5"
+                                                     stroke="currentColor"
+                                                     class="w-5 h-5 dark:text-white">
+                                                    <path stroke-linecap="round"
+                                                          stroke-linejoin="round"
+                                                          d="M6 18L18 6M6 6l12 12"/>
+                                                </svg>
+                                            </span>
+                                        </button>
+                                    </div>
+                                    <form class="mt-6" method="POST"
+                                          action="{{ route('inquiryPart.converter.index',$inquiry->id) }}">
+                                        @csrf
+                                        <div class="mb-4">
+                                            <label class="form-label">
                                                 انتخاب نوع مبدل
                                             </label>
                                             <select name="converter_type" id="inputElectricalType" class="input-text">
@@ -453,18 +558,14 @@
                                                 </option>
                                             </select>
                                         </div>
-                                    </div>
+                                        <div class="flex justify-end items-center space-x-4 space-x-reverse">
+                                            <button type="submit" class="form-submit-btn">
+                                                ثبت
+                                            </button>
+                                        </div>
+                                    </form>
                                 </div>
-                                <div class="bg-gray-100 px-4 py-2">
-                                    <button type="submit" class="form-submit-btn">
-                                        ثبت
-                                    </button>
-                                    <button type="button" class="form-cancel-btn"
-                                            @click="open = !open">
-                                        انصراف
-                                    </button>
-                                </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -472,6 +573,7 @@
         </div>
     </div>
 
+    <!-- Errors -->
     <x-errors/>
 
     <!-- Copy & Correction Message -->
@@ -502,7 +604,6 @@
 
     <!-- Content -->
     <div class="mt-4">
-        <!-- Laptop List -->
         @php
             $types = ['setup','years','control','power_cable','control_cable','pipe','install_setup_price','setup_price','supervision','transport','other',null];
         @endphp
@@ -558,44 +659,43 @@
                                 @endswitch
                             </p>
                         </div>
-                        <div class="bg-white shadow overflow-x-auto rounded-lg hidden md:block">
-                            <table class="min-w-full">
+                        <div class="mt-8 overflow-x-auto rounded-lg">
+                            <table class="w-full border-collapse">
                                 <thead>
-                                <tr class="bg-sky-200">
-                                    @if($inquiry->submit == '1')
-                                        <th scope="col"
-                                            class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                                <tr class="table-th-tr">
+                                    @if($inquiry->submit)
+                                        <th scope="col" class="p-4 rounded-tr-lg">
                                             #
                                         </th>
                                     @endif
-                                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                                    <th scope="col" class="p-4">
                                         Sort
                                     </th>
-                                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                                    <th scope="col" class="p-4">
                                         دسته بندی
                                     </th>
-                                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                                    <th scope="col" class="p-4">
                                         نام قطعه
                                     </th>
-                                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                                    <th scope="col" class="p-4">
                                         نوع قطعه
                                     </th>
-                                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                                    <th scope="col" class="p-4">
                                         تگ
                                     </th>
-                                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                                    <th scope="col" class="p-4">
                                         واحد
                                     </th>
-                                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                                    <th scope="col" class="p-4">
                                         قیمت واحد
                                     </th>
-                                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                                    <th scope="col" class="p-4">
                                         تعداد
                                     </th>
-                                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                                    <th scope="col" class="p-4">
                                         قیمت کل
                                     </th>
-                                    <th scope="col" class="relative px-4 py-3 rounded-l-md">
+                                    <th scope="col" class="p-4 rounded-tl-lg">
                                         <span class="sr-only">اقدامات</span>
                                     </th>
                                 </tr>
@@ -644,17 +744,17 @@
                                         $category = $part->categories[1];
                                         $selectedCategory = $part->categories[2];
                                     @endphp
-                                    <tr class="hover:bg-gray-100">
+                                    <tr class="table-tb-tr group">
                                         @if($inquiry->submit == '1')
-                                            <td class="px-4 py-1 whitespace-nowrap">
+                                            <td class="table-tr-td border-t-0 border-l-0">
                                                 <input type="checkbox" value="{{ $product->id }}"
                                                        class="checkboxes w-4 h-4 accent-blue-600 bg-gray-200 rounded border border-gray-300 focus:ring-blue-500 focus:ring-2 focus:ring-offset-1 mx-auto block">
                                             </td>
                                         @endif
-                                        <td class="px-4 py-1 whitespace-nowrap">
-                                            <p class="text-sm text-gray-600 text-center">{{ $loop->index + 1 }}</p>
+                                        <td class="table-tr-td border-t-0 border-l-0">
+                                            {{ $loop->index + 1 }}
                                         </td>
-                                        <td class="px-4 py-1 whitespace-nowrap">
+                                        <td class="table-tr-td border-t-0 border-x-0">
                                             <select id="inputCategory{{ $part->id }}" class="input-text w-20"
                                                     onchange="changePart(event,{{ $part->id }})">
                                                 @foreach($category->children as $child)
@@ -665,7 +765,7 @@
                                                 @endforeach
                                             </select>
                                         </td>
-                                        <td class="px-4 py-1 flex items-center">
+                                        <td class="table-tr-td border-t-0 border-x-0">
                                             @php
                                                 $selectedPart = \App\Models\Part::find($part->id);
                                                 $lastCategory = $selectedPart->categories()->latest()->first();
@@ -695,7 +795,7 @@
                                                 </a>
                                             @endif
                                         </td>
-                                        <td class="px-4 py-1 whitespace-nowrap">
+                                        <td class="table-tr-td border-t-0 border-x-0">
                                             <select name="types[]" id="inputType{{ $product->id }}" class="input-text">
                                                 <option value="setup" {{ $product->type == 'setup' ? 'selected' : '' }}>
                                                     قطعات یدکی راه اندازی
@@ -739,20 +839,18 @@
                                                 </option>
                                             </select>
                                         </td>
-                                        <td class="px-4 py-1 whitespace-nowrap">
+                                        <td class="table-tr-td border-t-0 border-x-0">
                                             <input type="text" name="tags[]" class="input-text"
                                                    value="{{ $product->description }}"
                                                    placeholder="تگ قطعه">
                                         </td>
-                                        <td class="px-4 py-1 whitespace-nowrap">
-                                            <p class="text-sm text-black text-center">
-                                                {{ $part->unit }}
-                                                @if(!is_null($part->unit2))
-                                                    / {{ $part->unit2 }}
-                                                @endif
-                                            </p>
+                                        <td class="table-tr-td border-t-0 border-x-0">
+                                            {{ $part->unit }}
+                                            @if(!is_null($part->unit2))
+                                                / {{ $part->unit2 }}
+                                            @endif
                                         </td>
-                                        <td class="px-4 py-1 whitespace-nowrap {{ $color ?? '' }}">
+                                        <td class="table-tr-td border-t-0 border-x-0">
                                             @if($type == 'transport' || $type  == 'supervision' || $type == 'setup_price' || $type == 'install_setup_price')
                                                 <div class="flex justify-center">
                                                     <input type="text" name="prices[]"
@@ -761,12 +859,10 @@
                                                            placeholder="قیمت">
                                                 </div>
                                             @else
-                                                <p class="text-sm text-center">
-                                                    {{ number_format($part->price) }}
-                                                </p>
+                                                {{ number_format($part->price) }}
                                             @endif
                                         </td>
-                                        <td class="px-4 py-1 whitespace-nowrap flex justify-center">
+                                        <td class="table-tr-td border-t-0 border-x-0">
                                             <input type="text" class="input-text w-20 text-center"
                                                    value="{{ $product->quantity }}"
                                                    name="quantities[]"
@@ -783,106 +879,117 @@
                                                    value="{{ $product->quantity2 }}"
                                                    name="quantities2[]">
                                         </td>
-                                        <td class="px-4 py-1 whitespace-nowrap">
+                                        <td class="table-tr-td border-t-0 border-x-0">
                                             @if($product->price)
-                                                <p class="text-sm text-center {{ $color ?? 'text-black' }}">
+                                                <p class="{{ $color }}">
                                                     {{ number_format($product->price * $product->quantity) }}
                                                 </p>
                                             @else
-                                                <p class="text-sm text-center {{ $color ?? 'text-black' }}">
+                                                <p class="{{ $color }}">
                                                     {{ number_format($part->price * $product->quantity) }}
                                                 </p>
                                             @endif
                                         </td>
-                                        <td class="px-4 py-1 space-x-3 space-x-reverse whitespace-nowrap">
-                                            @can('percent-inquiry')
-                                                @if($inquiry->submit)
-                                                    <a href="{{ route('inquiries.product.percent',$product->id) }}"
-                                                       class="form-percent-btn text-xs">
-                                                        ثبت ضریب
-                                                    </a>
+                                        <td class="table-tr-td border-t-0 border-r-0">
+                                            <div class="flex items-center space-x-2 space-x-reverse">
+                                                @can('percent-inquiry')
+                                                    @if($inquiry->submit)
+                                                        <a href="{{ route('inquiries.product.percent',$product->id) }}"
+                                                           class="table-info-btn">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                 viewBox="0 0 24 24" stroke-width="1.5"
+                                                                 stroke="currentColor" class="w-4 h-4 ml-1">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                      d="M9 14.25l6-6m4.5-3.493V21.75l-3.75-1.5-3.75 1.5-3.75-1.5-3.75 1.5V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0c1.1.128 1.907 1.077 1.907 2.185zM9.75 9h.008v.008H9.75V9zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm4.125 4.5h.008v.008h-.008V13.5zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/>
+                                                            </svg>
+                                                            ثبت ضریب
+                                                        </a>
+                                                    @endif
+                                                @endcan
+                                                <button type="button"
+                                                        onclick="deletePartFromInquiry('{{ $inquiry->id }}','{{ $part->id }}')">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                         viewBox="0 0 24 24"
+                                                         stroke-width="1.5" stroke="currentColor"
+                                                         class="w-5 h-5 text-red-500">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                              d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
+                                                    </svg>
+                                                </button>
+                                                @if($product->percent > 0)
+                                                    <p class="p-1 bg-green-400 text-white text-xs rounded-lg group-hover:bg-myGreen-100">
+                                                        ضریب ثبت شده
+                                                    </p>
                                                 @endif
-                                            @endcan
-                                            <button type="button"
-                                                    onclick="deletePartFromInquiry('{{ $inquiry->id }}','{{ $part->id }}')">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                     stroke-width="1.5" stroke="currentColor"
-                                                     class="w-6 h-6 text-red-500">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                          d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
-                                                </svg>
-                                            </button>
-                                            @if($product->percent > 0)
-                                                <p class="text-sm font-bold text-green-600 inline">
-                                                    ضریب ثبت شده
-                                                </p>
-                                            @endif
-                                            @php
-                                                $parents = [];
-                                            @endphp
-                                            @if($color == 'text-red-500' || $color == 'text-red-600')
                                                 @php
-                                                    $inquiryPriceIds = \App\Models\InquiryPrice::where('part_id', $part->id)->pluck('part_id')->toArray();
-                                                    $parentIds = \App\Models\Part::whereIn('id', \App\Models\InquiryPrice::all()->pluck('part_id'))->whereHas('parents')->pluck('id')->flatten()->toArray();
+                                                    $parents = [];
                                                 @endphp
-                                                @if(!in_array($part->id, $inquiryPriceIds) && !in_array($part->id, $parentIds))
-                                                    <button type="button" id="updatePriceBtn{{ $part->id }}"
-                                                            onclick="storeInquiryPrice({{ $part->id }},{{ $inquiry->id }})">
+                                                @if($color == 'text-red-500' || $color == 'text-red-600')
+                                                    @php
+                                                        $inquiryPriceIds = \App\Models\InquiryPrice::where('part_id', $part->id)->pluck('part_id')->toArray();
+                                                        $parentIds = \App\Models\Part::whereIn('id', \App\Models\InquiryPrice::all()->pluck('part_id'))->whereHas('parents')->pluck('id')->flatten()->toArray();
+                                                    @endphp
+                                                    @if(!in_array($part->id, $inquiryPriceIds) && !in_array($part->id, $parentIds))
+                                                        <button type="button" id="updatePriceBtn{{ $part->id }}"
+                                                                onclick="storeInquiryPrice({{ $part->id }},{{ $inquiry->id }})">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                 title="ارسال درخواست بروزرسانی قیمت"
+                                                                 viewBox="0 0 24 24" stroke-width="1.5"
+                                                                 stroke="currentColor"
+                                                                 class="w-5 h-5 text-red-500">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                      d="M12 9v3.75m0-10.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.249-8.25-3.286zm0 13.036h.008v.008H12v-.008z"/>
+                                                            </svg>
+                                                        </button>
+                                                    @else
+                                                        <p>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                 viewBox="0 0 24 24" stroke-width="1.5"
+                                                                 stroke="currentColor"
+                                                                 class="w-5 h-5 text-red-500">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                      d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                            </svg>
+                                                        </p>
+                                                    @endif
+                                                    <p class="hidden" id="successUpdatePrice{{ $part->id }}">
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                             title="ارسال درخواست بروزرسانی قیمت"
                                                              viewBox="0 0 24 24" stroke-width="1.5"
                                                              stroke="currentColor"
-                                                             class="w-6 h-6 text-red-500">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                  d="M12 9v3.75m0-10.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.249-8.25-3.286zm0 13.036h.008v.008H12v-.008z"/>
-                                                        </svg>
-                                                    </button>
-                                                @else
-                                                    <p class="inline">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                             viewBox="0 0 24 24" stroke-width="1.5"
-                                                             stroke="currentColor"
-                                                             class="w-6 h-6 text-red-500 inline">
+                                                             class="w-5 h-5 text-red-500">
                                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                                   d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                                         </svg>
                                                     </p>
                                                 @endif
-                                                <p class="inline hidden" id="successUpdatePrice{{ $part->id }}">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                         class="w-6 h-6 text-red-500 inline">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                              d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                                    </svg>
-                                                </p>
-                                            @endif
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach
+                                <tr class="table-tb-tr group">
+                                    <td class="table-tr-td border-t-0 border-t-0"
+                                        colspan="{{ $inquiry->submit ? '11' : '10' }}">
+                                        <div class="flex justify-between items-center">
+                                            <a href="{{ route('inquiries.parts.create',$inquiry->id) }}"
+                                               class="w-8 h-8 rounded-full bg-green-500 block grid place-content-center mr-6"
+                                               title="افزودن قطعه جدید">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                     stroke-width="2"
+                                                     stroke="currentColor" class="w-6 h-6 text-white">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          d="M12 4.5v15m7.5-7.5h-15"></path>
+                                                </svg>
+                                            </a>
+                                            <div class="flex items-center space-x-4 space-x-reverse">
+                                                <p class="table-price-label">
+                                                    قیمت کل : {{ number_format($totalPrice) }} تومان
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
                                 </tbody>
                             </table>
-                            <div class="flex justify-between items-center p-4">
-                                <div>
-                                    <a href="{{ route('inquiries.parts.create',$inquiry->id) }}"
-                                       class="w-8 h-8 rounded-full bg-green-500 block grid place-content-center"
-                                       title="افزودن قطعه جدید">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                             stroke-width="2"
-                                             stroke="currentColor" class="w-6 h-6 text-white">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                  d="M12 4.5v15m7.5-7.5h-15"></path>
-                                        </svg>
-                                    </a>
-                                </div>
-                                @can('users')
-                                    <div>
-                                        <p class="px-4 py-2 rounded-md bg-green-500 text-white text-sm font-bold">
-                                            قیمت کل : {{ number_format($totalPrice) }} تومان
-                                        </p>
-                                    </div>
-                                @endcan
-                            </div>
                         </div>
                         <div class="mt-4">
                             <button type="submit" class="form-submit-btn">
@@ -892,18 +999,6 @@
                     </form>
                 @endif
             @endforeach
-            <div>
-                <a href="{{ route('inquiries.parts.create',$inquiry->id) }}"
-                   class="w-8 h-8 rounded-full bg-green-500 block grid place-content-center"
-                   title="افزودن قطعه جدید">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                         stroke-width="2"
-                         stroke="currentColor" class="w-6 h-6 text-white">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M12 4.5v15m7.5-7.5h-15"></path>
-                    </svg>
-                </a>
-            </div>
         </div>
 
         @if($inquiry->submit)

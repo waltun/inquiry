@@ -287,7 +287,7 @@
                                             </div>
                                         </div>
                                     @endcan
-                                    @can('correction-inquiry')
+                                    @can('referral-inquiry')
                                         <div x-data="{open:false}">
                                             <button class="table-dropdown-description" @click="open = !open">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -303,7 +303,7 @@
                                                     <div class="modal">
                                                         <div class="modal-body">
                                                             <form method="POST" class="bg-white dark:bg-slate-800 p-4"
-                                                                  action="{{ route('inquiries.correction',$inquiry->id) }}">
+                                                                  action="{{ route('inquiries.referral',$inquiry->id) }}">
                                                                 @csrf
                                                                 @method('PATCH')
                                                                 <div class="mb-4 flex justify-between items-center">
