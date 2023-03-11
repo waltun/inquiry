@@ -164,7 +164,7 @@
                     <th scope="col" class="p-4">
                         <span class="sr-only">اقدامات</span>
                     </th>
-                    <th scope="col" class="p-4 rounded-tl-lg">
+                    <th scope="col" class="p-4">
                         <span class="sr-only">ثبت نهایی</span>
                     </th>
                 </tr>
@@ -245,7 +245,6 @@
                         <td class="table-tr-td border-t-0 border-x-0 whitespace-nowrap">
                             <div class="flex items-center justify-center space-x-4 space-x-reverse relative"
                                  x-data="{open:false}">
-
                                 <button @click="open = !open">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                          stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -253,7 +252,6 @@
                                               d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/>
                                     </svg>
                                 </button>
-
                                 <div x-show="open" @click.away="open = false" class="table-dropdown -top-16 left-8"
                                      x-cloak>
                                     @can('inquiry-description')

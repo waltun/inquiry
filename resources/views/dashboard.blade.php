@@ -10,23 +10,9 @@
         </p>
     </div>
 
-    <div x-data="{tab : 'admin'}" class="mb-8">
+    <div x-data="{tab : 'inquiry'}" class="mb-8">
         <div class="border-b border-mySky-100 mt-6">
             <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-600">
-                <li class="ml-2">
-                    <button x-on:click="tab = 'admin'" type="button"
-                            class="inline-flex p-4 border border-transparent rounded-t-lg"
-                            :class="{ 'text-myBlue-100 border-mySky-100 bg-gray-100': tab === 'admin' }">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                             stroke="currentColor" class="w-5 h-5 ml-2 text-blue-600"
-                             :class="{ 'text-blue-700': tab === 'admin' }">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z"/>
-                        </svg>
-
-                        بخش مدیریت
-                    </button>
-                </li>
                 <li class="ml-2">
                     <button x-on:click="tab = 'inquiry'" type="button"
                             class="inline-flex p-4 text-myBlue-100 border border-transparent group rounded-t-lg"
@@ -73,6 +59,20 @@
                     </button>
                 </li>
                 <li class="ml-2">
+                    <button x-on:click="tab = 'admin'" type="button"
+                            class="inline-flex p-4 border border-transparent rounded-t-lg"
+                            :class="{ 'text-myBlue-100 border-mySky-100 bg-gray-100': tab === 'admin' }">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" class="w-5 h-5 ml-2 text-blue-600"
+                             :class="{ 'text-blue-700': tab === 'admin' }">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z"/>
+                        </svg>
+
+                        بخش مدیریت
+                    </button>
+                </li>
+                <li class="ml-2">
                     <button x-on:click="tab = 'current-price'" type="button"
                             class="inline-flex p-4 text-myBlue-100 border border-transparent group rounded-t-lg"
                             :class="{ 'text-myBlue-100 border-mySky-100 bg-gray-100': tab === 'current-price' }"
@@ -88,237 +88,6 @@
                     </button>
                 </li>
             </ul>
-        </div>
-
-        <div x-show="tab === 'admin'" class="border border-mySky-100 border-t-0 rounded-b-lg px-4 py-6" x-cloak>
-            <div class="grid grid-cols-4 gap-4">
-                @can('categories')
-                    <a href="{{ route('categories.index') }}" class="dashboard-cards group">
-                        <div class="flex items-center">
-                            <div class="dashboard-card-icon bg-yellow-400 dark:bg-slate-800">
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                     class="w-6 h-6 text-white group-hover:text-myBlue-100"
-                                     fill="none" viewBox="0 0 24 24"
-                                     stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                          d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
-                                </svg>
-                            </div>
-                            <div class="mr-4">
-                                <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
-                                    دسته بندی قطعات
-                                </p>
-                            </div>
-                        </div>
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                 class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
-                                <path fill-rule="evenodd"
-                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                                      clip-rule="evenodd"/>
-                            </svg>
-                        </div>
-                    </a>
-                @endcan
-
-                @can('parts')
-                    <a href="{{ route('parts.index') }}" class="dashboard-cards group">
-                        <div class="flex items-center">
-                            <div class="dashboard-card-icon bg-red-400 dark:bg-slate-800">
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                     class="w-6 h-6 text-white group-hover:text-myBlue-100"
-                                     fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                          d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                </svg>
-                            </div>
-                            <div class="mr-4">
-                                <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
-                                    مدیریت قطعات
-                                </p>
-                            </div>
-                        </div>
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                 class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
-                                <path fill-rule="evenodd"
-                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                                      clip-rule="evenodd"/>
-                            </svg>
-                        </div>
-                    </a>
-                @endcan
-
-                @can('collections')
-                    <a href="{{ route('collections.index') }}" class="dashboard-cards group">
-                        <div class="flex items-center">
-                            <div class="dashboard-card-icon bg-blue-400 dark:bg-slate-800">
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                     class="w-6 h-6 text-white group-hover:text-myBlue-100"
-                                     fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                          d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
-                                </svg>
-                            </div>
-                            <div class="mr-4">
-                                <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
-                                    مدیریت کالاهای نیم ساخته
-                                </p>
-                            </div>
-                        </div>
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                 class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
-                                <path fill-rule="evenodd"
-                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                                      clip-rule="evenodd"/>
-                            </svg>
-                        </div>
-                    </a>
-                @endcan
-
-                @canany(['groups','models'])
-                    <a href="{{ route('groups.index') }}" class="dashboard-cards group">
-                        <div class="flex items-center">
-                            <div class="dashboard-card-icon bg-pink-400 dark:bg-slate-800">
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                     class="w-6 h-6 text-white group-hover:text-myBlue-100"
-                                     fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                          d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"/>
-                                </svg>
-                            </div>
-                            <div class="mr-4">
-                                <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
-                                    محصولات و مدل ها
-                                </p>
-                            </div>
-                        </div>
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                 class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
-                                <path fill-rule="evenodd"
-                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                                      clip-rule="evenodd"/>
-                            </svg>
-                        </div>
-                    </a>
-                @endcanany
-
-                @can('collection-coils')
-                    <a href="{{ route('collectionCoil.index') }}" class="dashboard-cards group">
-                        <div class="flex items-center">
-                            <div class="dashboard-card-icon bg-gray-400 dark:bg-slate-800">
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                     class="w-6 h-6 text-white group-hover:text-myBlue-100"
-                                     fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                          d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"/>
-                                </svg>
-                            </div>
-                            <div class="mr-4">
-                                <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
-                                    کویل و دمپر و مبدل و تابلوبرق
-                                </p>
-                            </div>
-                        </div>
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                 class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
-                                <path fill-rule="evenodd"
-                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                                      clip-rule="evenodd"/>
-                            </svg>
-                        </div>
-                    </a>
-                @endcan
-
-                @can('users')
-                    <a href="{{ route('users.index') }}" class="dashboard-cards group">
-                        <div class="flex items-center">
-                            <div class="dashboard-card-icon bg-green-400 dark:bg-slate-800">
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                     class="w-6 h-6 text-white group-hover:text-myBlue-100"
-                                     fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                          d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                                </svg>
-                            </div>
-                            <div class="mr-4">
-                                <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
-                                    کاربران
-                                </p>
-                            </div>
-                        </div>
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                 class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
-                                <path fill-rule="evenodd"
-                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                                      clip-rule="evenodd"/>
-                            </svg>
-                        </div>
-                    </a>
-                @endcan
-
-                @can('roles')
-                    <a href="{{ route('roles.index') }}" class="dashboard-cards group">
-                        <div class="flex items-center">
-                            <div class="dashboard-card-icon bg-yellow-500 dark:bg-slate-800">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                     stroke-width="1.5"
-                                     stroke="currentColor" class="w-6 h-6 text-white group-hover:text-myBlue-100">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                          d="M13.5 10.5V6.75a4.5 4.5 0 119 0v3.75M3.75 21.75h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H3.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/>
-                                </svg>
-                            </div>
-                            <div class="mr-4">
-                                <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
-                                    نقش ها
-                                </p>
-                            </div>
-                        </div>
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                 class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
-                                <path fill-rule="evenodd"
-                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                                      clip-rule="evenodd"/>
-                            </svg>
-                        </div>
-                    </a>
-                @endcan
-
-                @can('permissions')
-                    <a href="{{ route('permissions.index') }}" class="dashboard-cards group">
-                        <div class="flex items-center">
-                            <div class="dashboard-card-icon bg-red-500 dark:bg-slate-800">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                     stroke-width="1.5"
-                                     stroke="currentColor" class="w-6 h-6 text-white group-hover:text-myBlue-100">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                          d="M13.5 10.5V6.75a4.5 4.5 0 119 0v3.75M3.75 21.75h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H3.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/>
-                                </svg>
-                            </div>
-                            <div class="mr-4">
-                                <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
-                                    دسترسی ها
-                                </p>
-                            </div>
-                        </div>
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                 class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
-                                <path fill-rule="evenodd"
-                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                                      clip-rule="evenodd"/>
-                            </svg>
-                        </div>
-                    </a>
-                @endcan
-            </div>
         </div>
 
         <div x-show="tab === 'inquiry'" class="border border-mySky-100 border-t-0 rounded-b-lg px-4 py-6" x-cloak>
@@ -569,6 +338,237 @@
                             <div class="mr-4">
                                 <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
                                     محاسبه قیمت تابلوبرق
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                 class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                                <path fill-rule="evenodd"
+                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </a>
+                @endcan
+            </div>
+        </div>
+
+        <div x-show="tab === 'admin'" class="border border-mySky-100 border-t-0 rounded-b-lg px-4 py-6" x-cloak>
+            <div class="grid grid-cols-4 gap-4">
+                @can('categories')
+                    <a href="{{ route('categories.index') }}" class="dashboard-cards group">
+                        <div class="flex items-center">
+                            <div class="dashboard-card-icon bg-yellow-400 dark:bg-slate-800">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     class="w-6 h-6 text-white group-hover:text-myBlue-100"
+                                     fill="none" viewBox="0 0 24 24"
+                                     stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                                </svg>
+                            </div>
+                            <div class="mr-4">
+                                <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
+                                    دسته بندی قطعات
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                 class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                                <path fill-rule="evenodd"
+                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </a>
+                @endcan
+
+                @can('parts')
+                    <a href="{{ route('parts.index') }}" class="dashboard-cards group">
+                        <div class="flex items-center">
+                            <div class="dashboard-card-icon bg-red-400 dark:bg-slate-800">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     class="w-6 h-6 text-white group-hover:text-myBlue-100"
+                                     fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                </svg>
+                            </div>
+                            <div class="mr-4">
+                                <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
+                                    مدیریت قطعات
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                 class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                                <path fill-rule="evenodd"
+                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </a>
+                @endcan
+
+                @can('collections')
+                    <a href="{{ route('collections.index') }}" class="dashboard-cards group">
+                        <div class="flex items-center">
+                            <div class="dashboard-card-icon bg-blue-400 dark:bg-slate-800">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     class="w-6 h-6 text-white group-hover:text-myBlue-100"
+                                     fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
+                                </svg>
+                            </div>
+                            <div class="mr-4">
+                                <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
+                                    مدیریت کالاهای نیم ساخته
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                 class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                                <path fill-rule="evenodd"
+                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </a>
+                @endcan
+
+                @canany(['groups','models'])
+                    <a href="{{ route('groups.index') }}" class="dashboard-cards group">
+                        <div class="flex items-center">
+                            <div class="dashboard-card-icon bg-pink-400 dark:bg-slate-800">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     class="w-6 h-6 text-white group-hover:text-myBlue-100"
+                                     fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"/>
+                                </svg>
+                            </div>
+                            <div class="mr-4">
+                                <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
+                                    محصولات و مدل ها
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                 class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                                <path fill-rule="evenodd"
+                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </a>
+                @endcanany
+
+                @can('collection-coils')
+                    <a href="{{ route('collectionCoil.index') }}" class="dashboard-cards group">
+                        <div class="flex items-center">
+                            <div class="dashboard-card-icon bg-gray-400 dark:bg-slate-800">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     class="w-6 h-6 text-white group-hover:text-myBlue-100"
+                                     fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"/>
+                                </svg>
+                            </div>
+                            <div class="mr-4">
+                                <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
+                                    کویل و دمپر و مبدل و تابلوبرق
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                 class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                                <path fill-rule="evenodd"
+                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </a>
+                @endcan
+
+                @can('users')
+                    <a href="{{ route('users.index') }}" class="dashboard-cards group">
+                        <div class="flex items-center">
+                            <div class="dashboard-card-icon bg-green-400 dark:bg-slate-800">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     class="w-6 h-6 text-white group-hover:text-myBlue-100"
+                                     fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                </svg>
+                            </div>
+                            <div class="mr-4">
+                                <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
+                                    کاربران
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                 class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                                <path fill-rule="evenodd"
+                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </a>
+                @endcan
+
+                @can('roles')
+                    <a href="{{ route('roles.index') }}" class="dashboard-cards group">
+                        <div class="flex items-center">
+                            <div class="dashboard-card-icon bg-yellow-500 dark:bg-slate-800">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5"
+                                     stroke="currentColor" class="w-6 h-6 text-white group-hover:text-myBlue-100">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M13.5 10.5V6.75a4.5 4.5 0 119 0v3.75M3.75 21.75h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H3.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/>
+                                </svg>
+                            </div>
+                            <div class="mr-4">
+                                <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
+                                    نقش ها
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                 class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                                <path fill-rule="evenodd"
+                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </a>
+                @endcan
+
+                @can('permissions')
+                    <a href="{{ route('permissions.index') }}" class="dashboard-cards group">
+                        <div class="flex items-center">
+                            <div class="dashboard-card-icon bg-red-500 dark:bg-slate-800">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5"
+                                     stroke="currentColor" class="w-6 h-6 text-white group-hover:text-myBlue-100">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M13.5 10.5V6.75a4.5 4.5 0 119 0v3.75M3.75 21.75h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H3.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/>
+                                </svg>
+                            </div>
+                            <div class="mr-4">
+                                <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
+                                    دسترسی ها
                                 </p>
                             </div>
                         </div>

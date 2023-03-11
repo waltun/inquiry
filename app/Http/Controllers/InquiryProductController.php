@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Amount;
 use App\Models\Category;
+use App\Models\DeleteButton;
 use App\Models\Group;
 use App\Models\Inquiry;
 use App\Models\Modell;
@@ -33,7 +34,8 @@ class InquiryProductController extends Controller
 
     public function index(Inquiry $inquiry)
     {
-        return view('inquiry-product.index', compact('inquiry'));
+        $delete = DeleteButton::where('active', '1')->first();
+        return view('inquiry-product.index', compact('inquiry', 'delete'));
     }
 
     public function create(Inquiry $inquiry)

@@ -1,5 +1,4 @@
 <x-layout>
-
     <x-slot name="js">
         <script>
             let totalPrice = parseInt('{{ $totalPrice }}')
@@ -13,71 +12,91 @@
     </x-slot>
 
     <!-- Breadcrumb -->
-    <nav class="flex bg-gray-100 p-4 rounded-md overflow-x-auto whitespace-nowrap" aria-label="Breadcrumb">
-        <ol class="inline-flex items-center space-x-2 space-x-reverse">
-            <li class="inline-flex items-center">
-                <a href="{{ route('dashboard') }}"
-                   class="inline-flex items-center text-xs md:text-sm text-gray-500 hover:text-gray-900">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20"
-                         fill="currentColor">
-                        <path
-                            d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
-                    </svg>
+    <div class="flex items-center space-x-2 space-x-reverse">
+        <a href="{{ route('dashboard') }}" class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" class="breadcrumb-svg">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3"/>
+            </svg>
+            <div class="mr-2">
+                <p class="breadcrumb-p">
                     داشبورد
-                </a>
-            </li>
-            <li>
-                <div class="flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd"
-                              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                              clip-rule="evenodd"/>
-                    </svg>
-                    <a href="{{ route('inquiries.submitted') }}"
-                       class="mr-2 text-xs md:text-sm font-medium text-gray-500 hover:text-gray-900">
-                        استعلام های منتظر قیمت
-                    </a>
-                </div>
-            </li>
-            <li aria-current="page">
-                <div class="flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd"
-                              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                              clip-rule="evenodd"/>
-                    </svg>
-                    <span class="mr-2 text-xs md:text-sm font-medium text-gray-400">
-                        ایجاد ضریب برای محصول
-                    </span>
-                </div>
-            </li>
-        </ol>
-    </nav>
-
-    <!-- Alert -->
-    <div class="mt-4">
-        <div class="bg-yellow-500 rounded-md p-4" x-data="{ open:false }">
-            <div class="flex justify-between items-center cursor-pointer" @click="open = !open">
-                <p class="text-xs md:text-sm text-black">نکات قابل توجه</p>
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     class="md:h-5 md:w-5 h-4 w-4 transition-transform transform text-black"
-                     fill="none" viewBox="0 0 24 24" stroke="currentColor" :class="{'rotate-180' : open}">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"/>
-                </svg>
+                </p>
             </div>
-            <div class="bg-yellow-500 rounded-b-md mt-4" x-show="open" x-cloak>
-                <ul class="list-disc mr-4 space-y-2">
-                    <li class="text-xs md:text-sm text-black">تمامی فیلد های موجود برای اضافه کردن کاربر جدید ضروری می
-                        باشد.
-                    </li>
-                    <li class="text-xs md:text-sm text-black">شماره تماس 11 رقم و با صفر شروع می شود.</li>
-                    <li class="text-xs md:text-sm text-black">رمز عبور حداقل باید 8 رقم یا حرف باشد.</li>
-                    <li class="text-xs md:text-sm text-black">کد ملی باید 10 رقم و فقط شامل عدد باشد.</li>
-                    <li class="text-xs md:text-sm text-black">
-                        در انتخاب نقش کاربر دقت کنید، چون هر نقش دسترسی های مختلفی دارد (البته این قسمت قابل ویرایش می
-                        باشد).
-                    </li>
-                </ul>
+        </a>
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                 class="breadcrumb-svg-arrow">
+                <path fill-rule="evenodd"
+                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                      clip-rule="evenodd"/>
+            </svg>
+        </div>
+        @if($inquiry->submit)
+            <a href="{{ route('inquiries.submitted') }}" class="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="breadcrumb-svg"
+                     fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <div class="mr-2">
+                    <p class="breadcrumb-p">
+                        استعلام های منتظر قیمت
+                    </p>
+                </div>
+            </a>
+        @else
+            <a href="{{ route('inquiries.index') }}" class="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="breadcrumb-svg"
+                     fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <div class="mr-2">
+                    <p class="breadcrumb-p">
+                        لیست استعلام ها
+                    </p>
+                </div>
+            </a>
+        @endif
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                 class="breadcrumb-svg-arrow">
+                <path fill-rule="evenodd"
+                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                      clip-rule="evenodd"/>
+            </svg>
+        </div>
+        <a href="{{ route('inquiries.product.index',$inquiry->id) }}" class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="breadcrumb-svg" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"></path>
+            </svg>
+            <div class="mr-2">
+                <p class="breadcrumb-p">
+                    محصولات استعلام {{ $inquiry->name }}
+                </p>
+            </div>
+        </a>
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                 class="breadcrumb-svg-arrow">
+                <path fill-rule="evenodd"
+                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                      clip-rule="evenodd"/>
+            </svg>
+        </div>
+        <div class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" class="breadcrumb-svg-active">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+            </svg>
+            <div class="mr-2">
+                <p class="breadcrumb-p-active">
+                    ثبت ضریب برای محصول
+                </p>
             </div>
         </div>
     </div>
@@ -89,26 +108,26 @@
 
     <!-- Info -->
     @if(!is_null($group) && !is_null($modell))
-        <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4">
-            <div class="md:flex justify-around items-center space-y-4 md:space-y-0">
-                <p class="font-bold text-red-600 md:text-lg text-sm text-center">
-                    دسته : {{ $modell->parent->name }}
-                </p>
-                <p class="font-bold text-red-600 md:text-lg text-sm text-center">
-                    مدل : {{ $product->model_custom_name ?? $modell->name }}
-                </p>
-            </div>
+        <div class="mt-6 flex items-center space-x-4 space-x-reverse justify-center">
+            <p class="bg-myBlue-300 py-2 px-4 rounded-lg text-sm text-white">
+                دسته : {{ $modell->parent->name }}
+            </p>
+            <p class="bg-myBlue-300 py-2 px-4 rounded-lg text-sm text-white">
+                مدل : {{ $product->model_custom_name ?? $modell->name }}
+            </p>
         </div>
     @endif
 
     <!-- Form -->
     <form method="POST" action="{{ route('inquiries.product.storePercent',$product->id) }}"
-          class="md:grid grid-cols-3 gap-4 mt-4">
+          class="md:grid grid-cols-3 gap-4 mt-6">
         @csrf
         @method('PATCH')
 
-        <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
-            <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">قیمت فعلی استعلام</p>
+        <div class="card">
+            <div class="card-header">
+                <p class="card-title">قیمت فعلی استعلام</p>
+            </div>
             <div class="mt-4">
                 <p class="text-center text-lg font-bold text-green-600">
                     {{ number_format($totalPrice) }} تومان
@@ -116,10 +135,14 @@
             </div>
         </div>
 
-        <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
-            <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">ضریب استعلام</p>
+        <div class="card">
+            <div class="card-header">
+                <p class="card-title">
+                    ضریب استعلام
+                </p>
+            </div>
             <div class="mt-4">
-                <label for="inputPercent" class="block mb-2 md:text-sm text-xs text-black">
+                <label for="inputPercent" class="form-label">
                     ضریب استعلام را مشخص کنید
                 </label>
                 <input type="text" id="inputPercent" name="percent" class="input-text"
@@ -135,8 +158,10 @@
             @endif
         </div>
 
-        <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
-            <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">قیمت نهایی استعلام</p>
+        <div class="card">
+            <div class="card-header">
+                <p class="card-title">قیمت نهایی استعلام</p>
+            </div>
             <div class="mt-4">
                 <p class="text-center text-lg font-bold text-green-600" id="finalPrice">
                     {{ number_format($totalPrice * $product->percent) }} تومان
@@ -144,20 +169,24 @@
             </div>
         </div>
 
-        <div class="col-span-3 bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
-            <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">توضیحات محصول</p>
-            <div class="mt-4">
-                <p class="text-base text-gray-700" id="finalPrice">
-                    {{ $product->description }}
-                </p>
+        @if(!is_null($product->description))
+            <div class="col-span-3 card">
+                <div class="card-header">
+                    <p class="card-title">توضیحات (تگ) محصول</p>
+                </div>
+                <div class="mt-4">
+                    <p class="text-base text-gray-700">
+                        {{ $product->description }}
+                    </p>
+                </div>
             </div>
-        </div>
+        @endif
 
-        <div class="col-span-3 space-x-2 space-x-reverse">
+        <div class="flex items-center space-x-4 space-x-reverse">
             <button type="submit" class="form-submit-btn">
                 ثبت ضریب محصول
             </button>
-            <a href="{{ route('inquiries.submitted') }}" class="form-cancel-btn">
+            <a href="{{ route('inquiries.product.index',$inquiry->id) }}" class="form-cancel-btn">
                 انصراف
             </a>
         </div>
