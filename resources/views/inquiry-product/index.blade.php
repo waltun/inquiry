@@ -272,7 +272,9 @@
                                                                             </span>
                                                                         </button>
                                                                     </div>
-                                                                    <div class="mt-6">
+                                                                    <form method="POST" class="mt-6"
+                                                                          action="{{ route('inquiries.product.replicate',$product->id) }}">
+                                                                        @csrf
                                                                         <div class="mb-4">
                                                                             <label for="inputQuantity"
                                                                                    class="form-label">
@@ -299,7 +301,7 @@
                                                                                 ثبت
                                                                             </button>
                                                                         </div>
-                                                                    </div>
+                                                                    </form>
                                                                 </div>
                                                             </div>
                                                         </div>
