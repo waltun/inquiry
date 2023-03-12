@@ -52,8 +52,7 @@
 }
 
 .form-detail-btn {
-    @apply px-4 py-2 bg-yellow-500 text-white md:text-sm text-xs rounded-md active:bg-yellow-700 hover:bg-yellow-600
-    focus:outline-none focus:ring focus:ring-yellow-600 focus:ring-opacity-70;
+    @apply px-6 py-3 bg-myYellow-100 text-white text-xs rounded-lg hover:bg-yellow-600;
 }
 
 .form-submit-btn {
