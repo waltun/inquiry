@@ -1,91 +1,102 @@
 <x-layout>
     <!-- Breadcrumb -->
-    <nav class="flex bg-gray-100 p-4 rounded-md overflow-x-auto whitespace-nowrap" aria-label="Breadcrumb">
-        <ol class="inline-flex items-center space-x-2 space-x-reverse">
-            <li class="inline-flex items-center">
-                <a href="{{ route('dashboard') }}"
-                   class="inline-flex items-center text-xs md:text-sm text-gray-500 hover:text-gray-900">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20"
-                         fill="currentColor">
-                        <path
-                            d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
-                    </svg>
+    <div class="flex items-center space-x-2 space-x-reverse">
+        <a href="{{ route('dashboard') }}" class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" class="breadcrumb-svg">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3"/>
+            </svg>
+            <div class="mr-2">
+                <p class="breadcrumb-p">
                     داشبورد
-                </a>
-            </li>
-            <li>
-                <div class="flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd"
-                              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                              clip-rule="evenodd"/>
-                    </svg>
-                    <a href="{{ route('inquiries.index') }}"
-                       class="mr-2 text-xs md:text-sm font-medium text-gray-500 hover:text-gray-900">
-                        مدیریت استعلام ها
-                    </a>
-                </div>
-            </li>
-            <li aria-current="page">
-                <div class="flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd"
-                              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                              clip-rule="evenodd"/>
-                    </svg>
-                    <span class="mr-2 text-xs md:text-sm font-medium text-gray-400">
-                        جزئیات استعلام {{ $inquiry->name }} به شماره استعلام {{ $inquiry->inquiry_number }}
-                    </span>
-                </div>
-            </li>
-        </ol>
-    </nav>
-
-    <!-- Navigation Btn -->
-    <div class="my-4 md:flex justify-between items-center">
-        <div class="mb-4 md:mb-0">
-            @if($inquiry->archive_at)
-                <span class="bg-red-500 rounded-md px-6 py-1 text-sm text-white">
-                    وضعیت استعلام : آرشیو شده
-                </span>
-            @else
-                <span class="bg-indigo-500 rounded-md px-6 py-1 text-sm text-white">
-                    وضعیت استعلام : در حال انجام
-                </span>
-            @endif
+                </p>
+            </div>
+        </a>
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                 class="breadcrumb-svg-arrow">
+                <path fill-rule="evenodd"
+                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                      clip-rule="evenodd"/>
+            </svg>
         </div>
-        <div class="whitespace-nowrap overflow-x-auto py-4">
-            <a href="{{ route('inquiries.index') }}" class="form-detail-btn text-xs">لیست استعلام ها</a>
-            <a href="{{ route('inquiries.priced') }}" class="form-submit-btn text-xs">استعلام های قیمت گذاری شده</a>
-            <a href="{{ route('inquiries.submitted') }}" class="form-edit-btn text-xs">استعلام های منتظر قیمت</a>
+        <a href="{{ route('inquiries.priced') }}" class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" class="breadcrumb-svg">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <div class="mr-2">
+                <p class="breadcrumb-p">
+                    استعلام های قیمت گذاری شده
+                </p>
+            </div>
+        </a>
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                 class="breadcrumb-svg-arrow">
+                <path fill-rule="evenodd"
+                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                      clip-rule="evenodd"/>
+            </svg>
+        </div>
+        <div class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" class="breadcrumb-svg-active">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            <div class="mr-2">
+                <p class="breadcrumb-p-active">
+                    مشاهده قیمت و جزئیات استعلام {{ $inquiry->name }}
+                </p>
+            </div>
         </div>
     </div>
 
-    <!-- Print -->
-    <div>
-        <a href="{{ route('inquiries.print',$inquiry->id) }}" class="form-percent-btn inline-flex items-center"
-           target="_blank">
+    <!-- Navigation -->
+    <div class="flex items-center justify-between mt-8">
+        <div class="flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                 stroke="currentColor" class="w-5 h-5 ml-2">
+                 stroke="currentColor" class="w-8 h-8 dark:text-white">
                 <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0l.229 2.523a1.125 1.125 0 01-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0021 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 00-1.913-.247M6.34 18H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 011.913-.247m10.5 0a48.536 48.536 0 00-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659M18 10.5h.008v.008H18V10.5zm-3 0h.008v.008H15V10.5z"/>
+                      d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
             </svg>
-            پرینت
-        </a>
+            <div class="mr-2">
+                <p class="font-bold text-2xl text-black dark:text-white">
+                    مشاهده جزئیات و قیمت استعلام {{ $inquiry->name }}
+                </p>
+            </div>
+        </div>
+        <div class="flex items-center space-x-4 space-x-reverse">
+            <a href="{{ route('inquiries.print',$inquiry->id) }}"
+               class="page-gray-btn"
+               target="_blank">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                     stroke="currentColor" class="w-5 h-5 ml-2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0l.229 2.523a1.125 1.125 0 01-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0021 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 00-1.913-.247M6.34 18H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 011.913-.247m10.5 0a48.536 48.536 0 00-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659M18 10.5h.008v.008H18V10.5zm-3 0h.008v.008H15V10.5z"/>
+                </svg>
+                پرینت
+            </a>
+        </div>
     </div>
 
     <!-- Content -->
     <div class="mt-4">
-        <!-- Inquiry Details -->
-        <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4">
-            <div class="md:flex justify-between items-center space-y-4 md:space-y-0">
-                <p class="font-bold text-black md:text-lg text-sm text-center">
+        <!-- Info -->
+        <div class="mb-4 mt-8">
+            <div class="flex items-center space-x-4 space-x-reverse justify-center">
+                <p class="bg-myBlue-300 py-2 px-4 rounded-lg text-sm text-white">
                     نام پروژه : {{ $inquiry->name }}
                 </p>
-                <p class="font-bold text-black md:text-lg text-sm text-center">
+                <p class="bg-myBlue-300 py-2 px-4 rounded-lg text-sm text-white">
                     شماره استعلام : {{ "INQ-" . $inquiry->inquiry_number }}
                 </p>
-                <p class="font-bold text-black md:text-lg text-sm text-center">
+                <p class="bg-myBlue-300 py-2 px-4 rounded-lg text-sm text-white">
                     @php
                         $user = \App\Models\User::where('id',$inquiry->user_id)->first();
                     @endphp
@@ -94,6 +105,7 @@
             </div>
         </div>
 
+        <!-- Copy & Correction -->
         @if(!is_null($inquiry->correction_id) || !is_null($inquiry->copy_id))
             @can('users')
                 <div class="my-4 bg-red-500 p-2 rounded-md">
@@ -122,165 +134,153 @@
 
         @php
             $finalPrice = 0;
+            $products = $inquiry->products()->where('group_id','!=',0)->where('model_id','!=',0)->get();
         @endphp
 
             <!-- Product List -->
-        @if(!$inquiry->products()->where('group_id','!=',0)->where('model_id','!=',0)->get()->isEmpty())
-            @foreach($inquiry->products()->where('group_id','!=',0)->where('model_id','!=',0)->orderBy('sort','ASC')->get() as $product)
+        @if(!$products->isEmpty())
+            @foreach($products as $product)
                 @php
-                    $group = \App\Models\Group::find($product->group_id);
                     $modell = \App\Models\Modell::find($product->model_id);
                     $finalPrice += $product->price;
                     $totalPrice = 0;
                     $weight = 0;
                 @endphp
-                <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4 hidden md:block">
-                    <div class="mb-4 flex justify-between items-center">
-                        <p class="text-center text-lg font-black font-bold">
+                <div class="card">
+                    <div class="card-header">
+                        <p class="card-title text-lg">
                             لیست قطعات و قیمت محصول
                             <span class="text-red-600">{{ $modell->parent->name }}</span> -
                             <span class="text-red-600">{{ $product->model_custom_name ?? $modell->name }}</span>
                         </p>
-                        @if($product->model_custom_name)
-                            @if($product->copy_model == '0')
-                                <form action="{{ route('inquiries.addToModell',$product->id) }}"
-                                      method="POST">
-                                    @csrf
-                                    <button class="form-detail-btn text-xs" type="submit">
-                                        افزودن به مدل‌ها استاندارد
-                                    </button>
-                                </form>
-                            @else
-                                <p class="text-sm font-bold text-gray-600">
-                                    این مدل به مدل‌های استاندارد اضافه شده است
-                                </p>
-                            @endif
-                        @endif
                     </div>
-                    <table class="border-collapse border border-gray-400 w-full">
-                        <thead class="sticky top-2">
-                        <tr class="bg-indigo-200">
-                            <th class="border border-white p-4 text-sm">ردیف</th>
-                            <th class="border border-white p-4 text-sm">نام قطعه</th>
-                            <th class="border border-white p-4 text-sm">واحد</th>
-                            <th class="border border-white p-4 text-sm">وزن</th>
-                            @can('detail-inquiry')
-                                <th class="border border-white p-4 text-sm">قیمت واحد</th>
-                            @endcan
-                            <th class="border border-white p-4 text-sm"> مقادیر</th>
-                            @can('detail-inquiry')
-                                <th class="border border-white p-4 text-sm">جمع کل</th>
-                            @endcan
+                    @if($product->copy_model == '0' && $product->model_custom_name)
+                        <div class="mb-4 -mt-4 flex justify-end">
+                            <form action="{{ route('inquiries.addToModell',$product->id) }}"
+                                  method="POST">
+                                @csrf
+                                <button class="form-detail-btn text-xs" type="submit">
+                                    افزودن به مدل‌ها استاندارد
+                                </button>
+                            </form>
+                        </div>
+                    @endif
+                    <table class="w-full border-collapse">
+                        <thead>
+                        <tr class="table-th-tr whitespace-normal">
+                            <th class="p-4 rounded-tr-lg">ردیف</th>
+                            <th class="p-4">نام قطعه</th>
+                            <th class="p-4">واحد</th>
+                            <th class="p-4">وزن</th>
+                            @if(auth()->user()->role == 'admin')
+                                <th class="p-4">قیمت واحد</th>
+                            @endif
+                            <th class="p-4"> مقادیر</th>
+                            @if(auth()->user()->role == 'admin')
+                                <th class="p-4 rounded-tl-lg">جمع کل</th>
+                            @endif
                         </tr>
                         </thead>
                         <tbody>
-
                         @foreach($product->amounts()->orderBy('sort','ASC')->get() as $amount)
                             @php
                                 $part = \App\Models\Part::find($amount->part_id);
                                 $totalPrice += ($amount->price * $amount->value);
                                 $weight += $amount->weight * $amount->value;
                             @endphp
-                            <tr>
-                                <td class="border border-gray-300 p-4 text-sm text-center">
+                            <tr class="table-tb-tr group whitespace-normal">
+                                <td class="table-tr-td border-t-0 border-l-0">
                                     {{ $loop->index + 1 }}
                                 </td>
-                                <td class="border border-gray-300 p-4 text-sm text-center">
+                                <td class="table-tr-td border-t-0 border-x-0">
                                     {{ $part->name }}
                                 </td>
-                                <td class="border border-gray-300 p-4 text-sm text-center">
+                                <td class="table-tr-td border-t-0 border-x-0">
                                     {{ $part->unit }}
                                     @if(!is_null($part->unit2))
                                         / {{ $part->unit2 }}
                                     @endif
                                 </td>
-                                <td class="border border-gray-300 p-4 text-sm text-center">
+                                <td class="table-tr-td border-t-0 border-x-0">
                                     {{ $part->weight }}
                                 </td>
-                                @can('detail-inquiry')
-                                    <td class="border border-gray-300 p-4 text-sm text-center font-bold">
+                                @if(auth()->user()->role == 'admin')
+                                    <td class="table-tr-td border-t-0 border-x-0 whitespace-nowrap">
                                         {{ number_format($amount->price) }} تومان
                                     </td>
-                                @endcan
-                                <td class="border border-gray-300 p-4 text-sm text-center">
+                                @endif
+                                <td class="table-tr-td border-t-0 border-x-0">
                                     {{ $amount->value }}
                                     @if(!is_null($amount->value2))
                                         / {{ $amount->value2 }}
                                     @endif
                                 </td>
-                                @can('detail-inquiry')
-                                    <td class="border border-gray-300 p-4 text-sm text-center font-bold">
+                                @if(auth()->user()->role == 'admin')
+                                    <td class="table-tr-td border-t-0 border-r-0">
                                         {{ number_format($amount->price * $amount->value) }} تومان
                                     </td>
-                                @endcan
+                                @endif
                             </tr>
                         @endforeach
-                        @can('detail-inquiry')
-                            <tr>
-                                <td class="border border-gray-300 p-4 text-lg text-center font-bold"
-                                    colspan="{{ $colspan }}">
+                        @if(auth()->user()->role == 'admin')
+                            <tr class="table-tb-tr group">
+                                <td class="table-tr-td border-t-0 text-black font-medium" colspan="{{ $colspan }}">
                                     جمع قیمت ماتریال یک دستگاه
                                 </td>
-                                <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
+                                <td class="table-tr-td border-t-0 text-green-600 font-medium">
                                     {{ number_format($totalPrice) }} تومان
                                 </td>
                             </tr>
-                        @endcan
+                        @endif
                         @if($product->percent > 0)
-                            @can('detail-inquiry')
-                                <tr>
-                                    <td class="border border-gray-300 p-4 text-lg text-center font-bold"
-                                        colspan="{{ $colspan }}">
+                            @if(auth()->user()->role == 'admin')
+                                <tr class="table-tb-tr group">
+                                    <td class="table-tr-td border-t-0 text-black font-medium" colspan="{{ $colspan }}">
                                         ضریب ثبت شده
                                     </td>
-                                    <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
+                                    <td class="table-tr-td border-t-0 text-green-600 font-medium">
                                         {{ $product->percent }}
                                     </td>
                                 </tr>
-                            @endcan
-                            <tr>
-                                <td class="border border-gray-300 p-4 text-lg text-center font-bold"
-                                    colspan="{{ $colspan }}">
+                            @endif
+                            <tr class="table-tb-tr group">
+                                <td class="table-tr-td border-t-0 text-black font-medium" colspan="{{ $colspan }}">
                                     قیمت دستگاه با اعمال ضریب
                                 </td>
-                                <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
+                                <td class="table-tr-td border-t-0 text-green-600 font-medium">
                                     {{ number_format($totalPrice * $product->percent) }} تومان
                                 </td>
                             </tr>
                         @endif
-                        <tr>
-                            <td class="border border-gray-300 p-4 text-lg text-center font-bold"
-                                colspan="{{ $colspan }}">
+                        <tr class="table-tb-tr group">
+                            <td class="table-tr-td border-t-0 text-black font-medium" colspan="{{ $colspan }}">
                                 تعداد
                             </td>
-                            <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
+                            <td class="table-tr-td border-t-0 text-green-600 font-medium">
                                 {{ $product->quantity }}
                             </td>
                         </tr>
-                        <tr>
-                            <td class="border border-gray-300 p-4 text-lg text-center font-bold"
-                                colspan="{{ $colspan }}">
+                        <tr class="table-tb-tr group">
+                            <td class="table-tr-td border-t-0 text-black font-medium" colspan="{{ $colspan }}">
                                 قیمت کل
                             </td>
-                            <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
+                            <td class="table-tr-td border-t-0 text-green-600 font-medium">
                                 {{ number_format($totalPrice * $product->percent * $product->quantity) }} تومان
                             </td>
                         </tr>
-                        <tr>
-                            <td class="border border-gray-300 p-4 text-lg text-center font-bold"
-                                colspan="{{ $colspan }}">
+                        <tr class="table-tb-tr group">
+                            <td class="table-tr-td border-t-0 text-black font-medium" colspan="{{ $colspan }}">
                                 وزن دستگاه
                             </td>
-                            <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
+                            <td class="table-tr-td border-t-0 text-green-600 font-medium">
                                 {{ $weight }} کیلوگرم
                             </td>
                         </tr>
-                        <tr>
-                            <td class="border border-gray-300 p-4 text-lg text-center font-bold"
-                                colspan="{{ $colspan }}">
+                        <tr class="table-tb-tr group">
+                            <td class="table-tr-td border-t-0 text-black font-medium" colspan="{{ $colspan }}">
                                 تاییدیه قیمت توسط
                             </td>
-                            <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
+                            <td class="table-tr-td border-t-0 text-green-600 font-medium">
                                 @if(!is_null($product->percent_by))
                                     @php
                                         $user = \App\Models\User::where('id',$product->percent_by)->first();
@@ -296,6 +296,7 @@
                 </div>
             @endforeach
         @endif
+
         <!-- Parts List -->
         @if(!$inquiry->products()->where('part_id','!=',0)->get()->isEmpty())
             @foreach($inquiry->products()->where('part_id','!=',0)->orderBy('sort','ASC')->get() as $product)
@@ -304,30 +305,30 @@
                     $part = \App\Models\Part::find($product->part_id);
                     $totalWeight = $product->weight * $product->quantity;
                 @endphp
-                <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4 hidden md:block">
-                    <div class="mb-4">
-                        <p class="text-center text-lg font-black font-bold">
+                <div class="card">
+                    <div class="card-header">
+                        <p class="card-title text-lg">
                             تک قطعه <span class="text-red-600">{{ $part->name }}</span>
                         </p>
                     </div>
-                    <table class="border-collapse border border-gray-400 w-full">
-                        <thead class="sticky top-2">
-                        <tr class="bg-indigo-200">
-                            <th class="border border-white p-4 text-sm">نام قطعه</th>
-                            <th class="border border-white p-4 text-sm">نوع قطعه</th>
-                            <th class="border border-white p-4 text-sm">واحد قطعه</th>
-                            <th class="border border-white p-4 text-sm">وزن قطعه</th>
-                            @can('detail-inquiry')
-                                <th class="border border-white p-4 text-sm">قیمت</th>
-                            @endcan
+                    <table class="w-full border-collapse">
+                        <thead>
+                        <tr class="table-th-tr">
+                            <th class="p-4 rounded-tr-lg">نام قطعه</th>
+                            <th class="p-4">نوع قطعه</th>
+                            <th class="p-4">واحد قطعه</th>
+                            <th class="p-4">وزن قطعه</th>
+                            @if(auth()->user()->role == 'admin')
+                                <th class="p-4 rounded-tl-lg">قیمت</th>
+                            @endif
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td class="border border-gray-300 p-4 text-sm text-center">
+                        <tr class="table-tb-tr group">
+                            <td class="table-tr-td border-t-0 border-l-0">
                                 {{ $part->name }}
                             </td>
-                            <td class="border border-gray-300 p-4 text-sm text-center">
+                            <td class="table-tr-td border-t-0 border-x-0">
                                 @switch($part->type)
                                     @case('setup')
                                         قطعات یدکی راه اندازی
@@ -364,64 +365,59 @@
                                         @break
                                 @endswitch
                             </td>
-                            <td class="border border-gray-300 p-4 text-sm text-center">
+                            <td class="table-tr-td border-t-0 border-x-0">
                                 {{ $part->unit }}
                             </td>
-                            <td class="border border-gray-300 p-4 text-sm text-center">
+                            <td class="table-tr-td border-t-0 border-x-0">
                                 {{ $part->weight }} کیلوگرم
                             </td>
                             @can('detail-inquiry')
-                                <td class="border border-gray-300 p-4 text-sm text-center font-bold">
+                                <td class="table-tr-td border-t-0 border-r-0">
                                     {{ number_format($product->part_price) }} تومان
                                 </td>
                             @endcan
                         </tr>
                         @if($product->percent > 0)
-                            @can('detail-inquiry')
-                                <tr>
-                                    <td class="border border-gray-300 p-4 text-lg text-center font-bold"
-                                        colspan="{{ $colspan2 }}">
+                            @if(auth()->user()->role == 'admin')
+                                <tr class="table-tb-tr">
+                                    <td class="table-tr-td border-t-0 text-black font-medium" colspan="{{ $colspan2 }}">
                                         ضریب ثبت شده
                                     </td>
-                                    <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
+                                    <td class="table-tr-td border-t-0 text-green-600 font-medium">
                                         {{ $product->percent }}
                                     </td>
                                 </tr>
-                            @endcan
-                            <tr>
-                                <td class="border border-gray-300 p-4 text-lg text-center font-bold"
-                                    colspan="{{ $colspan2 }}">
+                            @endif
+                            <tr class="table-tb-tr">
+                                <td class="table-tr-td border-t-0 text-black font-medium" colspan="{{ $colspan2 }}">
                                     قیمت قطعه با اعمال ضریب
                                 </td>
-                                <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
+                                <td class="table-tr-td border-t-0 text-green-600 font-medium">
                                     {{ number_format($product->price) }} تومان
                                 </td>
                             </tr>
                         @endif
-                        <tr>
-                            <td class="border border-gray-300 p-4 text-lg text-center font-bold"
-                                colspan="{{ $colspan2 }}">
+                        <tr class="table-tb-tr">
+                            <td class="table-tr-td border-t-0 text-black font-medium" colspan="{{ $colspan2 }}">
                                 تعداد
                             </td>
-                            <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
+                            <td class="table-tr-td border-t-0 text-green-600 font-medium">
                                 {{ $product->quantity }}
                             </td>
                         </tr>
-                        <tr>
-                            <td class="border border-gray-300 p-4 text-lg text-center font-bold"
-                                colspan="{{ $colspan2 }}">
+                        <tr class="table-tb-tr">
+                            <td class="table-tr-td border-t-0 text-black font-medium" colspan="{{ $colspan2 }}">
                                 قیمت کل
                             </td>
-                            <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
+                            <td class="table-tr-td border-t-0 text-green-600 font-medium">
                                 {{ number_format($product->price * $product->quantity) }} تومان
                             </td>
                         </tr>
-                        <tr>
-                            <td class="border border-gray-300 p-4 text-lg text-center font-bold"
-                                colspan="{{ $colspan2 }}">
+                        <tr class="table-tb-tr">
+                            <td class="table-tr-td border-t-0 text-black font-medium" colspan="{{ $colspan2 }}">
                                 وزن
                             </td>
-                            <td class="border border-gray-300 p-4 text-lg text-center font-bold text-green-600">
+                            <td class="table-tr-td border-t-0 text-green-600 font-medium">
                                 {{ $totalWeight }} کیلوگرم
                             </td>
                         </tr>
@@ -432,22 +428,22 @@
         @endif
 
         <!-- Final Inquiry Price -->
-        <div class="bg-green-500 p-4 rounded-md shadow-md mt-4 sticky bottom-4">
+        <div class="my-6 flex justify-end sticky bottom-4">
             @if($inquiry->price > 0)
-                <p class="md:text-xl text-lg text-black font-bold text-center">
+                <p class="bg-myGreen-100 text-white px-6 py-3 rounded-lg font-bold text-xl">
                     قیمت نهایی کل استعلام : {{ number_format($inquiry->price) }} تومان
                 </p>
             @else
-                <p class="text-xl text-black font-bold text-center">
+                <p class="bg-myGreen-100 text-white px-6 py-3 rounded-lg font-bold text-xl">
                     قیمت نهایی کل استعلام : {{ number_format($finalPrice) }} تومان
                 </p>
             @endif
         </div>
 
         <!-- Inquiry Description -->
-        <div class="mt-4 bg-white rounded-md p-4 border border-gray-200 shadow-md">
-            <div class="mb-4">
-                <p class="text-lg font-bold text-black border-b pb-3 border-gray-400">
+        <div class="card">
+            <div class="card-header">
+                <p class="card-title text-lg">
                     شرایط استعلام
                 </p>
             </div>
@@ -465,7 +461,7 @@
         <!-- Inquiry Dates -->
         @can('detail-inquiry')
             <div class="md:grid grid-cols-3 gap-4 mt-4">
-                <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4 space-y-2">
+                <div class="card">
                     <p class="text-sm font-bold text-black text-center">
                         ایجاد استعلام : {{ jdate($inquiry->created_at)->format('%A, %d %B %Y') }}
                     </p>
@@ -473,7 +469,7 @@
                         ساعت : {{ jdate($inquiry->created_at)->format('H:i:s') }}
                     </p>
                 </div>
-                <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4 space-y-2">
+                <div class="card">
                     <p class="text-sm font-bold text-black text-center">
                         آخرین بروزرسانی استعلام : {{ jdate($inquiry->updated_at)->format('%A, %d %B %Y') }}
                     </p>
@@ -481,7 +477,7 @@
                         ساعت : {{ jdate($inquiry->updated_at)->format('H:i:s') }}
                     </p>
                 </div>
-                <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4 space-y-2">
+                <div class="card">
                     @if($inquiry->archive_at)
                         <p class="text-sm font-bold text-black text-center">
                             آرشیو استعلام : {{ jdate($inquiry->archive_at)->format('%A, %d %B %Y') }}

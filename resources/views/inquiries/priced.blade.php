@@ -194,7 +194,7 @@
                                               d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/>
                                     </svg>
                                 </button>
-                                <div x-show="open" @click.away="open = false" class="table-dropdown -right-20 -top-6"
+                                <div x-show="open" @click.away="open = false" class="table-dropdown right-8 -top-12"
                                      x-cloak>
                                     @can('copy-inquiry')
                                         <form action="{{ route('inquiries.copy',$inquiry->id) }}" method="POST"
@@ -273,10 +273,6 @@
                                                                         class="flex justify-end items-center space-x-4 space-x-reverse">
                                                                         <button type="submit" class="form-submit-btn">
                                                                             ثبت
-                                                                        </button>
-                                                                        <button type="button" class="form-cancel-btn"
-                                                                                @click="open = false">
-                                                                            انصراف!
                                                                         </button>
                                                                     </div>
                                                                 </div>
