@@ -121,8 +121,16 @@
     @apply text-gray-500 group-hover:text-yellow-600 flex items-center dark:text-gray-300 dark:group-hover:text-yellow-300;
 }
 
+.mobile-warning-btn {
+    @apply text-yellow-600 flex items-center dark:text-yellow-300 text-xs font-bold;
+}
+
 .table-success-btn {
     @apply text-gray-500 group-hover:text-green-600 flex items-center dark:text-gray-300 dark:group-hover:text-green-300;
+}
+
+.mobile-success-btn {
+    @apply text-green-600 flex items-center dark:text-green-300 text-xs font-bold;
 }
 
 .table-delete-btn {
@@ -131,6 +139,10 @@
 
 .table-info-btn {
     @apply text-gray-500 group-hover:text-myBlue-100 flex items-center dark:text-gray-300 dark:group-hover:text-blue-300;
+}
+
+.mobile-info-btn {
+    @apply text-myBlue-100 flex items-center dark:text-blue-300 text-xs font-bold;
 }
 
 .modal-backdrop {

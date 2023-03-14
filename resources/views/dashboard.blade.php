@@ -12,7 +12,7 @@
 
     <div x-data="{tab : 'inquiry'}" class="mb-8">
         <div class="border-b border-mySky-100 mt-6">
-            <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-600">
+            <ul class="flex md:flex-wrap -mb-px text-sm font-medium text-center text-gray-600 whitespace-nowrap overflow-x-auto">
                 <li class="ml-2">
                     <button x-on:click="tab = 'inquiry'" type="button"
                             class="inline-flex p-4 text-myBlue-100 border border-transparent group rounded-t-lg"
@@ -91,7 +91,7 @@
         </div>
 
         <div x-show="tab === 'inquiry'" class="border border-mySky-100 border-t-0 rounded-b-lg px-4 py-6" x-cloak>
-            <div class="grid grid-cols-4 gap-4">
+            <div class="md:grid grid-cols-4 gap-4 space-y-4 md:space-y-0">
                 @can('inquiries')
                     <a href="{{ route('inquiries.index') }}" class="dashboard-cards group">
                         <div class="flex items-center">
@@ -179,7 +179,7 @@
         </div>
 
         <div x-show="tab === 'price'" class="border border-mySky-100 border-t-0 rounded-b-lg px-4 py-6" x-cloak>
-            <div class="grid grid-cols-4 gap-4">
+            <div class="md:grid grid-cols-4 gap-4 space-y-4 md:space-y-0">
                 @can('part-price')
                     <a href="{{ route('parts.price.index') }}" class="dashboard-cards group">
                         <div class="flex items-center">
@@ -239,7 +239,7 @@
         </div>
 
         <div x-show="tab === 'calculate'" class="border border-mySky-100 border-t-0 rounded-b-lg px-4 py-6" x-cloak>
-            <div class="grid grid-cols-4 gap-4">
+            <div class="md:grid grid-cols-4 gap-4 space-y-4 md:space-y-0">
                 @can('separate-calculate-coils')
                     <a href="{{ route('separate.coil.index') }}" class="dashboard-cards group">
                         <div class="flex items-center">
@@ -355,7 +355,7 @@
         </div>
 
         <div x-show="tab === 'admin'" class="border border-mySky-100 border-t-0 rounded-b-lg px-4 py-6" x-cloak>
-            <div class="grid grid-cols-4 gap-4">
+            <div class="md:grid grid-cols-4 gap-4 space-y-4 md:space-y-0">
                 @can('categories')
                     <a href="{{ route('categories.index') }}" class="dashboard-cards group">
                         <div class="flex items-center">

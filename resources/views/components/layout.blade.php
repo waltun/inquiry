@@ -37,7 +37,7 @@
 
     <!-- Main -->
     <main>
-        <div class="px-16 py-10">
+        <div class="md:px-16 py-10 px-4">
             {{ $slot }}
         </div>
     </main>

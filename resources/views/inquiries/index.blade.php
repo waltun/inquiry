@@ -1,6 +1,6 @@
 <x-layout>
     <!-- Breadcrumb -->
-    <div class="flex items-center space-x-2 space-x-reverse">
+    <div class="flex items-center space-x-2 space-x-reverse overflow-x-auto md:overflow-x-hidden">
         <a href="{{ route('dashboard') }}" class="flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                  stroke="currentColor" class="breadcrumb-svg">
@@ -48,7 +48,8 @@
                 </svg>
             </div>
         </div>
-        <form method="GET" action="" class="mt-4 grid grid-cols-4 gap-4" x-show="open" x-cloak>
+        <form method="GET" action="" class="mt-4 md:grid grid-cols-4 gap-4 space-y-4 md:space-y-0" x-show="open"
+              x-cloak>
             <div class="mb-4">
                 <label for="inputInquiryNumber" class="form-label">شماره استعلام</label>
                 <input type="text" id="inputInquiryNumber" class="input-text" name="inquiry_number"
@@ -99,7 +100,7 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col-span-4 flex justify-end space-x-2 space-x-reverse">
+            <div class="col-span-4 flex justify-end space-x-2 space-x-reverse pb-4">
                 <button class="form-submit-btn" type="submit">
                     جستجو
                 </button>
@@ -113,7 +114,7 @@
     </div>
 
     <!-- Navigation -->
-    <div class="flex items-center justify-between mt-8">
+    <div class="md:flex items-center justify-between mt-8 space-y-4 md:space-y-0">
         <div class="flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 dark:text-white" fill="none" viewBox="0 0 24 24"
                  stroke="currentColor" stroke-width="2">
@@ -139,8 +140,8 @@
 
     <!-- Content -->
     <div class="mt-4 space-y-4">
-        <div class="mt-8 overflow-x-auto rounded-lg">
-            <table class="w-full border-collapse">
+        <div class="mt-8 overflow-x-auto rounded-lg hidden md:block">
+            <table class="md:w-full border-collapse">
                 <thead>
                 <tr class="table-th-tr">
                     <th scope="col" class="p-4 rounded-tr-lg">
@@ -448,13 +449,225 @@
                 </tbody>
             </table>
         </div>
+
+        <div class="mt-8 block md:hidden space-y-4">
+            @foreach($inquiries as $inquiry)
+                <div class="p-4 rounded-lg shadow-search bg-white border border-sky-100 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <p class="text-xs font-medium text-black whitespace-nowrap">شماره استعلام :</p>
+                        <span class="border w-full mx-4 {{ $loop->odd ? 'border-sky-200' : 'border-red-200' }}"></span>
+                        <p class="text-xs font-medium text-black whitespace-nowrap">
+                            @if(is_null($inquiry->inquiry_number))
+                                استعلام موقت
+                            @else
+                                {{ $inquiry->inquiry_number }}
+                            @endif
+                        </p>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <p class="text-xs font-medium text-black whitespace-nowrap">نام پروژه :</p>
+                        <span class="border {{ $loop->odd ? 'border-sky-200' : 'border-red-200' }} w-full mx-4"></span>
+                        <p class="text-xs font-medium text-black whitespace-nowrap">
+                            {{ $inquiry->name }}
+                        </p>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <p class="text-xs font-medium text-black whitespace-nowrap">مسئول پروژه :</p>
+                        <span class="border {{ $loop->odd ? 'border-sky-200' : 'border-red-200' }} w-full mx-4"></span>
+                        @php
+                            $user = \App\Models\User::find($inquiry->user_id);
+                        @endphp
+                        <p class="text-xs font-medium text-black whitespace-nowrap">
+                            {{ $user->name }}
+                        </p>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <p class="text-xs font-medium text-black whitespace-nowrap">بازاریاب :</p>
+                        <span class="border {{ $loop->odd ? 'border-sky-200' : 'border-red-200' }} w-full mx-4"></span>
+                        <p class="text-xs font-medium text-black whitespace-nowrap">
+                            {{ $inquiry->marketer }}
+                        </p>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <p class="text-xs font-medium text-black whitespace-nowrap">تاریخ :</p>
+                        <span class="border {{ $loop->odd ? 'border-sky-200' : 'border-red-200' }} w-full mx-4"></span>
+                        <p class="text-xs font-medium text-black whitespace-nowrap">
+                            {{ jdate($inquiry->created_at)->format('%A, %d %B %Y') }}
+                        </p>
+                    </div>
+                    <div class="flex items-center border-t border-gray-300 pt-4 space-x-2 space-x-reverse">
+                        @if($inquiry->type == 'product' || $inquiry->type == 'both')
+                            @can('inquiry-products')
+                                <a href="{{ route('inquiries.product.index',$inquiry->id) }}"
+                                   class="mobile-warning-btn">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         class="w-4 h-4 ml-1" fill="none"
+                                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                              d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"></path>
+                                    </svg>
+                                    محصولات
+                                </a>
+                            @endcan
+                        @endif
+                        @if($inquiry->type == 'part' || $inquiry->type == 'both')
+                            @can('inquiry-parts')
+                                <a href="{{ route('inquiries.parts.index',$inquiry->id) }}"
+                                   class="mobile-info-btn">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         class="w-4 h-4 ml-1" fill="none"
+                                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                              d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                    قطعات تکی
+                                </a>
+                            @endcan
+                        @endif
+                        @can('submit-inquiry')
+                            <form action="{{ route('inquiries.submit',$inquiry->id) }}" method="POST">
+                                @csrf
+                                @method('PATCH')
+                                <button class="mobile-success-btn"
+                                        onclick="return confirm('استعلام ثبت نهایی شود ؟')">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                              d="M4.5 12.75l6 6 9-13.5"/>
+                                    </svg>
+                                    ثبت نهایی
+                                </button>
+                            </form>
+                        @endcan
+                        <div class="flex items-center justify-center space-x-4 space-x-reverse relative"
+                             x-data="{open:false}">
+                            <button @click="open = !open">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/>
+                                </svg>
+                            </button>
+                            <div x-show="open" @click.away="open = false" class="table-dropdown top-0 right-2 whitespace-nowrap"
+                                 x-cloak>
+                                @can('inquiry-description')
+                                    <a href="{{ route('inquiries.description',$inquiry->id) }}"
+                                       class="table-dropdown-description">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                             stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                  d="M3.75 6.75h16.5M3.75 12h16.5M12 17.25h8.25"/>
+                                        </svg>
+                                        شرایط استعلام
+                                    </a>
+                                @endcan
+                                @can('referral-inquiry')
+                                    <div x-data="{open:false}">
+                                        <button class="table-dropdown-description" @click="open = !open">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                 stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                      d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"/>
+                                            </svg>
+                                            ارجاع
+                                        </button>
+                                        <div class="relative z-10" x-show="open" x-cloak>
+                                            <div class="modal-backdrop"></div>
+                                            <div class="fixed z-10 inset-0 overflow-y-auto">
+                                                <div class="modal">
+                                                    <div class="modal-body">
+                                                        <form method="POST" class="bg-white dark:bg-slate-800 p-4"
+                                                              action="{{ route('inquiries.tmpReferral',$inquiry->id) }}">
+                                                            @csrf
+                                                            <div class="mb-4 flex justify-between items-center">
+                                                                <h3 class="text-lg font-bold text-gray-900 dark:text-white">
+                                                                    ارجاع استعلام به شخص دیگر
+                                                                </h3>
+                                                                <button type="button" @click="open = false">
+                                                                    <span class="modal-close">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                             fill="none"
+                                                                             viewBox="0 0 24 24"
+                                                                             stroke-width="1.5" stroke="currentColor"
+                                                                             class="w-5 h-5 dark:text-white">
+                                                                            <path stroke-linecap="round"
+                                                                                  stroke-linejoin="round"
+                                                                                  d="M6 18L18 6M6 6l12 12"/>
+                                                                        </svg>
+                                                                    </span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="mt-6">
+                                                                <div class="mb-4">
+                                                                    <label for="inputUser" class="form-label">
+                                                                        انتخاب کاربر
+                                                                    </label>
+                                                                    <select name="user_id" id="inputUser"
+                                                                            class="input-text">
+                                                                        @foreach(\App\Models\User::all() as $user)
+                                                                            <option
+                                                                                value="{{ $user->id }}">{{ $user->name }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                                <div
+                                                                    class="flex justify-end items-center space-x-4 space-x-reverse">
+                                                                    <button type="submit" class="form-submit-btn">
+                                                                        ثبت
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endcan
+                                @can('edit-inquiry')
+                                    <a href="{{ route('inquiries.edit',$inquiry->id) }}"
+                                       class="table-dropdown-edit">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                             stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                  d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"/>
+                                        </svg>
+                                        ویرایش
+                                    </a>
+                                @endcan
+                                @if($delete->inquiries)
+                                    @can('delete-inquiry')
+                                        <form action="{{ route('inquiries.destroy',$inquiry->id) }}" method="POST"
+                                              class="table-dropdown-delete">
+                                            @csrf
+                                            @method('DELETE')
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                 stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                      d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
+                                            </svg>
+                                            <button onclick="return confirm('استعلام حذف شود ؟')">
+                                                حذف
+                                            </button>
+                                        </form>
+                                    @endcan
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+
         <div class="mt-4">
             {!! $inquiries->links() !!}
         </div>
     </div>
 
     <!-- Submitted & Priced inquiries -->
-    <div class="mt-6 grid grid-cols-2 gap-4">
+    <div class="mt-6 md:grid grid-cols-2 gap-4 space-y-4 md:space-y-0">
         @can('submitted-inquiries')
             <a href="{{ route('inquiries.submitted') }}" class="dashboard-cards group">
                 <div class="flex items-center">

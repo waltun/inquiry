@@ -40,7 +40,7 @@
         </div>
 
         <!-- Search -->
-        <div class="mr-5 flex items-center relative">
+        <div class="mr-5 md:flex items-center relative hidden">
             <input type="text"
                    class="w-56 bg-white dark:bg-slate-700 dark:border-black rounded-lg shadow-search px-4 py-2.5 text-xs border border-gray-200 dark:text-white"
                    placeholder="جستجوی کلمه مورد نظر">
