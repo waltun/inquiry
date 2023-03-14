@@ -92,36 +92,32 @@
                 @endif
             </div>
         </div>
-        @if(!$category->children->isEmpty())
-            @foreach($category->children as $children)
-                @php
-                    $status = true;
-                    $count = 0;
-                    $id = $children->id;
-                    while ($status){
-                        $cat = \App\Models\Category::where('id',$id)->first();
-                        $parent_id = $cat->parent_id;
-                        if ($parent_id != 0){
-                            $count++;
-                            $id = $parent_id;
-                        } else{
-                            $status = false;
-                        }
+        @foreach($category->children as $children)
+            @php
+                $status = true;
+                $count = 0;
+                $id = $children->id;
+                while ($status){
+                    $cat = \App\Models\Category::where('id',$id)->first();
+                    $parent_id = $cat->parent_id;
+                    if ($parent_id != 0){
+                        $count++;
+                        $id = $parent_id;
+                    } else{
+                        $status = false;
                     }
-                @endphp
-            @endforeach
-            @if($count != 3)
-                <div class="flex items-center space-x-4 space-x-reverse">
-                    <a href="{{ route('categories.create') }}?parent={{ $category->id }}" class="page-warning-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                             stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
-                        </svg>
-                        <span class="mr-2">ثبت زیردسته جدید</span>
-                    </a>
-                </div>
-            @endif
-        @endif
+                }
+            @endphp
+        @endforeach
+        <div class="flex items-center space-x-4 space-x-reverse">
+            <a href="{{ route('categories.create') }}?parent={{ $category->id }}" class="page-warning-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                     stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+                </svg>
+                <span class="mr-2">ثبت زیردسته جدید</span>
+            </a>
+        </div>
     </div>
 
     <div class="mt-6 space-y-4">
