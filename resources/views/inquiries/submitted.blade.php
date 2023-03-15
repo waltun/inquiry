@@ -587,7 +587,7 @@
 
     <div class="mt-6 md:grid grid-cols-2 gap-4 space-y-4 md:space-y-0">
         @can('submitted-inquiries')
-            <a href="{{ route('inquiries.index') }}" class="dashboard-cards group">
+            <a href="{{ route('inquiries.index') }}" class="dashboard-cards group bg-sky-200">
                 <div class="flex items-center">
                     <div class="dashboard-card-icon bg-yellow-600 dark:bg-slate-800">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white group-hover:text-myBlue-100"
@@ -614,7 +614,7 @@
         @endcan
 
         @can('priced-inquiries')
-            <a href="{{ route('inquiries.priced') }}" class="dashboard-cards group">
+            <a href="{{ route('inquiries.priced') }}" class="dashboard-cards group bg-sky-200">
                 <div class="flex items-center">
                     <div class="dashboard-card-icon bg-yellow-600 dark:bg-slate-800">
                         <svg xmlns="http://www.w3.org/2000/svg"

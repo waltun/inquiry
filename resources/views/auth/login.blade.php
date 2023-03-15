@@ -17,7 +17,7 @@
             <img src="{{ asset('images/azarbad.png') }}" alt="" class="mx-auto w-64">
             <div class="mt-4">
                 <p class="text-xl font-bold text-black text-center">
-                    ورود به وب سایت شرکت تهویه آذرباد
+                    ورود به سامانه استعلام قیمت شرکت تهویه آذرباد
                 </p>
             </div>
         </div>

@@ -86,15 +86,18 @@
     <!-- Content -->
     <div class="mt-4">
         <!-- Info -->
-        <div class="mb-4 mt-8">
+        <div class="mb-4 mt-8 card bg-myBlue-300">
             <div class="flex items-center space-x-4 space-x-reverse justify-center">
-                <p class="bg-myBlue-300 py-2 px-4 rounded-lg text-sm text-white">
+                <p class="bg-white py-2 px-4 rounded-lg text-sm text-black">
                     نام پروژه : {{ $inquiry->name }}
                 </p>
-                <p class="bg-myBlue-300 py-2 px-4 rounded-lg text-sm text-white">
+                <p class="bg-white py-2 px-4 rounded-lg text-sm text-black">
                     شماره استعلام : {{ "INQ-" . $inquiry->inquiry_number }}
                 </p>
-                <p class="bg-myBlue-300 py-2 px-4 rounded-lg text-sm text-white">
+                <p class="bg-white py-2 px-4 rounded-lg text-sm text-black">
+                    تاریخ قیمت گذاری : {{ jdate($inquiry->archive_at)->format('%A, %d %B %Y') }}
+                </p>
+                <p class="bg-white py-2 px-4 rounded-lg text-sm text-black">
                     @php
                         $user = \App\Models\User::where('id',$inquiry->user_id)->first();
                     @endphp
@@ -107,7 +110,7 @@
                     }
                 @endphp
                 @if($percentProduct && !is_null($percentProduct->percent_by))
-                    <p class="bg-myYellow-100 py-2 px-4 rounded-lg text-sm text-white flex items-center">
+                    <p class="bg-white py-2 px-4 rounded-lg text-sm text-black flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                              stroke="currentColor" class="w-5 h-5 ml-1">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -180,7 +183,7 @@
                         <td class="table-tr-td border-t-0" colspan="9">
                             <div class="flex justify-end">
                                 <p class="table-price-label">
-                                    قیمت کل : {{ number_format($productFinalPrice) }} تومان
+                                    جمع قیمت : {{ number_format($productFinalPrice) }} تومان
                                 </p>
                             </div>
                         </td>
@@ -283,7 +286,7 @@
                             <td class="table-tr-td border-t-0" colspan="5">
                                 <div class="flex justify-end">
                                     <p class="table-price-label">
-                                        قیمت کل : {{ number_format($partFinalPrice) }} تومان
+                                        جمع قیمت : {{ number_format($partFinalPrice) }} تومان
                                     </p>
                                 </div>
                             </td>
@@ -297,12 +300,12 @@
         <!-- Final Inquiry Price -->
         <div class="my-6 flex justify-end sticky bottom-4">
             @if($inquiry->price > 0)
-                <p class="bg-myGreen-100 text-white px-6 py-3 rounded-lg font-bold text-xl">
-                    قیمت نهایی کل استعلام : {{ number_format($inquiry->price) }} تومان
+                <p class="bg-myGreen-100 text-white px-6 py-3 rounded-lg font-bold text-lg">
+                    قیمت کل استعلام : {{ number_format($inquiry->price) }} تومان
                 </p>
             @else
-                <p class="bg-myGreen-100 text-white px-6 py-3 rounded-lg font-bold text-xl">
-                    قیمت نهایی کل استعلام : {{ number_format($partFinalPrice + $productFinalPrice) }} تومان
+                <p class="bg-myGreen-100 text-white px-6 py-3 rounded-lg font-bold text-lg">
+                    قیمت کل استعلام : {{ number_format($partFinalPrice + $productFinalPrice) }} تومان
                 </p>
             @endif
         </div>
@@ -326,29 +329,29 @@
         </div>
 
         <!-- Inquiry Dates -->
-        <div class="md:grid grid-cols-3 gap-4 mt-4">
-            <div class="card">
-                <p class="text-sm font-bold text-black text-center dark:text-white">
+        <div class="md:grid grid-cols-3 gap-4 mt-4 card">
+            <div class="card bg-myBlue-300">
+                <p class="text-sm font-bold text-white text-center dark:text-white">
                     ایجاد استعلام : {{ jdate($inquiry->created_at)->format('%A, %d %B %Y') }}
                 </p>
-                <p class="text-sm font-bold text-black text-center dark:text-white">
+                <p class="text-sm font-bold text-white text-center dark:text-white">
                     ساعت : {{ jdate($inquiry->created_at)->format('H:i:s') }}
                 </p>
             </div>
-            <div class="card">
-                <p class="text-sm font-bold text-black text-center dark:text-white">
+            <div class="card bg-myBlue-300">
+                <p class="text-sm font-bold text-white text-center dark:text-white">
                     آخرین بروزرسانی استعلام : {{ jdate($inquiry->updated_at)->format('%A, %d %B %Y') }}
                 </p>
-                <p class="text-sm font-bold text-black text-center dark:text-white">
+                <p class="text-sm font-bold text-white text-center dark:text-white">
                     ساعت : {{ jdate($inquiry->updated_at)->format('H:i:s') }}
                 </p>
             </div>
-            <div class="card">
+            <div class="card bg-myBlue-300">
                 @if($inquiry->archive_at)
-                    <p class="text-sm font-bold text-black text-center dark:text-white">
+                    <p class="text-sm font-bold text-white text-center dark:text-white">
                         آرشیو استعلام : {{ jdate($inquiry->archive_at)->format('%A, %d %B %Y') }}
                     </p>
-                    <p class="text-sm font-bold text-black text-center dark:text-white">
+                    <p class="text-sm font-bold text-white text-center dark:text-white">
                         ساعت : {{ jdate($inquiry->archive_at)->format('H:i:s') }}
                     </p>
                 @else

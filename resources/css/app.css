@@ -47,7 +47,7 @@
 }
 
 .input-text {
-    @apply bg-white w-full border border-gray-200 rounded-lg px-4 py-3 text-xs font-medium placeholder-mySky-200
+    @apply bg-white w-full border border-gray-200 rounded-lg px-4 py-2 text-xs font-medium placeholder-mySky-200
     placeholder-opacity-90 text-black dark:bg-slate-800 dark:border-black dark:text-white dark:placeholder-mySky-100;
 }
 
@@ -94,7 +94,7 @@
 }
 
 .table-tr-td {
-    @apply p-4 border border-gray-300 dark:border-black;
+    @apply p-2 border border-gray-300 dark:border-black;
 }
 
 .table-dropdown-edit {

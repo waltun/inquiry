@@ -193,7 +193,7 @@
                                     <input type="checkbox" value="{{ $part->id }}"
                                            class="checkboxes w-4 h-4 focus:ring-blue-500 focus:ring-2 focus:ring-offset-1 mx-auto block">
                                 </td>
-                                <td class="table-tr-td border-t-0 border-x-0 whitespace-normal">
+                                <td class="table-tr-td border-t-0 border-x-0 whitespace-normal text-red-600">
                                     {{ $part->name }}
                                     @if($part->percent_submit)
                                         <br>
@@ -226,7 +226,7 @@
                                     {{ jdate($part->price_updated_at)->format('%A, %d %B %Y') }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-r-0">
-                                    <button type="button" class="table-warning-btn"
+                                    <button type="button" class="table-warning-btn text-red-600"
                                             onclick="updateDate({{ $part->id }})">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                              stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
