@@ -452,21 +452,6 @@
                                 </a>
                             @endcan
                         @endif
-                        @can('submit-inquiry')
-                            <form action="{{ route('inquiries.submit',$inquiry->id) }}" method="POST">
-                                @csrf
-                                @method('PATCH')
-                                <button class="mobile-success-btn"
-                                        onclick="return confirm('استعلام ثبت نهایی شود ؟')">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                         stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                              d="M4.5 12.75l6 6 9-13.5"/>
-                                    </svg>
-                                    ثبت نهایی
-                                </button>
-                            </form>
-                        @endcan
                         <div class="flex items-center justify-center space-x-4 space-x-reverse relative"
                              x-data="{open:false}">
                             <button @click="open = !open">

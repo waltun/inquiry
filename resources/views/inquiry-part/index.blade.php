@@ -208,7 +208,7 @@
     </x-slot>
 
     <!-- Breadcrumb -->
-    <div class="flex items-center space-x-2 space-x-reverse">
+    <div class="flex items-center space-x-2 space-x-reverse overflow-x-auto whitespace-nowrap md:overflow-hidden">
         <a href="{{ route('dashboard') }}" class="flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                  stroke="currentColor" class="breadcrumb-svg">
@@ -280,7 +280,7 @@
     </div>
 
     <!-- Navigation -->
-    <div class="flex items-center justify-between mt-8">
+    <div class="md:flex items-center justify-between mt-8 space-y-4 md:space-y-0">
         <div class="flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                  stroke="currentColor" class="w-8 h-8 dark:text-white">
@@ -289,12 +289,12 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
             </svg>
             <div class="mr-2">
-                <p class="font-bold text-2xl text-black dark:text-white">
+                <p class="font-bold md:text-2xl text-lg text-black dark:text-white">
                     لیست قطعات تکی استعلام {{ $inquiry->name }}
                 </p>
             </div>
         </div>
-        <div class="flex items-center space-x-4 space-x-reverse">
+        <div class="flex items-center space-x-4 space-x-reverse whitespace-nowrap overflow-x-auto md:overflow-hidden">
             <div x-data="{open:false}">
                 <button type="button" class="page-info-btn" @click="open = !open">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -607,7 +607,7 @@
         @php
             $types = ['setup','years','control','power_cable','control_cable','pipe','install_setup_price','setup_price','supervision','transport','other',null];
         @endphp
-        <div>
+        <div class="hidden md:block">
             @foreach($types as $type)
                 @php
                     $products = $inquiry->products()->where('part_id','!=',0)->where('type',$type)->orderBy('sort','ASC')->get();
@@ -790,7 +790,8 @@
                                                     @endforeach
                                                 </select>
                                                 @if($part->coil == '1' && !$part->standard && !in_array($part->id,$specials))
-                                                    <a href="{{ route('collections.amounts',$part->id) }}" target="_blank"
+                                                    <a href="{{ route('collections.amounts',$part->id) }}"
+                                                       target="_blank"
                                                        class="text-xs mr-1 text-indigo-500 underline underline-offset-4 whitespace-nowrap">
                                                         جزئیات
                                                     </a>
@@ -999,6 +1000,128 @@
                             </button>
                         </div>
                     </form>
+                @endif
+            @endforeach
+        </div>
+
+        <div class="mt-8 block md:hidden space-y-4">
+            @foreach($types as $type)
+                @php
+                    $products = $inquiry->products()->where('part_id','!=',0)->where('type',$type)->orderBy('sort','ASC')->get();
+                @endphp
+                @if(!$products->isEmpty())
+                    @foreach($products as $product)
+                        @php
+                            $category = $part->categories[1];
+                            $selectedCategory = $part->categories[2];
+                        @endphp
+                        <div class="p-4 rounded-lg shadow-search bg-white border border-sky-100 space-y-4">
+                            <div class="flex items-center justify-between">
+                                <p class="text-xs font-medium text-black whitespace-nowrap">Sort :</p>
+                                <span
+                                    class="border w-full mx-4 {{ $loop->odd ? 'border-sky-200' : 'border-red-200' }}"></span>
+                                <p class="text-xs font-medium text-black whitespace-nowrap">
+                                    {{ $product->sort }}
+                                </p>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <p class="text-xs font-medium text-black whitespace-nowrap">دسته بندی :</p>
+                                <span
+                                    class="border w-full mx-4 {{ $loop->odd ? 'border-sky-200' : 'border-red-200' }}"></span>
+                                <select id="inputCategory{{ $part->id }}" class="input-text py-1"
+                                        onchange="changePart(event,{{ $part->id }})">
+                                    @foreach($category->children as $child)
+                                        <option
+                                            value="{{ $child->id }}" {{ $child->id == $selectedCategory->id ? 'selected' : '' }}>
+                                            {{ $child->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @php
+                                $selectedPart = \App\Models\Part::find($part->id);
+                                $lastCategory = $selectedPart->categories()->latest()->first();
+                                if ((in_array($part->id,$specials) && !$part->standard) || ($part->coil && !$part->standard)) {
+                                    $categoryParts = $lastCategory->parts()->where('inquiry_id',$inquiry->id)->get();
+                                    if ($categoryParts->isEmpty()) {
+                                        $categoryParts[] = $lastCategory->parts()->first();
+                                    }
+                                } else {
+                                    $categoryParts = $lastCategory->parts;
+                                }
+                            @endphp
+                            <div class="flex items-center justify-between">
+                                <p class="text-xs font-medium text-black whitespace-nowrap">نام قطعه :</p>
+                                <span
+                                    class="border w-full mx-4 {{ $loop->odd ? 'border-sky-200' : 'border-red-200' }}"></span>
+                                <select name="part_ids[]" class="input-text py-1"
+                                        id="groupPartList{{ $part->id }}"
+                                        onchange="showCalculateButton('{{ $part->id }}'); changeFormula(event,{{ $part->id }});">
+                                    @foreach($categoryParts as $part2)
+                                        <option
+                                            value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
+                                            {{ $part2->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <p class="text-xs font-medium text-black whitespace-nowrap">نوع قطعه : </p>
+                                <span
+                                    class="border w-full mx-4 {{ $loop->odd ? 'border-sky-200' : 'border-red-200' }}"></span>
+                                <select name="types[]" id="inputType{{ $product->id }}" class="input-text py-1">
+                                    <option value="setup" {{ $product->type == 'setup' ? 'selected' : '' }}>
+                                        قطعات یدکی راه اندازی
+                                    </option>
+                                    <option value="years" {{ $product->type == 'years' ? 'selected' : '' }}>
+                                        قطعات یدکی دو سالانه
+                                    </option>
+                                    <option
+                                        value="control" {{ $product->type == 'control' ? 'selected' : '' }}>
+                                        قطعات کنترلی
+                                    </option>
+                                    <option
+                                        value="power_cable" {{ $product->type == 'power_cable' ? 'selected' : '' }}>
+                                        لیست کابل قدرت
+                                    </option>
+                                    <option
+                                        value="control_cable" {{ $product->type == 'control_cable' ? 'selected' : '' }}>
+                                        لیست کابل کنترلی
+                                    </option>
+                                    <option value="pipe" {{ $product->type == 'pipe' ? 'selected' : '' }}>
+                                        لیست لوله و اتصالات
+                                    </option>
+                                    <option
+                                        value="install_setup_price" {{ $product->type == 'install_setup_price' ? 'selected' : '' }}>
+                                        دستمزد نصب و راه اندازی
+                                    </option>
+                                    <option
+                                        value="setup_price" {{ $product->type == 'setup_price' ? 'selected' : '' }}>
+                                        دستمزد راه‌اندازی
+                                    </option>
+                                    <option
+                                        value="supervision" {{ $product->type == 'supervision' ? 'selected' : '' }}>
+                                        دستمزد نظارت
+                                    </option>
+                                    <option
+                                        value="transport" {{ $product->type == 'transport' ? 'selected' : '' }}>
+                                        هزینه حمل
+                                    </option>
+                                    <option value="other" {{ $product->type == 'other' ? 'selected' : '' }}>
+                                        سایر تجهیزات
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <p class="text-xs font-medium text-black whitespace-nowrap">تگ قطعه : </p>
+                                <span
+                                    class="border w-full mx-4 {{ $loop->odd ? 'border-sky-200' : 'border-red-200' }}"></span>
+                                <input type="text" name="tags[]" class="input-text py-1" value="{{ $product->description }}"
+                                       placeholder="تگ قطعه">
+                            </div>
+
+                        </div>
+                    @endforeach
                 @endif
             @endforeach
         </div>

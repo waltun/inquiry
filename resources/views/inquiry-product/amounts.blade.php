@@ -389,7 +389,7 @@
                         نام
                     </th>
                     <th scope="col" class="p-4">
-                        قیمت
+                        قیمت (تومان)
                     </th>
                     <th scope="col" class="p-4">
                         واحد
@@ -398,7 +398,7 @@
                         مقادیر
                     </th>
                     <th scope="col" class="p-4">
-                        قیمت کل
+                        قیمت کل (تومان)
                     </th>
                     @if(!$amounts->isEmpty())
                         <th scope="col" class="p-4">
@@ -1241,7 +1241,7 @@
                                                 قیمت کل : {{ number_format($showPivotPrice) }} تومان
                                             </p>
                                             <p class="table-weight-label">
-                                                وزن دستگاه : {{ number_format($partWeight) }} تومان
+                                                وزن دستگاه : {{ number_format($partWeight) }} کیلوگرم
                                             </p>
                                         </div>
                                     @endif
@@ -1251,7 +1251,7 @@
                                                 قیمت کل : {{ number_format($showAmountPrice) }} تومان
                                             </p>
                                             <p class="table-weight-label">
-                                                وزن دستگاه : {{ number_format($amountWeight) }} تومان
+                                                وزن دستگاه : {{ number_format($amountWeight) }} کیلوگرم
                                             </p>
                                         </div>
                                     @endif
