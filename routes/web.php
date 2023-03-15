@@ -22,7 +22,6 @@ use App\Http\Controllers\ModellController;
 use App\Http\Controllers\NewPartInquiryController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PartController;
-use App\Http\Controllers\PartOfGroupController;
 use App\Http\Controllers\PartOfModellController;
 use App\Http\Controllers\PartPriceController;
 use App\Http\Controllers\PermissionController;
@@ -56,7 +55,6 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::resource('users', UserController::class);
 
     //Modell routes
-    Route::get('/groups/{group}/models', [ModellController::class, 'index'])->name('modells.index');
     Route::get('/groups/{group}/models/create', [ModellController::class, 'create'])->name('modells.create');
     Route::post('/groups/{group}/models', [ModellController::class, 'store'])->name('modells.store');
     Route::get('/models/{modell}/edit', [ModellController::class, 'edit'])->name('modells.edit');
@@ -68,15 +66,10 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/models/{modell}/parts', [ModellController::class, 'parts'])->name('modells.parts');
     Route::delete('/models/{modell}/{part}/destroy-part', [ModellController::class, 'destroyPart'])->name('modells.destroyPart');
     Route::post('/models/{modell}/part-value', [ModellController::class, 'partValues'])->name('modells.partValues');
-
-    //Group part routes
-    Route::get('/groups/{group}/add-parts', [PartOfGroupController::class, 'index'])->name('group.parts.index');
-    Route::post('/groups/{group}/{part}/parts', [PartOfGroupController::class, 'store'])->name('group.parts.store');
+    Route::get('/models/{modell}/children', [ModellController::class, 'children'])->name('modells.children');
 
     //Group routes
-    Route::get('/groups/{group}/parts', [GroupController::class, 'parts'])->name('group.parts');
-    Route::delete('/groups/{group}/{part}/destroy-part', [GroupController::class, 'destroyPart'])->name('group.destroyPart');
-    Route::post('/groups/{group}/part-value', [GroupController::class, 'partValues'])->name('group.partValues');
+    Route::get('/groups/{group}/children', [GroupController::class, 'children'])->name('groups.children');
     Route::resource('groups', GroupController::class);
 
     //Part routes

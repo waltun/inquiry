@@ -12,20 +12,12 @@ class ModellController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:models')->only(['index']);
-        $this->middleware('can:create-model')->only(['create','store']);
-        $this->middleware('can:edit-model')->only(['edit','update']);
+        $this->middleware('can:create-model')->only(['create', 'store']);
+        $this->middleware('can:edit-model')->only(['edit', 'update']);
         $this->middleware('can:delete-model')->only(['destroy']);
         $this->middleware('can:replicate-model')->only(['replicate']);
         $this->middleware('can:model-parts')->only(['parts']);
         $this->middleware('can:model-part-values')->only(['partValues']);
-    }
-
-    public function index($id)
-    {
-        $group = Group::find($id);
-        $modells = $group->modells()->paginate(25);
-        return view('modells.index', compact('modells', 'group'));
     }
 
     public function create($id)
@@ -38,6 +30,8 @@ class ModellController extends Controller
         } else {
             $code = $this->getLastCode($group);
         }
+
+        session()->put('prev-url', url()->previous());
 
         return view('modells.create', compact('group', 'code'));
     }
@@ -83,12 +77,16 @@ class ModellController extends Controller
 
         alert()->success('ثبت موفق', 'ثبت مدل با موفقیت انجام شد');
 
-        return redirect()->route('groups.index');
+        $prevUrl = session('prev-url', route('groups.index'));
+
+        return redirect()->to($prevUrl);
     }
 
     public function edit(Modell $modell)
     {
         $group = Group::find($modell->group_id);
+
+        session()->put('prev-url', url()->previous());
 
         return view('modells.edit', compact('modell', 'group'));
     }
@@ -135,7 +133,9 @@ class ModellController extends Controller
 
         alert()->success('ویرایش موفق', 'ویرایش مدل با موفقیت انجام شد');
 
-        return redirect()->route('groups.index');
+        $prevUrl = session('prev-url', route('categories.index'));
+
+        return redirect()->to($prevUrl);
     }
 
     public function destroy(Modell $modell)
@@ -227,6 +227,15 @@ class ModellController extends Controller
         alert()->success('مقادیر', 'مقدار قطعات برای مدل با موفقیت ثبت شد');
 
         return back();
+    }
+
+    public function children(Modell $modell)
+    {
+        session()->put('prev-url', url()->previous());
+
+        $group = Group::find($modell->group_id);
+
+        return view('modells.children', compact('modell', 'group'));
     }
 
     public function getLastCode($group)

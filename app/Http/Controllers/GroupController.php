@@ -13,8 +13,8 @@ class GroupController extends Controller
     public function __construct()
     {
         $this->middleware('can:groups')->only(['index']);
-        $this->middleware('can:create-group')->only(['create','store']);
-        $this->middleware('can:edit-group')->only(['edit','update']);
+        $this->middleware('can:create-group')->only(['create', 'store']);
+        $this->middleware('can:edit-group')->only(['edit', 'update']);
         $this->middleware('can:delete-group')->only(['destroy']);
     }
 
@@ -117,6 +117,13 @@ class GroupController extends Controller
         alert()->success('مقادیر', 'مقدار قطعات برای گروه با موفقیت ثبت شد');
 
         return back();
+    }
+
+    public function children(Group $group)
+    {
+        session()->put('prev-url', url()->previous());
+
+        return view('groups.children', compact('group'));
     }
 
     public function getCode()
