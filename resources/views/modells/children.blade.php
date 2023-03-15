@@ -68,6 +68,17 @@
                     لیست زیردسته های {{ $modell->name }}
                 </p>
             </div>
+            <div class="mr-2">
+                <a href="{{ route('groups.children',$group->id) }}"
+                   class="category-back">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                         stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75"/>
+                    </svg>
+                    <span class="mr-1 text-sm">بازگشت</span>
+                </a>
+            </div>
         </div>
         <div class="flex items-center space-x-4 space-x-reverse">
             <a href="{{ route('modells.create',$group->id) }}?parent={{ $modell->id }}" class="page-warning-btn">

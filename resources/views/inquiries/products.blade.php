@@ -100,6 +100,22 @@
                     @endphp
                     مسئول پروژه : {{ $user->name }}
                 </p>
+                @php
+                    $percentProduct = $inquiry->products()->where('group_id','!=',0)->where('model_id','!=',0)->orderBy('sort','ASC')->first();
+                    if ($percentProduct && !is_null($percentProduct->percent_by)) {
+                        $percentUser = \App\Models\User::find($percentProduct->percent_by);
+                    }
+                @endphp
+                @if($percentProduct && !is_null($percentProduct->percent_by))
+                    <p class="bg-myYellow-100 py-2 px-4 rounded-lg text-sm text-white flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" class="w-5 h-5 ml-1">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"/>
+                        </svg>
+                        قیمت این استعلام توسط {{ $percentUser->name }} تایید شده است
+                    </p>
+                @endif
             </div>
         </div>
 
@@ -116,11 +132,10 @@
                         <th class="p-4">دسته محصول</th>
                         <th class="p-4">مدل محصول</th>
                         <th class="p-4">تگ</th>
-                        <th class="p-4">وزن</th>
+                        <th class="p-4">وزن (کیلوگرم)</th>
                         <th class="p-4">تعداد</th>
-                        <th class="p-4">قیمت واحد</th>
-                        <th class="p-4">قیمت کل</th>
-                        <th class="p-4 rounded-tl-lg">تاییدیه قیمت</th>
+                        <th class="p-4">قیمت واحد (تومان)</th>
+                        <th class="p-4">قیمت کل (تومان)</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -154,20 +169,10 @@
                                 {{ $product->quantity }}
                             </td>
                             <td class="table-tr-td border-t-0 border-x-0">
-                                {{ number_format($product->price) }} تومان
+                                {{ number_format($product->price) }}
                             </td>
                             <td class="table-tr-td border-t-0 border-x-0">
-                                {{ number_format($product->price * $product->quantity) }} تومان
-                            </td>
-                            <td class="table-tr-td border-t-0 border-r-0">
-                                @if(!is_null($product->percent_by))
-                                    @php
-                                        $user = \App\Models\User::where('id',$product->percent_by)->first();
-                                    @endphp
-                                    {{ $user->name }}
-                                @else
-                                    -
-                                @endif
+                                {{ number_format($product->price * $product->quantity) }}
                             </td>
                         </tr>
                     @endforeach
@@ -243,8 +248,8 @@
                             <th class="p-4 rounded-tr-lg">ردیف</th>
                             <th class="p-4">نام قطعه</th>
                             <th class="p-4">تعداد</th>
-                            <th class="p-4">قیمت واحد</th>
-                            <th class="p-4 rounded-tl-lg">قیمت کل</th>
+                            <th class="p-4">قیمت واحد (تومان)</th>
+                            <th class="p-4 rounded-tl-lg">قیمت کل (تومان)</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -267,10 +272,10 @@
                                     {{ $product->quantity }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
-                                    {{ number_format($product->price) }} تومان
+                                    {{ number_format($product->price) }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-r-0">
-                                    {{ number_format($product->price * $product->quantity) }} تومان
+                                    {{ number_format($product->price * $product->quantity) }}
                                 </td>
                             </tr>
                         @endforeach
