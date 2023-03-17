@@ -79,7 +79,9 @@
             @php
                 $group = json_decode($groups);
             @endphp
-            <div class="p-4 border border-indigo-400 rounded-md">
+            <form method="POST" action="{{ route('products.currentPrice.store') }}"
+                  class="p-4 border border-indigo-400 rounded-md">
+                @csrf
                 <div class="mb-4 bg-myBlue-300 rounded-lg p-2">
                     <p class="text-lg font-bold text-white text-center">
                         {{ $group->name }}
@@ -96,6 +98,11 @@
                             <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                                 نام محصول
                             </th>
+                            @if(auth()->user()->role == 'admin')
+                                <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                                    ضریب
+                                </th>
+                            @endif
                             <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                                 قیمت (تومان)
                             </th>
@@ -121,7 +128,16 @@
                                     <p class="text-sm text-black text-center font-medium">
                                         {{ $model->name }}
                                     </p>
+                                    <input type="hidden" name="modells[]" value="{{ $model->id }}">
                                 </td>
+                                @if(auth()->user()->role == 'admin')
+                                    <td class="px-4 py-3 whitespace-nowrap">
+                                        <div class="flex justify-center">
+                                            <input type="text" name="percents[]" id="inputPercent{{ $model->id }}"
+                                                   class="input-text w-20 text-center" value="{{ $model->percent }}">
+                                        </div>
+                                    </td>
+                                @endif
                                 <td class="px-4 py-3 whitespace-nowrap">
                                     <p class="text-sm text-black text-center font-medium">
                                         {{ number_format($finalPrice) }} تومان
@@ -132,7 +148,14 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
+                @if(auth()->user()->role == 'admin')
+                    <div class="mt-4 flex items-center">
+                        <button class="form-submit-btn">
+                            ثبت ضریب
+                        </button>
+                    </div>
+                @endif
+            </form>
         @endforeach
     </div>
 </x-layout>

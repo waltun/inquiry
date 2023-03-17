@@ -414,6 +414,7 @@ Route::middleware(['auth', 'web'])->group(function () {
 
     //Product Current Price Rotues
     Route::get('/products/current-price', [ProductCurrentPriceController::class, 'index'])->name('products.currentPrice');
+    Route::post('/products/current-price', [ProductCurrentPriceController::class, 'store'])->name('products.currentPrice.store');
 
     //Permissions
     Route::resource('permissions', PermissionController::class);
