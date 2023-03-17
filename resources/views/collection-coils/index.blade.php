@@ -283,7 +283,7 @@
                         واحد
                     </th>
                     <th scope="col" class="p-4">
-                        قیمت
+                        قیمت (تومان)
                     </th>
                     <th scope="col" class="p-4">
                         <span class="sr-only">مقادیر</span>
@@ -377,7 +377,7 @@
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             @if($part->price)
-                                {{ number_format($part->price) }} تومان
+                                {{ number_format($part->price) }}
                             @else
                                 <p class="text-red-600">
                                     منتظر ثبت مقادیر

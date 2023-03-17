@@ -57,7 +57,7 @@
     <!-- Left -->
     <div class="flex items-center cursor-pointer">
         <div class="w-11 h-11 border-2 border-myBlue-100 rounded-full flex items-center justify-center">
-            <img src="{{ asset('images/admin/user.png') }}" alt="" class="w-9 h-9">
+            <img src="{{ asset('images/azarbad.png') }}" alt="" class="w-10">
         </div>
         <div class="mr-2">
             <p class="text-xs font-medium text-gray-700 dark:text-gray-200">{{ auth()->user()->name }}</p>

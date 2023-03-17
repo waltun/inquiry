@@ -200,13 +200,13 @@
             </div>
 
             <div class="mt-4">
-                <label for="inputPrice" class="form-label">قیمت قطعه</label>
+                <label for="inputPrice" class="form-label">قیمت قطعه (تومان)</label>
                 <input type="text" id="inputPrice" name="price" class="input-text" value="{{ $part->price }}"
                        onkeyup="showPrice(event)">
             </div>
 
-            <div class="mt-2">
-                <p class="text-center text-lg font-bold">
+            <div class="mt-2 bg-myBlue-300 p-4 rounded-lg">
+                <p class="text-center text-lg font-bold text-white">
                     <span id="price">{{ number_format($part->price) }}</span>
                     تومان
                 </p>

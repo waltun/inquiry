@@ -104,7 +104,7 @@
                               d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
                               clip-rule="evenodd"/>
                     </svg>
-                    <a href="{{ route('modells.index',$group->id) }}"
+                    <a href=""
                        class="mr-2 text-xs md:text-sm font-medium text-gray-500 hover:text-gray-900">
                         لیست مدل‌های گروه {{ $group->name }}
                     </a>
@@ -146,7 +146,7 @@
             </p>
         </div>
         <div class="space-x-2 space-x-reverse">
-            <a href="{{ route('modells.index',$group->id) }}" class="form-detail-btn text-xs">
+            <a href="" class="form-detail-btn text-xs">
                 لیست مدل‌های گروه {{ $group->name }}
             </a>
             <a href="{{ route('modells.parts',$modell->id) }}" class="form-edit-btn text-xs">

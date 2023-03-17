@@ -7,11 +7,11 @@
                     <img src="{{ asset('images/azarbad.png') }}" alt="" class="h-10">
                 </a>
                 <a href="{{ route('dashboard') }}" class="pr-2" target="_blank">
-                    <p class="font-bold text-lg dark:text-white text-black">آذرباد</p>
+                    <p class="font-bold text-lg dark:text-white text-black">تهویه آذرباد</p>
                 </a>
             </div>
             <div>
-                <span class="text-xs font-medium rounded-3xl bg-myYellow-100 text-white p-2 shadow-yellow">
+                <span class="text-xs font-medium rounded-3xl bg-myRed-200 text-white p-2 shadow-yellow">
                     استعلام قیمت
                 </span>
             </div>
@@ -345,7 +345,7 @@
         <div class="bg-white dark:bg-slate-900 sticky bottom-0.5 p-4">
             <form class="flex h-full w-full items-center justify-center" method="post" action="{{ route('logout') }}">
                 @csrf
-                <button class="logout-aside-btn" type="submit">
+                <button class="logout-aside-btn font-bold" type="submit">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                         <path fill-rule="evenodd"
                               d="M10 2a.75.75 0 01.75.75v7.5a.75.75 0 01-1.5 0v-7.5A.75.75 0 0110 2zM5.404 4.343a.75.75 0 010 1.06 6.5 6.5 0 109.192 0 .75.75 0 111.06-1.06 8 8 0 11-11.313 0 .75.75 0 011.06 0z"

@@ -173,11 +173,11 @@
                             <th class="p-4">واحد</th>
                             <th class="p-4">وزن</th>
                             @if(auth()->user()->role == 'admin')
-                                <th class="p-4">قیمت واحد</th>
+                                <th class="p-4">قیمت واحد (تومان)</th>
                             @endif
                             <th class="p-4"> مقادیر</th>
                             @if(auth()->user()->role == 'admin')
-                                <th class="p-4 rounded-tl-lg">جمع کل</th>
+                                <th class="p-4 rounded-tl-lg">جمع کل (تومان)</th>
                             @endif
                         </tr>
                         </thead>
@@ -206,7 +206,7 @@
                                 </td>
                                 @if(auth()->user()->role == 'admin')
                                     <td class="table-tr-td border-t-0 border-x-0 whitespace-nowrap">
-                                        {{ number_format($amount->price) }} تومان
+                                        {{ number_format($amount->price) }}
                                     </td>
                                 @endif
                                 <td class="table-tr-td border-t-0 border-x-0">
@@ -217,7 +217,7 @@
                                 </td>
                                 @if(auth()->user()->role == 'admin')
                                     <td class="table-tr-td border-t-0 border-r-0">
-                                        {{ number_format($amount->price * $amount->value) }} تومان
+                                        {{ number_format($amount->price * $amount->value) }}
                                     </td>
                                 @endif
                             </tr>
@@ -319,7 +319,7 @@
                             <th class="p-4">واحد قطعه</th>
                             <th class="p-4">وزن قطعه</th>
                             @if(auth()->user()->role == 'admin')
-                                <th class="p-4 rounded-tl-lg">قیمت</th>
+                                <th class="p-4 rounded-tl-lg">قیمت (تومان)</th>
                             @endif
                         </tr>
                         </thead>
@@ -393,7 +393,7 @@
                                     قیمت قطعه با اعمال ضریب
                                 </td>
                                 <td class="table-tr-td border-t-0 text-green-600 font-medium">
-                                    {{ number_format($product->price) }} تومان
+                                    {{ number_format($product->price) }}
                                 </td>
                             </tr>
                         @endif
@@ -431,11 +431,11 @@
         <div class="my-6 flex justify-end sticky bottom-4">
             @if($inquiry->price > 0)
                 <p class="bg-myGreen-100 text-white px-6 py-3 rounded-lg font-bold text-xl">
-                    قیمت نهایی کل استعلام : {{ number_format($inquiry->price) }} تومان
+                    قیمت نهایی استعلام : {{ number_format($inquiry->price) }} تومان
                 </p>
             @else
                 <p class="bg-myGreen-100 text-white px-6 py-3 rounded-lg font-bold text-xl">
-                    قیمت نهایی کل استعلام : {{ number_format($finalPrice) }} تومان
+                    قیمت نهایی استعلام : {{ number_format($finalPrice) }} تومان
                 </p>
             @endif
         </div>
@@ -460,29 +460,29 @@
 
         <!-- Inquiry Dates -->
         @can('detail-inquiry')
-            <div class="md:grid grid-cols-3 gap-4 mt-4">
-                <div class="card">
-                    <p class="text-sm font-bold text-black text-center">
+            <div class="md:grid grid-cols-3 gap-4 mt-4 card">
+                <div class="card bg-myBlue-300">
+                    <p class="text-sm font-bold text-white text-center">
                         ایجاد استعلام : {{ jdate($inquiry->created_at)->format('%A, %d %B %Y') }}
                     </p>
-                    <p class="text-sm font-bold text-black text-center">
+                    <p class="text-sm font-bold text-white text-center">
                         ساعت : {{ jdate($inquiry->created_at)->format('H:i:s') }}
                     </p>
                 </div>
-                <div class="card">
-                    <p class="text-sm font-bold text-black text-center">
+                <div class="card bg-myBlue-300">
+                    <p class="text-sm font-bold text-white text-center">
                         آخرین بروزرسانی استعلام : {{ jdate($inquiry->updated_at)->format('%A, %d %B %Y') }}
                     </p>
-                    <p class="text-sm font-bold text-black text-center">
+                    <p class="text-sm font-bold text-white text-center">
                         ساعت : {{ jdate($inquiry->updated_at)->format('H:i:s') }}
                     </p>
                 </div>
-                <div class="card">
+                <div class="card bg-myBlue-300">
                     @if($inquiry->archive_at)
-                        <p class="text-sm font-bold text-black text-center">
+                        <p class="text-sm font-bold text-white text-center">
                             آرشیو استعلام : {{ jdate($inquiry->archive_at)->format('%A, %d %B %Y') }}
                         </p>
-                        <p class="text-sm font-bold text-black text-center">
+                        <p class="text-sm font-bold text-white text-center">
                             ساعت : {{ jdate($inquiry->archive_at)->format('H:i:s') }}
                         </p>
                     @else

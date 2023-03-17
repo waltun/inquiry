@@ -150,7 +150,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
             </svg>
             <div class="mr-2">
-                <p class="font-bold text-2xl text-black dark:text-white">
+                <p class="font-bold text-xl text-black dark:text-white">
                     لیست قطعات کالای نیم ساخته {{ $parentPart->name }}
                 </p>
             </div>
@@ -192,7 +192,7 @@
                             مقادیر
                         </th>
                         <th scope="col" class="p-4">
-                            قیمت
+                            قیمت (تومان)
                         </th>
                         <th scope="col" class="p-4 rounded-tl-lg">
                             <span class="sr-only">اقدامات</span>
@@ -291,7 +291,7 @@
                             <td class="table-tr-td border-t-0 border-x-0">
                                 @if($child->price)
                                     <p class="{{ $color }}">
-                                        {{ number_format($child->price) }} تومان
+                                        {{ number_format($child->price) }}
                                     </p>
                                 @else
                                     <p class="{{ $color }}">

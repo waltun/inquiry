@@ -4,7 +4,7 @@
 @tailwind components;
 
 .dashboard-cards {
-    @apply flex items-center justify-between py-6 px-4 bg-sky-50 border border-sky-100 dark:bg-slate-900 rounded-2xl shadow-search
+    @apply flex items-center justify-between py-6 px-4 bg-white border border-sky-100 dark:bg-slate-900 rounded-2xl shadow-search
     hover:dashboard-card-hover-gradient hover:shadow-card-hover hover:border-transparent dark:border-black;
 }
 
@@ -21,7 +21,7 @@
 }
 
 .logout-aside-btn {
-    @apply rounded-lg px-6 py-4 flex items-center text-base bg-[#FDE7E3] dark:bg-myBlue-900 text-myRed-100
+    @apply rounded-lg px-6 py-4 flex items-center text-base bg-myBlue-300 dark:bg-myBlue-900 text-white
     dark:text-white whitespace-nowrap;
 }
 

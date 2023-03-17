@@ -36,115 +36,65 @@
     </div>
 
     <!-- Content -->
-    <div class="mt-4">
-        <div class="grid grid-cols-4 gap-4">
+    <div class="mt-8">
+        <div class="grid grid-cols-5 gap-4">
             <a href="{{ route('separate.coil.fancoil',$fancoil->id) }}"
-               class="block p-8 rounded-lg shadow-lg border border-gray-200 group hover:bg-indigo-700 hover:shadow-2xl hover:border-transparent">
-                <div class="mb-4">
-                    <img src="{{ asset('images/fancoil-coil.png') }}" alt="" class="w-full mx-auto">
+               class="block p-4 rounded-lg shadow-lg border border-gray-200 group hover:bg-indigo-700 hover:shadow-2xl hover:border-transparent">
+                <div class="mb-4 border-b border-gray-300 pb-2">
+                    <img src="{{ asset('images/fancoil-coil.png') }}" alt="" class="w-28 mx-auto">
                 </div>
-                <div class="mb-8">
+                <div>
                     <p class="text-base font-bold text-black group-hover:text-white text-center">
                         {{ $fancoil->name }}
                     </p>
                 </div>
-                <div class="flex justify-center">
-                    <button type="button" class="table-success-btn group-hover:text-white">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                             stroke="currentColor" class="w-4 h-4 ml-1">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"/>
-                        </svg>
-                        محاسبه قیمت
-                    </button>
-                </div>
             </a>
 
             <a href="{{ route('separate.coil.warm',$warmWater->id) }}"
-               class="block p-8 rounded-lg shadow-lg border border-gray-200 group hover:bg-indigo-700 hover:shadow-2xl hover:border-transparent">
-                <div class="mb-4">
-                    <img src="{{ asset('images/heating-coil.png') }}" alt="" class="w-full mx-auto">
+               class="block p-4 rounded-lg shadow-lg border border-gray-200 group hover:bg-indigo-700 hover:shadow-2xl hover:border-transparent">
+                <div class="mb-4 border-b border-gray-300 pb-2">
+                    <img src="{{ asset('images/heating-coil.png') }}" alt="" class="w-28 mx-auto">
                 </div>
-                <div class="mb-8">
+                <div>
                     <p class="text-base font-bold text-black group-hover:text-white text-center">
                         {{ $warmWater->name }}
                     </p>
                 </div>
-                <div class="flex justify-center">
-                    <button type="button" class="table-success-btn group-hover:text-white">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                             stroke="currentColor" class="w-4 h-4 ml-1">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"/>
-                        </svg>
-                        محاسبه قیمت
-                    </button>
-                </div>
             </a>
 
             <a href="{{ route('separate.coil.cold',$coldWater->id) }}"
-               class="block p-8 rounded-lg shadow-lg border border-gray-200 group hover:bg-indigo-700 hover:shadow-2xl hover:border-transparent">
-                <div class="mb-4">
-                    <img src="{{ asset('images/heating-coil.png') }}" alt="" class="w-full mx-auto">
+               class="block p-4 rounded-lg shadow-lg border border-gray-200 group hover:bg-indigo-700 hover:shadow-2xl hover:border-transparent">
+                <div class="mb-4 border-b border-gray-300 pb-2">
+                    <img src="{{ asset('images/heating-coil.png') }}" alt="" class="w-28 mx-auto">
                 </div>
-                <div class="mb-8">
+                <div>
                     <p class="text-base font-bold text-black group-hover:text-white text-center">
                         {{ $coldWater->name }}
                     </p>
                 </div>
-                <div class="flex justify-center">
-                    <button type="button" class="table-success-btn group-hover:text-white">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                             stroke="currentColor" class="w-4 h-4 ml-1">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"/>
-                        </svg>
-                        محاسبه قیمت
-                    </button>
-                </div>
             </a>
 
             <a href="{{ route('separate.coil.condensor',$condensor->id) }}"
-               class="block p-8 rounded-lg shadow-lg border border-gray-200 group hover:bg-indigo-700 hover:shadow-2xl hover:border-transparent">
-                <div class="mb-4">
-                    <img src="{{ asset('images/condensor-coil.png') }}" alt="" class="w-full mx-auto">
+               class="block p-4 rounded-lg shadow-lg border border-gray-200 group hover:bg-indigo-700 hover:shadow-2xl hover:border-transparent">
+                <div class="mb-4 border-b border-gray-300 pb-2">
+                    <img src="{{ asset('images/condensor-coil.png') }}" alt="" class="w-28 mx-auto">
                 </div>
-                <div class="mb-8">
+                <div>
                     <p class="text-base font-bold text-black group-hover:text-white text-center">
                         {{ $condensor->name }}
                     </p>
                 </div>
-                <div class="flex justify-center">
-                    <button type="button" class="table-success-btn group-hover:text-white">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                             stroke="currentColor" class="w-4 h-4 ml-1">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"/>
-                        </svg>
-                        محاسبه قیمت
-                    </button>
-                </div>
             </a>
 
             <a href="{{ route('separate.coil.evaperator',$evaperator->id) }}"
-               class="block p-8 rounded-lg shadow-lg border border-gray-200 group hover:bg-indigo-700 hover:shadow-2xl hover:border-transparent">
-                <div class="mb-4">
-                    <img src="{{ asset('images/evaperator-coil.png') }}" alt="" class="w-full mx-auto">
+               class="block p-4 rounded-lg shadow-lg border border-gray-200 group hover:bg-indigo-700 hover:shadow-2xl hover:border-transparent">
+                <div class="mb-4 border-b border-gray-300 pb-2">
+                    <img src="{{ asset('images/evaperator-coil.png') }}" alt="" class="w-28 mx-auto">
                 </div>
-                <div class="mb-8">
+                <div>
                     <p class="text-base font-bold text-black group-hover:text-white text-center">
                         {{ $evaperator->name }}
                     </p>
-                </div>
-                <div class="flex justify-center">
-                    <button type="button" class="table-success-btn group-hover:text-white">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                             stroke="currentColor" class="w-4 h-4 ml-1">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"/>
-                        </svg>
-                        محاسبه قیمت
-                    </button>
                 </div>
             </a>
         </div>

@@ -38,7 +38,7 @@
 
         <!-- Description -->
         <div x-data="{open:false}">
-            <button type="button" class="form-submit-btn text-xs" @click="open=!open">
+            <button type="button" class="form-submit-btn text-xs font-bold" @click="open=!open">
                 مشاهده شرایط فروش
             </button>
             <div class="relative z-10" x-show="open" x-cloak>
@@ -53,7 +53,7 @@
                                     <h3 class="text-lg font-medium text-gray-900 border-b border-gray-300 pb-3">
                                         مشاهده شرایط فروش
                                     </h3>
-                                    <div class="mt-4 test-decimal">
+                                    <div class="mt-4 decimal-list">
                                         {!! \App\Models\CurrentPrice::first()->description !!}
                                     </div>
                                 </div>
@@ -73,22 +73,22 @@
     </div>
 
     <!-- Content -->
-    <div class="mt-8 md:mx-36 space-y-4">
+    <div class="mt-4 md:mx-36 space-y-4">
         <!-- Laptop List -->
         @foreach($modells->groupBy('group') as $groups => $modell)
             @php
                 $group = json_decode($groups);
             @endphp
             <div class="p-4 border border-indigo-400 rounded-md">
-                <div class="mb-4">
-                    <p class="text-lg font-bold text-black">
+                <div class="mb-4 bg-myBlue-300 rounded-lg p-2">
+                    <p class="text-lg font-bold text-white text-center">
                         {{ $group->name }}
                     </p>
                 </div>
                 <div class="bg-white shadow overflow-x-auto rounded-lg">
                     <table class="min-w-full">
                         <thead>
-                        <tr class="bg-sky-200">
+                        <tr class="bg-green-100">
                             <th scope="col"
                                 class="px-4 py-3 text-sm font-bold text-gray-800 text-center rounded-tr-md">
                                 ردیف
@@ -97,7 +97,7 @@
                                 نام محصول
                             </th>
                             <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
-                                قیمت
+                                قیمت (تومان)
                             </th>
                         </tr>
                         </thead>

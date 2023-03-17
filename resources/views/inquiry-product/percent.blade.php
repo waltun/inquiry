@@ -126,10 +126,10 @@
 
         <div class="card">
             <div class="card-header">
-                <p class="card-title">قیمت فعلی استعلام</p>
+                <p class="card-title">جمع قیمت متریال</p>
             </div>
-            <div class="mt-4">
-                <p class="text-center text-lg font-bold text-green-600">
+            <div class="mt-4 bg-myBlue-300 p-2 rounded-lg">
+                <p class="text-center text-lg font-bold text-white">
                     {{ number_format($totalPrice) }} تومان
                 </p>
             </div>
@@ -138,13 +138,10 @@
         <div class="card">
             <div class="card-header">
                 <p class="card-title">
-                    ضریب استعلام
+                    ضریب دستمزد و سود
                 </p>
             </div>
             <div class="mt-4">
-                <label for="inputPercent" class="form-label">
-                    ضریب استعلام را مشخص کنید
-                </label>
                 <input type="text" id="inputPercent" name="percent" class="input-text"
                        placeholder="مثال : 0.3" value="{{ $product->percent ?? old('percent') }}"
                        onkeyup="showPrice(event)">
@@ -160,10 +157,10 @@
 
         <div class="card">
             <div class="card-header">
-                <p class="card-title">قیمت نهایی استعلام</p>
+                <p class="card-title">قیمت فروش شرکت</p>
             </div>
-            <div class="mt-4">
-                <p class="text-center text-lg font-bold text-green-600" id="finalPrice">
+            <div class="mt-4 bg-myBlue-300 p-2 rounded-lg">
+                <p class="text-center text-lg font-bold text-white" id="finalPrice">
                     {{ number_format($totalPrice * $product->percent) }} تومان
                 </p>
             </div>

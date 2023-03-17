@@ -1,6 +1,6 @@
 <x-layout>
     <!-- Breadcrumb -->
-    <div class="flex items-center space-x-2 space-x-reverse overflow-x-auto md:overflow-x-hidden">
+    <div class="flex items-center space-x-2 space-x-reverse overflow-x-auto md:overflow-hidden">
         <a href="{{ route('dashboard') }}" class="flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                  stroke="currentColor" class="breadcrumb-svg">

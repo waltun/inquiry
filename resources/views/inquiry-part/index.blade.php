@@ -687,13 +687,13 @@
                                         واحد
                                     </th>
                                     <th scope="col" class="p-4">
-                                        قیمت واحد
+                                        قیمت واحد (تومان)
                                     </th>
                                     <th scope="col" class="p-4">
                                         تعداد
                                     </th>
                                     <th scope="col" class="p-4">
-                                        قیمت کل
+                                        قیمت کل (تومان)
                                     </th>
                                     <th scope="col" class="p-4 rounded-tl-lg">
                                         <span class="sr-only">اقدامات</span>
@@ -1141,7 +1141,7 @@
                                 <div class="bg-white p-4">
                                     <div class="mt-3 text-center sm:mt-0 sm:text-right">
                                         <h3 class="text-lg font-medium text-gray-900 border-b border-gray-300 pb-3">
-                                            ثبت ضریب محصولات
+                                            ثبت ضریب دستمزد و سود
                                         </h3>
                                         <div class="mt-4">
                                             <label class="block mb-2 text-sm font-bold" for="inputQuantity">
