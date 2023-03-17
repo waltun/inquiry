@@ -205,45 +205,40 @@
     </div>
 
     <!-- Search -->
-    <div class="mt-4 grid grid-cols-4 gap-4">
-        <form class="card">
-            <div class="mb-4">
-                <label for="inputSearch" class="form-label">
-                    جستجو براساس نام
-                </label>
-                <div class="mt-1 flex rounded-md shadow-sm">
-                    <input type="text" name="search" id="inputSearch" class="input-text rounded-none rounded-r-md"
-                           placeholder="مثال : پیچ" value="{{ request('search') }}">
-                    <button type="submit"
-                            class="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-sm text-gray-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                             stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
-                        </svg>
+    <div class="card-search" {{ request()->has('search') || request()->has('category1') || request()->has('category2') || request()->has('category3') ? 'x-data={open:true}' : 'x-data={open:false}' }}>
+        <div class="card-header-search" @click="open = !open">
+            <p class="card-title">
+                جستجو
+            </p>
+            <div class="card-title-search">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                     stroke="currentColor" class="w-6 h-6 transition" :class="{'rotate-180' : open}">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
+                </svg>
+            </div>
+        </div>
+        <div class="grid grid-cols-4 gap-4 pb-7" x-show="open" x-cloak>
+            <form class="col-span-1 card">
+                <div class="mb-4">
+                    <label for="inputSearch" class="form-label">
+                        جستجو براساس نام
+                    </label>
+                    <input type="text" id="inputSearch" name="search" class="input-text" placeholder="مثال : پیچ"
+                           value="{{ request('search') }}">
+                </div>
+                <div class="flex justify-end">
+                    <button class="form-submit-btn" type="submit">
+                        جستجو
                     </button>
                 </div>
-            </div>
-            @if(request()->has('search'))
-                <div>
-                    <a href="{{ route('parts.price.index') }}"
-                       class="bg-yellow-500 inline-block p-1 rounded-full text-white shadow">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                             stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"/>
-                        </svg>
-                    </a>
-                </div>
-            @endif
-        </form>
-        <div class="card col-span-3">
-            <form class="grid grid-cols-3 gap-2">
+            </form>
+
+            <form class="card col-span-3 grid grid-cols-3 gap-4">
                 <div>
                     <label for="inputCategory1" class="form-label">
                         دسته بندی قطعه
                     </label>
-                    <select name="category1" id="inputCategory1" class="input-text text-xs" onchange="getCategory1()">
+                    <select name="category1" id="inputCategory1" class="input-text" onchange="getCategory1()">
                         <option value="">انتخاب کنید</option>
                         @foreach($categories as $category)
                             <option
@@ -258,10 +253,9 @@
                         @php
                             $category2 = \App\Models\Category::find(request('category1'))->children;
                         @endphp
-                        <label for="inputCategory2" class="form-label">زیردسته
+                        <label for="inputCategory2" class="block mb-2 md:text-sm text-xs text-black">زیردسته
                             اول</label>
-                        <select name="category2" id="inputCategory2" class="input-text text-xs"
-                                onchange="getCategory2()">
+                        <select name="category2" id="inputCategory2" class="input-text" onchange="getCategory2()">
                             <option value="">انتخاب کنید</option>
                             @foreach($category2 as $category)
                                 <option
@@ -277,9 +271,9 @@
                         @php
                             $category3 = \App\Models\Category::find(request('category2'))->children;
                         @endphp
-                        <label for="inputCategory3" class="form-label">زیردسته
+                        <label for="inputCategory3" class="block mb-2 md:text-sm text-xs text-black">زیردسته
                             دوم</label>
-                        <select name="category3" id="inputCategory3" class="input-text text-xs">
+                        <select name="category3" id="inputCategory3" class="input-text">
                             <option value="">انتخاب کنید</option>
                             @foreach($category3 as $category)
                                 <option
@@ -290,29 +284,18 @@
                         </select>
                     @endif
                 </div>
-                <div class="col-span-3 flex justify-end space-x-2 space-x-reverse">
-                    <button type="submit"
-                            class="rounded-full bg-gray-200 p-1 text-black shadow">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                             stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
-                        </svg>
-                    </button>
-                    @if(request()->has('category1') || request()->has('category2') || request()->has('category3'))
-                        <div>
-                            <a href="{{ route('parts.price.index') }}"
-                               class="bg-yellow-500 block p-1 rounded-full text-white shadow">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                     stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                          d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"/>
-                                </svg>
-                            </a>
-                        </div>
-                    @endif
+
+                <div class="col-span-3 flex justify-end">
+                    <button type="submit" class="form-submit-btn">جستجو</button>
                 </div>
             </form>
+            @if(request()->has('search') || request()->has('category1') || request()->has('category2') || request()->has('category3'))
+                <div>
+                    <a href="{{ route('parts.price.index') }}" class="form-detail-btn text-xs">
+                        پاکسازی جستجو
+                    </a>
+                </div>
+            @endif
         </div>
     </div>
 
