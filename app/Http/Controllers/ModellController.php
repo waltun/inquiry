@@ -176,17 +176,11 @@ class ModellController extends Controller
     {
         Gate::authorize('groups');
 
-        if (request()->has('sort_type')) {
-            $sortType = request('sort_type');
-        } else {
-            $sortType = 'sort';
-        }
-
         if (request()->has('search')) {
             $parts = $modell->parts()->where('name', 'LIKE', '%' . request('search') . '%')
-                ->orderBy($sortType, 'ASC')->get();
+                ->orderBy('sort', 'ASC')->get();
         } else {
-            $parts = $modell->parts()->orderBy($sortType, 'ASC')->get();
+            $parts = $modell->parts()->orderBy('sort', 'ASC')->get();
         }
 
         return view('modells.parts', compact('modell', 'parts'));

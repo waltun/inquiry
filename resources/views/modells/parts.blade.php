@@ -106,127 +106,118 @@
     </x-slot>
 
     <!-- Breadcrumb -->
-    <nav class="flex bg-gray-100 p-4 rounded-md overflow-x-auto whitespace-nowrap" aria-label="Breadcrumb">
-        <ol class="inline-flex items-center space-x-2 space-x-reverse">
-            <li class="inline-flex items-center">
-                <a href="{{ route('dashboard') }}"
-                   class="inline-flex items-center text-xs md:text-sm text-gray-500 hover:text-gray-900">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20"
-                         fill="currentColor">
-                        <path
-                            d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
-                    </svg>
+    <div class="flex items-center space-x-2 space-x-reverse">
+        <a href="{{ route('dashboard') }}" class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" class="breadcrumb-svg">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3"/>
+            </svg>
+            <div class="mr-2">
+                <p class="breadcrumb-p">
                     داشبورد
-                </a>
-            </li>
-            <li>
-                <div class="flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd"
-                              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                              clip-rule="evenodd"/>
-                    </svg>
-                    <a href="{{ route('groups.index') }}"
-                       class="mr-2 text-xs md:text-sm font-medium text-gray-500 hover:text-gray-900">
-                        مدیریت گروه ها
-                    </a>
-                </div>
-            </li>
-            <li aria-current="page">
-                <div class="flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd"
-                              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                              clip-rule="evenodd"/>
-                    </svg>
-                    <span class="mr-2 text-xs md:text-sm font-medium text-gray-400">
-                        لیست قطعات مدل {{ $modell->name }}
-                    </span>
-                </div>
-            </li>
-        </ol>
-    </nav>
+                </p>
+            </div>
+        </a>
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                 class="breadcrumb-svg-arrow">
+                <path fill-rule="evenodd"
+                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                      clip-rule="evenodd"/>
+            </svg>
+        </div>
+        <a href="{{ route('groups.index') }}" class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="breadcrumb-svg" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"></path>
+            </svg>
+            <div class="mr-2">
+                <p class="breadcrumb-p">
+                    مدیریت محصولات
+                </p>
+            </div>
+        </a>
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                 class="breadcrumb-svg-arrow">
+                <path fill-rule="evenodd"
+                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                      clip-rule="evenodd"/>
+            </svg>
+        </div>
+        <div class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="breadcrumb-svg-active" fill="none"
+                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            </svg>
+            <div class="mr-2">
+                <p class="breadcrumb-p-active">
+                    قطعات مدل {{ $modell->name }}
+                </p>
+            </div>
+        </div>
+    </div>
 
-    <!-- Navigation Btn -->
-    <div class="mt-4 md:flex justify-between items-center">
-        <div class="mb-4 md:mb-0">
-            <p class="text-lg font-bold text-black">
-                لیست قطعات مدل <span class="text-red-600">{{ $modell->name }}</span>
-            </p>
+    <!-- Navigation -->
+    <div class="flex items-center justify-between mt-8">
+        <div class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 dark:text-white" fill="none"
+                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            </svg>
+            <div class="mr-2">
+                <p class="font-bold text-2xl text-black dark:text-white">
+                    لیست قطعات مدل {{ $modell->name }}
+                </p>
+            </div>
         </div>
-        <div class="flex items-center space-x-2 space-x-reverse">
-            <p class="text-xs text-black font-medium">
-                مرتب سازی بر اساس :
-            </p>
-            <select name="sort_type" id="inputSort" class="input-text w-24 py-1" onchange="searchParts(event)">
-                <option value="sort" {{ request('sort_type') == 'sort' ? 'selected' : '' }}>
-                    ردیف
-                </option>
-                <option value="name" {{ request('sort_type') == 'name' ? 'selected' : '' }}>
-                    نام
-                </option>
-                <option value="unit" {{ request('sort_type') == 'unit' ? 'selected' : '' }}>
-                    واحد
-                </option>
-                <option value="price" {{ request('sort_type') == 'price' ? 'selected' : '' }}>
-                    قیمت
-                </option>
-            </select>
-            <form action="" method="get">
-                <div class="flex rounded-md shadow-sm">
-                    <input type="text" name="search" id="inputSearch" class="input-text rounded-none rounded-r-md"
-                           placeholder="مثال : پیچ" value="{{ request('search') }}">
-                    <button type="submit"
-                            class="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-sm text-gray-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                             stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"></path>
-                        </svg>
-                    </button>
-                </div>
-            </form>
-        </div>
-        <div class="space-x-2 space-x-reverse flex items-center">
-            <a href="{{ route('modells.parts.index',$modell->id) }}" class="form-submit-btn text-xs">
-                افزودن قطعه
+        <div class="flex items-center space-x-4 space-x-reverse">
+            <a href="{{ route('modells.parts.index',$modell->id) }}" class="page-success-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                     stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+                </svg>
+                <span class="mr-2">افزودن قطعه جدید</span>
             </a>
         </div>
     </div>
 
     <!-- Content -->
-    <div class="mt-4">
-        <!-- Laptop List -->
-        <form method="POST" action="{{ route('modells.partValues',$modell->id) }}"
-              class="hidden md:block">
+    <div class="mt-4 space-y-4">
+        <form method="POST" action="{{ route('modells.partValues',$modell->id) }}">
             @csrf
-            <div class="bg-white shadow overflow-x-auto rounded-lg">
-                <table class="min-w-full">
+            <div class="mt-8 overflow-x-auto rounded-lg">
+                <table class="w-full border-collapse">
                     <thead>
-                    <tr class="bg-sky-200">
-                        <th scope="col"
-                            class="px-4 py-2 text-sm font-bold text-gray-800 text-center rounded-r-md">
+                    <tr class="table-th-tr">
+                        <th scope="col" class="p-4 rounded-tr-lg">
                             ردیف
                         </th>
-                        <th scope="col" class="px-4 py-2 text-sm font-bold text-gray-800 text-center">
+                        <th scope="col" class="p-4">
                             دسته بندی
                         </th>
-                        <th scope="col" class="px-4 py-2 text-sm font-bold text-gray-800 text-center">
+                        <th scope="col" class="p-4">
                             نام
                         </th>
-                        <th scope="col" class="px-4 py-2 text-sm font-bold text-gray-800 text-center">
+                        <th scope="col" class="p-4">
                             واحد
                         </th>
-                        <th scope="col" class="px-4 py-2-sm font-bold text-gray-800 text-center">
+                        <th scope="col" class="p-4">
                             مقدار
                         </th>
-                        <th scope="col" class="px-4 py-2 text-sm font-bold text-gray-800 text-center">
-                            قیمت
+                        <th scope="col" class="p-4">
+                            قیمت (تومان)
                         </th>
-                        <th scope="col" class="px-4 py-2 text-sm font-bold text-gray-800 text-center">
-                            قیمت کل
+                        <th scope="col" class="p-4">
+                            قیمت کل (تومان)
                         </th>
-                        <th scope="col" class="relative px-4 py-2 rounded-l-md">
+                        <th scope="col" class="p-4 rounded-tl-lg">
                             <span class="sr-only">اقدامات</span>
                         </th>
                     </tr>
@@ -244,14 +235,14 @@
                             $totalWeight += $part->weight * $part->pivot->value;
                             $totalPrice += $part->price * $part->pivot->value;
                         @endphp
-                        <tr>
-                            <td class="px-4 py-0.5 whitespace-nowrap">
+                        <tr class="table-tb-tr group">
+                            <td class="table-tr-td border-t-0 border-l-0">
                                 <input type="text" class="input-text w-14 text-center" name="sorts[]"
                                        id="partSort{{ $part->id }}"
                                        value="{{ $part->pivot->sort }}">
                             </td>
-                            <td class="px-4 py-0.5">
-                                <select id="inputCategory{{ $part->id }}" class="input-text"
+                            <td class="table-tr-td border-t-0 border-x-0">
+                                <select id="inputCategory{{ $part->id }}" class="input-text w-24"
                                         onchange="changePart(event,{{ $part->id }})">
                                     @foreach($category->children as $child)
                                         <option
@@ -261,7 +252,7 @@
                                     @endforeach
                                 </select>
                             </td>
-                            <td class="px-4 py-0.5 whitespace-nowrap">
+                            <td class="table-tr-td border-t-0 border-x-0">
                                 @php
                                     $selectedPart = \App\Models\Part::find($part->id);
                                     $lastCategory = $selectedPart->categories()->latest()->first();
@@ -276,15 +267,13 @@
                                     @endforeach
                                 </select>
                             </td>
-                            <td class="px-4 py-0.5 whitespace-nowrap">
-                                <p class="text-sm text-black text-center">
-                                    {{ $part->unit }}
-                                    @if(!is_null($part->unit2))
-                                        / {{ $part->unit2 }}
-                                    @endif
-                                </p>
+                            <td class="table-tr-td border-t-0 border-x-0">
+                                {{ $part->unit }}
+                                @if(!is_null($part->unit2))
+                                    / {{ $part->unit2 }}
+                                @endif
                             </td>
-                            <td class="px-4 py-0.5 whitespace-nowrap">
+                            <td class="table-tr-td border-t-0 border-x-0">
                                 <input type="text" class="input-text w-20 text-center" name="values[]"
                                        id="partValue{{ $part->id }}" onkeyup="changeUnit1(event,{{ $part }})"
                                        value="{{ $part->pivot->value }}">
@@ -296,23 +285,17 @@
                                 <input type="hidden" name="units[]" id="inputUnitValue{{ $part->id }}"
                                        value="{{ $part->pivot->value2 }}">
                             </td>
-                            <td class="px-4 py-0.5 whitespace-nowrap">
+                            <td class="table-tr-td border-t-0 border-x-0">
                                 @if($part->price)
-                                    <p class="text-sm text-black text-center font-medium">
-                                        {{ number_format($part->price) }}
-                                    </p>
+                                    {{ number_format($part->price) }}
                                 @else
-                                    <p class="text-sm text-red-600 text-center font-medium">
-                                        منتظر قیمت گذاری
-                                    </p>
+                                    منتظر قیمت گذاری
                                 @endif
                             </td>
-                            <td class="px-4 py-0.5 whitespace-nowrap">
-                                <p class="text-sm text-black text-center font-medium">
-                                    {{ number_format($part->price * $part->pivot->value) }}
-                                </p>
+                            <td class="table-tr-td border-t-0 border-x-0">
+                                {{ number_format($part->price * $part->pivot->value) }}
                             </td>
-                            <td class="px-4 py-0.5 space-x-3 space-x-reverse">
+                            <td class="table-tr-td border-t-0 border-r-0">
                                 <button onclick="deletePartFromModell({{ $modell->id }},{{ $part->id }})" type="button">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                          stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-red-500">
@@ -323,83 +306,34 @@
                             </td>
                         </tr>
                     @endforeach
+                    <tr class="table-tb-tr group">
+                        <td class="table-tr-td border-t-0" colspan="8">
+                            <div class="flex justify-between items-center">
+                                <a href="{{ route('modells.parts.index',$modell->id) }}"
+                                   class="w-8 h-8 rounded-full bg-green-500 block grid place-content-center mr-6"
+                                   title="افزودن قطعه جدید">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         stroke-width="2"
+                                         stroke="currentColor" class="w-6 h-6 text-white">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                              d="M12 4.5v15m7.5-7.5h-15"></path>
+                                    </svg>
+                                </a>
+                                <div class="flex items-center space-x-4 space-x-reverse">
+                                    <p class="table-price-label">
+                                        قیمت کل : {{ number_format($totalPrice) }} تومان
+                                    </p>
+                                    <p class="table-weight-label">
+                                        وزن دستگاه : {{ number_format($totalWeight) }} کیلوگرم
+                                    </p>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
-                <div class="p-4 pt-0 flex justify-between items-center">
-                    <div>
-                        <a href="{{ route('modells.parts.index',$modell->id) }}"
-                           class="w-8 h-8 rounded-full bg-green-500 block grid place-content-center mr-2"
-                           title="افزودن قطعه جدید">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                 stroke-width="2" stroke="currentColor" class="w-6 h-6 text-white">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="M12 4.5v15m7.5-7.5h-15"/>
-                            </svg>
-                        </a>
-                    </div>
-                    <div class="space-y-2">
-                        <p class="text-sm bg-green-500 px-4 py-1 rounded-md font-bold text-white">
-                            قیمت کل : {{ number_format($totalPrice) }} تومان
-                        </p>
-                        <p class="text-sm bg-gray-500 px-4 py-1 rounded-md font-bold text-white">
-                            وزن : {{ $totalWeight }} کیلوگرم
-                        </p>
-                    </div>
-                </div>
             </div>
-            <div class="my-4">
-                <button type="submit" class="form-submit-btn">
-                    ثبت مقادیر
-                </button>
-            </div>
-        </form>
-
-        <!-- Mobile List -->
-        <form method="POST" action="{{ route('modells.partValues',$modell->id) }}"
-              class="block md:hidden">
-            @csrf
-            <div>
-                @foreach($modell->parts as $part)
-                    <div class="bg-white rounded-md p-4 border border-gray-200 shadow-md mb-4 relative z-30">
-                <span
-                    class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
-                    {{ $loop->index+1 }}
-                </span>
-                        <div class="space-y-4">
-                            <p class="text-xs text-black text-center font-bold">
-                                {{ $part->name }}
-                            </p>
-                            <p class="text-xs text-black text-center">
-                                واحد : {{ $part->unit }}
-                            </p>
-                            @if($part->price)
-                                <p class="text-xs text-black text-center font-medium">
-                                    قیمت : {{ number_format($part->price) }} تومان
-                                </p>
-                            @else
-                                <p class="text-xs text-red-600 text-center font-medium">
-                                    منتظر قیمت گذاری
-                                </p>
-                            @endif
-                            <p class="text-xs text-black text-center">
-                                کد : {{ $part->code }}
-                            </p>
-                            <div>
-                                <input type="text" class="input-text" name="values[]" id="partValue{{ $part->id }}"
-                                       value="{{ $part->pivot->value }}">
-                            </div>
-                            <div class="flex w-full justify-center">
-                                <button class="form-cancel-btn text-xs"
-                                        onclick="deletePartFromModell({{ $modell->id }},{{ $part->id }})">
-                                    حذف از مدل {{ $modell->name }}
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-
-            <div class="my-4">
+            <div class="my-4 sticky bottom-4">
                 <button type="submit" class="form-submit-btn">
                     ثبت مقادیر
                 </button>
