@@ -30,7 +30,7 @@ class AuthController extends Controller
             $to = $request->phone;
             $smsSoap->sendByBaseNumber([$code], $to, '125970');
             $request->session()->flash('phone', $user->phone);
-            $request->session()->flash('success-login', 'کد ارسال با موفقیت به شماره وارد شده ارسال شد.');
+            $request->session()->flash('success-login', 'کد تایید با موفقیت به شماره وارد شده ارسال شد.');
             $activeCode = ActiveCode::where('user_id', $user->id)->orderBy('expired_at', 'desc')->first();
         } else {
             $createdUser = User::create([

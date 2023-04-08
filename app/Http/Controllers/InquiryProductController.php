@@ -476,9 +476,16 @@ class InquiryProductController extends Controller
         }
 
         $year = jdate(now())->getYear();
+        $first4 = substr((string)$number, 0, 4);
+
         if (!$inquiries->isEmpty()) {
-            $inquiryNumber = str_pad($number + 1, 5, "0", STR_PAD_LEFT);
-            $data['inquiry_number'] = $inquiryNumber;
+            if ($year > (int)$first4) {
+                $inquiryNumber = '00001';
+                $data['inquiry_number'] = $year . $inquiryNumber;
+            } else {
+                $inquiryNumber = str_pad($number + 1, 5, "0", STR_PAD_LEFT);
+                $data['inquiry_number'] = $inquiryNumber;
+            }
         } else {
             $inquiryNumber = '00001';
             $data['inquiry_number'] = $year . $inquiryNumber;

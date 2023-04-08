@@ -936,7 +936,7 @@
                                             @case('404')
                                                 <span class="hidden">Water Cold Coil</span>
                                                 <a href="{{ route('calculateCoil.waterCold.index',[168,$product->id]) }}"
-                                                   class="table-success-btn">
+                                                   class="table-success-btn" onclick="test(event)">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                          viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                          class="w-4 h-4 ml-1">
@@ -949,7 +949,7 @@
                                             @case('406')
                                                 <span class="hidden">Water Warm Coil</span>
                                                 <a href="{{ route('calculateCoil.waterWarm.index',[169,$product->id]) }}"
-                                                   class="table-success-btn">
+                                                   class="table-success-btn" onclick="test(event)">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                          viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                          class="w-4 h-4 ml-1">
@@ -962,7 +962,7 @@
                                             @case('408')
                                                 <span class="hidden">Fancoil Coil</span>
                                                 <a href="{{ route('calculateCoil.fancoil.index',[170,$product->id]) }}"
-                                                   class="table-success-btn">
+                                                   class="table-success-btn" onclick="test(event)">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                          viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                          class="w-4 h-4 ml-1">

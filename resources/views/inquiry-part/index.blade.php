@@ -1004,6 +1004,19 @@
             @endforeach
         </div>
 
+        <div class="mt-4">
+            <a href="{{ route('inquiries.parts.create',$inquiry->id) }}"
+               class="w-8 h-8 rounded-full bg-green-500 block grid place-content-center"
+               title="افزودن قطعه جدید">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                     stroke-width="2"
+                     stroke="currentColor" class="w-6 h-6 text-white">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M12 4.5v15m7.5-7.5h-15"></path>
+                </svg>
+            </a>
+        </div>
+
         <div class="mt-8 block md:hidden space-y-4">
             @foreach($types as $type)
                 @php

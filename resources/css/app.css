@@ -26,20 +26,20 @@
 }
 
 .header {
-    @apply flex justify-between items-center py-6 px-8 bg-transparent border-b border-gray-200 dark:border-black;
+    @apply flex justify-between items-center py-6 px-8 bg-blue-500 border-b border-gray-200 dark:border-black;
 }
 
 .header-notification {
-    @apply w-10 h-10 border-2 border-dashed border-gray-400 rounded-full flex items-center justify-center relative mr-5;
+    @apply w-10 h-10 border-2 border-dashed border-white rounded-full flex items-center justify-center relative mr-5;
 }
 
 .header-dark-mode {
-    @apply w-10 h-10 border-2 border-dashed border-gray-400 rounded-full flex items-center justify-center relative
+    @apply w-10 h-10 border-2 border-dashed border-white rounded-full flex items-center justify-center relative
     mr-5 cursor-pointer;
 }
 
 .header-toggle-menu {
-    @apply w-10 h-10 border-2 border-dashed border-gray-400 rounded-full flex items-center justify-center relative cursor-pointer;
+    @apply w-10 h-10 border-2 border-dashed border-white rounded-full flex items-center justify-center relative cursor-pointer;
 }
 
 .menu-active {
