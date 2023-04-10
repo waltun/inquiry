@@ -49,14 +49,11 @@ class UserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users'],
             'phone' => ['required', 'digits:11', 'regex:/(09)[0-9]{9}/', 'numeric', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
             'nation' => ['required', 'digits:10', 'numeric', 'unique:users'],
             'gender' => ['required', 'in:male,female'],
             'role' => ['required', 'in:admin,staff,user'],
             'active' => ['required', 'integer', 'in:0,1']
         ]);
-
-        $data['password'] = Hash::make($request['password']);
 
         User::create($data);
 
@@ -86,14 +83,6 @@ class UserController extends Controller
             'role' => ['required', 'in:admin,staff,user'],
             'active' => ['required', 'integer', 'in:0,1']
         ]);
-
-        if (!is_null($request['password'])) {
-            $request->validate([
-                'password' => ['required', 'string', 'min:8', 'confirmed']
-            ]);
-            $data['password'] = $request['password'];
-            $data['password'] = Hash::make($data['password']);
-        }
 
         $user->update($data);
 
