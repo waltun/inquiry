@@ -447,16 +447,14 @@
                                 }
                             }
 
-                            $part->children()->chunk(100, function ($children) use ($lastTime) {
-                               foreach ($children as $child) {
-                                   if ($child->price_updated_at < $lastTime && $child->price > 0) {
-                                        $color = 'text-red-500';
-                                    }
-                                    if ($child->price_updated_at < $lastTime && $child->price == 0) {
-                                        $color = 'text-red-600';
-                                    }
-                               }
-                            });
+                            foreach ($part->children as $child) {
+                               if ($child->price_updated_at < $lastTime && $child->price > 0) {
+                                    $color = 'text-red-500';
+                                }
+                                if ($child->price_updated_at < $lastTime && $child->price == 0) {
+                                    $color = 'text-red-600';
+                                }
+                           }
 
                             $category = $part->categories[1];
                             $selectedCategory = $part->categories[2];
@@ -846,16 +844,14 @@
                                 }
                             }
 
-                            $part->children()->chunk(100, function ($children) use ($lastTime) {
-                               foreach ($children as $child) {
-                                   if ($child->price_updated_at < $lastTime && $child->price > 0) {
-                                        $color = 'text-red-500';
-                                    }
-                                    if ($child->price_updated_at < $lastTime && $child->price == 0) {
-                                        $color = 'text-red-600';
-                                    }
-                               }
-                            });
+                            foreach ($part->children as $child) {
+                                if ($child->price_updated_at < $lastTime && $child->price > 0) {
+                                    $color = 'text-red-500';
+                                }
+                                if ($child->price_updated_at < $lastTime && $child->price == 0) {
+                                    $color = 'text-red-600';
+                                }
+                            }
 
                             $category = $part->categories[1];
                             $selectedCategory = $part->categories[2];
@@ -1222,40 +1218,18 @@
                     @endforeach
                     @if(!$amounts->isEmpty())
                         <tr class="table-tb-tr group">
-                            <td class="table-tr-td border-t-0 border-t-0"
+                            <td class="table-tr-td border-t-0"
                                 colspan="{{ $inquiry->submit ? '11' : '10' }}">
-                                <div class="flex justify-between items-center">
-                                    <a href="{{ route('inquiries.newPart.create',$product->id) }}"
-                                       class="w-8 h-8 rounded-full bg-green-500 block grid place-content-center mr-6"
-                                       title="افزودن قطعه جدید">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                             stroke-width="2"
-                                             stroke="currentColor" class="w-6 h-6 text-white">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                  d="M12 4.5v15m7.5-7.5h-15"></path>
-                                        </svg>
-                                    </a>
-                                    @if($showPivotPrice != 0)
-                                        <div class="flex items-center space-x-4 space-x-reverse">
-                                            <p class="table-price-label">
-                                                قیمت کل : {{ number_format($showPivotPrice) }} تومان
-                                            </p>
-                                            <p class="table-weight-label">
-                                                وزن دستگاه : {{ number_format($partWeight) }} کیلوگرم
-                                            </p>
-                                        </div>
-                                    @endif
-                                    @if($showAmountPrice != 0)
-                                        <div class="flex items-center space-x-4 space-x-reverse">
-                                            <p class="table-price-label">
-                                                قیمت کل : {{ number_format($showAmountPrice) }} تومان
-                                            </p>
-                                            <p class="table-weight-label">
-                                                وزن دستگاه : {{ number_format($amountWeight) }} کیلوگرم
-                                            </p>
-                                        </div>
-                                    @endif
-                                </div>
+                                <a href="{{ route('inquiries.newPart.create',$product->id) }}"
+                                   class="w-8 h-8 rounded-full bg-green-500 block grid place-content-center mr-6"
+                                   title="افزودن قطعه جدید">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         stroke-width="2"
+                                         stroke="currentColor" class="w-6 h-6 text-white">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                              d="M12 4.5v15m7.5-7.5h-15"></path>
+                                    </svg>
+                                </a>
                             </td>
                         </tr>
                     @endif
@@ -1272,6 +1246,26 @@
                     انصراف
                 </a>
             </div>
+            @if($showPivotPrice != 0)
+                <div class="flex items-center space-x-4 space-x-reverse">
+                    <p class="table-price-label">
+                        قیمت کل : {{ number_format($showPivotPrice) }} تومان
+                    </p>
+                    <p class="table-weight-label">
+                        وزن دستگاه : {{ number_format($partWeight) }} کیلوگرم
+                    </p>
+                </div>
+            @endif
+            @if($showAmountPrice != 0)
+                <div class="flex items-center space-x-4 space-x-reverse">
+                    <p class="table-price-label">
+                        قیمت کل : {{ number_format($showAmountPrice) }} تومان
+                    </p>
+                    <p class="table-weight-label">
+                        وزن دستگاه : {{ number_format($amountWeight) }} کیلوگرم
+                    </p>
+                </div>
+            @endif
         </div>
     </form>
 </x-layout>

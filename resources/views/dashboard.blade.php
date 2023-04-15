@@ -11,12 +11,12 @@
     </div>
 
     <div x-data="{tab : 'inquiry'}" class="mb-8">
-        <div class="border-b border-indigo-400 mt-6">
+        <div class="border-b border-indigo-400 dark:border-black mt-6">
             <ul class="flex md:flex-wrap -mb-px text-sm font-medium text-center text-gray-600 whitespace-nowrap overflow-x-auto">
                 <li class="ml-2">
                     <button x-on:click="tab = 'inquiry'" type="button"
-                            class="inline-flex p-4 text-myBlue-100 border border-transparent group rounded-t-lg"
-                            :class="{ 'text-myBlue-100 border-indigo-400 bg-gray-100': tab === 'inquiry' }"
+                            class="inline-flex p-4 text-myBlue-100 border border-transparent group rounded-t-lg dark:text-white"
+                            :class="{ 'text-myBlue-100 border-indigo-400 bg-gray-100 dark:bg-slate-900': tab === 'inquiry' }"
                             aria-current="page">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                              stroke="currentColor" class="w-5 h-5 ml-2 text-blue-600"
@@ -30,8 +30,8 @@
                 </li>
                 <li class="ml-2">
                     <button x-on:click="tab = 'price'" type="button"
-                            class="inline-flex p-4 text-myBlue-100 border border-transparent group rounded-t-lg"
-                            :class="{ 'text-myBlue-100 border-indigo-400 bg-gray-100': tab === 'price' }"
+                            class="inline-flex p-4 text-myBlue-100 border border-transparent group rounded-t-lg dark:text-white"
+                            :class="{ 'text-myBlue-100 border-indigo-400 bg-gray-100 dark:bg-slate-900': tab === 'price' }"
                             aria-current="page">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                              stroke="currentColor" class="w-5 h-5 ml-2 text-blue-600"
@@ -45,8 +45,8 @@
                 </li>
                 <li class="ml-2">
                     <button x-on:click="tab = 'calculate'" type="button"
-                            class="inline-flex p-4 text-myBlue-100 border border-transparent group rounded-t-lg"
-                            :class="{ 'text-myBlue-100 border-indigo-400 bg-gray-100': tab === 'calculate' }"
+                            class="inline-flex p-4 text-myBlue-100 border border-transparent group rounded-t-lg dark:text-white"
+                            :class="{ 'text-myBlue-100 border-indigo-400 bg-gray-100 dark:bg-slate-900': tab === 'calculate' }"
                             aria-current="page">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                              stroke="currentColor" class="w-5 h-5 ml-2 text-blue-600"
@@ -60,8 +60,8 @@
                 </li>
                 <li class="ml-2">
                     <button x-on:click="tab = 'admin'" type="button"
-                            class="inline-flex p-4 border border-transparent rounded-t-lg"
-                            :class="{ 'text-myBlue-100 border-indigo-400 bg-gray-100': tab === 'admin' }">
+                            class="inline-flex p-4 border border-transparent rounded-t-lg dark:text-white"
+                            :class="{ 'text-myBlue-100 border-indigo-400 bg-gray-100 dark:bg-slate-900': tab === 'admin' }">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                              stroke="currentColor" class="w-5 h-5 ml-2 text-blue-600"
                              :class="{ 'text-blue-700': tab === 'admin' }">
@@ -74,8 +74,8 @@
                 </li>
                 <li class="ml-2">
                     <button x-on:click="tab = 'current-price'" type="button"
-                            class="inline-flex p-4 text-myBlue-100 border border-transparent group rounded-t-lg"
-                            :class="{ 'text-myBlue-100 border-indigo-400 bg-gray-100': tab === 'current-price' }"
+                            class="inline-flex p-4 text-myBlue-100 border border-transparent group rounded-t-lg dark:text-white"
+                            :class="{ 'text-myBlue-100 border-indigo-400 bg-gray-100 dark:bg-slate-900': tab === 'current-price' }"
                             aria-current="page">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                              stroke="currentColor" class="w-5 h-5 ml-2 text-blue-600"
@@ -90,7 +90,7 @@
             </ul>
         </div>
 
-        <div x-show="tab === 'inquiry'" class="border border-indigo-400 border-t-0 rounded-b-lg px-4 py-6" x-cloak>
+        <div x-show="tab === 'inquiry'" class="border border-indigo-400 dark:border-black border-t-0 rounded-b-lg px-4 py-6" x-cloak>
             <div class="md:grid grid-cols-4 gap-4 space-y-4 md:space-y-0">
                 @can('inquiries')
                     <a href="{{ route('inquiries.index') }}" class="dashboard-cards group">
@@ -178,7 +178,7 @@
             </div>
         </div>
 
-        <div x-show="tab === 'price'" class="border border-indigo-400 border-t-0 rounded-b-lg px-4 py-6" x-cloak>
+        <div x-show="tab === 'price'" class="border border-indigo-400 dark:border-black border-t-0 rounded-b-lg px-4 py-6" x-cloak>
             <div class="md:grid grid-cols-4 gap-4 space-y-4 md:space-y-0">
                 @can('part-price')
                     <a href="{{ route('parts.price.index') }}" class="dashboard-cards group">
@@ -238,7 +238,7 @@
             </div>
         </div>
 
-        <div x-show="tab === 'calculate'" class="border border-indigo-400 border-t-0 rounded-b-lg px-4 py-6" x-cloak>
+        <div x-show="tab === 'calculate'" class="border border-indigo-400 dark:border-black border-t-0 rounded-b-lg px-4 py-6" x-cloak>
             <div class="md:grid grid-cols-4 gap-4 space-y-4 md:space-y-0">
                 @can('separate-calculate-coils')
                     <a href="{{ route('separate.coil.index') }}" class="dashboard-cards group">
@@ -354,7 +354,7 @@
             </div>
         </div>
 
-        <div x-show="tab === 'admin'" class="border border-indigo-400 border-t-0 rounded-b-lg px-4 py-6" x-cloak>
+        <div x-show="tab === 'admin'" class="border border-indigo-400 dark:border-black border-t-0 rounded-b-lg px-4 py-6" x-cloak>
             <div class="md:grid grid-cols-4 gap-4 space-y-4 md:space-y-0">
                 @can('categories')
                     <a href="{{ route('categories.index') }}" class="dashboard-cards group">
@@ -585,7 +585,8 @@
             </div>
         </div>
 
-        <div x-show="tab === 'current-price'" class="border border-indigo-400 border-t-0 rounded-b-lg px-4 py-6" x-cloak>
+        <div x-show="tab === 'current-price'" class="border border-indigo-400 dark:border-black border-t-0 rounded-b-lg px-4 py-6"
+             x-cloak>
             @can('current-price')
                 <a href="{{ route('products.currentPrice') }}" class="dashboard-cards group">
                     <div class="flex items-center">
