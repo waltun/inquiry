@@ -114,8 +114,9 @@
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                              stroke="currentColor" class="w-5 h-5 ml-1">
                             <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"/>
+                                  d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
+
                         قیمت این استعلام توسط {{ $percentUser->name }} تایید شده است
                     </p>
                 @endif
@@ -124,7 +125,7 @@
 
         <!-- Product List -->
         @if(!$inquiry->products()->where('group_id','!=',0)->where('model_id','!=',0)->orderBy('sort','ASC')->get()->isEmpty())
-            <div class="card">
+            <div class="card overflow-x-auto">
                 <div class="card-header">
                     <p class="card-title text-lg">لیست محصولات</p>
                 </div>
@@ -138,7 +139,7 @@
                         <th class="p-4">وزن (کیلوگرم)</th>
                         <th class="p-4">تعداد</th>
                         <th class="p-4">قیمت واحد (تومان)</th>
-                        <th class="p-4">قیمت کل (تومان)</th>
+                        <th class="p-4 rounded-tl-lg">قیمت کل (تومان)</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -174,7 +175,7 @@
                             <td class="table-tr-td border-t-0 border-x-0">
                                 {{ number_format($product->price) }}
                             </td>
-                            <td class="table-tr-td border-t-0 border-x-0">
+                            <td class="table-tr-td border-t-0 border-r-0">
                                 {{ number_format($product->price * $product->quantity) }}
                             </td>
                         </tr>
@@ -251,6 +252,7 @@
                             <th class="p-4 rounded-tr-lg">ردیف</th>
                             <th class="p-4">نام قطعه</th>
                             <th class="p-4">تعداد</th>
+							<th class="p-4">واحد</th>
                             <th class="p-4">قیمت واحد (تومان)</th>
                             <th class="p-4 rounded-tl-lg">قیمت کل (تومان)</th>
                         </tr>
@@ -274,6 +276,9 @@
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     {{ $product->quantity }}
                                 </td>
+								<td class="table-tr-td border-t-0 border-x-0">
+                                    {{ $part->unit }}
+                                </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     {{ number_format($product->price) }}
                                 </td>
@@ -283,7 +288,7 @@
                             </tr>
                         @endforeach
                         <tr class="table-tb-tr group">
-                            <td class="table-tr-td border-t-0" colspan="5">
+                            <td class="table-tr-td border-t-0" colspan="6">
                                 <div class="flex justify-end">
                                     <p class="table-price-label">
                                         جمع قیمت : {{ number_format($partFinalPrice) }} تومان

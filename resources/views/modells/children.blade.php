@@ -195,29 +195,25 @@
                 </a>
             </div>
         </div>
-        @if(!$modell->children->isEmpty())
-            <div class="flex items-center space-x-4 space-x-reverse">
-                <a href="{{ route('modells.create',$group->id) }}?parent={{ $modell->id }}" class="page-warning-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                         stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
-                    </svg>
-                    <span class="mr-2">افزودن مدل جدید</span>
-                </a>
-            </div>
-        @endif
 
-        @if($modell->children->isEmpty())
-            <div class="flex items-center space-x-4 space-x-reverse">
-                <a href="{{ route('modells.parts.index',$modell->id) }}" class="page-success-btn">
+		<div class="flex items-center space-x-4 space-x-reverse">
+			<a href="{{ route('modells.create',$group->id) }}?parent={{ $modell->id }}" class="page-warning-btn">
+				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+						stroke="currentColor" class="w-6 h-6">
+					<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+				</svg>
+				<span class="mr-2">افزودن مدل جدید</span>
+			</a>
+			@if($modell->children->isEmpty())
+				<a href="{{ route('modells.parts.index',$modell->id) }}" class="page-success-btn">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                          stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
                     </svg>
                     <span class="mr-2">افزودن قطعه</span>
                 </a>
-            </div>
-        @endif
+			@endif
+		</div>
     </div>
 
     <!-- Children -->

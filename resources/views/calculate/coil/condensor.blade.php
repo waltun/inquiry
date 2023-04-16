@@ -726,7 +726,7 @@
                     <input type="text" class="input-text" id="inputCoilName" name="name" dir="ltr" value="{{ $name }}">
                 </div>
 
-                @can('users')
+                @can('show-calculate-category')
                     <div class="my-4 bg-red-300 p-4 rounded-md shadow-md">
                         <label class="block mb-2 text-sm font-bold" for="inputCoilCategory">
                             دسته بندی کویل

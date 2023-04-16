@@ -121,7 +121,7 @@
             <button type="submit" class="form-submit-btn">
                 ثبت مدل
             </button>
-            <a href="{{ route('modells.index',$group->id) }}" class="form-cancel-btn">
+            <a href="{{ route('modells.children',$modell->id) }}" class="form-cancel-btn">
                 انصراف
             </a>
         </div>
