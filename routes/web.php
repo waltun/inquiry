@@ -55,6 +55,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::resource('users', UserController::class);
 
     //Modell routes
+    Route::get('/groups/{group}/models', [ModellController::class, 'index'])->name('modells.index');
     Route::get('/groups/{group}/models/create', [ModellController::class, 'create'])->name('modells.create');
     Route::post('/groups/{group}/models', [ModellController::class, 'store'])->name('modells.store');
     Route::get('/models/{modell}/edit', [ModellController::class, 'edit'])->name('modells.edit');

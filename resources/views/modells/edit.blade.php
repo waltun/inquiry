@@ -1,45 +1,59 @@
 <x-layout>
     <!-- Breadcrumb -->
-    <nav class="flex bg-gray-100 p-4 rounded-md overflow-x-auto whitespace-nowrap" aria-label="Breadcrumb">
-        <ol class="inline-flex items-center space-x-2 space-x-reverse">
-            <li class="inline-flex items-center">
-                <a href="{{ route('dashboard') }}"
-                   class="inline-flex items-center text-xs md:text-sm text-gray-500 hover:text-gray-900">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20"
-                         fill="currentColor">
-                        <path
-                            d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
-                    </svg>
+    <div class="flex items-center space-x-2 space-x-reverse">
+        <a href="{{ route('dashboard') }}" class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" class="breadcrumb-svg">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3"/>
+            </svg>
+            <div class="mr-2">
+                <p class="breadcrumb-p">
                     داشبورد
-                </a>
-            </li>
-            <li>
-                <div class="flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd"
-                              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                              clip-rule="evenodd"/>
-                    </svg>
-                    <a href="{{ route('modells.index',$group->id) }}"
-                       class="mr-2 text-xs md:text-sm font-medium text-gray-500 hover:text-gray-900">
-                        مدیریت مدل ها
-                    </a>
-                </div>
-            </li>
-            <li aria-current="page">
-                <div class="flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd"
-                              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                              clip-rule="evenodd"/>
-                    </svg>
-                    <span class="mr-2 text-xs md:text-sm font-medium text-gray-400">
-                        ویرایش مدل {{ $modell->name }} برای گروه {{ $group->name }}
-                    </span>
-                </div>
-            </li>
-        </ol>
-    </nav>
+                </p>
+            </div>
+        </a>
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                 class="breadcrumb-svg-arrow">
+                <path fill-rule="evenodd"
+                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                      clip-rule="evenodd"/>
+            </svg>
+        </div>
+        <a href="{{ route('groups.index') }}" class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="breadcrumb-svg" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"></path>
+            </svg>
+            <div class="mr-2">
+                <p class="breadcrumb-p">
+                    مدیریت محصولات
+                </p>
+            </div>
+        </a>
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                 class="breadcrumb-svg-arrow">
+                <path fill-rule="evenodd"
+                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                      clip-rule="evenodd"/>
+            </svg>
+        </div>
+        <div class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" class="breadcrumb-svg-active">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+            </svg>
+            <div class="mr-2">
+                <p class="breadcrumb-p-active">
+                    ویرایش مدل زیر دسته {{ $modell->name }}
+                </p>
+            </div>
+        </div>
+
+    </div>
 
     <!-- Errors -->
     <div class="mt-4">
@@ -51,27 +65,24 @@
         @csrf
         @method('PATCH')
 
-        <div class="col-span-2 flex justify-center">
-            <span
-                class="text-lg text-center font-bold text-black bg-white p-4 rounded-md shadow-md border border-gray-200">
-                شما در حال ویرایش مدل <span class="text-red-600">{{ $modell->name }}</span> برای گروه <span
-                    class="text-red-600">{{ $group->name }}</span> می باشید
-            </span>
-        </div>
-
-        <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
-            <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">مشخصات کلی</p>
+        <div class="card">
+            <div class="card-header">
+                <p class="card-title">مشخصات کلی</p>
+            </div>
             <div class="mt-4">
-                <label for="inputName" class="block mb-2 md:text-sm text-xs text-black">نام مدل</label>
+                <label for="inputName" class="form-label">نام مدل</label>
                 <input type="text" id="inputName" name="name" class="input-text" value="{{ $modell->name }}">
             </div>
         </div>
 
         @if($modell->parent_id != 0)
-            <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
-                <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">مدل مربوطه</p>
+            <div class="card">
+                <div class="card-header">
+                    <p class="card-title">مدل مربوطه</p>
+                </div>
+
                 <div class="mt-4">
-                    <label for="inputParent" class="block mb-2 md:text-sm text-xs text-black">
+                    <label for="inputParent" class="form-label">
                         مدل مرتبط
                     </label>
                     <select name="parent_id" id="inputParent" class="input-text">
@@ -85,13 +96,13 @@
                 </div>
 
                 <div class="mt-4">
-                    <label for="inputPercent" class="block mb-2 md:text-sm text-xs text-black">ضریب پیش فرض</label>
+                    <label for="inputPercent" class="form-label">ضریب پیش فرض</label>
                     <input type="text" id="inputPercent" name="percent" class="input-text" placeholder="مثال : 1.6"
                            value="{{ old('percent') ?? $modell->percent }}">
                 </div>
 
                 <div class="mt-4">
-                    <label for="inputPercent" class="block mb-2 md:text-sm text-xs text-black">محصول استاندارد</label>
+                    <label for="inputPercent" class="form-label">محصول استاندارد</label>
                     <select name="standard" id="inputStandard" class="input-text">
                         <option value="0" {{ !$modell->standard ? 'selected' : '' }}>نباشد</option>
                         <option value="1" {{ $modell->standard ? 'selected' : '' }}>باشد</option>
@@ -99,10 +110,13 @@
                 </div>
             </div>
         @else
-            <div class="bg-white shadow-sm p-4 rounded-md border border-gray-200 mb-4 md:mb-0">
-                <p class="md:text-sm text-xs text-black font-bold border-b-2 border-teal-400 pb-3">دسته مربوطه</p>
+            <div class="card">
+                <div class="card-header">
+                    <p class="card-title">دسته مربوطه</p>
+                </div>
+
                 <div class="mt-4">
-                    <label for="inputGroup" class="block mb-2 md:text-sm text-xs text-black">
+                    <label for="inputGroup" class="form-label">
                         دسته مرتبط
                     </label>
                     <select name="group_id" id="inputGroup" class="input-text">
@@ -116,13 +130,13 @@
                 </div>
 
                 <div class="mt-4">
-                    <label for="inputPercent" class="block mb-2 md:text-sm text-xs text-black">ضریب پیش فرض</label>
+                    <label for="inputPercent" class="form-label">ضریب پیش فرض</label>
                     <input type="text" id="inputPercent" name="percent" class="input-text" placeholder="مثال : 1.6"
                            value="{{ old('percent') ?? $modell->percent }}">
                 </div>
 
                 <div class="mt-4">
-                    <label for="inputPercent" class="block mb-2 md:text-sm text-xs text-black">محصول استاندارد</label>
+                    <label for="inputPercent" class="form-label">محصول استاندارد</label>
                     <select name="standard" id="inputStandard" class="input-text">
                         <option value="0" {{ !$modell->standard ? 'selected' : '' }}>نباشد</option>
                         <option value="1" {{ $modell->standard ? 'selected' : '' }}>باشد</option>
@@ -131,11 +145,11 @@
             </div>
         @endif
 
-        <div class="col-span-2 space-x-2 space-x-reverse">
+        <div class="flex items-center space-x-2 space-x-reverse">
             <button type="submit" class="form-edit-btn">
                 بروزرسانی مدل
             </button>
-            <a href="{{ route('modells.index',$group->id) }}" class="form-cancel-btn">
+            <a href="{{ route('modells.children',$modell->parent_id) }}" class="form-cancel-btn">
                 انصراف
             </a>
         </div>

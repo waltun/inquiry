@@ -451,16 +451,14 @@
                                 }
                             }
 
-                            $part->children()->chunk(100, function ($children) use ($lastTime) {
-                               foreach ($children as $child) {
-                                   if ($child->price_updated_at < $lastTime && $child->price > 0) {
-                                        $color = 'text-red-500';
-                                    }
-                                    if ($child->price_updated_at < $lastTime && $child->price == 0) {
-                                        $color = 'text-red-600';
-                                    }
-                               }
-                            });
+                            foreach ($part->children as $child) {
+                                if ($child->price_updated_at < $lastTime && $child->price > 0) {
+                                     $color = 'text-red-500';
+                                }
+                                 if ($child->price_updated_at < $lastTime && $child->price == 0) {
+                                     $color = 'text-red-600';
+                                 }
+                            }
 
                             $category = $part->categories[1];
                             $selectedCategory = $part->categories[2];
@@ -854,16 +852,14 @@
                                 }
                             }
 
-                            $part->children()->chunk(100, function ($children) use ($lastTime) {
-                               foreach ($children as $child) {
-                                   if ($child->price_updated_at < $lastTime && $child->price > 0) {
-                                        $color = 'text-red-500';
-                                    }
-                                    if ($child->price_updated_at < $lastTime && $child->price == 0) {
-                                        $color = 'text-red-600';
-                                    }
-                               }
-                            });
+                            foreach ($part->children as $child) {
+                                if ($child->price_updated_at < $lastTime && $child->price > 0) {
+                                    $color = 'text-red-500';
+                                }
+                                if ($child->price_updated_at < $lastTime && $child->price == 0) {
+                                    $color = 'text-red-600';
+                                }
+                           }
 
                             $category = $part->categories[1];
                             $selectedCategory = $part->categories[2];
