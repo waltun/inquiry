@@ -388,18 +388,22 @@
                     <th scope="col" class="p-4">
                         نام
                     </th>
-                    <th scope="col" class="p-4">
-                        قیمت (تومان)
-                    </th>
+                    @if(auth()->user()->role == 'admin')
+                        <th scope="col" class="p-4">
+                            قیمت (تومان)
+                        </th>
+                    @endif
                     <th scope="col" class="p-4">
                         واحد
                     </th>
                     <th scope="col" class="p-4">
                         مقادیر
                     </th>
-                    <th scope="col" class="p-4">
-                        قیمت کل (تومان)
-                    </th>
+                    @if(auth()->user()->role == 'admin')
+                        <th scope="col" class="p-4">
+                            قیمت کل (تومان)
+                        </th>
+                    @endif
                     @if(!$amounts->isEmpty())
                         <th scope="col" class="p-4">
                             حذف
@@ -447,14 +451,16 @@
                                 }
                             }
 
-                            foreach ($part->children as $child) {
-                               if ($child->price_updated_at < $lastTime && $child->price > 0) {
-                                    $color = 'text-red-500';
-                                }
-                                if ($child->price_updated_at < $lastTime && $child->price == 0) {
-                                    $color = 'text-red-600';
-                                }
-                           }
+                            $part->children()->chunk(100, function ($children) use ($lastTime) {
+                               foreach ($children as $child) {
+                                   if ($child->price_updated_at < $lastTime && $child->price > 0) {
+                                        $color = 'text-red-500';
+                                    }
+                                    if ($child->price_updated_at < $lastTime && $child->price == 0) {
+                                        $color = 'text-red-600';
+                                    }
+                               }
+                            });
 
                             $category = $part->categories[1];
                             $selectedCategory = $part->categories[2];
@@ -735,11 +741,13 @@
                                     @endif
                                 </div>
                             </td>
-                            <td class="table-tr-td border-t-0 border-x-0 {{ $color }}">
-                                <span id="changePriceSection{{ $part->id }}">
-                                    {{ number_format($part->price) }}
-                                </span>
-                            </td>
+                            @if(auth()->user()->role == 'admin')
+                                <td class="table-tr-td border-t-0 border-x-0 {{ $color }}">
+                                    <span id="changePriceSection{{ $part->id }}">
+                                        {{ number_format($part->price) }}
+                                    </span>
+                                </td>
+                            @endif
                             <td class="table-tr-td border-t-0 border-x-0">
                                 @if(is_null($part->unit2))
                                     {{ $part->unit }}
@@ -804,9 +812,11 @@
                                     @endif
                                 </div>
                             </td>
-                            <td class="table-tr-td border-t-0 border-r-0 {{ $color }}">
-                                {{ number_format($part->price * $part->pivot->value) }}
-                            </td>
+                            @if(auth()->user()->role == 'admin')
+                                <td class="table-tr-td border-t-0 border-r-0 {{ $color }}">
+                                    {{ number_format($part->price * $part->pivot->value) }}
+                                </td>
+                            @endif
                         </tr>
                     @endforeach
                 @else
@@ -844,14 +854,16 @@
                                 }
                             }
 
-                            foreach ($part->children as $child) {
-                                if ($child->price_updated_at < $lastTime && $child->price > 0) {
-                                    $color = 'text-red-500';
-                                }
-                                if ($child->price_updated_at < $lastTime && $child->price == 0) {
-                                    $color = 'text-red-600';
-                                }
-                            }
+                            $part->children()->chunk(100, function ($children) use ($lastTime) {
+                               foreach ($children as $child) {
+                                   if ($child->price_updated_at < $lastTime && $child->price > 0) {
+                                        $color = 'text-red-500';
+                                    }
+                                    if ($child->price_updated_at < $lastTime && $child->price == 0) {
+                                        $color = 'text-red-600';
+                                    }
+                               }
+                            });
 
                             $category = $part->categories[1];
                             $selectedCategory = $part->categories[2];
@@ -1131,11 +1143,13 @@
                                     @endif
                                 </div>
                             </td>
-                            <td class="table-tr-td border-t-0 border-x-0">
+                            @if(auth()->user()->role == 'admin')
+                                <td class="table-tr-td border-t-0 border-x-0">
                                 <span id="changePriceSection{{ $part->id }}" class="{{ $color }}">
                                     {{ number_format($part->price) }}
                                 </span>
-                            </td>
+                                </td>
+                            @endif
                             <td class="table-tr-td border-t-0 border-x-0">
                                 @if(is_null($part->unit2))
                                     {{ $part->unit }}
@@ -1200,9 +1214,11 @@
                                     @endif
                                 </div>
                             </td>
-                            <td class="table-tr-td border-t-0 border-x-0 {{ $color }}">
-                                {{ number_format($part->price * $amount->value) }}
-                            </td>
+                            @if(auth()->user()->role == 'admin')
+                                <td class="table-tr-td border-t-0 border-x-0 {{ $color }}">
+                                    {{ number_format($part->price * $amount->value) }}
+                                </td>
+                            @endif
                             @if(!$amounts->isEmpty())
                                 <td class="table-tr-td border-t-0 border-r-0">
                                     <button type="button" onclick="deletePartFromAmount({{ $amount->id }})">
@@ -1218,18 +1234,44 @@
                     @endforeach
                     @if(!$amounts->isEmpty())
                         <tr class="table-tb-tr group">
-                            <td class="table-tr-td border-t-0"
+                            <td class="table-tr-td border-t-0 border-t-0"
                                 colspan="{{ $inquiry->submit ? '11' : '10' }}">
-                                <a href="{{ route('inquiries.newPart.create',$product->id) }}"
-                                   class="w-8 h-8 rounded-full bg-green-500 block grid place-content-center mr-6"
-                                   title="افزودن قطعه جدید">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                         stroke-width="2"
-                                         stroke="currentColor" class="w-6 h-6 text-white">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                              d="M12 4.5v15m7.5-7.5h-15"></path>
-                                    </svg>
-                                </a>
+                                <div class="flex justify-between items-center">
+                                    <a href="{{ route('inquiries.newPart.create',$product->id) }}"
+                                       class="w-8 h-8 rounded-full bg-green-500 block grid place-content-center mr-6"
+                                       title="افزودن قطعه جدید">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                             stroke-width="2"
+                                             stroke="currentColor" class="w-6 h-6 text-white">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                  d="M12 4.5v15m7.5-7.5h-15"></path>
+                                        </svg>
+                                    </a>
+                                    @if(auth()->user()->role == 'admin')
+                                        @if($showPivotPrice != 0)
+                                            <div class="flex items-center space-x-4 space-x-reverse">
+                                                <p class="table-price-label">
+                                                    قیمت کل : {{ number_format($showPivotPrice) }} تومان
+                                                </p>
+                                                <p class="table-weight-label">
+                                                    وزن دستگاه : {{ number_format($partWeight) }} کیلوگرم
+                                                </p>
+                                            </div>
+                                        @endif
+                                    @endif
+                                    @if(auth()->user()->role == 'admin')
+                                        @if($showAmountPrice != 0)
+                                            <div class="flex items-center space-x-4 space-x-reverse">
+                                                <p class="table-price-label">
+                                                    قیمت کل : {{ number_format($showAmountPrice) }} تومان
+                                                </p>
+                                                <p class="table-weight-label">
+                                                    وزن دستگاه : {{ number_format($amountWeight) }} کیلوگرم
+                                                </p>
+                                            </div>
+                                        @endif
+                                    @endif
+                                </div>
                             </td>
                         </tr>
                     @endif
@@ -1246,26 +1288,6 @@
                     انصراف
                 </a>
             </div>
-            @if($showPivotPrice != 0)
-                <div class="flex items-center space-x-4 space-x-reverse">
-                    <p class="table-price-label">
-                        قیمت کل : {{ number_format($showPivotPrice) }} تومان
-                    </p>
-                    <p class="table-weight-label">
-                        وزن دستگاه : {{ number_format($partWeight) }} کیلوگرم
-                    </p>
-                </div>
-            @endif
-            @if($showAmountPrice != 0)
-                <div class="flex items-center space-x-4 space-x-reverse">
-                    <p class="table-price-label">
-                        قیمت کل : {{ number_format($showAmountPrice) }} تومان
-                    </p>
-                    <p class="table-weight-label">
-                        وزن دستگاه : {{ number_format($amountWeight) }} کیلوگرم
-                    </p>
-                </div>
-            @endif
         </div>
     </form>
 </x-layout>
