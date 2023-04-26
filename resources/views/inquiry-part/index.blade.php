@@ -887,7 +887,7 @@
                                                        onkeyup="changeUnit2(event,'{{ $part->id }}')"
                                                        value="{{ $product->quantity2 }}">
                                             @endif
-                                            <input type="hidden" id="inputUnitValue{{ $part->id }}"
+                                            <input type="hidden" id="inputUnitValue{{ $product->id }}"
                                                    value="{{ $product->quantity2 }}"
                                                    name="quantities2[]">
                                         </td>
