@@ -77,6 +77,12 @@
                 });
             }
         </script>
+        <script>
+            let submitButton = document.getElementById('submit-button');
+            submitButton.addEventListener('click',function (){
+                submitButton.classList.add('hidden')
+            });
+        </script>
     </x-slot>
 
     <!-- Breadcrumb -->
@@ -227,10 +233,17 @@
                        placeholder="مثلا : 1000CFM"
                        value="{{ old('model_custom_name') }}">
             </div>
+
+            <div class="mt-4">
+                <label for="inputProperty" class="form-label">مشخصه</label>
+                <input type="text" id="inputProperty" name="property" class="input-text"
+                       placeholder="مثلا : TA-ACH-Al-R22"
+                       value="{{ old('property') }}">
+            </div>
         </div>
 
         <div class="flex items-center space-x-4 space-x-reverse">
-            <button type="submit" class="form-submit-btn">
+            <button type="submit" class="form-submit-btn" id="submit-button">
                 ثبت محصول
             </button>
             <a href="{{ route('inquiries.product.index',$inquiry->id) }}" class="form-cancel-btn">

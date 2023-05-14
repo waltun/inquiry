@@ -181,6 +181,7 @@ class CollectionPartController extends Controller
 
         $parentPart->price = $totalPrice;
         $parentPart->weight = $totalWeight;
+        $parentPart->name = $request->name;
         $parentPart->save();
 
         alert()->success('ثبت موفق', 'ثبت مقادیر با موفقیت انجام شد');

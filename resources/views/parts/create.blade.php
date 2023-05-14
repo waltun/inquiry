@@ -75,6 +75,12 @@
                 priceSection.innerText = Intl.NumberFormat('fa-IR').format(value);
             }
         </script>
+        <script>
+            let submitButton = document.getElementById('submit-button');
+            submitButton.addEventListener('click',function (){
+                submitButton.classList.add('hidden')
+            });
+        </script>
     </x-slot>
 
     <!-- Breadcrumb -->
@@ -269,7 +275,7 @@
         </div>
 
         <div class="flex items-center space-x-4 space-x-reverse">
-            <button type="submit" class="form-submit-btn">
+            <button type="submit" class="form-submit-btn" id="submit-button">
                 ثبت قطعه
             </button>
             <a href="{{ route('parts.index') }}" class="form-cancel-btn">

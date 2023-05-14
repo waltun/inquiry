@@ -133,13 +133,17 @@
                     <thead>
                     <tr class="table-th-tr">
                         <th class="p-4 rounded-tr-lg">ردیف</th>
+                        <th class="p-4">مشخصه</th>
                         <th class="p-4">دسته محصول</th>
                         <th class="p-4">مدل محصول</th>
                         <th class="p-4">تگ</th>
                         <th class="p-4">وزن (کیلوگرم)</th>
                         <th class="p-4">تعداد</th>
                         <th class="p-4">قیمت واحد (تومان)</th>
-                        <th class="p-4 rounded-tl-lg">قیمت کل (تومان)</th>
+                        <th class="p-4">قیمت کل (تومان)</th>
+                        <th class="p-4 rounded-tl-lg">
+                            <span class="sr-only">افزودن محصول</span>
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
@@ -156,6 +160,26 @@
                         <tr class="table-tb-tr group">
                             <td class="table-tr-td border-t-0 border-l-0">
                                 {{ $loop->index + 1 }}
+                            </td>
+                            <td class="table-tr-td border-t-0 border-x-0">
+                                <div class="flex items-center justify-center relative" x-data="{ open: false}">
+                                    <button type="button" @click="open = !open">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                             stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-yellow-500">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                  d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/>
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                        </svg>
+                                    </button>
+                                    <div
+                                        class="p-2 rounded-md shadow-md absolute left-0 -top-6 bg-white border border-gray-200"
+                                        x-show="open" @click.away="open = false">
+                                        <p class="text-xs text-center text-black font-medium">
+                                            {{ $product->property }}
+                                        </p>
+                                    </div>
+                                </div>
                             </td>
                             <td class="table-tr-td border-t-0 border-x-0">
                                 {{ $modell->parent->name }}
@@ -175,13 +199,76 @@
                             <td class="table-tr-td border-t-0 border-x-0">
                                 {{ number_format($product->price) }}
                             </td>
-                            <td class="table-tr-td border-t-0 border-r-0">
+                            <td class="table-tr-td border-t-0 border-x-0">
                                 {{ number_format($product->price * $product->quantity) }}
+                            </td>
+                            <td class="table-tr-td border-t-0 border-r-0">
+                                <div class="flex items-center justify-center" x-data="{open: false}">
+                                    <button class="table-dropdown-restore" type="button" @click="open = !open">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                             stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                  d="M7.5 7.5h-.75A2.25 2.25 0 004.5 9.75v7.5a2.25 2.25 0 002.25 2.25h7.5a2.25 2.25 0 002.25-2.25v-7.5a2.25 2.25 0 00-2.25-2.25h-.75m0-3l-3-3m0 0l-3 3m3-3v11.25m6-2.25h.75a2.25 2.25 0 012.25 2.25v7.5a2.25 2.25 0 01-2.25 2.25h-7.5a2.25 2.25 0 01-2.25-2.25v-.75"/>
+                                        </svg>
+                                    </button>
+
+                                    <div class="relative z-10" x-show="open" x-cloak>
+                                        <div class="modal-backdrop"></div>
+                                        <div class="fixed z-10 inset-0 overflow-y-auto">
+                                            <div class="modal">
+                                                <div class="modal-body">
+                                                    <form method="POST" class="bg-white dark:bg-slate-800 p-4"
+                                                          action="{{ route('inquiries.addProductToInquiry',$product->id) }}">
+                                                        @csrf
+                                                        <div class="mb-4 flex justify-between items-center">
+                                                            <h3 class="text-lg font-bold text-gray-900 dark:text-white">
+                                                                افزودن محصول به استعلام دیگر
+                                                            </h3>
+                                                            <button type="button" @click="open = false">
+                                                                    <span class="modal-close">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                             fill="none"
+                                                                             viewBox="0 0 24 24"
+                                                                             stroke-width="1.5" stroke="currentColor"
+                                                                             class="w-5 h-5 dark:text-white">
+                                                                            <path stroke-linecap="round"
+                                                                                  stroke-linejoin="round"
+                                                                                  d="M6 18L18 6M6 6l12 12"/>
+                                                                        </svg>
+                                                                    </span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="mt-6">
+                                                            <div class="mb-4">
+                                                                <label for="inputInquiry" class="form-label">
+                                                                    انتخاب استعلام
+                                                                </label>
+                                                                <select name="inquiry_id" id="inputInquiry"
+                                                                        class="input-text">
+                                                                    @foreach($inquiries as $inquiry2)
+                                                                        <option
+                                                                            value="{{ $inquiry2->id }}">{{ $inquiry2->name }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                            <div
+                                                                class="flex justify-end items-center space-x-4 space-x-reverse">
+                                                                <button type="submit" class="form-submit-btn">
+                                                                    ثبت
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                     @endforeach
                     <tr class="table-tb-tr group">
-                        <td class="table-tr-td border-t-0" colspan="9">
+                        <td class="table-tr-td border-t-0" colspan="10">
                             <div class="flex justify-end">
                                 <p class="table-price-label">
                                     جمع قیمت : {{ number_format($productFinalPrice) }} تومان
@@ -196,7 +283,7 @@
 
         <!-- Part List -->
         @php
-            $types = ['setup','years','control','power_cable','control_cable','pipe','install_setup_price','setup_price','supervision','transport','other',null];
+            $types = ['setup','years','control','power_cable','control_cable','pipe','install_setup_price','setup_price','supervision','transport','other','setup_one','install','cable','canal','copper_piping','carbon_piping',null];
         @endphp
         @foreach($types as $type)
             @php
@@ -240,6 +327,24 @@
                                 @case('other')
                                     سایر تجهیزات
                                     @break
+                                @case('setup_one')
+                                    قطعات راه اندازی
+                                    @break
+                                @case('install')
+                                    قطعات نصب
+                                    @break
+                                @case('cable')
+                                    اقلام کابل کشی
+                                    @break
+                                @case('canal')
+                                    اقلام کانال کشی
+                                    @break
+                                @case('copper_piping')
+                                    دستمزد لوله کشی مسی
+                                    @break
+                                @case('carbon_piping')
+                                    دستمزد لوله کشی کربن استیل
+                                    @break
                                 @case('')
                                     سایر تجهیزات (قطعات قبلی)
                                     @break
@@ -252,7 +357,7 @@
                             <th class="p-4 rounded-tr-lg">ردیف</th>
                             <th class="p-4">نام قطعه</th>
                             <th class="p-4">تعداد</th>
-							<th class="p-4">واحد</th>
+                            <th class="p-4">واحد</th>
                             <th class="p-4">قیمت واحد (تومان)</th>
                             <th class="p-4 rounded-tl-lg">قیمت کل (تومان)</th>
                         </tr>
@@ -276,7 +381,7 @@
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     {{ $product->quantity }}
                                 </td>
-								<td class="table-tr-td border-t-0 border-x-0">
+                                <td class="table-tr-td border-t-0 border-x-0">
                                     {{ $part->unit }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">

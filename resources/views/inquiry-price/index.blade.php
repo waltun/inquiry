@@ -60,6 +60,27 @@
                 }
             });
         </script>
+        <script>
+            // document.getElementById('select-all').onclick = function () {
+            //     let id = document.getElementById('select-all').getAttribute('data-id');
+            //     alert(id)
+            //     let checkboxes = document.getElementsByName('part-checkbox-' + id);
+            //     for (let checkbox of checkboxes) {
+            //         checkbox.checked = this.checked
+            //     }
+            // };
+
+            function selectAll(id) {
+                let checkboxes = document.getElementsByName('part-checkbox-' + id);
+                for (let checkbox of checkboxes) {
+                    if (checkbox.checked) {
+                        checkbox.checked = ''
+                    } else {
+                        checkbox.checked = 'checked'
+                    }
+                }
+            }
+        </script>
     </x-slot>
 
     <!-- Breadcrumb -->
@@ -161,7 +182,9 @@
                         <thead>
                         <tr class="table-th-tr">
                             <th scope="col" class="p-4 rounded-tr-lg">
-                                #
+                                <input type="checkbox" class="checkboxes w-4 h-4 mx-auto block"
+                                       id="select-all-{{ $inquiryPrice->id }}"
+                                       onclick="selectAll({{ $inquiryPrice->id }})">
                             </th>
                             <th scope="col" class="p-4">
                                 نام
@@ -191,6 +214,7 @@
                             <tr class="table-tb-tr group">
                                 <td class="table-tr-td border-t-0 border-l-0">
                                     <input type="checkbox" value="{{ $part->id }}"
+                                           name="part-checkbox-{{ $inquiryPrice->id }}"
                                            class="checkboxes w-4 h-4 focus:ring-blue-500 focus:ring-2 focus:ring-offset-1 mx-auto block">
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0 whitespace-normal text-red-600">

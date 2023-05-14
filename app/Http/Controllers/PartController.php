@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\DeleteButton;
+use App\Models\InquiryPrice;
 use App\Models\Part;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -160,6 +161,11 @@ class PartController extends Controller
                     'updated_at' => now()
                 ]);
             }
+        }
+
+        $inquiryPrices = InquiryPrice::where('part_id',$part->id)->get();
+        foreach ($inquiryPrices as $inquiryPrice) {
+            $inquiryPrice->delete();
         }
 
         alert()->success('ویرایش موفق', 'ویرایش قطعه با موفقیت انجام شد');

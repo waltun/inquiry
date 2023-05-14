@@ -15,7 +15,6 @@ use App\Models\Special;
 use App\Models\User;
 use App\Notifications\PercentInquiryNotification;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 
 class InquiryProductController extends Controller
 {
@@ -52,9 +51,9 @@ class InquiryProductController extends Controller
             'quantity' => 'required|numeric|min:1',
             'description' => 'nullable|string|max:255',
             'model_custom_name' => 'string|max:255|nullable',
+            'property' => 'nullable|string|max:255'
         ]);
 
-        $sort = 0;
         if ($inquiry->products->isEmpty()) {
             $sort = 1;
         } else {
@@ -68,6 +67,7 @@ class InquiryProductController extends Controller
             'quantity' => $request['quantity'],
             'description' => $request['description'],
             'model_custom_name' => $request['model_custom_name'],
+            'property' => $request['property'],
             'sort' => $sort,
         ]);
 
@@ -89,6 +89,7 @@ class InquiryProductController extends Controller
             'quantity' => 'required|numeric',
             'description' => 'nullable|string|max:255',
             'model_custom_name' => 'string|max:255|nullable',
+            'property' => 'string|max:255|nullable',
             'sort' => 'required|numeric'
         ]);
 
@@ -96,6 +97,7 @@ class InquiryProductController extends Controller
             'quantity' => $request['quantity'],
             'description' => $request['description'],
             'model_custom_name' => $request['model_custom_name'],
+            'property' => $request['property'],
             'sort' => $request['sort']
         ]);
 
@@ -165,7 +167,7 @@ class InquiryProductController extends Controller
                     'product_id' => $product->id,
                     'part_id' => $id,
                     'sort' => $request->sorts[$index] ?? 0,
-                    'weigth' => $part->weight
+                    'weight' => $part->weight
                 ]);
 
                 $special = Special::where('part_id', $id)->first();
@@ -298,27 +300,6 @@ class InquiryProductController extends Controller
             $amount->save();
         }
 
-        if (!$inquiry->products->pluck('percent')->contains(0)) {
-            $inquiry->archive_at = now();
-            $finalTotalPrice = 0;
-            foreach ($inquiry->products as $product) {
-                $finalTotalPrice += $product->price * $product->quantity;
-            }
-            $inquiry->price = $finalTotalPrice;
-            if (is_null($inquiry->inquiry_number)) {
-                $data['inquiry_number'] = '';
-                $data = $this->getCode($data);
-                $inquiry->inquiry_number = $data['inquiry_number'];
-            }
-            $inquiry->save();
-
-            //Send Notification
-            $user->notify(new PercentInquiryNotification($inquiry));
-
-            alert()->success('آرشیو استعلام', 'آرشیو استعلام با موفقیت انجام شد و برای کاربر ارسال شد');
-            return redirect()->route('inquiries.priced');
-        }
-
         alert()->success('ثبت ضریب موفق', 'ثبت ضریب با موفقیت انجام شد');
 
         if (!is_null($group) && !is_null($modell)) {
@@ -326,6 +307,7 @@ class InquiryProductController extends Controller
         }
         return redirect()->route('inquiries.parts.index', $inquiry->id);
     }
+
 
     public function destroy(Product $product)
     {
@@ -376,25 +358,6 @@ class InquiryProductController extends Controller
                 'percent_by' => $request->user()->id,
             ]);
         }
-
-        if (!$inquiry->products->pluck('percent')->contains(0)) {
-            $inquiry->archive_at = now();
-            $finalTotalPrice = 0;
-            foreach ($inquiry->products as $product) {
-                $finalTotalPrice += $product->price * $product->quantity;
-            }
-            $inquiry->price = $finalTotalPrice;
-            if (is_null($inquiry->inquiry_number)) {
-                $data['inquiry_number'] = '';
-                $data = $this->getCode($data);
-                $inquiry->inquiry_number = $data['inquiry_number'];
-            }
-            $inquiry->save();
-
-            //Send Notification
-            $user->notify(new PercentInquiryNotification($inquiry));
-            return redirect()->route('inquiries.priced');
-        }
     }
 
     public function replicate(Request $request, Product $product)
@@ -406,7 +369,6 @@ class InquiryProductController extends Controller
 
         $inquiry = Inquiry::find($product->inquiry_id);
 
-        $sort = 0;
         if ($inquiry->products->isEmpty()) {
             $sort = 1;
         } else {
@@ -423,6 +385,30 @@ class InquiryProductController extends Controller
 
         if (!$product->amounts->isEmpty()) {
             foreach ($product->amounts as $amount) {
+                $part = Part::find($amount->part_id);
+                $category = $part->categories()->latest()->first();
+                $lastPart = $category->parts()->latest()->first();
+                $code = str_pad($lastPart->code + 1, 4, "0", STR_PAD_LEFT);
+
+                if ($part->coil == '1' && $part->collection == '1' && !is_null($part->inquiry_id)) {
+                    $newPart = $part->replicate()->fill([
+                        'code' => $code,
+                        'name' => $part->name,
+                        'product_id' => $newProduct->id
+                    ]);
+                    $newPart->save();
+                    $newPart->categories()->syncWithoutDetaching($part->categories);
+
+                    foreach ($part->children as $child) {
+                        $newPart->children()->syncWithoutDetaching([
+                            $child->id => [
+                                'value' => $child->pivot->value
+                            ]
+                        ]);
+                    }
+
+                    $newPart->save();
+                }
                 $newProduct->amounts()->save($amount->replicate());
             }
         }

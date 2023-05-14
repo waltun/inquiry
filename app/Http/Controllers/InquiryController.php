@@ -232,6 +232,11 @@ class InquiryController extends Controller
             return back();
         }
 
+        if (is_null($inquiry->description)) {
+            alert()->error('شرایط استعلام', 'لطفا ابتدا شرایط استعلام را مشخص کنید');
+            return back();
+        }
+
         foreach ($inquiry->products()->where('group_id', '!=', 0)->where('model_id', '!=', 0)->get() as $product) {
             if ($product->amounts->isEmpty()) {
                 alert()->error('مقادیر محصولات', 'لطفا ابتدا مقادیر محصولات را مشخص کنید');
@@ -308,13 +313,52 @@ class InquiryController extends Controller
         $newInquiry->save();
 
         foreach ($inquiry->products as $product) {
-            $newProduct = $product->replicate()->fill([
-                'percent' => 0,
-                'old_percent' => $product->percent,
-                'inquiry_id' => $newInquiry->id,
-                'price' => 0,
-            ]);
+            if (is_null($product->part_id) || $product->part_id == 0) {
+                $newProduct = $product->replicate()->fill([
+                    'percent' => 0,
+                    'old_percent' => $product->percent,
+                    'inquiry_id' => $newInquiry->id,
+                    'price' => 0,
+                ]);
+            } else {
+                $part2 = Part::find($product->part_id);
+                $category2 = $part2->categories()->latest()->first();
+                $lastPart2 = $category2->parts()->latest()->first();
+                $code = str_pad($lastPart2->code + 1, 4, "0", STR_PAD_LEFT);
+
+                $newPart2 = $part2->replicate()->fill([
+                    'code' => $code,
+                    'name' => $part2->name,
+                    'inquiry_id' => $newInquiry->id,
+                ]);
+                $newPart2->save();
+
+                $newPart2->categories()->syncWithoutDetaching($part2->categories);
+
+                foreach ($part2->children as $child) {
+                    $newPart2->children()->syncWithoutDetaching([
+                        $child->id => [
+                            'value' => $child->pivot->value
+                        ]
+                    ]);
+                }
+
+                $totalPrice2 = 0;
+                foreach ($newPart2->children as $child) {
+                    $totalPrice2 += ($child->price * $child->pivot->value);
+                }
+                $newPart2->save();
+
+                $newProduct = $product->replicate()->fill([
+                    'percent' => 0,
+                    'old_percent' => $product->percent,
+                    'inquiry_id' => $newInquiry->id,
+                    'price' => 0,
+                    'part_id' => $newPart2->id
+                ]);
+            }
             $newProduct->save();
+
 
             foreach ($product->amounts as $amount) {
                 $part = Part::find($amount->part_id);
@@ -352,7 +396,7 @@ class InquiryController extends Controller
                     'value' => $amount->value,
                     'product_id' => $newProduct->id,
                     'part_id' => $amount->part_id,
-                    'price' => $amount->price > 0 ? $amount->price : 0
+                    'price' => max($amount->price, 0)
                 ]);
                 $newAmount->save();
             }
@@ -580,7 +624,36 @@ class InquiryController extends Controller
 
     public function products(Inquiry $inquiry)
     {
-        return view('inquiries.products', compact('inquiry'));
+        $inquiries = Inquiry::where('user_id', auth()->user()->id)->where('archive_at', null)->get();
+        return view('inquiries.products', compact('inquiry', 'inquiries'));
+    }
+
+    public function addProductToInquiry(Request $request, Product $product)
+    {
+        $request->validate([
+            'inquiry_id' => 'required|integer'
+        ]);
+
+        $newProduct = $product->replicate()->fill([
+            'percent' => 0,
+            'old_percent' => 0,
+            'inquiry_id' => $request->inquiry_id
+        ]);
+        $newProduct->save();
+
+        foreach ($product->amounts as $amount) {
+            $newAmount = $amount->replicate()->fill([
+                'value' => $amount->value,
+                'product_id' => $newProduct->id,
+                'part_id' => $amount->part_id,
+                'price' => max($amount->price, 0)
+            ]);
+            $newAmount->save();
+        }
+
+        alert()->success('ثبت موفق', 'محصول با موفقیت به استعلام اضافه شد');
+
+        return back();
     }
 
     public function description(Inquiry $inquiry)
@@ -606,6 +679,33 @@ class InquiryController extends Controller
         alert()->success('ثبت موفق', 'شرایط استعلام با موفقیت ثبت شد');
 
         return redirect()->route('inquiries.index');
+    }
+
+    public function finalSubmit(Request $request, Inquiry $inquiry)
+    {
+        if (!$inquiry->products->pluck('percent')->contains(0)) {
+            $inquiry->archive_at = now();
+            $finalTotalPrice = 0;
+            foreach ($inquiry->products as $product) {
+                $finalTotalPrice += $product->price * $product->quantity;
+            }
+            $inquiry->price = $finalTotalPrice;
+            if (is_null($inquiry->inquiry_number)) {
+                $data['inquiry_number'] = '';
+                $data = $this->getCode($data);
+                $inquiry->inquiry_number = $data['inquiry_number'];
+            }
+            $inquiry->copy_id = null;
+            $inquiry->correction_id = null;
+            $inquiry->save();
+
+            alert()->success('آرشیو استعلام', 'آرشیو استعلام با موفقیت انجام شد و برای کاربر ارسال شد');
+            return redirect()->route('inquiries.priced');
+        }
+
+        alert()->success('خطا', 'ضریب گذاری برای همه محصولات انجام نشده');
+        return back();
+
     }
 
     public function selectModelByGroup(Request $request)
@@ -708,6 +808,7 @@ class InquiryController extends Controller
             'price' => 0,
             'description' => $inquiry->description,
             'user_id' => $inquiry->user_id,
+            'tax' => true
         ]);
 
         foreach ($inquiry->products as $product) {
@@ -715,7 +816,13 @@ class InquiryController extends Controller
                 'percent' => 0.00,
                 'quantity' => $product->quantity ?? 0,
                 'quantity2' => $product->quantity2 ?? 0,
-                'price' => $product->price
+                'price' => $product->price,
+                'model_custom_name' => $product->model_custom_name ?? null,
+                'description' => $product->description ?? null,
+                'type' => $product->type ?? null,
+                'group_id' => $product->group_id ?? null,
+                'model_id' => $product->model_id ?? null,
+                'part_id' => $product->part_id ?? null
             ]);
         }
 

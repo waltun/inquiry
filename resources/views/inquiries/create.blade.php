@@ -1,4 +1,12 @@
 <x-layout>
+    <x-slot name="js">
+        <script>
+            let submitButton = document.getElementById('submit-button');
+            submitButton.addEventListener('click',function (){
+                submitButton.classList.add('hidden')
+            });
+        </script>
+    </x-slot>
     <!-- Breadcrumb -->
     <div class="flex items-center space-x-2 space-x-reverse">
         <a href="{{ route('dashboard') }}" class="flex items-center">
@@ -99,7 +107,7 @@
         </div>
 
         <div class="flex items-center space-x-4 space-x-reverse">
-            <button type="submit" class="form-submit-btn">
+            <button type="submit" class="form-submit-btn" id="submit-button">
                 ثبت استعلام
             </button>
             <a href="{{ route('inquiries.index') }}" class="form-cancel-btn">

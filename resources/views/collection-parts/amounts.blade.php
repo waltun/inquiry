@@ -264,6 +264,13 @@
                 @endforeach
                 <tr class="table-tb-tr group">
                     <td class="table-tr-td border-t-0" colspan="7">
+                        <div class="flex items-center">
+                            <input type="text" class="input-text text-center" value="{{ $parentPart->name }}" name="name">
+                        </div>
+                    </td>
+                </tr>
+                <tr class="table-tb-tr group">
+                    <td class="table-tr-td border-t-0" colspan="7">
                         <div class="flex justify-end items-center space-x-4 space-x-reverse">
                             <p class="table-price-label">
                                 قیمت کل : {{ number_format($totalPrice) }} تومان

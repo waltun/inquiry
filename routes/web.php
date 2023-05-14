@@ -9,6 +9,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CollectionCoilController;
 use App\Http\Controllers\CollectionPartController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FinalInvoiceController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\InquiryPartCoilController;
@@ -120,6 +121,8 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/inquiries/{inquiry}/tmp-referral', [InquiryController::class, 'tmpReferral'])->name('inquiries.tmpReferral');
     Route::post('/inquiries/{product}/add-to-models', [InquiryController::class, 'addToModell'])->name('inquiries.addToModell');
     Route::post('/inquiries/{inquiry}/restore', [InquiryController::class, 'restore'])->name('inquiries.restore');
+    Route::post('/inquiries/{inquiry}/final-submit', [InquiryController::class, 'finalSubmit'])->name('inquiries.finalSubmit');
+    Route::post('/inquiries/{product}/add-product-to-inquiry',[InquiryController::class,'addProductToInquiry'])->name('inquiries.addProductToInquiry');
 
     //Inquiry Product routes
     Route::get('/inquiries/{inquiry}/products', [InquiryProductController::class, 'index'])->name('inquiries.product.index');
@@ -428,4 +431,18 @@ Route::middleware(['auth', 'web'])->group(function () {
 
     //Invoices
     Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices.index');
+    Route::get('/invoices/{invoice}/products', [InvoiceController::class, 'products'])->name('invoices.products');
+    Route::post('/invoices/store-products', [InvoiceController::class, 'storeProducts'])->name('invoices.products.store');
+    Route::post('/invoices/store-parts', [InvoiceController::class, 'storeParts'])->name('invoices.parts.store');
+    Route::post('/invoices/products/delete-product', [InvoiceController::class, 'destroyProduct'])->name('invoices.products.destroy');
+    Route::patch('/invoices/{invoice}/restore-product', [InvoiceController::class, 'restoreProduct'])->name('invoices.products.restore');
+    Route::patch('/invoices/{invoice}/complete', [InvoiceController::class, 'complete'])->name('invoices.complete');
+    Route::delete('/invoices/{invoice}/destroy', [InvoiceController::class, 'destroy'])->name('invoices.destroy');
+    Route::get('/invoices/{invoice}/settings', [InvoiceController::class, 'settings'])->name('invoices.settings');
+    Route::patch('/invoices/{invoice}/settings', [InvoiceController::class, 'storeSettings'])->name('invoices.storeSettings');
+
+    Route::get('/final-invoices', [FinalInvoiceController::class, 'index'])->name('invoices.final.index');
+    Route::get('/final-invoices/{invoice}/print', [FinalInvoiceController::class, 'print'])->name('invoices.final.print');
+    Route::get('/final-invoices/{invoice}/print-page', [FinalInvoiceController::class, 'printPage'])->name('invoices.final.printPage');
+    Route::patch('/final-invoices/{invoice}/restore',[FinalInvoiceController::class,'restore'])->name('invoices.final.restore');
 });

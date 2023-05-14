@@ -48,10 +48,21 @@ class InquiryPriceController extends Controller
         if ($part->collection == '1' && !$part->children->isEmpty()) {
             foreach ($part->children as $child) {
                 if (($child->price_updated_at < $lastTime && $child->price > 0) || ($child->price_updated_at < $lastTime && $child->price == 0)) {
-                    $inquiryPrice = auth()->user()->inquiryPrices()->create([
-                        'part_id' => $child->id,
-                        'inquiry_id' => $request->inquiry_id
-                    ]);
+                    if ($child->collection == '1' && !$child->children->isEmpty()) {
+                        foreach ($child->children as $ch) {
+                            if (($child->price_updated_at < $lastTime && $child->price > 0) || ($child->price_updated_at < $lastTime && $child->price == 0)) {
+                                $inquiryPrice = auth()->user()->inquiryPrices()->create([
+                                    'part_id' => $ch->id,
+                                    'inquiry_id' => $request->inquiry_id
+                                ]);
+                            }
+                        }
+                    } else {
+                        $inquiryPrice = auth()->user()->inquiryPrices()->create([
+                            'part_id' => $child->id,
+                            'inquiry_id' => $request->inquiry_id
+                        ]);
+                    }
                 }
             }
         } else {
@@ -61,8 +72,8 @@ class InquiryPriceController extends Controller
             ]);
         }
 
-        $priceUsers = User::where('role', 'price')->orWhere('role', 'logistic')->get();
-        Notification::send($priceUsers, new InquiryPriceNotification($inquiryPrice));
+        //$priceUsers = User::where('role', 'price')->orWhere('role', 'logistic')->get();
+        //Notification::send($priceUsers, new InquiryPriceNotification($inquiryPrice));
     }
 
     public function update(Request $request, Inquiry $inquiry)

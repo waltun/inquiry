@@ -86,6 +86,12 @@
                        placeholder="مثال : 09123456789" value="{{ old('phone') }}">
             </div>
 
+            <div class="mt-4">
+                <label for="inputInternal" class="form-label">داخلی مورد نظر</label>
+                <input type="number" id="inputInternal" name="internal_number" class="input-text hide-appearance"
+                       placeholder="مثال : 1" value="{{ old('internal_number') }}">
+            </div>
+
         </div>
 
         <div class="card">

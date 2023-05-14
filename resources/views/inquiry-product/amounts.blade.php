@@ -371,6 +371,9 @@
                 @endif
             @endif
         @endcan
+        <p class="bg-myBlue-300 py-2 px-4 rounded-lg text-sm text-white">
+            مشخصه : {{ $product->property }}
+        </p>
     </div>
 
     <form method="POST" action="{{ route('inquiries.product.storeAmounts',$product->id) }}" class="mt-4 space-y-4">

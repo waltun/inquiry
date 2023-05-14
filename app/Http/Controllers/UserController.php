@@ -52,7 +52,8 @@ class UserController extends Controller
             'nation' => ['required', 'digits:10', 'numeric', 'unique:users'],
             'gender' => ['required', 'in:male,female'],
             'role' => ['required', 'in:admin,staff,user'],
-            'active' => ['required', 'integer', 'in:0,1']
+            'active' => ['required', 'integer', 'in:0,1'],
+            'internal_number' => ['nullable', 'numeric']
         ]);
 
         User::create($data);
@@ -81,7 +82,8 @@ class UserController extends Controller
             'nation' => ['required', 'digits:10', 'numeric', Rule::unique('users')->ignore($user->id)],
             'gender' => ['required', 'in:male,female'],
             'role' => ['required', 'in:admin,staff,user'],
-            'active' => ['required', 'integer', 'in:0,1']
+            'active' => ['required', 'integer', 'in:0,1'],
+            'internal_number' => ['nullable', 'numeric']
         ]);
 
         $user->update($data);

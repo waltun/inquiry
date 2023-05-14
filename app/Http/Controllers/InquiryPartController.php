@@ -131,23 +131,6 @@ class InquiryPartController extends Controller
                 'percent_by' => $request->user()->id
             ]);
         }
-
-        if (!$inquiry->products->pluck('percent')->contains(0)) {
-            $inquiry->archive_at = now();
-            $finalTotalPrice = 0;
-            foreach ($inquiry->products as $product) {
-                $finalTotalPrice += $product->price * $product->quantity;
-            }
-            $inquiry->price = $finalTotalPrice;
-            $data['inquiry_number'] = '';
-            $data = $this->getCode($data);
-            $inquiry->inquiry_number = $data['inquiry_number'];
-            $inquiry->save();
-
-            //Send Notification
-            $user->notify(new PercentInquiryNotification($inquiry));
-            return redirect()->route('inquiries.priced');
-        }
     }
 
     public function storeAmounts(Request $request, Inquiry $inquiry)
@@ -160,7 +143,7 @@ class InquiryPartController extends Controller
             'types' => 'required'
         ]);
 
-        $types = ['setup', 'years', 'control', 'power_cable', 'control_cable', 'pipe', 'install_setup_price', 'setup_price', 'supervision', 'transport', 'other', null];
+        $types = ['setup', 'years', 'control', 'power_cable', 'control_cable', 'pipe', 'install_setup_price', 'setup_price', 'supervision', 'transport', 'other', 'setup_one', 'install', 'cable', 'canal', 'copper_piping', 'carbon_piping', null];
 
         foreach ($types as $type) {
             if ($request['submitType'] == $type) {
@@ -180,5 +163,34 @@ class InquiryPartController extends Controller
         alert()->success('ثبت موفق', 'ثبت مقادیر با موفقیت انجام شد');
 
         return back();
+    }
+
+    public function getCode(array $data)
+    {
+        $inquiries = Inquiry::select('inquiry_number')->where('inquiry_number', '!=', null)->get();
+
+        $number = 0;
+        foreach ($inquiries as $inquiry) {
+            if ((int)$inquiry->inquiry_number > $number) {
+                $number = (int)$inquiry->inquiry_number;
+            }
+        }
+
+        $year = jdate(now())->getYear();
+        $first4 = substr((string)$number, 0, 4);
+
+        if (!$inquiries->isEmpty()) {
+            if ($year > (int)$first4) {
+                $inquiryNumber = '00001';
+                $data['inquiry_number'] = $year . $inquiryNumber;
+            } else {
+                $inquiryNumber = str_pad($number + 1, 5, "0", STR_PAD_LEFT);
+                $data['inquiry_number'] = $inquiryNumber;
+            }
+        } else {
+            $inquiryNumber = '00001';
+            $data['inquiry_number'] = $year . $inquiryNumber;
+        }
+        return $data;
     }
 }

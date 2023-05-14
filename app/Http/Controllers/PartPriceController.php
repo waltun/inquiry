@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\InquiryPrice;
 use App\Models\Part;
 use App\Models\Setting;
 use Carbon\Carbon;
@@ -103,6 +104,7 @@ class PartPriceController extends Controller
 
         foreach ($request->parts as $index => $id) {
             $part = Part::where('id', $id)->first();
+            $inquiryPrices = InquiryPrice::where('part_id',$part->id)->get();
             if ($part->price !== (int)$request->prices[$index]) {
                 if ($part->price != 0) {
                     $percentPrice = $part->price + $part->price / 2;
@@ -110,6 +112,7 @@ class PartPriceController extends Controller
                         $part->percent_submit = true;
                         $part->save();
                     } else {
+                        $inquiryPrices = InquiryPrice::where('part_id',$part->id)->get();
                         $part->update([
                             'price' => $request->prices[$index],
                             'old_price' => $part->price,
@@ -117,6 +120,10 @@ class PartPriceController extends Controller
                             'percent_submit' => 0,
                             'weight' => $request->weights[$index]
                         ]);
+
+                        foreach ($inquiryPrices as $inquiryPrice) {
+                            $inquiryPrice->delete();
+                        }
 
                         foreach ($part->parents as $parent) {
                             $price = 0;
@@ -138,6 +145,10 @@ class PartPriceController extends Controller
                         'percent_submit' => 0,
                         'weight' => $request->weights[$index]
                     ]);
+
+                    foreach ($inquiryPrices as $inquiryPrice) {
+                        $inquiryPrice->delete();
+                    }
 
                     foreach ($part->parents as $parent) {
                         $price = 0;

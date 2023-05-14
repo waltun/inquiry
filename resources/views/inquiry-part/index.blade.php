@@ -584,19 +584,25 @@
                     @php
                         $correctionInquiry = \App\Models\Inquiry::find($inquiry->correction_id)
                     @endphp
-                    <p class="text-sm font-bold text-white">
-                        توجه : این استعلام، درخواست اصلاح استعلام {{ $inquiry->name }} - {{ $inquiry->inquiry_number }}
-                        است.
-                    </p>
+                    @if($correctionInquiry)
+                        <p class="text-sm font-bold text-white">
+                            توجه : این استعلام، درخواست اصلاح استعلام {{ $correctionInquiry->name }}
+                            - {{ $correctionInquiry->inquiry_number }}
+                            است.
+                        </p>
+                    @endif
                 @endif
                 @if(!is_null($inquiry->copy_id))
                     @php
-                        $correctionInquiry = \App\Models\Inquiry::find($inquiry->correction_id)
+                        $copyInquiry = \App\Models\Inquiry::find($inquiry->copy_id)
                     @endphp
-                    <p class="text-sm font-bold text-white">
-                        توجه : این استعلام، کپی شده از استعلام {{ $inquiry->name }} - {{ $inquiry->inquiry_number }}
-                        است.
-                    </p>
+                    @if($copyInquiry)
+                        <p class="text-sm font-bold text-white">
+                            توجه : این استعلام، کپی شده از استعلام {{ $copyInquiry->name }}
+                            - {{ $copyInquiry->inquiry_number }}
+                            است.
+                        </p>
+                    @endif
                 @endif
             </div>
         @endcan
@@ -605,7 +611,7 @@
     <!-- Content -->
     <div class="mt-4">
         @php
-            $types = ['setup','years','control','power_cable','control_cable','pipe','install_setup_price','setup_price','supervision','transport','other',null];
+            $types = ['setup','years','control','power_cable','control_cable','pipe','install_setup_price','setup_price','supervision','transport','other','setup_one','install','cable','canal','copper_piping','carbon_piping',null];
         @endphp
         <div class="hidden md:block">
             @foreach($types as $type)
@@ -652,6 +658,24 @@
                                         @break
                                     @case('other')
                                         سایر تجهیزات
+                                        @break
+                                    @case('setup_one')
+                                        قطعات راه اندازی
+                                        @break
+                                    @case('install')
+                                        قطعات نصب
+                                        @break
+                                    @case('cable')
+                                        اقلام کابل کشی
+                                        @break
+                                    @case('canal')
+                                        اقلام کانال کشی
+                                        @break
+                                    @case('copper_piping')
+                                        دستمزد لوله کشی مسی
+                                        @break
+                                    @case('carbon_piping')
+                                        دستمزد لوله کشی کربن استیل
                                         @break
                                     @case('')
                                         سایر تجهیزات (قطعات قبلی)
@@ -845,6 +869,30 @@
                                                 <option
                                                     value="transport" {{ $product->type == 'transport' ? 'selected' : '' }}>
                                                     هزینه حمل
+                                                </option>
+                                                <option
+                                                    value="setup_one" {{ $product->type == 'setup_one' ? 'selected' : '' }}>
+                                                    قطعات راه اندازی
+                                                </option>
+                                                <option
+                                                    value="install" {{ $product->type == 'install' ? 'selected' : '' }}>
+                                                    قطعات نصب
+                                                </option>
+                                                <option
+                                                    value="cable" {{ $product->type == 'cable' ? 'selected' : '' }}>
+                                                    اقلام کابل کشی
+                                                </option>
+                                                <option
+                                                    value="canal" {{ $product->type == 'canal' ? 'selected' : '' }}>
+                                                    اقلام کانال کشی
+                                                </option>
+                                                <option
+                                                    value="copper_piping" {{ $product->type == 'copper_piping' ? 'selected' : '' }}>
+                                                    دستمزد لوله کشی مسی
+                                                </option>
+                                                <option
+                                                    value="carbon_piping" {{ $product->type == 'carbon_piping' ? 'selected' : '' }}>
+                                                    دستمزد لوله کشی کربن استیل
                                                 </option>
                                                 <option value="other" {{ $product->type == 'other' ? 'selected' : '' }}>
                                                     سایر تجهیزات

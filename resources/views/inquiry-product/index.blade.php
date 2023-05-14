@@ -28,6 +28,15 @@
                 }
             });
         </script>
+
+        <script>
+            document.getElementById('select-all').onclick = function () {
+                let checkboxes = document.getElementsByName('product-checkbox');
+                for (let checkbox of checkboxes) {
+                    checkbox.checked = this.checked
+                }
+            }
+        </script>
     </x-slot>
 
     <!-- Breadcrumb -->
@@ -131,23 +140,27 @@
         <div class="my-4 bg-red-500 p-2 rounded-md">
             @if(!is_null($inquiry->correction_id))
                 @php
-                    $correctionInquiry = \App\Models\Inquiry::find($inquiry->correction_id)
+                    $correctionInquiry = \App\Models\Inquiry::find($inquiry->correction_id);
                 @endphp
-                <p class="text-sm font-bold text-white">
-                    توجه : این استعلام، درخواست اصلاح استعلام {{ $correctionInquiry->name }}
-                    - {{ $correctionInquiry->inquiry_number }}
-                    است.
-                </p>
+                @if($correctionInquiry)
+                    <p class="text-sm font-bold text-white">
+                        توجه : این استعلام، درخواست اصلاح استعلام {{ $correctionInquiry->name }}
+                        - {{ $correctionInquiry->inquiry_number }}
+                        است.
+                    </p>
+                @endif
             @endif
             @if(!is_null($inquiry->copy_id))
                 @php
-                    $correctionInquiry = \App\Models\Inquiry::find($inquiry->copy_id)
+                    $copyInquiry = \App\Models\Inquiry::find($inquiry->copy_id);
                 @endphp
-                <p class="text-sm font-bold text-white">
-                    توجه : این استعلام، کپی شده از استعلام {{ $correctionInquiry->name }}
-                    - {{ $correctionInquiry->inquiry_number }}
-                    است.
-                </p>
+                @if($copyInquiry)
+                    <p class="text-sm font-bold text-white">
+                        توجه : این استعلام، کپی شده از استعلام {{ $copyInquiry->name }}
+                        - {{ $copyInquiry->inquiry_number }}
+                        است.
+                    </p>
+                @endif
             @endif
         </div>
     @endif
@@ -163,7 +176,7 @@
                 <tr class="table-th-tr">
                     @if($inquiry->submit == '1')
                         <th scope="col" class="p-4 rounded-tr-lg">
-                            #
+                            <input type="checkbox" class="checkboxes w-4 h-4 mx-auto block" id="select-all">
                         </th>
                     @endif
                     <th scope="col" class="p-4">
@@ -195,7 +208,8 @@
                         @if($inquiry->submit == '1')
                             <td class="table-tr-td border-t-0 border-l-0">
                                 <input type="checkbox" value="{{ $product->id }}"
-                                       class="checkboxes w-4 h-4 accent-blue-600 bg-gray-200 rounded border border-gray-300 focus:ring-blue-500 focus:ring-2 focus:ring-offset-1 mx-auto block">
+                                       class="checkboxes w-4 h-4 mx-auto block"
+                                       name="product-checkbox">
                             </td>
                         @endif
                         <td class="table-tr-td border-t-0 border-l-0">

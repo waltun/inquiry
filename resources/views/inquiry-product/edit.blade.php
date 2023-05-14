@@ -138,6 +138,13 @@
                        placeholder="مثلا : 1000CFM"
                        value="{{ $product->model_custom_name }}">
             </div>
+
+            <div class="mt-4">
+                <label for="inputProperty" class="form-label">مشخصه</label>
+                <input type="text" id="inputProperty" name="property" class="input-text"
+                       placeholder="مثلا : TA-ACH-Al-R22"
+                       value="{{ old('property') ?? $product->property }}">
+            </div>
         </div>
 
         <div class="flex items-center space-x-4 space-x-reverse">

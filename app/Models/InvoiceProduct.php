@@ -10,7 +10,8 @@ class InvoiceProduct extends Model
     use HasFactory;
 
     protected $fillable = [
-        'percent', 'quantity', 'quantity2', 'price', 'invoice_id'
+        'percent', 'quantity', 'quantity2', 'price', 'model_custom_name', 'description', 'type', 'invoice_id',
+        'group_id', 'model_id', 'part_id'
     ];
 
     public function invoice()

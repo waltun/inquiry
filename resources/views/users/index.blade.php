@@ -76,6 +76,9 @@
                         شماره تماس
                     </th>
                     <th scope="col" class="p-4">
+                        داخلی
+                    </th>
+                    <th scope="col" class="p-4">
                         ایمیل
                     </th>
                     <th scope="col" class="p-4">
@@ -97,6 +100,9 @@
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             {{ $user->phone }}
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            {{ $user->internal_number }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             {{ $user->email }}
