@@ -294,7 +294,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @if(!request()->has('search') && !request()->has('category1') && !request()->has('category2') && !request()->has('category3'))
+                @if(!request()->has('search') && !request()->has('category1') && !request()->has('category2') && !request()->has('category3') && !request()->has('page'))
                     @foreach(\App\Models\Special::all() as $special)
                         @php
                             $part = \App\Models\Part::find($special->part_id);
@@ -349,7 +349,7 @@
 
                 @foreach($parts as $part)
                     @php
-                        if(!is_null($part->inquiry_id)) {
+                            if(!is_null($part->inquiry_id)) {
                             $inquiry = \App\Models\Inquiry::find($part->inquiry_id);
                         }
                     @endphp
