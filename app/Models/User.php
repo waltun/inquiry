@@ -55,4 +55,9 @@ class User extends Authenticatable
     {
         return !!$roles->intersect($this->roles)->all();
     }
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
+    }
 }

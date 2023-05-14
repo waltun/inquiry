@@ -18,6 +18,7 @@ use App\Http\Controllers\InquiryPartDamperController;
 use App\Http\Controllers\InquiryPartElectricalController;
 use App\Http\Controllers\InquiryPriceController;
 use App\Http\Controllers\InquiryProductController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ModellController;
 use App\Http\Controllers\NewPartInquiryController;
 use App\Http\Controllers\NotificationController;
@@ -151,7 +152,9 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/inquiries/{product}/{part}/new-part-inquiry', [NewPartInquiryController::class, 'store'])->name('inquiries.newPart.store');
     Route::delete('/inquiries/{amount}/destroy-amount', [NewPartInquiryController::class, 'destroy'])->name('inquiries.newPart.destroy');
 
-    Route::get('/inquiries/temporary', [InquiryController::class, 'temporary'])->name('inquiries.temporary');
+    //Add Inquiry to Invoice
+    Route::post('/inquiries/{inquiry}/add-to-invoice', [InquiryController::class, 'addToInvoice'])->name('inquiries.addToInvoice');
+
     Route::resource('inquiries', InquiryController::class);
 
     //Category routes
@@ -422,4 +425,7 @@ Route::middleware(['auth', 'web'])->group(function () {
 
     //Roles
     Route::resource('roles', RoleController::class);
+
+    //Invoices
+    Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices.index');
 });

@@ -24,4 +24,9 @@ Inquiry extends Model
     {
         return $this->hasMany(InquiryPrice::class);
     }
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
+    }
 }

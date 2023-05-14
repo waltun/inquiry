@@ -35,7 +35,7 @@ class InquiryController extends Controller
         $this->middleware('can:referral-inquiry')->only(['referral', 'tmpReferral']);
         $this->middleware('can:restore-inquiry')->only(['restore']);
         $this->middleware('can:inquiry-product-list')->only(['products']);
-        $this->middleware('can:inquiry-description')->only(['description','showDescription','storeDescription']);
+        $this->middleware('can:inquiry-description')->only(['description', 'showDescription', 'storeDescription']);
         $this->middleware('can:inquiry-add-to-model')->only(['addToModell']);
         $this->middleware('can:print-inquiry')->only(['print']);
         $this->middleware('can:print-inquiry-product')->only(['printProduct']);
@@ -78,7 +78,7 @@ class InquiryController extends Controller
         $modells = Modell::where('parent_id', '!=', 0)->get();
         $groups = Group::all();
         $delete = DeleteButton::where('active', '1')->first();
-        return view('inquiries.index', compact('inquiries', 'modells', 'groups','delete'));
+        return view('inquiries.index', compact('inquiries', 'modells', 'groups', 'delete'));
     }
 
     public function create()
@@ -222,7 +222,7 @@ class InquiryController extends Controller
         $modells = Modell::where('parent_id', '!=', 0)->get();
         $groups = Group::all();
         $delete = DeleteButton::where('active', '1')->first();
-        return view('inquiries.submitted', compact('inquiries', 'modells', 'groups','delete'));
+        return view('inquiries.submitted', compact('inquiries', 'modells', 'groups', 'delete'));
     }
 
     public function submit(Inquiry $inquiry)
@@ -700,6 +700,28 @@ class InquiryController extends Controller
         alert()->success('ثبت موفق', 'مدل مورد نظر با موفقیت به مدل های استاندارد اضافه شد');
 
         return back();
+    }
+
+    public function addToInvoice(Inquiry $inquiry)
+    {
+        $newInvoice = $inquiry->invoices()->create([
+            'price' => 0,
+            'description' => $inquiry->description,
+            'user_id' => $inquiry->user_id,
+        ]);
+
+        foreach ($inquiry->products as $product) {
+            $newInvoice->products()->create([
+                'percent' => 0.00,
+                'quantity' => $product->quantity ?? 0,
+                'quantity2' => $product->quantity2 ?? 0,
+                'price' => $product->price
+            ]);
+        }
+
+        alert()->success('ثبت موفق', 'صدور پیش فاکتور برای این استعلام انجام شد');
+
+        return redirect()->route('invoices.index');
     }
 
     public function getParentLastCode($modell)
