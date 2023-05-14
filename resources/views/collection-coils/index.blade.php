@@ -68,11 +68,6 @@
                     }
                 });
             }
-
-            function getModalCategory() {
-                let inputSelect = document.getElementById('inputSelect').value;
-                console.log(inputSelect);
-            }
         </script>
 
         <script>
@@ -464,25 +459,6 @@
                                                             <form class="mt-6" method="POST"
                                                                   action="{{ route('collectionCoil.standard',$part->id) }}">
                                                                 @csrf
-                                                                <div class="mb-4 grid grid-cols-3 gap-4">
-                                                                    <div>
-                                                                        <label for="inputSelect" class="form-label">
-                                                                            انتخاب دسته بندی
-                                                                        </label>
-                                                                        <select name="categories[]" id="inputSelect"
-                                                                                class="input-text"
-                                                                                onchange="getModalCategory()">
-                                                                            <option value="" selected>
-                                                                                انتخاب کنید
-                                                                            </option>
-                                                                            @foreach($categories as $category4)
-                                                                                <option value="{{ $category4->id }}">
-                                                                                    {{ $category4->name }}
-                                                                                </option>
-                                                                            @endforeach
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
                                                                 <div class="mb-4">
                                                                     <label for="inputName" class="form-label">
                                                                         نام قطعه
