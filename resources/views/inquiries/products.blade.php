@@ -124,6 +124,9 @@
         </div>
 
         <!-- Product List -->
+        @php
+            $productFinalPrice = 0;
+        @endphp
         @if(!$inquiry->products()->where('group_id','!=',0)->where('model_id','!=',0)->orderBy('sort','ASC')->get()->isEmpty())
             <div class="card overflow-x-auto">
                 <div class="card-header">
@@ -147,9 +150,6 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @php
-                        $productFinalPrice = 0;
-                    @endphp
                     @foreach($inquiry->products()->where('group_id','!=',0)->where('model_id','!=',0)->get() as $product)
                         @php
                             $group = \App\Models\Group::find($product->group_id);

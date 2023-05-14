@@ -244,6 +244,21 @@
                             <div class="flex items-center justify-center space-x-4 space-x-reverse relative"
                                  x-data="{open:false}">
 
+                                @can('inquiry-final-submit')
+                                    <form action="{{ route('inquiries.finalSubmit',$inquiry->id) }}" method="POST"
+                                          class="table-success-btn">
+                                        @csrf
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                             stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                  d="M4.5 12.75l6 6 9-13.5"/>
+                                        </svg>
+                                        <button onclick="return confirm('استعلام ثبت نهایی شود ؟')">
+                                            ثبت نهایی
+                                        </button>
+                                    </form>
+                                @endcan
+
                                 <button @click="open = !open">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                          stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -254,20 +269,6 @@
 
                                 <div x-show="open" @click.away="open = false" class="table-dropdown -top-16 left-8"
                                      x-cloak>
-                                    @can('inquiry-final-submit')
-                                        <form action="{{ route('inquiries.finalSubmit',$inquiry->id) }}" method="POST"
-                                              class="table-success-btn">
-                                            @csrf
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                 stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                      d="M4.5 12.75l6 6 9-13.5"/>
-                                            </svg>
-                                            <button onclick="return confirm('استعلام ثبت نهایی شود ؟')">
-                                                ثبت نهایی
-                                            </button>
-                                        </form>
-                                    @endcan
                                     @can('inquiry-description')
                                         <a href="{{ route('inquiries.description',$inquiry->id) }}"
                                            class="table-dropdown-description">
