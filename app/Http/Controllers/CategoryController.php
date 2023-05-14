@@ -130,8 +130,9 @@ class CategoryController extends Controller
     public function children(Category $category)
     {
         session()->put('prev-url', url()->previous());
+        $delete = DeleteButton::where('active', '1')->first();
 
-        return view('categories.children', compact('category'));
+        return view('categories.children', compact('category','delete'));
     }
 
     public function getCode()
