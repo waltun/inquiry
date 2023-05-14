@@ -39,6 +39,7 @@ class InquiryController extends Controller
         $this->middleware('can:inquiry-add-to-model')->only(['addToModell']);
         $this->middleware('can:print-inquiry')->only(['print']);
         $this->middleware('can:print-inquiry-product')->only(['printProduct']);
+        $this->middleware('can:inquiry-final-submit')->only(['finalSubmit']);
     }
 
     public function index()
