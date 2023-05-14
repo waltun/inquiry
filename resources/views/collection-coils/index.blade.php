@@ -68,6 +68,11 @@
                     }
                 });
             }
+
+            function getModalCategory() {
+                let inputSelect = document.getElementById('inputSelect').value;
+                console.log(inputSelect);
+            }
         </script>
 
         <script>
@@ -204,7 +209,7 @@
                         دسته بندی قطعه
                     </label>
                     <select name="category1" id="inputCategory1" class="input-text" onchange="getCategory1()">
-                        <option value="">انتخاب کنید</option>
+                        <option value="" selected>انتخاب کنید</option>
                         @foreach($categories as $category)
                             <option
                                 value="{{ $category->id }}" {{ request('category1') == $category->id ? 'selected' : '' }}>
@@ -395,21 +400,111 @@
                             </a>
                         </td>
                         <td class="table-tr-td border-t-0 border-r-0">
-                            @if($delete->collection_coil)
-                                <form action="{{ route('collections.destroy',$part->id) }}" method="POST"
-                                      class="table-delete-btn">
-                                    @csrf
-                                    @method('DELETE')
+                            <div class="flex justify-center items-center relative" x-data="{open:false}">
+                                <button @click="open = !open">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                         stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                         stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                         <path stroke-linecap="round" stroke-linejoin="round"
-                                              d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
+                                              d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/>
                                     </svg>
-                                    <button onclick="return confirm('قطعه حذف شود ؟')">
-                                        حذف
-                                    </button>
-                                </form>
-                            @endif
+                                </button>
+
+                                <div x-show="open" @click.away="open = false" class="table-dropdown -top-6 -right-28"
+                                     x-cloak>
+                                    @if($delete->collection_coil)
+                                        <form action="{{ route('collections.destroy',$part->id) }}" method="POST"
+                                              class="table-delete-btn">
+                                            @csrf
+                                            @method('DELETE')
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                 stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                      d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
+                                            </svg>
+                                            <button onclick="return confirm('قطعه حذف شود ؟')">
+                                                حذف
+                                            </button>
+                                        </form>
+                                    @endif
+                                    <div x-data="{open:false}">
+                                        <button class="table-success-btn" @click="open = !open">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                 stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                      d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/>
+                                            </svg>
+                                            استاندارد سازی
+                                        </button>
+
+                                        <div class="relative z-10" x-show="open" x-cloak>
+                                            <div class="modal-backdrop"></div>
+                                            <div class="fixed z-10 inset-0 overflow-y-auto">
+                                                <div class="modal">
+                                                    <div class="modal-body">
+                                                        <div class="bg-white dark:bg-slate-800 p-4">
+                                                            <div class="mb-4 flex justify-between items-center">
+                                                                <h3 class="text-lg font-bold text-gray-900 dark:text-white">
+                                                                    استاندارد سازی قطعه مجموعه ای
+                                                                </h3>
+                                                                <button type="button" @click="open = false">
+                                                                    <span class="modal-close">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                             fill="none"
+                                                                             viewBox="0 0 24 24"
+                                                                             stroke-width="1.5"
+                                                                             stroke="currentColor"
+                                                                             class="w-5 h-5 dark:text-white">
+                                                                            <path stroke-linecap="round"
+                                                                                  stroke-linejoin="round"
+                                                                                  d="M6 18L18 6M6 6l12 12"/>
+                                                                        </svg>
+                                                                    </span>
+                                                                </button>
+                                                            </div>
+                                                            <form class="mt-6" method="POST"
+                                                                  action="{{ route('collectionCoil.standard',$part->id) }}">
+                                                                @csrf
+                                                                <div class="mb-4 grid grid-cols-3 gap-4">
+                                                                    <div>
+                                                                        <label for="inputSelect" class="form-label">
+                                                                            انتخاب دسته بندی
+                                                                        </label>
+                                                                        <select name="categories[]" id="inputSelect"
+                                                                                class="input-text"
+                                                                                onchange="getModalCategory()">
+                                                                            <option value="" selected>
+                                                                                انتخاب کنید
+                                                                            </option>
+                                                                            @foreach($categories as $category4)
+                                                                                <option value="{{ $category4->id }}">
+                                                                                    {{ $category4->name }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="mb-4">
+                                                                    <label for="inputName" class="form-label">
+                                                                        نام قطعه
+                                                                    </label>
+                                                                    <input type="text" class="input-text" name="name"
+                                                                           value="{{ $part->name }}">
+                                                                </div>
+                                                                <div
+                                                                    class="flex justify-end items-center space-x-4 space-x-reverse">
+                                                                    <button type="submit" class="form-submit-btn">
+                                                                        ثبت
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 @endforeach
@@ -427,7 +522,7 @@
         @endif
 
         <!-- Pagination -->
-        <div class="my-4 md:block hidden">
+        <div class="my-4">
             {{ $parts->links() }}
         </div>
 
@@ -437,68 +532,6 @@
                 تعداد کل قطعات مجموعه کویل سازی
                 : {{ \App\Models\Part::where('collection',true)->where('coil',true)->count() }}
             </p>
-        </div>
-
-        <!-- Mobile List -->
-        <div class="block md:hidden">
-            @foreach($parts as $part)
-                <div class="bg-white rounded-md p-4 border border-gray-200 shadow-md mb-4 relative z-30">
-                    <span
-                        class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
-                        {{ $loop->index+1 }}
-                    </span>
-                    <div class="space-y-4">
-                        <p class="text-xs text-black text-center font-bold">
-                            {{ $part->name }}
-                        </p>
-                        <p class="text-xs text-black text-center">
-                            واحد : {{ $part->unit }}
-                        </p>
-                        <p class="text-xs text-green-600 text-center font-medium">
-                            @if($part->price)
-                                قیمت : {{ number_format($part->price) }}
-                            @else
-                                قیمت : منتظر ثبت مقادیر
-                            @endif
-                        </p>
-                        @php
-                            $code = '';
-                            foreach($part->categories as $category){
-                                $code = $code . $category->code;
-                            }
-                        @endphp
-                        <p class="text-xs text-black text-center">
-                            کد : {{ $part->code . "-" . $code }}
-                        </p>
-                        <div class="flex w-full justify-between">
-                            <a href="{{ route('parts.edit',$part->id) }}" class="form-edit-btn text-xs">
-                                ویرایش
-                            </a>
-                            <a href="{{ route('collections.parts',$part->id) }}" class="form-detail-btn text-xs">
-                                قطعات
-                            </a>
-                            <a href="{{ route('collections.amounts',$part->id) }}" class="form-submit-btn text-xs">
-                                مقادیر
-                            </a>
-                            <form action="{{ route('collections.replicate',$part->id) }}" method="POST"
-                                  class="inline">
-                                @csrf
-                                <button class="form-detail-btn text-xs">
-                                    کپی
-                                </button>
-                            </form>
-                            <form action="{{ route('parts.destroy',$part->id) }}" method="POST"
-                                  class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <button class="form-cancel-btn text-xs" onclick="return confirm('قطعه حذف شود ؟')">
-                                    حذف
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
         </div>
     </div>
 </x-layout>

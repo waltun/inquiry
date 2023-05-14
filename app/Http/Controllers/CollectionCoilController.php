@@ -46,6 +46,53 @@ class CollectionCoilController extends Controller
         return view('collection-coils.index', compact('parts', 'categories', 'delete'));
     }
 
+    public function standard(Request $request, Part $part)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255'
+        ]);
+
+        $category = $part->categories()->latest()->first();
+        $lastPart = $category->parts()->latest()->first();
+        $code = str_pad($lastPart->code + 1, 4, "0", STR_PAD_LEFT);
+
+        $newPart = $part->replicate()->fill([
+            'name' => $request->name,
+            'code' => $code,
+            'standard' => true,
+            'inquiry_id' => null,
+            'product_id' => null,
+            'price_updated_at' => now(),
+            'price' => 0,
+            'weight' => 0
+        ]);
+        $newPart->save();
+
+        $newPart->categories()->syncWithoutDetaching($part->categories);
+
+        foreach ($part->children as $child) {
+            $newPart->children()->syncWithoutDetaching([
+                $child->id => [
+                    'value' => $child->pivot->value
+                ]
+            ]);
+        }
+
+        $totalPrice = 0;
+        $totalWeight = 0;
+        foreach ($newPart->children as $child) {
+            $totalPrice += ($child->price * $child->pivot->value);
+            $totalWeight += ($child->weight * $child->pivot->value);
+        }
+        $newPart->price = $totalPrice;
+        $newPart->weight = $totalWeight;
+        $newPart->save();
+
+        alert()->success('ثبت موفق', 'استاندارد سازی با موفقیت انجام شد');
+
+        return back();
+    }
+
     public function multiDelete(Request $request)
     {
         foreach ($request->ids as $id) {

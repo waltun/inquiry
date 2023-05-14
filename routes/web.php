@@ -100,6 +100,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     //Collection Coils routes
     Route::get('/collection-coil', [CollectionCoilController::class, 'index'])->name('collectionCoil.index');
     Route::post('/collection-coil/multi-delete', [CollectionCoilController::class, 'multiDelete'])->name('collectionCoil.multiDelete');
+    Route::post('/collection-coil/{part}/standard', [CollectionCoilController::class, 'standard'])->name('collectionCoil.standard');
 
     //Inquiry routes
     Route::post('/inquiries/create/select-model-group', [InquiryController::class, 'selectModelByGroup'])->name('inquiries.create.selectModelByGroup');
@@ -122,7 +123,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/inquiries/{product}/add-to-models', [InquiryController::class, 'addToModell'])->name('inquiries.addToModell');
     Route::post('/inquiries/{inquiry}/restore', [InquiryController::class, 'restore'])->name('inquiries.restore');
     Route::post('/inquiries/{inquiry}/final-submit', [InquiryController::class, 'finalSubmit'])->name('inquiries.finalSubmit');
-    Route::post('/inquiries/{product}/add-product-to-inquiry',[InquiryController::class,'addProductToInquiry'])->name('inquiries.addProductToInquiry');
+    Route::post('/inquiries/{product}/add-product-to-inquiry', [InquiryController::class, 'addProductToInquiry'])->name('inquiries.addProductToInquiry');
 
     //Inquiry Product routes
     Route::get('/inquiries/{inquiry}/products', [InquiryProductController::class, 'index'])->name('inquiries.product.index');
@@ -444,5 +445,5 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/final-invoices', [FinalInvoiceController::class, 'index'])->name('invoices.final.index');
     Route::get('/final-invoices/{invoice}/print', [FinalInvoiceController::class, 'print'])->name('invoices.final.print');
     Route::get('/final-invoices/{invoice}/print-page', [FinalInvoiceController::class, 'printPage'])->name('invoices.final.printPage');
-    Route::patch('/final-invoices/{invoice}/restore',[FinalInvoiceController::class,'restore'])->name('invoices.final.restore');
+    Route::patch('/final-invoices/{invoice}/restore', [FinalInvoiceController::class, 'restore'])->name('invoices.final.restore');
 });

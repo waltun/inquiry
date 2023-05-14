@@ -302,8 +302,6 @@ class InquiryController extends Controller
 
     public function copy(Inquiry $inquiry)
     {
-        $user = User::find($inquiry->user_id);
-
         $newInquiry = $inquiry->replicate()->fill([
             'archive_at' => null,
             'submit' => false,
@@ -314,55 +312,58 @@ class InquiryController extends Controller
         $newInquiry->save();
 
         foreach ($inquiry->products as $product) {
-            if (is_null($product->part_id) || $product->part_id == 0) {
+            if ($product->part_id == 0) {
                 $newProduct = $product->replicate()->fill([
                     'percent' => 0,
                     'old_percent' => $product->percent,
                     'inquiry_id' => $newInquiry->id,
-                    'price' => 0,
+                    'price' => 0
                 ]);
-            } else {
-                $part2 = Part::find($product->part_id);
-                $category2 = $part2->categories()->latest()->first();
-                $lastPart2 = $category2->parts()->latest()->first();
-                $code = str_pad($lastPart2->code + 1, 4, "0", STR_PAD_LEFT);
+                $newProduct->save();
 
-                $newPart2 = $part2->replicate()->fill([
-                    'code' => $code,
-                    'name' => $part2->name,
-                    'inquiry_id' => $newInquiry->id,
-                ]);
-                $newPart2->save();
+                foreach ($product->amounts as $amount) {
+                    $part = Part::find($amount->part_id);
+                    $category = $part->categories()->latest()->first();
+                    $lastPart = $category->parts()->latest()->first();
+                    $code = str_pad($lastPart->code + 1, 4, "0", STR_PAD_LEFT);
 
-                $newPart2->categories()->syncWithoutDetaching($part2->categories);
+                    if ($part->coil == '1' && $part->collection == '1' && !is_null($part->inquiry_id)) {
+                        $newPart = $part->replicate()->fill([
+                            'code' => $code,
+                            'name' => $part->name,
+                            'inquiry_id' => $newInquiry->id,
+                            'product_id' => $newProduct->id
+                        ]);
+                        $newPart->save();
 
-                foreach ($part2->children as $child) {
-                    $newPart2->children()->syncWithoutDetaching([
-                        $child->id => [
-                            'value' => $child->pivot->value
-                        ]
+                        $newPart->categories()->syncWithoutDetaching($part->categories);
+
+                        foreach ($part->children as $child) {
+                            $newPart->children()->syncWithoutDetaching([
+                                $child->id => [
+                                    'value' => $child->pivot->value
+                                ]
+                            ]);
+                        }
+
+                        $totalPrice = 0;
+                        foreach ($newPart->children as $child) {
+                            $totalPrice += ($child->price * $child->pivot->value);
+                        }
+                        $newPart->price = $totalPrice;
+                        $newPart->save();
+                    }
+
+                    $newAmount = $amount->replicate()->fill([
+                        'value' => $amount->value,
+                        'product_id' => $newProduct->id,
+                        'part_id' => $amount->part_id,
+                        'price' => max($amount->price, 0)
                     ]);
+                    $newAmount->save();
                 }
-
-                $totalPrice2 = 0;
-                foreach ($newPart2->children as $child) {
-                    $totalPrice2 += ($child->price * $child->pivot->value);
-                }
-                $newPart2->save();
-
-                $newProduct = $product->replicate()->fill([
-                    'percent' => 0,
-                    'old_percent' => $product->percent,
-                    'inquiry_id' => $newInquiry->id,
-                    'price' => 0,
-                    'part_id' => $newPart2->id
-                ]);
-            }
-            $newProduct->save();
-
-
-            foreach ($product->amounts as $amount) {
-                $part = Part::find($amount->part_id);
+            } else {
+                $part = Part::find($product->part_id);
                 $category = $part->categories()->latest()->first();
                 $lastPart = $category->parts()->latest()->first();
                 $code = str_pad($lastPart->code + 1, 4, "0", STR_PAD_LEFT);
@@ -370,9 +371,7 @@ class InquiryController extends Controller
                 if ($part->coil == '1' && $part->collection == '1' && !is_null($part->inquiry_id)) {
                     $newPart = $part->replicate()->fill([
                         'code' => $code,
-                        'name' => $part->name,
-                        'inquiry_id' => $newInquiry->id,
-                        'product_id' => $newProduct->id
+                        'inquiry_id' => $newInquiry->id
                     ]);
                     $newPart->save();
 
@@ -390,21 +389,29 @@ class InquiryController extends Controller
                     foreach ($newPart->children as $child) {
                         $totalPrice += ($child->price * $child->pivot->value);
                     }
+                    $newPart->part_price = $totalPrice;
                     $newPart->save();
-                }
 
-                $newAmount = $amount->replicate()->fill([
-                    'value' => $amount->value,
-                    'product_id' => $newProduct->id,
-                    'part_id' => $amount->part_id,
-                    'price' => max($amount->price, 0)
-                ]);
-                $newAmount->save();
+                    $newProduct = $product->replicate()->fill([
+                        'percent' => 0,
+                        'old_percent' => $product->percent,
+                        'inquiry_id' => $newInquiry->id,
+                        'price' => 0,
+                        'part_id' => $newPart->id
+                    ]);
+                    $newProduct->save();
+                } else {
+                    $newProduct = $product->replicate()->fill([
+                        'percent' => 0,
+                        'old_percent' => $product->percent,
+                        'inquiry_id' => $newInquiry->id,
+                        'price' => 0,
+                        'part_id' => $part->id
+                    ]);
+                    $newProduct->save();
+                }
             }
         }
-
-        //Send Notification
-        //$user->notify(new CopyInquiryNotification($newInquiry));
 
         alert()->success('کپی موفق', 'کپی با موفقیت انجام شد و برای کاربر ارسال شد');
 
@@ -531,22 +538,64 @@ class InquiryController extends Controller
             'submit' => false,
             'price' => 0,
             'inquiry_number' => null,
-            'user_id' => $request['user_id'],
+            'user_id' => $user->id,
             'manager' => $user->name
         ]);
         $newInquiry->save();
 
         foreach ($inquiry->products as $product) {
-            $newProduct = $product->replicate()->fill([
-                'percent' => 0,
-                'old_percent' => $product->percent,
-                'inquiry_id' => $newInquiry->id,
-                'price' => 0,
-            ]);
-            $newProduct->save();
+            if ($product->part_id == 0) {
+                $newProduct = $product->replicate()->fill([
+                    'percent' => 0,
+                    'old_percent' => $product->percent,
+                    'inquiry_id' => $newInquiry->id,
+                    'price' => 0
+                ]);
+                $newProduct->save();
 
-            foreach ($product->amounts as $amount) {
-                $part = Part::find($amount->part_id);
+                foreach ($product->amounts as $amount) {
+                    $part = Part::find($amount->part_id);
+                    $category = $part->categories()->latest()->first();
+                    $lastPart = $category->parts()->latest()->first();
+                    $code = str_pad($lastPart->code + 1, 4, "0", STR_PAD_LEFT);
+
+                    if ($part->coil == '1' && $part->collection == '1' && !is_null($part->inquiry_id)) {
+                        $newPart = $part->replicate()->fill([
+                            'code' => $code,
+                            'name' => $part->name,
+                            'inquiry_id' => $newInquiry->id,
+                            'product_id' => $newProduct->id
+                        ]);
+                        $newPart->save();
+
+                        $newPart->categories()->syncWithoutDetaching($part->categories);
+
+                        foreach ($part->children as $child) {
+                            $newPart->children()->syncWithoutDetaching([
+                                $child->id => [
+                                    'value' => $child->pivot->value
+                                ]
+                            ]);
+                        }
+
+                        $totalPrice = 0;
+                        foreach ($newPart->children as $child) {
+                            $totalPrice += ($child->price * $child->pivot->value);
+                        }
+                        $newPart->price = $totalPrice;
+                        $newPart->save();
+                    }
+
+                    $newAmount = $amount->replicate()->fill([
+                        'value' => $amount->value,
+                        'product_id' => $newProduct->id,
+                        'part_id' => $amount->part_id,
+                        'price' => max($amount->price, 0)
+                    ]);
+                    $newAmount->save();
+                }
+            } else {
+                $part = Part::find($product->part_id);
                 $category = $part->categories()->latest()->first();
                 $lastPart = $category->parts()->latest()->first();
                 $code = str_pad($lastPart->code + 1, 4, "0", STR_PAD_LEFT);
@@ -554,9 +603,7 @@ class InquiryController extends Controller
                 if ($part->coil == '1' && $part->collection == '1' && !is_null($part->inquiry_id)) {
                     $newPart = $part->replicate()->fill([
                         'code' => $code,
-                        'name' => $part->name,
-                        'inquiry_id' => $newInquiry->id,
-                        'product_id' => $newProduct->id
+                        'inquiry_id' => $newInquiry->id
                     ]);
                     $newPart->save();
 
@@ -574,16 +621,27 @@ class InquiryController extends Controller
                     foreach ($newPart->children as $child) {
                         $totalPrice += ($child->price * $child->pivot->value);
                     }
+                    $newPart->part_price = $totalPrice;
                     $newPart->save();
-                }
 
-                $newAmount = $amount->replicate()->fill([
-                    'value' => $amount->value,
-                    'product_id' => $newProduct->id,
-                    'part_id' => $amount->part_id,
-                    'price' => $amount->price > 0 ? $amount->price : 0
-                ]);
-                $newAmount->save();
+                    $newProduct = $product->replicate()->fill([
+                        'percent' => 0,
+                        'old_percent' => $product->percent,
+                        'inquiry_id' => $newInquiry->id,
+                        'price' => 0,
+                        'part_id' => $newPart->id
+                    ]);
+                    $newProduct->save();
+                } else {
+                    $newProduct = $product->replicate()->fill([
+                        'percent' => 0,
+                        'old_percent' => $product->percent,
+                        'inquiry_id' => $newInquiry->id,
+                        'price' => 0,
+                        'part_id' => $part->id
+                    ]);
+                    $newProduct->save();
+                }
             }
         }
 
