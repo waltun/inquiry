@@ -21,7 +21,7 @@
                     success: function (res) {
                         if (res.data != null) {
                             section.innerHTML = `
-                            <label for="inputCategory" class="block mb-2 md:text-sm text-xs text-black">زیر دسته</label>
+                            <label for="inputCategory" class="form-label">زیر دسته</label>
                             <select class="input-text" onchange="getCategory2()" id="inputCategory2" name="category2">
                                 <option value="">انتخاب کنید</option>
                                     ${
@@ -54,7 +54,7 @@
                     success: function (res) {
                         if (res.data != null) {
                             section.innerHTML = `
-                            <label for="inputCategory3" class="block mb-2 md:text-sm text-xs text-black">زیر دسته</label>
+                            <label for="inputCategory3" class="form-label">زیر دسته</label>
                             <select class="input-text" name="category3" id="inputCategory3">
                                 <option value="">انتخاب کنید</option>
                                     ${
@@ -100,177 +100,211 @@
     </x-slot>
 
     <!-- Breadcrumb -->
-    <nav class="flex bg-gray-100 p-4 rounded-md overflow-x-auto whitespace-nowrap" aria-label="Breadcrumb">
-        <ol class="inline-flex items-center space-x-2 space-x-reverse">
-            <li class="inline-flex items-center">
-                <a href="{{ route('dashboard') }}"
-                   class="inline-flex items-center text-xs md:text-sm text-gray-500 hover:text-gray-900">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20"
-                         fill="currentColor">
-                        <path
-                            d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
-                    </svg>
+    <div class="flex items-center space-x-2 space-x-reverse">
+        <a href="{{ route('dashboard') }}" class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" class="breadcrumb-svg">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3"/>
+            </svg>
+            <div class="mr-2">
+                <p class="breadcrumb-p">
                     داشبورد
-                </a>
-            </li>
-            <li>
-                <div class="flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd"
-                              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                              clip-rule="evenodd"/>
-                    </svg>
-                    <a href="{{ route('inquiries.index') }}"
-                       class="mr-2 text-xs md:text-sm font-medium text-gray-500 hover:text-gray-900">
-                        مدیریت استعلام ها
-                    </a>
-                </div>
-            </li>
-            <li>
-                <div class="flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd"
-                              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                              clip-rule="evenodd"/>
-                    </svg>
-                    <a href="{{ route('inquiries.product.amounts',$product->id) }}"
-                       class="mr-2 text-xs md:text-sm font-medium text-gray-500 hover:text-gray-900">
-                        تعیین مقادیر محصول
-                    </a>
-                </div>
-            </li>
-            <li aria-current="page">
-                <div class="flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd"
-                              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                              clip-rule="evenodd"/>
-                    </svg>
-                    <span class="mr-2 text-xs md:text-sm font-medium text-gray-400">
-                        افزودن قطعه به محصول {{ $group->name }} - {{ $product->model_custom_name ?? $modell->name }}
-                    </span>
-                </div>
-            </li>
-        </ol>
-    </nav>
-
-    <!-- Navigation Btn -->
-    <div class="mt-4 md:flex justify-between">
-        <div class="mb-4 md:mb-0">
-            <p class="text-lg font-bold text-black">
-                افزودن قطعه به محصول <span
-                    class="text-red-600">{{ $group->name }} - {{ $product->model_custom_name ?? $modell->name }}</span>
-            </p>
+                </p>
+            </div>
+        </a>
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                 class="breadcrumb-svg-arrow">
+                <path fill-rule="evenodd"
+                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                      clip-rule="evenodd"/>
+            </svg>
         </div>
-        <div class="space-x-2 space-x-reverse">
-            <a href="{{ route('inquiries.product.amounts',$product->id) }}" class="form-detail-btn text-xs">
-                جزئیات محصول {{ $group->name }} - {{ $product->model_custom_name ?? $modell->name }}
-            </a>
-            <a href="{{ route('inquiries.index') }}" class="form-edit-btn text-xs">
-                لیست استعلام ها
+        <a href="{{ route('inquiries.index') }}" class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="breadcrumb-svg" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <div class="mr-2">
+                <p class="breadcrumb-p">
+                    لیست استعلام ها
+                </p>
+            </div>
+        </a>
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                 class="breadcrumb-svg-arrow">
+                <path fill-rule="evenodd"
+                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                      clip-rule="evenodd"/>
+            </svg>
+        </div>
+        <a href="{{ route('inquiries.product.amounts',$product->id) }}" class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" class="breadcrumb-svg">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m5.231 13.481L15 17.25m-4.5-15H5.625c-.621 0-1.125.504-1.125 1.125v16.5c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9zm3.75 11.625a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"></path>
+            </svg>
+            <div class="mr-2">
+                <p class="breadcrumb-p">
+                    جزئیات محصول استعلام
+                </p>
+            </div>
+        </a>
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                 class="breadcrumb-svg-arrow">
+                <path fill-rule="evenodd"
+                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                      clip-rule="evenodd"/>
+            </svg>
+        </div>
+        <div class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" class="breadcrumb-svg-active">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+            </svg>
+            <div class="mr-2">
+                <p class="breadcrumb-p-active">
+                    افزودن قطعه به محصول
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="flex items-center justify-between mt-8">
+        <div class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" class="w-8 h-8 dark:text-white">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+            </svg>
+            <div class="mr-2">
+                <p class="font-bold text-2xl text-black dark:text-white">
+                    افزودن قطعه به محصول
+                </p>
+            </div>
+        </div>
+        <div class="flex items-center space-x-4 space-x-reverse">
+            <a href="{{ route('inquiries.product.amounts',$product->id) }}" class="page-warning-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                     stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m5.231 13.481L15 17.25m-4.5-15H5.625c-.621 0-1.125.504-1.125 1.125v16.5c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9zm3.75 11.625a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"></path>
+                </svg>
+                <span class="mr-2">جزئیات محصول</span>
             </a>
         </div>
     </div>
 
     <!-- Search -->
-    <div class="mt-4">
-        <div class="bg-white p-4 shadow-md rounded-md border border-gray-200">
-            <div class="md:grid grid-cols-4 gap-4">
-                <form class="col-span-1 bg-white rounded-md p-4 shadow-sm border border-gray-200 mb-4 md:mb-0">
-                    <div class="mb-4">
-                        <label for="inputSearch" class="block mb-2 md:text-sm text-xs text-black">
-                            جستجو براساس نام
-                        </label>
-                        <input type="text" id="inputSearch" name="search" class="input-text" placeholder="مثال : پیچ"
-                               value="{{ request('search') }}">
-                    </div>
-                    <div class="flex justify-end">
-                        <button class="form-submit-btn" type="submit">
-                            جستجو
-                        </button>
-                    </div>
-                </form>
-                <form action=""
-                      class="col-span-1 bg-white rounded-md p-4 shadow-sm border border-gray-200 mb-4 md:mb-0">
-                    <div class="mb-4">
-                        <label for="inputCalculate" class="block mb-2 md:text-sm text-xs text-black">
-                            جستجوی محاسباتی ها
-                        </label>
-                        <select name="calculate" id="inputCalculate" class="input-text">
-                            <option value="">انتخاب کنید</option>
-                            <option value="1" {{ request()->has('calculate') ? 'selected' : '' }}>
-                                نمایش فقط محاسباتی ها
+    <div
+        class="card-search" {{ request()->has('search') || request()->has('category1') || request()->has('category2') || request()->has('category3') || request()->has('calculate') ? 'x-data={open:true}' : 'x-data={open:false}' }}>
+        <div class="card-header-search" @click="open = !open">
+            <p class="card-title">
+                جستجو
+            </p>
+            <div class="card-title-search">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                     stroke="currentColor" class="w-6 h-6 transition" :class="{'rotate-180' : open}">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
+                </svg>
+            </div>
+        </div>
+        <div class="grid grid-cols-4 gap-4 pb-7" x-show="open" x-cloak>
+            <form class="col-span-1 card">
+                <div class="mb-4">
+                    <label for="inputSearch" class="form-label">
+                        جستجو براساس نام
+                    </label>
+                    <input type="text" id="inputSearch" name="search" class="input-text" placeholder="مثال : پیچ"
+                           value="{{ request('search') }}">
+                </div>
+                <div class="flex justify-end">
+                    <button class="form-submit-btn" type="submit">
+                        جستجو
+                    </button>
+                </div>
+            </form>
+            <form class="col-span-1 card">
+                <div class="mb-4">
+                    <label for="inputCalculate" class="form-label">
+                        جستجوی محاسباتی ها
+                    </label>
+                    <select name="calculate" id="inputCalculate" class="input-text">
+                        <option value="">انتخاب کنید</option>
+                        <option value="1" {{ request()->has('calculate') ? 'selected' : '' }}>
+                            نمایش فقط محاسباتی ها
+                        </option>
+                    </select>
+                </div>
+                <div class="flex justify-end">
+                    <button class="form-submit-btn" type="submit">
+                        جستجو
+                    </button>
+                </div>
+            </form>
+            <form class="card col-span-2 grid grid-cols-3 gap-4">
+                <div>
+                    <label for="inputCategory1" class="form-label">
+                        دسته بندی قطعه
+                    </label>
+                    <select name="category1" id="inputCategory1" class="input-text" onchange="getCategory1()">
+                        <option value="">انتخاب کنید</option>
+                        @foreach($categories as $category)
+                            <option
+                                value="{{ $category->id }}" {{ request('category1') == $category->id ? 'selected' : '' }}>
+                                {{ $category->name }}
                             </option>
-                        </select>
-                    </div>
-                    <div class="flex justify-end">
-                        <button class="form-submit-btn" type="submit">
-                            جستجو
-                        </button>
-                    </div>
-                </form>
-                <form
-                    class="col-span-2 md:grid grid-cols-3 gap-4 bg-white rounded-md p-4 shadow-sm border border-gray-200 mb-4 md:mb-0">
-                    <div>
-                        <label for="inputCategory1" class="block mb-2 md:text-sm text-xs text-black">دسته بندی
-                            قطعه</label>
-                        <select name="category1" id="inputCategory1" class="input-text" onchange="getCategory1()">
+                        @endforeach
+                    </select>
+                </div>
+                <div id="categorySection1">
+                    @if(request()->has('category2'))
+                        @php
+                            $category2 = \App\Models\Category::find(request('category1'))->children;
+                        @endphp
+                        <label for="inputCategory2" class="block mb-2 md:text-sm text-xs text-black">زیردسته
+                            اول</label>
+                        <select name="category2" id="inputCategory2" class="input-text" onchange="getCategory2()">
                             <option value="">انتخاب کنید</option>
-                            @foreach($categories as $category)
+                            @foreach($category2 as $category)
                                 <option
-                                    value="{{ $category->id }}" {{ request('category1') == $category->id ? 'selected' : '' }}>
+                                    value="{{ $category->id }}" {{ request('category2') == $category->id ? 'selected' : '' }}>
                                     {{ $category->name }}
                                 </option>
                             @endforeach
                         </select>
-                    </div>
-                    <div id="categorySection1">
-                        @if(request()->has('category2'))
-                            @php
-                                $category2 = \App\Models\Category::find(request('category1'))->children;
-                            @endphp
-                            <label for="inputCategory2" class="block mb-2 md:text-sm text-xs text-black">زیردسته
-                                اول</label>
-                            <select name="category2" id="inputCategory2" class="input-text" onchange="getCategory2()">
-                                <option value="">انتخاب کنید</option>
-                                @foreach($category2 as $category)
-                                    <option
-                                        value="{{ $category->id }}" {{ request('category2') == $category->id ? 'selected' : '' }}>
-                                        {{ $category->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        @endif
-                    </div>
-                    <div id="categorySection2">
-                        @if(request()->has('category3'))
-                            @php
-                                $category3 = \App\Models\Category::find(request('category2'))->children;
-                            @endphp
-                            <label for="inputCategory3" class="block mb-2 md:text-sm text-xs text-black">زیردسته
-                                دوم</label>
-                            <select name="category3" id="inputCategory3" class="input-text">
-                                <option value="">انتخاب کنید</option>
-                                @foreach($category3 as $category)
-                                    <option
-                                        value="{{ $category->id }}" {{ request('category3') == $category->id ? 'selected' : '' }}>
-                                        {{ $category->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        @endif
-                    </div>
+                    @endif
+                </div>
+                <div id="categorySection2">
+                    @if(request()->has('category3'))
+                        @php
+                            $category3 = \App\Models\Category::find(request('category2'))->children;
+                        @endphp
+                        <label for="inputCategory3" class="block mb-2 md:text-sm text-xs text-black">زیردسته
+                            دوم</label>
+                        <select name="category3" id="inputCategory3" class="input-text">
+                            <option value="">انتخاب کنید</option>
+                            @foreach($category3 as $category)
+                                <option
+                                    value="{{ $category->id }}" {{ request('category3') == $category->id ? 'selected' : '' }}>
+                                    {{ $category->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    @endif
+                </div>
 
-                    <div class="col-span-3 flex justify-end">
-                        <button type="submit" class="form-submit-btn">جستجو</button>
-                    </div>
-                </form>
-
-            </div>
-
+                <div class="col-span-3 flex justify-end">
+                    <button type="submit" class="form-submit-btn">جستجو</button>
+                </div>
+            </form>
             @if(request()->has('search') || request()->has('category1') || request()->has('category2') || request()->has('category3') || request()->has('calculate'))
-                <div class="mt-4">
-                    <a href="{{ route('inquiries.newPart.create',$product->id) }}" class="form-detail-btn text-xs">
+                <div>
+                    <a href="{{ route('parts.index') }}" class="form-detail-btn text-xs">
                         پاکسازی جستجو
                     </a>
                 </div>
@@ -279,73 +313,86 @@
     </div>
 
     <!-- Content -->
-    <div class="mt-4">
-        <!-- Laptop List -->
-        <div class="bg-white shadow overflow-x-auto rounded-lg hidden md:block">
-            <table class="min-w-full">
+    <div class="mt-4 space-y-4">
+        <div class="mt-8 overflow-x-auto rounded-lg">
+            <table class="w-full border-collapse">
                 <thead>
-                <tr class="bg-sky-200">
-                    <th scope="col"
-                        class="px-4 py-3 text-sm font-bold text-gray-800 text-center rounded-r-md">
+                <tr class="table-th-tr">
+                    <th scope="col" class="p-4 rounded-tr-lg">
                         #
                     </th>
-                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                    <th scope="col" class="p-4">
                         نام
                     </th>
-                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                    <th scope="col" class="p-4">
                         واحد
                     </th>
-                    <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                    <th scope="col" class="p-4">
                         قیمت
                     </th>
-                    <th scope="col" class="relative px-4 py-3 rounded-l-md">
+                    <th scope="col" class="p-4 rounded-tl-lg">
                         <span class="sr-only">اقدامات</span>
                     </th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($parts as $part)
-                    <tr>
-                        <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-gray-500 text-center">{{ $loop->index + 1 }}</p>
+                    <tr class="table-tb-tr group">
+                        <td class="table-tr-td border-t-0 border-l-0">
+                            {{ $loop->index + 1 }}
                         </td>
-                        <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center font-medium">{{ $part->name }}</p>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            {{ $part->name }}
                         </td>
-                        <td class="px-4 py-3 whitespace-nowrap">
-                            <p class="text-sm text-black text-center">{{ $part->unit }}</p>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            {{ $part->unit }}
                         </td>
-                        <td class="px-4 py-3 whitespace-nowrap">
+                        <td class="table-tr-td border-t-0 border-x-0">
                             @if($part->price)
-                                <p class="text-sm text-black text-center font-medium">
-                                    {{ number_format($part->price) }} تومان
-                                </p>
+                                {{ number_format($part->price) }} تومان
                             @else
-                                <p class="text-sm text-red-600 text-center font-medium">
-                                    منتظر قیمت گذاری
-                                </p>
+                                منتظر قیمت گذاری
                             @endif
                         </td>
-                        <td class="px-4 py-3 space-x-3 space-x-reverse whitespace-nowrap">
+                        <td class="table-tr-td border-t-0 border-r-0">
                             <div x-data="{open:false}">
-                                <button class="form-submit-btn text-xs" @click="open=!open" type="button">
+                                <button class="table-success-btn" @click="open=!open" type="button">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                              d="M12 4.5v15m7.5-7.5h-15"/>
+                                    </svg>
                                     افزودن
                                 </button>
                                 <div class="relative z-10" x-show="open" x-cloak>
-                                    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+                                    <div class="modal-backdrop"></div>
                                     <div class="fixed z-10 inset-0 overflow-y-auto">
-                                        <div
-                                            class="flex items-end sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
-                                            <form method="POST"
-                                                  action="{{ route('inquiries.newPart.store',[$product->id,$part->id]) }}"
-                                                  class="relative bg-white rounded-lg text-right overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-lg sm:w-full">
-                                                @csrf
-                                                <div class="bg-white p-4">
-                                                    <div class="mt-3 text-center sm:mt-0 sm:text-right">
-                                                        <h3 class="text-lg font-medium text-gray-900 border-b border-gray-300 pb-3">
-                                                            تعداد قطعه
+                                        <div class="modal">
+                                            <div class="modal-body">
+                                                <div class="bg-white dark:bg-slate-800 p-4">
+                                                    <div class="mb-4 flex justify-between items-center">
+                                                        <h3 class="text-lg font-bold text-gray-900 dark:text-white">
+                                                            افزودن کویل جدید به قطعات تکی
                                                         </h3>
-                                                        <div class="mt-4">
+                                                        <button type="button" @click="open = false">
+                                                            <span class="modal-close">
+                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                     fill="none"
+                                                                     viewBox="0 0 24 24"
+                                                                     stroke-width="1.5"
+                                                                     stroke="currentColor"
+                                                                     class="w-5 h-5 dark:text-white">
+                                                                    <path stroke-linecap="round"
+                                                                          stroke-linejoin="round"
+                                                                          d="M6 18L18 6M6 6l12 12"/>
+                                                                </svg>
+                                                            </span>
+                                                        </button>
+                                                    </div>
+                                                    <form class="mt-6" method="POST"
+                                                          action="{{ route('inquiries.newPart.store',[$product->id,$part->id]) }}">
+                                                        @csrf
+                                                        <div class="mb-4">
                                                             <label class="block mb-2 text-sm font-bold"
                                                                    for="inputQuantity">
                                                                 تعداد قطعه
@@ -368,18 +415,15 @@
                                                                        onkeyup="changeUnit2(event,{{ $part }})">
                                                             @endif
                                                         </div>
-                                                    </div>
+                                                        <div
+                                                            class="flex justify-end items-center space-x-4 space-x-reverse">
+                                                            <button type="submit" class="form-submit-btn">
+                                                                ثبت
+                                                            </button>
+                                                        </div>
+                                                    </form>
                                                 </div>
-                                                <div class="bg-gray-100 px-4 py-2">
-                                                    <button type="submit" class="form-submit-btn">
-                                                        ثبت
-                                                    </button>
-                                                    <button type="button" class="form-cancel-btn"
-                                                            @click="open = !open">
-                                                        انصراف
-                                                    </button>
-                                                </div>
-                                            </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
