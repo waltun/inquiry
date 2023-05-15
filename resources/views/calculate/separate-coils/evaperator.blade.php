@@ -78,44 +78,60 @@
     </x-slot>
 
     <!-- Breadcrumb -->
-    <nav class="flex bg-gray-100 p-4 rounded-md" aria-label="Breadcrumb">
-        <ol class="inline-flex items-center space-x-2 space-x-reverse">
-            <li class="inline-flex items-center">
-                <a href="{{ route('dashboard') }}"
-                   class="inline-flex items-center text-xs md:text-sm text-gray-500 hover:text-gray-900">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20"
-                         fill="currentColor">
-                        <path
-                            d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
-                    </svg>
+    <div class="flex items-center space-x-2 space-x-reverse">
+        <a href="{{ route('dashboard') }}" class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" class="breadcrumb-svg">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3"/>
+            </svg>
+            <div class="mr-2">
+                <p class="breadcrumb-p">
                     داشبورد
-                </a>
-            </li>
-            <li class="inline-flex items-center">
-                <a href="{{ route('separate.coil.index') }}"
-                   class="inline-flex items-center text-xs md:text-sm text-gray-500 hover:text-gray-900">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd"
-                              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                              clip-rule="evenodd"/>
-                    </svg>
-                    محاسبه جداگانه کویل ها
-                </a>
-            </li>
-            <li aria-current="page">
-                <div class="flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd"
-                              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                              clip-rule="evenodd"/>
-                    </svg>
-                    <span class="mr-2 text-xs md:text-sm font-medium text-gray-400">
-                        محاسبه {{ $part->name }}
-                    </span>
-                </div>
-            </li>
-        </ol>
-    </nav>
+                </p>
+            </div>
+        </a>
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                 class="breadcrumb-svg-arrow">
+                <path fill-rule="evenodd"
+                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                      clip-rule="evenodd"/>
+            </svg>
+        </div>
+        <a href="{{ route('separate.coil.index') }}" class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" class="breadcrumb-svg">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"/>
+            </svg>
+            <div class="mr-2">
+                <p class="breadcrumb-p">
+                    محاسبه کویل ها
+                </p>
+            </div>
+        </a>
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                 class="breadcrumb-svg-arrow">
+                <path fill-rule="evenodd"
+                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                      clip-rule="evenodd"/>
+            </svg>
+        </div>
+        <div class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" class="breadcrumb-svg-active">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V13.5zm0 2.25h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V18zm2.498-6.75h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V13.5zm0 2.25h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V18zm2.504-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zm0 2.25h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V18zm2.498-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zM8.25 6h7.5v2.25h-7.5V6zM12 2.25c-1.892 0-3.758.11-5.593.322C5.307 2.7 4.5 3.65 4.5 4.757V19.5a2.25 2.25 0 002.25 2.25h10.5a2.25 2.25 0 002.25-2.25V4.757c0-1.108-.806-2.057-1.907-2.185A48.507 48.507 0 0012 2.25z"/>
+            </svg>
+            <div class="mr-2">
+                <p class="breadcrumb-p-active">
+                    محاسبه {{ $part->name }}
+                </p>
+            </div>
+        </div>
+    </div>
 
     <!-- Errors -->
     <div class="mt-4">
@@ -136,7 +152,7 @@
             <div class="bg-white rounded-md shadow-md border border-gray-200 py-4 px-6">
                 <div class="mb-4 border-b border-gray-300 pb-3 flex justify-between items-center">
                     <div>
-                        <p class="text-lg text-black">
+                        <p class="text-lg text-black font-bold">
                             اطلاعات ورودی {{ $part->name }}
                         </p>
                     </div>
@@ -157,7 +173,7 @@
                 <div class="grid grid-cols-4 gap-4">
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputLooleMessi">لوله مسی کویل</label>
-                        <select name="loole_messi" id="inputLooleMessi" class="input-text bg-yellow-300">
+                        <select name="loole_messi" id="inputLooleMessi" class="input-text bg-sky-100">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::where('id','53')->first()->id }}"
                                 {{ is_null($inputs) ? (old('loole_messi') == '53' ? 'selected' : '') : ($inputs['loole_messi'] == "53" ? 'selected' : (old('loole_messi') == '53' ? 'selected' : '')) }}>
@@ -191,7 +207,7 @@
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputFin">فین کویل</label>
-                        <select name="fin_coil" id="inputFin" class="input-text bg-yellow-300">
+                        <select name="fin_coil" id="inputFin" class="input-text bg-sky-100">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::where('id','60')->first()->id }}"
                                 {{ is_null($inputs) ? (old('fin_coil') == '60' ? 'selected' : '') : ($inputs['fin_coil'] == "60" ? 'selected' : (old('fin_coil') == '60' ? 'selected' : '')) }}>
@@ -237,7 +253,7 @@
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputTedadRadif">تعداد ردیف کویل</label>
-                        <select name="tedad_radif_coil" id="inputTedadRadif" class="input-text bg-yellow-300">
+                        <select name="tedad_radif_coil" id="inputTedadRadif" class="input-text bg-sky-100">
                             <option value="">انتخاب کنید</option>
                             <option value="1"
                                 {{ is_null($inputs) ? (old('tedad_radif_coil') == '1' ? 'selected' : '') : ($inputs['tedad_radif_coil'] == '1' ? 'selected' : (old('tedad_radif_coil') == '1' ? 'selected' : '')) }}>
@@ -267,7 +283,7 @@
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputFinDarInch">فین در اینچ</label>
-                        <select name="fin_dar_inch" id="inputFinDarInch" class="input-text bg-yellow-300">
+                        <select name="fin_dar_inch" id="inputFinDarInch" class="input-text bg-sky-100">
                             <option value="">انتخاب کنید</option>
                             <option value="4"
                                 {{ is_null($inputs) ? (old('fin_dar_inch') == '4' ? 'selected' : '') : ($inputs['fin_dar_inch'] == '4' ? 'selected' : (old('fin_dar_inch') == '4' ? 'selected' : '')) }}>
@@ -321,7 +337,7 @@
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputKham">خم کویل</label>
-                        <select name="kham" id="inputKham" class="input-text bg-yellow-300">
+                        <select name="kham" id="inputKham" class="input-text bg-sky-100">
                             <option value="0" selected>ندارد</option>
                             <option value="1"
                                 {{ is_null($inputs) ? (old('kham') == '1' ? 'selected' : '') : ($inputs['kham'] == '1' ? 'selected' : (old('kham') == '1' ? 'selected' : '')) }}>
@@ -339,7 +355,7 @@
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputTedadMadar">تعداد مدار کویل</label>
-                        <select name="tedad_madar_coil" id="inputTedadMadar" class="input-text bg-yellow-300">
+                        <select name="tedad_madar_coil" id="inputTedadMadar" class="input-text bg-sky-100">
                             <option value="">انتخاب کنید</option>
                             <option value="1"
                                 {{ is_null($inputs) ? (old('tedad_madar_coil') == '1' ? 'selected' : '') : ($inputs['tedad_madar_coil'] == '1' ? 'selected' : (old('tedad_madar_coil') == '1' ? 'selected' : '')) }}>
@@ -369,7 +385,7 @@
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputZekhamatFrame">ضخامت فریم کویل</label>
-                        <select name="zekhamat_frame_coil" id="inputZekhamatFrame" class="input-text bg-yellow-300">
+                        <select name="zekhamat_frame_coil" id="inputZekhamatFrame" class="input-text bg-sky-100">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::where('id','5')->first()->id }}"
                                 {{ is_null($inputs) ? (old('zekhamat_frame_coil') == '5' ? 'selected' : '') : ($inputs['zekhamat_frame_coil'] == "5" ? 'selected' : (old('zekhamat_frame_coil') == '5' ? 'selected' : '')) }}>
@@ -438,7 +454,7 @@
                             نوع پوشش ضد خوردگی
                         </label>
                         <select name="pooshesh_khordegi" id="inputNoePoosheshZedeKhordegi"
-                                class="input-text bg-yellow-300">
+                                class="input-text bg-sky-100">
                             <option value="0"
                                 {{ is_null($inputs) ? (old('pooshesh_khordegi') == '0' ? 'selected' : '') : ($inputs['pooshesh_khordegi'] == "0" ? 'selected' : (old('pooshesh_khordegi') == '0' ? 'selected' : '')) }}>
                                 ندارد
@@ -451,7 +467,7 @@
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputCollectorAhani">هدر و کلکتور آهنی</label>
-                        <select name="collector_ahani" id="inputCollectorAhani" class="input-text bg-yellow-300">
+                        <select name="collector_ahani" id="inputCollectorAhani" class="input-text bg-sky-100">
                             <option value="0">ندارد</option>
                             <option value="{{ \App\Models\Part::where('id','70')->first()->id }}"
                                 {{ is_null($inputs) ? (old('collector_ahani') == '70' ? 'selected' : '') : ($inputs['collector_ahani'] == "70" ? 'selected' : (old('collector_ahani') == '70' ? 'selected' : '')) }}>
@@ -485,7 +501,7 @@
                     </div>
                     <div class="col-span-2">
                         <label class="block mb-2 text-sm font-bold" for="inputCollectorMessi">هدر و کلکتور مسی</label>
-                        <select name="collector_messi" id="inputCollectorMessi" class="input-text bg-yellow-300">
+                        <select name="collector_messi" id="inputCollectorMessi" class="input-text bg-sky-100">
                             <option value="0">ندارد</option>
                             <option value="{{ \App\Models\Part::where('id','77')->first()->id }}"
                                 {{ is_null($inputs) ? (old('collector_messi') == '77' ? 'selected' : '') : ($inputs['collector_messi'] == "77" ? 'selected' : (old('collector_messi') == '77' ? 'selected' : '')) }}>
@@ -541,7 +557,7 @@
                         <label class="block mb-2 text-sm font-bold" for="inputElectrodNoghre">
                             الکترود نقره
                         </label>
-                        <select name="electrod_noghre" id="inputElectrodNoghre" class="input-text bg-yellow-300">
+                        <select name="electrod_noghre" id="inputElectrodNoghre" class="input-text bg-sky-100">
                             <option value="">
                                 انتخاب کنید
                             </option>
@@ -569,13 +585,13 @@
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputTooleCoil">طول کویل (اینچ)</label>
-                        <input name="toole_coil" type="text" class="input-text bg-yellow-300" id="inputTooleCoil"
+                        <input name="toole_coil" type="text" class="input-text bg-sky-100" id="inputTooleCoil"
                                value="{{ !is_null($inputs) ? $inputs['toole_coil'] : old('toole_coil') }}">
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputTedadLooleDarRadif">تعداد لوله در
                             ردیف</label>
-                        <input name="tedad_loole_dar_radif" type="text" class="input-text bg-yellow-300"
+                        <input name="tedad_loole_dar_radif" type="text" class="input-text bg-sky-100"
                                id="inputTedadLooleDarRadif"
                                value="{{ !is_null($inputs) ? $inputs['tedad_loole_dar_radif'] : old('tedad_loole_dar_radif') }}">
                     </div>
@@ -583,13 +599,13 @@
                         <label class="block mb-2 text-sm font-bold" for="inputTedadMogheyiatLooleDarRadif">
                             تعداد موقعیت یک لوله در ردیف
                         </label>
-                        <input type="text" class="input-text bg-yellow-300" id="inputTedadMogheyiatLooleDarRadif"
+                        <input type="text" class="input-text bg-sky-100" id="inputTedadMogheyiatLooleDarRadif"
                                value="{{ !is_null($inputs) ? $inputs['tedad_mogheyiat_loole'] : old('tedad_mogheyiat_loole') }}"
                                name="tedad_mogheyiat_loole">
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputTedadMadarLoole">تعداد مدار لوله</label>
-                        <input type="text" class="input-text bg-yellow-300" id="inputTedadMadarLoole"
+                        <input type="text" class="input-text bg-sky-100" id="inputTedadMadarLoole"
                                value="{{ !is_null($inputs) ? $inputs['tedad_madar_loole'] : old('tedad_madar_loole') }}"
                                name="tedad_madar_loole" onkeyup="changeValue()">
                     </div>
@@ -597,7 +613,7 @@
                         <label class="block mb-2 text-sm font-bold" for="inputTedadSoorakhPakhshKon">
                             تعداد سوراخ پخش کن
                         </label>
-                        <input type="text" class="input-text bg-yellow-300"
+                        <input type="text" class="input-text bg-sky-100"
                                id="inputTedadSoorakhPakhshKon" name="tedad_soorakh_pakhshkon"
                                value="{{ !is_null($inputs) ? $inputs['tedad_soorakh_pakhshkon'] : old('tedad_soorakh_pakhshkon') }}">
                     </div>
@@ -621,17 +637,15 @@
             <form method="POST" action="{{ route('separate.coil.storeEvaperator',$part->id) }}"
                   class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4">
                 @csrf
-                <table class="border-collapse border border-gray-400 w-full">
-                    <thead class="sticky top-1 bg-gray-200 z-50 shadow-md">
-                    <tr>
-                        <th class="border border-gray-300 p-4 text-sm">ردیف</th>
-                        <th class="border border-gray-300 p-4 text-sm">شرح</th>
-                        <th class="border border-gray-300 p-4 text-sm">واحد</th>
-                        <th class="border border-gray-300 p-4 text-sm">مقدار / سایز</th>
-                        @can('coil-table')
-                            <th class="border border-gray-300 p-4 text-sm">قیمت واحد</th>
-                            <th class="border border-gray-300 p-4 text-sm">قیمت کل</th>
-                        @endcan
+                <table class="w-full border-collapse">
+                    <thead>
+                    <tr class="table-th-tr">
+                        <th class="p-4 rounded-tr-lg">ردیف</th>
+                        <th class="p-4">شرح</th>
+                        <th class="p-4">واحد</th>
+                        <th class="p-4">مقدار / سایز</th>
+                        <th class="p-4">قیمت واحد</th>
+                        <th class="p-4 rounded-tl-lg">قیمت کل</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -642,7 +656,7 @@
                     @foreach($part->children as $index => $child)
                         <input type="hidden" name="values[]" id="value{{ $index }}"
                                value="{{ $values[$index] }}">
-                        <tr>
+                        <tr class="table-tb-tr group">
                             @if(!is_null($selectedParts))
                                 @php
                                     $keys = array_keys($selectedParts);
@@ -650,20 +664,20 @@
                                 @if(in_array($index,$keys))
                                     @foreach($keys as $key)
                                         @if($key == $index)
-                                            <td class="border border-gray-300 p-4 text-sm text-center">
+                                            <td class="table-tr-td border-t-0 border-l-0">
                                                 {{ $index + 1 }}
                                             </td>
-                                            <td class="border border-gray-300 p-4 text-sm text-center">
+                                            <td class="table-tr-td border-t-0 border-x-0">
                                                 {{ $selectedParts[$index]->name }}
                                             </td>
-                                            <td class="border border-gray-300 p-4 text-sm text-center">
+                                            <td class="table-tr-td border-t-0 border-x-0">
                                                 {{ $selectedParts[$index]->unit }}
                                                 @if(!is_null($selectedParts[$index]->unit2))
                                                     /
                                                     {{ $selectedParts[$index]->unit2 }}
                                                 @endif
                                             </td>
-                                            <td class="border border-gray-300 p-4 text-sm text-center font-bold">
+                                            <td class="table-tr-td border-t-0 border-x-0">
                                                 @if(!is_null($values))
                                                     <span>{{ number_format($values[$index], 2) }}</span>
                                                     @if(!is_null($selectedParts[$index]->unit2))
@@ -675,16 +689,14 @@
                                                     @endif
                                                 @endif
                                             </td>
-                                            @can('coil-table')
-                                                <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                                                    <span>{{ number_format($selectedParts[$index]->price) }}</span>
-                                                </td>
-                                                <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                                                    @if(!is_null($values))
-                                                        {{ number_format($values[$index] * $selectedParts[$index]->price) }}
-                                                    @endif
-                                                </td>
-                                            @endcan
+                                            <td class="table-tr-td border-t-0 border-x-0">
+                                                <span>{{ number_format($selectedParts[$index]->price) }}</span>
+                                            </td>
+                                            <td class="table-tr-td border-t-0 border-r-0">
+                                                @if(!is_null($values))
+                                                    {{ number_format($values[$index] * $selectedParts[$index]->price) }}
+                                                @endif
+                                            </td>
                                         @endif
                                     @endforeach
                                     @php
@@ -694,20 +706,20 @@
                                     <input type="hidden" name="parts[]" id="part{{ $index }}"
                                            value="{{ $selectedParts[$index]->id }}">
                                 @else
-                                    <td class="border border-gray-300 p-4 text-sm text-center">
+                                    <td class="table-tr-td border-t-0 border-l-0">
                                         {{ $index + 1 }}
                                     </td>
-                                    <td class="border border-gray-300 p-4 text-sm text-center">
+                                    <td class="table-tr-td border-t-0 border-x-0">
                                         {{ $child->name }}
                                     </td>
-                                    <td class="border border-gray-300 p-4 text-sm text-center">
+                                    <td class="table-tr-td border-t-0 border-x-0">
                                         {{ $child->unit }}
                                         @if(!is_null($child->unit2))
                                             /
                                             {{ $child->unit2 }}
                                         @endif
                                     </td>
-                                    <td class="border border-gray-300 p-4 text-sm text-center font-bold">
+                                    <td class="table-tr-td border-t-0 border-x-0">
                                         <span>{{ number_format($values[$index], 2) }}</span>
                                         @if(!is_null($child->unit2))
                                             @php
@@ -717,14 +729,12 @@
                                             {{ number_format(eval("return " . $string . ';'), 2) }}
                                         @endif
                                     </td>
-                                    @can('coil-table')
-                                        <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                                            <span>{{ number_format($child->price) }}</span>
-                                        </td>
-                                        <td class="border border-gray-300 p-4 text-sm text-center font-bold">
-                                            {{ number_format($values[$index] * $child->price) }}
-                                        </td>
-                                    @endcan
+                                    <td class="table-tr-td border-t-0 border-x-0">
+                                        <span>{{ number_format($child->price) }}</span>
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-r-0">
+                                        {{ number_format($values[$index] * $child->price) }}
+                                    </td>
                                     @php
                                         $finalPrice += $values[$index] * $child->price;
                                         $finalWeight += $values[$index] * $child->weight;
@@ -733,42 +743,47 @@
                             @endif
                         </tr>
                     @endforeach
-                    @can('coil-table')
-                        <tr>
-                            <td class="border border-gray-300 p-4 text-lg font-bold text-center" colspan="4">
-                                قیمت نهایی
-                            </td>
-                            <td class="border border-gray-300 p-4 text-lg font-bold text-center text-green-600"
-                                colspan="2">
-                                <span>{{ number_format($finalPrice) }} تومان </span>
-                            </td>
-                        </tr>
-                    @endcan
+                    <tr class="table-tb-tr group">
+                        <td class="table-tr-td border-t-0" colspan="4">
+                            <p class="text-lg font-bold">
+                                قیمت نهایی (تومان)
+                            </p>
+                        </td>
+                        <td class="table-tr-td border-t-0 border-r-0" colspan="2">
+                            <span class="text-lg font-bold">{{ number_format($finalPrice) }}</span>
+                            <input type="hidden" name="price" value="{{ $finalPrice }}">
+                        </td>
+                    </tr>
+                    <tr class="table-tb-tr group">
+                        <td class="table-tr-td border-t-0" colspan="4">
+                            <p class="text-lg font-bold">
+                                وزن دستگاه (کلیوگرم)
+                            </p>
+                        </td>
+                        <td class="table-tr-td border-t-0 border-r-0"
+                            colspan="2">
+                            <span class="text-lg font-bold">{{ round($finalWeight) }}</span>
+                            <input type="hidden" name="weight" value="{{ $finalWeight }}">
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
 
-                <div class="my-4 bg-gray-100 p-4 rounded-md shadow-md space-y-4">
-                    <p class="text-xl font-bold text-black text-center">
-                        قیمت نهایی : {{ number_format($finalPrice) }} تومان
-                    </p>
-                    <input type="hidden" name="price" value="{{ $finalPrice }}">
-                    <p class="text-xl font-bold text-black text-center">
-                        وزن دستگاه : {{ round($finalWeight) }} کیلوگرم
-                    </p>
-                    <input type="hidden" name="weight" value="{{ $finalWeight }}">
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="my-4 bg-red-300 p-4 rounded-md shadow-md">
-                        <label class="block mb-2 text-sm font-bold" for="inputCoilName">
-                            نام کویل مورد نظر
-                        </label>
-                        <input type="text" class="input-text" id="inputCoilName" name="name" dir="ltr"
-                               value="{{ $name }}">
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <p class="card-title">مشخصات</p>
                     </div>
-                    @can('show-calculate-category')
-                        <div class="my-4 bg-red-300 p-4 rounded-md shadow-md">
-                            <label class="block mb-2 text-sm font-bold" for="inputStandard">
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="mb-4">
+                            <label class="form-label" for="inputCoilName">
+                                نام کویل مورد نظر
+                            </label>
+                            <input type="text" class="input-text" id="inputCoilName" name="name" dir="ltr"
+                                   value="{{ $name }}">
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label" for="inputStandard">
                                 تعیین استاندارد بودن کویل
                             </label>
                             <select name="standard" id="inputStandard" class="input-text">
@@ -776,40 +791,38 @@
                                 <option value="1">باشد</option>
                             </select>
                         </div>
-                    @endcan
-                </div>
-
-                @can('show-calculate-category')
-                    <div class="my-4 bg-red-300 p-4 rounded-md shadow-md">
-                        <label class="block mb-2 text-sm font-bold" for="inputCoilCategory">
-                            دسته بندی کویل
-                        </label>
-                        <div class="grid grid-cols-3 gap-4">
-                            <div>
-                                <select name="categories[]" id="inputCoilCategory" class="input-text"
-                                        onchange="getCategory1()">
-                                    <option value="">انتخاب کنید</option>
-                                    @foreach($categories as $category)
-                                        <option
-                                            value="{{ $category->id }}" {{ request('category1') == $category->id ? 'selected' : '' }}>
-                                            {{ $category->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div id="categorySection1">
-                            </div>
-                            <div id="categorySection2">
+                        <div class="col-span-2">
+                            <div class="mb-4">
+                                <label class="form-label" for="inputCoilCategory">
+                                    دسته بندی کویل
+                                </label>
+                                <div class="grid grid-cols-3 gap-4">
+                                    <div>
+                                        <select name="categories[]" id="inputCoilCategory" class="input-text"
+                                                onchange="getCategory1()">
+                                            <option value="">انتخاب کنید</option>
+                                            @foreach($categories as $category)
+                                                <option
+                                                    value="{{ $category->id }}" {{ request('category1') == $category->id ? 'selected' : '' }}>
+                                                    {{ $category->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div id="categorySection1">
+                                    </div>
+                                    <div id="categorySection2">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-
-                    <div class="mb-4">
-                        <button type="submit" class="form-submit-btn">
-                            ذخیره
-                        </button>
-                    </div>
-                @endcan
+                </div>
+                <div class="mb-4">
+                    <button type="submit" class="form-submit-btn">
+                        ذخیره
+                    </button>
+                </div>
             </form>
         @endif
     </div>
