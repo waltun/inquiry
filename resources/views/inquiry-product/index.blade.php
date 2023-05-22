@@ -370,6 +370,11 @@
                                         </a>
                                     @endif
                                 @endcan
+                                @if($product->amounts->isEmpty())
+                                    <p class="p-1 bg-red-400 text-white text-xs rounded-lg group-hover:bg-red-600">
+                                        مقادیر ثبت نشده
+                                    </p>
+                                @endif
                                 @if($product->percent > 0)
                                     <p class="p-1 bg-green-400 text-white text-xs rounded-lg group-hover:bg-myGreen-100">
                                         ضریب ثبت شده
