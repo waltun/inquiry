@@ -389,7 +389,7 @@ class InquiryController extends Controller
                     foreach ($newPart->children as $child) {
                         $totalPrice += ($child->price * $child->pivot->value);
                     }
-                    $newPart->part_price = $totalPrice;
+                    $newPart->price = $totalPrice;
                     $newPart->save();
 
                     $newProduct = $product->replicate()->fill([
