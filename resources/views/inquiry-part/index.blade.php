@@ -122,7 +122,6 @@
             }
 
             function changeUnit2(event, cid) {
-
                 let id = document.getElementById('groupPartList' + cid).value;
 
                 $.ajaxSetup({
@@ -149,7 +148,7 @@
                         result = eval(value + operator2 + formula2);
                         let formatResult = Intl.NumberFormat().format(result);
                         input1.value = formatResult.replace(',', '');
-                        inputValue.value = result;
+                        inputValue.value = value;
                     }
                 });
             }
@@ -936,7 +935,7 @@
                                                        onkeyup="changeUnit2(event,'{{ $part->id }}')"
                                                        value="{{ $product->quantity2 }}">
                                             @endif
-                                            <input type="hidden" id="inputUnitValue{{ $product->id }}"
+                                            <input type="hidden" id="inputUnitValue{{ $part->id }}"
                                                    value="{{ $product->quantity2 }}"
                                                    name="quantities2[]">
                                         </td>
