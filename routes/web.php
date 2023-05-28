@@ -19,6 +19,7 @@ use App\Http\Controllers\InquiryPartDamperController;
 use App\Http\Controllers\InquiryPartElectricalController;
 use App\Http\Controllers\InquiryPriceController;
 use App\Http\Controllers\InquiryProductController;
+use App\Http\Controllers\InquiryTermController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ModellController;
 use App\Http\Controllers\NewPartInquiryController;
@@ -277,6 +278,13 @@ Route::middleware(['auth', 'web'])->group(function () {
 
     Route::get('/settings/current-price/create', [SettingController::class, 'create'])->name('settings.currentPrice.create');
     Route::post('/settings/current-price/store', [SettingController::class, 'store'])->name('settings.currentPrice.store');
+
+    Route::get('/settings/inquiry-terms', [InquiryTermController::class, 'index'])->name('settings.inquiryTerms.index');
+    Route::get('/settings/inquiry-terms/create', [InquiryTermController::class, 'create'])->name('settings.inquiryTerms.create');
+    Route::post('/settings/inquiry-terms', [InquiryTermController::class, 'store'])->name('settings.inquiryTerms.store');
+    Route::get('/settings/inquiry-terms/{inquiryTerm}/edit', [InquiryTermController::class, 'edit'])->name('settings.inquiryTerms.edit');
+    Route::patch('/settings/inquiry-terms/{inquiryTerm}', [InquiryTermController::class, 'update'])->name('settings.inquiryTerms.update');
+    Route::delete('/settings/inquiry-terms/{inquiryTerm}', [InquiryTermController::class, 'destroy'])->name('settings.inquiryTerms.destroy');
 
     //Separate Coil Routes
     Route::get('/separate-calculate-coil', [SeparateCalculateCoilController::class, 'index'])->name('separate.coil.index');
