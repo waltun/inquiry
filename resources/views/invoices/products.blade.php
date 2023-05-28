@@ -167,7 +167,7 @@
                                 $productPercentPrice = ($product->price * $product->quantity);
                             }
                         @endphp
-                        <tr class="table-tb-tr group whitespace-normal">
+                        <tr class="table-tb-tr group whitespace-normal {{ $loop->even ? 'bg-sky-100' : '' }}">
                             <td class="table-tr-td border-t-0 border-l-0">
                                 {{ $loop->index + 1 }}
                             </td>
@@ -345,7 +345,7 @@
                                     $partPercentPrice = ($product->price * $product->quantity);
                                 }
                             @endphp
-                            <tr class="table-tb-tr group whitespace-normal">
+                            <tr class="table-tb-tr group whitespace-normal {{ $loop->even ? 'bg-sky-100' : '' }}">
                                 <td class="table-tr-td border-t-0 border-l-0">
                                     {{ $loop->index + 1 }}
                                 </td>

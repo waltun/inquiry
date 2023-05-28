@@ -777,7 +777,7 @@
                                         $category = $part->categories[1];
                                         $selectedCategory = $part->categories[2];
                                     @endphp
-                                    <tr class="table-tb-tr group">
+                                    <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
                                         @if($inquiry->submit == '1')
                                             <td class="table-tr-td border-t-0 border-l-0">
                                                 <input type="checkbox" value="{{ $product->id }}"

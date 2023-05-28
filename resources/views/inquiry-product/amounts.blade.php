@@ -466,7 +466,7 @@
                             $category = $part->categories[1];
                             $selectedCategory = $part->categories[2];
                         @endphp
-                        <tr class="table-tb-tr group">
+                        <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
                             <td class="table-tr-td border-t-0 border-l-0">
                                 <input type="text" class="input-text w-14 text-center"
                                        value="{{ $part->pivot->sort ?? 0 }}"
@@ -867,7 +867,7 @@
                             $category = $part->categories[1];
                             $selectedCategory = $part->categories[2];
                         @endphp
-                        <tr class="table-tb-tr group">
+                        <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
                             <td class="table-tr-td border-t-0 border-l-0">
                                 <input type="text" class="input-text w-14 text-center" value="{{ $amount->sort ?? 0 }}"
                                        name="sorts[]" id="partSort{{ $part->id }}">

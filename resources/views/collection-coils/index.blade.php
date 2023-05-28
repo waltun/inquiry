@@ -299,7 +299,7 @@
                         @php
                             $part = \App\Models\Part::find($special->part_id);
                         @endphp
-                        <tr class="table-tb-tr group">
+                        <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
                             <td class="table-tr-td border-t-0 border-l-0">
                                 <input type="checkbox" value="{{ $part->id }}"
                                        class="checkboxes w-4 h-4 focus:ring-blue-500 focus:ring-2 focus:ring-offset-1 mx-auto block">
@@ -353,7 +353,7 @@
                             $inquiry = \App\Models\Inquiry::find($part->inquiry_id);
                         }
                     @endphp
-                    <tr class="table-tb-tr group">
+                    <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
                         <td class="table-tr-td border-t-0 border-l-0">
                             <input type="checkbox" value="{{ $part->id }}"
                                    class="checkboxes w-4 h-4 focus:ring-blue-500 focus:ring-2 focus:ring-offset-1 mx-auto block">

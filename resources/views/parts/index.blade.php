@@ -261,7 +261,7 @@
                 </thead>
                 <tbody>
                 @foreach($parts as $part)
-                    <tr class="table-tb-tr group">
+                    <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
                         <td class="table-tr-td border-t-0 border-l-0">
                             {{ $loop->index + 1 }}
                         </td>
