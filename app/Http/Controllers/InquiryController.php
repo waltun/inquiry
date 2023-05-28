@@ -861,13 +861,20 @@ class InquiryController extends Controller
         return back();
     }
 
-    public function addToInvoice(Inquiry $inquiry)
+    public function addToInvoice(Request $request, Inquiry $inquiry)
     {
+        $request->validate([
+            'buyer_name' => 'required|string|max:255',
+            'buyer_position' => 'required|string|max:255',
+        ]);
+
         $newInvoice = $inquiry->invoices()->create([
             'price' => 0,
             'description' => $inquiry->description,
             'user_id' => $inquiry->user_id,
-            'tax' => true
+            'tax' => true,
+            'buyer_name' => $request->buyer_name,
+            'buyer_position' => $request->buyer_position
         ]);
 
         foreach ($inquiry->products as $product) {

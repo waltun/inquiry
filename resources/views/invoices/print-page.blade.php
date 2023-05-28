@@ -37,11 +37,6 @@
                     </div>
                     <div class="w-full h-5 bg-[#cf3b61]"></div>
                     <div class="absolute right-72 top-5 mr-16 p-1">
-                        <div class="flex mr-16 justify-center">
-                            <p class="text-xs font-bold text-black">
-                                نام پروژه / خریدار : {{ $invoice->inquiry->name }}
-                            </p>
-                        </div>
                         <div class="flex items-center justify-center whitespace-nowrap mt-2">
                             <p class="text-xs font-bold text-black mr-16">
                                 تاریخ : {{ jdate($invoice->created_at)->format('Y/m/d') }}
@@ -132,6 +127,17 @@
         <tr>
             <td>
                 <div class="relative">
+                    <div class="card border-0 mb-0">
+                        <p class="text-xs font-bold text-black">
+                            {{ $invoice->inquiry->name }}
+                        </p>
+                        <p class="text-xs font-bold text-black">
+                            {{ $invoice->buyer_position }}
+                        </p>
+                        <p class="text-xs font-bold text-black">
+                            {{ $invoice->buyer_name }}
+                        </p>
+                    </div>
                     <!-- Product List -->
                     @php
                         $productTotalPrice = 0;

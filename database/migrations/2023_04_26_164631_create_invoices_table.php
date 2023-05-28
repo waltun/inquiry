@@ -17,6 +17,10 @@ return new class extends Migration {
 
             $table->bigInteger('price')->default(0);
             $table->text('description')->nullable();
+            $table->boolean('complete')->default(0);
+            $table->boolean('tax')->default(0)->nullable();
+            $table->string('buyer_name')->nullable();
+            $table->string('buyer_position')->nullable();
 
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('inquiry_id');
