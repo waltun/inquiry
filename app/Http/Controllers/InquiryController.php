@@ -762,7 +762,7 @@ class InquiryController extends Controller
             return redirect()->route('inquiries.priced');
         }
 
-        alert()->success('خطا', 'ضریب گذاری برای همه محصولات انجام نشده');
+        alert()->error('خطا', 'ضریب گذاری برای همه محصولات انجام نشده');
         return back();
 
     }

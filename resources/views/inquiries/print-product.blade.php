@@ -118,7 +118,7 @@
 
     <!-- Laptop List Parts -->
     @php
-        $types = ['setup','years','control','power_cable','control_cable','pipe','install_setup_price','setup_price','supervision','transport','other',null];
+        $types = ['setup','years','control','power_cable','control_cable','pipe','install_setup_price','setup_price','supervision','transport','other','setup_one','install','cable','canal','copper_piping','carbon_piping',null];
     @endphp
     @foreach($types as $type)
         @php
@@ -161,6 +161,24 @@
                                 @break
                             @case('other')
                                 سایر تجهیزات
+                                @break
+                            @case('setup_one')
+                                قطعات راه اندازی
+                                @break
+                            @case('install')
+                                قطعات نصب
+                                @break
+                            @case('cable')
+                                اقلام کابل کشی
+                                @break
+                            @case('canal')
+                                اقلام کانال کشی
+                                @break
+                            @case('copper_piping')
+                                دستمزد لوله کشی مسی
+                                @break
+                            @case('carbon_piping')
+                                دستمزد لوله کشی کربن استیل
                                 @break
                             @case('')
                                 سایر تجهیزات (قطعات قبلی)
