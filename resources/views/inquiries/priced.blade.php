@@ -531,7 +531,7 @@
     </div>
 
     <!-- Submitted & List inquiries -->
-    <div class="mt-6 md:grid grid-cols-2 gap-4 space-y-4 md:space-y-0">
+    <div class="grid grid-cols-2 gap-4 sticky bottom-4 mt-6">
         @can('submitted-inquiries')
             <a href="{{ route('inquiries.index') }}" class="dashboard-cards group bg-sky-200">
                 <div class="flex items-center">

@@ -124,7 +124,7 @@
                 @can('submitted-inquiries')
                     <a href="{{ route('inquiries.submitted') }}" class="dashboard-cards group">
                         <div class="flex items-center">
-                            <div class="dashboard-card-icon bg-yellow-600 dark:bg-slate-800">
+                            <div class="dashboard-card-icon bg-myBlue-100 dark:bg-slate-800">
                                 <svg xmlns="http://www.w3.org/2000/svg"
                                      class="w-6 h-6 text-white group-hover:text-myBlue-100"
                                      fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -152,7 +152,7 @@
                 @can('priced-inquiries')
                     <a href="{{ route('inquiries.priced') }}" class="dashboard-cards group">
                         <div class="flex items-center">
-                            <div class="dashboard-card-icon bg-yellow-600 dark:bg-slate-800">
+                            <div class="dashboard-card-icon bg-myGreen-100 dark:bg-slate-800">
                                 <svg xmlns="http://www.w3.org/2000/svg"
                                      class="w-6 h-6 text-white group-hover:text-myBlue-100"
                                      fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -179,7 +179,7 @@
 
                 <a href="{{ route('invoices.index') }}" class="dashboard-cards group">
                     <div class="flex items-center">
-                        <div class="dashboard-card-icon bg-yellow-600 dark:bg-slate-800">
+                        <div class="dashboard-card-icon bg-gray-600 dark:bg-slate-800">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                  stroke="currentColor" class="w-6 h-6 text-white group-hover:text-myBlue-100">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -210,7 +210,7 @@
                 @can('part-price')
                     <a href="{{ route('parts.price.index') }}" class="dashboard-cards group">
                         <div class="flex items-center">
-                            <div class="dashboard-card-icon bg-yellow-600 dark:bg-slate-800">
+                            <div class="dashboard-card-icon bg-pink-400 dark:bg-slate-800">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                      stroke-width="1.5"
                                      stroke="currentColor" class="w-6 h-6 text-white group-hover:text-myBlue-100">
@@ -238,7 +238,7 @@
                 @can('inquiry-price')
                     <a href="{{ route('inquiryPrice.index') }}" class="dashboard-cards group">
                         <div class="flex items-center">
-                            <div class="dashboard-card-icon bg-yellow-600 dark:bg-slate-800">
+                            <div class="dashboard-card-icon bg-red-500 dark:bg-slate-800">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                      stroke-width="1.5"
                                      stroke="currentColor" class="w-6 h-6 text-white group-hover:text-myBlue-100">
@@ -271,7 +271,7 @@
                 @can('separate-calculate-coils')
                     <a href="{{ route('separate.coil.index') }}" class="dashboard-cards group">
                         <div class="flex items-center">
-                            <div class="dashboard-card-icon bg-yellow-600 dark:bg-slate-800">
+                            <div class="dashboard-card-icon bg-gray-600 dark:bg-slate-800">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                      stroke-width="1.5"
                                      stroke="currentColor" class="w-6 h-6 text-white group-hover:text-myBlue-100">
@@ -299,7 +299,7 @@
                 @can('separate-calculate-dampers')
                     <a href="{{ route('separate.damper.index') }}" class="dashboard-cards group">
                         <div class="flex items-center">
-                            <div class="dashboard-card-icon bg-yellow-600 dark:bg-slate-800">
+                            <div class="dashboard-card-icon bg-myGreen-100 dark:bg-slate-800">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                      stroke-width="1.5"
                                      stroke="currentColor" class="w-6 h-6 text-white group-hover:text-myBlue-100">
@@ -327,7 +327,7 @@
                 @can('separate-calculate-converters')
                     <a href="{{ route('separate.converter.index') }}" class="dashboard-cards group">
                         <div class="flex items-center">
-                            <div class="dashboard-card-icon bg-yellow-600 dark:bg-slate-800">
+                            <div class="dashboard-card-icon bg-myYellow-100 dark:bg-slate-800">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                      stroke-width="1.5"
                                      stroke="currentColor" class="w-6 h-6 text-white group-hover:text-myBlue-100">
@@ -355,7 +355,7 @@
                 @can('separate-calculate-electricals')
                     <a href="{{ route('separate.electrical.index') }}" class="dashboard-cards group">
                         <div class="flex items-center">
-                            <div class="dashboard-card-icon bg-yellow-600 dark:bg-slate-800">
+                            <div class="dashboard-card-icon bg-myBlue-100 dark:bg-slate-800">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                      stroke-width="1.5"
                                      stroke="currentColor" class="w-6 h-6 text-white group-hover:text-myBlue-100">

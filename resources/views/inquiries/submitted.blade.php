@@ -602,12 +602,13 @@
         </div>
     </div>
 
-    <div class="mt-6 md:grid grid-cols-2 gap-4 space-y-4 md:space-y-0">
+    <div class="grid grid-cols-2 gap-4 sticky bottom-4 mt-6">
         @can('submitted-inquiries')
             <a href="{{ route('inquiries.index') }}" class="dashboard-cards group bg-sky-200">
                 <div class="flex items-center">
                     <div class="dashboard-card-icon bg-yellow-600 dark:bg-slate-800">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white group-hover:text-myBlue-100"
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             class="w-6 h-6 text-white group-hover:text-myBlue-100"
                              fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                   d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -658,4 +659,5 @@
             </a>
         @endcan
     </div>
+
 </x-layout>

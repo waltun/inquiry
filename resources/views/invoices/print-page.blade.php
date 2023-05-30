@@ -129,9 +129,6 @@
                 <div class="relative">
                     <div class="card border-0 mb-0">
                         <p class="text-xs font-bold text-black">
-                            {{ $invoice->inquiry->name }}
-                        </p>
-                        <p class="text-xs font-bold text-black">
                             {{ $invoice->buyer_position }}
                         </p>
                         <p class="text-xs font-bold text-black">
