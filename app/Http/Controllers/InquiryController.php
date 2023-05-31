@@ -70,11 +70,7 @@ class InquiryController extends Controller
             $inquiries = $inquiries->where('user_id', request('user_id'));
         }
 
-        if (auth()->user()->role == 'admin') {
-            $inquiries = $inquiries->where('submit', 0)->latest()->paginate(25);
-        } else {
-            $inquiries = $inquiries->where('submit', 0)->where('user_id', auth()->user()->id)->latest()->paginate(25);
-        }
+        $inquiries = $inquiries->where('submit', 0)->where('user_id', auth()->user()->id)->latest()->paginate(25);
 
         $modells = Modell::where('parent_id', '!=', 0)->get();
         $groups = Group::all();
