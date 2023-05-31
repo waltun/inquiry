@@ -81,7 +81,7 @@
                     جستجو
                 </button>
                 @if(request()->query())
-                    <a href="{{ route('invoices.index') }}" class="form-detail-btn">
+                    <a href="{{ route('invoices.final.index') }}" class="form-detail-btn">
                         پاکسازی
                     </a>
                 @endif
