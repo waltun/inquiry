@@ -683,7 +683,11 @@ class InquiryController extends Controller
 
     public function products(Inquiry $inquiry)
     {
-        $inquiries = Inquiry::where('user_id', auth()->user()->id)->where('archive_at', null)->get();
+        if (auth()->user()->role == 'admin') {
+            $inquiries = Inquiry::where('archive_at', null)->get();
+        } else {
+            $inquiries = Inquiry::where('user_id', auth()->user()->id)->where('archive_at', null)->get();
+        }
         return view('inquiries.products', compact('inquiry', 'inquiries'));
     }
 

@@ -236,7 +236,7 @@
                 @endcan
 
                 @can('inquiry-price')
-                    <a href="{{ route('inquiryPrice.index') }}" class="dashboard-cards group">
+                    <a href="{{ route('inquiryPrice.index') }}" class="dashboard-cards group relative">
                         <div class="flex items-center">
                             <div class="dashboard-card-icon bg-red-500 dark:bg-slate-800">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -260,6 +260,10 @@
                                       clip-rule="evenodd"/>
                             </svg>
                         </div>
+                        @if(!\App\Models\InquiryPrice::all()->isEmpty())
+                            <span class="w-3 h-3 rounded-full bg-myRed-200 absolute -right-0.5 -top-0.5"></span>
+                            <span class="w-3 h-3 rounded-full bg-myRed-200 absolute -right-0.5 -top-0.5 animate-ping"></span>
+                        @endif
                     </a>
                 @endcan
             </div>
