@@ -6,7 +6,8 @@ module.exports = {
     theme: {
         extend: {
             fontFamily: {
-                IRANSans: ['IRANSans']
+                IRANSans: ['IRANSans'],
+                Titr: ['Titr']
             },
             colors: {
                 myYellow: {

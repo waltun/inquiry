@@ -128,10 +128,10 @@
             <td>
                 <div class="relative">
                     <div class="card border-0 mb-0">
-                        <p class="text-xs font-bold text-black">
+                        <p class="text-xs font-bold text-black font-Titr">
                             {{ $invoice->buyer_position }}
                         </p>
-                        <p class="text-xs font-bold text-black">
+                        <p class="text-xs font-bold text-black font-Titr">
                             {{ $invoice->buyer_name }}
                         </p>
                     </div>
@@ -142,7 +142,7 @@
                     @if(!$invoice->products()->where('group_id','!=',0)->where('model_id','!=',0)->where('deleted_at',null)->get()->isEmpty())
                         <div class="card border-0 mb-0">
                             <div>
-                                <p class="text-sm font-bold">لیست محصولات</p>
+                                <p class="text-sm font-bold font-Titr">لیست محصولات</p>
                             </div>
 
                             <div class="mt-2">
@@ -246,7 +246,7 @@
                         @if(!$products->isEmpty())
                             <div class="card border-0 mb-0">
                                 <div class="mb-2">
-                                    <p class="text-sm font-bold">
+                                    <p class="text-sm font-bold font-Titr">
                                         @switch($type)
                                             @case('setup')
                                                 قطعات یدکی راه اندازی
@@ -430,7 +430,7 @@
                     @if(!is_null($invoice->description))
                         <div class="card border-0">
                             <div class="card-header">
-                                <p class="card-title text-lg">
+                                <p class="card-title text-base font-Titr">
                                     شرایط پیش فاکتور
                                 </p>
                             </div>
@@ -449,7 +449,7 @@
                             </p>
                         </div>
                         <div class="ml-10">
-                            <p class="text-sm font-bold text-black text-center">
+                            <p class="text-sm font-bold text-black text-center font-Titr">
                                 با احترام فراوان<br> شرکت تهویه آذرباد
                             </p>
                         </div>
