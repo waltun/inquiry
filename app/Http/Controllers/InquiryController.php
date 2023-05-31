@@ -697,10 +697,20 @@ class InquiryController extends Controller
             'inquiry_id' => 'required|integer'
         ]);
 
+        $inquiry = Inquiry::find($request->inquiry_id);
+
+        if ($inquiry->products->isEmpty()) {
+            $sort = 1;
+        } else {
+            $productSort = $inquiry->products()->max('sort');
+            $sort = $productSort + 1;
+        }
+
         $newProduct = $product->replicate()->fill([
             'percent' => 0,
             'old_percent' => 0,
-            'inquiry_id' => $request->inquiry_id
+            'inquiry_id' => $inquiry->id,
+            'sort' => $sort
         ]);
         $newProduct->save();
 
