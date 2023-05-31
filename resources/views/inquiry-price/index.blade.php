@@ -36,7 +36,7 @@
             }
         </script>
         <script>
-            $(".deleteAllBtn").on('click', function () {
+            $(".updateDateButton").on('click', function () {
                 let ids = [];
                 $(".checkboxes:checked").each(function () {
                     ids.push($(this).val());
@@ -61,22 +61,14 @@
             });
         </script>
         <script>
-            // document.getElementById('select-all').onclick = function () {
-            //     let id = document.getElementById('select-all').getAttribute('data-id');
-            //     alert(id)
-            //     let checkboxes = document.getElementsByName('part-checkbox-' + id);
-            //     for (let checkbox of checkboxes) {
-            //         checkbox.checked = this.checked
-            //     }
-            // };
-
             function selectAll(id) {
-                let checkboxes = document.getElementsByName('part-checkbox-' + id);
+                let checkboxes = document.getElementsByClassName('checkboxes');
+
                 for (let checkbox of checkboxes) {
-                    if (checkbox.checked) {
-                        checkbox.checked = ''
+                    if (checkbox.hasAttribute('checked')) {
+                        checkbox.removeAttribute('checked')
                     } else {
-                        checkbox.checked = 'checked'
+                        checkbox.setAttribute('checked', 'checked')
                     }
                 }
             }
@@ -182,7 +174,7 @@
                         <thead>
                         <tr class="table-th-tr">
                             <th scope="col" class="p-4 rounded-tr-lg">
-                                <input type="checkbox" class="checkboxes w-4 h-4 mx-auto block"
+                                <input type="checkbox" class="checkboxes2 w-4 h-4 mx-auto block"
                                        id="select-all-{{ $inquiryPrice->id }}"
                                        onclick="selectAll({{ $inquiryPrice->id }})">
                             </th>
@@ -269,7 +261,7 @@
                     <button type="submit" class="form-submit-btn">
                         ثبت قیمت
                     </button>
-                    <button type="button" class="form-detail-btn deleteAllBtn">
+                    <button type="button" class="form-detail-btn updateDateButton">
                         بروزرسانی تاریخ (انتخاب شده‌ها)
                     </button>
                 </div>
