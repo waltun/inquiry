@@ -130,6 +130,16 @@ class InquiryPriceController extends Controller
             if ($part->price != 0 && !is_null($part->price)) {
                 $part->price_updated_at = Carbon::now();
                 $part->save();
+
+                if (!$part->parents->isEmpty()) {
+                    foreach ($part->parents as $parent) {
+                        $parent->update([
+                            'price_updated_at' => now(),
+                            'updated_at' => now()
+                        ]);
+                    }
+                }
+
                 $inquiryPrice->delete();
             } else {
                 return response(['data' => 'error']);
@@ -147,6 +157,16 @@ class InquiryPriceController extends Controller
                 if ($part->price != 0 && !is_null($part->price)) {
                     $part->price_updated_at = Carbon::now();
                     $part->save();
+
+                    if (!$part->parents->isEmpty()) {
+                        foreach ($part->parents as $parent) {
+                            $parent->update([
+                                'price_updated_at' => now(),
+                                'updated_at' => now()
+                            ]);
+                        }
+                    }
+
                     $inquiryPrice->delete();
                 } else {
                     return response(['data' => 'error']);

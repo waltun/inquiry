@@ -104,7 +104,7 @@ class PartPriceController extends Controller
 
         foreach ($request->parts as $index => $id) {
             $part = Part::where('id', $id)->first();
-            $inquiryPrices = InquiryPrice::where('part_id',$part->id)->get();
+            $inquiryPrices = InquiryPrice::where('part_id', $part->id)->get();
             if ($part->price !== (int)$request->prices[$index]) {
                 if ($part->price != 0) {
                     $percentPrice = $part->price + $part->price / 2;
@@ -112,7 +112,7 @@ class PartPriceController extends Controller
                         $part->percent_submit = true;
                         $part->save();
                     } else {
-                        $inquiryPrices = InquiryPrice::where('part_id',$part->id)->get();
+                        $inquiryPrices = InquiryPrice::where('part_id', $part->id)->get();
                         $part->update([
                             'price' => $request->prices[$index],
                             'old_price' => $part->price,
@@ -134,6 +134,7 @@ class PartPriceController extends Controller
                             }
                             $parent->price = $price;
                             $parent->weight = $weight;
+                            $parent->price_updated_at = now();
                             $parent->save();
                         }
                     }
@@ -159,6 +160,7 @@ class PartPriceController extends Controller
                         }
                         $parent->price = $price;
                         $parent->weight = $weight;
+                        $parent->price_updated_at = now();
                         $parent->save();
                     }
                 }
