@@ -113,13 +113,13 @@
     <!-- Navigation -->
     <div class="md:flex items-center justify-between mt-8 space-y-4 md:space-y-0">
         <div class="flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 dark:text-white" fill="none" viewBox="0 0 24 24"
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 dark:text-white" fill="none" viewBox="0 0 24 24"
                  stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round"
                       d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"></path>
             </svg>
             <div class="mr-2">
-                <p class="font-bold text-2xl text-black dark:text-white">
+                <p class="font-bold text-xl text-black dark:text-white">
                     لیست محصولات استعلام {{ $inquiry->name }}
                 </p>
             </div>
@@ -175,26 +175,26 @@
                 <thead>
                 <tr class="table-th-tr">
                     @if($inquiry->submit == '1')
-                        <th scope="col" class="p-4 rounded-tr-lg">
+                        <th scope="col" class="p-2 rounded-tr-lg">
                             <input type="checkbox" class="checkboxes w-4 h-4 mx-auto block" id="select-all">
                         </th>
                     @endif
-                    <th scope="col" class="p-4">
+                    <th scope="col" class="p-2">
                         Sort
                     </th>
-                    <th scope="col" class="p-4">
+                    <th scope="col" class="p-2">
                         دسته
                     </th>
-                    <th scope="col" class="p-4">
+                    <th scope="col" class="p-2">
                         مدل
                     </th>
-                    <th scope="col" class="p-4">
+                    <th scope="col" class="p-2">
                         تعداد
                     </th>
-                    <th scope="col" class="p-4">
+                    <th scope="col" class="p-2">
                         تگ
                     </th>
-                    <th scope="col" class="p-4">
+                    <th scope="col" class="p-2">
                         <span class="sr-only">اقدامات</span>
                     </th>
                 </tr>
@@ -385,13 +385,13 @@
                     </tr>
                 @endforeach
                 <tr class="table-tb-tr group">
-                    <td class="table-tr-td border-t-0 border-t-0" colspan="7">
+                    <td class="table-tr-td border-t-0" colspan="7">
                         <div class="flex justify-between items-center">
                             <a href="{{ route('inquiries.product.create',$inquiry->id) }}"
-                               class="w-8 h-8 rounded-full bg-green-500 block grid place-content-center mr-6"
+                               class="w-6 h-6 rounded-full bg-green-500 grid place-content-center mr-6"
                                title="ایجاد محصول جدید">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                                     stroke="currentColor" class="w-6 h-6 text-white">
+                                     stroke="currentColor" class="w-4 h-4 text-white">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                           d="M12 4.5v15m7.5-7.5h-15"></path>
                                 </svg>

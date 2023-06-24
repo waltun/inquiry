@@ -4,7 +4,7 @@
 @tailwind components;
 
 .dashboard-cards {
-    @apply flex items-center justify-between py-6 px-4 bg-white border border-sky-100 dark:bg-slate-900 rounded-2xl shadow-search
+    @apply flex items-center justify-between py-3 px-4 bg-white border border-sky-100 dark:bg-slate-900 rounded-2xl shadow-search
     hover:dashboard-card-hover-gradient hover:shadow-card-hover hover:border-transparent dark:border-black;
 }
 
@@ -47,7 +47,7 @@
 }
 
 .input-text {
-    @apply bg-white w-full border border-gray-200 rounded-lg px-4 py-2 text-xs font-medium placeholder-mySky-200
+    @apply bg-white w-full border border-gray-200 rounded-lg px-4 py-1 text-xs font-medium placeholder-mySky-200
     placeholder-opacity-90 text-black dark:bg-slate-800 dark:border-black dark:text-white dark:placeholder-mySky-100;
 }
 
@@ -85,16 +85,16 @@
 }
 
 .table-th-tr {
-    @apply bg-myBlue-300 text-sm text-white text-center whitespace-nowrap;
+    @apply bg-myBlue-300 text-xs text-white text-center whitespace-nowrap;
 }
 
 .table-tb-tr {
-    @apply bg-transparent text-sm text-gray-500 dark:text-gray-200 text-center hover:bg-white dark:hover:bg-slate-900
+    @apply bg-transparent text-xs text-gray-500 dark:text-gray-200 text-center hover:bg-white dark:hover:bg-slate-900
     hover:shadow-2xl hover:text-black dark:hover:text-white whitespace-nowrap;
 }
 
 .table-tr-td {
-    @apply p-2 border border-gray-300 dark:border-black;
+    @apply p-1 border border-gray-300 dark:border-black;
 }
 
 .table-dropdown-edit {
