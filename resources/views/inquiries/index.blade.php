@@ -36,24 +36,34 @@
     </div>
 
     <!-- Search -->
-    <div class="card-search px-2 py-0 bg-sky-100">
-        <form method="GET" action="" class="mt-4 md:grid grid-cols-4 gap-4">
+    <div class="card-search" {{ request()->query() ? 'x-data={open:true}' : 'x-data={open:false}' }}>
+        <div class="card-header-search" @click="open=!open">
+            <p class="card-title">
+                جستجو در استعلام ها
+            </p>
+            <div class="card-title-search">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                     stroke="currentColor" class="w-6 h-6 transition" :class="{'rotate-180' : open}">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
+                </svg>
+            </div>
+        </div>
+        <form method="GET" action="" class="mt-4 md:grid grid-cols-4 gap-4 space-y-4 md:space-y-0" x-show="open"
+              x-cloak>
             <div class="mb-4">
-                <div class="flex rounded-md shadow-sm">
-                    <input type="text" name="search" id="inputSearch" class="input-text rounded-l-none py-2.5"
-                           placeholder="جستجو براساس نام پروژه، شماره استعلام، بازاریاب" value="">
-                    <button type="submit" class="bg-white rounded-l-lg px-2 border border-gray-200 border-r-0">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                             stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"></path>
-                        </svg>
-                    </button>
-                </div>
+                <label for="inputInquiryNumber" class="form-label">شماره استعلام</label>
+                <input type="text" id="inputInquiryNumber" class="input-text" name="inquiry_number"
+                       placeholder="جستجو براساس شماره استعلام (بدون INQ)" value="{{ request('inquiry_number') }}">
             </div>
             <div class="mb-4">
+                <label for="inputName" class="form-label">نام پروژه</label>
+                <input type="text" id="inputName" class="input-text" name="name"
+                       placeholder="جستجو براساس نام پروژه" value="{{ request('name') }}">
+            </div>
+            <div class="mb-4">
+                <label for="inputManager" class="form-label">مسئول پروژه</label>
                 <select name="user_id" id="inputManager" class="input-text">
-                    <option value="">مسئول پروژه</option>
+                    <option value="">انتخاب کنید</option>
                     @foreach(\App\Models\User::all() as $user)
                         <option value="{{ $user->id }}" {{ request('user_id') == $user->id ? 'selected' : '' }}>
                             {{ $user->name }}
@@ -62,6 +72,12 @@
                 </select>
             </div>
             <div>
+                <label for="inputMarketer" class="form-label">بازاریاب</label>
+                <input type="text" id="inputMarketer" class="input-text" name="marketer"
+                       placeholder="جستجو براساس بازاریاب" value="{{ request('marketer') }}">
+            </div>
+            <div>
+                <label for="inputGroup" class="form-label">دسته</label>
                 <select name="group_id" id="inputGroup" class="input-text">
                     <option value="">جستجو براساس دسته</option>
                     @foreach($groups as $group)
@@ -73,6 +89,7 @@
                 </select>
             </div>
             <div>
+                <label for="inputModell" class="form-label">مدل</label>
                 <select name="model_id" id="inputModell" class="input-text">
                     <option value="">جستجو براساس مدل</option>
                     @foreach($modells as $modell)
@@ -83,19 +100,29 @@
                     @endforeach
                 </select>
             </div>
+            <div class="col-span-4 flex justify-end space-x-2 space-x-reverse pb-4">
+                <button class="form-submit-btn" type="submit">
+                    جستجو
+                </button>
+                @if(request()->query())
+                    <a href="{{ route('inquiries.index') }}" class="form-detail-btn">
+                        پاکسازی
+                    </a>
+                @endif
+            </div>
         </form>
     </div>
 
     <!-- Navigation -->
-    <div class="md:flex items-center justify-between mt-4 space-y-4 md:space-y-0">
+    <div class="md:flex items-center justify-between mt-8 space-y-4 md:space-y-0">
         <div class="flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 dark:text-white" fill="none" viewBox="0 0 24 24"
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 dark:text-white" fill="none" viewBox="0 0 24 24"
                  stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round"
                       d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
             <div class="mr-2">
-                <p class="font-bold text-xl text-black dark:text-white">
+                <p class="font-bold text-2xl text-black dark:text-white">
                     لیست استعلام ها
                 </p>
             </div>
@@ -117,28 +144,28 @@
             <table class="md:w-full border-collapse">
                 <thead>
                 <tr class="table-th-tr">
-                    <th scope="col" class="p-2 rounded-tr-lg">
+                    <th scope="col" class="p-4 rounded-tr-lg">
                         شماره استعلام
                     </th>
-                    <th scope="col" class="p-2">
+                    <th scope="col" class="p-4">
                         نام پروژه
                     </th>
-                    <th scope="col" class="p-2">
+                    <th scope="col" class="p-4">
                         مسئول پروژه
                     </th>
-                    <th scope="col" class="p-2">
+                    <th scope="col" class="p-4">
                         بازاریاب
                     </th>
-                    <th scope="col" class="p-2">
+                    <th scope="col" class="p-4">
                         تاریخ
                     </th>
-                    <th scope="col" class="p-2">
+                    <th scope="col" class="p-4">
                         <span class="sr-only">محصولات</span>
                     </th>
-                    <th scope="col" class="p-2">
+                    <th scope="col" class="p-4">
                         <span class="sr-only">اقدامات</span>
                     </th>
-                    <th scope="col" class="p-2">
+                    <th scope="col" class="p-4">
                         <span class="sr-only">ثبت نهایی</span>
                     </th>
                 </tr>
@@ -156,7 +183,7 @@
                             $color = 'text-yellow-500';
                         }
                     @endphp
-                    <tr class="table-tb-tr group">
+                    <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
                         <td class="table-tr-td border-t-0 border-l-0">
                             <p class="{{ $color ?? 'text-gray-500' }}">
                                 @if($inquiry->inquiry_number)

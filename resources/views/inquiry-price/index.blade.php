@@ -267,5 +267,128 @@
                 </div>
             </form>
         @endforeach
+
+        @foreach($productPrices as $productPrice)
+            @php
+                $product = \App\Models\Modell::find($productPrice->product_id);
+                $part = \App\Models\Part::find($productPrice->part_id);
+                $user = \App\Models\User::find($productPrice->user_id);
+                $parts = \App\Models\InquiryPrice::select('part_id')->where('product_id',$product->id)->get()->unique('part_id');
+            @endphp
+            <form action="{{ route('inquiryPrice.updateProduct',$product->id) }}" method="POST" class="card">
+                @csrf
+                @method('PATCH')
+                <div class="card-header">
+                    <p class="card-title text-lg">
+                        درخواست های محصول {{ $product->name }}
+                    </p>
+                </div>
+                <div class="flex items-center space-x-4 space-x-reverse justify-center">
+                    <p class="bg-myBlue-300 py-2 px-4 rounded-lg text-sm text-white">
+                        تاریخ ارسال درخواست : {{ jdate($productPrice->created_at)->format('%A, %d %B %Y - H:m') }}
+                    </p>
+                    <p class="bg-myBlue-300 py-2 px-4 rounded-lg text-sm text-white">
+                        کاربر درخواست کننده : {{ $user->name }}
+                    </p>
+                </div>
+
+                <div class="mt-8 overflow-x-auto rounded-lg">
+                    <table class="w-full border-collapse">
+                        <thead>
+                        <tr class="table-th-tr">
+                            <th scope="col" class="p-4 rounded-tr-lg">
+                                <input type="checkbox" class="checkboxes2 w-4 h-4 mx-auto block"
+                                       id="select-all-{{ $productPrice->id }}"
+                                       onclick="selectAll({{ $productPrice->id }})">
+                            </th>
+                            <th scope="col" class="p-4">
+                                نام
+                            </th>
+                            <th scope="col" class="p-4">
+                                واحد
+                            </th>
+                            <th scope="col" class="p-4">
+                                قیمت قبلی
+                            </th>
+                            <th scope="col" class="p-4">
+                                قیمت (تومان)
+                            </th>
+                            <th scope="col" class="p-4">
+                                آخرین بروزرسانی
+                            </th>
+                            <th scope="col" class="p-4 rounded-tl-lg">
+                                <span class="sr-only">بروزرسانی تاریخ</span>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($parts as $item)
+                            @php
+                                $part = \App\Models\Part::find($item->part_id);
+                            @endphp
+                            <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
+                                <td class="table-tr-td border-t-0 border-l-0">
+                                    <input type="checkbox" value="{{ $part->id }}"
+                                           name="part-checkbox-{{ $productPrice->id }}"
+                                           class="checkboxes w-4 h-4 focus:ring-blue-500 focus:ring-2 focus:ring-offset-1 mx-auto block">
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0 whitespace-normal text-red-600">
+                                    {{ $part->name }}
+                                    @if($part->percent_submit)
+                                        <br>
+                                        <span class="text-xs text-red-600">(قیمت این محصول یک بار بیشتر از 50 درصد وارد شده، برای تایید دوباره قیمت را وارد کنید)</span>
+                                    @endif
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    {{ $part->unit }}
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    @if($part->old_price > 0)
+                                        {{ number_format($part->old_price) }} تومان
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    <div class="flex items-center space-x-2 space-x-reverse">
+                                        <input type="text" class="input-text w-32 text-center"
+                                               id="inputPrice{{ $part->id }}"
+                                               name="prices[]"
+                                               value="{{ $part->price ?? '' }}" onkeyup="showPrice({{ $part->id }})">
+                                        <span class="text-xs" id="priceSection{{ $part->id }}">
+                                            {{ number_format($part->price) ?? '0' }} تومان
+                                        </span>
+                                        <input type="hidden" name="parts[]" value="{{ $part->id }}">
+                                    </div>
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    {{ jdate($part->price_updated_at)->format('%A, %d %B %Y') }}
+                                </td>
+                                <td class="table-tr-td border-t-0 border-r-0">
+                                    <button type="button" class="table-warning-btn text-red-600"
+                                            onclick="updateDate({{ $part->id }})">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                             stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                  d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z"/>
+                                        </svg>
+                                        بروزرسانی
+                                    </button>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="flex items-center space-x-4 space-x-reverse mt-4">
+                    <button type="submit" class="form-submit-btn">
+                        ثبت قیمت
+                    </button>
+                    <button type="button" class="form-detail-btn updateDateButton">
+                        بروزرسانی تاریخ (انتخاب شده‌ها)
+                    </button>
+                </div>
+            </form>
+        @endforeach
     </div>
 </x-layout>

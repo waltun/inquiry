@@ -5,6 +5,7 @@ use App\Http\Controllers\CalculateCoilController;
 use App\Http\Controllers\CalculateConverterController;
 use App\Http\Controllers\CalculateDamperController;
 use App\Http\Controllers\CalculateElectricalController;
+use App\Http\Controllers\CategoryAttributeController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CollectionCoilController;
 use App\Http\Controllers\CollectionPartController;
@@ -24,6 +25,7 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ModellController;
 use App\Http\Controllers\NewPartInquiryController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\PartAttributeController;
 use App\Http\Controllers\PartController;
 use App\Http\Controllers\PartOfModellController;
 use App\Http\Controllers\PartPriceController;
@@ -83,6 +85,11 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/parts/getCategory', [PartController::class, 'getCategory'])->name('parts.getCategory');
     Route::patch('/parts/price/{part}/update-date', [PartPriceController::class, 'updateDate'])->name('parts.price.updateDate');
     Route::post('/parts/price/multi-update-date', [PartPriceController::class, 'multiUpdateDate'])->name('parts.price.multi-update-date');
+
+    //Product Attributes
+    Route::get('/products/{part}/attributes', [PartAttributeController::class, 'index'])->name('parts.attributes.index');
+    Route::post('/products/{part}/attributes', [PartAttributeController::class, 'store'])->name('parts.attributes.store');
+
     Route::resource('parts', PartController::class)->except(['show']);
 
     //Collection Part routes
@@ -161,6 +168,14 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/inquiries/{inquiry}/add-to-invoice', [InquiryController::class, 'addToInvoice'])->name('inquiries.addToInvoice');
 
     Route::resource('inquiries', InquiryController::class);
+
+    //Category Attributes
+    Route::get('/categories/{category}/attributes', [CategoryAttributeController::class, 'index'])->name('categories.attributes.index');
+    Route::post('/categories/{category}/attributes', [CategoryAttributeController::class, 'store'])->name('categories.attributes.store');
+    Route::post('/categories/{category}/replicate-attributes', [CategoryAttributeController::class, 'replicate'])->name('categories.attributes.replicate');
+    Route::patch('/categories/{attribute}/attributes', [CategoryAttributeController::class, 'update'])->name('categories.attributes.update');
+    Route::delete('/categories/{attribute}/attributes', [CategoryAttributeController::class, 'destroy'])->name('categories.attributes.destroy');
+    Route::post('/categories/{category}/sort-attributes', [CategoryAttributeController::class, 'storeSort'])->name('categories.attributes.storeSort');
 
     //Category routes
     Route::get('/categories/{category}/children', [CategoryController::class, 'children'])->name('categories.children');
@@ -425,6 +440,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/inquiry-price', [InquiryPriceController::class, 'index'])->name('inquiryPrice.index');
     Route::post('/inquiry-price/{part}/{inquiry}/store', [InquiryPriceController::class, 'store'])->name('inquiryPrice.store');
     Route::patch('/inquiry-price/{inquiry}/update', [InquiryPriceController::class, 'update'])->name('inquiryPrice.update');
+    Route::patch('/inquiry-price/{modell}/updateProduct', [InquiryPriceController::class, 'updateProduct'])->name('inquiryPrice.updateProduct');
     Route::patch('/inquiry-price/{part}/update-date', [InquiryPriceController::class, 'updateDate'])->name('inquiryPrice.updateDate');
     Route::post('/inquiry-price/multi-update-date', [InquiryPriceController::class, 'multiUpdateDate'])->name('inquiryPrice.multiUpdateDate');
 

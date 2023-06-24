@@ -6,6 +6,7 @@ use App\Models\Amount;
 use App\Models\DeleteButton;
 use App\Models\Group;
 use App\Models\Inquiry;
+use App\Models\InquiryTerm;
 use App\Models\Modell;
 use App\Models\Part;
 use App\Models\Product;
@@ -727,7 +728,8 @@ class InquiryController extends Controller
 
     public function description(Inquiry $inquiry)
     {
-        return view('inquiries.description', compact('inquiry'));
+        $terms = InquiryTerm::all();
+        return view('inquiries.description', compact('inquiry', 'terms'));
     }
 
     public function showDescription(Inquiry $inquiry)

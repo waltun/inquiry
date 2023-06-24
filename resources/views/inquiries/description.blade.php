@@ -80,8 +80,9 @@
             </svg>
         </div>
         <div class="flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="breadcrumb-svg-active">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" class="breadcrumb-svg-active">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p-active">
@@ -101,91 +102,82 @@
         @csrf
         @method('PATCH')
 
-        <div class="card">
-            <div class="card-header">
-                <p class="card-title">مشخصات کلی</p>
-            </div>
+        @if(request()->has('term') || $inquiry->description)
+            <div class="card">
+                <div class="card-header">
+                    <p class="card-title">مشخصات کلی</p>
+                </div>
 
-            <div class="mt-4">
-                <label for="inputDescription" class="form-label">شرایط استعلام</label>
-                <textarea name="description" id="inputDescription"
-                          class="input-text h-64">
-                    @if($inquiry->description)
-                        {{ $inquiry->description }}
-                    @else
-                        <ol>
-                        <li><strong><span style="font-size: 10pt;">مدت زمان تحویل کالا : <span style="color: #3598db;">دستگاه های این پیشنهاد 90 روز کاری پس از وصول پیش پرداخت و تایید مشخصات فنی تحویل می گردد.</span></span></strong></li>
-                        <li><strong><span style="font-size: 10pt;">مدت گارانتی : <span style="color: #3598db;">مدت گارانتی دستگاه های این پیشنهاد 12 ماه از زمان راه اندازی یا 18 ماه از زمان ارسال (هر یک زودتر فرا رسد) می باشد.</span></span></strong></li>
-                        <li><strong><span style="font-size: 10pt;">نحوه پرداخت : <span style="color: #3598db;">پیشنهاد می گردد 50 درصد مبلغ بابت پیش پرداخت و الباقی پس از پایان ساخت دستگاه ها و قبل از ارسال آن ها پرداخت گردد.</span></span></strong></li>
-                        <li><strong><span style="font-size: 10pt;">محل تحویل : <span style="color: #3598db;">درب کارخانه شرکت تهویه آذرباد.</span></span></strong></li>
-                        <li><strong><span style="font-size: 10pt;"><span style="color: #3598db;"><span style="color: #000000;">مدت اعتبار</span> : مدت زمان اعتبار این پیشنهاد مالی 5 روز می باشد.</span></span></strong></li>
-                        <li><strong><span style="font-size: 10pt;">نوع تضامین درخواستی خریدار :</span></strong>
-                        <ul>
-                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">ضمانت نامه بانکی معادل</span></strong></span></li>
-                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">ضمانت نامه با 20 درصد اُور</span></strong></span></li>
-                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">چک تضمین شرکتی</span></strong></span></li>
-                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">تضمین ندارد.</span></strong></span></li>
-                        </ul>
-                        </li>
-                        <li><strong><span style="font-size: 10pt;">قیمت پیشنهادی بر اساس چه ارزی هست ؟&nbsp;</span></strong>
-                        <ul>
-                        <li><strong><span style="color: #3598db; font-size: 10pt;">ریال</span></strong></li>
-                        <li><strong><span style="color: #3598db; font-size: 10pt;">یورو</span></strong></li>
-                        <li><strong><span style="color: #3598db; font-size: 10pt;">دلار</span></strong></li>
-                        </ul>
-                        </li>
-                        <li><strong><span style="font-size: 10pt;">نرخ تسعیر ارز :&nbsp;</span></strong>
-                        <ul>
-                        <li><strong><span style="color: #3598db; font-size: 10pt;">یورو با نرخ آزاد</span></strong></li>
-                        <li><strong><span style="color: #3598db; font-size: 10pt;">یورو با نرخ سامانه ثنا و میانگین حواله خرید و فروش روزانه</span></strong></li>
-                        <li><strong><span style="color: #3598db; font-size: 10pt;">دلار با نرخ آزاد</span></strong></li>
-                        <li><strong><span style="color: #3598db; font-size: 10pt;">دلار با نرخ سامانه ثنا و میانگین حواله خرید و فروش روزانه</span></strong></li>
-                        <li><strong><span style="color: #3598db; font-size: 10pt;">موضوعیت ندارد</span></strong></li>
-                        </ul>
-                        </li>
-                        <li><strong><span style="font-size: 10pt;">زمان عودت تضامین پیش پرداخت :&nbsp;</span></strong>
-                        <ul>
-                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">تضمین پیش پرداخت هم زمان با ارسال دستگاه ها عودت می گردد.</span></strong></span></li>
-                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">تضمین پیش پرداخت پس از ارسال دستگاه ها و حداکثر یک ماه پس از تحویل عودت می گردد.</span></strong></span></li>
-                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">تضمین حسن انجام کار هم زمان با ارسال دستگاه ها عودت می گردد.</span></strong></span></li>
-                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">تضمین حسن انجام کار پس از ارسال دستگاه ها و حداکثر یک ماه پس از تحویل عودت می گردد.</span></strong></span></li>
-                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">تضمین دوره گارانتی پس از اتمام دوره گارانتی عودت می گردد.</span></strong></span></li>
-                        </ul>
-                        </li>
-                        <li><strong><span style="font-size: 10pt;">مالیات ارزش افزوده به مبلغ پیشنهادی فوق اضافه می گردد.</span></strong></li>
-                        <li><strong><span style="font-size: 10pt;">مدت خدمات پس از فروش 10 سال می باشد که در این دوره هزینه های مربوطه دریافت می گردد.</span></strong></li>
-                        <li><strong><span style="font-size: 10pt;">نصب، راه اندازی و تامین متریال مربوط به دستگاه های این پیشنهاد به عهده خریدار می باشد.</span></strong></li>
-                        <li><strong><span style="font-size: 10pt;">تعهدات کارفرما :&nbsp;</span></strong>
-                        <ul>
-                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">تامین متریال راه اندازی از قبیل گاز مبرد، روغن مبرد، مغزی فیلتر درایر، تامین گاز شست و شو.</span></strong></span></li>
-                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">اجرای فوندانسیون مناسب با دستگاه ها.</span></strong></span></li>
-                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">حمل، تخلیه و انتقال دستگاه ها بر روی فوندانسیون.</span></strong></span></li>
-                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">حمل، تخلیه و انتقال ابزارآلات و قطعات راه اندازی تا محل نصب دستگاه ها.</span></strong></span></li>
-                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">انجام لوله کشی، کابل کشی، کانال کشی و اتصال آن ها به دستگاه ها.</span></strong></span></li>
-                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">استارت و راه اندازی دستگاه ها.</span></strong></span></li>
-                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">فراهم نمودن شرایط برقی و کنترلی استاندارد مطابق نیاز دستگاه ها.</span></strong></span></li>
-                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">ارائه محل اقامت و غذا برای پرسنل نصاب و راه انداز شرکت در صورت داشتن تعهد نصب و راه اندازی.</span></strong></span></li>
-                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">پرداخت هزینه های ایاب و ذهاب در دوره گارانتی و خدمات پس از فروش.</span></strong></span></li>
-                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">نصب الکترو پمپ ها و اجرای لوله کشی مربوطه و اتصال به دستگاه.</span></strong></span></li>
-                        <li><span style="color: #3598db;"><strong><span style="font-size: 10pt;">تامین تابلو برق و کنترل مناسب و استاندارد جهت دستگاه ها.</span></strong></span></li>
-                        </ul>
-                        </li>
-                        <li><strong><span style="font-size: 10pt;">نصب دستگاه ها</span></strong> :&nbsp;<span style="color: #3598db;"><strong><span style="font-size: 10pt;">نصب دستگاه ها توسط فروشنده یا توسط شرکت های مورد تایید یا کارشناس ناظر فروشنده الزامی است.</span></strong></span></li>
-                        <li><strong><span style="font-size: 10pt;">تعهدات پیمانکار :</span></strong></li>
-                        <li><strong><span style="font-size: 10pt;">سایر :</span></strong></li>
-                        </ol>
-                    @endif
+                <div class="mt-4">
+                    <label for="inputDescription" class="form-label">شرایط استعلام</label>
+                    <textarea name="description" id="inputDescription"
+                              class="input-text h-64">
+                        @if($inquiry->description)
+                            @if(request()->has('term'))
+                                @php
+                                    $selectedTerm2 = \App\Models\InquiryTerm::find(request()->get('term'));
+                                @endphp
+                                {{ $selectedTerm2->description }}
+                            @else
+                                {{ $inquiry->description }}
+                            @endif
+                        @else
+                            @if(request()->has('term'))
+                                @php
+                                    $selectedTerm = \App\Models\InquiryTerm::find(request()->get('term'));
+                                @endphp
+                                {{ $selectedTerm->description }}
+                            @else
+                                @php
+                                    $selectedTerm = \App\Models\InquiryTerm::find(3);
+                                @endphp
+                                {{ $selectedTerm->description }}
+                            @endif
+                        @endif
                 </textarea>
+                </div>
             </div>
+        @endif
+
+        <div class="grid grid-cols-3 gap-4 mb-4">
+            @foreach($terms as $term)
+                <a href="{{ route('inquiries.description',$inquiry->id) }}?term={{ $term->id }}"
+                   class="dashboard-cards group {{ request('term') == $term->id ? 'bg-indigo-300' : '' }}">
+                    <div class="flex items-center">
+                        <div class="dashboard-card-icon bg-gray-600 dark:bg-slate-800 flex-shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                 stroke="currentColor" class="w-6 h-6 text-white group-hover:text-myBlue-100">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/>
+                            </svg>
+                        </div>
+                        <div class="mr-4">
+                            <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
+                                {{ $term->name }}
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                            <path fill-rule="evenodd"
+                                  d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                  clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                </a>
+            @endforeach
         </div>
 
-        <div class="flex items-center space-x-4 space-x-reverse mt-4">
-            <button type="submit" class="form-submit-btn">
-                ثبت شرایط استعلام
-            </button>
-            <a href="{{ route('inquiries.index') }}" class="form-cancel-btn">
-                انصراف
-            </a>
-        </div>
+        @if(request()->has('term') || $inquiry->submit)
+            <div class="flex items-center space-x-4 space-x-reverse mt-4">
+                <button type="submit" class="form-submit-btn">
+                    ثبت شرایط استعلام
+                </button>
+                <a href="{{ route('inquiries.index') }}" class="form-cancel-btn">
+                    انصراف
+                </a>
+            </div>
+        @endif
     </form>
 </x-layout>

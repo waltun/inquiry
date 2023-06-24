@@ -108,137 +108,142 @@
     <!-- Content -->
     <div class="mt-4 space-y-4">
         <!-- Product List -->
-        <div class="card">
-            <div class="card-header">
-                <p class="card-title text-lg">لیست محصولات</p>
-            </div>
+        @php
+            $productTotalPrice = 0;
+        @endphp
+        @if(!$invoice->products()->where('group_id','!=',0)->where('model_id','!=',0)->where('deleted_at',null)->get()->isEmpty())
+            <div class="card">
+                <div class="card-header">
+                    <p class="card-title text-lg">لیست محصولات</p>
+                </div>
 
-            <form method="POST" action="{{ route('invoices.products.store') }}" class="mt-8 overflow-x-auto rounded-lg">
-                @csrf
-                <table class="w-full border-collapse">
-                    <thead>
-                    <tr class="table-th-tr">
-                        <th scope="col" class="p-4 rounded-tr-lg">
-                            ردیف
-                        </th>
-                        <th scope="col" class="p-4">
-                            دسته محصول
-                        </th>
-                        <th scope="col" class="p-4">
-                            مدل محصول
-                        </th>
-                        <th scope="col" class="p-4">
-                            تگ
-                        </th>
-                        <th scope="col" class="p-4">
-                            تعداد
-                        </th>
-                        <th scope="col" class="p-4">
-                            قیمت نت واحد (تومان)
-                        </th>
-                        <th scope="col" class="p-4">
-                            ضریب
-                        </th>
-                        <th scope="col" class="p-4">
-                            قیمت با ضریب (تومان)
-                        </th>
-                        <th scope="col" class="p-4">
-                            قیمت کل (تومان)
-                        </th>
-                        <th scope="col" class="p-4 rounded-tl-lg">
-                            <span class="sr-only">اقدامات</span>
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @php
-                        $productTotalPrice = 0;
-                    @endphp
-                    @foreach($invoice->products()->where('group_id','!=',0)->where('model_id','!=',0)->where('deleted_at',null)->get() as $product)
-                        @php
-                            $modell = \App\Models\Modell::find($product->model_id);
+                <form method="POST" action="{{ route('invoices.products.store') }}"
+                      class="mt-8 overflow-x-auto rounded-lg">
+                    @csrf
+                    <table class="w-full border-collapse">
+                        <thead>
+                        <tr class="table-th-tr">
+                            <th scope="col" class="p-4 rounded-tr-lg">
+                                ردیف
+                            </th>
+                            <th scope="col" class="p-4">
+                                دسته محصول
+                            </th>
+                            <th scope="col" class="p-4">
+                                مدل محصول
+                            </th>
+                            <th scope="col" class="p-4">
+                                تگ
+                            </th>
+                            <th scope="col" class="p-4">
+                                تعداد
+                            </th>
+                            <th scope="col" class="p-4">
+                                قیمت نت واحد (تومان)
+                            </th>
+                            <th scope="col" class="p-4">
+                                ضریب
+                            </th>
+                            <th scope="col" class="p-4">
+                                قیمت با ضریب (تومان)
+                            </th>
+                            <th scope="col" class="p-4">
+                                قیمت کل (تومان)
+                            </th>
+                            <th scope="col" class="p-4 rounded-tl-lg">
+                                <span class="sr-only">اقدامات</span>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($invoice->products()->where('group_id','!=',0)->where('model_id','!=',0)->where('deleted_at',null)->get() as $product)
+                            @php
+                                $modell = \App\Models\Modell::find($product->model_id);
 
-                            $productPercentPrice = 0;
-                            if ($product->percent > 0) {
-                                $productTotalPrice += ($product->price * $product->quantity) / $product->percent;
-                                $productPercentPrice = ($product->price * $product->quantity) / $product->percent;
-                            } else {
-                                $productTotalPrice += ($product->price * $product->quantity);
-                                $productPercentPrice = ($product->price * $product->quantity);
-                            }
-                        @endphp
-                        <tr class="table-tb-tr group whitespace-normal {{ $loop->even ? 'bg-sky-100' : '' }}">
-                            <td class="table-tr-td border-t-0 border-l-0">
-                                {{ $loop->index + 1 }}
-                            </td>
-                            <td class="table-tr-td border-t-0 border-x-0">
-                                {{ $modell->parent->name }}
-                            </td>
-                            <td class="table-tr-td border-t-0 border-x-0">
-                                {{ $product->model_custom_name ?? $modell->name }}
-                            </td>
-                            <td class="table-tr-td border-t-0 border-x-0">
-                                {{ $product->description ?? '-' }}
-                            </td>
-                            <td class="table-tr-td border-t-0 border-x-0">
-                                <input type="text" class="input-text w-20 text-center" value="{{ $product->quantity }}"
-                                       name="quantities[]">
-                            </td>
-                            <td class="table-tr-td border-t-0 border-x-0">
-                                <input type="text" class="input-text text-center" value="{{ $product->price }}"
-                                       name="prices[]">
-                            </td>
-                            <td class="table-tr-td border-t-0 border-x-0">
-                                <input type="text" class="input-text w-20 text-center" value="{{ $product->percent }}"
-                                       name="percents[]">
-                                <input type="hidden" name="products[]" value="{{ $product->id }}">
-                            </td>
-                            <td class="table-tr-td border-t-0 border-x-0">
-                                @if($product->percent > 0)
-                                    {{ number_format($product->price / $product->percent) }}
-                                @else
-                                    {{ number_format($product->price) }}
-                                @endif
-                            </td>
-                            <td class="table-tr-td border-t-0 border-x-0">
-                                {{ number_format($productPercentPrice) }}
-                            </td>
-                            <td class="table-tr-td border-t-0 border-r-0">
-                                <div class="flex items-center space-x-2 space-x-reverse">
-                                    <div>
-                                        <button type="button" class="table-warning-btn"
-                                                onclick="deleteProduct({{ $product->id }})">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                 stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                      d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
-                                            </svg>
-                                            حذف
-                                        </button>
+                                $productPercentPrice = 0;
+                                if ($product->percent > 0) {
+                                    $productTotalPrice += ($product->price * $product->quantity) / $product->percent;
+                                    $productPercentPrice = ($product->price * $product->quantity) / $product->percent;
+                                } else {
+                                    $productTotalPrice += ($product->price * $product->quantity);
+                                    $productPercentPrice = ($product->price * $product->quantity);
+                                }
+                            @endphp
+                            <tr class="table-tb-tr group whitespace-normal {{ $loop->even ? 'bg-sky-100' : '' }}">
+                                <td class="table-tr-td border-t-0 border-l-0">
+                                    {{ $loop->index + 1 }}
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    {{ $modell->parent->name }}
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    {{ $product->model_custom_name ?? $modell->name }}
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    {{ $product->description ?? '-' }}
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    <input type="text" class="input-text w-20 text-center"
+                                           value="{{ $product->quantity }}"
+                                           name="quantities[]">
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    <input type="text" class="input-text text-center" value="{{ $product->price }}"
+                                           name="prices[]">
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    <input type="text" class="input-text w-20 text-center"
+                                           value="{{ $product->percent }}"
+                                           name="percents[]">
+                                    <input type="hidden" name="products[]" value="{{ $product->id }}">
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    @if($product->percent > 0)
+                                        {{ number_format($product->price / $product->percent) }}
+                                    @else
+                                        {{ number_format($product->price) }}
+                                    @endif
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    {{ number_format($productPercentPrice) }}
+                                </td>
+                                <td class="table-tr-td border-t-0 border-r-0">
+                                    <div class="flex items-center space-x-2 space-x-reverse">
+                                        <div>
+                                            <button type="button" class="table-warning-btn"
+                                                    onclick="deleteProduct({{ $product->id }})">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                     stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
+                                                </svg>
+                                                حذف
+                                            </button>
+                                        </div>
                                     </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                        <tr class="table-tb-tr group">
+                            <td class="table-tr-td border-t-0" colspan="10">
+                                <div class="flex justify-end items-center">
+                                    <p class="table-price-label">
+                                        قیمت کل : {{ number_format($productTotalPrice) }} تومان
+                                    </p>
                                 </div>
                             </td>
                         </tr>
-                    @endforeach
-                    <tr class="table-tb-tr group">
-                        <td class="table-tr-td border-t-0" colspan="10">
-                            <div class="flex justify-end items-center">
-                                <p class="table-price-label">
-                                    قیمت کل : {{ number_format($productTotalPrice) }} تومان
-                                </p>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
 
-                <div class="mt-4">
-                    <button type="submit" class="form-submit-btn">
-                        ثبت مقادیر
-                    </button>
-                </div>
-            </form>
-        </div>
+                    <div class="mt-4">
+                        <button type="submit" class="form-submit-btn">
+                            ثبت مقادیر
+                        </button>
+                    </div>
+                </form>
+            </div>
+        @endif
 
         <!-- Part List -->
         @php

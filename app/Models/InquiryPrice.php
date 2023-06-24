@@ -10,7 +10,7 @@ class InquiryPrice extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id','part_id','inquiry_id'
+        'user_id', 'part_id', 'inquiry_id', 'product_id'
     ];
 
     public function parts()

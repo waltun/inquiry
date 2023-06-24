@@ -46,4 +46,9 @@ class Part extends Model
     {
         return $this->belongsTo(InquiryPrice::class);
     }
+
+    public function attributeValues()
+    {
+        return $this->belongsToMany(AttributeValue::class);
+    }
 }

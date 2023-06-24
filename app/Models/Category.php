@@ -27,4 +27,9 @@ class Category extends Model
     {
         return $this->belongsToMany(Part::class);
     }
+
+    public function attributes()
+    {
+        return $this->belongsToMany(Attribute::class)->withPivot(['sort', 'default_value']);
+    }
 }

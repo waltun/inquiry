@@ -166,7 +166,7 @@
                 </thead>
                 <tbody>
                 @foreach($inquiries as $inquiry)
-                    <tr class="table-tb-tr group">
+                    <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
                         <td class="table-tr-td border-t-0 border-l-0">
                             {{ "INQ-" . $inquiry->inquiry_number }}
                         </td>

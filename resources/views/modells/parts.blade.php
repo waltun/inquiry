@@ -235,7 +235,7 @@
                             $totalWeight += $part->weight * $part->pivot->value;
                             $totalPrice += $part->price * $part->pivot->value;
                         @endphp
-                        <tr class="table-tb-tr group">
+                        <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
                             <td class="table-tr-td border-t-0 border-l-0">
                                 <input type="text" class="input-text w-14 text-center" name="sorts[]"
                                        id="partSort{{ $part->id }}"

@@ -132,7 +132,7 @@ class InvoiceController extends Controller
 
     public function complete(Invoice $invoice)
     {
-        if (!$invoice->products->pluck('percent')->contains(0)) {
+        if (!$invoice->products()->where('deleted_at', '==', null)->pluck('percent')->contains(0)) {
             $totalPrice = 0;
             foreach ($invoice->products()->where('deleted_at', null)->get() as $product) {
                 if ($product->percent > 0) {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Inquiry;
 use App\Models\InquiryPrice;
+use App\Models\Modell;
 use App\Models\Part;
 use App\Models\Setting;
 use App\Models\User;
@@ -24,8 +25,9 @@ class InquiryPriceController extends Controller
 
     public function index()
     {
-        $inquiryPrices = InquiryPrice::all()->unique('inquiry_id');
-        return view('inquiry-price.index', compact('inquiryPrices'));
+        $inquiryPrices = InquiryPrice::all()->where('inquiry_id', '!=', null)->unique('inquiry_id');
+        $productPrices = InquiryPrice::all()->where('product_id', '!=', null)->unique('product_id');
+        return view('inquiry-price.index', compact('inquiryPrices', 'productPrices'));
     }
 
     public function store(Request $request)
@@ -74,6 +76,54 @@ class InquiryPriceController extends Controller
     }
 
     public function update(Request $request, Inquiry $inquiry)
+    {
+        $request->validate([
+            'prices' => 'required|array',
+            'prices.*' => 'nullable|numeric'
+        ]);
+
+        foreach ($request->parts as $index => $part) {
+            $updatedPart = Part::find($part);
+            $inquiryPrices = InquiryPrice::where('part_id', $part)->get();
+            foreach ($inquiryPrices as $inquiryPrice) {
+                if ($updatedPart->price !== (int)$request->prices[$index]) {
+                    $percentPrice = $updatedPart->price + $updatedPart->price / 2;
+                    if (($request->prices[$index] >= $percentPrice) && !$updatedPart->percent_submit) {
+                        $updatedPart->percent_submit = true;
+                        $updatedPart->save();
+                    } else {
+                        $updatedPart->update([
+                            'price' => $request->prices[$index],
+                            'old_price' => $updatedPart->price,
+                            'price_updated_at' => now(),
+                            'percent_submit' => 0,
+                        ]);
+
+                        if (!$updatedPart->parents->isEmpty()) {
+                            foreach ($updatedPart->parents as $parent) {
+                                $price = 0;
+                                foreach ($parent->children as $child) {
+                                    $price += $child->price * $child->pivot->value;
+                                }
+                                $parent->update([
+                                    'price' => $price,
+                                    'old_price' => $parent->price,
+                                    'price_updated_at' => now(),
+                                    'updated_at' => now()
+                                ]);
+                            }
+                        }
+                        $inquiryPrice->delete();
+                    }
+                }
+            }
+        }
+
+        alert()->success('ثبت موفق', 'ثبت قیمت گذاری با موفقیت انجام شد');
+        return back();
+    }
+
+    public function updateProduct(Request $request, Modell $modell)
     {
         $request->validate([
             'prices' => 'required|array',
