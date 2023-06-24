@@ -41,12 +41,10 @@ class Part extends Model
         belongsToMany(Part::class, 'part_child', 'child_part_id', 'parent_part_id')
             ->withPivot(['value', 'value2', 'sort']);
     }
-
     public function inquiryPrice()
     {
         return $this->belongsTo(InquiryPrice::class);
     }
-
     public function attributeValues()
     {
         return $this->belongsToMany(AttributeValue::class);

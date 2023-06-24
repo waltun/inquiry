@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AttributeGroupController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CalculateCoilController;
 use App\Http\Controllers\CalculateConverterController;
@@ -470,4 +471,6 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/final-invoices/{invoice}/print', [FinalInvoiceController::class, 'print'])->name('invoices.final.print');
     Route::get('/final-invoices/{invoice}/print-page', [FinalInvoiceController::class, 'printPage'])->name('invoices.final.printPage');
     Route::patch('/final-invoices/{invoice}/restore', [FinalInvoiceController::class, 'restore'])->name('invoices.final.restore');
+
+    Route::resource('attribute-groups', AttributeGroupController::class);
 });
