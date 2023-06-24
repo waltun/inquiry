@@ -333,6 +333,9 @@
                         <th scope="col" class="p-4">
                             مقدار پیش فرض
                         </th>
+                        <th scope="col" class="p-4">
+                            دسته بندی
+                        </th>
                         <th scope="col" class="p-4 rounded-tl-lg">
                             اقدامات
                         </th>
@@ -342,8 +345,7 @@
                     @foreach($attributes as $index => $attribute)
                         <tr class="table-tb-tr group">
                             <td class="table-tr-td border-t-0 border-l-0">
-                                <input type="number" name="sorts[]"
-                                       value="{{ $attribute->pivot->sort }}"
+                                <input type="number" name="sorts[]" value="{{ $attribute->pivot->sort }}"
                                        class="input-text text-center w-16">
                             </td>
                             <td class="table-tr-td border-t-0 border-x-0">
@@ -355,7 +357,19 @@
                             <td class="table-tr-td border-t-0 border-x-0">
                                 <input type="text" class="input-text text-center" name="default_value[]"
                                        id="defaultValue{{ $attribute->id }}"
-                                    value="{{ $attribute->pivot->default_value ?? '' }}">
+                                       value="{{ $attribute->pivot->default_value ?? '' }}">
+                            </td>
+                            <td class="table-tr-td border-t-0 border-x-0">
+                                <select name="attribute_group_id[]" id="attributeGroup{{ $attribute->id }}"
+                                        class="input-text">
+                                    <option value="">انتخاب کنید</option>
+                                    @foreach($groups as $group)
+                                        <option
+                                            value="{{ $group->id }}" {{ $attribute->pivot->attribute_group_id == $group->id ? 'selected' : '' }}>
+                                            {{ $group->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </td>
                             <td class="table-tr-td border-t-0 border-r-0">
                                 <div class="flex items-center justify-center space-x-4 space-x-reverse relative">

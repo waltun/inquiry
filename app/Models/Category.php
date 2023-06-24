@@ -30,6 +30,6 @@ class Category extends Model
 
     public function attributes()
     {
-        return $this->belongsToMany(Attribute::class)->withPivot(['sort', 'default_value']);
+        return $this->belongsToMany(Attribute::class)->withPivot(['sort', 'default_value', 'attribute_group_id']);
     }
 }

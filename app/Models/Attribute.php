@@ -15,7 +15,7 @@ class Attribute extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class)->withPivot(['sort', 'default_value']);
+        return $this->belongsToMany(Category::class)->withPivot(['sort', 'default_value', 'attribute_group_id']);
     }
 
     public function values()

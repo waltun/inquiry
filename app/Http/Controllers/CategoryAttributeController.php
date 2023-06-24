@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attribute;
+use App\Models\AttributeGroup;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,8 @@ class CategoryAttributeController extends Controller
     {
         $attributes = $category->attributes()->orderBy('sort', 'ASC')->get();
         $allAttributes = Attribute::all();
-        return view('categories.attributes.index', compact('attributes', 'category', 'allAttributes'));
+        $groups = AttributeGroup::all();
+        return view('categories.attributes.index', compact('attributes', 'category', 'allAttributes', 'groups'));
     }
 
     public function store(Request $request, Category $category)
@@ -99,11 +101,14 @@ class CategoryAttributeController extends Controller
             'sorts.*' => 'nullable|numeric',
             'default_value' => 'array',
             'default_value.*' => 'nullable|string|max:255',
+            'attribute_group_id' => 'array',
+            'attribute_group_id.*' => 'required|integer',
         ]);
 
         foreach ($category->attributes()->orderBy('sort', 'ASC')->get() as $index => $attribute) {
             $attribute->pivot->sort = $request->sorts[$index];
             $attribute->pivot->default_value = $request->default_value[$index];
+            $attribute->pivot->attribute_group_id = $request->attribute_group_id[$index];
             $attribute->pivot->save();
         }
 

@@ -472,5 +472,5 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/final-invoices/{invoice}/print-page', [FinalInvoiceController::class, 'printPage'])->name('invoices.final.printPage');
     Route::patch('/final-invoices/{invoice}/restore', [FinalInvoiceController::class, 'restore'])->name('invoices.final.restore');
 
-    Route::resource('attribute-groups', AttributeGroupController::class);
+    Route::resource('attribute-groups', AttributeGroupController::class)->except(['create', 'edit', 'show']);
 });
