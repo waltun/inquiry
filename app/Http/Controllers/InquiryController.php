@@ -749,6 +749,9 @@ class InquiryController extends Controller
 
         alert()->success('ثبت موفق', 'شرایط استعلام با موفقیت ثبت شد');
 
+        if ($inquiry->submit) {
+            return redirect()->route('inquiries.submitted');
+        }
         return redirect()->route('inquiries.index');
     }
 

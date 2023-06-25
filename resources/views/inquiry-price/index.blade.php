@@ -36,9 +36,9 @@
             }
         </script>
         <script>
-            $(".updateDateButton").on('click', function () {
+            function multiUpdateDate(id) {
                 let ids = [];
-                $(".checkboxes:checked").each(function () {
+                $(".checkboxes" + id + ":checked").each(function () {
                     ids.push($(this).val());
                 });
 
@@ -58,11 +58,11 @@
                         }
                     });
                 }
-            });
+            }
         </script>
         <script>
             function selectAll(id) {
-                let checkboxes = document.getElementsByClassName('checkboxes');
+                let checkboxes = document.getElementsByClassName('checkboxes' + id);
 
                 for (let checkbox of checkboxes) {
                     if (checkbox.hasAttribute('checked')) {
@@ -207,7 +207,7 @@
                                 <td class="table-tr-td border-t-0 border-l-0">
                                     <input type="checkbox" value="{{ $part->id }}"
                                            name="part-checkbox-{{ $inquiryPrice->id }}"
-                                           class="checkboxes w-4 h-4 focus:ring-blue-500 focus:ring-2 focus:ring-offset-1 mx-auto block">
+                                           class="checkboxes{{ $inquiryPrice->id }} w-4 h-4 focus:ring-blue-500 focus:ring-2 focus:ring-offset-1 mx-auto block">
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0 whitespace-normal text-red-600">
                                     {{ $part->name }}
@@ -261,7 +261,8 @@
                     <button type="submit" class="form-submit-btn">
                         ثبت قیمت
                     </button>
-                    <button type="button" class="form-detail-btn updateDateButton">
+                    <button type="button" class="form-detail-btn updateDateButton"
+                            onclick="multiUpdateDate({{ $inquiryPrice->id }})">
                         بروزرسانی تاریخ (انتخاب شده‌ها)
                     </button>
                 </div>
@@ -330,7 +331,7 @@
                                 <td class="table-tr-td border-t-0 border-l-0">
                                     <input type="checkbox" value="{{ $part->id }}"
                                            name="part-checkbox-{{ $productPrice->id }}"
-                                           class="checkboxes w-4 h-4 focus:ring-blue-500 focus:ring-2 focus:ring-offset-1 mx-auto block">
+                                           class="checkboxes{{ $productPrice->id }} w-4 h-4 focus:ring-blue-500 focus:ring-2 focus:ring-offset-1 mx-auto block">
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0 whitespace-normal text-red-600">
                                     {{ $part->name }}
@@ -384,7 +385,8 @@
                     <button type="submit" class="form-submit-btn">
                         ثبت قیمت
                     </button>
-                    <button type="button" class="form-detail-btn updateDateButton">
+                    <button type="button" class="form-detail-btn updateDateButton"
+                            onclick="multiUpdateDate({{ $productPrice->id }})">
                         بروزرسانی تاریخ (انتخاب شده‌ها)
                     </button>
                 </div>

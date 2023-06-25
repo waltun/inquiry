@@ -28,7 +28,7 @@
                 $.ajax({
                     type: 'POST',
                     method: 'patch',
-                    url: '/admin/categories/' + id + '/attributes',
+                    url: '/categories/' + id + '/attributes',
                     data: {
                         id: id,
                         unit: unit.value,
@@ -55,7 +55,7 @@
                     $.ajax({
                         type: 'POST',
                         method: 'delete',
-                        url: '/admin/categories/' + catId + '/attributes',
+                        url: '/categories/' + catId + '/attributes',
                         data: {
                             attrId: attrId,
                             catId: catId
