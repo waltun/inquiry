@@ -84,7 +84,7 @@
                         <div class="space-x-4 space-x-reverse flex items-center">
                             <a href="{{ route('categories.children',$category->id) }}"
                                class="font-bold text-black text-base group-hover:text-white dark:text-white">
-                                {{ $category->name }}
+                                {{ $category->name }} | {{ $category->name_en }}
                             </a>
                             <span class="dark:text-white">|</span>
                             <a href="{{ route('categories.children',$category->id) }}"

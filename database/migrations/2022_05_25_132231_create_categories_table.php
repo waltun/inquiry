@@ -17,6 +17,7 @@ return new class extends Migration {
 
             $table->string('name');
             $table->string('code');
+            $table->string('name_en');
 
             $table->unsignedBigInteger('parent_id')->default(0);
 

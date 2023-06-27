@@ -80,6 +80,11 @@
                 <input type="text" id="inputName" name="name" class="input-text" placeholder="مثال : پیچ"
                        value="{{ old('name') }}">
             </div>
+            <div class="mt-4">
+                <label for="inputNameEn" class="form-label">نام انگلیسی دسته بندی</label>
+                <input type="text" id="inputNameEn" name="name_en" class="input-text" placeholder="مثال : Filters"
+                       value="{{ old('name_en') }}">
+            </div>
             @if(request()->has('parent'))
                 <div class="mt-4">
                     <label for="inputParent" class="form-label">

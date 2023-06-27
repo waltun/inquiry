@@ -10,7 +10,7 @@ class Category extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'code', 'parent_id'
+        'name', 'code', 'parent_id', 'name_en'
     ];
 
     public function children()

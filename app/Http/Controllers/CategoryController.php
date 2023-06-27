@@ -46,7 +46,8 @@ class CategoryController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
-            'parent_id' => 'required'
+            'name_en' => 'nullable|string|max:255',
+            'parent_id' => 'required',
         ]);
 
         if ($request['parent_id'] == 0) {
@@ -61,6 +62,7 @@ class CategoryController extends Controller
 
         Category::create([
             'name' => $request['name'],
+            'name_en' => $request['name_en'],
             'code' => $request['code'],
             'parent_id' => $request['parent_id']
         ]);
@@ -87,6 +89,7 @@ class CategoryController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
+            'name_en' => 'nullable|string|max:255',
             'parent_id' => 'required',
         ]);
 
@@ -102,6 +105,7 @@ class CategoryController extends Controller
 
         $category->update([
             'name' => $request['name'],
+            'name_en' => $request['name_en'],
             'code' => $request['code'],
             'parent_id' => $request['parent_id']
         ]);
@@ -132,7 +136,7 @@ class CategoryController extends Controller
         session()->put('prev-url', url()->previous());
         $delete = DeleteButton::where('active', '1')->first();
 
-        return view('categories.children', compact('category','delete'));
+        return view('categories.children', compact('category', 'delete'));
     }
 
     public function getCode()
