@@ -58,6 +58,13 @@
                 امروز : {{ jdate(now())->format('%A, %d %B %Y') }}
             </p>
         </div>
+
+        <div class="mr-5 border border-white px-4 py-1 rounded-md">
+            <a href="{{ route('inquiryPrice.index') }}" class="text-sm font-bold text-white"
+               target="_blank">
+                درخواست های بروزرسانی قیمت
+            </a>
+        </div>
     </div>
 
     <div x-data="{open:false}">

@@ -66,4 +66,9 @@ class FinalInvoiceController extends Controller
 
         return back();
     }
+
+    public function datasheet(Invoice $invoice)
+    {
+        return view('invoices.datasheet', compact('invoice'));
+    }
 }

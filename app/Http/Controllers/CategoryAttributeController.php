@@ -86,7 +86,10 @@ class CategoryAttributeController extends Controller
         $selectedCategory->attributes()->delete();
 
         foreach ($category->attributes as $attribute) {
-            $selectedCategory->attributes()->attach($attribute->id, ['sort' => $attribute->pivot->sort]);
+            $selectedCategory->attributes()->attach($attribute->id, [
+                'sort' => $attribute->pivot->sort,
+                'default_value' => $attribute->pivot->default_value
+            ]);
         }
 
         alert()->success('کپی موفق', 'دیتاشیت با موفقیت کپی شد');
@@ -102,7 +105,8 @@ class CategoryAttributeController extends Controller
             'default_value' => 'array',
             'default_value.*' => 'nullable|string|max:255',
             'attribute_group_id' => 'array',
-            'attribute_group_id.*' => 'required|integer',
+            'attribute_group_id.*' => 'nullable|integer',
+            'show_count' => 'required|in:0,1'
         ]);
 
         foreach ($category->attributes()->orderBy('sort', 'ASC')->get() as $index => $attribute) {
@@ -111,6 +115,9 @@ class CategoryAttributeController extends Controller
             $attribute->pivot->attribute_group_id = $request->attribute_group_id[$index];
             $attribute->pivot->save();
         }
+
+        $category->show_count = $request['show_count'];
+        $category->save();
 
         alert()->success('ثبت موفق', 'Sort با موفقیت ثبت شد');
 

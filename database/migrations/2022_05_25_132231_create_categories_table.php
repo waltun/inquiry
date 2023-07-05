@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->string('name');
             $table->string('code');
             $table->string('name_en');
+            $table->boolean('show_count')->nullable();
 
             $table->unsignedBigInteger('parent_id')->default(0);
 

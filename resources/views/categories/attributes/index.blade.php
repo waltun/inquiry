@@ -479,6 +479,13 @@
                     </tbody>
                 </table>
             </div>
+            <div class="mt-6">
+                <label for="inputShowCount" class="form-label">نمایش یا عدم نمایش تعداد در دیتاشیت</label>
+                <select name="show_count" id="inputShowCount" class="input-text">
+                    <option value="1" {{ $category->show_count ? 'selected' : '' }}>نمایش</option>
+                    <option value="0" {{ !$category->show_count ? 'selected' : '' }}>عدم نمایش</option>
+                </select>
+            </div>
             <div class="mt-4 sticky bottom-4">
                 <button class="form-submit-btn" type="submit">
                     ذخیره Sort

@@ -105,7 +105,7 @@
         @php
             $productTotalPrice = 0;
         @endphp
-        @if(!$invoice->products()->where('group_id','!=',0)->where('model_id','!=',0)->where('deleted_at',null)->get()->isEmpty())
+        @if(!$invoice->products()->where('group_id','!=',0)->where('model_id','!=',0)->where('deleted_at', null)->get()->isEmpty())
             <div class="card">
                 <div class="card-header">
                     <p class="card-title text-lg">لیست محصولات</p>
