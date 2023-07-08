@@ -78,7 +78,15 @@
             $products = $inquiry->products()->where('group_id','!=',0)->where('model_id','!=',0)->get();
         @endphp
         @foreach($products as $product)
-            @foreach($product->amounts()->orderBy('sort', 'ASC')->get() as $amount)
+            @php
+                $midCategoryIds = collect([]);
+                foreach ($product->amounts()->orderBy('sort', 'ASC')->get() as $amount) {
+                    $part = \App\Models\Part::find($amount->part_id);
+                    $midCategory = $part->categories[1];
+                    $midCategoryIds->push($midCategory->id);
+                }
+            @endphp
+            @foreach($product->amounts()->orderBy('sort', 'ASC')->get() as $index => $amount)
                 @php
                     $part = \App\Models\Part::find($amount->part_id);
                     $lastCategory = $part->categories->last();

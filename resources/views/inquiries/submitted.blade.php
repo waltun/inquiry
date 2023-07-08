@@ -293,30 +293,33 @@
                                             کپی
                                         </a>
                                     @endcan
-                                    @can('correction-inquiry')
-                                        <div x-data="{open:false}">
-                                            <button class="table-dropdown-delete" @click="open = !open">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                     stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                          d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3"/>
-                                                </svg>
-                                                بازگردانی
-                                            </button>
-                                            <div class="relative z-10" x-show="open" x-cloak>
-                                                <div class="modal-backdrop"></div>
-                                                <div class="fixed z-10 inset-0 overflow-y-auto">
-                                                    <div class="modal">
-                                                        <div class="modal-body">
-                                                            <form method="POST" class="bg-white dark:bg-slate-800 p-4"
-                                                                  action="{{ route('inquiries.submittedCorrection',$inquiry->id) }}">
-                                                                @csrf
-                                                                @method('PATCH')
-                                                                <div class="mb-4 flex justify-between items-center">
-                                                                    <h3 class="text-lg font-bold text-gray-900 dark:text-white">
-                                                                        اصلاحیه برای استعلام
-                                                                    </h3>
-                                                                    <button type="button" @click="open = false">
+                                    @if(auth()->user()->role == 'admin')
+                                        @can('correction-inquiry')
+                                            <div x-data="{open:false}">
+                                                <button class="table-dropdown-delete" @click="open = !open">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                         viewBox="0 0 24 24"
+                                                         stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                              d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3l-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 003.7 3.7 48.656 48.656 0 007.324 0 4.006 4.006 0 003.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3l-3 3"/>
+                                                    </svg>
+                                                    بازگردانی
+                                                </button>
+                                                <div class="relative z-10" x-show="open" x-cloak>
+                                                    <div class="modal-backdrop"></div>
+                                                    <div class="fixed z-10 inset-0 overflow-y-auto">
+                                                        <div class="modal">
+                                                            <div class="modal-body">
+                                                                <form method="POST"
+                                                                      class="bg-white dark:bg-slate-800 p-4"
+                                                                      action="{{ route('inquiries.submittedCorrection',$inquiry->id) }}">
+                                                                    @csrf
+                                                                    @method('PATCH')
+                                                                    <div class="mb-4 flex justify-between items-center">
+                                                                        <h3 class="text-lg font-bold text-gray-900 dark:text-white">
+                                                                            اصلاحیه برای استعلام
+                                                                        </h3>
+                                                                        <button type="button" @click="open = false">
                                                                     <span class="modal-close">
                                                                         <svg xmlns="http://www.w3.org/2000/svg"
                                                                              fill="none"
@@ -328,57 +331,63 @@
                                                                                   d="M6 18L18 6M6 6l12 12"/>
                                                                         </svg>
                                                                     </span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="mt-6">
-                                                                    <div class="mb-4">
-                                                                        <label for="inputMessage" class="form-label">
-                                                                            متن اصلاحیه
-                                                                        </label>
-                                                                        <textarea name="message" id="inputMessage"
-                                                                                  class="input-text h-32 resize-none"></textarea>
-                                                                    </div>
-                                                                    <div
-                                                                        class="flex justify-end items-center space-x-4 space-x-reverse">
-                                                                        <button type="submit" class="form-submit-btn">
-                                                                            ثبت
-                                                                        </button>
-                                                                        <button type="button" class="form-cancel-btn"
-                                                                                @click="open = false">
-                                                                            انصراف!
                                                                         </button>
                                                                     </div>
-                                                                </div>
-                                                            </form>
+                                                                    <div class="mt-6">
+                                                                        <div class="mb-4">
+                                                                            <label for="inputMessage"
+                                                                                   class="form-label">
+                                                                                متن اصلاحیه
+                                                                            </label>
+                                                                            <textarea name="message" id="inputMessage"
+                                                                                      class="input-text h-32 resize-none"></textarea>
+                                                                        </div>
+                                                                        <div
+                                                                            class="flex justify-end items-center space-x-4 space-x-reverse">
+                                                                            <button type="submit"
+                                                                                    class="form-submit-btn">
+                                                                                ثبت
+                                                                            </button>
+                                                                            <button type="button"
+                                                                                    class="form-cancel-btn"
+                                                                                    @click="open = false">
+                                                                                انصراف!
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    @endcan
-                                    @can('referral-inquiry')
-                                        <div x-data="{open:false}">
-                                            <button class="table-dropdown-copy" @click="open = !open">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                     stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                          d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/>
-                                                </svg>
-                                                تغییر مسئول پروژه
-                                            </button>
-                                            <div class="relative z-10" x-show="open" x-cloak>
-                                                <div class="modal-backdrop"></div>
-                                                <div class="fixed z-10 inset-0 overflow-y-auto">
-                                                    <div class="modal">
-                                                        <div class="modal-body">
-                                                            <form method="POST" class="bg-white dark:bg-slate-800 p-4"
-                                                                  action="{{ route('inquiries.tmpReferral',$inquiry->id) }}">
-                                                                @csrf
-                                                                <div class="mb-4 flex justify-between items-center">
-                                                                    <h3 class="text-lg font-bold text-gray-900 dark:text-white">
-                                                                        تغییر مسئول پروژه و انتخاب فرد دیگر
-                                                                    </h3>
-                                                                    <button type="button" @click="open = false">
+                                        @endcan
+
+                                        @can('referral-inquiry')
+                                            <div x-data="{open:false}">
+                                                <button class="table-dropdown-copy" @click="open = !open">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                         viewBox="0 0 24 24"
+                                                         stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                              d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/>
+                                                    </svg>
+                                                    تغییر مسئول پروژه
+                                                </button>
+                                                <div class="relative z-10" x-show="open" x-cloak>
+                                                    <div class="modal-backdrop"></div>
+                                                    <div class="fixed z-10 inset-0 overflow-y-auto">
+                                                        <div class="modal">
+                                                            <div class="modal-body">
+                                                                <form method="POST"
+                                                                      class="bg-white dark:bg-slate-800 p-4"
+                                                                      action="{{ route('inquiries.tmpReferral',$inquiry->id) }}">
+                                                                    @csrf
+                                                                    <div class="mb-4 flex justify-between items-center">
+                                                                        <h3 class="text-lg font-bold text-gray-900 dark:text-white">
+                                                                            تغییر مسئول پروژه و انتخاب فرد دیگر
+                                                                        </h3>
+                                                                        <button type="button" @click="open = false">
                                                                 <span class="modal-close">
                                                                     <svg xmlns="http://www.w3.org/2000/svg"
                                                                          fill="none"
@@ -390,35 +399,37 @@
                                                                               d="M6 18L18 6M6 6l12 12"/>
                                                                     </svg>
                                                                 </span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="mt-6">
-                                                                    <div class="mb-4">
-                                                                        <label for="inputUser" class="form-label">
-                                                                            انتخاب کاربر
-                                                                        </label>
-                                                                        <select name="user_id" id="inputUser"
-                                                                                class="input-text">
-                                                                            @foreach(\App\Models\User::all() as $user)
-                                                                                <option
-                                                                                    value="{{ $user->id }}">{{ $user->name }}</option>
-                                                                            @endforeach
-                                                                        </select>
-                                                                    </div>
-                                                                    <div
-                                                                        class="flex justify-end items-center space-x-4 space-x-reverse">
-                                                                        <button type="submit" class="form-submit-btn">
-                                                                            ثبت
                                                                         </button>
                                                                     </div>
-                                                                </div>
-                                                            </form>
+                                                                    <div class="mt-6">
+                                                                        <div class="mb-4">
+                                                                            <label for="inputUser" class="form-label">
+                                                                                انتخاب کاربر
+                                                                            </label>
+                                                                            <select name="user_id" id="inputUser"
+                                                                                    class="input-text">
+                                                                                @foreach(\App\Models\User::all() as $user)
+                                                                                    <option
+                                                                                        value="{{ $user->id }}">{{ $user->name }}</option>
+                                                                                @endforeach
+                                                                            </select>
+                                                                        </div>
+                                                                        <div
+                                                                            class="flex justify-end items-center space-x-4 space-x-reverse">
+                                                                            <button type="submit"
+                                                                                    class="form-submit-btn">
+                                                                                ثبت
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    @endcan
+                                        @endcan
+                                    @endif
                                     @can('edit-inquiry')
                                         <a href="{{ route('inquiries.edit',$inquiry->id) }}"
                                            class="table-dropdown-edit">

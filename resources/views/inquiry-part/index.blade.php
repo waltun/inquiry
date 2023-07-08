@@ -1066,7 +1066,7 @@
 
         <div class="mt-4 flex items-center justify-between">
             <a href="{{ route('inquiries.parts.create',$inquiry->id) }}"
-               class="w-8 h-8 rounded-full bg-green-500 block grid place-content-center"
+               class="w-8 h-8 rounded-full bg-green-500 grid place-content-center"
                title="افزودن قطعه جدید">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                      stroke-width="2"
@@ -1125,6 +1125,20 @@
                     </div>
                 </div>
             @endcan
+        @endif
+
+        @if($inquiry->submit)
+            <div class="mt-6 flex justify-end">
+                <a href="{{ route('inquiries.submitted') }}" class="page-warning-btn">
+                    بازگشت
+                </a>
+            </div>
+        @else
+            <div class="mt-6 flex justify-end">
+                <a href="{{ route('inquiries.index') }}" class="page-warning-btn">
+                    بازگشت
+                </a>
+            </div>
         @endif
     </div>
 </x-layout>
