@@ -374,6 +374,16 @@
                                     <p class="p-1 bg-red-400 text-white text-xs rounded-lg group-hover:bg-red-600">
                                         مقادیر ثبت نشده
                                     </p>
+                                @else
+                                    <a href="{{ route('inquiries.product.attributes',$product->id) }}"
+                                       class="table-info-btn">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                             stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                  d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 010 3.75H5.625a1.875 1.875 0 010-3.75z"/>
+                                        </svg>
+                                        مشخصات فنی
+                                    </a>
                                 @endif
                                 @if($product->percent > 0)
                                     <p class="p-1 bg-green-400 text-white text-xs rounded-lg group-hover:bg-myGreen-100">

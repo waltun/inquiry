@@ -77,85 +77,129 @@
             $inquiry = $invoice->inquiry;
             $products = $inquiry->products()->where('group_id','!=',0)->where('model_id','!=',0)->get();
         @endphp
+
+
         @foreach($products as $product)
-            @php
-                $midCategoryIds = collect([]);
-                foreach ($product->amounts()->orderBy('sort', 'ASC')->get() as $amount) {
-                    $part = \App\Models\Part::find($amount->part_id);
-                    $midCategory = $part->categories[1];
-                    $midCategoryIds->push($midCategory->id);
-                }
-            @endphp
-            @foreach($product->amounts()->orderBy('sort', 'ASC')->get() as $index => $amount)
+            <div class="p-2 border-2 border-gray-400 rounded-md">
+                <div>
+                    <p class="text-lg font-bold text-indigo-600">
+                        {{ $product->model_custom_name }}
+                    </p>
+                </div>
                 @php
-                    $part = \App\Models\Part::find($amount->part_id);
-                    $lastCategory = $part->categories->last();
-                    $midCategory = $part->categories[1];
-                    $attributes = $lastCategory->attributes()->orderBy('sort', 'ASC')->get();
+                    $midCategoryIds = collect([]);
+                    $partIds = collect([]);
+                    $amounts = collect([]);
+                    foreach ($product->amounts()->orderBy('sort', 'ASC')->get() as $amount) {
+                        $part = \App\Models\Part::find($amount->part_id);
+                        $partIds->push($part->id);
+                        $amounts->push($amount->value);
+                        $midCategory = $part->categories[1];
+                        $midCategoryIds->push($midCategory->id);
+                    }
+                    $uniqueMidCategoryIds = $midCategoryIds->unique();
+                    $uniqueMidCategoryIds = $uniqueMidCategoryIds->toArray();
+                    $midCategoryIds = $midCategoryIds->toArray();
+                    $partIds = $partIds->toArray();
                 @endphp
+                @foreach($uniqueMidCategoryIds as $uniqueMidCategoryId)
+                    @php
+                        $keys = array_keys($midCategoryIds, $uniqueMidCategoryId);
+                        $part = \App\Models\Part::find($partIds[$keys[0]]);
+                        $midCategory = $part->categories[1];
+                        $lastCategory = $part->categories->last();
+                        $attributes = $lastCategory->attributes()->orderBy('sort', 'ASC')->get();
+                        $display = false;
 
-                @if(!$attributes->isEmpty())
-                    <div class="p-2 rounded-lg border-2 border-sky-200">
-                        <div class="mb-2 border-b border-gray-200 pb-2 flex">
-                            <p class="text-base font-bold text-white bg-myBlue-100 px-4 py-2">
-                                {{ $midCategory->name_en }} / {{ $lastCategory->name_en }} :
-                            </p>
-                        </div>
+                        foreach($keys as $key){
+                            $part = \App\Models\Part::find($partIds[$key]);
+                            $lastCategory = $part->categories->last();
+                            $attributes = $lastCategory->attributes()->orderBy('sort', 'ASC')->get();
 
-                        <div class="grid grid-cols-3 gap-1">
-                            @foreach($attributes as $attribute)
-                                <div>
-                                    <div class="grid grid-cols-12 gap-2">
-                                        <div class="col-span-4 p-2">
-                                            <p class="text-xs text-black font-bold">
-                                                {{ $attribute->name }} :
+                            if (!$attributes->isEmpty()) {
+                                $display = true;
+                                break;
+                            }
+                        }
+                    @endphp
+
+                    @if($display)
+                        <div class="p-2 rounded-lg border-2 border-sky-200 mb-4">
+                            <div class="mb-2 border-b border-gray-200 pb-2 flex">
+                                <p class="text-base font-bold text-white bg-myBlue-100 px-4 py-2">
+                                    {{ $midCategory->name_en }}
+                                </p>
+                            </div>
+                            @foreach($keys as $key)
+                                @php
+                                    $part = \App\Models\Part::find($partIds[$key]);
+                                    $lastCategory = $part->categories->last();
+                                    $attributes = $lastCategory->attributes()->orderBy('sort', 'ASC')->get();
+                                    $amountValue = $amounts[$key];
+                                @endphp
+                                @if(!$attributes->isEmpty())
+                                    <div class="grid grid-cols-3 gap-1">
+                                        <div class="col-span-3 border-b border-gray-300 pb-2">
+                                            <p class="text-base font-bold">
+                                                {{ $lastCategory->name_en }}
                                             </p>
                                         </div>
-                                        <div class="col-span-2 p-2">
-                                            <p class="text-xs text-black">
-                                                {{ $attribute->unit }}
-                                            </p>
-                                        </div>
-                                        <div class="col-span-6 p-2">
-                                            <p class="text-xs text-black">
-                                                @if(!$part->attributeValues->isEmpty())
-                                                    @foreach($attribute->values as $value)
-                                                        @if($part->attributeValues->contains($value))
-                                                            {{ $value->value }}
-                                                        @endif
-                                                    @endforeach
-                                                @endif
-                                            </p>
-                                        </div>
+                                        @foreach($attributes as $attribute)
+                                            <div class="pl-2">
+                                                <div class="grid grid-cols-12 gap-2">
+                                                    <div class="col-span-4 p-2">
+                                                        <p class="text-xs text-black font-bold">
+                                                            {{ $attribute->name }} :
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-span-2 p-2">
+                                                        <p class="text-xs text-black">
+                                                            {{ $attribute->unit }}
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-span-6 p-2">
+                                                        <p class="text-xs text-black">
+                                                            @if(!$part->attributeValues->isEmpty())
+                                                                @foreach($attribute->values as $value)
+                                                                    @if($part->attributeValues->contains($value))
+                                                                        {{ $value->value }}
+                                                                    @endif
+                                                                @endforeach
+                                                            @endif
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                        @if($lastCategory->show_count)
+                                            <div class="pl-2">
+                                                <div class="grid grid-cols-12 gap-1">
+                                                    <div class="col-span-4 p-2">
+                                                        <p class="text-xs font-bold text-black">
+                                                            Number Of {{ $midCategory->name_en }}
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-span-2 p-2">
+                                                        <p class="text-xs text-black">
+                                                            -
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-span-6 p-2">
+                                                        <p class="text-xs text-black">
+                                                            {{ $amountValue }}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
                                     </div>
-                                </div>
+                                @endif
                             @endforeach
-                            @if($lastCategory->show_count)
-                                <div>
-                                    <div class="grid grid-cols-12 gap-1">
-                                        <div class="col-span-4 p-2">
-                                            <p class="text-xs font-bold text-black">
-                                                Number Of {{ $midCategory->name_en }}
-                                            </p>
-                                        </div>
-                                        <div class="col-span-2 p-2">
-                                            <p class="text-xs text-black">
-                                                -
-                                            </p>
-                                        </div>
-                                        <div class="col-span-6 p-2">
-                                            <p class="text-xs text-black">
-                                                {{ $amount->value }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
                         </div>
-                    </div>
-                @endif
+                    @endif
 
-            @endforeach
+                @endforeach
+            </div>
         @endforeach
     </div>
 

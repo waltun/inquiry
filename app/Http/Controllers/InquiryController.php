@@ -669,7 +669,7 @@ class InquiryController extends Controller
 
         $inquiry->update([
             'archive_at' => null,
-            'submit' => false,
+            'submit' => 1,
             'price' => 0,
         ]);
 

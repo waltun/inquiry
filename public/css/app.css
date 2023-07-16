@@ -2328,12 +2328,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   gap: 1rem;
 }
 
-.gap-2{
-  gap: 0.5rem;
-}
-
 .gap-1{
   gap: 0.25rem;
+}
+
+.gap-2{
+  gap: 0.5rem;
 }
 
 .space-y-4 > :not([hidden]) ~ :not([hidden]){
@@ -2570,6 +2570,16 @@ Ensure the default browser behavior of the `hidden` attribute.
 .border-indigo-600{
   --tw-border-opacity: 1;
   border-color: rgb(79 70 229 / var(--tw-border-opacity));
+}
+
+.border-sky-400{
+  --tw-border-opacity: 1;
+  border-color: rgb(56 189 248 / var(--tw-border-opacity));
+}
+
+.border-sky-300{
+  --tw-border-opacity: 1;
+  border-color: rgb(125 211 252 / var(--tw-border-opacity));
 }
 
 .bg-gray-100{
@@ -2847,6 +2857,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .pb-2{
   padding-bottom: 0.5rem;
+}
+
+.pl-4{
+  padding-left: 1rem;
+}
+
+.pl-2{
+  padding-left: 0.5rem;
 }
 
 .text-center{

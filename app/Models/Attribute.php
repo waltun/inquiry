@@ -18,6 +18,11 @@ class Attribute extends Model
         return $this->belongsToMany(Category::class)->withPivot(['sort', 'default_value', 'attribute_group_id']);
     }
 
+    public function modells()
+    {
+        return $this->belongsToMany(Modell::class)->withPivot(['sort', 'default_value', 'attribute_group_id']);
+    }
+
     public function values()
     {
         return $this->hasMany(AttributeValue::class);

@@ -33,4 +33,14 @@ class Modell extends Model
     {
         return $this->belongsTo(Modell::class, 'parent_id');
     }
+
+    public function attributes()
+    {
+        return $this->belongsToMany(Attribute::class)->withPivot(['sort', 'default_value', 'attribute_group_id']);
+    }
+
+    public function attributeValues()
+    {
+        return $this->belongsToMany(AttributeValue::class);
+    }
 }

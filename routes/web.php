@@ -23,6 +23,7 @@ use App\Http\Controllers\InquiryPriceController;
 use App\Http\Controllers\InquiryProductController;
 use App\Http\Controllers\InquiryTermController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\ModellAttributeController;
 use App\Http\Controllers\ModellController;
 use App\Http\Controllers\NewPartInquiryController;
 use App\Http\Controllers\NotificationController;
@@ -31,6 +32,7 @@ use App\Http\Controllers\PartController;
 use App\Http\Controllers\PartOfModellController;
 use App\Http\Controllers\PartPriceController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\ProductAttributeController;
 use App\Http\Controllers\ProductCurrentPriceController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SeparateCalculateCoilController;
@@ -75,6 +77,13 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/models/{modell}/part-value', [ModellController::class, 'partValues'])->name('modells.partValues');
     Route::get('/models/{modell}/children', [ModellController::class, 'children'])->name('modells.children');
 
+    Route::get('/models/{modell}/attributes', [ModellAttributeController::class, 'index'])->name('modells.attributes.index');
+    Route::post('/models/{modell}/attributes', [ModellAttributeController::class, 'store'])->name('modells.attributes.store');
+    Route::post('/models/{modell}/replicate-attributes', [ModellAttributeController::class, 'replicate'])->name('modells.attributes.replicate');
+    Route::patch('/models/{attribute}/attributes', [ModellAttributeController::class, 'update'])->name('modells.attributes.update');
+    Route::delete('/models/{attribute}/attributes', [ModellAttributeController::class, 'destroy'])->name('modells.attributes.destroy');
+    Route::post('/models/{modell}/sort-attributes', [ModellAttributeController::class, 'storeSort'])->name('modells.attributes.storeSort');
+
     //Group routes
     Route::get('/groups/{group}/children', [GroupController::class, 'children'])->name('groups.children');
     Route::resource('groups', GroupController::class);
@@ -87,9 +96,9 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::patch('/parts/price/{part}/update-date', [PartPriceController::class, 'updateDate'])->name('parts.price.updateDate');
     Route::post('/parts/price/multi-update-date', [PartPriceController::class, 'multiUpdateDate'])->name('parts.price.multi-update-date');
 
-    //Product Attributes
-    Route::get('/products/{part}/attributes', [PartAttributeController::class, 'index'])->name('parts.attributes.index');
-    Route::post('/products/{part}/attributes', [PartAttributeController::class, 'store'])->name('parts.attributes.store');
+    //Part Attributes
+    Route::get('/parts/{part}/attributes', [PartAttributeController::class, 'index'])->name('parts.attributes.index');
+    Route::post('/parts/{part}/attributes', [PartAttributeController::class, 'store'])->name('parts.attributes.store');
 
     Route::resource('parts', PartController::class)->except(['show']);
 
@@ -140,6 +149,14 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/inquiries/{inquiry}/store-product', [InquiryProductController::class, 'store'])->name('inquiries.product.store');
     Route::get('/inquiries/{product}/product-amounts', [InquiryProductController::class, 'amounts'])->name('inquiries.product.amounts');
     Route::post('/inquiries/{product}/product-amounts', [InquiryProductController::class, 'storeAmounts'])->name('inquiries.product.storeAmounts');
+
+
+
+    Route::get('/inquiries/{product}/product-attributes', [ProductAttributeController::class, 'index'])->name('inquiries.product.attributes');
+    Route::post('/inquiries/{product}/product-attributes', [ProductAttributeController::class, 'store'])->name('inquiries.product.storeAttribute');
+
+
+
     Route::post('/inquiries/product-amounts/change-part', [InquiryProductController::class, 'changePart'])->name('inquiries.product.changePart');
     Route::post('/inquiries/product-amounts/change-price', [InquiryProductController::class, 'changePrice'])->name('inquiries.product.changePrice');
     Route::post('/inquiries/product-amounts/get-part', [InquiryProductController::class, 'getPart'])->name('inquiries.product.getPart');

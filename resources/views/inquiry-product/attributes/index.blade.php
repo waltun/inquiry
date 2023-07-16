@@ -36,16 +36,50 @@
                       clip-rule="evenodd"/>
             </svg>
         </div>
-        <a href="{{ route('parts.index') }}" class="flex items-center">
+        @if($inquiry->submit)
+            <a href="{{ route('inquiries.submitted') }}" class="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="breadcrumb-svg"
+                     fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <div class="mr-2">
+                    <p class="breadcrumb-p">
+                        استعلام های منتظر قیمت
+                    </p>
+                </div>
+            </a>
+        @else
+            <a href="{{ route('inquiries.index') }}" class="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="breadcrumb-svg"
+                     fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <div class="mr-2">
+                    <p class="breadcrumb-p">
+                        لیست استعلام ها
+                    </p>
+                </div>
+            </a>
+        @endif
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                 class="breadcrumb-svg-arrow">
+                <path fill-rule="evenodd"
+                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                      clip-rule="evenodd"/>
+            </svg>
+        </div>
+        <a href="{{ route('inquiries.product.index',$inquiry->id) }}" class="flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" class="breadcrumb-svg" fill="none" viewBox="0 0 24 24"
                  stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                      d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"></path>
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p">
-                    مدیریت قطعات
+                    محصولات استعلام {{ $inquiry->name }}
                 </p>
             </div>
         </a>
@@ -66,7 +100,7 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p-active">
-                    مشخصات فنی قطعه {{ $part->name }}
+                    مشخصات فنی مدل {{ $product->model_custom_name ?? $modell->name }}
                 </p>
             </div>
         </div>
@@ -83,13 +117,10 @@
             </svg>
             <div class="mr-2">
                 <p class="font-bold text-xl text-black dark:text-white">
-                    لیست مشخصات فنی {{ $part->name }}
+                    لیست مشخصات فنی {{ $product->model_custom_name ?? $modell->name }}
                 </p>
             </div>
-            @php
-                $lastCategory = $part->categories->last();
-            @endphp
-            <a href="{{ route('categories.children',$lastCategory->id) }}"
+            <a href="{{ route('inquiries.product.index',$inquiry->id) }}"
                class="category-back">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                      stroke="currentColor" class="w-5 h-5">
@@ -107,7 +138,7 @@
 
     <!-- Table -->
     @if(!$attributes->isEmpty())
-        <form method="post" action="{{ route('parts.attributes.store',$part->id) }}">
+        <form method="post" action="{{ route('inquiries.product.storeAttribute',$product->id) }}">
             @csrf
 
             <table class="w-full border-collapse">
@@ -145,7 +176,7 @@
                                 $foundValue = false;
                             @endphp
                             @foreach($attribute->values as $value)
-                                @if($part->attributeValues->contains($value))
+                                @if($modell->attributeValues->contains($value))
                                     <input type="text" class="input-text text-center" value="{{ $value->value }}"
                                            name="values[]">
                                     @php
@@ -167,7 +198,7 @@
                 <button type="submit" class="form-submit-btn">
                     ثبت مقادیر
                 </button>
-                <a href="{{ url(session('prev-url', route('parts.index'))) }}" class="form-cancel-btn">
+                <a href="{{ route('inquiries.product.index',$inquiry->id) }}" class="form-cancel-btn">
                     انصراف
                 </a>
             </div>

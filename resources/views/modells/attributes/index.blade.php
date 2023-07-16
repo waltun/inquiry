@@ -28,12 +28,12 @@
                 $.ajax({
                     type: 'POST',
                     method: 'patch',
-                    url: '/categories/' + id + '/attributes',
+                    url: '/models/' + id + '/attributes',
                     data: {
                         id: id,
                         unit: unit.value,
                         name: name.value,
-                        category_id: '{{ $category->id }}'
+                        modell_id: '{{ $modell->id }}'
                     },
                     success: function () {
                         location.reload();
@@ -41,7 +41,7 @@
                 });
             }
 
-            function destroyAttribute(attrId, catId) {
+            function destroyAttribute(attrId, modId) {
 
                 let conf = confirm('مشخصه فنی حذف شود ؟');
 
@@ -55,10 +55,10 @@
                     $.ajax({
                         type: 'POST',
                         method: 'delete',
-                        url: '/categories/' + catId + '/attributes',
+                        url: '/models/' + modId + '/attributes',
                         data: {
                             attrId: attrId,
-                            catId: catId
+                            modId: modId
                         },
                         success: function () {
                             location.reload();
@@ -94,15 +94,15 @@
                       clip-rule="evenodd"/>
             </svg>
         </div>
-        <a href="{{ route('categories.index') }}" class="flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                 stroke="currentColor" class="breadcrumb-svg">
+        <a href="{{ route('groups.index') }}" class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="breadcrumb-svg" fill="none"
+                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M13.5 16.875h3.375m0 0h3.375m-3.375 0V13.5m0 3.375v3.375M6 10.5h2.25a2.25 2.25 0 002.25-2.25V6a2.25 2.25 0 00-2.25-2.25H6A2.25 2.25 0 003.75 6v2.25A2.25 2.25 0 006 10.5zm0 9.75h2.25A2.25 2.25 0 0010.5 18v-2.25a2.25 2.25 0 00-2.25-2.25H6a2.25 2.25 0 00-2.25 2.25V18A2.25 2.25 0 006 20.25zm9.75-9.75H18a2.25 2.25 0 002.25-2.25V6A2.25 2.25 0 0018 3.75h-2.25A2.25 2.25 0 0013.5 6v2.25a2.25 2.25 0 002.25 2.25z"/>
+                      d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p">
-                    لیست دسته بندی ها
+                    لیست محصولات
                 </p>
             </div>
         </a>
@@ -123,7 +123,7 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p-active">
-                    مشخصات فنی دسته بندی {{ $category->name }}
+                    مشخصات فنی مدل {{ $modell->name }}
                 </p>
             </div>
         </div>
@@ -140,10 +140,10 @@
             </svg>
             <div class="mr-2">
                 <p class="font-bold text-2xl text-black dark:text-white">
-                    لیست مشخصات فنی {{ $category->name }}
+                    لیست مشخصات فنی {{ $modell->name }}
                 </p>
             </div>
-            <a href="{{ route('categories.children',$category->id) }}"
+            <a href="{{ route('modells.children',$modell->id) }}"
                class="category-back">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                      stroke="currentColor" class="w-5 h-5">
@@ -172,7 +172,7 @@
                                 <div class="bg-white dark:bg-slate-800 p-4">
                                     <div class="mb-4 flex justify-between items-center">
                                         <h3 class="text-lg font-bold text-gray-900 dark:text-white">
-                                            ایجاد مشخصه جدید برای دسته بندی {{ $category->name }}
+                                            ایجاد مشخصه جدید برای دسته بندی {{ $modell->name }}
                                         </h3>
                                         <button type="button" @click="open = false">
                                         <span class="modal-close">
@@ -187,8 +187,7 @@
                                         </button>
                                     </div>
                                     <form method="post"
-                                          action="{{ route('categories.attributes.store',$category->id) }}"
-                                          class="mt-6">
+                                          action="{{ route('modells.attributes.store',$modell->id) }}" class="mt-6">
                                         @csrf
                                         <div class="mb-4">
                                             <label for="inputName" class="form-label">نام مشخصه فنی</label>
@@ -267,7 +266,7 @@
                                 <div class="bg-white dark:bg-slate-800 p-4">
                                     <div class="mb-4 flex justify-between items-center">
                                         <h3 class="text-lg font-bold text-gray-900 dark:text-white">
-                                            کپی از مشخصات فنی دسته بندی {{ $category->name }}
+                                            کپی از مشخصات فنی مدل {{ $modell->name }}
                                         </h3>
                                         <button type="button" @click="open = false">
                                         <span class="modal-close">
@@ -282,16 +281,16 @@
                                         </button>
                                     </div>
                                     <form method="post"
-                                          action="{{ route('categories.attributes.replicate',$category->id) }}"
+                                          action="{{ route('modells.attributes.replicate',$modell->id) }}"
                                           class="mt-6">
                                         @csrf
 
                                         <div class="mb-4">
-                                            <label for="inputCategory" class="form-label">انتخاب دسته بندی</label>
-                                            <select name="category_id" id="inputCategory" class="input-text">
+                                            <label for="inputModell" class="form-label">انتخاب مدل</label>
+                                            <select name="modell_id" id="inputModell" class="input-text">
                                                 <option value="">انتخاب کنید</option>
-                                                @foreach(\App\Models\Category::all() as $child)
-                                                    @if($child->id !== $category->id && $child->children->isEmpty())
+                                                @foreach(\App\Models\Modell::all() as $child)
+                                                    @if($child->id !== $modell->id && $child->children->isEmpty())
                                                         <option value="{{ $child->id }}">
                                                             {{ $child->name }}
                                                         </option>
@@ -324,7 +323,7 @@
 
     <!-- Table -->
     @if(!$attributes->isEmpty())
-        <form method="POST" action="{{ route('categories.attributes.storeSort',$category->id) }}">
+        <form method="POST" action="{{ route('modells.attributes.storeSort',$modell->id) }}">
             @csrf
             <div class="mt-4 overflow-x-auto rounded-lg">
                 <table class="w-full border-collapse">
@@ -476,8 +475,7 @@
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                   d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
                                         </svg>
-                                        <button type="button"
-                                                onclick="destroyAttribute({{ $attribute->id }},{{ $category->id }})">
+                                        <button type="button" onclick="destroyAttribute({{ $attribute->id }},{{ $modell->id }})">
                                             حذف
                                         </button>
                                     </div>
@@ -487,13 +485,6 @@
                     @endforeach
                     </tbody>
                 </table>
-            </div>
-            <div class="mt-6">
-                <label for="inputShowCount" class="form-label">نمایش یا عدم نمایش تعداد در دیتاشیت</label>
-                <select name="show_count" id="inputShowCount" class="input-text">
-                    <option value="1" {{ $category->show_count ? 'selected' : '' }}>نمایش</option>
-                    <option value="0" {{ !$category->show_count ? 'selected' : '' }}>عدم نمایش</option>
-                </select>
             </div>
             <div class="mt-4 sticky bottom-4">
                 <button class="form-submit-btn" type="submit">
