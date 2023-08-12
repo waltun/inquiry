@@ -80,7 +80,8 @@ class PartController extends Controller
             'operator2' => 'nullable|string|max:255',
             'formula1' => 'nullable|numeric',
             'formula2' => 'nullable|numeric',
-            'weight' => 'nullable|numeric'
+            'weight' => 'nullable|numeric',
+            'name_en' => 'nullable|string|max:255'
         ]);
 
         if ($data['collection'] == 'true') {
@@ -132,7 +133,8 @@ class PartController extends Controller
             'operator2' => 'nullable|string|max:255',
             'formula1' => 'nullable|numeric',
             'formula2' => 'nullable|numeric',
-            'weight' => 'nullable|numeric'
+            'weight' => 'nullable|numeric',
+            'name_en' => 'nullable|string|max:255'
         ]);
 
         if ($data['collection'] == 'true') {
@@ -163,7 +165,7 @@ class PartController extends Controller
             }
         }
 
-        $inquiryPrices = InquiryPrice::where('part_id',$part->id)->get();
+        $inquiryPrices = InquiryPrice::where('part_id', $part->id)->get();
         foreach ($inquiryPrices as $inquiryPrice) {
             $inquiryPrice->delete();
         }

@@ -15,7 +15,6 @@ class ProductAttributeController extends Controller
         $modell = Modell::find($product->model_id);
         $attributes = $modell->parent->attributes()->orderBy('sort', 'ASC')->get();
         $inquiry = Inquiry::find($product->inquiry_id);
-
         return view('inquiry-product.attributes.index', compact('attributes', 'product', 'modell', 'inquiry'));
     }
 
@@ -27,8 +26,6 @@ class ProductAttributeController extends Controller
             'values.*' => 'nullable|string|max:255',
             'values' => 'array',
         ]);
-
-        $modell = Modell::find($product->model_id);
 
         $values = collect([]);
         foreach ($request['attributes'] as $index => $id) {
@@ -42,7 +39,7 @@ class ProductAttributeController extends Controller
             }
         }
 
-        $modell->attributeValues()->sync($values);
+        $product->attributeValues()->sync($values);
 
         alert()->success('ثبت موفق', 'مقادیر مشخصه فنی با موفقیت ثبت شد');
 

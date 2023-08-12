@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\CoilInput;
 use App\Models\Group;
 use App\Models\Inquiry;
 use App\Models\Modell;
@@ -191,6 +192,7 @@ class CalculateCoilController extends Controller
             'name' => 'required|string|max:255',
         ]);
 
+        $inputs = json_decode($request->input('inputs'), true);
         $name = $request['name'];
         $code = $this->getLastCode($part);
 
@@ -251,6 +253,36 @@ class CalculateCoilController extends Controller
 
         $request->session()->put('coil-btn-' . $part->id . $product->id, 'calculated');
         $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
+
+        if (!is_null($inputs["loole_messi"])) {
+            $inputs["loole_messi"] = Part::find($inputs["loole_messi"])->name_en;
+        }
+        if (!is_null($inputs["fin_coil"])) {
+            $inputs["fin_coil"] = Part::find($inputs["fin_coil"])->name_en;
+        }
+        if (!is_null($inputs["zekhamat_frame_coil"])) {
+            $inputs["zekhamat_frame_coil"] = Part::find($inputs["zekhamat_frame_coil"])->name_en;
+        }
+        if (!is_null($inputs["collector_ahani"])) {
+            $inputs["collector_ahani"] = Part::find($inputs["collector_ahani"])->name_en;
+        }
+        if (!is_null($inputs["collector_messi"])) {
+            $inputs["collector_messi"] = Part::find($inputs["collector_messi"])->name_en;
+        }
+        if (!is_null($inputs["electrod_noghre"])) {
+            $inputs["electrod_noghre"] = Part::find($inputs["electrod_noghre"])->name_en;
+        }
+
+        if ($inputs["pooshesh_khordegi"] == '1') {
+            $inputs["pooshesh_khordegi"] = 'Hersite';
+        } else {
+            $inputs["pooshesh_khordegi"] = '-';
+        }
+
+        $coilInput = CoilInput::create($inputs);
+        $coilInput->type = 'Fancoil';
+        $coilInput->part_id = $newPart->id;
+        $coilInput->save();
 
         alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');
 
@@ -694,6 +726,8 @@ class CalculateCoilController extends Controller
 
         $name = 'FC-' . $looleMessiName . '-' . $tedadRadifCoil . 'R-' . $finDarInch . 'FPI-' . $tedadMogheyiatLoole . 'H-'
             . $tedadLooleDarRadif . 'T-' . $tooleCoil . 'FL-' . $tedadMadarLoole . 'C-' . $finName . '-' . number_format($satheCoil, 2) . 'SQFT';
+
+        $inputs["sathe_coil"] = $satheCoil;
 
         return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs' => $inputs, 'satheCoil' => $satheCoil,
             'name' => $name]);

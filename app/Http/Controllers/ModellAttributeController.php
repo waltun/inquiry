@@ -106,12 +106,15 @@ class ModellAttributeController extends Controller
             'default_value.*' => 'nullable|string|max:255',
             'attribute_group_id' => 'array',
             'attribute_group_id.*' => 'nullable|integer',
+            'show_data' => 'array',
+            'show_data.*' => 'nullable|integer|in:0,1',
         ]);
 
         foreach ($modell->attributes()->orderBy('sort', 'ASC')->get() as $index => $attribute) {
             $attribute->pivot->sort = $request->sorts[$index];
             $attribute->pivot->default_value = $request->default_value[$index];
             $attribute->pivot->attribute_group_id = $request->attribute_group_id[$index];
+            $attribute->pivot->show_data = $request->show_data[$index];
             $attribute->pivot->save();
         }
 

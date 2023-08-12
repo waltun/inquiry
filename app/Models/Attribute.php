@@ -20,7 +20,7 @@ class Attribute extends Model
 
     public function modells()
     {
-        return $this->belongsToMany(Modell::class)->withPivot(['sort', 'default_value', 'attribute_group_id']);
+        return $this->belongsToMany(Modell::class)->withPivot(['sort', 'default_value', 'attribute_group_id', 'show_data']);
     }
 
     public function values()

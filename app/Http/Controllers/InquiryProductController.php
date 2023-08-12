@@ -234,7 +234,6 @@ class InquiryProductController extends Controller
         $totalPrice = 0;
 
         if (!is_null($group) && !is_null($modell)) {
-
             foreach ($product->amounts as $amount) {
                 $part = Part::find($amount->part_id);
                 $totalPrice += ($part->price * $amount->value);
@@ -242,12 +241,7 @@ class InquiryProductController extends Controller
         }
 
         if (!is_null($inquiryPart)) {
-            if ($product->price) {
-                $totalPrice = $product->price;
-            } else {
-                $totalPrice = $inquiryPart->price;
-            }
-
+            $totalPrice = $inquiryPart->price;
         }
 
         return view('inquiry-product.percent', compact('inquiry', 'group', 'modell', 'totalPrice', 'product'));

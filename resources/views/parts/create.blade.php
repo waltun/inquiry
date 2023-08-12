@@ -162,6 +162,12 @@
             </div>
 
             <div class="mb-4">
+                <label for="inputNameEng" class="form-label">نام انگلیسی قطعه</label>
+                <input type="text" id="inputNameEng" name="name_en" class="input-text"
+                       placeholder="مثال : Aluminium" value="{{ old('name_en') }}">
+            </div>
+
+            <div class="mb-4">
                 <label for="inputWeight" class="form-label">وزن قطعه (کیلوگرم)</label>
                 <input type="text" id="inputWeight" name="weight" class="input-text"
                        placeholder="مثال : 120" value="{{ old('weight') }}">

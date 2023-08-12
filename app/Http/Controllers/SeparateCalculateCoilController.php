@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\CoilInput;
 use App\Models\Part;
 use Illuminate\Http\Request;
 
@@ -316,6 +317,8 @@ class SeparateCalculateCoilController extends Controller
         $name = 'FC-' . $looleMessiName . '-' . $tedadRadifCoil . 'R-' . $finDarInch . 'FPI-' . $tedadMogheyiatLoole . 'H-'
             . $tedadLooleDarRadif . 'T-' . $tooleCoil . 'FL-' . $tedadMadarLoole . 'C-' . $finName . '-' . number_format($satheCoil, 2) . 'SQFT';
 
+        $inputs["sathe_coil"] = $satheCoil;
+
         return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs' => $inputs, 'satheCoil' => $satheCoil,
             'name' => $name]);
     }
@@ -326,6 +329,7 @@ class SeparateCalculateCoilController extends Controller
             'name' => 'required|string|max:255',
         ]);
 
+        $inputs = json_decode($request->input('inputs'), true);
         $name = $request['name'];
         $code = $this->getLastCode($part);
 
@@ -382,6 +386,18 @@ class SeparateCalculateCoilController extends Controller
             $childPart->pivot->value = $request->values[$index];
             $childPart->pivot->save();
         }
+
+        $inputs["loole_messi"] = Part::find($inputs["loole_messi"])->name;
+        $inputs["fin_coil"] = Part::find($inputs["fin_coil"])->name;
+        $inputs["zekhamat_frame_coil"] = Part::find($inputs["zekhamat_frame_coil"])->name;
+        $inputs["collector_ahani"] = Part::find($inputs["collector_ahani"])->name;
+        $inputs["collector_messi"] = Part::find($inputs["collector_messi"])->name;
+        $inputs["electrod_noghre"] = Part::find($inputs["electrod_noghre"])->name;
+
+        $coilInput = CoilInput::create($inputs);
+        $coilInput->type = 'fancoil';
+        $coilInput->part_id = $newPart->id;
+        $coilInput->save();
 
         alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');
 

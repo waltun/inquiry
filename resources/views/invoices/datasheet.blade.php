@@ -80,127 +80,423 @@
 
 
         @foreach($products as $product)
-            <div class="p-2 border-2 border-gray-400 rounded-md">
-                <div>
-                    <p class="text-lg font-bold text-indigo-600">
-                        {{ $product->model_custom_name }}
+            @php
+                $childModell = \App\Models\Modell::find($product->model_id);
+                $modell = $childModell->parent;
+            @endphp
+            <div class="border border-myRed-200 rounded-xl">
+                <div class="bg-myRed-200 p-4 rounded-t-lg">
+                    <p class="text-center text-white font-extrabold text-xl">
+                        Datasheet for : {{ $product->model_custom_name }}
                     </p>
                 </div>
-                @php
-                    $midCategoryIds = collect([]);
-                    $partIds = collect([]);
-                    $amounts = collect([]);
-                    foreach ($product->amounts()->orderBy('sort', 'ASC')->get() as $amount) {
-                        $part = \App\Models\Part::find($amount->part_id);
-                        $partIds->push($part->id);
-                        $amounts->push($amount->value);
-                        $midCategory = $part->categories[1];
-                        $midCategoryIds->push($midCategory->id);
-                    }
-                    $uniqueMidCategoryIds = $midCategoryIds->unique();
-                    $uniqueMidCategoryIds = $uniqueMidCategoryIds->toArray();
-                    $midCategoryIds = $midCategoryIds->toArray();
-                    $partIds = $partIds->toArray();
-                @endphp
-                @foreach($uniqueMidCategoryIds as $uniqueMidCategoryId)
-                    @php
-                        $keys = array_keys($midCategoryIds, $uniqueMidCategoryId);
-                        $part = \App\Models\Part::find($partIds[$keys[0]]);
-                        $midCategory = $part->categories[1];
-                        $lastCategory = $part->categories->last();
-                        $attributes = $lastCategory->attributes()->orderBy('sort', 'ASC')->get();
-                        $display = false;
 
-                        foreach($keys as $key){
-                            $part = \App\Models\Part::find($partIds[$key]);
-                            $lastCategory = $part->categories->last();
-                            $attributes = $lastCategory->attributes()->orderBy('sort', 'ASC')->get();
-
-                            if (!$attributes->isEmpty()) {
-                                $display = true;
-                                break;
-                            }
-                        }
-                    @endphp
-
-                    @if($display)
-                        <div class="p-2 rounded-lg border-2 border-sky-200 mb-4">
-                            <div class="mb-2 border-b border-gray-200 pb-2 flex">
-                                <p class="text-base font-bold text-white bg-myBlue-100 px-4 py-2">
-                                    {{ $midCategory->name_en }}
-                                </p>
-                            </div>
-                            @foreach($keys as $key)
+                <!-- Product attributes -->
+                <div class="p-4">
+                    @if(!$modell->attributes->isEmpty())
+                        <div class="bg-green-800 p-2 mt-6">
+                            <p class="text-lg font-bold text-center text-white">
+                                Product Information
+                            </p>
+                        </div>
+                        @php
+                            $attributeGroupIds = collect([]);
+                            $modell->attributes->map(function ($attr) use ($attributeGroupIds) {
+                                if ($attr->pivot->show_data == 1) {
+                                    $attributeGroupIds->push($attr->pivot->attribute_group_id);
+                                }
+                            });
+                            $uniqueAttributeGroupIds = $attributeGroupIds->unique();
+                            $attributeGroupIds = $attributeGroupIds->toArray();
+                        @endphp
+                        <div class="bg-white p-4">
+                            @foreach($uniqueAttributeGroupIds as $uniqueAttributeGroupId)
                                 @php
-                                    $part = \App\Models\Part::find($partIds[$key]);
-                                    $lastCategory = $part->categories->last();
-                                    $attributes = $lastCategory->attributes()->orderBy('sort', 'ASC')->get();
-                                    $amountValue = $amounts[$key];
+                                    $keys = array_keys($attributeGroupIds, $uniqueAttributeGroupId);
+                                    $productsAttribute = $modell->attributes[$keys[0]];
+                                    $modelAttribute = \App\Models\AttributeGroup::find($productsAttribute->pivot->attribute_group_id);
                                 @endphp
-                                @if(!$attributes->isEmpty())
-                                    <div class="grid grid-cols-3 gap-1">
-                                        <div class="col-span-3 border-b border-gray-300 pb-2">
-                                            <p class="text-base font-bold">
-                                                {{ $lastCategory->name_en }}
-                                            </p>
-                                        </div>
-                                        @foreach($attributes as $attribute)
-                                            <div class="pl-2">
-                                                <div class="grid grid-cols-12 gap-2">
-                                                    <div class="col-span-4 p-2">
-                                                        <p class="text-xs text-black font-bold">
-                                                            {{ $attribute->name }} :
-                                                        </p>
-                                                    </div>
-                                                    <div class="col-span-2 p-2">
-                                                        <p class="text-xs text-black">
-                                                            {{ $attribute->unit }}
-                                                        </p>
-                                                    </div>
-                                                    <div class="col-span-6 p-2">
-                                                        <p class="text-xs text-black">
-                                                            @if(!$part->attributeValues->isEmpty())
-                                                                @foreach($attribute->values as $value)
-                                                                    @if($part->attributeValues->contains($value))
-                                                                        {{ $value->value }}
-                                                                    @endif
-                                                                @endforeach
-                                                            @endif
-                                                        </p>
-                                                    </div>
+                                <div class="mb-6">
+                                    <div class="mb-2">
+                                        <p class="text-sm font-bold text-indigo-700">
+                                            {{ $modelAttribute->name }}
+                                        </p>
+                                    </div>
+                                    <div class="grid grid-cols-3 gap-4">
+                                        @foreach($keys as $key)
+                                            @php
+                                                $productAttribute = $modell->attributes[$key];
+                                            @endphp
+                                            <div class="grid grid-cols-12 gap-1">
+                                                <div class="col-span-5">
+                                                    <p class="text-xs font-medium">
+                                                        {{ $productAttribute->name }} :
+                                                    </p>
+                                                </div>
+                                                <div class="col-span-7">
+                                                    <p class="text-xs text-black">
+                                                        @if(!$product->attributeValues->isEmpty())
+                                                            @foreach($productAttribute->values as $value)
+                                                                @if($product->attributeValues->contains($value))
+                                                                    {{ $value->value }}
+                                                                @endif
+                                                            @endforeach
+                                                        @else
+                                                            {{ $productAttribute->pivot->default_value }}
+                                                        @endif
+                                                    </p>
                                                 </div>
                                             </div>
                                         @endforeach
-                                        @if($lastCategory->show_count)
-                                            <div class="pl-2">
-                                                <div class="grid grid-cols-12 gap-1">
-                                                    <div class="col-span-4 p-2">
-                                                        <p class="text-xs font-bold text-black">
-                                                            Number Of {{ $midCategory->name_en }}
-                                                        </p>
-                                                    </div>
-                                                    <div class="col-span-2 p-2">
-                                                        <p class="text-xs text-black">
-                                                            -
-                                                        </p>
-                                                    </div>
-                                                    <div class="col-span-6 p-2">
-                                                        <p class="text-xs text-black">
-                                                            {{ $amountValue }}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endif
                                     </div>
-                                @endif
+                                </div>
                             @endforeach
                         </div>
                     @endif
+                </div>
 
-                @endforeach
+                <!-- Part Attributes -->
+                <div class="p-4 grid grid-cols-2 gap-6">
+                    @php
+                        $midCategoryIds = collect([]);
+                        $partIds = collect([]);
+                        $amounts = collect([]);
+                        foreach ($product->amounts()->orderBy('sort', 'ASC')->get() as $amount) {
+                            $part = \App\Models\Part::find($amount->part_id);
+                            $partIds->push($part->id);
+                            $amounts->push($amount->value);
+                            $midCategory = $part->categories[1];
+                            $midCategoryIds->push($midCategory->id);
+                        }
+                        $uniqueMidCategoryIds = $midCategoryIds->unique()->toArray();
+                        $midCategoryIds = $midCategoryIds->toArray();
+                        $partIds = $partIds->toArray();
+                    @endphp
+                    @foreach($uniqueMidCategoryIds as $uniqueMidCategoryId)
+                        @php
+                            $keys = array_keys($midCategoryIds, $uniqueMidCategoryId);
+                            $part = \App\Models\Part::find($partIds[$keys[0]]);
+                            $midCategory = $part->categories[1];
+                            $lastCategory = $part->categories->last();
+                            $attributes = $lastCategory->attributes()->orderBy('sort', 'ASC')->get();
+                            $display = false;
+                            foreach($keys as $key){
+                                $part = \App\Models\Part::find($partIds[$key]);
+                                $lastCategory = $part->categories->last();
+                                $attributes = $lastCategory->attributes()->orderBy('sort', 'ASC')->get();
+
+                                if (!$attributes->isEmpty()) {
+                                    $display = true;
+                                    break;
+                                }
+                            }
+                        @endphp
+                        @if($display)
+                            <div>
+                                <div class="bg-green-800 p-2">
+                                    <p class="text-lg font-bold text-center text-white">
+                                        {{ $midCategory->name_en ?? $midCategory->name }}
+                                    </p>
+                                </div>
+                                <div class="bg-white">
+                                    @php
+                                        $coilInput = null;
+                                    @endphp
+                                    @foreach($keys as $key)
+                                        @php
+                                            $part = \App\Models\Part::find($partIds[$key]);
+                                            if ($part->coil) {
+                                                $coilInput = \App\Models\CoilInput::where('part_id', 4961)->first();
+                                            }
+                                            $lastCategory = $part->categories->last();
+                                            $attributes = $lastCategory->attributes()->orderBy('sort', 'ASC')->get();
+                                            $amountValue = $amounts[$key];
+                                        @endphp
+                                        @if(!$attributes->isEmpty())
+                                            <div class="mb-6">
+                                                <div>
+                                                    <p class="text-sm font-bold text-indigo-700 p-4">
+                                                        {{ $lastCategory->name_en ?? $lastCategory->name }}
+                                                    </p>
+                                                </div>
+                                                @if(!is_null($coilInput))
+                                                    <div class="grid grid-cols-3">
+                                                        <div class="p-2">
+                                                            <p class="text-xs font-medium text-black">
+                                                                Tube :
+                                                            </p>
+                                                        </div>
+                                                        <div class="p-2">
+                                                            <p class="text-xs text-black">
+                                                                -
+                                                            </p>
+                                                        </div>
+                                                        <div class="p-2">
+                                                            <p class="text-xs text-black">
+                                                                {{ $coilInput->loole_messi }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid grid-cols-3">
+                                                        <div class="p-2">
+                                                            <p class="text-xs font-medium text-black">
+                                                                Fin :
+                                                            </p>
+                                                        </div>
+                                                        <div class="p-2">
+                                                            <p class="text-xs text-black">
+                                                                -
+                                                            </p>
+                                                        </div>
+                                                        <div class="p-2">
+                                                            <p class="text-xs text-black">
+                                                                {{ $coilInput->fin_coil }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid grid-cols-3">
+                                                        <div class="p-2">
+                                                            <p class="text-xs font-medium text-black">
+                                                                Number of Row :
+                                                            </p>
+                                                        </div>
+                                                        <div class="p-2">
+                                                            <p class="text-xs text-black">
+                                                                No.
+                                                            </p>
+                                                        </div>
+                                                        <div class="p-2">
+                                                            <p class="text-xs text-black">
+                                                                {{ $coilInput->tedad_radif_coil }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid grid-cols-3">
+                                                        <div class="p-2">
+                                                            <p class="text-xs font-medium text-black">
+                                                                Fin per Inch :
+                                                            </p>
+                                                        </div>
+                                                        <div class="p-2">
+                                                            <p class="text-xs text-black">
+                                                                FPI
+                                                            </p>
+                                                        </div>
+                                                        <div class="p-2">
+                                                            <p class="text-xs text-black">
+                                                                {{ $coilInput->fin_dar_inch }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid grid-cols-3">
+                                                        <div class="p-2">
+                                                            <p class="text-xs font-medium text-black">
+                                                                Frame :
+                                                            </p>
+                                                        </div>
+                                                        <div class="p-2">
+                                                            <p class="text-xs text-black">
+                                                                -
+                                                            </p>
+                                                        </div>
+                                                        <div class="p-2">
+                                                            <p class="text-xs text-black">
+                                                                {{ $coilInput->zekhamat_frame_coil }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid grid-cols-3">
+                                                        <div class="p-2">
+                                                            <p class="text-xs font-medium text-black">
+                                                                Coating :
+                                                            </p>
+                                                        </div>
+                                                        <div class="p-2">
+                                                            <p class="text-xs text-black">
+                                                                -
+                                                            </p>
+                                                        </div>
+                                                        <div class="p-2">
+                                                            <p class="text-xs text-black">
+                                                                {{ $coilInput->pooshesh_khordegi }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid grid-cols-3">
+                                                        <div class="p-2">
+                                                            <p class="text-xs font-medium text-black">
+                                                                Collector :
+                                                            </p>
+                                                        </div>
+                                                        <div class="p-2">
+                                                            <p class="text-xs text-black">
+                                                                -
+                                                            </p>
+                                                        </div>
+                                                        <div class="p-2">
+                                                            <p class="text-xs text-black">
+                                                                {{ $coilInput->collector_ahani }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid grid-cols-3">
+                                                        <div class="p-2">
+                                                            <p class="text-xs font-medium text-black">
+                                                                Collector :
+                                                            </p>
+                                                        </div>
+                                                        <div class="p-2">
+                                                            <p class="text-xs text-black">
+                                                                -
+                                                            </p>
+                                                        </div>
+                                                        <div class="p-2">
+                                                            <p class="text-xs text-black">
+                                                                {{ $coilInput->collector_messi }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid grid-cols-3">
+                                                        <div class="p-2">
+                                                            <p class="text-xs font-medium text-black">
+                                                                Electrod :
+                                                            </p>
+                                                        </div>
+                                                        <div class="p-2">
+                                                            <p class="text-xs text-black">
+                                                                -
+                                                            </p>
+                                                        </div>
+                                                        <div class="p-2">
+                                                            <p class="text-xs text-black">
+                                                                {{ $coilInput->electrod_noghre }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid grid-cols-3">
+                                                        <div class="p-2">
+                                                            <p class="text-xs font-medium text-black">
+                                                                Coil Type :
+                                                            </p>
+                                                        </div>
+                                                        <div class="p-2">
+                                                            <p class="text-xs text-black">
+                                                                -
+                                                            </p>
+                                                        </div>
+                                                        <div class="p-2">
+                                                            <p class="text-xs text-black">
+                                                                {{ $coilInput->noe_coil }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid grid-cols-3">
+                                                        <div class="p-2">
+                                                            <p class="text-xs font-medium text-black">
+                                                                Finned Length :
+                                                            </p>
+                                                        </div>
+                                                        <div class="p-2">
+                                                            <p class="text-xs text-black">
+                                                                -
+                                                            </p>
+                                                        </div>
+                                                        <div class="p-2">
+                                                            <p class="text-xs text-black">
+                                                                {{ $coilInput->toole_coil }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid grid-cols-3">
+                                                        <div class="p-2">
+                                                            <p class="text-xs font-medium text-black">
+                                                                Tube Height :
+                                                            </p>
+                                                        </div>
+                                                        <div class="p-2">
+                                                            <p class="text-xs text-black">
+                                                                No.
+                                                            </p>
+                                                        </div>
+                                                        <div class="p-2">
+                                                            <p class="text-xs text-black">
+                                                                {{ $coilInput->tedad_loole_dar_radif }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid grid-cols-3">
+                                                        <div class="p-2">
+                                                            <p class="text-xs font-medium text-black">
+                                                                Tube Height :
+                                                            </p>
+                                                        </div>
+                                                        <div class="p-2">
+                                                            <p class="text-xs text-black">
+                                                                -
+                                                            </p>
+                                                        </div>
+                                                        <div class="p-2">
+                                                            <p class="text-xs text-black">
+                                                                {{ $coilInput->tedad_mogheyiat_loole }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid grid-cols-3">
+                                                        <div class="p-2">
+                                                            <p class="text-xs font-medium text-black">
+                                                                Circuits :
+                                                            </p>
+                                                        </div>
+                                                        <div class="p-2">
+                                                            <p class="text-xs text-black">
+                                                                -
+                                                            </p>
+                                                        </div>
+                                                        <div class="p-2">
+                                                            <p class="text-xs text-black">
+                                                                {{ $coilInput->tedad_madar_loole }}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                @else
+                                                    <div class="grid grid-cols-3">
+                                                        @foreach($attributes as $attribute)
+                                                            <div class="p-2">
+                                                                <p class="text-xs font-medium text-black">
+                                                                    {{ $attribute->name }} :
+                                                                </p>
+                                                            </div>
+                                                            <div class="p-2">
+                                                                <p class="text-xs text-black">
+                                                                    {{ $attribute->unit }}
+                                                                </p>
+                                                            </div>
+                                                            <div class="p-2">
+                                                                <p class="text-xs text-black">
+                                                                    @if(!$part->attributeValues->isEmpty())
+                                                                        @foreach($attribute->values as $value)
+                                                                            @if($part->attributeValues->contains($value))
+                                                                                {{ $value->value }}
+                                                                            @endif
+                                                                        @endforeach
+                                                                    @endif
+                                                                </p>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+                    @endforeach
+                </div>
             </div>
         @endforeach
+
     </div>
+
 
 </x-layout>

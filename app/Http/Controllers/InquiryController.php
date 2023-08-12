@@ -71,7 +71,13 @@ class InquiryController extends Controller
             $inquiries = $inquiries->where('user_id', request('user_id'));
         }
 
-        $inquiries = $inquiries->where('submit', 0)->where('user_id', auth()->user()->id)->latest()->paginate(25);
+        if (auth()->user()->role == 'admin') {
+            $inquiries = $inquiries->where('submit', 0)->latest()->paginate(25);
+
+        } else {
+            $inquiries = $inquiries->where('submit', 0)->where('user_id', auth()->user()->id)->latest()->paginate(25);
+        }
+
 
         $modells = Modell::where('parent_id', '!=', 0)->get();
         $groups = Group::all();
@@ -712,6 +718,38 @@ class InquiryController extends Controller
         $newProduct->save();
 
         foreach ($product->amounts as $amount) {
+            $part = Part::find($amount->part_id);
+            $category = $part->categories()->latest()->first();
+            $lastPart = $category->parts()->latest()->first();
+            $code = str_pad($lastPart->code + 1, 4, "0", STR_PAD_LEFT);
+
+            if ($part->coil == '1' && $part->collection == '1' && !is_null($part->inquiry_id)) {
+                $newPart = $part->replicate()->fill([
+                    'code' => $code,
+                    'name' => $part->name,
+                    'inquiry_id' => $inquiry->id,
+                    'product_id' => $newProduct->id
+                ]);
+                $newPart->save();
+
+                $newPart->categories()->syncWithoutDetaching($part->categories);
+
+                foreach ($part->children as $child) {
+                    $newPart->children()->syncWithoutDetaching([
+                        $child->id => [
+                            'value' => $child->pivot->value
+                        ]
+                    ]);
+                }
+
+                $totalPrice = 0;
+                foreach ($newPart->children as $child) {
+                    $totalPrice += ($child->price * $child->pivot->value);
+                }
+                $newPart->price = $totalPrice;
+                $newPart->save();
+            }
+
             $newAmount = $amount->replicate()->fill([
                 'value' => $amount->value,
                 'product_id' => $newProduct->id,

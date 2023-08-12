@@ -919,7 +919,7 @@
                                                            placeholder="قیمت">
                                                 </div>
                                             @else
-                                                {{ number_format($part->price) }}
+                                                {{ number_format($product->price == 0 ? $part->price : $product->price) }}
                                             @endif
                                         </td>
                                         <td class="table-tr-td border-t-0 border-x-0">

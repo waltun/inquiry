@@ -176,7 +176,7 @@
                                 $foundValue = false;
                             @endphp
                             @foreach($attribute->values as $value)
-                                @if($modell->attributeValues->contains($value))
+                                @if($product->attributeValues->contains($value))
                                     <input type="text" class="input-text text-center" value="{{ $value->value }}"
                                            name="values[]">
                                     @php

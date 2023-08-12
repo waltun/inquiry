@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->id();
 
             $table->string('name');
+            $table->string('name_en')->nullable();
             $table->bigInteger('price')->default(0);
             $table->bigInteger('old_price')->default(0);
             $table->string('code')->nullable();

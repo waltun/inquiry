@@ -23,8 +23,8 @@ class AttributeValue extends Model
         return $this->belongsToMany(Part::class);
     }
 
-    public function modells()
+    public function products()
     {
-        return $this->belongsToMany(Modell::class);
+        return $this->belongsToMany(Product::class);
     }
 }

@@ -11,7 +11,8 @@ class Part extends Model
 
     protected $fillable = [
         'name', 'unit', 'price', 'code', 'collection', 'category_id', 'old_price', 'coil', 'price_updated_at', 'inquiry_id',
-        'unit2', 'operator1', 'formula1', 'operator2', 'formula2', 'product_id', 'standard', 'percent_submit', 'weight'
+        'unit2', 'operator1', 'formula1', 'operator2', 'formula2', 'product_id', 'standard', 'percent_submit', 'weight',
+        'name_en'
     ];
 
     public function groups()
@@ -41,10 +42,12 @@ class Part extends Model
         belongsToMany(Part::class, 'part_child', 'child_part_id', 'parent_part_id')
             ->withPivot(['value', 'value2', 'sort']);
     }
+
     public function inquiryPrice()
     {
         return $this->belongsTo(InquiryPrice::class);
     }
+
     public function attributeValues()
     {
         return $this->belongsToMany(AttributeValue::class);

@@ -23,4 +23,9 @@ class Product extends Model
     {
         return $this->hasMany(Amount::class);
     }
+
+    public function attributeValues()
+    {
+        return $this->belongsToMany(AttributeValue::class);
+    }
 }

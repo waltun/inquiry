@@ -13,6 +13,9 @@
                 tags: true,
                 width: '100%'
             });
+            $("#inputModell").select2({
+                width: '100%'
+            });
         </script>
         <script>
             function updateAttribute(id) {
@@ -269,15 +272,15 @@
                                             کپی از مشخصات فنی مدل {{ $modell->name }}
                                         </h3>
                                         <button type="button" @click="open = false">
-                                        <span class="modal-close">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                 viewBox="0 0 24 24"
-                                                 stroke-width="1.5" stroke="currentColor"
-                                                 class="w-5 h-5 dark:text-white">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                      d="M6 18L18 6M6 6l12 12"/>
-                                            </svg>
-                                        </span>
+                                            <span class="modal-close">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                     viewBox="0 0 24 24"
+                                                     stroke-width="1.5" stroke="currentColor"
+                                                     class="w-5 h-5 dark:text-white">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          d="M6 18L18 6M6 6l12 12"/>
+                                                </svg>
+                                            </span>
                                         </button>
                                     </div>
                                     <form method="post"
@@ -290,7 +293,7 @@
                                             <select name="modell_id" id="inputModell" class="input-text">
                                                 <option value="">انتخاب کنید</option>
                                                 @foreach(\App\Models\Modell::all() as $child)
-                                                    @if($child->id !== $modell->id && $child->children->isEmpty())
+                                                    @if(!$child->children->isEmpty())
                                                         <option value="{{ $child->id }}">
                                                             {{ $child->name }}
                                                         </option>
@@ -344,6 +347,9 @@
                         <th scope="col" class="p-4">
                             دسته بندی
                         </th>
+                        <th scope="col" class="p-4">
+                            نمایش
+                        </th>
                         <th scope="col" class="p-4 rounded-tl-lg">
                             اقدامات
                         </th>
@@ -377,6 +383,17 @@
                                             {{ $group->name }}
                                         </option>
                                     @endforeach
+                                </select>
+                            </td>
+                            <td class="table-tr-td border-t-0 border-x-0">
+                                <select name="show_data[]" id="attributeShow{{ $attribute->id }}" class="input-text">
+                                    <option value="">انتخاب کنید</option>
+                                    <option value="1" {{ $attribute->pivot->show_data == '1' ? 'selected' : '' }}>
+                                        نمایش در دیتاشیت
+                                    </option>
+                                    <option value="0" {{ $attribute->pivot->show_data == '0' ? 'selected' : '' }}>
+                                        عدم نمایش در دیتاشیت
+                                    </option>
                                 </select>
                             </td>
                             <td class="table-tr-td border-t-0 border-r-0">
@@ -475,7 +492,8 @@
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                   d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
                                         </svg>
-                                        <button type="button" onclick="destroyAttribute({{ $attribute->id }},{{ $modell->id }})">
+                                        <button type="button"
+                                                onclick="destroyAttribute({{ $attribute->id }},{{ $modell->id }})">
                                             حذف
                                         </button>
                                     </div>

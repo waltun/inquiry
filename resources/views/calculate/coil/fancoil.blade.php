@@ -561,6 +561,7 @@
             <form method="POST" action="{{ route('calculateCoil.storeFancoil',[$part->id,$product->id]) }}"
                   class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4">
                 @csrf
+                <input type="hidden" name="inputs" value="{{ json_encode($inputs) }}">
                 <table class="border-collapse border border-gray-400 w-full">
                     <thead class="sticky top-1 bg-gray-200 z-50 shadow-md">
                     <tr>
