@@ -51,6 +51,7 @@ class ModellAttributeController extends Controller
         ]);
 
         $modell = Modell::find($request->modell_id);
+        $modellAttribute = $modell->attributes()->where('attribute_id', $attribute->id)->where('modell_id', $modell->id)->first();
 
         $record = Attribute::where('name', $data['name'])->where('unit', $data['unit'])->where('id', '!=', $attribute->id)->first();
         if ($record) {
@@ -60,7 +61,12 @@ class ModellAttributeController extends Controller
 
         $newAttribute = Attribute::firstOrCreate($data);
         $modell->attributes()->detach($attribute->id);
-        $modell->attributes()->attach($newAttribute->id);
+        $modell->attributes()->attach($newAttribute->id, [
+            'sort' => $modellAttribute->pivot->sort,
+            'default_value' => $modellAttribute->pivot->default_value,
+            'attribute_group_id' => $modellAttribute->pivot->attribute_group_id,
+            'show_data' => $modellAttribute->pivot->show_data
+        ]);
 
         alert()->success('بروزرسانی موفق', 'مشخصه فنی با موفقیت بروزرسانی شد');
 

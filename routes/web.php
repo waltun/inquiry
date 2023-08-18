@@ -151,10 +151,8 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/inquiries/{product}/product-amounts', [InquiryProductController::class, 'storeAmounts'])->name('inquiries.product.storeAmounts');
 
 
-
     Route::get('/inquiries/{product}/product-attributes', [ProductAttributeController::class, 'index'])->name('inquiries.product.attributes');
     Route::post('/inquiries/{product}/product-attributes', [ProductAttributeController::class, 'store'])->name('inquiries.product.storeAttribute');
-
 
 
     Route::post('/inquiries/product-amounts/change-part', [InquiryProductController::class, 'changePart'])->name('inquiries.product.changePart');
@@ -489,6 +487,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/final-invoices/{invoice}/print-page', [FinalInvoiceController::class, 'printPage'])->name('invoices.final.printPage');
     Route::patch('/final-invoices/{invoice}/restore', [FinalInvoiceController::class, 'restore'])->name('invoices.final.restore');
     Route::get('/final-invoices/{invoice}/datasheet', [FinalInvoiceController::class, 'datasheet'])->name('invoices.final.datasheet');
+    Route::get('/final-invoices/{invoice}/print-datasheet', [FinalInvoiceController::class, 'printDatasheet'])->name('invoices.final.printDatasheet');
 
     Route::resource('attribute-groups', AttributeGroupController::class)->except(['create', 'edit', 'show']);
 });

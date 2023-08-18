@@ -354,7 +354,7 @@
             $taxPrice = 0;
 
             if ($invoice->tax) {
-                $taxPrice = ceil($finalPrice * 9 / 100 / 1000) * 1000;
+                $taxPrice = $finalPrice * 9 / 100;
             }
         @endphp
         <div class="flex justify-end items-center sticky bottom-4 space-x-4 space-x-reverse">

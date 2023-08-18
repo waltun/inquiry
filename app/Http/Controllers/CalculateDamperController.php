@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DamperInput;
 use App\Models\Inquiry;
 use App\Models\Part;
 use App\Models\Product;
@@ -37,6 +38,7 @@ class CalculateDamperController extends Controller
     {
         $name = $request['name'];
         $code = $this->getLastCode($part);
+        $inputs = json_decode($request->input('inputs'), true);
 
         $newPart = $part->replicate()->fill([
             'name' => $name,
@@ -60,6 +62,27 @@ class CalculateDamperController extends Controller
 
         $request->session()->put('damper-btn-' . $part->id . $product->id, 'calculated');
         $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
+
+        $damperInput = DamperInput::create($inputs);
+        $damperInput->type = $inputs['type'];
+
+        if ($inputs['type'] == 'Taze') {
+            $damperInput->debi_hava_taze = $inputs['debi_hava_taze'];
+        }
+        if ($inputs['type'] == 'Exast') {
+            $damperInput->debi_hava_taze = $inputs['debi_hava_exast'];
+        }
+        if ($inputs['type'] == 'Raft') {
+            $damperInput->debi_hava_taze = $inputs['debi_hava_raft'];
+        }
+        if ($inputs['type'] == 'Bargasht') {
+            $damperInput->debi_hava_taze = $inputs['debi_hava_bargasht'];
+        }
+
+        $damperInput->part_id = $newPart->id;
+        $damperInput->diomantion = $newPart->id;
+        $damperInput->inquiry_id = $product->inquiry_id;
+        $damperInput->save();
 
         alert()->success('محاسبه موفق', 'محاسبه دمپر با موفقیت انجام شد');
 
@@ -153,6 +176,8 @@ class CalculateDamperController extends Controller
 
         $name = "FD-OPB-" . $tedadPare . "BL-" . number_format($toolePare, 2) . "L";
 
+        $inputs["type"] = 'Taze';
+
         return back()->with(['values' => $values, 'name' => $name, 'inputs' => $inputs, 'toolePare' => $toolePare, 'ertefa' => $ertefaDamper
             , 'sotoonVasat' => $profileSotoonVasat]);
     }
@@ -243,6 +268,8 @@ class CalculateDamperController extends Controller
         ];
 
         $name = "ED-OPB-" . $tedadPare . "BL-" . number_format($toolePare, 2) . "L";
+
+        $inputs["type"] = 'Exast';
 
         return back()->with(['values' => $values, 'name' => $name, 'inputs' => $inputs, 'toolePare' => $toolePare, 'ertefa' => $ertefaDamper
             , 'sotoonVasat' => $profileSotoonVasat]);
@@ -335,6 +362,8 @@ class CalculateDamperController extends Controller
 
         $name = "SD-OPB-" . $tedadPare . "BL-" . number_format($toolePare, 2) . "L";
 
+        $inputs["type"] = 'Raft';
+
         return back()->with(['values' => $values, 'name' => $name, 'inputs' => $inputs, 'toolePare' => $toolePare, 'ertefa' => $ertefaDamper
             , 'sotoonVasat' => $profileSotoonVasat]);
     }
@@ -425,6 +454,8 @@ class CalculateDamperController extends Controller
         ];
 
         $name = "RD-OPB-" . $tedadPare . "BL-" . number_format($toolePare, 2) . "L";
+
+        $inputs["type"] = 'Bargasht';
 
         return back()->with(['values' => $values, 'name' => $name, 'inputs' => $inputs, 'toolePare' => $toolePare, 'ertefa' => $ertefaDamper
             , 'sotoonVasat' => $profileSotoonVasat]);

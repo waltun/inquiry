@@ -35,7 +35,8 @@ return new class extends Migration {
             $table->string('sathe_coil')->nullable();
 
             $table->string('type');
-            $table->unsignedBigInteger('part_id');
+            $table->unsignedBigInteger('part_id')->nullable();
+            $table->unsignedBigInteger('inquiry_id')->nullable();
 
             $table->timestamps();
         });

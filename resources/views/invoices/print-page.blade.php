@@ -381,7 +381,7 @@
                         $taxPrice = 0;
 
                         if ($invoice->tax) {
-                            $taxPrice = ceil($finalPrice * 9 / 100 / 1000) * 1000;
+                            $taxPrice = $finalPrice * 9 / 100;
                         }
                     @endphp
                     <div class="grid grid-cols-3 gap-4 mx-5 mb-4">
@@ -419,7 +419,7 @@
                                 </div>
                                 <div class="mt-2">
                                     <p class="text-sm font-medium text-center">
-                                        {{ number_format($finalPrice +$taxPrice) }}
+                                        {{ number_format($finalPrice + $taxPrice) }}
                                     </p>
                                 </div>
                             </div>
