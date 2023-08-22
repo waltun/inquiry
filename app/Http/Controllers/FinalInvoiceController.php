@@ -102,7 +102,20 @@ class FinalInvoiceController extends Controller
             $data['start_contract_date'] = (new Jalalian($explodeContractDate[0], $explodeContractDate[1], $explodeContractDate[2]))->toCarbon()->toDateTimeString();
         }
 
-        $invoice->contracts()->create($data);
+        $contract = $invoice->contracts()->create($data);
+
+        foreach ($invoice->products as $product) {
+            $contract->products()->create([
+                'quantity' => $product->quantity,
+                'price' => $product->price,
+                'model_custom_name' => $product->model_custom_name,
+                'tag' => $product->description,
+                'type' => $product->type,
+                'group_id' => $product->group_id,
+                'model_id' => $product->model_id,
+                'part_id' => $product->part_id,
+            ]);
+        }
 
         return "success";
     }

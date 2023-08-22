@@ -3,15 +3,23 @@
         <script src="{{ asset('plugins/jquery.min.js') }}"></script>
         <script src="{{ asset('plugins/date-picker/persianDatepicker.min.js') }}"></script>
         <script>
-            $("#inputBuildDate").persianDatepicker({
-                formatDate: "YYYY-MM-DD",
-            });
-            $("#inputDeliveryDate").persianDatepicker({
-                formatDate: "YYYY-MM-DD",
-            });
-            $("#inputStartContractDate").persianDatepicker({
-                formatDate: "YYYY-MM-DD",
-            });
+            function showBuildDate(id) {
+                $("#inputBuildDate" + id).persianDatepicker({
+                    formatDate: "YYYY-MM-DD",
+                });
+            }
+
+            function showDeliveryDate(id) {
+                $("#inputDeliveryDate" + id).persianDatepicker({
+                    formatDate: "YYYY-MM-DD",
+                });
+            }
+
+            function showContractDate(id) {
+                $("#inputStartContractDate" + id).persianDatepicker({
+                    formatDate: "YYYY-MM-DD",
+                });
+            }
         </script>
     </x-slot>
     <x-slot name="css">
@@ -266,34 +274,45 @@
                                                         </div>
                                                         <div class="mt-6">
                                                             <div class="mb-4">
-                                                                <label for="inputPeriod" class="form-label">
+                                                                <label for="inputPeriod{{ $invoice->id }}"
+                                                                       class="form-label">
                                                                     مدت قرارداد
                                                                 </label>
-                                                                <input type="text" id="inputPeriod" name="period"
+                                                                <input type="text" id="inputPeriod{{ $invoice->id }}"
+                                                                       name="period"
                                                                        class="input-text">
                                                             </div>
                                                             <div class="mb-4">
-                                                                <label for="inputBuildDate" class="form-label">
+                                                                <label for="inputBuildDate{{ $invoice->id }}"
+                                                                       class="form-label">
                                                                     تاریخ شروع به ساخت
                                                                 </label>
-                                                                <input type="text" id="inputBuildDate" name="build_date"
-                                                                       class="input-text">
+                                                                <input type="text" id="inputBuildDate{{ $invoice->id }}"
+                                                                       name="build_date"
+                                                                       class="input-text"
+                                                                       onclick="showBuildDate({{ $invoice->id }})">
                                                             </div>
                                                             <div class="mb-4">
-                                                                <label for="inputDeliveryDate" class="form-label">
+                                                                <label for="inputDeliveryDate{{ $invoice->id }}"
+                                                                       class="form-label">
                                                                     تاریخ تحویل
                                                                 </label>
-                                                                <input type="text" id="inputDeliveryDate"
+                                                                <input type="text"
+                                                                       id="inputDeliveryDate{{ $invoice->id }}"
                                                                        name="delivery_date"
-                                                                       class="input-text">
+                                                                       class="input-text"
+                                                                       onclick="showDeliveryDate({{ $invoice->id }})">
                                                             </div>
                                                             <div class="mb-4">
-                                                                <label for="inputStartContractDate" class="form-label">
+                                                                <label for="inputStartContractDate{{ $invoice->id }}"
+                                                                       class="form-label">
                                                                     تاریخ شروع قرارداد
                                                                 </label>
-                                                                <input type="text" id="inputStartContractDate"
+                                                                <input type="text"
+                                                                       id="inputStartContractDate{{ $invoice->id }}"
                                                                        name="start_contract_date"
-                                                                       class="input-text">
+                                                                       class="input-text"
+                                                                       onclick="showContractDate({{ $invoice->id }})">
                                                             </div>
                                                             <div
                                                                 class="flex justify-end items-center space-x-4 space-x-reverse">
