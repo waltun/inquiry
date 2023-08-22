@@ -10,6 +10,7 @@ use App\Http\Controllers\CategoryAttributeController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CollectionCoilController;
 use App\Http\Controllers\CollectionPartController;
+use App\Http\Controllers\ContractController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FinalInvoiceController;
 use App\Http\Controllers\GroupController;
@@ -491,4 +492,6 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/final-invoices/{invoice}/add-to-contract', [FinalInvoiceController::class, 'addToContract'])->name('invoices.final.addToContract');
 
     Route::resource('attribute-groups', AttributeGroupController::class)->except(['create', 'edit', 'show']);
+
+    Route::get('/contracts', [ContractController::class, 'index'])->name('contracts.index');
 });

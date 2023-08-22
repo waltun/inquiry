@@ -15,6 +15,8 @@ return new class extends Migration {
         Schema::create('contracts', function (Blueprint $table) {
             $table->id();
 
+            $table->string('name')->nullable();
+            $table->string('marketer')->nullable();
             $table->string('number')->nullable();
             $table->string('customer_number')->nullable();
             $table->string('period')->nullable();
@@ -28,6 +30,7 @@ return new class extends Migration {
             $table->timestamp('send_date')->nullable();
 
             $table->unsignedBigInteger('invoice_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
 
             $table->timestamps();
         });

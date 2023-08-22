@@ -10,8 +10,8 @@ class Contract extends Model
     use HasFactory;
 
     protected $fillable = [
-        'number', 'customer_number', 'period', 'price', 'tax', 'build_date', 'delivery_date', 'start_contract_date',
-        'sale_service_date', 'send_date', 'invoice_id'
+        'name', 'marketer', 'number', 'customer_number', 'period', 'price', 'tax', 'build_date', 'delivery_date',
+        'start_contract_date', 'sale_service_date', 'send_date', 'invoice_id', 'user_id'
     ];
 
     public function invoice()
@@ -22,5 +22,10 @@ class Contract extends Model
     public function products()
     {
         return $this->hasMany(ContractProduct::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

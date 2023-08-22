@@ -103,6 +103,10 @@ class FinalInvoiceController extends Controller
         }
 
         $contract = $invoice->contracts()->create($data);
+        $contract->name = $invoice->inquiry->name;
+        $contract->marketer = $invoice->inquiry->marketer;
+        $contract->user_id = $invoice->user_id;
+        $contract->save();
 
         foreach ($invoice->products as $product) {
             $contract->products()->create([
@@ -117,6 +121,8 @@ class FinalInvoiceController extends Controller
             ]);
         }
 
-        return "success";
+        alert()->success('ثبت موفق', 'تبدیل پیش فاکتور به قطعه با موفقیت انجام شد');
+
+        return redirect()->route('contracts.index');
     }
 }

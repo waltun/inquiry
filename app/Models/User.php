@@ -14,7 +14,7 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     protected $fillable = [
-        'name', 'email', 'password', 'phone', 'gender', 'nation', 'role', 'active','internal_number'
+        'name', 'email', 'password', 'phone', 'gender', 'nation', 'role', 'active', 'internal_number'
     ];
 
     protected $hidden = [
@@ -54,5 +54,10 @@ class User extends Authenticatable
     public function hasRole($roles)
     {
         return !!$roles->intersect($this->roles)->all();
+    }
+
+    public function contracts()
+    {
+        return $this->hasMany(Contract::class);
     }
 }
