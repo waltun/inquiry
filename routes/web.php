@@ -488,6 +488,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::patch('/final-invoices/{invoice}/restore', [FinalInvoiceController::class, 'restore'])->name('invoices.final.restore');
     Route::get('/final-invoices/{invoice}/datasheet', [FinalInvoiceController::class, 'datasheet'])->name('invoices.final.datasheet');
     Route::get('/final-invoices/{invoice}/print-datasheet', [FinalInvoiceController::class, 'printDatasheet'])->name('invoices.final.printDatasheet');
+    Route::post('/final-invoices/{invoice}/add-to-contract', [FinalInvoiceController::class, 'addToContract'])->name('invoices.final.addToContract');
 
     Route::resource('attribute-groups', AttributeGroupController::class)->except(['create', 'edit', 'show']);
 });

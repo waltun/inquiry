@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Invoice;
 use Illuminate\Http\Request;
+use Morilog\Jalali\Jalalian;
 
 class FinalInvoiceController extends Controller
 {
@@ -75,5 +76,34 @@ class FinalInvoiceController extends Controller
     public function printDatasheet(Invoice $invoice)
     {
         return view('invoices.print-datasheet', compact('invoice'));
+    }
+
+    public function addToContract(Request $request, Invoice $invoice)
+    {
+        $data = $request->validate([
+            'period' => 'required|string|max:255',
+            'build_date' => 'nullable|string|max:255',
+            'delivery_date' => 'nullable|string|max:255',
+            'start_contract_date' => 'nullable|string|max:255',
+        ]);
+
+        if (!is_null($data['build_date'])) {
+            $explodeBuildDate = explode('-', $data['build_date']);
+            $data['build_date'] = (new Jalalian($explodeBuildDate[0], $explodeBuildDate[1], $explodeBuildDate[2]))->toCarbon()->toDateTimeString();
+        }
+
+        if (!is_null($data['delivery_date'])) {
+            $explodeDeliveryDate = explode('-', $data['delivery_date']);
+            $data['delivery_date'] = (new Jalalian($explodeDeliveryDate[0], $explodeDeliveryDate[1], $explodeDeliveryDate[2]))->toCarbon()->toDateTimeString();
+        }
+
+        if (!is_null($data['start_contract_date'])) {
+            $explodeContractDate = explode('-', $data['start_contract_date']);
+            $data['start_contract_date'] = (new Jalalian($explodeContractDate[0], $explodeContractDate[1], $explodeContractDate[2]))->toCarbon()->toDateTimeString();
+        }
+
+        $invoice->contracts()->create($data);
+
+        return "success";
     }
 }
