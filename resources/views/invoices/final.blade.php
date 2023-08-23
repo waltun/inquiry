@@ -314,6 +314,22 @@
                                                                        class="input-text"
                                                                        onclick="showContractDate({{ $invoice->id }})">
                                                             </div>
+                                                            <div class="mb-4">
+                                                                <label for="inputCustomer{{ $invoice->id }}"
+                                                                       class="form-label">
+                                                                    انتخاب مشتری
+                                                                </label>
+                                                                <select name="customer_id"
+                                                                        id="inputCustomer{{ $invoice->id }}"
+                                                                        class="input-text">
+                                                                    <option value="">انتخاب کنید</option>
+                                                                    @foreach($customers as $customer)
+                                                                        <option value="{{ $customer->id }}">
+                                                                            {{ $customer->name }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
                                                             <div
                                                                 class="flex justify-end items-center space-x-4 space-x-reverse">
                                                                 <button type="submit"

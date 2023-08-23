@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
 use Morilog\Jalali\Jalalian;
@@ -44,7 +45,9 @@ class FinalInvoiceController extends Controller
             $invoices = $invoices->where('user_id', auth()->user()->id)->where('complete', true)->latest()->paginate(25);
         }
 
-        return view('invoices.final', compact('invoices'));
+        $customers = Customer::select(['name', 'id'])->get();
+
+        return view('invoices.final', compact('invoices', 'customers'));
     }
 
     public function print(Invoice $invoice)
@@ -85,6 +88,7 @@ class FinalInvoiceController extends Controller
             'build_date' => 'nullable|string|max:255',
             'delivery_date' => 'nullable|string|max:255',
             'start_contract_date' => 'nullable|string|max:255',
+            'customer_id' => 'required|integer'
         ]);
 
         if (!is_null($data['build_date'])) {

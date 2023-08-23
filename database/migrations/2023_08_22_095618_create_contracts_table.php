@@ -31,6 +31,7 @@ return new class extends Migration {
 
             $table->unsignedBigInteger('invoice_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('customer_id')->nullable();
 
             $table->timestamps();
         });

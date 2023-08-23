@@ -29,6 +29,21 @@
                     </button>
                 </li>
                 <li class="ml-2">
+                    <button x-on:click="tab = 'contract'" type="button"
+                            class="inline-flex p-4 text-myBlue-100 group rounded-t-lg dark:text-white"
+                            :class="{ 'text-myBlue-100 border border-indigo-400 bg-gray-100 dark:bg-slate-900': tab === 'contract' }"
+                            aria-current="page">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" class="w-5 h-5 ml-2 text-blue-600"
+                             :class="{ 'text-blue-700': tab === 'contract' }">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/>
+                        </svg>
+
+                        بخش قرارداد ها
+                    </button>
+                </li>
+                <li class="ml-2">
                     <button x-on:click="tab = 'price'" type="button"
                             class="inline-flex p-4 text-myBlue-100 group rounded-t-lg dark:text-white"
                             :class="{ 'text-myBlue-100 border border-indigo-400 bg-gray-100 dark:bg-slate-900': tab === 'price' }"
@@ -201,6 +216,69 @@
                         </svg>
                     </div>
                 </a>
+            </div>
+        </div>
+
+        <div x-show="tab === 'contract'"
+             class="border border-indigo-400 dark:border-black border-t-0 rounded-b-lg px-4 py-6" x-cloak>
+            <div class="md:grid grid-cols-4 gap-4 space-y-4 md:space-y-0">
+                @can('customers')
+                    <a href="{{ route('customers.index') }}" class="dashboard-cards group">
+                        <div class="flex items-center">
+                            <div class="dashboard-card-icon bg-yellow-600 dark:bg-slate-800">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5" stroke="currentColor"
+                                     class="w-6 h-6 text-white group-hover:text-myBlue-100">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/>
+                                </svg>
+
+                            </div>
+                            <div class="mr-4">
+                                <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
+                                    مشتریان
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                 class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                                <path fill-rule="evenodd"
+                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </a>
+                @endcan
+
+                @can('contracts')
+                    <a href="{{ route('contracts.index') }}" class="dashboard-cards group">
+                        <div class="flex items-center">
+                            <div class="dashboard-card-icon bg-yellow-600 dark:bg-slate-800">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5" stroke="currentColor"
+                                     class="w-6 h-6 text-white group-hover:text-myBlue-100">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/>
+                                </svg>
+
+                            </div>
+                            <div class="mr-4">
+                                <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
+                                    قرارداد ها
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                 class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                                <path fill-rule="evenodd"
+                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </a>
+                @endcan
             </div>
         </div>
 
