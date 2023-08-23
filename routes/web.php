@@ -495,6 +495,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::resource('attribute-groups', AttributeGroupController::class)->except(['create', 'edit', 'show']);
 
     Route::get('/contracts', [ContractController::class, 'index'])->name('contracts.index');
+    Route::get('/contracts/{contract}/products', [ContractController::class, 'products'])->name('contracts.products');
 
     Route::resource('customers', CustomerController::class)->except(['show']);
 });

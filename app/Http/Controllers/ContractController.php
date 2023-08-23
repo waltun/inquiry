@@ -12,4 +12,9 @@ class ContractController extends Controller
         $contracts = Contract::latest()->with(['invoice', 'products'])->paginate(20);
         return view('contracts.index', compact('contracts'));
     }
+
+    public function products(Contract $contract)
+    {
+        return view('contracts.products', compact('contract'));
+    }
 }
