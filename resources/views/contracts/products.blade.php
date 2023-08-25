@@ -83,7 +83,8 @@
                     <p class="card-title text-lg">لیست محصولات</p>
                 </div>
 
-                <form method="POST" action="" class="mt-8 overflow-x-auto rounded-lg">
+                <form method="POST" action="{{ route('contracts.update-products', $contract->id) }}"
+                      class="mt-8 overflow-x-auto rounded-lg">
                     @csrf
                     <table class="w-full border-collapse">
                         <thead>
@@ -113,6 +114,7 @@
                         </thead>
                         <tbody>
                         @foreach($contract->products()->where('group_id','!=',0)->where('model_id','!=',0)->get() as $product)
+                            <input type="hidden" name="products[]" value="{{ $product->id }}">
                             @php
                                 $modell = \App\Models\Modell::find($product->model_id);
 
