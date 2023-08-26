@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AttributeGroupController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CalculateCoilController;
@@ -500,4 +501,6 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/contracts/{contract}', [ContractController::class, 'show'])->name('contract.show');
 
     Route::resource('customers', CustomerController::class)->except(['show']);
+
+    Route::resource('accounts', AccountController::class)->except(['show']);
 });
