@@ -12,4 +12,9 @@ class Account extends Model
     protected $fillable = [
         'bank', 'account_number', 'card_number', 'shaba_number', 'branch', 'branch_code', 'address'
     ];
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
 }

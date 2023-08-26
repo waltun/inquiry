@@ -97,7 +97,7 @@
                         </td>
                         <td class="table-tr-td border-t-0 border-r-0">
                             <div class="flex items-center justify-center space-x-4 space-x-reverse">
-                                <a href="{{ route('contract.show', $contract->id) }}" class="table-dropdown-copy">
+                                <a href="{{ route('contracts.show', $contract->id) }}" class="table-dropdown-copy">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                          stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
                                         <path stroke-linecap="round" stroke-linejoin="round"

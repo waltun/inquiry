@@ -11,6 +11,7 @@ use App\Http\Controllers\CategoryAttributeController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CollectionCoilController;
 use App\Http\Controllers\CollectionPartController;
+use App\Http\Controllers\Contract\PaymentController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
@@ -498,7 +499,14 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/contracts', [ContractController::class, 'index'])->name('contracts.index');
     Route::get('/contracts/{contract}/products', [ContractController::class, 'products'])->name('contracts.products');
     Route::post('/contracts/products/update', [ContractController::class, 'updateProducts'])->name('contracts.update-products');
-    Route::get('/contracts/{contract}', [ContractController::class, 'show'])->name('contract.show');
+    Route::get('/contracts/{contract}', [ContractController::class, 'show'])->name('contracts.show');
+
+    Route::get('/contracts/{contract}/payments', [PaymentController::class, 'index'])->name('contracts.payments.index');
+    Route::get('/contracts/{contract}/create-payments', [PaymentController::class, 'create'])->name('contracts.payments.create');
+    Route::post('/contracts/{contract}/create-payments', [PaymentController::class, 'store'])->name('contracts.payments.store');
+    Route::get('/contracts/{payment}/edit-payments', [PaymentController::class, 'edit'])->name('contracts.payments.edit');
+    Route::patch('/contracts/{payment}/edit-payments', [PaymentController::class, 'update'])->name('contracts.payments.update');
+    Route::delete('/contracts/{payment}/delete-payments', [PaymentController::class, 'destroy'])->name('contracts.payments.destroy');
 
     Route::resource('customers', CustomerController::class)->except(['show']);
 
