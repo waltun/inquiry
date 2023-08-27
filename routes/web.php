@@ -508,6 +508,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/contracts/{payment}/edit-payments', [PaymentController::class, 'edit'])->name('contracts.payments.edit');
     Route::patch('/contracts/{payment}/edit-payments', [PaymentController::class, 'update'])->name('contracts.payments.update');
     Route::delete('/contracts/{payment}/delete-payments', [PaymentController::class, 'destroy'])->name('contracts.payments.destroy');
+    Route::post('/contracts/{contract}/confirm-payments', [PaymentController::class, 'confirm'])->name('contracts.payments.confirm');
 
     Route::resource('customers', CustomerController::class)->except(['show']);
 

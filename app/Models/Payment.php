@@ -10,7 +10,7 @@ class Payment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'price', 'text', 'date', 'type', 'account_id', 'contract_id'
+        'price', 'text', 'date', 'type', 'account_id', 'contract_id', 'confirm'
     ];
 
     public function account()

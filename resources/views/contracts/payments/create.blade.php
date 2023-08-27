@@ -186,9 +186,9 @@
 
         <div class="flex items-center space-x-4 space-x-reverse">
             <button type="submit" class="form-submit-btn" id="submit-button">
-                ثبت حساب
+                ثبت پرداخت
             </button>
-            <a href="{{ route('accounts.index') }}" class="form-cancel-btn">
+            <a href="{{ route('contracts.payments.index', $contract->id) }}" class="form-cancel-btn">
                 انصراف
             </a>
         </div>

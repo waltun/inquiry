@@ -64,6 +64,12 @@
                         نام پروژه
                     </th>
                     <th scope="col" class="p-4">
+                        مسئول پروژه
+                    </th>
+                    <th scope="col" class="p-4">
+                        نام خریدار
+                    </th>
+                    <th scope="col" class="p-4">
                         مبلغ کل (تومان)
                     </th>
                     <th scope="col" class="p-4">
@@ -88,7 +94,7 @@
                             $contractPrice += $product->price * $product->quantity;
                         }
 
-                        foreach ($contract->payments()->select(['price'])->get() as $payment2) {
+                        foreach ($contract->payments()->where('confirm', 1)->get() as $payment2) {
                             $paymentPrice += $payment2->price;
                         }
 
@@ -102,7 +108,13 @@
                             {{ $contract->name }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            <p class="text-indigo-600">
+                            {{ $contract->user->name }}
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            {{ $contract->customer->name }}
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            <p class="text-green-600">
                                 {{ number_format($contractPrice) }}
                             </p>
                         </td>
@@ -129,6 +141,12 @@
                                     </svg>
                                     جزئیات
                                 </a>
+
+                                @if(count($contract->payments()->where('confirm', 0)->get()) > 0)
+                                    <p class="p-1 rounded-lg bg-red-500 text-white shadow-sm">
+                                        منتظر تایید پرداخت
+                                    </p>
+                                @endif
                             </div>
                         </td>
                     </tr>
