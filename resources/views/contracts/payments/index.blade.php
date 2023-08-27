@@ -148,7 +148,15 @@
                             {{ $payment->text }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ number_format($payment->price) }}
+                            <div class="flex items-center justify-center">
+                                {{ number_format($payment->price) }}
+                                @if($payment->type == 'return')
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-red-500">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6"/>
+                                    </svg>
+                                @endif
+                            </div>
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             @switch($payment->type)
