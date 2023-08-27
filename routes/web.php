@@ -12,6 +12,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CollectionCoilController;
 use App\Http\Controllers\CollectionPartController;
 use App\Http\Controllers\Contract\PaymentController;
+use App\Http\Controllers\PaymentController as AllPayments;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
@@ -511,4 +512,6 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::resource('customers', CustomerController::class)->except(['show']);
 
     Route::resource('accounts', AccountController::class)->except(['show']);
+
+    Route::get('/payments', [AllPayments::class, 'index'])->name('payments.index');
 });
