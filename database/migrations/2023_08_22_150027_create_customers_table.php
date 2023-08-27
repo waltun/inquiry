@@ -16,13 +16,14 @@ return new class extends Migration
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
 
+            $table->string('type');
             $table->string('name');
             $table->string('code')->nullable();
             $table->string('nation')->nullable();
-            $table->string('nation_id')->nullable();
-            $table->string('economic_number')->nullable();
             $table->string('address')->nullable();
+            $table->string('confirmed_address')->nullable();
             $table->string('postal')->nullable();
+            $table->string('registration_number')->nullable();
             $table->string('agent_name')->nullable();
             $table->string('agent_phone')->nullable();
             $table->string('telephone')->nullable();

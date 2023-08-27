@@ -66,8 +66,20 @@
         <div class="card">
             <div class="card-header">
                 <p class="card-title">
-                    مشخصات کلی
+                    مشخصات مشتری
                 </p>
+            </div>
+
+            <div class="mb-4">
+                <label for="inputName" class="form-label">نوع مشتری</label>
+                <select name="type" id="inputType" class="input-text">
+                    <option value="real" {{ old('type') == 'real' ? 'selected' : '' }}>
+                        حقیقی
+                    </option>
+                    <option value="legal" {{ old('type') == 'legal' ? 'selected' : '' }}>
+                        حقوقی
+                    </option>
+                </select>
             </div>
 
             <div class="mb-4">
@@ -77,33 +89,15 @@
             </div>
 
             <div class="mb-4">
-                <label for="inputNation" class="form-label">شماره ملی</label>
+                <label for="inputNation" class="form-label">شماره / شماره ملی</label>
                 <input type="text" id="inputNation" name="nation" class="input-text"
                        placeholder="مثال : 0123456789" value="{{ old('nation') }}">
             </div>
 
             <div class="mb-4">
-                <label for="inputNationId" class="form-label">شماره شناسنامه</label>
-                <input type="text" id="inputNationId" name="nation_id" class="input-text"
-                       placeholder="مثال : 0123456789" value="{{ old('nation_id') }}">
-            </div>
-
-            <div class="mb-4">
-                <label for="inputEconomicNumber" class="form-label">شناسه اقتصادی</label>
-                <input type="text" id="inputEconomicNumber" name="economic_number" class="input-text"
-                       placeholder="مثال : 133204577" value="{{ old('economic_number') }}">
-            </div>
-
-            <div class="mb-4">
-                <label for="inputPostal" class="form-label">کد پستی</label>
-                <input type="text" id="inputPostal" name="postal" class="input-text"
-                       placeholder="مثال : 0123456789" value="{{ old('postal') }}">
-            </div>
-
-            <div class="mb-4">
-                <label for="inputEmail" class="form-label">ایمیل</label>
-                <input type="text" id="inputEmail" name="email" class="input-text"
-                       placeholder="مثال : example@gmail.com" value="{{ old('email') }}">
+                <label for="inputRegistrationNumber" class="form-label">شماره ثبت شرکت</label>
+                <input type="text" id="inputRegistrationNumber" name="registration_number" class="input-text"
+                       placeholder="مثال : 55522015" value="{{ old('registration_number') }}">
             </div>
 
         </div>
@@ -111,7 +105,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="card-title">
-                    شماره ها
+                    اطلاعات تماس
                 </div>
             </div>
 
@@ -131,6 +125,12 @@
                 <label for="inputTelephone" class="form-label">شماره ثابت</label>
                 <input type="text" id="inputTelephone" name="telephone" class="input-text"
                        placeholder="مثال : 02122334455" value="{{ old('telephone') }}">
+            </div>
+
+            <div class="mb-4">
+                <label for="inputEmail" class="form-label">ایمیل</label>
+                <input type="text" id="inputEmail" name="email" class="input-text"
+                       placeholder="مثال : example@gmail.com" value="{{ old('email') }}">
             </div>
         </div>
 
@@ -200,6 +200,12 @@
                 <p class="card-title">
                     آدرس
                 </p>
+            </div>
+
+            <div class="mb-4">
+                <label for="inputPostal" class="form-label">کد پستی</label>
+                <input type="text" id="inputPostal" name="postal" class="input-text"
+                       placeholder="مثال : 0123456789" value="{{ old('postal') }}">
             </div>
 
             <div class="mb-4">

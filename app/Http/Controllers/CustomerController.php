@@ -21,12 +21,13 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
+            'type' => 'required|string|max:255',
             'name' => 'required|string|max:255',
             'nation' => 'nullable|numeric',
-            'nation_id' => 'nullable|numeric',
-            'economic_number' => 'nullable|numeric',
             'address' => 'nullable|string|max:255',
+            'confirmed_address' => 'nullable|string|max:255',
             'postal' => 'nullable|numeric',
+            'registration_number' => 'nullable|numeric',
             'agent_name' => 'nullable|string|max:255',
             'agent_phone' => 'nullable|numeric|digits:11',
             'telephone' => 'nullable|numeric|digits:11',
@@ -55,12 +56,13 @@ class CustomerController extends Controller
     public function update(Request $request, Customer $customer)
     {
         $data = $request->validate([
+            'type' => 'required|string|max:255',
             'name' => 'required|string|max:255',
             'nation' => 'nullable|numeric',
-            'nation_id' => 'nullable|numeric',
-            'economic_number' => 'nullable|numeric',
             'address' => 'nullable|string|max:255',
+            'confirmed_address' => 'nullable|string|max:255',
             'postal' => 'nullable|numeric',
+            'registration_number' => 'nullable|numeric',
             'agent_name' => 'nullable|string|max:255',
             'agent_phone' => 'nullable|numeric|digits:11',
             'telephone' => 'nullable|numeric|digits:11',
