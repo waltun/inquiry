@@ -161,6 +161,11 @@
                                 @case('clearing')
                                     تسویه
                                     @break
+                                @case('return')
+                                    <span class="bg-red-500 text-white rounded-lg py-1 px-4">
+                                        عودت
+                                    </span>
+                                    @break
                             @endswitch
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
@@ -219,7 +224,11 @@
         }
 
         foreach ($contract->payments()->where('confirm', 1)->get() as $payment2) {
-            $paymentPrice += $payment2->price;
+            if ($payment2->type == 'return') {
+                $paymentPrice -= $payment2->price;
+            } else {
+                $paymentPrice += $payment2->price;
+            }
         }
 
         $leftPrice = $contractPrice - $paymentPrice;

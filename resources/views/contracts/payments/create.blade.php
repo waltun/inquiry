@@ -133,7 +133,7 @@
 
             <div class="mb-4">
                 <label for="inputPrice" class="form-label">
-                    مبلغ واریزی (تومان)
+                    مبلغ (تومان)
                     <span class="mr-4 text-sm font-medium" id="priceSection">
 
                     </span>
@@ -166,6 +166,9 @@
                     </option>
                     <option value="clearing" {{ old('type') == 'clearing' ? 'selected' : '' }}>
                         تسویه
+                    </option>
+                    <option value="return" {{ old('type') == 'return' ? 'selected' : '' }}>
+                        عودت
                     </option>
                 </select>
             </div>

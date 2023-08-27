@@ -172,6 +172,9 @@
                     <option value="clearing" {{ old('type', $payment->type) == 'clearing' ? 'selected' : '' }}>
                         تسویه
                     </option>
+                    <option value="return" {{ old('type', $payment->type) == 'return' ? 'selected' : '' }}>
+                        عودت
+                    </option>
                 </select>
             </div>
 

@@ -95,7 +95,11 @@
                         }
 
                         foreach ($contract->payments()->where('confirm', 1)->get() as $payment2) {
-                            $paymentPrice += $payment2->price;
+                            if ($payment2->type == 'return') {
+                                $paymentPrice -= $payment2->price;
+                            } else {
+                                $paymentPrice += $payment2->price;
+                            }
                         }
 
                         $leftPrice = $contractPrice - $paymentPrice;
