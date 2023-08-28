@@ -6,6 +6,10 @@
             $("#inputDate").persianDatepicker({
                 formatDate: "YYYY-MM-DD",
             });
+
+            $("#inputReturnDate").persianDatepicker({
+                formatDate: "YYYY-MM-DD",
+            });
         </script>
         <script>
             function showPrice(event) {
@@ -61,7 +65,7 @@
                       clip-rule="evenodd"/>
             </svg>
         </div>
-        <a href="{{ route('contracts.show', $payment->contract->id) }}" class="flex items-center">
+        <a href="{{ route('contracts.show', $contract->id) }}" class="flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                  stroke="currentColor" class="breadcrumb-svg">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -70,7 +74,7 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p">
-                    مشاهده قرارداد {{ $payment->contract->name }}
+                    مشاهده قرارداد {{ $contract->name }}
                 </p>
             </div>
         </a>
@@ -82,7 +86,7 @@
                       clip-rule="evenodd"/>
             </svg>
         </div>
-        <a href="{{ route('contracts.payments.index', $payment->contract->id) }}" class="flex items-center">
+        <a href="{{ route('contracts.payments.index', $contract->id) }}" class="flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                  stroke="currentColor" class="breadcrumb-svg">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -90,7 +94,7 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p">
-                    مدیریت پرداخت های {{ $payment->contract->name }}
+                    مدیریت تضامین {{ $contract->name }}
                 </p>
             </div>
         </a>
@@ -109,7 +113,7 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p-active">
-                    ویرایش پرداخت
+                    ایجاد تضمین جدید {{ $contract->name }}
                 </p>
             </div>
         </div>
@@ -121,9 +125,8 @@
     </div>
 
     <!-- Form -->
-    <form method="POST" action="{{ route('contracts.payments.update', $payment->id) }}" class="mt-4">
+    <form method="POST" action="{{ route('contracts.guarantees.store', $contract->id) }}" class="mt-4">
         @csrf
-        @method('PATCH')
 
         <div class="card">
             <div class="card-header">
@@ -134,27 +137,32 @@
 
             <div class="mb-4">
                 <label for="inputPrice" class="form-label">
-                    مبلغ واریزی (تومان)
+                    مبلغ (تومان)
                     <span class="mr-4 text-sm font-medium" id="priceSection">
 
                     </span>
                 </label>
-                <input type="text" id="inputPrice" name="price" class="input-text"
-                       value="{{ old('price', $payment->price) }}"
+                <input type="text" id="inputPrice" name="price" class="input-text" value="{{ old('price') }}"
                        placeholder="مثلا : 10000000" onkeyup="showPrice(event)">
             </div>
 
             <div class="mb-4">
-                <label for="inputDate" class="form-label">تاریخ واریز</label>
-                <input type="text" id="inputDate" name="date" class="input-text"
-                       value="{{ old('date', $date) }}"
+                <label for="inputCode" class="form-label">
+                    شماره تضمین
+                </label>
+                <input type="text" id="inputCode" name="code" class="input-text" value="{{ old('code') }}"
+                       placeholder="مثلا : 15220415">
+            </div>
+
+            <div class="mb-4">
+                <label for="inputDate" class="form-label">تاریخ</label>
+                <input type="text" id="inputDate" name="date" class="input-text" value="{{ old('date') }}"
                        placeholder="برای انتخاب تاریخ کلیک کنید">
             </div>
 
             <div class="mb-4">
                 <label for="inputText" class="form-label">شرح</label>
-                <input type="text" id="inputText" name="text" class="input-text"
-                       value="{{ old('text', $payment->text) }}"
+                <input type="text" id="inputText" name="text" class="input-text" value="{{ old('text') }}"
                        placeholder="مثلا : چک دو ماهه به شماره 155555">
             </div>
 
@@ -162,18 +170,23 @@
                 <label for="inputType" class="form-label">بابت</label>
                 <select name="type" id="inputType" class="input-text">
                     <option value="">انتخاب کنید</option>
-                    <option value="prepayment" {{ old('type', $payment->type) == 'prepayment' ? 'selected' : '' }}>
+                    <option value="prepayment" {{ old('type') == 'prepayment' ? 'selected' : '' }}>
                         پیش پرداخت
                     </option>
-                    <option
-                        value="interim_payment" {{ old('type', $payment->type) == 'interim_payment' ? 'selected' : '' }}>
+                    <option value="interim_payment" {{ old('type') == 'interim_payment' ? 'selected' : '' }}>
                         میان پرداخت
                     </option>
-                    <option value="clearing" {{ old('type', $payment->type) == 'clearing' ? 'selected' : '' }}>
-                        تسویه
+                    <option value="guarantee" {{ old('type') == 'guarantee' ? 'selected' : '' }}>
+                        دوره گارانتی
                     </option>
-                    <option value="return" {{ old('type', $payment->type) == 'return' ? 'selected' : '' }}>
-                        عودت
+                    <option value="work" {{ old('type') == 'work' ? 'selected' : '' }}>
+                        حسن انجام کار
+                    </option>
+                    <option value="obligation" {{ old('type') == 'obligation' ? 'selected' : '' }}>
+                        حسن انجام تعهدات
+                    </option>
+                    <option value="offer" {{ old('type') == 'offer' ? 'selected' : '' }}>
+                        شرکت در مناقصه
                     </option>
                 </select>
             </div>
@@ -183,21 +196,34 @@
                 <select name="account_id" id="inputAccount" class="input-text">
                     <option value="">انتخاب کنید</option>
                     @foreach($accounts as $account)
-                        <option
-                            value="{{ $account->id }}" {{ old('account_id', $payment->account_id) == $account->id ? 'selected' : '' }}>
+                        <option value="{{ $account->id }}" {{ old('account_id') == $account->id ? 'selected' : '' }}>
                             {{ $account->bank }} | {{ $account->account_number }}
                         </option>
                     @endforeach
                 </select>
             </div>
 
+            <div class="mb-4">
+                <label for="inputReturnDate" class="form-label">تاریخ حدودی عودت</label>
+                <input type="text" id="inputReturnDate" name="return_date" class="input-text"
+                       value="{{ old('return_date') }}" placeholder="برای انتخاب تاریخ کلیک کنید">
+            </div>
+
+            <div class="mb-4">
+                <label for="inputReceiver" class="form-label">
+                    تحویل گیرنده
+                </label>
+                <input type="text" id="inputReceiver" name="receiver" class="input-text" value="{{ old('receiver') }}"
+                       placeholder="مثلا : نام و شماره">
+            </div>
+
         </div>
 
         <div class="flex items-center space-x-4 space-x-reverse">
-            <button type="submit" class="form-edit-btn" id="submit-button">
-                بروزرسانی پرداخت
+            <button type="submit" class="form-submit-btn" id="submit-button">
+                ثبت تضمین
             </button>
-            <a href="{{ route('contracts.payments.index', $payment->contract_id) }}" class="form-cancel-btn">
+            <a href="{{ route('contracts.guarantees.index', $contract->id) }}" class="form-cancel-btn">
                 انصراف
             </a>
         </div>

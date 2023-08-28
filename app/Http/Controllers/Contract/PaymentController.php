@@ -24,18 +24,7 @@ class PaymentController extends Controller
 
     public function store(Request $request, Contract $contract)
     {
-        $data = $request->validate([
-            'price' => 'required|numeric',
-            'date' => 'nullable|string|max:255',
-            'text' => 'nullable|string|max:255',
-            'type' => 'required|string|max:255',
-            'account_id' => 'nullable|integer'
-        ]);
-
-        if (!is_null($data['date'])) {
-            $explodeDate = explode('-', $data['date']);
-            $data['date'] = (new Jalalian($explodeDate[0], $explodeDate[1], $explodeDate[2]))->toCarbon()->toDateTimeString();
-        }
+        $data = $this->validateData($request);
 
         $contract->payments()->create($data);
 
@@ -47,23 +36,18 @@ class PaymentController extends Controller
     public function edit(Payment $payment)
     {
         $accounts = Account::all();
-        return view('contracts.payments.edit', compact('payment', 'accounts'));
+
+        $day = jdate($payment->date)->getDay();
+        $month = jdate($payment->date)->getMonth();
+        $year = jdate($payment->date)->getYear();
+        $date = $year . '-' . $month . '-' . $day;
+
+        return view('contracts.payments.edit', compact('payment', 'accounts', 'date'));
     }
 
     public function update(Request $request, Payment $payment)
     {
-        $data = $request->validate([
-            'price' => 'required|numeric',
-            'date' => 'nullable|string|max:255',
-            'text' => 'nullable|string|max:255',
-            'type' => 'required|string|max:255',
-            'account_id' => 'nullable|integer'
-        ]);
-
-        if (!is_null($data['date'])) {
-            $explodeDate = explode('-', $data['date']);
-            $data['date'] = (new Jalalian($explodeDate[0], $explodeDate[1], $explodeDate[2]))->toCarbon()->toDateTimeString();
-        }
+        $data = $this->validateData($request);
 
         $payment->update($data);
 
@@ -95,5 +79,26 @@ class PaymentController extends Controller
         alert()->success('ثبت موفق', 'ثبت تاییدیه پرداخت ها با موفقیت انجام شد');
 
         return back();
+    }
+
+    /**
+     * @param Request $request
+     * @return array
+     */
+    public function validateData(Request $request): array
+    {
+        $data = $request->validate([
+            'price' => 'required|numeric',
+            'date' => 'nullable|string|max:255',
+            'text' => 'nullable|string|max:255',
+            'type' => 'required|string|max:255',
+            'account_id' => 'nullable|integer'
+        ]);
+
+        if (!is_null($data['date'])) {
+            $explodeDate = explode('-', $data['date']);
+            $data['date'] = (new Jalalian($explodeDate[0], $explodeDate[1], $explodeDate[2]))->toCarbon()->toDateTimeString();
+        }
+        return $data;
     }
 }

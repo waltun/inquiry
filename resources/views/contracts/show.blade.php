@@ -161,7 +161,7 @@
                 </div>
             </a>
 
-            <a href="" class="dashboard-cards group">
+            <a href="{{ route('contracts.guarantees.index', $contract->id) }}" class="dashboard-cards group">
                 <div class="flex items-center">
                     <div class="dashboard-card-icon bg-red-500 dark:bg-slate-800">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"

@@ -11,6 +11,7 @@ use App\Http\Controllers\CategoryAttributeController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CollectionCoilController;
 use App\Http\Controllers\CollectionPartController;
+use App\Http\Controllers\Contract\GuaranteeController;
 use App\Http\Controllers\Contract\PaymentController;
 use App\Http\Controllers\PaymentController as AllPayments;
 use App\Http\Controllers\ContractController;
@@ -509,6 +510,14 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::patch('/contracts/{payment}/edit-payments', [PaymentController::class, 'update'])->name('contracts.payments.update');
     Route::delete('/contracts/{payment}/delete-payments', [PaymentController::class, 'destroy'])->name('contracts.payments.destroy');
     Route::post('/contracts/{contract}/confirm-payments', [PaymentController::class, 'confirm'])->name('contracts.payments.confirm');
+
+    Route::get('/contracts/{contract}/guarantees', [GuaranteeController::class, 'index'])->name('contracts.guarantees.index');
+    Route::get('/contracts/{contract}/create-guarantees', [GuaranteeController::class, 'create'])->name('contracts.guarantees.create');
+    Route::post('/contracts/{contract}/create-guarantees', [GuaranteeController::class, 'store'])->name('contracts.guarantees.store');
+    Route::get('/contracts/{guarantee}/edit-guarantees', [GuaranteeController::class, 'edit'])->name('contracts.guarantees.edit');
+    Route::patch('/contracts/{guarantee}/edit-guarantees', [GuaranteeController::class, 'update'])->name('contracts.guarantees.update');
+    Route::delete('/contracts/{guarantee}/delete-guarantees', [GuaranteeController::class, 'destroy'])->name('contracts.guarantees.destroy');
+    Route::post('/contracts/{contract}/confirm-guarantees', [GuaranteeController::class, 'confirm'])->name('contracts.guarantees.confirm');
 
     Route::resource('customers', CustomerController::class)->except(['show']);
 
