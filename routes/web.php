@@ -13,6 +13,7 @@ use App\Http\Controllers\CollectionCoilController;
 use App\Http\Controllers\CollectionPartController;
 use App\Http\Controllers\Contract\GuaranteeController;
 use App\Http\Controllers\Contract\MarketingController;
+use App\Http\Controllers\Contract\MarketPaymentController;
 use App\Http\Controllers\Contract\PaymentController;
 use App\Http\Controllers\MarketerController;
 use App\Http\Controllers\PaymentController as AllPayments;
@@ -536,4 +537,12 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::patch('/contracts/{marketing}/edit-marketings', [MarketingController::class, 'update'])->name('contracts.marketings.update');
     Route::delete('/contracts/{marketing}/delete-marketings', [MarketingController::class, 'destroy'])->name('contracts.marketings.destroy');
     Route::post('/contracts/{contract}/confirm-marketings', [MarketingController::class, 'confirm'])->name('contracts.marketings.confirm');
+
+    Route::get('/contract-marketing/{marketing}/payments', [MarketPaymentController::class, 'index'])->name('contracts.marketings.payments.index');
+    Route::get('/contract-marketing/{marketing}/create-payments', [MarketPaymentController::class, 'create'])->name('contracts.marketings.payments.create');
+    Route::post('/contract-marketing/{marketing}/create-payments', [MarketPaymentController::class, 'store'])->name('contracts.marketings.payments.store');
+    Route::get('/contract-marketing/{marketPayment}/edit-payments', [MarketPaymentController::class, 'edit'])->name('contracts.marketings.payments.edit');
+    Route::patch('/contract-marketing/{marketPayment}/edit-payments', [MarketPaymentController::class, 'update'])->name('contracts.marketings.payments.update');
+    Route::delete('/contract-marketing/{marketPayment}/delete-payments', [MarketPaymentController::class, 'destroy'])->name('contracts.marketings.payments.destroy');
+    Route::post('/contract-marketing/{marketing}/confirm-payments', [MarketPaymentController::class, 'confirm'])->name('contracts.marketings.payments.confirm');
 });

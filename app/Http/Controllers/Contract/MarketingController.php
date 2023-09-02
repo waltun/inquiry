@@ -92,16 +92,10 @@ class MarketingController extends Controller
      */
     public function validateData(Request $request): array
     {
-        $data = $request->validate([
+        return $request->validate([
             'price' => 'required|numeric',
             'text' => 'nullable|string|max:255',
             'marketer_id' => 'required|integer',
         ]);
-
-        if (!is_null($data['date'])) {
-            $explodeDate = explode('-', $data['date']);
-            $data['date'] = (new Jalalian($explodeDate[0], $explodeDate[1], $explodeDate[2]))->toCarbon()->toDateTimeString();
-        }
-        return $data;
     }
 }

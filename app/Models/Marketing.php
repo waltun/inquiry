@@ -27,4 +27,9 @@ class Marketing extends Model
     {
         return $this->belongsTo(Marketer::class);
     }
+
+    public function payments()
+    {
+        return $this->hasMany(MarketPayment::class);
+    }
 }
