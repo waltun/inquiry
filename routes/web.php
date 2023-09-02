@@ -12,6 +12,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CollectionCoilController;
 use App\Http\Controllers\CollectionPartController;
 use App\Http\Controllers\Contract\GuaranteeController;
+use App\Http\Controllers\Contract\MarketingController;
 use App\Http\Controllers\Contract\PaymentController;
 use App\Http\Controllers\MarketerController;
 use App\Http\Controllers\PaymentController as AllPayments;
@@ -527,4 +528,12 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/payments', [AllPayments::class, 'index'])->name('payments.index');
 
     Route::resource('marketers', MarketerController::class)->except(['show']);
+
+    Route::get('/contracts/{contract}/marketings', [MarketingController::class, 'index'])->name('contracts.marketings.index');
+    Route::get('/contracts/{contract}/create-marketings', [MarketingController::class, 'create'])->name('contracts.marketings.create');
+    Route::post('/contracts/{contract}/create-marketings', [MarketingController::class, 'store'])->name('contracts.marketings.store');
+    Route::get('/contracts/{marketing}/edit-marketings', [MarketingController::class, 'edit'])->name('contracts.marketings.edit');
+    Route::patch('/contracts/{marketing}/edit-marketings', [MarketingController::class, 'update'])->name('contracts.marketings.update');
+    Route::delete('/contracts/{marketing}/delete-marketings', [MarketingController::class, 'destroy'])->name('contracts.marketings.destroy');
+    Route::post('/contracts/{contract}/confirm-marketings', [MarketingController::class, 'confirm'])->name('contracts.marketings.confirm');
 });
