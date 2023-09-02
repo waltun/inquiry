@@ -13,6 +13,7 @@ use App\Http\Controllers\CollectionCoilController;
 use App\Http\Controllers\CollectionPartController;
 use App\Http\Controllers\Contract\GuaranteeController;
 use App\Http\Controllers\Contract\PaymentController;
+use App\Http\Controllers\MarketerController;
 use App\Http\Controllers\PaymentController as AllPayments;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\CustomerController;
@@ -524,4 +525,6 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::resource('accounts', AccountController::class)->except(['show']);
 
     Route::get('/payments', [AllPayments::class, 'index'])->name('payments.index');
+
+    Route::resource('marketers', MarketerController::class)->except(['show']);
 });
