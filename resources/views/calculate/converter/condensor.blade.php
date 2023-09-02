@@ -681,9 +681,9 @@
                                 {{ is_null($inputs) ? (old('gaz') == 'R407c' ? 'selected' : '') : ($inputs['gaz'] == "R407c" ? 'selected' : (old('gaz') == 'R407c' ? 'selected' : '')) }}>
                                 R407c
                             </option>
-                            <option value="R407a"
-                                {{ is_null($inputs) ? (old('gaz') == 'R407a' ? 'selected' : '') : ($inputs['gaz'] == "R407a" ? 'selected' : (old('gaz') == 'R407a' ? 'selected' : '')) }}>
-                                R407a
+                            <option value="R410a"
+                                {{ is_null($inputs) ? (old('gaz') == 'R410a' ? 'selected' : '') : ($inputs['gaz'] == "R410a" ? 'selected' : (old('gaz') == 'R410a' ? 'selected' : '')) }}>
+                                R410a
                             </option>
                         </select>
                     </div>
