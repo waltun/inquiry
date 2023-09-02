@@ -18,10 +18,8 @@ return new class extends Migration
 
             $table->bigInteger('price')->default(0);
             $table->string('text')->nullable();
-            $table->timestamp('date')->nullable();
             $table->boolean('confirm')->default(0);
 
-            $table->unsignedBigInteger('account_id');
             $table->unsignedBigInteger('contract_id');
             $table->unsignedBigInteger('marketer_id');
             $table->unsignedBigInteger('user_id');

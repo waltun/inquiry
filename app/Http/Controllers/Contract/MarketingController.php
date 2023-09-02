@@ -94,9 +94,7 @@ class MarketingController extends Controller
     {
         $data = $request->validate([
             'price' => 'required|numeric',
-            'date' => 'nullable|string|max:255',
             'text' => 'nullable|string|max:255',
-            'account_id' => 'required|integer',
             'marketer_id' => 'required|integer',
         ]);
 

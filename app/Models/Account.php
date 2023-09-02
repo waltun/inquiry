@@ -23,8 +23,4 @@ class Account extends Model
         return $this->hasMany(Guarantee::class);
     }
 
-    public function marketings()
-    {
-        return $this->hasMany(Marketing::class);
-    }
 }

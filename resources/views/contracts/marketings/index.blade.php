@@ -116,16 +116,10 @@
                         بازاریاب
                     </th>
                     <th scope="col" class="p-4">
-                        تاریخ
-                    </th>
-                    <th scope="col" class="p-4">
                         شرح
                     </th>
                     <th scope="col" class="p-4">
                         مبلغ (تومان)
-                    </th>
-                    <th scope="col" class="p-4">
-                        برداشت از حساب
                     </th>
                     <th scope="col" class="p-4">
                         تاییدیه
@@ -145,16 +139,10 @@
                             {{ $marketing->marketer->name }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ jdate($marketing->date)->format('Y/m/d') }}
-                        </td>
-                        <td class="table-tr-td border-t-0 border-x-0">
                             {{ $marketing->text ?? '-' }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             {{ number_format($marketing->price) }}
-                        </td>
-                        <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $marketing->account->bank }} | {{ $marketing->account->account_number }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             <input type="hidden" value="{{ $marketing->id }}" name="marketings[]">

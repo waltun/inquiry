@@ -1,12 +1,5 @@
 <x-layout>
     <x-slot name="js">
-        <script src="{{ asset('plugins/jquery.min.js') }}"></script>
-        <script src="{{ asset('plugins/date-picker/persianDatepicker.min.js') }}"></script>
-        <script>
-            $("#inputDate").persianDatepicker({
-                formatDate: "YYYY-MM-DD",
-            });
-        </script>
         <script>
             function showPrice(event) {
                 let value = event.target.value;
@@ -15,10 +8,6 @@
             }
         </script>
     </x-slot>
-    <x-slot name="css">
-        <link rel="stylesheet" href="{{ asset('plugins/date-picker/persianDatepicker-default.css') }}">
-    </x-slot>
-
     <!-- Breadcrumb -->
     <div class="flex items-center space-x-2 space-x-reverse whitespace-nowrap">
         <a href="{{ route('dashboard') }}" class="flex items-center">
@@ -155,27 +144,9 @@
             </div>
 
             <div class="mb-4">
-                <label for="inputDate" class="form-label">تاریخ واریز</label>
-                <input type="text" id="inputDate" name="date" class="input-text" value="{{ old('date') }}"
-                       placeholder="برای انتخاب تاریخ کلیک کنید">
-            </div>
-
-            <div class="mb-4">
                 <label for="inputText" class="form-label">شرح</label>
                 <input type="text" id="inputText" name="text" class="input-text" value="{{ old('text') }}"
                        placeholder="مثلا : چک دو ماهه به شماره 155555">
-            </div>
-
-            <div class="mb-4">
-                <label for="inputAccount" class="form-label">برداشت از حساب</label>
-                <select name="account_id" id="inputAccount" class="input-text">
-                    <option value="">انتخاب کنید</option>
-                    @foreach($accounts as $account)
-                        <option value="{{ $account->id }}" {{ old('account_id') == $account->id ? 'selected' : '' }}>
-                            {{ $account->bank }} | {{ $account->account_number }}
-                        </option>
-                    @endforeach
-                </select>
             </div>
 
         </div>
