@@ -292,9 +292,9 @@ class InquiryController extends Controller
         }
 
         if (auth()->user()->role === 'admin') {
-            $inquiries = $inquiries->where('archive_at', '!=', null)->orderBy('inquiry_number', 'DESC')->paginate(25);
+            $inquiries = $inquiries->where('archive_at', '!=', null)->orderBy('inquiry_number', 'DESC')->paginate(25)->withQueryString();
         } else {
-            $inquiries = $inquiries->where('archive_at', '!=', null)->where('user_id', auth()->user()->id)->orderBy('inquiry_number', 'DESC')->paginate(25);
+            $inquiries = $inquiries->where('archive_at', '!=', null)->where('user_id', auth()->user()->id)->orderBy('inquiry_number', 'DESC')->paginate(25)->withQueryString();
         }
 
         $modells = Modell::where('parent_id', '!=', 0)->get();
