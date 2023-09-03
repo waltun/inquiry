@@ -24,16 +24,19 @@ return new class extends Migration
             $table->string('account_number1');
             $table->string('card_number1')->nullable();
             $table->string('shaba_number1')->nullable();
+            $table->string('account_name1')->nullable();
 
             $table->string('bank_name2')->nullable();
             $table->string('account_number2')->nullable();
             $table->string('card_number2')->nullable();
             $table->string('shaba_number2')->nullable();
+            $table->string('account_name2')->nullable();
 
             $table->string('bank_name3')->nullable();
             $table->string('account_number3')->nullable();
             $table->string('card_number3')->nullable();
             $table->string('shaba_number3')->nullable();
+            $table->string('account_name3')->nullable();
 
             $table->timestamps();
         });
