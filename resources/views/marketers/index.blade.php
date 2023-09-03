@@ -76,7 +76,7 @@
                         شماره
                     </th>
                     <th scope="col" class="p-4">
-                        شماره حساب
+                        شماره شبا
                     </th>
                     <th scope="col" class="p-4">
                         شماره کارت
@@ -102,7 +102,7 @@
                             {{ $marketer->phone }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $marketer->account_number1 }}
+                            {{ $marketer->shaba_number1 }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             {{ $marketer->card_number1 }}

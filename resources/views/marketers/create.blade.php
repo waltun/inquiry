@@ -141,6 +141,15 @@
                        placeholder="مثلا : IR26542100000054119874">
             </div>
 
+            <div class="mb-4">
+                <label for="inputAccountName1" class="form-label">
+                    نام دارنده حساب
+                </label>
+                <input type="text" id="inputAccountName1" name="account_name1" class="input-text"
+                       value="{{ old('account_name1') }}"
+                       placeholder="مثلا : علی رضایی">
+            </div>
+
         </div>
 
         <div class="card">
@@ -186,6 +195,15 @@
                        placeholder="مثلا : IR26542100000054119874">
             </div>
 
+            <div class="mb-4">
+                <label for="inputAccountName2" class="form-label">
+                    نام دارنده حساب
+                </label>
+                <input type="text" id="inputAccountName2" name="account_name2" class="input-text"
+                       value="{{ old('account_name2') }}"
+                       placeholder="مثلا : علی رضایی">
+            </div>
+
         </div>
 
         <div class="card">
@@ -229,6 +247,15 @@
                 <input type="text" id="inputShabaNumber3" name="shaba_number3" class="input-text"
                        value="{{ old('shaba_number3') }}"
                        placeholder="مثلا : IR26542100000054119874">
+            </div>
+
+            <div class="mb-4">
+                <label for="inputAccountName3" class="form-label">
+                    نام دارنده حساب
+                </label>
+                <input type="text" id="inputAccountName3" name="account_name3" class="input-text"
+                       value="{{ old('account_name3') }}"
+                       placeholder="مثلا : علی رضایی">
             </div>
 
         </div>

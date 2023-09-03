@@ -76,6 +76,9 @@ class MarketerController extends Controller
             'account_number3' => 'nullable|string|max:255',
             'card_number3' => 'nullable|string|max:255',
             'shaba_number3' => 'nullable|string|max:255',
+            'account_name1' => 'nullable|string|max:255',
+            'account_name2' => 'nullable|string|max:255',
+            'account_name3' => 'nullable|string|max:255',
         ]);
     }
 }
