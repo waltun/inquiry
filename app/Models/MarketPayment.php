@@ -17,4 +17,9 @@ class MarketPayment extends Model
     {
         return $this->belongsTo(Marketing::class);
     }
+
+    public function contract()
+    {
+        return $this->belongsTo(Contract::class);
+    }
 }

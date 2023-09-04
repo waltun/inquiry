@@ -13,6 +13,7 @@ use App\Http\Controllers\CollectionCoilController;
 use App\Http\Controllers\CollectionPartController;
 use App\Http\Controllers\Contract\GuaranteeController;
 use App\Http\Controllers\Contract\MarketingController;
+use App\Http\Controllers\MarketingController as AllMarketings;
 use App\Http\Controllers\Contract\MarketPaymentController;
 use App\Http\Controllers\Contract\PaymentController;
 use App\Http\Controllers\MarketerAccountController;
@@ -552,4 +553,6 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::patch('/contract-marketing/{marketPayment}/edit-payments', [MarketPaymentController::class, 'update'])->name('contracts.marketings.payments.update');
     Route::delete('/contract-marketing/{marketPayment}/delete-payments', [MarketPaymentController::class, 'destroy'])->name('contracts.marketings.payments.destroy');
     Route::post('/contract-marketing/{marketing}/confirm-payments', [MarketPaymentController::class, 'confirm'])->name('contracts.marketings.payments.confirm');
+
+    Route::get('/marketings', [AllMarketings::class, 'index'])->name('marketings.index');
 });
