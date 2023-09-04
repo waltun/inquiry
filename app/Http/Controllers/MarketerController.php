@@ -64,21 +64,6 @@ class MarketerController extends Controller
             'name' => 'required|string|max:255',
             'phone' => 'required|numeric|digits:11',
             'nation' => 'nullable|string|max:255',
-            'bank_name1' => 'required|string|max:255',
-            'account_number1' => 'required|string|max:255',
-            'card_number1' => 'required|string|max:255',
-            'shaba_number1' => 'required|string|max:255',
-            'bank_name2' => 'nullable|string|max:255',
-            'account_number2' => 'nullable|string|max:255',
-            'card_number2' => 'nullable|string|max:255',
-            'shaba_number2' => 'nullable|string|max:255',
-            'bank_name3' => 'nullable|string|max:255',
-            'account_number3' => 'nullable|string|max:255',
-            'card_number3' => 'nullable|string|max:255',
-            'shaba_number3' => 'nullable|string|max:255',
-            'account_name1' => 'nullable|string|max:255',
-            'account_name2' => 'nullable|string|max:255',
-            'account_name3' => 'nullable|string|max:255',
         ]);
     }
 }
