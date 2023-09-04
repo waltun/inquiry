@@ -13,12 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('marketers', function (Blueprint $table) {
+        Schema::create('marketer_accounts', function (Blueprint $table) {
             $table->id();
 
-            $table->string('name');
-            $table->string('phone');
-            $table->string('nation')->nullable();
+            $table->string('bank_name');
+            $table->string('account_number')->nullable();
+            $table->string('card_number')->nullable();
+            $table->string('shaba_number');
+            $table->string('account_name')->nullable();
+
+            $table->bigInteger('marketer_id');
 
             $table->timestamps();
         });
@@ -31,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('marketers');
+        Schema::dropIfExists('marketer_accounts');
     }
 };

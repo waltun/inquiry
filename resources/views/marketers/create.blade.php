@@ -29,7 +29,7 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p">
-                    بازاریاب ها
+                    مدیریت بازاریاب ها
                 </p>
             </div>
         </a>
@@ -60,215 +60,49 @@
     </div>
 
     <!-- Form -->
-    <form method="POST" action="{{ route('marketers.store') }}" class="mt-4 md:grid grid-cols-3 gap-4">
+    <form method="POST" action="{{ route('marketers.store') }}" class="mt-4">
         @csrf
 
-        <div class="col-span-3">
-            <div class="card">
-                <div class="card-header">
-                    <p class="card-title">
-                        مشخصات بازاریاب
-                    </p>
-                </div>
-
-                <div class="mb-4">
-                    <label for="inputName" class="form-label">
-                        نام
-                    </label>
-                    <input type="text" id="inputName" name="name" class="input-text" value="{{ old('name') }}"
-                           placeholder="مثلا : رضا رضایی">
-                </div>
-
-                <div class="mb-4">
-                    <label for="inputPhone" class="form-label">
-                        شماره تماس
-                    </label>
-                    <input type="text" id="inputPhone" name="phone" class="input-text" value="{{ old('phone') }}"
-                           placeholder="مثلا : 09123456789">
-                </div>
-
-                <div class="mb-4">
-                    <label for="inputNation" class="form-label">
-                        کد ملی
-                    </label>
-                    <input type="text" id="inputNation" name="nation" class="input-text" value="{{ old('nation') }}"
-                           placeholder="مثلا : 1111111111">
-                </div>
-
-            </div>
-        </div>
-
         <div class="card">
             <div class="card-header">
                 <p class="card-title">
-                    مشخصات حساب اول
+                    مشخصات بازاریاب
                 </p>
             </div>
 
             <div class="mb-4">
-                <label for="inputBankName1" class="form-label">
-                    نام بانک
+                <label for="inputName" class="form-label">
+                    نام
                 </label>
-                <input type="text" id="inputBankName1" name="bank_name1" class="input-text"
-                       value="{{ old('bank_name1') }}"
-                       placeholder="مثلا : بانک سپه">
+                <input type="text" id="inputName" name="name" class="input-text" value="{{ old('name') }}"
+                       placeholder="مثلا : رضا رضایی">
             </div>
 
             <div class="mb-4">
-                <label for="inputAccountNumber1" class="form-label">
-                    شماره حساب
+                <label for="inputPhone" class="form-label">
+                    شماره تماس
                 </label>
-                <input type="text" id="inputAccountNumber1" name="account_number1" class="input-text"
-                       value="{{ old('account_number1') }}"
-                       placeholder="مثلا : 5112300457">
+                <input type="text" id="inputPhone" name="phone" class="input-text" value="{{ old('phone') }}"
+                       placeholder="مثلا : 09123456789">
             </div>
 
             <div class="mb-4">
-                <label for="inputCardNumber1" class="form-label">
-                    شماره کارت
+                <label for="inputNation" class="form-label">
+                    کد ملی
                 </label>
-                <input type="text" id="inputCardNumber1" name="card_number1" class="input-text"
-                       value="{{ old('card_number1') }}"
-                       placeholder="مثلا : 6219861900523902">
-            </div>
-
-            <div class="mb-4">
-                <label for="inputShabaNumber1" class="form-label">
-                    شماره شبا
-                </label>
-                <input type="text" id="inputShabaNumber1" name="shaba_number1" class="input-text"
-                       value="{{ old('shaba_number1') }}"
-                       placeholder="مثلا : IR26542100000054119874">
-            </div>
-
-            <div class="mb-4">
-                <label for="inputAccountName1" class="form-label">
-                    نام دارنده حساب
-                </label>
-                <input type="text" id="inputAccountName1" name="account_name1" class="input-text"
-                       value="{{ old('account_name1') }}"
-                       placeholder="مثلا : علی رضایی">
+                <input type="text" id="inputNation" name="nation" class="input-text" value="{{ old('nation') }}"
+                       placeholder="مثلا : 1111111111">
             </div>
 
         </div>
 
-        <div class="card">
-            <div class="card-header">
-                <p class="card-title">
-                    مشخصات حساب دوم
-                </p>
-            </div>
-
-            <div class="mb-4">
-                <label for="inputBankName2" class="form-label">
-                    نام بانک
-                </label>
-                <input type="text" id="inputBankName2" name="bank_name2" class="input-text"
-                       value="{{ old('bank_name2') }}"
-                       placeholder="مثلا : بانک سپه">
-            </div>
-
-            <div class="mb-4">
-                <label for="inputAccountNumber2" class="form-label">
-                    شماره حساب
-                </label>
-                <input type="text" id="inputAccountNumber2" name="account_number2" class="input-text"
-                       value="{{ old('account_number2') }}"
-                       placeholder="مثلا : 5112300457">
-            </div>
-
-            <div class="mb-4">
-                <label for="inputCardNumber2" class="form-label">
-                    شماره کارت
-                </label>
-                <input type="text" id="inputCardNumber2" name="card_number2" class="input-text"
-                       value="{{ old('card_number2') }}"
-                       placeholder="مثلا : 6219861900523902">
-            </div>
-
-            <div class="mb-4">
-                <label for="inputShabaNumber2" class="form-label">
-                    شماره شبا
-                </label>
-                <input type="text" id="inputShabaNumber2" name="shaba_number2" class="input-text"
-                       value="{{ old('shaba_number2') }}"
-                       placeholder="مثلا : IR26542100000054119874">
-            </div>
-
-            <div class="mb-4">
-                <label for="inputAccountName2" class="form-label">
-                    نام دارنده حساب
-                </label>
-                <input type="text" id="inputAccountName2" name="account_name2" class="input-text"
-                       value="{{ old('account_name2') }}"
-                       placeholder="مثلا : علی رضایی">
-            </div>
-
-        </div>
-
-        <div class="card">
-            <div class="card-header">
-                <p class="card-title">
-                    مشخصات حساب سوم
-                </p>
-            </div>
-
-            <div class="mb-4">
-                <label for="inputBankName3" class="form-label">
-                    نام بانک
-                </label>
-                <input type="text" id="inputBankName3" name="bank_name3" class="input-text"
-                       value="{{ old('bank_name3') }}"
-                       placeholder="مثلا : بانک سپه">
-            </div>
-
-            <div class="mb-4">
-                <label for="inputAccountNumber3" class="form-label">
-                    شماره حساب
-                </label>
-                <input type="text" id="inputAccountNumber3" name="account_number3" class="input-text"
-                       value="{{ old('account_number3') }}"
-                       placeholder="مثلا : 5112300457">
-            </div>
-
-            <div class="mb-4">
-                <label for="inputCardNumber3" class="form-label">
-                    شماره کارت
-                </label>
-                <input type="text" id="inputCardNumber3" name="card_number3" class="input-text"
-                       value="{{ old('card_number3') }}"
-                       placeholder="مثلا : 6219861900523902">
-            </div>
-
-            <div class="mb-4">
-                <label for="inputShabaNumber3" class="form-label">
-                    شماره شبا
-                </label>
-                <input type="text" id="inputShabaNumber3" name="shaba_number3" class="input-text"
-                       value="{{ old('shaba_number3') }}"
-                       placeholder="مثلا : IR26542100000054119874">
-            </div>
-
-            <div class="mb-4">
-                <label for="inputAccountName3" class="form-label">
-                    نام دارنده حساب
-                </label>
-                <input type="text" id="inputAccountName3" name="account_name3" class="input-text"
-                       value="{{ old('account_name3') }}"
-                       placeholder="مثلا : علی رضایی">
-            </div>
-
-        </div>
-
-        <div class="col-span-3">
-            <div class="flex items-center space-x-4 space-x-reverse">
-                <button type="submit" class="form-submit-btn" id="submit-button">
-                    ثبت بازاریاب
-                </button>
-                <a href="{{ route('marketers.index') }}" class="form-cancel-btn">
-                    انصراف
-                </a>
-            </div>
+        <div class="flex items-center space-x-4 space-x-reverse">
+            <button type="submit" class="form-submit-btn" id="submit-button">
+                ثبت بازاریاب
+            </button>
+            <a href="{{ route('marketers.index') }}" class="form-cancel-btn">
+                انصراف
+            </a>
         </div>
     </form>
 </x-layout>

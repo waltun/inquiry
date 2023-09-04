@@ -21,15 +21,35 @@
                       clip-rule="evenodd"/>
             </svg>
         </div>
-        <div class="flex items-center">
+        <a href="{{ route('marketers.index') }}" class="flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                 stroke="currentColor" class="breadcrumb-svg-active">
+                 stroke="currentColor" class="breadcrumb-svg">
                 <path stroke-linecap="round" stroke-linejoin="round"
                       d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/>
             </svg>
             <div class="mr-2">
-                <p class="breadcrumb-p-active">
+                <p class="breadcrumb-p">
                     مدیریت بازاریاب ها
+                </p>
+            </div>
+        </a>
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                 class="breadcrumb-svg-arrow">
+                <path fill-rule="evenodd"
+                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                      clip-rule="evenodd"/>
+            </svg>
+        </div>
+        <div class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" class="breadcrumb-svg-active">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/>
+            </svg>
+            <div class="mr-2">
+                <p class="breadcrumb-p-active">
+                    مدیریت حساب های {{ $marketer->name }}
                 </p>
             </div>
         </div>
@@ -41,21 +61,21 @@
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                  stroke="currentColor" class="w-8 h-8 dark:text-white">
                 <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/>
+                      d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/>
             </svg>
             <div class="mr-2">
                 <p class="font-bold text-2xl text-black dark:text-white">
-                    لیست بازاریاب ها
+                    لیست حساب های {{ $marketer->name }}
                 </p>
             </div>
         </div>
         <div class="flex items-center space-x-4 space-x-reverse">
-            <a href="{{ route('marketers.create') }}" class="page-success-btn">
+            <a href="{{ route('marketers.accounts.create', $marketer->id) }}" class="page-success-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                      stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
                 </svg>
-                <span class="mr-2">ایجاد بازاریاب جدید</span>
+                <span class="mr-2">ایجاد حساب جدید</span>
             </a>
         </div>
     </div>
@@ -70,16 +90,19 @@
                         #
                     </th>
                     <th scope="col" class="p-4">
-                        نام
+                        بانک
                     </th>
                     <th scope="col" class="p-4">
-                        شماره
+                        شماره شبا
                     </th>
                     <th scope="col" class="p-4">
-                        کد ملی
+                        شماره کارت
                     </th>
                     <th scope="col" class="p-4">
-                        تعداد حساب ها
+                        شماره حساب
+                    </th>
+                    <th scope="col" class="p-4">
+                        دارنده حساب
                     </th>
                     <th scope="col" class="p-4 rounded-tl-lg">
                         <span class="sr-only">اقدامات</span>
@@ -87,35 +110,29 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($marketers as $marketer)
+                @foreach($marketer->accounts as $account)
                     <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
                         <td class="table-tr-td border-t-0 border-l-0">
                             {{ $loop->index + 1 }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $marketer->name }}
+                            {{ $account->bank_name }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $marketer->phone }}
+                            {{ $account->shaba_number }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $marketer->nation }}
+                            {{ $account->card_number }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ count($marketer->accounts) }}
+                            {{ $account->account_number }}
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            {{ $account->account_name }}
                         </td>
                         <td class="table-tr-td border-t-0 border-r-0 whitespace-nowrap">
                             <div class="flex items-center justify-center space-x-4 space-x-reverse">
-                                <a href="{{ route('marketers.accounts.index',$marketer->id) }}"
-                                   class="table-dropdown-copy">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                         stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                              d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/>
-                                    </svg>
-                                    حساب ها
-                                </a>
-                                <a href="{{ route('marketers.edit',$marketer->id) }}"
+                                <a href="{{ route('marketers.accounts.edit',$account->id) }}"
                                    class="table-dropdown-edit">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                          stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
@@ -124,7 +141,7 @@
                                     </svg>
                                     ویرایش
                                 </a>
-                                <form action="{{ route('marketers.destroy', $marketer->id) }}" method="POST">
+                                <form action="{{ route('marketers.accounts.destroy', $account->id) }}" method="POST">
                                     @csrf
 
                                     <button type="submit" class="table-dropdown-delete">
@@ -144,9 +161,5 @@
                 </tbody>
             </table>
         </div>
-    </div>
-
-    <div class="mt-4">
-        {{ $marketers->links() }}
     </div>
 </x-layout>

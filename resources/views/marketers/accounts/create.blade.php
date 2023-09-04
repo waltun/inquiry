@@ -41,15 +41,34 @@
                       clip-rule="evenodd"/>
             </svg>
         </div>
+        <a href="{{ route('marketers.accounts.index',$marketer->id) }}" class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" class="breadcrumb-svg">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"/>
+            </svg>
+            <div class="mr-2">
+                <p class="breadcrumb-p">
+                    حساب های {{ $marketer->name }}
+                </p>
+            </div>
+        </a>
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                 class="breadcrumb-svg-arrow">
+                <path fill-rule="evenodd"
+                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                      clip-rule="evenodd"/>
+            </svg>
+        </div>
         <div class="flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                  stroke="currentColor" class="breadcrumb-svg-active">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"/>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p-active">
-                    ویرایش بازاریاب {{ $marketer->name }}
+                    ایجاد بازاریاب جدید
                 </p>
             </div>
         </div>
@@ -61,51 +80,68 @@
     </div>
 
     <!-- Form -->
-    <form method="POST" action="{{ route('marketers.update', $marketer->id) }}" class="mt-4">
+    <form method="POST" action="{{ route('marketers.accounts.store', $marketer->id) }}" class="mt-4">
         @csrf
-        @method('PATCH')
 
         <div class="card">
             <div class="card-header">
                 <p class="card-title">
-                    مشخصات بازاریاب
+                    مشخصات حساب
                 </p>
             </div>
 
             <div class="mb-4">
-                <label for="inputName" class="form-label">
-                    نام
+                <label for="inputBankName" class="form-label">
+                    نام بانک
                 </label>
-                <input type="text" id="inputName" name="name" class="input-text"
-                       value="{{ old('name', $marketer->name) }}"
-                       placeholder="مثلا : رضا رضایی">
+                <input type="text" id="inputBankName" name="bank_name" class="input-text"
+                       value="{{ old('bank_name') }}"
+                       placeholder="مثلا : بانک سپه">
             </div>
 
             <div class="mb-4">
-                <label for="inputPhone" class="form-label">
-                    شماره تماس
+                <label for="inputAccountNumber" class="form-label">
+                    شماره حساب
                 </label>
-                <input type="text" id="inputPhone" name="phone" class="input-text"
-                       value="{{ old('phone', $marketer->phone) }}"
-                       placeholder="مثلا : 09123456789">
+                <input type="text" id="inputAccountNumber" name="account_number" class="input-text"
+                       value="{{ old('account_number') }}"
+                       placeholder="مثلا : 5112300457">
             </div>
 
             <div class="mb-4">
-                <label for="inputNation" class="form-label">
-                    کد ملی
+                <label for="inputCardNumber" class="form-label">
+                    شماره کارت
                 </label>
-                <input type="text" id="inputNation" name="nation" class="input-text"
-                       value="{{ old('nation', $marketer->nation) }}"
-                       placeholder="مثلا : 1111111111">
+                <input type="text" id="inputCardNumber" name="card_number" class="input-text"
+                       value="{{ old('card_number') }}"
+                       placeholder="مثلا : 6219861900523902">
+            </div>
+
+            <div class="mb-4">
+                <label for="inputShabaNumber" class="form-label">
+                    شماره شبا
+                </label>
+                <input type="text" id="inputShabaNumber" name="shaba_number" class="input-text"
+                       value="{{ old('shaba_number') }}"
+                       placeholder="مثلا : IR26542100000054119874">
+            </div>
+
+            <div class="mb-4">
+                <label for="inputAccountName" class="form-label">
+                    نام دارنده حساب
+                </label>
+                <input type="text" id="inputAccountName" name="account_name" class="input-text"
+                       value="{{ old('account_name') }}"
+                       placeholder="مثلا : علی رضایی">
             </div>
 
         </div>
 
         <div class="flex items-center space-x-4 space-x-reverse">
-            <button type="submit" class="form-edit-btn" id="submit-button">
-                بروزرسانی بازاریاب
+            <button type="submit" class="form-submit-btn" id="submit-button">
+                ثبت حساب
             </button>
-            <a href="{{ route('marketers.index') }}" class="form-cancel-btn">
+            <a href="{{ route('marketers.accounts.index', $marketer->id) }}" class="form-cancel-btn">
                 انصراف
             </a>
         </div>

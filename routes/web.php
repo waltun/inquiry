@@ -15,6 +15,7 @@ use App\Http\Controllers\Contract\GuaranteeController;
 use App\Http\Controllers\Contract\MarketingController;
 use App\Http\Controllers\Contract\MarketPaymentController;
 use App\Http\Controllers\Contract\PaymentController;
+use App\Http\Controllers\MarketerAccountController;
 use App\Http\Controllers\MarketerController;
 use App\Http\Controllers\PaymentController as AllPayments;
 use App\Http\Controllers\ContractController;
@@ -529,6 +530,12 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/payments', [AllPayments::class, 'index'])->name('payments.index');
 
     Route::resource('marketers', MarketerController::class)->except(['show']);
+    Route::get('/marketers/{marketer}/accounts', [MarketerAccountController::class, 'index'])->name('marketers.accounts.index');
+    Route::get('/marketers/{marketer}/create-accounts', [MarketerAccountController::class, 'create'])->name('marketers.accounts.create');
+    Route::post('/marketers/{marketer}/create-accounts', [MarketerAccountController::class, 'store'])->name('marketers.accounts.store');
+    Route::get('/marketers/{marketerAccount}/edit-accounts', [MarketerAccountController::class, 'edit'])->name('marketers.accounts.edit');
+    Route::patch('/marketers/{marketerAccount}/edit-accounts', [MarketerAccountController::class, 'update'])->name('marketers.accounts.update');
+    Route::delete('/marketers/{marketerAccount}/accounts', [MarketerAccountController::class, 'destroy'])->name('marketers.accounts.destroy');
 
     Route::get('/contracts/{contract}/marketings', [MarketingController::class, 'index'])->name('contracts.marketings.index');
     Route::get('/contracts/{contract}/create-marketings', [MarketingController::class, 'create'])->name('contracts.marketings.create');
