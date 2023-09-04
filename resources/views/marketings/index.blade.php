@@ -84,7 +84,13 @@
                 </tr>
                 </thead>
                 <tbody>
+                @php
+                    $paymentPrice = 0;
+                @endphp
                 @foreach($marketings as $marketing)
+                    @php
+                        $paymentPrice += $marketing->payments()->where('confirm', 1)->sum('price');
+                    @endphp
                     <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
                         <td class="table-tr-td border-t-0 border-l-0">
                             {{ $marketing->contract->number ? "CNT-" . $marketing->contract->number : 'در حال انجام' }}
@@ -142,6 +148,24 @@
 
         <div class="mt-4">
             {{ $marketings->links() }}
+        </div>
+    </div>
+
+    <div class="mt-8 grid grid-cols-3 gap-4">
+        <div class="p-4 rounded-lg shadow bg-indigo-500">
+            <p class="text-base text-white text-center font-bold">
+                مبلغ کل بازاریابی ها : {{ number_format($marketings->sum('price')) }} تومان
+            </p>
+        </div>
+        <div class="p-4 rounded-lg shadow bg-green-500">
+            <p class="text-base text-white text-center font-bold">
+                مجموع همه پرداخت ها : {{ number_format($paymentPrice) }} تومان
+            </p>
+        </div>
+        <div class="p-4 rounded-lg shadow bg-red-500">
+            <p class="text-base text-white text-center font-bold">
+                مانده همه حساب ها : {{ number_format($marketings->sum('price') - $paymentPrice) }} تومان
+            </p>
         </div>
     </div>
 </x-layout>

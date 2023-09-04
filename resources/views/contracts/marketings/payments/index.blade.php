@@ -125,7 +125,7 @@
     </div>
 
     @php
-        $leftPrice = $marketing->price - $marketing->payments->sum('price');
+        $leftPrice = $marketing->price - $marketing->payments()->where('confirm', 1)->sum('price');
     @endphp
 
     <div class="mt-8 grid grid-cols-3 gap-4">
@@ -136,7 +136,7 @@
         </div>
         <div class="p-4 rounded-lg shadow bg-green-500">
             <p class="text-base text-white text-center font-bold">
-                مجموع پرداخت ها : {{ number_format($marketing->payments->sum('price')) }} تومان
+                مجموع پرداخت ها : {{ number_format($marketing->payments()->where('confirm', 1)->sum('price')) }} تومان
             </p>
         </div>
         <div class="p-4 rounded-lg shadow bg-red-500">

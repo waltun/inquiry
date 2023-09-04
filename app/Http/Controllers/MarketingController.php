@@ -10,7 +10,7 @@ class MarketingController extends Controller
 {
     public function index()
     {
-        $marketings = Marketing::latest()->with(['marketer', 'contract', 'payments'])->paginate(20);
+        $marketings = Marketing::latest()->where('confirm', 1)->with(['marketer', 'contract', 'payments'])->paginate(20);
         return view('marketings.index', compact('marketings'));
     }
 }
