@@ -21,7 +21,7 @@ return new class extends Migration
             $table->timestamp('date')->nullable();
             $table->boolean('confirm')->default(0);
 
-            $table->unsignedBigInteger('account_id')->nullable();
+            $table->unsignedBigInteger('marketer_account_id')->nullable();
             $table->unsignedBigInteger('contract_id')->nullable();
             $table->unsignedBigInteger('marketing_id')->nullable();
 

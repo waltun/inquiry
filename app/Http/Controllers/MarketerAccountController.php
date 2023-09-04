@@ -56,4 +56,13 @@ class MarketerAccountController extends Controller
 
         return redirect()->route('marketers.accounts.index', $marketerAccount->marketer->id);
     }
+
+    public function destroy(MarketerAccount $marketerAccount)
+    {
+        $marketerAccount->delete();
+
+        alert()->success('حذف موفق', 'حذف حساب با موفقیت انجام شد');
+
+        return back();
+    }
 }

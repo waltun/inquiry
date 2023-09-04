@@ -65,12 +65,12 @@
             </div>
 
             <div class="mb-4">
-                <label for="inputAccount" class="form-label">برداشت از حساب</label>
-                <select name="account_id" id="inputAccount" class="input-text">
+                <label for="inputAccount" class="form-label">انتخاب حساب بازاریاب</label>
+                <select name="marketer_account_id" id="inputAccount" class="input-text">
                     <option value="">انتخاب کنید</option>
                     @foreach($accounts as $account)
-                        <option value="{{ $account->id }}" {{ old('account_id') == $account->id ? 'selected' : '' }}>
-                            {{ $account->bank }} | {{ $account->account_number }}
+                        <option value="{{ $account->id }}" {{ old('marketer_account_id') == $account->id ? 'selected' : '' }}>
+                            {{ $account->bank_name }} به نام {{ $account->account_name }} | {{ $account->shaba_number }}
                         </option>
                     @endforeach
                 </select>

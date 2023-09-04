@@ -18,7 +18,7 @@ class MarketPaymentController extends Controller
 
     public function create(Marketing $marketing)
     {
-        $accounts = Account::all();
+        $accounts = $marketing->marketer->accounts;
         return view('contracts.marketings.payments.create', compact('marketing', 'accounts'));
     }
 
@@ -37,7 +37,7 @@ class MarketPaymentController extends Controller
 
     public function edit(MarketPayment $marketPayment)
     {
-        $accounts = Account::all();
+        $accounts = $marketPayment->marketing->marketer->accounts;
 
         $day = jdate($marketPayment->date)->getDay();
         $month = jdate($marketPayment->date)->getMonth();
@@ -93,7 +93,7 @@ class MarketPaymentController extends Controller
             'price' => 'required|numeric',
             'date' => 'nullable|string|max:255',
             'text' => 'nullable|string|max:255',
-            'account_id' => 'nullable|integer',
+            'marketer_account_id' => 'required|integer',
         ]);
 
         if (!is_null($data['date'])) {

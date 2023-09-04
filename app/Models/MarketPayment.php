@@ -10,16 +10,11 @@ class MarketPayment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'price', 'text', 'date', 'confirm', 'account_id', 'contract_id', 'marketing_id'
+        'price', 'text', 'date', 'confirm', 'marketer_account_id', 'contract_id', 'marketing_id'
     ];
 
     public function marketing()
     {
         return $this->belongsTo(Marketing::class);
-    }
-
-    public function account()
-    {
-        return $this->belongsTo(Account::class);
     }
 }

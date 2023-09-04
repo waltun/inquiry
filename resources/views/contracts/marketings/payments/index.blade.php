@@ -45,7 +45,7 @@
                         مبلغ (تومان)
                     </th>
                     <th scope="col" class="p-4">
-                        حساب برداشت شده
+                        حساب واریزی بازاریاب
                     </th>
                     <th scope="col" class="p-4">
                         تاییدیه
@@ -70,8 +70,11 @@
                         <td class="table-tr-td border-t-0 border-x-0">
                             {{ number_format($payment->price) }}
                         </td>
+                        @php
+                            $marketerAccount = \App\Models\MarketerAccount::find($payment->marketer_account_id);
+                        @endphp
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $payment->account->bank }} | {{ $payment->account->account_number }}
+                            {{ $marketerAccount->bank_name }} | {{ $marketerAccount->shaba_number }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             <input type="hidden" value="{{ $payment->id }}" name="payments[]">
