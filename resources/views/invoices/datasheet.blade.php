@@ -84,7 +84,7 @@
     <div class="mt-4 space-y-4" dir="ltr">
         @php
             $inquiry = $invoice->inquiry;
-            $products = $inquiry->products()->where('group_id','!=',0)->where('model_id','!=',0)->get();
+            $products = $inquiry->products()->where('group_id','!=',0)->where('model_id','!=',0)->orderBy('sort', 'ASC')->get();
         @endphp
 
 
@@ -187,6 +187,8 @@
 
                         $evenItems = collect([]);
                         $oddItems = collect([]);
+
+                        $uniqueMidCategoryIds = array_values($uniqueMidCategoryIds);
 
                         foreach ($uniqueMidCategoryIds as $key => $uniqueMidCategoryId) {
                             if ($key % 2 == 0) {

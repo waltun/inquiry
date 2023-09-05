@@ -234,6 +234,8 @@
                                         $midCategoryIds = $midCategoryIds->toArray();
                                         $partIds = $partIds->toArray();
 
+                                        $uniqueMidCategoryIds = array_values($uniqueMidCategoryIds);
+
                                         $evenItems = collect([]);
                                         $oddItems = collect([]);
 
