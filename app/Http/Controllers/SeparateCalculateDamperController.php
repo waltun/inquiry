@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DamperInput;
 use App\Models\Part;
 use Illuminate\Http\Request;
 
@@ -413,6 +414,7 @@ class SeparateCalculateDamperController extends Controller
     {
         $name = $request['name'];
         $code = $this->getLastCode($part);
+        $inputs = json_decode($request->input('inputs'), true);
 
         $newPart = $part->replicate()->fill([
             'name' => $name,
@@ -437,6 +439,26 @@ class SeparateCalculateDamperController extends Controller
 
         $request->session()->put('price' . $part->id, $request->final_price);
         $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
+
+        $damperInput = DamperInput::create($inputs);
+        $damperInput->type = $inputs['type'];
+
+        if ($inputs['type'] == 'Taze') {
+            $damperInput->debi_hava_taze = $inputs['debi_hava_taze'];
+        }
+        if ($inputs['type'] == 'Exast') {
+            $damperInput->debi_hava_taze = $inputs['debi_hava_exast'];
+        }
+        if ($inputs['type'] == 'Raft') {
+            $damperInput->debi_hava_taze = $inputs['debi_hava_raft'];
+        }
+        if ($inputs['type'] == 'Bargasht') {
+            $damperInput->debi_hava_taze = $inputs['debi_hava_bargasht'];
+        }
+
+        $damperInput->part_id = $newPart->id;
+        $damperInput->dimensions = $request->dimensions;
+        $damperInput->save();
 
         alert()->success('محاسبه موفق', 'محاسبه دمپر با موفقیت انجام شد');
 

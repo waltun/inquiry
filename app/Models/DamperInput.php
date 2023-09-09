@@ -10,6 +10,6 @@ class DamperInput extends Model
     use HasFactory;
 
     protected $fillable = [
-        'debi_hava_taze', 'sorat_hava', 'tedad_pare', 'diomantion', 'type', 'inquiry_id', 'part_id'
+        'debi_hava_taze', 'sorat_hava', 'tedad_pare', 'dimensions', 'type', 'inquiry_id', 'part_id'
     ];
 }

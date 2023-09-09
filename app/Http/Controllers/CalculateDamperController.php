@@ -80,7 +80,7 @@ class CalculateDamperController extends Controller
         }
 
         $damperInput->part_id = $newPart->id;
-        $damperInput->diomantion = $newPart->id;
+        $damperInput->dimensions = $request->dimensions;
         $damperInput->inquiry_id = $product->inquiry_id;
         $damperInput->save();
 

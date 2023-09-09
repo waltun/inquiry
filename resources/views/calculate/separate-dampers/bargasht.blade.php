@@ -83,7 +83,8 @@
             <div class="grid grid-cols-5 gap-4">
                 <div>
                     <label class="block mb-2 text-sm font-bold" for="inputDebiHavaBargasht">دبی هوای برگشت (CFM)</label>
-                    <input type="text" class="input-text bg-sky-100" id="inputDebiHavaBargasht" name="debi_hava_bargasht"
+                    <input type="text" class="input-text bg-sky-100" id="inputDebiHavaBargasht"
+                           name="debi_hava_bargasht"
                            value="{{ !is_null($inputs) ? $inputs['debi_hava_bargasht'] : '' }}">
                 </div>
                 <div>
@@ -130,6 +131,18 @@
     @if(!is_null($values))
         <form method="POST" action="{{ route('separate.damper.store',$part->id) }}" class="mt-4">
             @csrf
+
+            @php
+                $inputs['type'] = "Bargasht";
+            @endphp
+
+            <input type="hidden" name="inputs" value="{{ json_encode($inputs) }}">
+
+            @if($sotoonVasat > 0)
+                <input type="hidden" name="dimensions" value="{{ $toolePare + 3 }} * {{ $ertefa }}">
+            @else
+                <input type="hidden" name="dimensions" value="{{ $toolePare }} * {{ $ertefa }}">
+            @endif
 
             <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4">
                 <table class="w-full border-collapse">
@@ -225,7 +238,8 @@
                         <label class="block mb-2 text-sm font-bold" for="inputCoilName">
                             نام دمپر مورد نظر
                         </label>
-                        <input type="text" class="input-text" id="inputCoilName" name="name" dir="ltr" value="{{ $name }}">
+                        <input type="text" class="input-text" id="inputCoilName" name="name" dir="ltr"
+                               value="{{ $name }}">
                     </div>
                 </div>
 

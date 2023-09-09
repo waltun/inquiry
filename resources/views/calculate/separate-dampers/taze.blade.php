@@ -132,6 +132,18 @@
         <form method="POST" action="{{ route('separate.damper.store',$part->id) }}" class="mt-4">
             @csrf
 
+            @php
+                $inputs['type'] = "Taze";
+            @endphp
+
+            <input type="hidden" name="inputs" value="{{ json_encode($inputs) }}">
+
+            @if($sotoonVasat > 0)
+                <input type="hidden" name="dimensions" value="{{ $toolePare + 3 }} * {{ $ertefa }}">
+            @else
+                <input type="hidden" name="dimensions" value="{{ $toolePare }} * {{ $ertefa }}">
+            @endif
+
             <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4">
                 <table class="w-full border-collapse">
                     <thead>

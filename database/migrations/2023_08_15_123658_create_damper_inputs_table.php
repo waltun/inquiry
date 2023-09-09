@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('debi_hava_taze')->nullable();
             $table->string('sorat_hava')->nullable();
             $table->string('tedad_pare')->nullable();
-            $table->string('diomantion')->nullable();
+            $table->string('dimensions')->nullable();
 
             $table->string('type');
             $table->unsignedBigInteger('part_id')->nullable();

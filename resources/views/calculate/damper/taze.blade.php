@@ -103,7 +103,18 @@
     @if(!is_null($values))
         <form method="POST" action="{{ route('calculateDamper.store',[$part->id,$product->id]) }}" class="mt-4">
             @csrf
+
+            @php
+                $inputs['type'] = "Taze";
+            @endphp
+
             <input type="hidden" name="inputs" value="{{ json_encode($inputs) }}">
+
+            @if($sotoonVasat > 0)
+                <input type="hidden" name="dimensions" value="{{ $toolePare + 3 }} * {{ $ertefa }}">
+            @else
+                <input type="hidden" name="dimensions" value="{{ $toolePare }} * {{ $ertefa }}">
+            @endif
 
             <div class="bg-white shadow-md border border-gray-200 rounded-md py-4 px-6 mb-4">
                 <table class="border-collapse border border-gray-400 w-full">
