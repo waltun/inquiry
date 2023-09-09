@@ -188,7 +188,7 @@
                                               d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/>
                                     </svg>
                                 </button>
-                                <div x-show="open" @click.away="open = false" class="table-dropdown -top-12 right-12"
+                                <div x-show="open" @click.away="open = false" class="table-dropdown -top-12 -right-36"
                                      x-cloak>
                                     <a href="{{ route('invoices.final.print',$invoice->id) }}"
                                        class="table-success-btn">
@@ -222,6 +222,119 @@
                                             بازگردانی
                                         </button>
                                     </form>
+                                    <div x-data="{open:false}">
+                                        <button class="table-success-btn" type="button" @click="open = !open">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                 stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                      d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/>
+                                            </svg>
+                                            تبدیل به قرارداد
+                                        </button>
+                                        <div class="relative z-10" x-show="open" x-cloak>
+                                            <div class="modal-backdrop"></div>
+                                            <div class="fixed z-10 inset-0 overflow-y-auto">
+                                                <div class="modal">
+                                                    <div class="modal-body">
+                                                        <form method="POST"
+                                                              class="bg-white dark:bg-slate-800 p-4"
+                                                              action="{{ route('invoices.final.addToContract',$invoice->id) }}">
+                                                            @csrf
+                                                            <div class="mb-4 flex justify-between items-center">
+                                                                <h3 class="text-lg font-bold text-gray-900 dark:text-white">
+                                                                    تبدیل پیش فاکتور به قرارداد
+                                                                </h3>
+                                                                <button type="button" @click="open = false">
+                                                                <span class="modal-close">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                         fill="none"
+                                                                         viewBox="0 0 24 24"
+                                                                         stroke-width="1.5" stroke="currentColor"
+                                                                         class="w-5 h-5 dark:text-white">
+                                                                        <path stroke-linecap="round"
+                                                                              stroke-linejoin="round"
+                                                                              d="M6 18L18 6M6 6l12 12"/>
+                                                                    </svg>
+                                                                </span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="mt-6">
+                                                                <div class="mb-4">
+                                                                    <label for="inputPeriod{{ $invoice->id }}"
+                                                                           class="form-label">
+                                                                        مدت قرارداد
+                                                                    </label>
+                                                                    <input type="text" id="inputPeriod{{ $invoice->id }}"
+                                                                           name="period"
+                                                                           class="input-text">
+                                                                </div>
+                                                                <div class="mb-4">
+                                                                    <label for="inputBuildDate{{ $invoice->id }}"
+                                                                           class="form-label">
+                                                                        تاریخ شروع به ساخت
+                                                                    </label>
+                                                                    <input type="text" id="inputBuildDate{{ $invoice->id }}"
+                                                                           name="build_date"
+                                                                           class="input-text"
+                                                                           onclick="showBuildDate({{ $invoice->id }})">
+                                                                </div>
+                                                                <div class="mb-4">
+                                                                    <label for="inputDeliveryDate{{ $invoice->id }}"
+                                                                           class="form-label">
+                                                                        تاریخ تحویل
+                                                                    </label>
+                                                                    <input type="text"
+                                                                           id="inputDeliveryDate{{ $invoice->id }}"
+                                                                           name="delivery_date"
+                                                                           class="input-text"
+                                                                           onclick="showDeliveryDate({{ $invoice->id }})">
+                                                                </div>
+                                                                <div class="mb-4">
+                                                                    <label for="inputStartContractDate{{ $invoice->id }}"
+                                                                           class="form-label">
+                                                                        تاریخ شروع قرارداد
+                                                                    </label>
+                                                                    <input type="text"
+                                                                           id="inputStartContractDate{{ $invoice->id }}"
+                                                                           name="start_contract_date"
+                                                                           class="input-text"
+                                                                           onclick="showContractDate({{ $invoice->id }})">
+                                                                </div>
+                                                                <div class="mb-4">
+                                                                    <label for="inputCustomer{{ $invoice->id }}"
+                                                                           class="form-label">
+                                                                        انتخاب مشتری
+                                                                    </label>
+                                                                    <select name="customer_id"
+                                                                            id="inputCustomer{{ $invoice->id }}"
+                                                                            class="input-text">
+                                                                        <option value="">انتخاب کنید</option>
+                                                                        @foreach($customers as $customer)
+                                                                            <option value="{{ $customer->id }}">
+                                                                                {{ $customer->name }}
+                                                                            </option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                                <div
+                                                                    class="flex justify-end items-center space-x-4 space-x-reverse">
+                                                                    <button type="submit"
+                                                                            class="form-submit-btn">
+                                                                        ثبت
+                                                                    </button>
+                                                                    <button type="button"
+                                                                            class="form-cancel-btn"
+                                                                            @click="open = false">
+                                                                        انصراف!
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <form method="POST" action="{{ route('invoices.destroy',$invoice->id) }}">
                                         @csrf
                                         @method('DELETE')
@@ -235,119 +348,6 @@
                                             حذف
                                         </button>
                                     </form>
-                                </div>
-                                <div x-data="{open:false}">
-                                    <button class="table-success-btn" type="button" @click="open = !open">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                             stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                  d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/>
-                                        </svg>
-                                        تبدیل به قرارداد
-                                    </button>
-                                    <div class="relative z-10" x-show="open" x-cloak>
-                                        <div class="modal-backdrop"></div>
-                                        <div class="fixed z-10 inset-0 overflow-y-auto">
-                                            <div class="modal">
-                                                <div class="modal-body">
-                                                    <form method="POST"
-                                                          class="bg-white dark:bg-slate-800 p-4"
-                                                          action="{{ route('invoices.final.addToContract',$invoice->id) }}">
-                                                        @csrf
-                                                        <div class="mb-4 flex justify-between items-center">
-                                                            <h3 class="text-lg font-bold text-gray-900 dark:text-white">
-                                                                تبدیل پیش فاکتور به قرارداد
-                                                            </h3>
-                                                            <button type="button" @click="open = false">
-                                                                <span class="modal-close">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                                         fill="none"
-                                                                         viewBox="0 0 24 24"
-                                                                         stroke-width="1.5" stroke="currentColor"
-                                                                         class="w-5 h-5 dark:text-white">
-                                                                        <path stroke-linecap="round"
-                                                                              stroke-linejoin="round"
-                                                                              d="M6 18L18 6M6 6l12 12"/>
-                                                                    </svg>
-                                                                </span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="mt-6">
-                                                            <div class="mb-4">
-                                                                <label for="inputPeriod{{ $invoice->id }}"
-                                                                       class="form-label">
-                                                                    مدت قرارداد
-                                                                </label>
-                                                                <input type="text" id="inputPeriod{{ $invoice->id }}"
-                                                                       name="period"
-                                                                       class="input-text">
-                                                            </div>
-                                                            <div class="mb-4">
-                                                                <label for="inputBuildDate{{ $invoice->id }}"
-                                                                       class="form-label">
-                                                                    تاریخ شروع به ساخت
-                                                                </label>
-                                                                <input type="text" id="inputBuildDate{{ $invoice->id }}"
-                                                                       name="build_date"
-                                                                       class="input-text"
-                                                                       onclick="showBuildDate({{ $invoice->id }})">
-                                                            </div>
-                                                            <div class="mb-4">
-                                                                <label for="inputDeliveryDate{{ $invoice->id }}"
-                                                                       class="form-label">
-                                                                    تاریخ تحویل
-                                                                </label>
-                                                                <input type="text"
-                                                                       id="inputDeliveryDate{{ $invoice->id }}"
-                                                                       name="delivery_date"
-                                                                       class="input-text"
-                                                                       onclick="showDeliveryDate({{ $invoice->id }})">
-                                                            </div>
-                                                            <div class="mb-4">
-                                                                <label for="inputStartContractDate{{ $invoice->id }}"
-                                                                       class="form-label">
-                                                                    تاریخ شروع قرارداد
-                                                                </label>
-                                                                <input type="text"
-                                                                       id="inputStartContractDate{{ $invoice->id }}"
-                                                                       name="start_contract_date"
-                                                                       class="input-text"
-                                                                       onclick="showContractDate({{ $invoice->id }})">
-                                                            </div>
-                                                            <div class="mb-4">
-                                                                <label for="inputCustomer{{ $invoice->id }}"
-                                                                       class="form-label">
-                                                                    انتخاب مشتری
-                                                                </label>
-                                                                <select name="customer_id"
-                                                                        id="inputCustomer{{ $invoice->id }}"
-                                                                        class="input-text">
-                                                                    <option value="">انتخاب کنید</option>
-                                                                    @foreach($customers as $customer)
-                                                                        <option value="{{ $customer->id }}">
-                                                                            {{ $customer->name }}
-                                                                        </option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-                                                            <div
-                                                                class="flex justify-end items-center space-x-4 space-x-reverse">
-                                                                <button type="submit"
-                                                                        class="form-submit-btn">
-                                                                    ثبت
-                                                                </button>
-                                                                <button type="button"
-                                                                        class="form-cancel-btn"
-                                                                        @click="open = false">
-                                                                    انصراف!
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </td>

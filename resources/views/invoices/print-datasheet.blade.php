@@ -87,9 +87,9 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                      class="w-6 h-6 flex-shrink-0 text-white bg-gray-600 rounded-md p-1">
                                     <path
-                                        d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z"/>
+                                            d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z"/>
                                     <path
-                                        d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z"/>
+                                            d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z"/>
                                 </svg>
                             </div>
                             <div class="flex items-center justify-end">
@@ -228,16 +228,19 @@
                                             $partIds->push($part->id);
                                             $amounts->push($amount->value);
                                             $midCategory = $part->categories[1];
-                                            $midCategoryIds->push($midCategory->id);
+                                            $lastCategory = $part->categories->last();
+                                            if (!$lastCategory->attributes->isEmpty()) {
+                                                $midCategoryIds->push($midCategory->id);
+                                            }
                                         }
                                         $uniqueMidCategoryIds = $midCategoryIds->unique()->toArray();
                                         $midCategoryIds = $midCategoryIds->toArray();
                                         $partIds = $partIds->toArray();
 
-                                        $uniqueMidCategoryIds = array_values($uniqueMidCategoryIds);
-
                                         $evenItems = collect([]);
                                         $oddItems = collect([]);
+
+                                        $uniqueMidCategoryIds = array_values($uniqueMidCategoryIds);
 
                                         foreach ($uniqueMidCategoryIds as $key => $uniqueMidCategoryId) {
                                             if ($key % 2 == 0) {
@@ -536,21 +539,21 @@
                                                                             <div class="grid grid-cols-12">
                                                                                 @foreach($attributes as $attribute)
                                                                                     <div
-                                                                                        class="p-0 col-span-4 {{ $loop->first ? 'mt-2' : '' }}">
+                                                                                            class="p-0 col-span-4 {{ $loop->first ? 'mt-2' : '' }}">
                                                                                         <p class="text-black"
                                                                                            style="font-size: 9px">
                                                                                             {{ $attribute->name }} :
                                                                                         </p>
                                                                                     </div>
                                                                                     <div
-                                                                                        class="p-0 col-span-2 {{ $loop->first ? 'mt-2' : '' }}">
+                                                                                            class="p-0 col-span-2 {{ $loop->first ? 'mt-2' : '' }}">
                                                                                         <p class="text-black"
                                                                                            style="font-size: 9px">
                                                                                             {{ $attribute->unit != '-' ? $attribute->unit : '' }}
                                                                                         </p>
                                                                                     </div>
                                                                                     <div
-                                                                                        class="p-0 col-span-6 {{ $loop->first ? 'mt-2' : '' }}">
+                                                                                            class="p-0 col-span-6 {{ $loop->first ? 'mt-2' : '' }}">
                                                                                         <p class="text-black"
                                                                                            style="font-size: 9px">
                                                                                             @if(!$part->attributeValues->isEmpty())
