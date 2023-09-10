@@ -101,7 +101,6 @@
             $products = $inquiry->products()->where('group_id','!=',0)->where('model_id','!=',0)->orderBy('sort', 'ASC')->get();
         @endphp
 
-
         @foreach($products as $product)
             @php
                 $childModell = \App\Models\Modell::find($product->model_id);

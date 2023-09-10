@@ -113,36 +113,36 @@ class CalculateCoilController extends Controller
         $request->session()->put('coil-btn-' . $part->id . $product->id, 'calculated');
         $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
 
-//        if ($inputs["loole_messi"] && !is_null($inputs["loole_messi"])) {
-//            $inputs["loole_messi"] = Part::find($inputs["loole_messi"])->name_en;
-//        }
-//        if ($inputs["fin_coil"] && !is_null($inputs["fin_coil"])) {
-//            $inputs["fin_coil"] = Part::find($inputs["fin_coil"])->name_en;
-//        }
-//        if ($inputs["zekhamat_frame_coil"] && !is_null($inputs["zekhamat_frame_coil"])) {
-//            $inputs["zekhamat_frame_coil"] = Part::find($inputs["zekhamat_frame_coil"])->name_en;
-//        }
-//        if ($inputs["collector_ahani"] && !is_null($inputs["collector_ahani"])) {
-//            $inputs["collector_ahani"] = Part::find($inputs["collector_ahani"])->name_en;
-//        }
-//        if ($inputs["collector_messi"] && !is_null($inputs["collector_messi"])) {
-//            $inputs["collector_messi"] = Part::find($inputs["collector_messi"])->name_en;
-//        }
-//        if ($inputs["electrod_noghre"] && !is_null($inputs["electrod_noghre"])) {
-//            $inputs["electrod_noghre"] = Part::find($inputs["electrod_noghre"])->name_en;
-//        }
+        if ($inputs["loole_messi"]) {
+            $inputs["loole_messi"] = Part::find($inputs["loole_messi"])->name_en;
+        }
+        if ($inputs["fin_coil"]) {
+            $inputs["fin_coil"] = Part::find($inputs["fin_coil"])->name_en;
+        }
+        if ($inputs["zekhamat_frame_coil"]) {
+            $inputs["zekhamat_frame_coil"] = Part::find($inputs["zekhamat_frame_coil"])->name_en;
+        }
+        if ($inputs["collector_ahani"]) {
+            $inputs["collector_ahani"] = Part::find($inputs["collector_ahani"])->name_en;
+        }
+        if ($inputs["collector_messi"]) {
+            $inputs["collector_messi"] = Part::find($inputs["collector_messi"])->name_en;
+        }
+        if ($inputs["electrod_noghre"]) {
+            $inputs["electrod_noghre"] = Part::find($inputs["electrod_noghre"])->name_en;
+        }
 
-//        if ($inputs["pooshesh_khordegi"] == '1') {
-//            $inputs["pooshesh_khordegi"] = 'Hersite';
-//        } else {
-//            $inputs["pooshesh_khordegi"] = '-';
-//        }
+        if ($inputs["pooshesh_khordegi"] == '1') {
+            $inputs["pooshesh_khordegi"] = 'Hersite';
+        } else {
+            $inputs["pooshesh_khordegi"] = '-';
+        }
 
-//        $coilInput = CoilInput::create($inputs);
-//        $coilInput->type = 'Evaporator';
-//        $coilInput->part_id = $newPart->id;
-//        $coilInput->inquiry_id = $product->inquiry_id;
-//        $coilInput->save();
+        $coilInput = CoilInput::create($inputs);
+        $coilInput->type = 'Evaporator';
+        $coilInput->part_id = $newPart->id;
+        $coilInput->inquiry_id = $product->inquiry_id;
+        $coilInput->save();
 
         alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');
 
@@ -214,36 +214,36 @@ class CalculateCoilController extends Controller
         $request->session()->put('coil-btn-' . $part->id . $product->id, 'calculated');
         $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
 
-//        if ($inputs["loole_messi"] && !is_null($inputs["loole_messi"])) {
-//            $inputs["loole_messi"] = Part::find($inputs["loole_messi"])->name_en;
-//        }
-//        if ($inputs["fin_coil"] && !is_null($inputs["fin_coil"])) {
-//            $inputs["fin_coil"] = Part::find($inputs["fin_coil"])->name_en;
-//        }
-//        if ($inputs["zekhamat_frame_coil"] && !is_null($inputs["zekhamat_frame_coil"])) {
-//            $inputs["zekhamat_frame_coil"] = Part::find($inputs["zekhamat_frame_coil"])->name_en;
-//        }
-//        if ($inputs["collector_ahani"] && !is_null($inputs["collector_ahani"])) {
-//            $inputs["collector_ahani"] = Part::find($inputs["collector_ahani"])->name_en;
-//        }
-//        if ($inputs["collector_messi"] && !is_null($inputs["collector_messi"])) {
-//            $inputs["collector_messi"] = Part::find($inputs["collector_messi"])->name_en;
-//        }
-//        if ($inputs["electrod_noghre"] && !is_null($inputs["electrod_noghre"])) {
-//            $inputs["electrod_noghre"] = Part::find($inputs["electrod_noghre"])->name_en;
-//        }
+        if ($inputs["loole_messi"]) {
+            $inputs["loole_messi"] = Part::find($inputs["loole_messi"])->name_en;
+        }
+        if ($inputs["fin_coil"]) {
+            $inputs["fin_coil"] = Part::find($inputs["fin_coil"])->name_en;
+        }
+        if ($inputs["zekhamat_frame_coil"]) {
+            $inputs["zekhamat_frame_coil"] = Part::find($inputs["zekhamat_frame_coil"])->name_en;
+        }
+        if ($inputs["collector_ahani"]) {
+            $inputs["collector_ahani"] = Part::find($inputs["collector_ahani"])->name_en;
+        }
+        if ($inputs["collector_messi"]) {
+            $inputs["collector_messi"] = Part::find($inputs["collector_messi"])->name_en;
+        }
+        if ($inputs["electrod_noghre"]) {
+            $inputs["electrod_noghre"] = Part::find($inputs["electrod_noghre"])->name_en;
+        }
 
-//        if ($inputs["pooshesh_khordegi"] == '1') {
-//            $inputs["pooshesh_khordegi"] = 'Hersite';
-//        } else {
-//            $inputs["pooshesh_khordegi"] = '-';
-//        }
+        if ($inputs["pooshesh_khordegi"] == '1') {
+            $inputs["pooshesh_khordegi"] = 'Hersite';
+        } else {
+            $inputs["pooshesh_khordegi"] = '-';
+        }
 
-//        $coilInput = CoilInput::create($inputs);
-//        $coilInput->type = 'Condensor';
-//        $coilInput->part_id = $newPart->id;
-//        $coilInput->inquiry_id = $product->inquiry_id;
-//        $coilInput->save();
+        $coilInput = CoilInput::create($inputs);
+        $coilInput->type = 'Condensor';
+        $coilInput->part_id = $newPart->id;
+        $coilInput->inquiry_id = $product->inquiry_id;
+        $coilInput->save();
 
         alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');
 
@@ -318,36 +318,36 @@ class CalculateCoilController extends Controller
         $request->session()->put('coil-btn-' . $part->id . $product->id, 'calculated');
         $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
 
-//        if ($inputs["loole_messi"] && !is_null($inputs["loole_messi"])) {
-//            $inputs["loole_messi"] = Part::find($inputs["loole_messi"])->name_en;
-//        }
-//        if ($inputs["fin_coil"] && !is_null($inputs["fin_coil"])) {
-//            $inputs["fin_coil"] = Part::find($inputs["fin_coil"])->name_en;
-//        }
-//        if ($inputs["zekhamat_frame_coil"] && !is_null($inputs["zekhamat_frame_coil"])) {
-//            $inputs["zekhamat_frame_coil"] = Part::find($inputs["zekhamat_frame_coil"])->name_en;
-//        }
-//        if ($inputs["collector_ahani"] && !is_null($inputs["collector_ahani"])) {
-//            $inputs["collector_ahani"] = Part::find($inputs["collector_ahani"])->name_en;
-//        }
-//        if ($inputs["collector_messi"] && !is_null($inputs["collector_messi"])) {
-//            $inputs["collector_messi"] = Part::find($inputs["collector_messi"])->name_en;
-//        }
-//        if ($inputs["electrod_noghre"] && !is_null($inputs["electrod_noghre"])) {
-//            $inputs["electrod_noghre"] = Part::find($inputs["electrod_noghre"])->name_en;
-//        }
+        if ($inputs["loole_messi"]) {
+            $inputs["loole_messi"] = Part::find($inputs["loole_messi"])->name_en;
+        }
+        if ($inputs["fin_coil"]) {
+            $inputs["fin_coil"] = Part::find($inputs["fin_coil"])->name_en;
+        }
+        if ($inputs["zekhamat_frame_coil"]) {
+            $inputs["zekhamat_frame_coil"] = Part::find($inputs["zekhamat_frame_coil"])->name_en;
+        }
+        if ($inputs["collector_ahani"]) {
+            $inputs["collector_ahani"] = Part::find($inputs["collector_ahani"])->name_en;
+        }
+        if ($inputs["collector_messi"]) {
+            $inputs["collector_messi"] = Part::find($inputs["collector_messi"])->name_en;
+        }
+        if ($inputs["electrod_noghre"]) {
+            $inputs["electrod_noghre"] = Part::find($inputs["electrod_noghre"])->name_en;
+        }
 
-//        if ($inputs["pooshesh_khordegi"] == '1') {
-//            $inputs["pooshesh_khordegi"] = 'Hersite';
-//        } else {
-//            $inputs["pooshesh_khordegi"] = '-';
-//        }
+        if ($inputs["pooshesh_khordegi"] == '1') {
+            $inputs["pooshesh_khordegi"] = 'Hersite';
+        } else {
+            $inputs["pooshesh_khordegi"] = '-';
+        }
 
-//        $coilInput = CoilInput::create($inputs);
-//        $coilInput->type = 'Fancoil';
-//        $coilInput->part_id = $newPart->id;
-//        $coilInput->inquiry_id = $product->inquiry_id;
-//        $coilInput->save();
+        $coilInput = CoilInput::create($inputs);
+        $coilInput->type = 'Fancoil';
+        $coilInput->part_id = $newPart->id;
+        $coilInput->inquiry_id = $product->inquiry_id;
+        $coilInput->save();
 
         alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');
 
@@ -419,36 +419,36 @@ class CalculateCoilController extends Controller
         $request->session()->put('coil-btn-' . $part->id . $product->id, 'calculated');
         $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
 
-//        if ($inputs["loole_messi"] && !is_null($inputs["loole_messi"])) {
-//            $inputs["loole_messi"] = Part::find($inputs["loole_messi"])->name_en;
-//        }
-//        if ($inputs["fin_coil"] && !is_null($inputs["fin_coil"])) {
-//            $inputs["fin_coil"] = Part::find($inputs["fin_coil"])->name_en;
-//        }
-//        if ($inputs["zekhamat_frame_coil"] && !is_null($inputs["zekhamat_frame_coil"])) {
-//            $inputs["zekhamat_frame_coil"] = Part::find($inputs["zekhamat_frame_coil"])->name_en;
-//        }
-//        if ($inputs["collector_ahani"] && !is_null($inputs["collector_ahani"])) {
-//            $inputs["collector_ahani"] = Part::find($inputs["collector_ahani"])->name_en;
-//        }
-//        if ($inputs["collector_messi"] && !is_null($inputs["collector_messi"])) {
-//            $inputs["collector_messi"] = Part::find($inputs["collector_messi"])->name_en;
-//        }
-//        if ($inputs["electrod_noghre"] && !is_null($inputs["electrod_noghre"])) {
-//            $inputs["electrod_noghre"] = Part::find($inputs["electrod_noghre"])->name_en;
-//        }
+        if ($inputs["loole_messi"]) {
+            $inputs["loole_messi"] = Part::find($inputs["loole_messi"])->name_en;
+        }
+        if ($inputs["fin_coil"]) {
+            $inputs["fin_coil"] = Part::find($inputs["fin_coil"])->name_en;
+        }
+        if ($inputs["zekhamat_frame_coil"]) {
+            $inputs["zekhamat_frame_coil"] = Part::find($inputs["zekhamat_frame_coil"])->name_en;
+        }
+        if ($inputs["collector_ahani"]) {
+            $inputs["collector_ahani"] = Part::find($inputs["collector_ahani"])->name_en;
+        }
+        if ($inputs["collector_messi"]) {
+            $inputs["collector_messi"] = Part::find($inputs["collector_messi"])->name_en;
+        }
+        if ($inputs["electrod_noghre"]) {
+            $inputs["electrod_noghre"] = Part::find($inputs["electrod_noghre"])->name_en;
+        }
 
-//        if ($inputs["pooshesh_khordegi"] == '1') {
-//            $inputs["pooshesh_khordegi"] = 'Hersite';
-//        } else {
-//            $inputs["pooshesh_khordegi"] = '-';
-//        }
+        if ($inputs["pooshesh_khordegi"] == '1') {
+            $inputs["pooshesh_khordegi"] = 'Hersite';
+        } else {
+            $inputs["pooshesh_khordegi"] = '-';
+        }
 
-//        $coilInput = CoilInput::create($inputs);
-//        $coilInput->type = 'Cold';
-//        $coilInput->part_id = $newPart->id;
-//        $coilInput->inquiry_id = $product->inquiry_id;
-//        $coilInput->save();
+        $coilInput = CoilInput::create($inputs);
+        $coilInput->type = 'Cold';
+        $coilInput->part_id = $newPart->id;
+        $coilInput->inquiry_id = $product->inquiry_id;
+        $coilInput->save();
 
         alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');
 
@@ -520,36 +520,36 @@ class CalculateCoilController extends Controller
         $request->session()->put('coil-btn-' . $part->id . $product->id, 'calculated');
         $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
 
-//        if ($inputs["loole_messi"] && !is_null($inputs["loole_messi"])) {
-//            $inputs["loole_messi"] = Part::find($inputs["loole_messi"])->name_en;
-//        }
-//        if ($inputs["fin_coil"] && !is_null($inputs["fin_coil"])) {
-//            $inputs["fin_coil"] = Part::find($inputs["fin_coil"])->name_en;
-//        }
-//        if ($inputs["zekhamat_frame_coil"] && !is_null($inputs["zekhamat_frame_coil"])) {
-//            $inputs["zekhamat_frame_coil"] = Part::find($inputs["zekhamat_frame_coil"])->name_en;
-//        }
-//        if ($inputs["collector_ahani"] && !is_null($inputs["collector_ahani"])) {
-//            $inputs["collector_ahani"] = Part::find($inputs["collector_ahani"])->name_en;
-//        }
-//        if ($inputs["collector_messi"] && !is_null($inputs["collector_messi"])) {
-//            $inputs["collector_messi"] = Part::find($inputs["collector_messi"])->name_en;
-//        }
-//        if ($inputs["electrod_noghre"] && !is_null($inputs["electrod_noghre"])) {
-//            $inputs["electrod_noghre"] = Part::find($inputs["electrod_noghre"])->name_en;
-//        }
+        if ($inputs["loole_messi"]) {
+            $inputs["loole_messi"] = Part::find($inputs["loole_messi"])->name_en;
+        }
+        if ($inputs["fin_coil"]) {
+            $inputs["fin_coil"] = Part::find($inputs["fin_coil"])->name_en;
+        }
+        if ($inputs["zekhamat_frame_coil"]) {
+            $inputs["zekhamat_frame_coil"] = Part::find($inputs["zekhamat_frame_coil"])->name_en;
+        }
+        if ($inputs["collector_ahani"]) {
+            $inputs["collector_ahani"] = Part::find($inputs["collector_ahani"])->name_en;
+        }
+        if ($inputs["collector_messi"]) {
+            $inputs["collector_messi"] = Part::find($inputs["collector_messi"])->name_en;
+        }
+        if ($inputs["electrod_noghre"]) {
+            $inputs["electrod_noghre"] = Part::find($inputs["electrod_noghre"])->name_en;
+        }
 
-//        if ($inputs["pooshesh_khordegi"] == '1') {
-//            $inputs["pooshesh_khordegi"] = 'Hersite';
-//        } else {
-//            $inputs["pooshesh_khordegi"] = '-';
-//        }
+        if ($inputs["pooshesh_khordegi"] == '1') {
+            $inputs["pooshesh_khordegi"] = 'Hersite';
+        } else {
+            $inputs["pooshesh_khordegi"] = '-';
+        }
 
-//        $coilInput = CoilInput::create($inputs);
-//        $coilInput->type = 'Warm';
-//        $coilInput->part_id = $newPart->id;
-//        $coilInput->inquiry_id = $product->inquiry_id;
-//        $coilInput->save();
+        $coilInput = CoilInput::create($inputs);
+        $coilInput->type = 'Warm';
+        $coilInput->part_id = $newPart->id;
+        $coilInput->inquiry_id = $product->inquiry_id;
+        $coilInput->save();
 
         alert()->success('محاسبه موفق', 'محاسبه کویل با موفقیت انجام شد');
 

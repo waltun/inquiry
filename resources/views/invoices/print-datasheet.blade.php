@@ -87,9 +87,9 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                      class="w-6 h-6 flex-shrink-0 text-white bg-gray-600 rounded-md p-1">
                                     <path
-                                            d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z"/>
+                                        d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z"/>
                                     <path
-                                            d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z"/>
+                                        d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z"/>
                                 </svg>
                             </div>
                             <div class="flex items-center justify-end">
@@ -171,21 +171,24 @@
                                                     $modelAttribute = \App\Models\AttributeGroup::find($productsAttribute->pivot->attribute_group_id);
                                                 @endphp
                                                 <div class="mb-0.5 whitespace-nowrap grid grid-cols-12">
-                                                    <div class="col-span-2 bg-[#cf3b61] flex h-full items-center rounded-md">
+                                                    <div
+                                                        class="col-span-2 bg-[#cf3b61] flex h-full items-center rounded-md">
                                                         <div class="py-1 px-2">
                                                             <p class="font-bold text-white" style="font-size: 11px">
                                                                 {{ $modelAttribute->name }} :
                                                             </p>
                                                         </div>
                                                     </div>
-                                                    <div class="ml-2 col-span-10 grid grid-cols-2 {{ $loop->first ? '' : 'border-t border-[#cf3b61]' }}">
+                                                    <div
+                                                        class="ml-2 col-span-10 grid grid-cols-2 {{ $loop->first ? '' : 'border-t border-[#cf3b61]' }}">
                                                         @foreach($keys as $key)
                                                             @php
                                                                 $productAttribute = $modell->attributes[$key];
                                                             @endphp
                                                             <div class="grid grid-cols-12 py-1">
                                                                 <div class="col-span-5 flex items-center">
-                                                                    <div class="w-2 h-2 bg-black flex-shrink-0 mr-1"></div>
+                                                                    <div
+                                                                        class="w-2 h-2 bg-black flex-shrink-0 mr-1"></div>
                                                                     <p class="mt-0.5" style="font-size: 9px">
                                                                         {{ $productAttribute->name }} :
                                                                     </p>
@@ -281,12 +284,14 @@
                                                         <div class="bg-white">
                                                             @php
                                                                 $coilInput = null;
+                                                                $damperInput = null;
                                                             @endphp
                                                             @foreach($keys as $key)
                                                                 @php
                                                                     $part = \App\Models\Part::find($partIds[$key]);
                                                                     if ($part->coil) {
                                                                         $coilInput = \App\Models\CoilInput::where('part_id', $part->id)->first();
+                                                                        $damperInput = \App\Models\DamperInput::where('part_id', $part->id)->where('inquiry_id', $inquiry->id)->first();
                                                                     }
                                                                     $lastCategory = $part->categories->last();
                                                                     $attributes = $lastCategory->attributes()->orderBy('sort', 'ASC')->get();
@@ -535,25 +540,79 @@
                                                                                     </div>
                                                                                 </div>
                                                                             @endif
+                                                                        @elseif(!is_null($damperInput))
+                                                                            @if(($damperInput->type == 'Raft' || $damperInput->type == 'Taze') || $damperInput->type == 'Bargasht' || $damperInput->type == 'Exast')
+                                                                                <div class="grid grid-cols-3">
+                                                                                    <div class="p-1">
+                                                                                        <p class="text-xs font-medium text-black">
+                                                                                            Debbie Air :
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div class="p-1">
+                                                                                        <p class="text-xs text-black">
+                                                                                            -
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div class="p-1">
+                                                                                        <p class="text-xs text-black">
+                                                                                            {{ $damperInput->debi_hava_taze }}
+                                                                                        </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="grid grid-cols-3">
+                                                                                    <div class="p-1">
+                                                                                        <p class="text-xs font-medium text-black">
+                                                                                            Air Speed :
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div class="p-1">
+                                                                                        <p class="text-xs text-black">
+                                                                                            -
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div class="p-1">
+                                                                                        <p class="text-xs text-black">
+                                                                                            {{ $damperInput->sorat_hava }}
+                                                                                        </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="grid grid-cols-3">
+                                                                                    <div class="p-1">
+                                                                                        <p class="text-xs font-medium text-black">
+                                                                                            Number of Blades :
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div class="p-1">
+                                                                                        <p class="text-xs text-black">
+                                                                                            -
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div class="p-1">
+                                                                                        <p class="text-xs text-black">
+                                                                                            {{ $damperInput->tedad_pare }}
+                                                                                        </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            @endif
                                                                         @else
                                                                             <div class="grid grid-cols-12">
                                                                                 @foreach($attributes as $attribute)
                                                                                     <div
-                                                                                            class="p-0 col-span-4 {{ $loop->first ? 'mt-2' : '' }}">
+                                                                                        class="p-0 col-span-4 {{ $loop->first ? 'mt-2' : '' }}">
                                                                                         <p class="text-black"
                                                                                            style="font-size: 9px">
                                                                                             {{ $attribute->name }} :
                                                                                         </p>
                                                                                     </div>
                                                                                     <div
-                                                                                            class="p-0 col-span-2 {{ $loop->first ? 'mt-2' : '' }}">
+                                                                                        class="p-0 col-span-2 {{ $loop->first ? 'mt-2' : '' }}">
                                                                                         <p class="text-black"
                                                                                            style="font-size: 9px">
                                                                                             {{ $attribute->unit != '-' ? $attribute->unit : '' }}
                                                                                         </p>
                                                                                     </div>
                                                                                     <div
-                                                                                            class="p-0 col-span-6 {{ $loop->first ? 'mt-2' : '' }}">
+                                                                                        class="p-0 col-span-6 {{ $loop->first ? 'mt-2' : '' }}">
                                                                                         <p class="text-black"
                                                                                            style="font-size: 9px">
                                                                                             @if(!$part->attributeValues->isEmpty())

@@ -170,21 +170,24 @@
                                                     $modelAttribute = \App\Models\AttributeGroup::find($productsAttribute->pivot->attribute_group_id);
                                                 @endphp
                                                 <div class="mb-0.5 whitespace-nowrap grid grid-cols-12">
-                                                    <div class="col-span-2 bg-[#cf3b61] flex h-full items-center rounded-md">
+                                                    <div
+                                                        class="col-span-2 bg-[#cf3b61] flex h-full items-center rounded-md">
                                                         <div class="py-1 px-2">
                                                             <p class="font-bold text-white" style="font-size: 11px">
                                                                 {{ $modelAttribute->name }} :
                                                             </p>
                                                         </div>
                                                     </div>
-                                                    <div class="ml-2 col-span-10 grid grid-cols-2 {{ $loop->first ? '' : 'border-t border-[#cf3b61]' }}">
+                                                    <div
+                                                        class="ml-2 col-span-10 grid grid-cols-2 {{ $loop->first ? '' : 'border-t border-[#cf3b61]' }}">
                                                         @foreach($keys as $key)
                                                             @php
                                                                 $productAttribute = $modell->attributes[$key];
                                                             @endphp
                                                             <div class="grid grid-cols-12 py-1">
                                                                 <div class="col-span-5 flex items-center">
-                                                                    <div class="w-2 h-2 bg-black flex-shrink-0 mr-1"></div>
+                                                                    <div
+                                                                        class="w-2 h-2 bg-black flex-shrink-0 mr-1"></div>
                                                                     <p class="mt-0.5" style="font-size: 9px">
                                                                         {{ $productAttribute->name }} :
                                                                     </p>
@@ -280,12 +283,14 @@
                                                         <div class="bg-white">
                                                             @php
                                                                 $coilInput = null;
+                                                                $damperInput = null;
                                                             @endphp
                                                             @foreach($keys as $key)
                                                                 @php
                                                                     $part = \App\Models\Part::find($partIds[$key]);
                                                                     if ($part->coil) {
                                                                         $coilInput = \App\Models\CoilInput::where('part_id', $part->id)->first();
+                                                                        $damperInput = \App\Models\DamperInput::where('part_id', $part->id)->where('inquiry_id', $inquiry->id)->first();
                                                                     }
                                                                     $lastCategory = $part->categories->last();
                                                                     $attributes = $lastCategory->attributes()->orderBy('sort', 'ASC')->get();
@@ -534,6 +539,58 @@
                                                                                     </div>
                                                                                 </div>
                                                                             @endif
+                                                                        @elseif(!is_null($damperInput))
+                                                                            <div class="grid grid-cols-3">
+                                                                                <div class="p-1">
+                                                                                    <p class="text-xs font-medium text-black">
+                                                                                        Debbie Air :
+                                                                                    </p>
+                                                                                </div>
+                                                                                <div class="p-1">
+                                                                                    <p class="text-xs text-black">
+                                                                                        -
+                                                                                    </p>
+                                                                                </div>
+                                                                                <div class="p-1">
+                                                                                    <p class="text-xs text-black">
+                                                                                        {{ $damperInput->debi_hava_taze }}
+                                                                                    </p>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="grid grid-cols-3">
+                                                                                <div class="p-1">
+                                                                                    <p class="text-xs font-medium text-black">
+                                                                                        Air Speed :
+                                                                                    </p>
+                                                                                </div>
+                                                                                <div class="p-1">
+                                                                                    <p class="text-xs text-black">
+                                                                                        -
+                                                                                    </p>
+                                                                                </div>
+                                                                                <div class="p-1">
+                                                                                    <p class="text-xs text-black">
+                                                                                        {{ $damperInput->sorat_hava }}
+                                                                                    </p>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="grid grid-cols-3">
+                                                                                <div class="p-1">
+                                                                                    <p class="text-xs font-medium text-black">
+                                                                                        Number of Blades :
+                                                                                    </p>
+                                                                                </div>
+                                                                                <div class="p-1">
+                                                                                    <p class="text-xs text-black">
+                                                                                        -
+                                                                                    </p>
+                                                                                </div>
+                                                                                <div class="p-1">
+                                                                                    <p class="text-xs text-black">
+                                                                                        {{ $damperInput->tedad_pare }}
+                                                                                    </p>
+                                                                                </div>
+                                                                            </div>
                                                                         @else
                                                                             <div class="grid grid-cols-12">
                                                                                 @foreach($attributes as $attribute)
