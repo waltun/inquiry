@@ -191,6 +191,10 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/inquiries/{product}/{part}/new-part-inquiry', [NewPartInquiryController::class, 'store'])->name('inquiries.newPart.store');
     Route::delete('/inquiries/{amount}/destroy-amount', [NewPartInquiryController::class, 'destroy'])->name('inquiries.newPart.destroy');
 
+    //Inquiry Datasheet
+    Route::get('/inquiries/{inquiry}/datasheet', [InquiryController::class, 'datasheet'])->name('inquiries.datasheet');
+    Route::get('/inquiries/{inquiry}/print-datasheet', [InquiryController::class, 'printDatasheet'])->name('inquiries.printDatasheet');
+
     //Add Inquiry to Invoice
     Route::post('/inquiries/{inquiry}/add-to-invoice', [InquiryController::class, 'addToInvoice'])->name('inquiries.addToInvoice');
 

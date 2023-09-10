@@ -960,4 +960,14 @@ class InquiryController extends Controller
         }
         return $code;
     }
+
+    public function datasheet(Inquiry $inquiry)
+    {
+        return view('inquiries.datasheet', compact('inquiry'));
+    }
+
+    public function printDatasheet(Inquiry $inquiry)
+    {
+        return view('inquiries.print-datasheet', compact('inquiry'));
+    }
 }

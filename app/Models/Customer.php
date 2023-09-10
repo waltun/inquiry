@@ -12,7 +12,7 @@ class Customer extends Model
     protected $fillable = [
         'name', 'code', 'nation', 'address', 'confirmed_address', 'postal', 'registration_number', 'agent_name',
         'agent_phone', 'telephone', 'email', 'social_phone', 'manager_name', 'manager_phone', 'delivery_address',
-        'technical_agent_name', 'technical_agent_phone', 'phone'
+        'technical_agent_name', 'technical_agent_phone', 'phone', 'type'
     ];
 
     public function contracts()
