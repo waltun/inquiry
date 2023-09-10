@@ -60,7 +60,7 @@
     </div>
 
     <!-- Form -->
-    <form method="POST" action="{{ route('customers.store') }}" class="md:grid grid-cols-2 gap-4 mt-4">
+    <form method="POST" action="{{ route('customers.store') }}" class="md:grid grid-cols-3 gap-4 mt-4">
         @csrf
 
         <div class="card">
@@ -89,7 +89,7 @@
             </div>
 
             <div class="mb-4">
-                <label for="inputNation" class="form-label">شماره / شماره ملی</label>
+                <label for="inputNation" class="form-label">شناسه ملی / شماره ملی</label>
                 <input type="text" id="inputNation" name="nation" class="input-text"
                        placeholder="مثال : 0123456789" value="{{ old('nation') }}">
             </div>
@@ -137,68 +137,7 @@
         <div class="card">
             <div class="card-header">
                 <p class="card-title">
-                    مشخصات نماینده
-                </p>
-            </div>
-
-            <div class="mb-4">
-                <label for="inputAgentName" class="form-label">نام نماینده</label>
-                <input type="text" id="inputAgentName" name="agent_name" class="input-text" placeholder="مثال : علی"
-                       value="{{ old('agent_name') }}">
-            </div>
-
-            <div class="mb-4">
-                <label for="inputAgentPhone" class="form-label">شماره نماینده</label>
-                <input type="text" id="inputAgentPhone" name="agent_phone" class="input-text"
-                       placeholder="مثال : 09123456789" value="{{ old('agent_phone') }}">
-            </div>
-
-        </div>
-
-        <div class="card">
-            <div class="card-header">
-                <p class="card-title">
-                    مشخصات مدیر
-                </p>
-            </div>
-
-            <div class="mb-4">
-                <label for="inputManagerName" class="form-label">نام مدیر</label>
-                <input type="text" id="inputManagerName" name="manager_name" class="input-text"
-                       value="{{ old('manager_name') }}" placeholder="مثال : علی">
-            </div>
-
-            <div class="mb-4">
-                <label for="inputManagerPhone" class="form-label">شماره مدیر</label>
-                <input type="text" id="inputManagerPhone" name="manager_phone" class="input-text"
-                       value="{{ old('manager_phone') }}" placeholder="مثال : 09123456789">
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header">
-                <p class="card-title">
-                    مشخصات نماینده فنی
-                </p>
-            </div>
-
-            <div class="mb-4">
-                <label for="inputTechnicalAgentName" class="form-label">نام نماینده فنی</label>
-                <input type="text" id="inputTechnicalAgentName" name="technical_agent_name" class="input-text"
-                       value="{{ old('technical_agent_name') }}" placeholder="مثال : علی">
-            </div>
-
-            <div class="mb-4">
-                <label for="inputTechnicalAgentPhone" class="form-label">شماره نماینده فنی</label>
-                <input type="text" id="inputTechnicalAgentPhone" name="technical_agent_phone" class="input-text"
-                       value="{{ old('technical_agent_phone') }}" placeholder="مثال : 09123456789">
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header">
-                <p class="card-title">
-                    آدرس
+                    آدرس مشتری
                 </p>
             </div>
 
@@ -212,12 +151,6 @@
                 <label for="inputAddress" class="form-label">آدرس مشتری</label>
                 <input type="text" id="inputAddress" name="address" class="input-text"
                        value="{{ old('address') }}" placeholder="مثال : تهران">
-            </div>
-
-            <div class="mb-4">
-                <label for="inputDeliveryAddress" class="form-label">آدرس تحویل</label>
-                <input type="text" id="inputDeliveryAddress" name="delivery_address" class="input-text"
-                       value="{{ old('delivery_address') }}" placeholder="مثال : تهران">
             </div>
         </div>
 

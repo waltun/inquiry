@@ -48,7 +48,7 @@
 
 .input-text {
     @apply bg-white w-full border border-gray-200 rounded-lg px-4 py-1 text-xs font-medium placeholder-mySky-200
-    placeholder-opacity-90 text-black dark:bg-slate-800 dark:border-black dark:text-white dark:placeholder-mySky-100;
+    placeholder-opacity-50 text-black dark:bg-slate-800 dark:border-black dark:text-white dark:placeholder-mySky-100;
 }
 
 .form-detail-btn {

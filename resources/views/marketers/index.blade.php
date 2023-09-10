@@ -126,8 +126,9 @@
                                 </a>
                                 <form action="{{ route('marketers.destroy', $marketer->id) }}" method="POST">
                                     @csrf
+                                    @method('DELETE')
 
-                                    <button type="submit" class="table-dropdown-delete">
+                                    <button type="submit" class="table-dropdown-delete" onclick="return confirm('بازاریاب حذف شود ؟')">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                              stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
                                             <path stroke-linecap="round" stroke-linejoin="round"
