@@ -245,14 +245,12 @@
                                         <div class="bg-white">
                                             @php
                                                 $coilInput = null;
-                                                $damperInput = null;
                                             @endphp
                                             @foreach($keys as $key)
                                                 @php
                                                     $part = \App\Models\Part::find($partIds[$key]);
                                                     if ($part->coil) {
                                                         $coilInput = \App\Models\CoilInput::where('part_id', $part->id)->where('inquiry_id', $inquiry->id)->first();
-                                                        $damperInput = \App\Models\DamperInput::where('part_id', $part->id)->where('inquiry_id', $inquiry->id)->first();
                                                     }
                                                     $lastCategory = $part->categories->last();
                                                     $attributes = $lastCategory->attributes()->orderBy('sort', 'ASC')->get();
@@ -372,7 +370,7 @@
                                                                 <div class="grid grid-cols-3">
                                                                     <div class="p-2">
                                                                         <p class="text-xs font-medium text-black">
-                                                                            Collector :
+                                                                            Face Area :
                                                                         </p>
                                                                     </div>
                                                                     <div class="p-2">
@@ -382,180 +380,7 @@
                                                                     </div>
                                                                     <div class="p-2">
                                                                         <p class="text-xs text-black">
-                                                                            {{ $coilInput->collector_ahani }}
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="grid grid-cols-3">
-                                                                    <div class="p-2">
-                                                                        <p class="text-xs font-medium text-black">
-                                                                            Collector :
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="p-2">
-                                                                        <p class="text-xs text-black">
-                                                                            -
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="p-2">
-                                                                        <p class="text-xs text-black">
-                                                                            {{ $coilInput->collector_messi }}
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="grid grid-cols-3">
-                                                                    <div class="p-2">
-                                                                        <p class="text-xs font-medium text-black">
-                                                                            Electrod :
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="p-2">
-                                                                        <p class="text-xs text-black">
-                                                                            -
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="p-2">
-                                                                        <p class="text-xs text-black">
-                                                                            {{ $coilInput->electrod_noghre }}
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="grid grid-cols-3">
-                                                                    <div class="p-2">
-                                                                        <p class="text-xs font-medium text-black">
-                                                                            Coil Type :
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="p-2">
-                                                                        <p class="text-xs text-black">
-                                                                            -
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="p-2">
-                                                                        <p class="text-xs text-black">
-                                                                            {{ $coilInput->noe_coil }}
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="grid grid-cols-3">
-                                                                    <div class="p-2">
-                                                                        <p class="text-xs font-medium text-black">
-                                                                            Finned Length :
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="p-2">
-                                                                        <p class="text-xs text-black">
-                                                                            -
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="p-2">
-                                                                        <p class="text-xs text-black">
-                                                                            {{ $coilInput->toole_coil }}
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="grid grid-cols-3">
-                                                                    <div class="p-2">
-                                                                        <p class="text-xs font-medium text-black">
-                                                                            Tube Height :
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="p-2">
-                                                                        <p class="text-xs text-black">
-                                                                            No.
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="p-2">
-                                                                        <p class="text-xs text-black">
-                                                                            {{ $coilInput->tedad_loole_dar_radif }}
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="grid grid-cols-3">
-                                                                    <div class="p-2">
-                                                                        <p class="text-xs font-medium text-black">
-                                                                            Tube Height :
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="p-2">
-                                                                        <p class="text-xs text-black">
-                                                                            -
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="p-2">
-                                                                        <p class="text-xs text-black">
-                                                                            {{ $coilInput->tedad_mogheyiat_loole }}
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="grid grid-cols-3">
-                                                                    <div class="p-2">
-                                                                        <p class="text-xs font-medium text-black">
-                                                                            Circuits :
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="p-2">
-                                                                        <p class="text-xs text-black">
-                                                                            -
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="p-2">
-                                                                        <p class="text-xs text-black">
-                                                                            {{ $coilInput->tedad_madar_loole }}
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                            @endif
-                                                        @elseif(!is_null($damperInput))
-                                                            @if(($damperInput->type == 'Raft' || $damperInput->type == 'Taze') || $damperInput->type == 'Bargasht' || $damperInput->type == 'Exast')
-                                                                <div class="grid grid-cols-3">
-                                                                    <div class="p-1">
-                                                                        <p class="text-xs font-medium text-black">
-                                                                            Debbie Air :
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="p-1">
-                                                                        <p class="text-xs text-black">
-                                                                            -
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="p-1">
-                                                                        <p class="text-xs text-black">
-                                                                            {{ $damperInput->debi_hava_taze }}
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="grid grid-cols-3">
-                                                                    <div class="p-1">
-                                                                        <p class="text-xs font-medium text-black">
-                                                                            Air Speed :
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="p-1">
-                                                                        <p class="text-xs text-black">
-                                                                            -
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="p-1">
-                                                                        <p class="text-xs text-black">
-                                                                            {{ $damperInput->sorat_hava }}
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="grid grid-cols-3">
-                                                                    <div class="p-1">
-                                                                        <p class="text-xs font-medium text-black">
-                                                                            Number of Blades :
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="p-1">
-                                                                        <p class="text-xs text-black">
-                                                                            -
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="p-1">
-                                                                        <p class="text-xs text-black">
-                                                                            {{ $damperInput->tedad_pare }}
+                                                                            {{ $coilInput->sathe_coil }}
                                                                         </p>
                                                                     </div>
                                                                 </div>
