@@ -197,6 +197,7 @@
                                 $midCategoryIds->push($midCategory->id);
                             }
                         }
+
                         $uniqueMidCategoryIds = $midCategoryIds->unique()->toArray();
                         $midCategoryIds = $midCategoryIds->toArray();
                         $partIds = $partIds->toArray();
@@ -245,12 +246,14 @@
                                         <div class="bg-white">
                                             @php
                                                 $coilInput = null;
+                                                $convertorInput = null;
                                             @endphp
                                             @foreach($keys as $key)
                                                 @php
                                                     $part = \App\Models\Part::find($partIds[$key]);
                                                     if ($part->coil) {
                                                         $coilInput = \App\Models\CoilInput::where('part_id', $part->id)->where('inquiry_id', $inquiry->id)->first();
+                                                        $convertorInput = \App\Models\ConvertorInput::where('part_id', $part->id)->where('inquiry_id', $inquiry->id)->first();
                                                     }
                                                     $lastCategory = $part->categories->last();
                                                     $attributes = $lastCategory->attributes()->orderBy('sort', 'ASC')->get();
@@ -385,6 +388,177 @@
                                                                     </div>
                                                                 </div>
                                                             @endif
+                                                        @elseif(!is_null($convertorInput))
+                                                            <div class="grid grid-cols-3">
+                                                                <div class="p-1">
+                                                                    <p class="text-xs font-medium text-black">
+                                                                        Tube :
+                                                                    </p>
+                                                                </div>
+                                                                <div class="p-1">
+                                                                    <p class="text-xs text-black">
+                                                                        -
+                                                                    </p>
+                                                                </div>
+                                                                <div class="p-1">
+                                                                    <p class="text-xs text-black">
+                                                                        {{ $convertorInput->loole_messi }}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="grid grid-cols-3">
+                                                                <div class="p-2">
+                                                                    <p class="text-xs font-medium text-black">
+                                                                        Shell Size :
+                                                                    </p>
+                                                                </div>
+                                                                <div class="p-2">
+                                                                    <p class="text-xs text-black">
+                                                                        -
+                                                                    </p>
+                                                                </div>
+                                                                <div class="p-2">
+                                                                    <p class="text-xs text-black">
+                                                                        {{ $convertorInput->size_loole_pooste }}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="grid grid-cols-3">
+                                                                <div class="p-2">
+                                                                    <p class="text-xs font-medium text-black">
+                                                                        Insolation :
+                                                                    </p>
+                                                                </div>
+                                                                <div class="p-2">
+                                                                    <p class="text-xs text-black">
+                                                                        -
+                                                                    </p>
+                                                                </div>
+                                                                <div class="p-2">
+                                                                    <p class="text-xs text-black">
+                                                                        {{ $convertorInput->ayegh }}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="grid grid-cols-3">
+                                                                <div class="p-2">
+                                                                    <p class="text-xs font-medium text-black">
+                                                                        Inlet & Outlet Connection :
+                                                                    </p>
+                                                                </div>
+                                                                <div class="p-2">
+                                                                    <p class="text-xs text-black">
+                                                                        -
+                                                                    </p>
+                                                                </div>
+                                                                <div class="p-2">
+                                                                    <p class="text-xs text-black">
+                                                                        {{ $convertorInput->flanch }}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="grid grid-cols-3">
+                                                                <div class="p-2">
+                                                                    <p class="text-xs font-medium text-black">
+                                                                        Number of Curcuits :
+                                                                    </p>
+                                                                </div>
+                                                                <div class="p-2">
+                                                                    <p class="text-xs text-black">
+                                                                        No.
+                                                                    </p>
+                                                                </div>
+                                                                <div class="p-2">
+                                                                    <p class="text-xs text-black">
+                                                                        {{ $convertorInput->tedad_madar }}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="grid grid-cols-3">
+                                                                <div class="p-2">
+                                                                    <p class="text-xs font-medium text-black">
+                                                                        Bafel :
+                                                                    </p>
+                                                                </div>
+                                                                <div class="p-2">
+                                                                    <p class="text-xs text-black">
+                                                                        -
+                                                                    </p>
+                                                                </div>
+                                                                <div class="p-2">
+                                                                    <p class="text-xs text-black">
+                                                                        {{ $convertorInput->noe_bafel }}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="grid grid-cols-3">
+                                                                <div class="p-2">
+                                                                    <p class="text-xs font-medium text-black">
+                                                                        Shell Length :
+                                                                    </p>
+                                                                </div>
+                                                                <div class="p-2">
+                                                                    <p class="text-xs text-black">
+                                                                        -
+                                                                    </p>
+                                                                </div>
+                                                                <div class="p-2">
+                                                                    <p class="text-xs text-black">
+                                                                        {{ $convertorInput->toole_loole_pooste }}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="grid grid-cols-3">
+                                                                <div class="p-2">
+                                                                    <p class="text-xs font-medium text-black">
+                                                                        Number of Bafel :
+                                                                    </p>
+                                                                </div>
+                                                                <div class="p-2">
+                                                                    <p class="text-xs text-black">
+                                                                        No.
+                                                                    </p>
+                                                                </div>
+                                                                <div class="p-2">
+                                                                    <p class="text-xs text-black">
+                                                                        {{ $convertorInput->tedad_bafel }}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="grid grid-cols-3">
+                                                                <div class="p-2">
+                                                                    <p class="text-xs font-medium text-black">
+                                                                        Actual Cooling Load :
+                                                                    </p>
+                                                                </div>
+                                                                <div class="p-2">
+                                                                    <p class="text-xs text-black">
+                                                                        -
+                                                                    </p>
+                                                                </div>
+                                                                <div class="p-2">
+                                                                    <p class="text-xs text-black">
+                                                                        {{ $convertorInput->tonaj }}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="grid grid-cols-3">
+                                                                <div class="p-2">
+                                                                    <p class="text-xs font-medium text-black">
+                                                                        Refrigerant :
+                                                                    </p>
+                                                                </div>
+                                                                <div class="p-2">
+                                                                    <p class="text-xs text-black">
+                                                                        -
+                                                                    </p>
+                                                                </div>
+                                                                <div class="p-2">
+                                                                    <p class="text-xs text-black">
+                                                                        {{ $convertorInput->gaz }}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
                                                         @else
                                                             <div class="grid grid-cols-3">
                                                                 @foreach($attributes as $attribute)

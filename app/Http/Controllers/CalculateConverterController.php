@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\ConvertorInput;
 use App\Models\Inquiry;
 use App\Models\Part;
 use App\Models\Product;
@@ -393,6 +394,7 @@ class CalculateConverterController extends Controller
             'name' => 'required|string|max:255',
         ]);
 
+        $inputs = json_decode($request->input('inputs'), true);
         $name = $request['name'];
         $code = $this->getLastCode($part);
 
@@ -438,6 +440,28 @@ class CalculateConverterController extends Controller
 
         $request->session()->put('converter-btn-' . $part->id . $product->id, 'calculated');
         $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
+
+        if ($inputs["loole_messi"]) {
+            $inputs["loole_messi"] = Part::find($inputs["loole_messi"])->name_en;
+        }
+        if ($inputs["size_loole_pooste"]) {
+            $inputs["size_loole_pooste"] = Part::find($inputs["size_loole_pooste"])->name_en;
+        }
+        if ($inputs["ayegh"]) {
+            $inputs["ayegh"] = Part::find($inputs["ayegh"])->name_en;
+        }
+        if ($inputs["flanch"]) {
+            $inputs["flanch"] = Part::find($inputs["flanch"])->name_en;
+        }
+        if ($inputs["noe_bafel"]) {
+            $inputs["noe_bafel"] = Part::find($inputs["noe_bafel"])->name_en;
+        }
+
+        $converterInput = ConvertorInput::create($inputs);
+        $converterInput->type = 'Evaporator';
+        $converterInput->part_id = $newPart->id;
+        $converterInput->inquiry_id = $product->inquiry_id;
+        $converterInput->save();
 
         alert()->success('محاسبه موفق', 'محاسبه اواپراتور پوسته و لوله با موفقیت انجام شد');
 
@@ -733,6 +757,7 @@ class CalculateConverterController extends Controller
             'name' => 'required|string|max:255',
         ]);
 
+        $inputs = json_decode($request->input('inputs'), true);
         $name = $request['name'];
         $code = $this->getLastCode($part);
 
@@ -769,6 +794,22 @@ class CalculateConverterController extends Controller
 
         $request->session()->put('converter-btn-' . $part->id . $product->id, 'calculated');
         $request->session()->put('selectedPart' . $newPart->id, $newPart->id);
+
+        if ($inputs["loole_messi"]) {
+            $inputs["loole_messi"] = Part::find($inputs["loole_messi"])->name_en;
+        }
+        if ($inputs["size_loole_pooste"]) {
+            $inputs["size_loole_pooste"] = Part::find($inputs["size_loole_pooste"])->name_en;
+        }
+        if ($inputs["flanch"]) {
+            $inputs["flanch"] = Part::find($inputs["flanch"])->name_en;
+        }
+
+        $converterInput = ConvertorInput::create($inputs);
+        $converterInput->type = 'Condensor';
+        $converterInput->part_id = $newPart->id;
+        $converterInput->inquiry_id = $product->inquiry_id;
+        $converterInput->save();
 
         alert()->success('محاسبه موفق', 'محاسبه کندانسور آبی با موفقیت انجام شد');
 
