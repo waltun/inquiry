@@ -36,6 +36,8 @@ class CalculateCoilController extends Controller
 
     public function condensor(Part $part, Product $product)
     {
+        session()->reflash();
+
         $inquiry = Inquiry::select('inquiry_number')->where('id', $product->inquiry_id)->first();
         $categories = Category::where('parent_id', 0)->get();
         return view('calculate.coil.condensor', compact('part', 'product', 'inquiry', 'categories'));
@@ -151,11 +153,14 @@ class CalculateCoilController extends Controller
 
     public function storeCondensor(Request $request, Part $part, Product $product)
     {
+        session()->reflash();
+
         $request->validate([
             'name' => 'required|string|max:255',
         ]);
 
         $inputs = json_decode($request->input('inputs'), true);
+
         $name = $request['name'];
         $code = $this->getLastCode($part);
 
@@ -858,7 +863,7 @@ class CalculateCoilController extends Controller
 
         $inputs["sathe_coil"] = $satheCoil;
 
-        return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs' => $inputs, 'satheCoil' => $satheCoil,
+        return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs2' => $inputs, 'satheCoil' => $satheCoil,
             'name' => $name]);
     }
 
@@ -1112,7 +1117,7 @@ class CalculateCoilController extends Controller
 
         $inputs["sathe_coil"] = $satheCoil;
 
-        return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs' => $inputs, 'satheCoil' => $satheCoil,
+        return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs2' => $inputs, 'satheCoil' => $satheCoil,
             'name' => $name]);
     }
 
@@ -1366,12 +1371,14 @@ class CalculateCoilController extends Controller
 
         $inputs["sathe_coil"] = $satheCoil;
 
-        return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs' => $inputs, 'satheCoil' => $satheCoil,
+        return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs2' => $inputs, 'satheCoil' => $satheCoil,
             'name' => $name]);
     }
 
     public function calculateCondensorCoil(Request $request)
     {
+        session()->reflash();
+
         $inputs = $request->validate([
             'loole_messi' => 'required',
             'fin_coil' => 'required',
@@ -1606,7 +1613,7 @@ class CalculateCoilController extends Controller
         $name = 'CO-' . $looleMessiName . '-' . $tedadRadifCoil . 'R-' . $finDarInch . 'FPI-' . $tedadMogheyiatLoole . 'H-'
             . $tedadLooleDarRadif . 'T-' . $tooleCoil . 'FL-' . $tedadMadarLoole . 'C-' . $finName . '-' . number_format($satheCoil, 2) . 'SQFT';
 
-        return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs' => $inputs, 'satheCoil' => $satheCoil, 'name' => $name]);
+        return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs2' => $inputs, 'satheCoil' => $satheCoil, 'name' => $name]);
     }
 
     public function calculateEvaperatorCoil(Request $request)
@@ -1868,7 +1875,7 @@ class CalculateCoilController extends Controller
 
         $inputs["sathe_coil"] = $satheCoil;
 
-        return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs' => $inputs, 'satheCoil' => $satheCoil, 'name' => $name]);
+        return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs2' => $inputs, 'satheCoil' => $satheCoil, 'name' => $name]);
     }
 
     public function calculateZekhamatFrame($zekhamatFrameId, $masahatVaraghMasrafi)
