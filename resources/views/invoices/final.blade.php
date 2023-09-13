@@ -260,45 +260,17 @@
                                                             </div>
                                                             <div class="mt-6">
                                                                 <div class="mb-4">
-                                                                    <label for="inputPeriod{{ $invoice->id }}"
+                                                                    <label for="inputCustomer{{ $invoice->id }}"
                                                                            class="form-label">
-                                                                        مدت قرارداد
+                                                                        انتخاب نوع قرارداد
                                                                     </label>
-                                                                    <input type="text" id="inputPeriod{{ $invoice->id }}"
-                                                                           name="period"
-                                                                           class="input-text">
-                                                                </div>
-                                                                <div class="mb-4">
-                                                                    <label for="inputBuildDate{{ $invoice->id }}"
-                                                                           class="form-label">
-                                                                        تاریخ شروع به ساخت
-                                                                    </label>
-                                                                    <input type="text" id="inputBuildDate{{ $invoice->id }}"
-                                                                           name="build_date"
-                                                                           class="input-text"
-                                                                           onclick="showBuildDate({{ $invoice->id }})">
-                                                                </div>
-                                                                <div class="mb-4">
-                                                                    <label for="inputDeliveryDate{{ $invoice->id }}"
-                                                                           class="form-label">
-                                                                        تاریخ تحویل
-                                                                    </label>
-                                                                    <input type="text"
-                                                                           id="inputDeliveryDate{{ $invoice->id }}"
-                                                                           name="delivery_date"
-                                                                           class="input-text"
-                                                                           onclick="showDeliveryDate({{ $invoice->id }})">
-                                                                </div>
-                                                                <div class="mb-4">
-                                                                    <label for="inputStartContractDate{{ $invoice->id }}"
-                                                                           class="form-label">
-                                                                        تاریخ شروع قرارداد
-                                                                    </label>
-                                                                    <input type="text"
-                                                                           id="inputStartContractDate{{ $invoice->id }}"
-                                                                           name="start_contract_date"
-                                                                           class="input-text"
-                                                                           onclick="showContractDate({{ $invoice->id }})">
+                                                                    <select name="type"
+                                                                            id="inputType{{ $invoice->id }}"
+                                                                            class="input-text">
+                                                                        <option value="">انتخاب کنید</option>
+                                                                        <option value="official">قرارداد رسمی</option>
+                                                                        <option value="operational">قرارداد عملکردی</option>
+                                                                    </select>
                                                                 </div>
                                                                 <div class="mb-4">
                                                                     <label for="inputCustomer{{ $invoice->id }}"

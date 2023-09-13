@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Contract;
 use App\Models\Customer;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
@@ -84,32 +85,23 @@ class FinalInvoiceController extends Controller
     public function addToContract(Request $request, Invoice $invoice)
     {
         $data = $request->validate([
-            'period' => 'required|string|max:255',
-            'build_date' => 'nullable|string|max:255',
-            'delivery_date' => 'nullable|string|max:255',
-            'start_contract_date' => 'nullable|string|max:255',
-            'customer_id' => 'required|integer'
+            'customer_id' => 'required|integer',
+            'type' => 'required|string|in:official,operational',
         ]);
 
-        if (!is_null($data['build_date'])) {
-            $explodeBuildDate = explode('-', $data['build_date']);
-            $data['build_date'] = (new Jalalian($explodeBuildDate[0], $explodeBuildDate[1], $explodeBuildDate[2]))->toCarbon()->toDateTimeString();
+        $number = '';
+        if ($data['type'] == 'official') {
+            $number = $this->getOfficialCode($data);
         }
-
-        if (!is_null($data['delivery_date'])) {
-            $explodeDeliveryDate = explode('-', $data['delivery_date']);
-            $data['delivery_date'] = (new Jalalian($explodeDeliveryDate[0], $explodeDeliveryDate[1], $explodeDeliveryDate[2]))->toCarbon()->toDateTimeString();
-        }
-
-        if (!is_null($data['start_contract_date'])) {
-            $explodeContractDate = explode('-', $data['start_contract_date']);
-            $data['start_contract_date'] = (new Jalalian($explodeContractDate[0], $explodeContractDate[1], $explodeContractDate[2]))->toCarbon()->toDateTimeString();
+        if ($data['type'] == 'operational') {
+            $number = $this->getOperationalCode($data);
         }
 
         $contract = $invoice->contracts()->create($data);
         $contract->name = $invoice->inquiry->name;
         $contract->marketer = $invoice->inquiry->marketer;
         $contract->user_id = $invoice->user_id;
+        $contract->number = $number;
         $contract->save();
 
         foreach ($invoice->products as $product) {
@@ -128,5 +120,59 @@ class FinalInvoiceController extends Controller
         alert()->success('ثبت موفق', 'تبدیل پیش فاکتور به قطعه با موفقیت انجام شد');
 
         return redirect()->route('contracts.index');
+    }
+
+    public function getOfficialCode(array $data)
+    {
+        $contracts = Contract::select('number')->where('number', '!=', null)->where('type', 'official')->get();
+
+        $number = 0;
+        $explodeNumber = '';
+        foreach ($contracts as $contract) {
+            $explodeNumber = explode('-', $contract->number);
+            if ((int)$explodeNumber[2] > $number) {
+                $number = (int)$explodeNumber[2];
+            }
+        }
+
+        $year = jdate(now())->getYear();
+
+        if (!$contracts->isEmpty()) {
+            if ($year > $explodeNumber[0]) {
+                $contractNumber = '1000';
+            } else {
+                $contractNumber = str_pad($number + 1, 4, "0", STR_PAD_RIGHT);
+            }
+        } else {
+            $contractNumber = '1000';
+        }
+        return $year . '-1-' . $contractNumber;
+    }
+
+    public function getOperationalCode(array $data)
+    {
+        $contracts = Contract::select('number')->where('number', '!=', null)->where('type', 'operational')->get();
+
+        $number = 0;
+        $explodeNumber = '';
+        foreach ($contracts as $contract) {
+            $explodeNumber = explode('-', $contract->number);
+            if ((int)$explodeNumber[2] > $number) {
+                $number = (int)$explodeNumber[2];
+            }
+        }
+
+        $year = jdate(now())->getYear();
+
+        if (!$contracts->isEmpty()) {
+            if ($year > $explodeNumber[0]) {
+                $contractNumber = '1000';
+            } else {
+                $contractNumber = str_pad($number + 1, 4, "0", STR_PAD_RIGHT);
+            }
+        } else {
+            $contractNumber = '1000';
+        }
+        return $year . '-2-' . $contractNumber;
     }
 }
