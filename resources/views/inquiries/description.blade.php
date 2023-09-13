@@ -169,15 +169,13 @@
             @endforeach
         </div>
 
-        @if(request()->has('term') || $inquiry->submit)
-            <div class="flex items-center space-x-4 space-x-reverse mt-4">
-                <button type="submit" class="form-submit-btn">
-                    ثبت شرایط استعلام
-                </button>
-                <a href="{{ route('inquiries.index') }}" class="form-cancel-btn">
-                    انصراف
-                </a>
-            </div>
-        @endif
+        <div class="flex items-center space-x-4 space-x-reverse mt-4">
+            <button type="submit" class="form-submit-btn">
+                ثبت شرایط استعلام
+            </button>
+            <a href="{{ route('inquiries.index') }}" class="form-cancel-btn">
+                انصراف
+            </a>
+        </div>
     </form>
 </x-layout>
