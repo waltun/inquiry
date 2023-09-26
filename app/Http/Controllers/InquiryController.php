@@ -7,6 +7,7 @@ use App\Models\DeleteButton;
 use App\Models\Group;
 use App\Models\Inquiry;
 use App\Models\InquiryTerm;
+use App\Models\Invoice;
 use App\Models\Modell;
 use App\Models\Part;
 use App\Models\Product;
@@ -921,13 +922,27 @@ class InquiryController extends Controller
             'buyer_position' => 'required|string|max:255',
         ]);
 
+        $sameInvoices = Invoice::where('inquiry_id', $inquiry->id)->get();
+        if (!$sameInvoices->isEmpty()) {
+            if (count($sameInvoices) > 1) {
+                $explodeNumber = explode('-', $sameInvoices->last()->invoice_number)[1];
+                $number = (int)$explodeNumber + 1;
+                $invoiceNumber = $inquiry->inquiry_number . '-' . $number;
+            } else {
+                $invoiceNumber = $inquiry->inquiry_number . '-1';
+            }
+        } else {
+            $invoiceNumber = $inquiry->inquiry_number;
+        }
+
         $newInvoice = $inquiry->invoices()->create([
             'price' => 0,
             'description' => $inquiry->description,
             'user_id' => $inquiry->user_id,
             'tax' => true,
             'buyer_name' => $request->buyer_name,
-            'buyer_position' => $request->buyer_position
+            'buyer_position' => $request->buyer_position,
+            'invoice_number' => $invoiceNumber
         ]);
 
         foreach ($inquiry->products as $product) {

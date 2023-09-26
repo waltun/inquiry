@@ -89,7 +89,7 @@
                     نام پروژه : {{ $invoice->inquiry->name }}
                 </p>
                 <p class="bg-white py-2 px-4 rounded-lg text-sm text-black">
-                    شماره پیش فاکتور : {{ "INV-" . $invoice->inquiry->inquiry_number }}
+                    شماره پیش فاکتور : INV-{{ $invoice->invoice_number ? $invoice->invoice_number : $invoice->inquiry->inquiry_number }}
                 </p>
                 <p class="bg-white py-2 px-4 rounded-lg text-sm text-black">
                     تاریخ : {{ jdate($invoice->created_at)->format('%A, %d %B %Y') }}

@@ -21,6 +21,7 @@ return new class extends Migration {
             $table->boolean('tax')->default(0)->nullable();
             $table->string('buyer_name')->nullable();
             $table->string('buyer_position')->nullable();
+            $table->string('invoice_number')->nullable();
 
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('inquiry_id');
