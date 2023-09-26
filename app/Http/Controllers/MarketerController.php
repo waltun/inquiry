@@ -17,7 +17,7 @@ class MarketerController extends Controller
 
     public function index()
     {
-        $marketers = Marketer::latest()->paginate(20);
+        $marketers = auth()->user()->marketers()->latest()->paginate(20);
         return view('marketers.index', compact('marketers'));
     }
 
@@ -30,7 +30,7 @@ class MarketerController extends Controller
     {
         $data = $this->validateData($request);
 
-        Marketer::create($data);
+        auth()->user()->marketers()->create($data);
 
         alert()->success('ثبت موفق', 'ثبت بازاریاب با موفقیت انجام شد');
 

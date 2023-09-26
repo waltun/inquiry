@@ -10,7 +10,7 @@ class Marketer extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'phone', 'nation',
+        'name', 'phone', 'nation', 'user_id'
     ];
 
     public function marketings()
@@ -21,5 +21,10 @@ class Marketer extends Model
     public function accounts()
     {
         return $this->hasMany(MarketerAccount::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

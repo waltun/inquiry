@@ -17,7 +17,7 @@ class CustomerController extends Controller
 
     public function index()
     {
-        $customers = Customer::latest()->paginate(20);
+        $customers = auth()->user()->customers()->latest()->paginate(20);
         return view('customers.index', compact('customers'));
     }
 
@@ -33,23 +33,15 @@ class CustomerController extends Controller
             'name' => 'required|string|max:255',
             'nation' => 'nullable|numeric',
             'address' => 'nullable|string|max:255',
-            'confirmed_address' => 'nullable|string|max:255',
             'postal' => 'nullable|numeric',
             'registration_number' => 'nullable|numeric',
-            'agent_name' => 'nullable|string|max:255',
-            'agent_phone' => 'nullable|numeric|digits:11',
             'telephone' => 'nullable|numeric|digits:11',
             'email' => 'nullable|string|email|max:255',
             'social_phone' => 'nullable|numeric|digits:11',
-            'manager_name' => 'nullable|string|max:255',
-            'manager_phone' => 'nullable|numeric|digits:11',
-            'delivery_address' => 'nullable|string|max:255',
-            'technical_agent_name' => 'nullable|string|max:255',
-            'technical_agent_phone' => 'nullable|numeric|digits:11',
             'phone' => 'nullable|numeric|digits:11',
         ]);
 
-        Customer::create($data);
+        auth()->user()->customers()->create($data);
 
         alert()->success('ثبت موفق', 'ثبت مشتری با موفقیت انجام شد');
 
@@ -68,19 +60,11 @@ class CustomerController extends Controller
             'name' => 'required|string|max:255',
             'nation' => 'nullable|numeric',
             'address' => 'nullable|string|max:255',
-            'confirmed_address' => 'nullable|string|max:255',
             'postal' => 'nullable|numeric',
             'registration_number' => 'nullable|numeric',
-            'agent_name' => 'nullable|string|max:255',
-            'agent_phone' => 'nullable|numeric|digits:11',
             'telephone' => 'nullable|numeric|digits:11',
             'email' => 'nullable|string|email|max:255',
             'social_phone' => 'nullable|numeric|digits:11',
-            'manager_name' => 'nullable|string|max:255',
-            'manager_phone' => 'nullable|numeric|digits:11',
-            'delivery_address' => 'nullable|string|max:255',
-            'technical_agent_name' => 'nullable|string|max:255',
-            'technical_agent_phone' => 'nullable|numeric|digits:11',
             'phone' => 'nullable|numeric|digits:11',
         ]);
 

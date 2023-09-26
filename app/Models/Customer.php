@@ -10,13 +10,17 @@ class Customer extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'code', 'nation', 'address', 'confirmed_address', 'postal', 'registration_number', 'agent_name',
-        'agent_phone', 'telephone', 'email', 'social_phone', 'manager_name', 'manager_phone', 'delivery_address',
-        'technical_agent_name', 'technical_agent_phone', 'phone', 'type'
+        'name', 'nation', 'address', 'postal', 'registration_number',
+        'telephone', 'email', 'social_phone', 'phone', 'type', 'user_id'
     ];
 
     public function contracts()
     {
         return $this->hasMany(Contract::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

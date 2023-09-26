@@ -65,4 +65,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Marketing::class);
     }
+
+    public function customers()
+    {
+        return $this->hasMany(Customer::class);
+    }
+
+    public function marketers()
+    {
+        return $this->hasMany(Marketer::class);
+    }
 }

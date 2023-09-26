@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('phone');
             $table->string('nation')->nullable();
 
+            $table->unsignedBigInteger('user_id');
+
             $table->timestamps();
         });
     }
