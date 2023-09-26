@@ -7,6 +7,14 @@ use Illuminate\Http\Request;
 
 class CustomerController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:customers')->only(['index']);
+        $this->middleware('can:create-customer')->only(['create', 'store']);
+        $this->middleware('can:edit-customer')->only(['edit', 'update']);
+        $this->middleware('can:delete-customer')->only(['destroy']);
+    }
+
     public function index()
     {
         $customers = Customer::latest()->paginate(20);

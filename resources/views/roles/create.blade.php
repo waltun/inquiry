@@ -96,7 +96,7 @@
                 <select name="permissions[]" id="inputPermissions" class="input-text h-screen" multiple>
                     @foreach($permissions as $permission)
                         <option value="{{ $permission->id }}">
-                            {{ $permission->name }} | {{ $permission->label }}
+                            {{ $permission->label }}
                         </option>
                     @endforeach
                 </select>

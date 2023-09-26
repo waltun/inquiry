@@ -307,7 +307,7 @@
                     </a>
                 @endcan
 
-                @can('accounts')
+                @can('marketings')
                     <a href="{{ route('marketings.index') }}" class="dashboard-cards group">
                         <div class="flex items-center">
                             <div class="dashboard-card-icon bg-yellow-500 dark:bg-slate-800">
@@ -335,7 +335,7 @@
                     </a>
                 @endcan
 
-                @can('accounts')
+                @can('payments')
                     <a href="{{ route('payments.index') }}" class="dashboard-cards group">
                         <div class="flex items-center">
                             <div class="dashboard-card-icon bg-green-500 dark:bg-slate-800">

@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class MarketingController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:marketings')->only(['index']);
+    }
+
     public function index()
     {
         $marketings = Marketing::latest()->where('confirm', 1)->with(['marketer', 'contract', 'payments'])->paginate(20);

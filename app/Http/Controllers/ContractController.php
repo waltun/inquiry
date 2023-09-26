@@ -8,6 +8,13 @@ use Illuminate\Http\Request;
 
 class ContractController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:contracts')->only(['index']);
+        $this->middleware('can:contract-products')->only(['products', 'updateProducts']);
+        $this->middleware('can:show-contract')->only(['products', 'show']);
+    }
+
     public function index()
     {
         $contracts = Contract::latest()->with(['invoice', 'products'])->paginate(20);

@@ -7,6 +7,14 @@ use Illuminate\Http\Request;
 
 class AccountController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:accounts')->only(['index']);
+        $this->middleware('can:create-account')->only(['create', 'store']);
+        $this->middleware('can:edit-account')->only(['edit', 'update']);
+        $this->middleware('can:delete-account')->only(['destroy']);
+    }
+
     public function index()
     {
         $accounts = Account::latest()->paginate(20);

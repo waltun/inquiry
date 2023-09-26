@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class PaymentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:payments')->only(['index']);
+    }
+
     public function index()
     {
         $contracts = Contract::latest()->with(['payments', 'products'])->paginate(20);

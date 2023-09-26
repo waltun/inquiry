@@ -7,6 +7,14 @@ use Illuminate\Http\Request;
 
 class MarketerController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:marketers')->only(['index']);
+        $this->middleware('can:create-marketer')->only(['create', 'store']);
+        $this->middleware('can:edit-marketer')->only(['edit', 'update']);
+        $this->middleware('can:delete-marketer')->only(['destroy']);
+    }
+
     public function index()
     {
         $marketers = Marketer::latest()->paginate(20);
