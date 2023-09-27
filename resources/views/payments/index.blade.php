@@ -78,6 +78,9 @@
                     <th scope="col" class="p-4">
                         بدهی (تومان)
                     </th>
+                    <th scope="col" class="p-4">
+                        وصول نشده (تومان)
+                    </th>
                     <th scope="col" class="p-4 rounded-tl-lg">
                         <span class="sr-only">اقدامات</span>
                     </th>
@@ -89,6 +92,7 @@
                         $contractPrice = 0;
                         $paymentPrice = 0;
                         $leftPrice = 0;
+                        $collectionPrice = 0;
 
                         foreach ($contract->products as $product) {
                             $contractPrice += $product->price * $product->quantity;
@@ -100,9 +104,17 @@
                             } else {
                                 $paymentPrice += $payment2->price;
                             }
+
+                            if (is_null($payment2->account_id) && $payment2->cash_type == 'check') {
+                                $collectionPrice += $payment2->price;
+                            }
                         }
 
+                        $tax = $contractPrice * 9 / 100;
+                        $contractTaxPrice = $contractPrice + $tax;
+
                         $leftPrice = $contractPrice - $paymentPrice;
+                        $leftTaxPrice = $contractTaxPrice - $paymentPrice;
                     @endphp
                     <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
                         <td class="table-tr-td border-t-0 border-l-0">
@@ -118,9 +130,15 @@
                             {{ $contract->customer->name }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            <p class="text-green-600">
-                                {{ number_format($contractPrice) }}
-                            </p>
+                            @if($contract->type == 'official')
+                                <p class="text-green-600">
+                                    {{ number_format($contractTaxPrice) }}
+                                </p>
+                            @else
+                                <p class="text-green-600">
+                                    {{ number_format($contractPrice) }}
+                                </p>
+                            @endif
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             <p class="text-green-600">
@@ -128,8 +146,19 @@
                             </p>
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
+                            @if($contract->type == 'official')
+                                <p class="text-red-600">
+                                    {{ number_format($leftTaxPrice) }}
+                                </p>
+                            @else
+                                <p class="text-red-600">
+                                    {{ number_format($leftPrice) }}
+                                </p>
+                            @endif
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
                             <p class="text-red-600">
-                                {{ number_format($leftPrice) }}
+                                {{ number_format($collectionPrice) }}
                             </p>
                         </td>
                         <td class="table-tr-td border-t-0 border-r-0">
@@ -149,6 +178,11 @@
                                 @if(count($contract->payments()->where('confirm', 0)->get()) > 0)
                                     <p class="p-1 rounded-lg bg-red-500 text-white shadow-sm">
                                         منتظر تایید پرداخت
+                                    </p>
+                                @endif
+                                @if(count($contract->payments()->where('account_id', null)->get()) > 0)
+                                    <p class="p-1 rounded-lg bg-red-500 text-white shadow-sm">
+                                        منتظر تایید وصولی
                                     </p>
                                 @endif
                             </div>

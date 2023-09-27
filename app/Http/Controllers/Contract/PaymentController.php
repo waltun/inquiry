@@ -37,10 +37,14 @@ class PaymentController extends Controller
     {
         $accounts = Account::all();
 
-        $day = jdate($payment->date)->getDay();
-        $month = jdate($payment->date)->getMonth();
-        $year = jdate($payment->date)->getYear();
-        $date = $year . '-' . $month . '-' . $day;
+        if (!is_null($payment->date)) {
+            $day = jdate($payment->date)->getDay();
+            $month = jdate($payment->date)->getMonth();
+            $year = jdate($payment->date)->getYear();
+            $date = $year . '-' . $month . '-' . $day;
+        } else {
+            $date = '';
+        }
 
         return view('contracts.payments.edit', compact('payment', 'accounts', 'date'));
     }
