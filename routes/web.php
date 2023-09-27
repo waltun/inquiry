@@ -525,7 +525,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/contracts/{contract}/create-guarantees', [GuaranteeController::class, 'store'])->name('contracts.guarantees.store');
     Route::get('/contracts/{guarantee}/edit-guarantees', [GuaranteeController::class, 'edit'])->name('contracts.guarantees.edit');
     Route::patch('/contracts/{guarantee}/edit-guarantees', [GuaranteeController::class, 'update'])->name('contracts.guarantees.update');
-    Route::delete('/contracts/{guarantee}/delete-guarantees', [GuaranteeController::class, 'destroy'])->name('contracts.guarantees.destroy');
+    Route::post('/contracts/delete-guarantees', [GuaranteeController::class, 'destroy'])->name('contracts.guarantees.destroy');
     Route::post('/contracts/{contract}/confirm-guarantees', [GuaranteeController::class, 'confirm'])->name('contracts.guarantees.confirm');
 
     Route::resource('customers', CustomerController::class)->except(['show']);

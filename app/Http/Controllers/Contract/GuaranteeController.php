@@ -47,7 +47,17 @@ class GuaranteeController extends Controller
         $returnYear = jdate($guarantee->return_date)->getYear();
         $returnDate = $returnYear . '-' . $returnMonth . '-' . $returnDay;
 
-        return view('contracts.guarantees.edit', compact('guarantee', 'accounts', 'date', 'returnDate'));
+        $dueDay = jdate($guarantee->return_date)->getDay();
+        $dueMonth = jdate($guarantee->return_date)->getMonth();
+        $dueYear = jdate($guarantee->return_date)->getYear();
+        $dueDate = $dueYear . '-' . $dueMonth . '-' . $dueDay;
+
+        $finalReturnDay = jdate($guarantee->return_date)->getDay();
+        $finalReturnMonth = jdate($guarantee->return_date)->getMonth();
+        $finalReturnYear = jdate($guarantee->return_date)->getYear();
+        $finalReturnDate = $finalReturnYear . '-' . $finalReturnMonth . '-' . $finalReturnDay;
+
+        return view('contracts.guarantees.edit', compact('guarantee', 'accounts', 'date', 'returnDate', 'dueDate', 'finalReturnDate'));
     }
 
     public function update(Request $request, Guarantee $guarantee)
@@ -61,9 +71,13 @@ class GuaranteeController extends Controller
         return redirect()->route('contracts.guarantees.index', $guarantee->contract_id);
     }
 
-    public function destroy(Guarantee $guarantee)
+    public function destroy(Request $request)
     {
-        //
+        $guarantee = Guarantee::find($request->id);
+
+        $guarantee->delete();
+
+        alert()->success('حذف موفق', 'حذف تضمین با موفقیت انجام شد');
     }
 
     public function confirm(Request $request, Contract $contract)
@@ -97,9 +111,13 @@ class GuaranteeController extends Controller
             'date' => 'nullable|string|max:255',
             'text' => 'nullable|string|max:255',
             'type' => 'required|string|max:255',
+            'guarantee_type' => 'required|string|max:255',
             'account_id' => 'nullable|integer',
             'receiver' => 'nullable|string|max:255',
+            'customer_receiver' => 'nullable|string|max:255',
             'return_date' => 'nullable|string|max:255',
+            'final_return_date' => 'nullable|string|max:255',
+            'due_date' => 'nullable|string|max:255',
             'code' => 'nullable|string|max:255'
         ]);
 
@@ -108,9 +126,19 @@ class GuaranteeController extends Controller
             $data['date'] = (new Jalalian($explodeDate[0], $explodeDate[1], $explodeDate[2]))->toCarbon()->toDateTimeString();
         }
 
+        if (!is_null($data['due_date'])) {
+            $explodeDueDate = explode('-', $data['due_date']);
+            $data['due_date'] = (new Jalalian($explodeDueDate[0], $explodeDueDate[1], $explodeDueDate[2]))->toCarbon()->toDateTimeString();
+        }
+
         if (!is_null($data['return_date'])) {
             $explodeReturnDate = explode('-', $data['return_date']);
             $data['return_date'] = (new Jalalian($explodeReturnDate[0], $explodeReturnDate[1], $explodeReturnDate[2]))->toCarbon()->toDateTimeString();
+        }
+
+        if (!is_null($data['final_return_date'])) {
+            $explodeFinalReturnDate = explode('-', $data['final_return_date']);
+            $data['final_return_date'] = (new Jalalian($explodeFinalReturnDate[0], $explodeFinalReturnDate[1], $explodeFinalReturnDate[2]))->toCarbon()->toDateTimeString();
         }
         return $data;
     }

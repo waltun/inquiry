@@ -10,12 +10,42 @@
             $("#inputReturnDate").persianDatepicker({
                 formatDate: "YYYY-MM-DD",
             });
+
+            $("#inputDueDate").persianDatepicker({
+                formatDate: "YYYY-MM-DD",
+            });
+
+            $("#inputFinalReturnDate").persianDatepicker({
+                formatDate: "YYYY-MM-DD",
+            });
         </script>
         <script>
             function showPrice(event) {
                 let value = event.target.value;
                 let priceSection = document.getElementById('priceSection');
                 priceSection.innerText = Intl.NumberFormat('fa-IR').format(value) + ' تومان ';
+            }
+        </script>
+        <script>
+            function showField(event) {
+                let value = event.target.value;
+                let accountSection = document.getElementById('accountSection');
+                let dueDateSection = document.getElementById('dueDateSection');
+
+                if (value == 'check') {
+                    accountSection.classList.remove('hidden');
+                    dueDateSection.classList.add('hidden');
+                }
+
+                if (value == 'guarantee') {
+                    dueDateSection.classList.remove('hidden');
+                    accountSection.classList.add('hidden');
+                }
+
+                if (value == 'promissory' || value == '') {
+                    dueDateSection.classList.add('hidden');
+                    accountSection.classList.add('hidden');
+                }
             }
         </script>
     </x-slot>
@@ -86,7 +116,7 @@
                       clip-rule="evenodd"/>
             </svg>
         </div>
-        <a href="{{ route('contracts.payments.index', $contract->id) }}" class="flex items-center">
+        <a href="{{ route('contracts.guarantees.index', $contract->id) }}" class="flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                  stroke="currentColor" class="breadcrumb-svg">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -136,6 +166,22 @@
             </div>
 
             <div class="mb-4">
+                <label for="inputGuaranteeType" class="form-label">نوع تضمین</label>
+                <select name="guarantee_type" id="inputGuaranteeType" class="input-text" onchange="showField(event)">
+                    <option value="">انتخاب کنید</option>
+                    <option value="check" {{ old('guarantee_type') == 'check' ? 'selected' : '' }}>
+                        چک شرکتی
+                    </option>
+                    <option value="guarantee" {{ old('guarantee_type') == 'guarantee' ? 'selected' : '' }}>
+                        ضمانت نامه بانکی
+                    </option>
+                    <option value="promissory" {{ old('guarantee_type') == 'promissory' ? 'selected' : '' }}>
+                        سفته
+                    </option>
+                </select>
+            </div>
+
+            <div class="mb-4">
                 <label for="inputPrice" class="form-label">
                     مبلغ (تومان)
                     <span class="mr-4 text-sm font-medium" id="priceSection">
@@ -155,8 +201,14 @@
             </div>
 
             <div class="mb-4">
-                <label for="inputDate" class="form-label">تاریخ</label>
+                <label for="inputDate" class="form-label">تاریخ صدور تضمین</label>
                 <input type="text" id="inputDate" name="date" class="input-text" value="{{ old('date') }}"
+                       placeholder="برای انتخاب تاریخ کلیک کنید">
+            </div>
+
+            <div class="mb-4 hidden" id="dueDateSection">
+                <label for="inputDueDate" class="form-label">تاریخ سر رسید ضمانت نامه بانکی</label>
+                <input type="text" id="inputDueDate" name="due_date" class="input-text" value="{{ old('due_date') }}"
                        placeholder="برای انتخاب تاریخ کلیک کنید">
             </div>
 
@@ -191,13 +243,13 @@
                 </select>
             </div>
 
-            <div class="mb-4">
+            <div class="mb-4 hidden" id="accountSection">
                 <label for="inputAccount" class="form-label">انتخاب حساب</label>
                 <select name="account_id" id="inputAccount" class="input-text">
                     <option value="">انتخاب کنید</option>
                     @foreach($accounts as $account)
                         <option value="{{ $account->id }}" {{ old('account_id') == $account->id ? 'selected' : '' }}>
-                            {{ $account->bank }} | {{ $account->account_number }}
+                            {{ $account->bank }} | {{ $account->branch }} | {{ $account->account_number }}
                         </option>
                     @endforeach
                 </select>
@@ -210,11 +262,25 @@
             </div>
 
             <div class="mb-4">
+                <label for="inputFinalReturnDate" class="form-label">تاریخ عودت</label>
+                <input type="text" id="inputFinalReturnDate" name="final_return_date" class="input-text"
+                       value="{{ old('final_return_date') }}" placeholder="برای انتخاب تاریخ کلیک کنید">
+            </div>
+
+            <div class="mb-4">
                 <label for="inputReceiver" class="form-label">
-                    تحویل گیرنده
+                    تحویل گیرنده لاشه تضمین
                 </label>
                 <input type="text" id="inputReceiver" name="receiver" class="input-text" value="{{ old('receiver') }}"
                        placeholder="مثلا : نام و شماره">
+            </div>
+
+            <div class="mb-4">
+                <label for="inputCustomerReceiver" class="form-label">
+                    نماینده تحویل گیرنده مشتری
+                </label>
+                <input type="text" id="inputCustomerReceiver" name="customer_receiver" class="input-text"
+                       value="{{ old('customer_receiver') }}" placeholder="مثلا : نام و شماره">
             </div>
 
         </div>

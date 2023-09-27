@@ -10,8 +10,8 @@ class Guarantee extends Model
     use HasFactory;
 
     protected $fillable = [
-        'price', 'date', 'text', 'code', 'type', 'forr', 'return_date', 'confirm', 'receiver', 'account_id',
-        'contract_id'
+        'price', 'date', 'text', 'code', 'type', 'return_date', 'confirm', 'receiver', 'account_id',
+        'contract_id', 'due_date', 'final_return_date', 'customer_receiver', 'guarantee_type'
     ];
 
     public function contract()
