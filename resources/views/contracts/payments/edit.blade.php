@@ -133,6 +133,19 @@
             </div>
 
             <div class="mb-4">
+                <label for="inputCashType" class="form-label">نوع پرداختی</label>
+                <select name="cash_type" id="inputCashType" class="input-text">
+                    <option value="">انتخاب کنید</option>
+                    <option value="check" {{ old('cash_type', $payment->cash_type) == 'check' ? 'selected' : '' }}>
+                        چک
+                    </option>
+                    <option value="cash" {{ old('cash_type', $payment->cash_type) == 'cash' ? 'selected' : '' }}>
+                        نقدی
+                    </option>
+                </select>
+            </div>
+
+            <div class="mb-4">
                 <label for="inputPrice" class="form-label">
                     مبلغ واریزی (تومان)
                     <span class="mr-4 text-sm font-medium" id="priceSection">
@@ -145,7 +158,7 @@
             </div>
 
             <div class="mb-4">
-                <label for="inputDate" class="form-label">تاریخ واریز</label>
+                <label for="inputDate" class="form-label">تاریخ وصول / واریز</label>
                 <input type="text" id="inputDate" name="date" class="input-text"
                        value="{{ old('date', $date) }}"
                        placeholder="برای انتخاب تاریخ کلیک کنید">
@@ -185,7 +198,7 @@
                     @foreach($accounts as $account)
                         <option
                             value="{{ $account->id }}" {{ old('account_id', $payment->account_id) == $account->id ? 'selected' : '' }}>
-                            {{ $account->bank }} | {{ $account->account_number }}
+                            {{ $account->bank }} | {{ $account->branch }} | {{ $account->account_number }}
                         </option>
                     @endforeach
                 </select>

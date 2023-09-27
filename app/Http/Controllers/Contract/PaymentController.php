@@ -28,7 +28,7 @@ class PaymentController extends Controller
 
         $contract->payments()->create($data);
 
-        alert()->success('ثبت موفق', 'ثبت واریزی با موفقیت انجام شد');
+        alert()->success('ثبت موفق', 'ثبت پرداخت با موفقیت انجام شد');
 
         return redirect()->route('contracts.payments.index', $contract->id);
     }
@@ -51,14 +51,18 @@ class PaymentController extends Controller
 
         $payment->update($data);
 
-        alert()->success('بروزرسانی موفق', 'بروزرسانی واریزی با موفقیت انجام شد');
+        alert()->success('بروزرسانی موفق', 'بروزرسانی پرداخت با موفقیت انجام شد');
 
         return redirect()->route('contracts.payments.index', $payment->contract_id);
     }
 
-    public function destroy(Payment $payment)
+    public function destroy(Request $request)
     {
-        //
+        $payment = Payment::find($request->id);
+
+        $payment->delete();
+
+        alert()->success('حذف موفق', 'حذف پرداخت با موفقیت انجام شد');
     }
 
     public function confirm(Request $request, Contract $contract)
@@ -92,7 +96,8 @@ class PaymentController extends Controller
             'date' => 'nullable|string|max:255',
             'text' => 'nullable|string|max:255',
             'type' => 'required|string|max:255',
-            'account_id' => 'nullable|integer'
+            'account_id' => 'nullable|integer',
+            'cash_type' => 'required|string|max:255'
         ]);
 
         if (!is_null($data['date'])) {

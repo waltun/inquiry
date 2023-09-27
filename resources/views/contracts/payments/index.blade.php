@@ -1,4 +1,30 @@
 <x-layout>
+    <x-slot name="js">
+        <script src="{{ asset('plugins/jquery.min.js') }}"></script>
+        <script>
+            function destroyPayment(id) {
+                if (confirm('پرداختی حذف شود ؟')) {
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '{{ route('contracts.payments.destroy') }}',
+                        data: {
+                            id: id
+                        },
+                        success: function () {
+                            location.reload();
+                        }
+                    });
+                }
+            }
+        </script>
+    </x-slot>
+
     <!-- Breadcrumb -->
     <div class="flex items-center space-x-2 space-x-reverse whitespace-nowrap">
         <a href="{{ route('dashboard') }}" class="flex items-center">
@@ -113,7 +139,7 @@
                         #
                     </th>
                     <th scope="col" class="p-4">
-                        تاریخ
+                        تاریخ وصول
                     </th>
                     <th scope="col" class="p-4">
                         شرح
@@ -137,7 +163,7 @@
                 </thead>
                 <tbody>
                 @foreach($contract->payments as $payment)
-                    <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
+                    <tr class="table-tb-tr group whitespace-normal {{ $loop->even ? 'bg-sky-100' : '' }}">
                         <td class="table-tr-td border-t-0 border-l-0">
                             {{ $loop->index + 1 }}
                         </td>
@@ -177,7 +203,12 @@
                             @endswitch
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $payment->account->bank }} | {{ $payment->account->account_number }}
+                            @if(!is_null($payment->account_id))
+                                {{ $payment->account->bank }} | {{ $payment->account->branch }}
+                                | {{ $payment->account->account_number }}
+                            @else
+                                -
+                            @endif
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             <input type="hidden" value="{{ $payment->id }}" name="payments[]">
@@ -202,6 +233,15 @@
                                     ویرایش
                                 </a>
 
+                                <button type="button" onclick="destroyPayment({{ $payment->id }})"
+                                        class="table-delete-btn">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                              d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
+                                    </svg>
+                                    حذف
+                                </button>
                             </div>
                         </td>
                     </tr>
@@ -239,24 +279,49 @@
             }
         }
 
+        $tax = $contractPrice * 9 / 100;
+        $contractTaxPrice = $contractPrice + $tax;
+
         $leftPrice = $contractPrice - $paymentPrice;
+        $leftTaxPrice = $contractTaxPrice - $paymentPrice;
     @endphp
 
     <div class="mt-8 grid grid-cols-3 gap-4">
         <div class="p-4 rounded-lg shadow bg-indigo-500">
-            <p class="text-base text-white text-center font-bold">
-                مبلغ کل قرارداد : {{ number_format($contractPrice) }} تومان
-            </p>
+            @if($contract->type == 'official')
+                <p class="text-base text-white text-center font-bold">
+                    مبلغ کل قرارداد با ارزش افزوده : {{ number_format($contractTaxPrice) }} تومان
+                </p>
+            @else
+                <p class="text-base text-white text-center font-bold">
+                    مبلغ کل قرارداد : {{ number_format($contractPrice) }} تومان
+                </p>
+            @endif
         </div>
         <div class="p-4 rounded-lg shadow bg-green-500">
             <p class="text-base text-white text-center font-bold">
-                مجموع پرداخت ها : {{ number_format($paymentPrice) }} تومان
+                مجموع پرداخت‌ها : {{ number_format($paymentPrice) }} تومان
             </p>
         </div>
+
         <div class="p-4 rounded-lg shadow bg-red-500">
-            <p class="text-base text-white text-center font-bold">
-                بدهی مشتری : {{ number_format($leftPrice) }} تومان
-            </p>
+            @if($contract->type == 'official')
+                <p class="text-base text-white text-center font-bold">
+                    بدهی مشتری : {{ number_format($leftTaxPrice) }} تومان
+                </p>
+            @else
+                <p class="text-base text-white text-center font-bold">
+                    بدهی مشتری : {{ number_format($leftPrice) }} تومان
+                </p>
+            @endif
         </div>
+
+        @if($contract->type == 'official')
+            <div>
+                <p class="text-center text-sm underline underline-offset-4 text-gray-600">
+                    مبلغ کل قرارداد بدون ارزش افزوده : {{ number_format($contractPrice) }} تومان
+                </p>
+            </div>
+        @endif
     </div>
 </x-layout>

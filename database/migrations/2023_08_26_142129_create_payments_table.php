@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->string('text')->nullable();
             $table->timestamp('date')->nullable();
             $table->string('type')->nullable();
+            $table->string('cash_type')->nullable();
             $table->boolean('confirm')->default(0);
 
             $table->unsignedBigInteger('account_id')->nullable();

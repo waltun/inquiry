@@ -98,7 +98,7 @@
             </div>
 
             <div class="mb-4">
-                <label for="inputBank" class="form-label">نام باک</label>
+                <label for="inputBank" class="form-label">نام بانک</label>
                 <input type="text" id="inputBank" name="bank" class="input-text"
                        placeholder="مثال : بانک سپه" value="{{ old('bank') }}">
             </div>

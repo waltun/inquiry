@@ -17,7 +17,12 @@ class ContractController extends Controller
 
     public function index()
     {
-        $contracts = Contract::latest()->with(['invoice', 'products'])->paginate(20);
+        if (auth()->user()->role == 'admin') {
+            $contracts = Contract::latest()->with(['invoice', 'products'])->paginate(20);
+        } else {
+            $contracts = auth()->user()->contracts()->with(['invoice', 'products'])->paginate(20);
+        }
+
         return view('contracts.index', compact('contracts'));
     }
 
