@@ -17,4 +17,9 @@ class Amount extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function contractProduct()
+    {
+        return $this->belongsTo(ContractProduct::class);
+    }
 }

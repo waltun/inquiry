@@ -114,6 +114,7 @@ class FinalInvoiceController extends Controller
                 'group_id' => $product->group_id,
                 'model_id' => $product->model_id,
                 'part_id' => $product->part_id,
+                'product_id' => $product->id
             ]);
         }
 

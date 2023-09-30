@@ -29,6 +29,7 @@ return new class extends Migration
             $table->unsignedBigInteger('group_id')->nullable();
             $table->unsignedBigInteger('model_id')->nullable();
             $table->unsignedBigInteger('part_id')->nullable();
+            $table->unsignedBigInteger('product_id')->nullable();
 
             $table->timestamps();
         });

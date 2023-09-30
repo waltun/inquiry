@@ -40,6 +40,7 @@ use App\Http\Controllers\NewPartInquiryController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PartAttributeController;
 use App\Http\Controllers\PartController;
+use App\Http\Controllers\Contract\PartController as ContractPartController;
 use App\Http\Controllers\PartOfModellController;
 use App\Http\Controllers\PartPriceController;
 use App\Http\Controllers\PermissionController;
@@ -559,4 +560,6 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/contract-marketing/{marketing}/confirm-payments', [MarketPaymentController::class, 'confirm'])->name('contracts.marketings.payments.confirm');
 
     Route::get('/marketings', [AllMarketings::class, 'index'])->name('marketings.index');
+
+    Route::get('/contracts/{contract}/parts', [ContractPartController::class, 'index'])->name('contracts.parts.index');
 });

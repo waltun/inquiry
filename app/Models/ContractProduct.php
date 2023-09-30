@@ -11,11 +11,16 @@ class ContractProduct extends Model
 
     protected $fillable = [
         'quantity', 'price', 'model_custom_name', 'description', 'type', 'delivery_date', 'warranty_date', 'tag',
-        'contract_id', 'group_id', 'model_id', 'part_id',
+        'contract_id', 'group_id', 'model_id', 'part_id', 'product_id'
     ];
 
     public function contract()
     {
         return $this->belongsTo(Contract::class);
+    }
+
+    public function amounts()
+    {
+        return $this->hasMany(Amount::class, 'product_id');
     }
 }
