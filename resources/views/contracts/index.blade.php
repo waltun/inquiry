@@ -29,7 +29,7 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p-active">
-                    قرارداد های درحال انجام
+                    قرارداد ها
                 </p>
             </div>
         </div>
@@ -45,7 +45,7 @@
             </svg>
             <div class="mr-2">
                 <p class="font-bold text-2xl text-black dark:text-white">
-                    لیست قرارداد های درحال انجام
+                    لیست قرارداد ها
                 </p>
             </div>
         </div>

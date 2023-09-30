@@ -134,13 +134,10 @@
                                     {{ $product->description ?? '-' }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
-                                    <input type="text" class="input-text w-20 text-center"
-                                           value="{{ $product->quantity }}"
-                                           name="quantities[]">
+                                    {{ $product->quantity }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
-                                    <input type="text" class="input-text text-center" value="{{ $product->price }}"
-                                           name="prices[]">
+                                    {{ number_format($product->price) }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-r-0">
                                     {{ number_format($product->price * $product->quantity) }}
@@ -259,6 +256,7 @@
                             @php
                                 $part = \App\Models\Part::find($product->part_id);
                                 $partTotalPrice += $product->price * $product->quantity;
+
                             @endphp
                             <tr class="table-tb-tr group whitespace-normal {{ $loop->even ? 'bg-sky-100' : '' }}">
                                 <td class="table-tr-td border-t-0 border-l-0">
@@ -271,16 +269,13 @@
                                     {{ $part->unit }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
-                                    <input type="text" class="input-text w-20 text-center"
-                                           value="{{ $product->quantity }}"
-                                           name="quantities[]">
+                                    {{ $product->quantity }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
-                                    <input type="text" class="input-text text-center" value="{{ $product->price }}"
-                                           name="prices[]">
+                                    {{ number_format($product->price) }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-r-0">
-                                    {{ number_format($product->$products * $product->quantity) }}
+                                    {{ number_format($product->price * $product->quantity) }}
                                 </td>
                             </tr>
                         @endforeach

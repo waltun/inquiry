@@ -38,7 +38,7 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p">
-                    قرارداد های درحال انجام
+                    قرارداد ها
                 </p>
             </div>
         </a>
