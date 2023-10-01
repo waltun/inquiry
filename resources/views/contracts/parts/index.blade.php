@@ -185,107 +185,108 @@
 
         <!-- Parts List -->
         @if(!$contract->products()->where('part_id','!=',0)->get()->isEmpty())
-            @foreach($contract->products()->where('part_id','!=',0)->get() as $product)
-                @php
-                    $finalPrice += $product->price;
-                    $part = \App\Models\Part::find($product->part_id);
-                    $totalWeight = $product->weight * $product->quantity;
-                @endphp
-                <div class="card">
-                    <div class="card-header">
-                        <p class="card-title text-lg">
-                            تک قطعه <span class="text-red-600">{{ $part->name }}</span>
-                        </p>
-                    </div>
-                    <table class="w-full border-collapse">
-                        <thead>
-                        <tr class="table-th-tr">
-                            <th class="p-4 rounded-tr-lg">نام قطعه</th>
-                            <th class="p-4">نوع قطعه</th>
-                            <th class="p-4">واحد قطعه</th>
-                            <th class="p-4">وزن قطعه</th>
-                            @if(auth()->user()->role == 'admin')
-                                <th class="p-4 rounded-tl-lg">قیمت (تومان)</th>
-                            @endif
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr class="table-tb-tr group">
-                            <td class="table-tr-td border-t-0 border-l-0">
-                                {{ $part->name }}
-                            </td>
-                            <td class="table-tr-td border-t-0 border-x-0">
-                                @switch($part->type)
-                                    @case('setup')
-                                        قطعات یدکی راه اندازی
-                                        @break
-                                    @case('years')
-                                        قطعات یدکی دوسالانه
-                                        @break
-                                    @case('control')
-                                        قطعات کنترلی
-                                        @break
-                                    @case('power_cable')
-                                        قطعات کابل قدرت
-                                        @break
-                                    @case('control_cable')
-                                        قطعات کابل کنترلی
-                                        @break
-                                    @case('pipe')
-                                        قطعات لوله و اتصالات
-                                        @break
-                                    @case('install_setup_price')
-                                        دستمزد نصب و راه اندازی
-                                        @break
-                                    @case('setup_price')
-                                        دستمزد راه اندازی
-                                        @break
-                                    @case('supervision')
-                                        دستمزد نظارت
-                                        @break
-                                    @case('transport')
-                                        هزینه حمل
-                                        @break
-                                    @case('other')
-                                        سایر تجهیزات
-                                        @break
-                                    @case('setup_one')
-                                        قطعات راه اندازی
-                                        @break
-                                    @case('install')
-                                        قطعات نصب
-                                        @break
-                                    @case('cable')
-                                        اقلام کابل کشی
-                                        @break
-                                    @case('canal')
-                                        اقلام کانال کشی
-                                        @break
-                                    @case('copper_piping')
-                                        دستمزد لوله کشی مسی
-                                        @break
-                                    @case('carbon_piping')
-                                        دستمزد لوله کشی کربن استیل
-                                        @break
-                                    @case('')
-                                        -
-                                        @break
-                                @endswitch
-                            </td>
-                            <td class="table-tr-td border-t-0 border-x-0">
-                                {{ $part->unit }}
-                            </td>
-                            <td class="table-tr-td border-t-0 border-x-0">
-                                {{ $part->weight }} کیلوگرم
-                            </td>
-                            <td class="table-tr-td border-t-0 border-r-0">
-                                {{ number_format($product->part_price) }} تومان
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+            <div class="card">
+                <div class="card-header">
+                    <p class="card-title">قطعات تکی</p>
                 </div>
-            @endforeach
+                @foreach($contract->products()->where('part_id','!=',0)->get() as $product)
+                    @php
+                        $finalPrice += $product->price;
+                        $part = \App\Models\Part::find($product->part_id);
+                        $totalWeight = $product->weight * $product->quantity;
+                    @endphp
+
+                    <div class="mb-4">
+                        <table class="w-full border-collapse">
+                            <thead>
+                            <tr class="table-th-tr">
+                                <th class="p-2 rounded-tr-lg">نام قطعه</th>
+                                <th class="p-2">نوع قطعه</th>
+                                <th class="p-2">واحد قطعه</th>
+                                <th class="p-2">وزن قطعه</th>
+                                @if(auth()->user()->role == 'admin')
+                                    <th class="p-2 rounded-tl-lg">قیمت (تومان)</th>
+                                @endif
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="table-tb-tr group">
+                                <td class="table-tr-td border-t-0 border-l-0">
+                                    {{ $part->name }}
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    @switch($part->type)
+                                        @case('setup')
+                                            قطعات یدکی راه اندازی
+                                            @break
+                                        @case('years')
+                                            قطعات یدکی دوسالانه
+                                            @break
+                                        @case('control')
+                                            قطعات کنترلی
+                                            @break
+                                        @case('power_cable')
+                                            قطعات کابل قدرت
+                                            @break
+                                        @case('control_cable')
+                                            قطعات کابل کنترلی
+                                            @break
+                                        @case('pipe')
+                                            قطعات لوله و اتصالات
+                                            @break
+                                        @case('install_setup_price')
+                                            دستمزد نصب و راه اندازی
+                                            @break
+                                        @case('setup_price')
+                                            دستمزد راه اندازی
+                                            @break
+                                        @case('supervision')
+                                            دستمزد نظارت
+                                            @break
+                                        @case('transport')
+                                            هزینه حمل
+                                            @break
+                                        @case('other')
+                                            سایر تجهیزات
+                                            @break
+                                        @case('setup_one')
+                                            قطعات راه اندازی
+                                            @break
+                                        @case('install')
+                                            قطعات نصب
+                                            @break
+                                        @case('cable')
+                                            اقلام کابل کشی
+                                            @break
+                                        @case('canal')
+                                            اقلام کانال کشی
+                                            @break
+                                        @case('copper_piping')
+                                            دستمزد لوله کشی مسی
+                                            @break
+                                        @case('carbon_piping')
+                                            دستمزد لوله کشی کربن استیل
+                                            @break
+                                        @case('')
+                                            -
+                                            @break
+                                    @endswitch
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    {{ $part->unit }}
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    {{ $part->weight }} کیلوگرم
+                                </td>
+                                <td class="table-tr-td border-t-0 border-r-0">
+                                    {{ number_format($product->part_price) }} تومان
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                @endforeach
+            </div>
         @endif
     </div>
 </x-layout>
