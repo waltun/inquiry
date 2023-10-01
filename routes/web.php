@@ -548,7 +548,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/contracts/{contract}/create-marketings', [MarketingController::class, 'store'])->name('contracts.marketings.store');
     Route::get('/contracts/{marketing}/edit-marketings', [MarketingController::class, 'edit'])->name('contracts.marketings.edit');
     Route::patch('/contracts/{marketing}/edit-marketings', [MarketingController::class, 'update'])->name('contracts.marketings.update');
-    Route::delete('/contracts/{marketing}/delete-marketings', [MarketingController::class, 'destroy'])->name('contracts.marketings.destroy');
+    Route::post('/contracts/delete-marketings', [MarketingController::class, 'destroy'])->name('contracts.marketings.destroy');
     Route::post('/contracts/{contract}/confirm-marketings', [MarketingController::class, 'confirm'])->name('contracts.marketings.confirm');
 
     Route::get('/contract-marketing/{marketing}/payments', [MarketPaymentController::class, 'index'])->name('contracts.marketings.payments.index');

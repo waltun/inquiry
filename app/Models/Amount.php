@@ -20,6 +20,6 @@ class Amount extends Model
 
     public function contractProduct()
     {
-        return $this->belongsTo(ContractProduct::class);
+        return $this->belongsTo(ContractProduct::class, 'product_id');
     }
 }

@@ -61,9 +61,19 @@ class MarketingController extends Controller
         return redirect()->route('contracts.marketings.index', $marketing->contract_id);
     }
 
-    public function destroy()
+    public function destroy(Request $request)
     {
-        //
+        $marketing = Marketing::find($request->id);
+
+        if (!$marketing->payments->isEmpty()) {
+            foreach ($marketing->payments as $payment) {
+                $payment->delete();
+            }
+        }
+
+        $marketing->delete();
+
+        alert()->success('حذف موفق', 'حذف بازاریابی با موفقیت انجام شد');
     }
 
     public function confirm(Request $request, Contract $contract)
