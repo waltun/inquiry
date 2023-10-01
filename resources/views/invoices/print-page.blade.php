@@ -42,7 +42,8 @@
                                 تاریخ : {{ jdate($invoice->created_at)->format('Y/m/d') }}
                             </p>
                             <p class="text-xs font-bold text-black mr-8">
-                                شماره : INV-{{ $invoice->invoice_number ? $invoice->invoice_number : $invoice->inquiry->inquiry_number }}
+                                شماره :
+                                INV-{{ $invoice->invoice_number ? $invoice->invoice_number : $invoice->inquiry->inquiry_number }}
                             </p>
                         </div>
                     </div>
@@ -212,12 +213,14 @@
                                             @php
                                                 $percentPrice = ceil($price / $product->percent / 1000) * 1000;
                                             @endphp
-                                            <td class="border border-black border-t-0 border-l p-1">
-                                                {{ number_format($percentPrice) }}
-                                            </td>
-                                            <td class="border border-black border-t-0 border-r-0 p-1">
-                                                {{ number_format($productPercentPrice) }}
-                                            </td>
+                                            @if($product->show_price)
+                                                <td class="border border-black border-t-0 border-l p-1">
+                                                    {{ number_format($percentPrice) }}
+                                                </td>
+                                                <td class="border border-black border-t-0 border-r-0 p-1">
+                                                    {{ number_format($productPercentPrice) }}
+                                                </td>
+                                            @endif
                                         </tr>
                                     @endforeach
                                     <tr class="text-black text-sm text-center font-medium">
@@ -350,12 +353,14 @@
                                             @php
                                                 $percentPrice = ceil($price / $product->percent / 1000) * 1000;
                                             @endphp
-                                            <td class="p-1 border-black border-t-0 border-l">
-                                                {{ number_format($percentPrice) }}
-                                            </td>
-                                            <td class="p-1 border-black border-t-0 border-r-0">
-                                                {{ number_format($partPercentPrice) }}
-                                            </td>
+                                            @if($product->show_price)
+                                                <td class="p-1 border-black border-t-0 border-l">
+                                                    {{ number_format($percentPrice) }}
+                                                </td>
+                                                <td class="p-1 border-black border-t-0 border-r-0">
+                                                    {{ number_format($partPercentPrice) }}
+                                                </td>
+                                            @endif
                                         </tr>
                                     @endforeach
                                     @php

@@ -500,6 +500,7 @@ Route::middleware(['auth', 'web'])->group(function () {
 
     Route::get('/final-invoices', [FinalInvoiceController::class, 'index'])->name('invoices.final.index');
     Route::get('/final-invoices/{invoice}/print', [FinalInvoiceController::class, 'print'])->name('invoices.final.print');
+    Route::post('/final-invoices/print/show-price', [FinalInvoiceController::class, 'showPrice'])->name('invoices.final.showPrice');
     Route::get('/final-invoices/{invoice}/print-page', [FinalInvoiceController::class, 'printPage'])->name('invoices.final.printPage');
     Route::patch('/final-invoices/{invoice}/restore', [FinalInvoiceController::class, 'restore'])->name('invoices.final.restore');
     Route::get('/final-invoices/{invoice}/datasheet', [FinalInvoiceController::class, 'datasheet'])->name('invoices.final.datasheet');

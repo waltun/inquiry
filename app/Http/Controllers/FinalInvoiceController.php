@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Contract;
 use App\Models\Customer;
 use App\Models\Invoice;
+use App\Models\InvoiceProduct;
 use Illuminate\Http\Request;
 use Morilog\Jalali\Jalalian;
 
@@ -80,6 +81,19 @@ class FinalInvoiceController extends Controller
     public function printDatasheet(Invoice $invoice)
     {
         return view('invoices.print-datasheet', compact('invoice'));
+    }
+
+    public function showPrice(Request $request)
+    {
+        foreach ($request->products as $index => $id) {
+            $product = InvoiceProduct::find($id);
+            $product->show_price = $request->show_prices[$index];
+            $product->save();
+        }
+
+        alert()->success('ثبت موفق', 'ثبت نمایش قیمت با موفقیت انجام شد');
+
+        return back();
     }
 
     public function addToContract(Request $request, Invoice $invoice)

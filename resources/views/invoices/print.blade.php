@@ -89,7 +89,8 @@
                     نام پروژه : {{ $invoice->inquiry->name }}
                 </p>
                 <p class="bg-white py-2 px-4 rounded-lg text-sm text-black">
-                    شماره پیش فاکتور : INV-{{ $invoice->invoice_number ? $invoice->invoice_number : $invoice->inquiry->inquiry_number }}
+                    شماره پیش فاکتور :
+                    INV-{{ $invoice->invoice_number ? $invoice->invoice_number : $invoice->inquiry->inquiry_number }}
                 </p>
                 <p class="bg-white py-2 px-4 rounded-lg text-sm text-black">
                     تاریخ : {{ jdate($invoice->created_at)->format('%A, %d %B %Y') }}
@@ -111,7 +112,9 @@
                     <p class="card-title text-lg">لیست محصولات</p>
                 </div>
 
-                <div class="mt-8 overflow-x-auto rounded-lg hidden md:block">
+                <form method="POST" action="{{ route('invoices.final.showPrice') }}"
+                      class="mt-8 overflow-x-auto rounded-lg hidden md:block">
+                    @csrf
                     <table class="w-full border-collapse">
                         <thead>
                         <tr class="table-th-tr">
@@ -138,6 +141,9 @@
                             </th>
                             <th scope="col" class="p-4">
                                 قیمت کل (تومان)
+                            </th>
+                            <th scope="col" class="p-4">
+                                نمایش قیمت
                             </th>
                         </tr>
                         </thead>
@@ -181,23 +187,39 @@
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     {{ number_format($percentPrice) }}
                                 </td>
-                                <td class="table-tr-td border-t-0 border-r-0">
+                                <td class="table-tr-td border-t-0 border-x-0">
                                     {{ number_format($productPercentPrice) }}
+                                </td>
+                                <td class="table-tr-td border-t-0 border-r-0">
+                                    <select name="show_prices[]" id="inputShowPrice{{ $product->id }}"
+                                            class="input-text">
+                                        <option value="1" {{ $product->show_price ? 'selected' : '' }}>
+                                            نمایش قیمت
+                                        </option>
+                                        <option value="0" {{ !$product->show_price ? 'selected' : '' }}>
+                                            عدم نمایش قیمت
+                                        </option>
+                                    </select>
+                                    <input type="hidden" name="products[]" value="{{ $product->id }}">
                                 </td>
                             </tr>
                         @endforeach
                         <tr class="table-tb-tr group">
                             <td class="table-tr-td border-t-0" colspan="9">
-                                <div class="flex justify-end items-center">
+                                <div class="flex items-center justify-end">
                                     <p class="table-price-label">
                                         قیمت کل : {{ number_format($productTotalPrice) }} تومان
                                     </p>
+
+                                    <button class="page-warning-btn mr-4 py-2" type="submit">
+                                        ثبت
+                                    </button>
                                 </div>
                             </td>
                         </tr>
                         </tbody>
                     </table>
-                </div>
+                </form>
             </div>
         @endif
 
@@ -212,7 +234,8 @@
                 $products = $invoice->products()->where('part_id','!=',0)->where('type',$type)->where('deleted_at',null)->get();
             @endphp
             @if(!$products->isEmpty())
-                <div class="card">
+                <form method="POST" action="{{ route('invoices.final.showPrice') }}" class="card">
+                    @csrf
                     <div class="card-header">
                         <p class="card-title text-lg">
                             @switch($type)
@@ -282,7 +305,8 @@
                             <th class="p-4">تعداد</th>
                             <th class="p-4">قیمت نت واحد (تومان)</th>
                             <th class="p-4">قیمت با ضریب (تومان)</th>
-                            <th class="p-4 rounded-tl-lg">قیمت کل (تومان)</th>
+                            <th class="p-4">قیمت کل (تومان)</th>
+                            <th class="p-4 rounded-tl-lg">نمایش قیمت</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -303,7 +327,7 @@
                                     $partPercentPrice = ceil($price * $product->quantity / 1000) * 1000;
                                 }
                             @endphp
-                            <tr class="table-tb-tr group">
+                            <tr class="table-tb-tr group whitespace-normal">
                                 <td class="table-tr-td border-t-0 border-l-0">
                                     {{ $loop->index + 1 }}
                                 </td>
@@ -325,8 +349,20 @@
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     {{ number_format($percentPrice) }}
                                 </td>
-                                <td class="table-tr-td border-t-0 border-r-0">
+                                <td class="table-tr-td border-t-0 border-x-0">
                                     {{ number_format($partPercentPrice) }}
+                                </td>
+                                <td class="table-tr-td border-t-0 border-r-0">
+                                    <select name="show_prices[]" id="inputShowPrice{{ $product->id }}"
+                                            class="input-text">
+                                        <option value="1" {{ $product->show_price ? 'selected' : '' }}>
+                                            نمایش قیمت
+                                        </option>
+                                        <option value="0" {{ !$product->show_price ? 'selected' : '' }}>
+                                            عدم نمایش قیمت
+                                        </option>
+                                    </select>
+                                    <input type="hidden" name="products[]" value="{{ $product->id }}">
                                 </td>
                             </tr>
                         @endforeach
@@ -334,17 +370,21 @@
                             $partsTotalPrice += $partTotalPrice;
                         @endphp
                         <tr class="table-tb-tr group">
-                            <td class="table-tr-td border-t-0" colspan="7">
+                            <td class="table-tr-td border-t-0" colspan="8">
                                 <div class="flex justify-end">
                                     <p class="table-price-label">
                                         جمع قیمت : {{ number_format($partTotalPrice) }} تومان
                                     </p>
+
+                                    <button class="page-warning-btn mr-4 py-2" type="submit">
+                                        ثبت
+                                    </button>
                                 </div>
                             </td>
                         </tr>
                         </tbody>
                     </table>
-                </div>
+                </form>
             @endif
         @endforeach
 
