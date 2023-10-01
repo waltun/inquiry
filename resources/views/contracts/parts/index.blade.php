@@ -1,6 +1,6 @@
 <x-layout>
     <!-- Breadcrumb -->
-    <div class="flex items-center space-x-2 space-x-reverse">
+    <div class="flex items-center space-x-2 space-x-reverse whitespace-nowrap">
         <a href="{{ route('dashboard') }}" class="flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                  stroke="currentColor" class="breadcrumb-svg">
@@ -21,15 +21,36 @@
                       clip-rule="evenodd"/>
             </svg>
         </div>
-        <a href="{{ route('inquiries.priced') }}" class="flex items-center">
+        <a href="{{ route('contracts.index') }}" class="flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                  stroke="currentColor" class="breadcrumb-svg">
                 <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                      d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path>
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p">
-                    استعلام های قیمت گذاری شده
+                    قراردادها
+                </p>
+            </div>
+        </a>
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                 class="breadcrumb-svg-arrow">
+                <path fill-rule="evenodd"
+                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                      clip-rule="evenodd"/>
+            </svg>
+        </div>
+        <a href="{{ route('contracts.show', $contract->id) }}" class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" class="breadcrumb-svg">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            <div class="mr-2">
+                <p class="breadcrumb-p">
+                    مشاهده قرارداد {{ $contract->name }}
                 </p>
             </div>
         </a>
@@ -45,12 +66,11 @@
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                  stroke="currentColor" class="breadcrumb-svg-active">
                 <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/>
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                      d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z"/>
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p-active">
-                    مشاهده قیمت و جزئیات استعلام
+                    قطعات محصولات قرارداد {{ $contract->name }}
                 </p>
             </div>
         </div>
@@ -92,7 +112,7 @@
                 <div class="card">
                     <div class="card-header">
                         <p class="card-title text-lg">
-                            لیست قطعات و قیمت محصول
+                            لیست قطعات محصول
                             <span class="text-red-600">{{ $modell->parent->name }}</span> -
                             <span class="text-red-600">{{ $product->model_custom_name ?? $modell->name }}</span>
                         </p>
@@ -116,7 +136,6 @@
                         <tbody>
                         @php
                             $amounts = \App\Models\Amount::where('product_id', $product->product_id)->get();
-                            dd($product->product_id);
                         @endphp
                         @foreach($amounts as $amount)
                             @php
@@ -158,50 +177,6 @@
                                 @endif
                             </tr>
                         @endforeach
-                        @if(auth()->user()->role == 'admin')
-                            <tr class="table-tb-tr group">
-                                <td class="table-tr-td border-t-0 text-black font-medium">
-                                    جمع قیمت ماتریال یک دستگاه
-                                </td>
-                                <td class="table-tr-td border-t-0 text-green-600 font-medium">
-                                    {{ number_format($totalPrice) }} تومان
-                                </td>
-                            </tr>
-                        @endif
-                        @if($product->percent > 0)
-                            <tr class="table-tb-tr group">
-                                <td class="table-tr-td border-t-0 text-black font-medium">
-                                    قیمت دستگاه
-                                </td>
-                                <td class="table-tr-td border-t-0 text-green-600 font-medium">
-                                    {{ number_format($totalPrice * $product->percent) }} تومان
-                                </td>
-                            </tr>
-                        @endif
-                        <tr class="table-tb-tr group">
-                            <td class="table-tr-td border-t-0 text-black font-medium">
-                                تعداد
-                            </td>
-                            <td class="table-tr-td border-t-0 text-green-600 font-medium">
-                                {{ $product->quantity }}
-                            </td>
-                        </tr>
-                        <tr class="table-tb-tr group">
-                            <td class="table-tr-td border-t-0 text-black font-medium">
-                                قیمت کل
-                            </td>
-                            <td class="table-tr-td border-t-0 text-green-600 font-medium">
-                                {{ number_format($totalPrice * $product->percent * $product->quantity) }} تومان
-                            </td>
-                        </tr>
-                        <tr class="table-tb-tr group">
-                            <td class="table-tr-td border-t-0 text-black font-medium">
-                                وزن دستگاه
-                            </td>
-                            <td class="table-tr-td border-t-0 text-green-600 font-medium">
-                                {{ $weight }} کیلوگرم
-                            </td>
-                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -210,7 +185,7 @@
 
         <!-- Parts List -->
         @if(!$contract->products()->where('part_id','!=',0)->get()->isEmpty())
-            @foreach($contract->products()->where('part_id','!=',0)->orderBy('sort','ASC')->get() as $product)
+            @foreach($contract->products()->where('part_id','!=',0)->get() as $product)
                 @php
                     $finalPrice += $product->price;
                     $part = \App\Models\Part::find($product->part_id);
@@ -307,51 +282,10 @@
                                 {{ number_format($product->part_price) }} تومان
                             </td>
                         </tr>
-                        @if($product->percent > 0)
-                            <tr class="table-tb-tr">
-                                <td class="table-tr-td border-t-0 text-black font-medium">
-                                    قیمت قطعه
-                                </td>
-                                <td class="table-tr-td border-t-0 text-green-600 font-medium">
-                                    {{ number_format($product->price) }}
-                                </td>
-                            </tr>
-                        @endif
-                        <tr class="table-tb-tr">
-                            <td class="table-tr-td border-t-0 text-black font-medium">
-                                تعداد
-                            </td>
-                            <td class="table-tr-td border-t-0 text-green-600 font-medium">
-                                {{ $product->quantity }}
-                            </td>
-                        </tr>
-                        <tr class="table-tb-tr">
-                            <td class="table-tr-td border-t-0 text-black font-medium">
-                                قیمت کل
-                            </td>
-                            <td class="table-tr-td border-t-0 text-green-600 font-medium">
-                                {{ number_format($product->price * $product->quantity) }} تومان
-                            </td>
-                        </tr>
-                        <tr class="table-tb-tr">
-                            <td class="table-tr-td border-t-0 text-black font-medium">
-                                وزن
-                            </td>
-                            <td class="table-tr-td border-t-0 text-green-600 font-medium">
-                                {{ $totalWeight }} کیلوگرم
-                            </td>
-                        </tr>
                         </tbody>
                     </table>
                 </div>
             @endforeach
         @endif
-
-        <!-- Final Inquiry Price -->
-        <div class="my-6 flex justify-end sticky bottom-4">
-            <p class="bg-myGreen-100 text-white px-6 py-3 rounded-lg font-bold text-xl">
-                قیمت نهایی قرارداد : {{ number_format($contract->price) }} تومان
-            </p>
-        </div>
     </div>
 </x-layout>

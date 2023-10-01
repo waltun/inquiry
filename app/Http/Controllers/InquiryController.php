@@ -956,7 +956,8 @@ class InquiryController extends Controller
                 'type' => $product->type ?? null,
                 'group_id' => $product->group_id ?? null,
                 'model_id' => $product->model_id ?? null,
-                'part_id' => $product->part_id ?? null
+                'part_id' => $product->part_id ?? null,
+                'product_id' => $product->id
             ]);
         }
 

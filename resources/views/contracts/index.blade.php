@@ -45,7 +45,7 @@
             </svg>
             <div class="mr-2">
                 <p class="font-bold text-2xl text-black dark:text-white">
-                    لیست قرارداد ها
+                    لیست قراردادها
                 </p>
             </div>
         </div>

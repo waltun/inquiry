@@ -318,10 +318,6 @@ class InquiryProductController extends Controller
             }
         }
 
-        if (!$product->amounts->isEmpty()) {
-            $product->amounts()->delete();
-        }
-
         $product->delete();
 
         alert()->success('حذف موفق', 'حذف محصول با موفقیت انجام شد');
