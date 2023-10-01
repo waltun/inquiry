@@ -83,9 +83,7 @@
                     <p class="card-title text-lg">لیست محصولات</p>
                 </div>
 
-                <form method="POST" action="{{ route('contracts.update-products', $contract->id) }}"
-                      class="mt-8 overflow-x-auto rounded-lg">
-                    @csrf
+                <div class="mt-8 overflow-x-auto rounded-lg">
                     <table class="w-full border-collapse">
                         <thead>
                         <tr class="table-th-tr">
@@ -155,13 +153,7 @@
                         </tr>
                         </tbody>
                     </table>
-
-                    <div class="mt-4">
-                        <button type="submit" class="form-submit-btn">
-                            ثبت مقادیر
-                        </button>
-                    </div>
-                </form>
+                </div>
             </div>
         @endif
 
@@ -175,8 +167,7 @@
                 $products = $contract->products()->where('part_id','!=',0)->where('type',$type)->get();
             @endphp
             @if(!$products->isEmpty())
-                <form method="POST" action="" class="card">
-                    @csrf
+                <div class="card">
                     <div class="card-header">
                         <p class="card-title text-lg">
                             @switch($type)
@@ -293,13 +284,7 @@
                         </tr>
                         </tbody>
                     </table>
-
-                    <div class="mt-4">
-                        <button type="submit" class="form-submit-btn">
-                            ثبت مقادیر
-                        </button>
-                    </div>
-                </form>
+                </div>
             @endif
         @endforeach
 

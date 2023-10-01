@@ -177,116 +177,150 @@
                                 @endif
                             </tr>
                         @endforeach
+                        <tr class="table-tb-tr group">
+                            <td class="table-tr-td border-t-0" colspan="9">
+                                <div class="flex justify-end">
+                                    <p class="table-price-label">
+                                        جمع قیمت : {{ number_format($totalPrice) }} تومان
+                                    </p>
+                                </div>
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
             @endforeach
         @endif
 
-        <!-- Parts List -->
-        @if(!$contract->products()->where('part_id','!=',0)->get()->isEmpty())
-            <div class="card">
-                <div class="card-header">
-                    <p class="card-title">قطعات تکی</p>
-                </div>
-                @foreach($contract->products()->where('part_id','!=',0)->get() as $product)
-                    @php
-                        $finalPrice += $product->price;
-                        $part = \App\Models\Part::find($product->part_id);
-                        $totalWeight = $product->weight * $product->quantity;
-                    @endphp
+        <!-- Part List -->
+        @php
+            $types = ['setup','years','control','power_cable','control_cable','pipe','install_setup_price','setup_price','supervision','transport','other','setup_one','install','cable','canal','copper_piping','carbon_piping',null];
+            $partsTotalPrice = 0;
+        @endphp
+        @foreach($types as $type)
+            @php
+                $products = $contract->products()->where('part_id','!=',0)->where('type',$type)->get();
+            @endphp
+            @if(!$products->isEmpty())
+                <div class="card">
+                    <div class="card-header">
+                        <p class="card-title text-lg">
+                            @switch($type)
+                                @case('setup')
+                                    قطعات یدکی راه اندازی
+                                    @break
+                                @case('years')
+                                    قطعات یدکی دوسالانه
+                                    @break
+                                @case('control')
+                                    قطعات کنترلی
+                                    @break
+                                @case('power_cable')
+                                    قطعات کابل قدرت
+                                    @break
+                                @case('control_cable')
+                                    قطعات کابل کنترلی
+                                    @break
+                                @case('pipe')
+                                    قطعات لوله و اتصالات
+                                    @break
+                                @case('install_setup_price')
+                                    دستمزد نصب و راه اندازی
+                                    @break
+                                @case('setup_price')
+                                    دستمزد راه اندازی
+                                    @break
+                                @case('supervision')
+                                    دستمزد نظارت
+                                    @break
+                                @case('transport')
+                                    هزینه حمل
+                                    @break
+                                @case('other')
+                                    سایر تجهیزات
+                                    @break
+                                @case('setup_one')
+                                    قطعات راه اندازی
+                                    @break
+                                @case('install')
+                                    قطعات نصب
+                                    @break
+                                @case('cable')
+                                    اقلام کابل کشی
+                                    @break
+                                @case('canal')
+                                    اقلام کانال کشی
+                                    @break
+                                @case('copper_piping')
+                                    دستمزد لوله کشی مسی
+                                    @break
+                                @case('carbon_piping')
+                                    دستمزد لوله کشی کربن استیل
+                                    @break
+                                @case('')
+                                    سایر تجهیزات (قطعات قبلی)
+                                    @break
+                            @endswitch
+                        </p>
+                    </div>
+                    <table class="w-full border-collapse">
+                        <thead>
+                        <tr class="table-th-tr">
+                            <th class="p-4 rounded-tr-lg">ردیف</th>
+                            <th class="p-4">نام قطعه</th>
+                            <th class="p-4">واحد</th>
+                            <th class="p-4">تعداد</th>
+                            <th class="p-4">قیمت واحد (تومان)</th>
+                            <th class="p-4">قیمت کل (تومان)</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @php
+                            $partTotalPrice = 0;
+                        @endphp
+                        @foreach($products as $product)
+                            @php
+                                $part = \App\Models\Part::find($product->part_id);
+                                $partTotalPrice += $product->price * $product->quantity;
 
-                    <div class="mb-4">
-                        <table class="w-full border-collapse">
-                            <thead>
-                            <tr class="table-th-tr">
-                                <th class="p-2 rounded-tr-lg">نام قطعه</th>
-                                <th class="p-2">نوع قطعه</th>
-                                <th class="p-2">واحد قطعه</th>
-                                <th class="p-2">وزن قطعه</th>
-                                @if(auth()->user()->role == 'admin')
-                                    <th class="p-2 rounded-tl-lg">قیمت (تومان)</th>
-                                @endif
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr class="table-tb-tr group">
+                            @endphp
+                            <tr class="table-tb-tr group whitespace-normal {{ $loop->even ? 'bg-sky-100' : '' }}">
                                 <td class="table-tr-td border-t-0 border-l-0">
-                                    {{ $part->name }}
+                                    {{ $loop->index + 1 }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
-                                    @switch($part->type)
-                                        @case('setup')
-                                            قطعات یدکی راه اندازی
-                                            @break
-                                        @case('years')
-                                            قطعات یدکی دوسالانه
-                                            @break
-                                        @case('control')
-                                            قطعات کنترلی
-                                            @break
-                                        @case('power_cable')
-                                            قطعات کابل قدرت
-                                            @break
-                                        @case('control_cable')
-                                            قطعات کابل کنترلی
-                                            @break
-                                        @case('pipe')
-                                            قطعات لوله و اتصالات
-                                            @break
-                                        @case('install_setup_price')
-                                            دستمزد نصب و راه اندازی
-                                            @break
-                                        @case('setup_price')
-                                            دستمزد راه اندازی
-                                            @break
-                                        @case('supervision')
-                                            دستمزد نظارت
-                                            @break
-                                        @case('transport')
-                                            هزینه حمل
-                                            @break
-                                        @case('other')
-                                            سایر تجهیزات
-                                            @break
-                                        @case('setup_one')
-                                            قطعات راه اندازی
-                                            @break
-                                        @case('install')
-                                            قطعات نصب
-                                            @break
-                                        @case('cable')
-                                            اقلام کابل کشی
-                                            @break
-                                        @case('canal')
-                                            اقلام کانال کشی
-                                            @break
-                                        @case('copper_piping')
-                                            دستمزد لوله کشی مسی
-                                            @break
-                                        @case('carbon_piping')
-                                            دستمزد لوله کشی کربن استیل
-                                            @break
-                                        @case('')
-                                            -
-                                            @break
-                                    @endswitch
+                                    {{ $part->name }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     {{ $part->unit }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
-                                    {{ $part->weight }} کیلوگرم
+                                    {{ $product->quantity }}
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    {{ number_format($product->price) }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-r-0">
-                                    {{ number_format($product->part_price) }} تومان
+                                    {{ number_format($product->price * $product->quantity) }}
                                 </td>
                             </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                @endforeach
-            </div>
-        @endif
+                        @endforeach
+                        @php
+                            $partsTotalPrice += $partTotalPrice;
+                        @endphp
+                        <tr class="table-tb-tr group">
+                            <td class="table-tr-td border-t-0" colspan="9">
+                                <div class="flex justify-end">
+                                    <p class="table-price-label">
+                                        جمع قیمت : {{ number_format($partTotalPrice) }} تومان
+                                    </p>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            @endif
+        @endforeach
     </div>
 </x-layout>

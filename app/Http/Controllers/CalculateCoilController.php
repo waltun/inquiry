@@ -863,7 +863,7 @@ class CalculateCoilController extends Controller
 
         $inputs["sathe_coil"] = $satheCoil;
 
-        return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs2' => $inputs, 'satheCoil' => $satheCoil,
+        return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs' => $inputs, 'satheCoil' => $satheCoil,
             'name' => $name]);
     }
 
@@ -1117,7 +1117,7 @@ class CalculateCoilController extends Controller
 
         $inputs["sathe_coil"] = $satheCoil;
 
-        return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs2' => $inputs, 'satheCoil' => $satheCoil,
+        return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs' => $inputs, 'satheCoil' => $satheCoil,
             'name' => $name]);
     }
 
@@ -1371,7 +1371,7 @@ class CalculateCoilController extends Controller
 
         $inputs["sathe_coil"] = $satheCoil;
 
-        return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs2' => $inputs, 'satheCoil' => $satheCoil,
+        return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs' => $inputs, 'satheCoil' => $satheCoil,
             'name' => $name]);
     }
 
@@ -1613,7 +1613,7 @@ class CalculateCoilController extends Controller
         $name = 'CO-' . $looleMessiName . '-' . $tedadRadifCoil . 'R-' . $finDarInch . 'FPI-' . $tedadMogheyiatLoole . 'H-'
             . $tedadLooleDarRadif . 'T-' . $tooleCoil . 'FL-' . $tedadMadarLoole . 'C-' . $finName . '-' . number_format($satheCoil, 2) . 'SQFT';
 
-        return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs2' => $inputs, 'satheCoil' => $satheCoil, 'name' => $name]);
+        return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs' => $inputs, 'satheCoil' => $satheCoil, 'name' => $name]);
     }
 
     public function calculateEvaperatorCoil(Request $request)
@@ -1875,7 +1875,7 @@ class CalculateCoilController extends Controller
 
         $inputs["sathe_coil"] = $satheCoil;
 
-        return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs2' => $inputs, 'satheCoil' => $satheCoil, 'name' => $name]);
+        return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs' => $inputs, 'satheCoil' => $satheCoil, 'name' => $name]);
     }
 
     public function calculateZekhamatFrame($zekhamatFrameId, $masahatVaraghMasrafi)
