@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Amount;
 use App\Models\Contract;
+use App\Models\ContractProductAmount;
 use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\InvoiceProduct;
@@ -119,7 +121,9 @@ class FinalInvoiceController extends Controller
         $contract->save();
 
         foreach ($invoice->products as $product) {
-            $contract->products()->create([
+            $amounts = Amount::where('product_id', $product->product_id)->get();
+
+            $contractProduct = $contract->products()->create([
                 'quantity' => $product->quantity,
                 'price' => $product->price,
                 'model_custom_name' => $product->model_custom_name,
@@ -130,6 +134,17 @@ class FinalInvoiceController extends Controller
                 'part_id' => $product->part_id,
                 'product_id' => $product->product_id
             ]);
+
+            foreach ($amounts as $amount) {
+                $contractProduct->amounts()->create([
+                    'value' => $amount->value,
+                    'value2' => $amount->value2,
+                    'part_id' => $amount->part_id,
+                    'price' => $amount->price,
+                    'sort' => $amount->sort,
+                    'weight' => $amount->weight ?? 0
+                ]);
+            }
         }
 
         alert()->success('ثبت موفق', 'تبدیل پیش فاکتور به قطعه با موفقیت انجام شد');

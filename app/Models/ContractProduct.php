@@ -21,6 +21,6 @@ class ContractProduct extends Model
 
     public function amounts()
     {
-        return $this->hasMany(Amount::class, 'product_id');
+        return $this->hasMany(ContractProductAmount::class);
     }
 }
