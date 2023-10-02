@@ -61,7 +61,11 @@ class FinalInvoiceController extends Controller
 
     public function printPage(Invoice $invoice)
     {
-        return view('invoices.print-page', compact('invoice'));
+        $showPriceProduct = $invoice->products()->select('show_price')->where('group_id', '!=', 0)
+            ->where('model_id', '!=', 0)->get()->contains('show_price', '==', '0');
+        $showPricePart = $invoice->products()->select('show_price')->where('part_id', '!=', 0)
+            ->get()->contains('show_price', '==', '0');
+        return view('invoices.print-page', compact('invoice', 'showPricePart', 'showPriceProduct'));
     }
 
     public function restore(Invoice $invoice)

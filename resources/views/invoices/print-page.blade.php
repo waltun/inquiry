@@ -168,12 +168,18 @@
                                         <th scope="col" class="p-1" style="border-left: 1px solid black">
                                             تعداد
                                         </th>
-                                        <th scope="col" class="p-1" style="border-left: 1px solid black">
-                                            قیمت واحد (تومان)
-                                        </th>
-                                        <th scope="col" class="p-1">
-                                            قیمت کل (تومان)
-                                        </th>
+                                        @if(!$showPriceProduct)
+                                            <th scope="col" class="p-1" style="border-left: 1px solid black">
+                                                قیمت واحد (تومان)
+                                            </th>
+                                            <th scope="col" class="p-1">
+                                                قیمت کل (تومان)
+                                            </th>
+                                        @else
+                                            <th scope="col" class="p-1">
+                                                قیمت کل (تومان)
+                                            </th>
+                                        @endif
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -219,6 +225,10 @@
                                                 </td>
                                                 <td class="border border-black border-t-0 border-r-0 p-1">
                                                     {{ number_format($productPercentPrice) }}
+                                                </td>
+                                            @else
+                                                <td class="border-l border-black">
+
                                                 </td>
                                             @endif
                                         </tr>
@@ -315,8 +325,13 @@
                                         <th class="p-1" style="border-left: 1px solid black">نام قطعه</th>
                                         <th class="p-1" style="border-left: 1px solid black">واحد</th>
                                         <th class="p-1" style="border-left: 1px solid black">تعداد</th>
-                                        <th class="p-1" style="border-left: 1px solid black">قیمت واحد (تومان)</th>
-                                        <th class="p-1">قیمت کل (تومان)</th>
+                                        @if(!$showPricePart)
+                                            <th class="p-1" style="border-left: 1px solid black">قیمت واحد (تومان)</th>
+                                            <th class="p-1">قیمت کل (تومان)</th>
+                                        @else
+                                            <th class="p-1">قیمت کل (تومان)</th>
+                                        @endif
+
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -359,6 +374,10 @@
                                                 </td>
                                                 <td class="p-1 border-black border-t-0 border-r-0">
                                                     {{ number_format($partPercentPrice) }}
+                                                </td>
+                                            @else
+                                                <td class="border-black border-l">
+
                                                 </td>
                                             @endif
                                         </tr>

@@ -52,4 +52,9 @@ class Part extends Model
     {
         return $this->belongsToMany(AttributeValue::class);
     }
+
+    public function contractProductAmounts()
+    {
+        return $this->hasMany(ContractProductAmount::class, 'contract_product_id');
+    }
 }

@@ -372,7 +372,7 @@
                                                 <div class="bg-white dark:bg-slate-800 p-4">
                                                     <div class="mb-4 flex justify-between items-center">
                                                         <h3 class="text-lg font-bold text-gray-900 dark:text-white">
-                                                            افزودن کویل جدید به قطعات تکی
+                                                            افزودن قطعه جدید به قطعات تکی
                                                         </h3>
                                                         <button type="button" @click="open = false">
                                                             <span class="modal-close">

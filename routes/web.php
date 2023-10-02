@@ -11,6 +11,7 @@ use App\Http\Controllers\CategoryAttributeController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CollectionCoilController;
 use App\Http\Controllers\CollectionPartController;
+use App\Http\Controllers\Contract\AnalyzePartController;
 use App\Http\Controllers\Contract\GuaranteeController;
 use App\Http\Controllers\Contract\MarketingController;
 use App\Http\Controllers\MarketingController as AllMarketings;
@@ -563,4 +564,6 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/marketings', [AllMarketings::class, 'index'])->name('marketings.index');
 
     Route::get('/contracts/{contract}/parts', [ContractPartController::class, 'index'])->name('contracts.parts.index');
+
+    Route::get('/contracts/analyze-parts/all-parts', [AnalyzePartController::class, 'index'])->name('contracts.analyze-parts.index');
 });

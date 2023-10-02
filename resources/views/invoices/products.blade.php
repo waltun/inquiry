@@ -343,11 +343,21 @@
 
                                 $partPercentPrice = 0;
                                 if ($product->percent > 0) {
-                                    $partTotalPrice += ($product->price * $product->quantity) / $product->percent;
-                                    $partPercentPrice = ($product->price * $product->quantity) / $product->percent;
+                                    if ($product->price == 0) {
+                                        $partTotalPrice += ($part->price * $product->quantity) / $product->percent;
+                                        $partPercentPrice = ($part->price * $product->quantity) / $product->percent;
+                                    } else {
+                                        $partTotalPrice += ($product->price * $product->quantity) / $product->percent;
+                                        $partPercentPrice = ($product->price * $product->quantity) / $product->percent;
+                                    }
                                 } else {
-                                    $partTotalPrice += ($product->price * $product->quantity);
-                                    $partPercentPrice = ($product->price * $product->quantity);
+                                    if ($product->price == 0) {
+                                        $partTotalPrice += ($part->price * $product->quantity);
+                                        $partPercentPrice = ($part->price * $product->quantity);
+                                    } else {
+                                        $partTotalPrice += ($product->price * $product->quantity);
+                                        $partPercentPrice = ($product->price * $product->quantity);
+                                    }
                                 }
                             @endphp
                             <tr class="table-tb-tr group whitespace-normal {{ $loop->even ? 'bg-sky-100' : '' }}">
@@ -376,9 +386,17 @@
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     @if($product->percent > 0)
-                                        {{ number_format($product->price / $product->percent) }}
+                                        @if($product->price == 0)
+                                            {{ number_format($part->price / $product->percent) }}
+                                        @else
+                                            {{ number_format($product->price / $product->percent) }}
+                                        @endif
                                     @else
-                                        {{ number_format($product->price) }}
+                                        @if($product->price == 0)
+                                            {{ number_format($part->price) }}
+                                        @else
+                                            {{ number_format($product->price) }}
+                                        @endif
                                     @endif
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
