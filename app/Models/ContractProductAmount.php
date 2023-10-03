@@ -15,7 +15,7 @@ class ContractProductAmount extends Model
 
     public function product()
     {
-        return $this->belongsTo(ContractProduct::class);
+        return $this->belongsTo(ContractProduct::class, 'contract_product_id');
     }
 
     public function part()
