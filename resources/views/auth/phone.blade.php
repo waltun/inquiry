@@ -69,19 +69,19 @@
                             id="register-button">
                         بررسی کد
                     </button>
-                    <p class="text-xs text-indigo-500 font-bold" id="timer-section">
-                        اعتبار کد ارسال شده : <span id="expired">02:00</span>
-                    </p>
-                    <button class="text-xs text-indigo-500 font-bold hidden" type="button" id="resend-button"
-                            onclick="resendCode()">
-                        ارسال دوباره
-                    </button>
+{{--                    <p class="text-xs text-indigo-500 font-bold" id="timer-section">--}}
+{{--                        اعتبار کد ارسال شده : <span id="expired">02:00</span>--}}
+{{--                    </p>--}}
+{{--                    <button class="text-xs text-indigo-500 font-bold hidden" type="button" id="resend-button"--}}
+{{--                            onclick="resendCode()">--}}
+{{--                        ارسال دوباره--}}
+{{--                    </button>--}}
                 </div>
             </form>
-            <form action="{{ route('login.store') }}" method="post" id="resend-form">
-                @csrf
-                <input type="hidden" name="phone" value="{{ session()->get('phone') }}">
-            </form>
+{{--            <form action="{{ route('login.store') }}" method="post" id="resend-form">--}}
+{{--                @csrf--}}
+{{--                <input type="hidden" name="phone" value="{{ session()->get('phone') }}">--}}
+{{--            </form>--}}
         </div>
     </div>
 </div>
@@ -95,45 +95,45 @@
     }
 </script>
 
-<script>
-    let registerBtn = document.getElementById("register-button");
-    let timerSection = document.getElementById('timer-section');
-    let resendButton = document.getElementById('resend-button');
+{{--<script>--}}
+{{--    let registerBtn = document.getElementById("register-button");--}}
+{{--    let timerSection = document.getElementById('timer-section');--}}
+{{--    let resendButton = document.getElementById('resend-button');--}}
 
-    let timer = setInterval(function () {
-        let now = new Date().getTime();
-        let distance = '{{ $expiredTime }}' - now;
+{{--    let timer = setInterval(function () {--}}
+{{--        let now = new Date().getTime();--}}
+{{--        let distance = '{{ $expiredTime }}' - now;--}}
 
-        let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+{{--        let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));--}}
+{{--        let seconds = Math.floor((distance % (1000 * 60)) / 1000);--}}
 
-        if (seconds <= 9) {
-            document.getElementById("expired").innerHTML = "0" + minutes + ":" + "0" + seconds;
-        } else {
-            document.getElementById("expired").innerHTML = "0" + minutes + ":" + seconds;
-        }
+{{--        if (seconds <= 9) {--}}
+{{--            document.getElementById("expired").innerHTML = "0" + minutes + ":" + "0" + seconds;--}}
+{{--        } else {--}}
+{{--            document.getElementById("expired").innerHTML = "0" + minutes + ":" + seconds;--}}
+{{--        }--}}
 
-        if (distance < 0) {
-            clearInterval(timer);
-            document.getElementById("expired").innerHTML = "00:00";
-            registerBtn.classList.remove('bg-green-500');
-            registerBtn.classList.add('bg-gray-500');
-            registerBtn.classList.add('cursor-not-allowed');
-            registerBtn.setAttribute('disabled', 'disabled');
+{{--        if (distance < 0) {--}}
+{{--            clearInterval(timer);--}}
+{{--            document.getElementById("expired").innerHTML = "00:00";--}}
+{{--            registerBtn.classList.remove('bg-green-500');--}}
+{{--            registerBtn.classList.add('bg-gray-500');--}}
+{{--            registerBtn.classList.add('cursor-not-allowed');--}}
+{{--            registerBtn.setAttribute('disabled', 'disabled');--}}
 
-            timerSection.remove();
+{{--            timerSection.remove();--}}
 
-            resendButton.classList.remove('hidden');
-        }
-    }, 1000);
-</script>
-<script>
-    function resendCode() {
-        let resendForm = document.getElementById('resend-form');
+{{--            resendButton.classList.remove('hidden');--}}
+{{--        }--}}
+{{--    }, 1000);--}}
+{{--</script>--}}
+{{--<script>--}}
+{{--    function resendCode() {--}}
+{{--        let resendForm = document.getElementById('resend-form');--}}
 
-        resendForm.submit();
-    }
-</script>
+{{--        resendForm.submit();--}}
+{{--    }--}}
+{{--</script>--}}
 
 </body>
 </html>

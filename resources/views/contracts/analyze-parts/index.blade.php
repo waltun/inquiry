@@ -87,53 +87,56 @@
                     <th class="p-4">نام قطعه</th>
                     <th class="p-4">واحد</th>
                     <th class="p-4">مقدار</th>
-                    <th class="p-4">قرارداد ها</th>
+                    <th class="p-4 rounded-tl-lg">قرارداد ها</th>
                 </tr>
                 </thead>
                 <tbody>
+                @php
+                    $count = 0
+                @endphp
                 @foreach($values as $partId => $value)
                     @php
                         $part = \App\Models\Part::find($partId);
                         $contractAmounts = $amounts->where('part_id', $partId);
+                        $count++;
                     @endphp
-                    @if(!$part->collection)
-                        <tr class="table-tb-tr group whitespace-normal">
-                            <td class="table-tr-td border-t-0 border-l-0">
-                                {{ $loop->index + 1 }}
-                            </td>
-                            <td class="table-tr-td border-t-0 border-x-0">
-                                {{ $part->name }}
-                            </td>
-                            <td class="table-tr-td border-t-0 border-x-0">
-                                {{ $part->unit }}
-                            </td>
-                            <td class="table-tr-td border-t-0 border-x-0">
-                                {{ $value }}
-                            </td>
-                            <td class="table-tr-td border-t-0 border-r-0">
-                                <div class="flex items-center justify-center" x-data="{open: false}">
-                                    <button type="button" class="table-dropdown-copy" @click="open = !open">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                             stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                  d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/>
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                        </svg>
-                                    </button>
+                    <tr class="table-tb-tr group whitespace-normal">
+                        <td class="table-tr-td border-t-0 border-l-0">
+                            {{ $count }}
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            {{ $part->name }}
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            {{ $part->unit }}
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            {{ $value }}
+                        </td>
+                        <td class="table-tr-td border-t-0 border-r-0">
+                            <div class="flex items-center justify-center" x-data="{open: false}">
+                                <button type="button" class="table-dropdown-copy" @click="open = !open">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                              d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    </svg>
+                                </button>
 
-                                    <!-- Contract Modal -->
-                                    <div class="relative z-10" x-show="open" x-cloak>
-                                        <div class="modal-backdrop"></div>
-                                        <div class="fixed z-10 inset-0 overflow-y-auto">
-                                            <div class="modal">
-                                                <div class="modal-body">
-                                                    <div class="bg-white dark:bg-slate-800 p-4">
-                                                        <div class="mb-4 flex justify-between items-center">
-                                                            <h3 class="text-lg font-bold text-gray-900 dark:text-white">
-                                                                قطعه مورد نظر در قرارداد ها
-                                                            </h3>
-                                                            <button type="button" @click="open = false">
+                                <!-- Contract Modal -->
+                                <div class="relative z-10" x-show="open" x-cloak>
+                                    <div class="modal-backdrop"></div>
+                                    <div class="fixed z-10 inset-0 overflow-y-auto">
+                                        <div class="modal">
+                                            <div class="modal-body">
+                                                <div class="bg-white dark:bg-slate-800 p-4">
+                                                    <div class="mb-4 flex justify-between items-center">
+                                                        <h3 class="text-lg font-bold text-gray-900 dark:text-white">
+                                                            قطعه مورد نظر در قرارداد ها
+                                                        </h3>
+                                                        <button type="button" @click="open = false">
                                                             <span class="modal-close">
                                                                 <svg xmlns="http://www.w3.org/2000/svg"
                                                                      fill="none"
@@ -146,35 +149,64 @@
                                                                           d="M6 18L18 6M6 6l12 12"/>
                                                                 </svg>
                                                             </span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="mt-6 grid grid-cols-2 gap-4">
-                                                            @foreach($contractAmounts as $contractAmount)
-                                                                <div class="flex items-center space-x-4 space-x-reverse p-2 rounded-lg border border-gray-200">
-                                                                    <p class="text-sm font-medium">
-                                                                        قرارداد : {{ $contractAmount->product->contract->name }}
-                                                                    </p>
-                                                                    <span>|</span>
-                                                                    <p class="text-sm font-medium">
-                                                                        میزان استفاده : {{ $contractAmount->value }} {{ $part->unit }}
-                                                                    </p>
-                                                                    <span>|</span>
-                                                                    <a href="{{ route('contracts.show', $contractAmount->product->contract->id) }}" class="text-sm font-medium text-indigo-600">
-                                                                        مشاهده قرارداد
-                                                                    </a>
-                                                                </div>
-                                                            @endforeach
-                                                        </div>
+                                                        </button>
+                                                    </div>
+                                                    <div class="mt-6 grid grid-cols-2 gap-4">
+                                                        @foreach($contractAmounts as $contractAmount)
+                                                            <div
+                                                                class="flex items-center space-x-4 space-x-reverse p-2 rounded-lg border border-gray-200">
+                                                                <p class="text-sm font-medium">
+                                                                    قرارداد
+                                                                    : {{ $contractAmount->product->contract->name }}
+                                                                </p>
+                                                                <span>|</span>
+                                                                <p class="text-sm font-medium">
+                                                                    میزان استفاده
+                                                                    : {{ $contractAmount->value }} {{ $part->unit }}
+                                                                </p>
+                                                                <span>|</span>
+                                                                <a href="{{ route('contracts.show', $contractAmount->product->contract->id) }}"
+                                                                   class="text-sm font-medium text-indigo-600">
+                                                                    مشاهده قرارداد
+                                                                </a>
+                                                            </div>
+                                                        @endforeach
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </td>
-                        </tr>
-                    @endif
-                @endforeach
+                            </div>
+                        </td>
+                    </tr>
+                    @if(!$part->children->isEmpty())
+                        @foreach($part->children as $child)
+                            @if(!in_array($child->id, $values) && $child->pivot->value > 0)
+                                @php
+                                    $count++;
+                                @endphp
+                                <tr class="table-tb-tr group whitespace-normal">
+                                    <td class="table-tr-td border-t-0 border-l-0">
+                                        {{ $count }}
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-x-0">
+                                        {{ $child->name }}
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-x-0">
+                                        {{ $child->unit }}
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-x-0">
+                                        {{ $child->pivot->value }}
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-r-0">
+                                        -
+                                    </td>
+                                    @endif
+                                </tr>
+                                @endforeach
+                            @endif
+                        @endforeach
                 </tbody>
             </table>
         </div>
