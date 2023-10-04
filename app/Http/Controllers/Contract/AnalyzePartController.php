@@ -11,30 +11,29 @@ class AnalyzePartController extends Controller
 {
     public function index()
     {
-//        $amounts = ContractProductAmount::select('part_id', \DB::raw('SUM(value) as total_amount'))
-//            ->groupBy('part_id')->where('value', '>', 0)->get();
-
         $amounts = ContractProductAmount::where('value', '>', 0)->get();
 
-        $partIds = collect([]);
         $values = [];
 
         foreach ($amounts as $amount) {
-            $partIds->push($amount->part_id);
-            $values[$amount->part_id] = 0;
+            if (!$amount->part->collection) {
+                $values[$amount->part_id] = 0;
+            } else {
+                foreach ($amount->part->children as $child) {
+                    if ($child->pivot->value > 0) {
+                        $values[$child->id] = 0;
+                    }
+                }
+            }
         }
-
-        $partIds = $partIds->toArray();
 
         foreach ($amounts as $amount) {
             if (!$amount->part->collection) {
-                if (in_array($amount->part_id, $partIds)) {
-                    $values[$amount->part_id] += $amount->value;
-                }
+                $values[$amount->part_id] += $amount->value * $amount->product->quantity;
             } else {
                 foreach ($amount->part->children as $child) {
-                    if (in_array($child->id, $partIds)) {
-                        $values[$child->id] += $child->pivot->value;
+                    if ($child->pivot->value > 0) {
+                        $values[$child->id] += $child->pivot->value * $amount->product->quantity;
                     }
                 }
             }

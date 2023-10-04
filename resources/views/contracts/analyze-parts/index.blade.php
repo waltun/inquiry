@@ -152,20 +152,33 @@
                                                         </button>
                                                     </div>
                                                     <div class="mt-6 grid grid-cols-2 gap-4">
-                                                        @foreach($contractAmounts as $contractAmount)
+                                                        @php
+                                                            $contractAmountValues = [];
+                                                            foreach ($contractAmounts as $contractAmount) {
+                                                                $contractAmountValues[$contractAmount->product->contract->id] = 0;
+                                                            }
+
+                                                            foreach ($contractAmounts as $contractAmount) {
+                                                                $contractAmountValues[$contractAmount->product->contract->id] += $contractAmount->value;
+                                                            }
+                                                        @endphp
+                                                        @foreach($contractAmountValues as $contractId => $contractAmountValue)
+                                                            @php
+                                                                $contract = \App\Models\Contract::find($contractId);
+                                                            @endphp
                                                             <div
                                                                 class="flex items-center space-x-4 space-x-reverse p-2 rounded-lg border border-gray-200">
                                                                 <p class="text-sm font-medium">
                                                                     قرارداد
-                                                                    : {{ $contractAmount->product->contract->name }}
+                                                                    : {{ $contract->name }}
                                                                 </p>
                                                                 <span>|</span>
                                                                 <p class="text-sm font-medium">
                                                                     میزان استفاده
-                                                                    : {{ $contractAmount->value }} {{ $part->unit }}
+                                                                    : {{ $contractAmountValue }}
                                                                 </p>
                                                                 <span>|</span>
-                                                                <a href="{{ route('contracts.show', $contractAmount->product->contract->id) }}"
+                                                                <a href="{{ route('contracts.show', $contract->id) }}"
                                                                    class="text-sm font-medium text-indigo-600">
                                                                     مشاهده قرارداد
                                                                 </a>
@@ -180,33 +193,7 @@
                             </div>
                         </td>
                     </tr>
-                    @if(!$part->children->isEmpty())
-                        @foreach($part->children as $child)
-                            @if(!in_array($child->id, $values) && $child->pivot->value > 0)
-                                @php
-                                    $count++;
-                                @endphp
-                                <tr class="table-tb-tr group whitespace-normal">
-                                    <td class="table-tr-td border-t-0 border-l-0">
-                                        {{ $count }}
-                                    </td>
-                                    <td class="table-tr-td border-t-0 border-x-0">
-                                        {{ $child->name }}
-                                    </td>
-                                    <td class="table-tr-td border-t-0 border-x-0">
-                                        {{ $child->unit }}
-                                    </td>
-                                    <td class="table-tr-td border-t-0 border-x-0">
-                                        {{ $child->pivot->value }}
-                                    </td>
-                                    <td class="table-tr-td border-t-0 border-r-0">
-                                        -
-                                    </td>
-                                    @endif
-                                </tr>
-                                @endforeach
-                            @endif
-                        @endforeach
+                @endforeach
                 </tbody>
             </table>
         </div>
