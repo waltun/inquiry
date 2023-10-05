@@ -159,7 +159,7 @@
                                                             }
 
                                                             foreach ($contractAmounts as $contractAmount) {
-                                                                $contractAmountValues[$contractAmount->product->contract->id] += $contractAmount->value;
+                                                                $contractAmountValues[$contractAmount->product->contract->id] += $contractAmount->value * $contractAmount->product->quantity;
                                                             }
                                                         @endphp
                                                         @foreach($contractAmountValues as $contractId => $contractAmountValue)
