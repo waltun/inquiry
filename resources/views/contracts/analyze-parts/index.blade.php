@@ -72,6 +72,16 @@
         </div>
     </div>
 
+    <!-- Search -->
+    <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200 mt-4">
+        <div class="grid grid-cols-3 gap-4">
+            <div>
+                <input type="text" name="search" value="{{ request('search') }}" class="input-text"
+                    placeholder="جستجو براساس نام قطعه">
+            </div>
+        </div>
+    </div>
+
     <!-- Content -->
     <form method="POST" action="{{ route('contracts.analyze-parts.store') }}" class="mt-4">
         @csrf
