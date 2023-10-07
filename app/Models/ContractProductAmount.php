@@ -10,7 +10,7 @@ class ContractProductAmount extends Model
     use HasFactory;
 
     protected $fillable = [
-        'value', 'value2', 'price', 'sort', 'weight', 'part_id', 'contract_product_id',
+        'value', 'value2', 'price', 'sort', 'weight', 'part_id', 'contract_product_id', 'buyer_manage', 'buyer', 'status'
     ];
 
     public function product()

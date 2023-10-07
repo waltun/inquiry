@@ -73,7 +73,8 @@
     </div>
 
     <!-- Content -->
-    <div class="mt-4">
+    <form method="POST" action="{{ route('contracts.analyze-parts.store') }}" class="mt-4">
+        @csrf
         <div class="card">
             <div class="card-header">
                 <p class="card-title text-lg">
@@ -87,33 +88,31 @@
                     <th class="p-4">نام قطعه</th>
                     <th class="p-4">واحد</th>
                     <th class="p-4">مقدار</th>
-                    <th class="p-4 rounded-tl-lg">قرارداد ها</th>
+                    <th class="p-4">قرارداد ها</th>
+                    <th class="p-4">مسئول خرید</th>
+                    <th class="p-4 rounded-tl-lg">وضعیت</th>
                 </tr>
                 </thead>
                 <tbody>
-                @php
-                    $count = 0
-                @endphp
                 @foreach($values as $partId => $value)
                     @php
                         $part = \App\Models\Part::find($partId);
                         $contractAmounts = $amounts->where('part_id', $partId);
-                        $count++;
                     @endphp
                     <tr class="table-tb-tr group whitespace-normal">
                         <td class="table-tr-td border-t-0 border-l-0">
-                            {{ $count }}
+                            {{ $loop->index + 1 }}
                         </td>
-                        <td class="table-tr-td border-t-0 border-x-0">
+                        <td class="table-tr-td border-t-0 border-x-0 {{ $value['status'] == 'ordered' ? 'text-red-600' : '' }}">
                             {{ $part->name }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             {{ $part->unit }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $value }}
+                            {{ $value['value'] }}
                         </td>
-                        <td class="table-tr-td border-t-0 border-r-0">
+                        <td class="table-tr-td border-t-0 border-x-0">
                             <div class="flex items-center justify-center" x-data="{open: false}">
                                 <button type="button" class="table-dropdown-copy" @click="open = !open">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -151,7 +150,7 @@
                                                             </span>
                                                         </button>
                                                     </div>
-                                                    <div class="mt-6 grid grid-cols-2 gap-4">
+                                                    <div class="mt-6 space-y-4">
                                                         @php
                                                             $contractAmountValues = [];
                                                             foreach ($contractAmounts as $contractAmount) {
@@ -175,10 +174,10 @@
                                                                 <span>|</span>
                                                                 <p class="text-sm font-medium">
                                                                     میزان استفاده
-                                                                    : {{ $contractAmountValue }}
+                                                                    : {{ $contractAmountValue }} {{ $part->unit }}
                                                                 </p>
                                                                 <span>|</span>
-                                                                <a href="{{ route('contracts.show', $contract->id) }}"
+                                                                <a href="{{ route('contracts.parts.index', $contract->id) }}"
                                                                    class="text-sm font-medium text-indigo-600">
                                                                     مشاهده قرارداد
                                                                 </a>
@@ -192,10 +191,44 @@
                                 </div>
                             </div>
                         </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            <select name="buyer_manage[]" id="inputBuyer{{ $part->id }}" class="input-text">
+                                <option value="factory" {{ $value['buyer_manage'] == 'factory' ? 'selected' : '' }}>
+                                    تدارکات کارخانه
+                                </option>
+                                <option value="office" {{ $value['buyer_manage'] == 'office' ? 'selected' : '' }}>
+                                    دفتر مرکزی
+                                </option>
+                            </select>
+                        </td>
+                        <td class="table-tr-td border-t-0 border-r-0">
+                            <select name="status[]" id="inputStatus{{ $part->id }}" class="input-text">
+                                <option value="">
+                                    انتخاب کنید
+                                </option>
+                                <option value="ordered" {{ $value['status'] == 'ordered' ? 'selected' : '' }}>
+                                    سفارش گذاری شد
+                                </option>
+                                <option value="buy" {{ $value['status'] == 'buy' ? 'selected' : '' }}>
+                                    خریداری و تحویل انبار شد
+                                </option>
+                                <option value="available" {{ $value['status'] == 'available' ? 'selected' : '' }}>
+                                    موجودی انبار می باشد
+                                </option>
+                            </select>
+                            <input type="hidden" name="part_ids[]" value="{{ $part->id }}">
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
         </div>
-    </div>
+
+        <div class="bg-white p-2 rounded-lg shadow flex justify-end sticky bottom-4 border border-indigo-400">
+            <button class="form-submit-btn">
+                ثبت اطلاعات
+            </button>
+        </div>
+
+    </form>
 </x-layout>

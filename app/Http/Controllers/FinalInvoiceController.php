@@ -8,6 +8,7 @@ use App\Models\ContractProductAmount;
 use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\InvoiceProduct;
+use App\Models\Part;
 use Illuminate\Http\Request;
 use Morilog\Jalali\Jalalian;
 
@@ -140,14 +141,41 @@ class FinalInvoiceController extends Controller
             ]);
 
             foreach ($amounts as $amount) {
-                $contractProduct->amounts()->create([
-                    'value' => $amount->value,
-                    'value2' => $amount->value2,
-                    'part_id' => $amount->part_id,
-                    'price' => $amount->price,
-                    'sort' => $amount->sort,
-                    'weight' => $amount->weight ?? 0
-                ]);
+                $part = Part::find($amount->part_id);
+                if ($part->collection && !$part->children->isEmpty()) {
+                    foreach ($part->children as $child) {
+                        if (!$child->children->isEmpty()) {
+                            foreach ($child->children as $ch) {
+                                $contractProduct->amounts()->create([
+                                    'value' => $ch->pivot->value,
+                                    'value2' => $ch->pivot->value2,
+                                    'part_id' => $ch->id,
+                                    'price' => $ch->price,
+                                    'sort' => $ch->pivot->sort,
+                                    'weight' => $ch->weight ?? 0
+                                ]);
+                            }
+                        } else {
+                            $contractProduct->amounts()->create([
+                                'value' => $child->pivot->value,
+                                'value2' => $child->pivot->value2,
+                                'part_id' => $child->id,
+                                'price' => $child->price,
+                                'sort' => $child->pivot->sort,
+                                'weight' => $child->weight ?? 0
+                            ]);
+                        }
+                    }
+                } else {
+                    $contractProduct->amounts()->create([
+                        'value' => $amount->value,
+                        'value2' => $amount->value2,
+                        'part_id' => $amount->part_id,
+                        'price' => $amount->price,
+                        'sort' => $amount->sort,
+                        'weight' => $amount->weight ?? 0
+                    ]);
+                }
             }
         }
 

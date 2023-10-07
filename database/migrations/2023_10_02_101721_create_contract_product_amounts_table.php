@@ -24,6 +24,10 @@ return new class extends Migration {
             $table->unsignedBigInteger('part_id');
             $table->unsignedBigInteger('contract_product_id');
 
+            $table->string('buyer_manage')->nullable();
+            $table->unsignedBigInteger('buyer')->nullable();
+            $table->string('status')->nullable();
+
             $table->timestamps();
         });
     }

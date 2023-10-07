@@ -566,4 +566,5 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/contracts/{contract}/parts', [ContractPartController::class, 'index'])->name('contracts.parts.index');
 
     Route::get('/contracts/analyze-parts/all-parts', [AnalyzePartController::class, 'index'])->name('contracts.analyze-parts.index');
+    Route::post('/contracts/analyze-parts/all-parts', [AnalyzePartController::class, 'store'])->name('contracts.analyze-parts.store');
 });
