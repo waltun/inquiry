@@ -1,4 +1,14 @@
 <x-layout>
+    <x-slot name="js">
+        <script>
+            function searchPart() {
+                let form = document.getElementById('searchForm');
+
+                form.submit();
+            }
+        </script>
+    </x-slot>
+
     <!-- Breadcrumb -->
     <div class="flex items-center space-x-2 space-x-reverse whitespace-nowrap">
         <a href="{{ route('dashboard') }}" class="flex items-center">
@@ -74,12 +84,37 @@
 
     <!-- Search -->
     <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200 mt-4">
-        <div class="grid grid-cols-3 gap-4">
+        <form class="grid grid-cols-3 gap-4" id="searchForm">
             <div>
                 <input type="text" name="search" value="{{ request('search') }}" class="input-text"
-                    placeholder="جستجو براساس نام قطعه">
+                       placeholder="جستجو براساس نام قطعه">
             </div>
-        </div>
+            <div>
+                <select name="buyer_manage" id="inputBuyerManage" class="input-text" onchange="searchPart()">
+                    <option value="">انتخاب مسئول خرید</option>
+                    <option value="factory" {{ request('buyer_manage') == 'factory' ? 'selected' : '' }}>
+                        تدارکات کارخانه
+                    </option>
+                    <option value="office" {{ request('buyer_manage') == 'office' ? 'selected' : '' }}>
+                        دفتر مرکزی
+                    </option>
+                </select>
+            </div>
+            <div>
+                <select name="status" id="inputStatus" class="input-text" onchange="searchPart()">
+                    <option value="">انتخاب وضعیت</option>
+                    <option value="ordered" {{ request('status') == 'ordered' ? 'selected' : '' }}>
+                        سفارش گذاری شده ها
+                    </option>
+                    <option value="buy" {{ request('status') == 'buy' ? 'selected' : '' }}>
+                        خریداری و تحویل انبار شده ها
+                    </option>
+                    <option value="available" {{ request('status') == 'available' ? 'selected' : '' }}>
+                        موجودی انبار
+                    </option>
+                </select>
+            </div>
+        </form>
     </div>
 
     <!-- Content -->
