@@ -21,9 +21,8 @@
                     success: function (res) {
                         if (res.data != null) {
                             section.innerHTML = `
-                            <label for="inputCategory" class="block mb-2 md:text-sm text-xs text-black">زیر دسته</label>
                             <select class="input-text" onchange="getCategory2()" id="inputCategory2" name="category2">
-                                <option value="">انتخاب کنید</option>
+                                <option value="">زیر دسته</option>
                                     ${
                                 res.data.map(function (category) {
                                     return `<option value="${category.id}">${category.name}</option>`
@@ -54,9 +53,8 @@
                     success: function (res) {
                         if (res.data != null) {
                             section.innerHTML = `
-                            <label for="inputCategory3" class="block mb-2 md:text-sm text-xs text-black">زیر دسته</label>
-                            <select class="input-text" name="category3" id="inputCategory3">
-                                <option value="">انتخاب کنید</option>
+                            <select class="input-text" name="category3" id="inputCategory3" onchange="searchCategory()">
+                                <option value="">زیر دسته</option>
                                     ${
                                 res.data.map(function (category) {
                                     return `<option value="${category.id}">${category.name}</option>`
@@ -66,6 +64,13 @@
                         }
                     }
                 });
+            }
+        </script>
+        <script>
+            function searchCategory() {
+                let form = document.getElementById('searchCategoryForm');
+
+                form.submit();
             }
         </script>
     </x-slot>
@@ -116,10 +121,18 @@
                       d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
             </svg>
-            <div class="mr-2">
+            <div class="mr-2 flex items-center">
                 <p class="font-bold text-2xl text-black dark:text-white">
                     لیست قطعات
                 </p>
+
+                @if(request()->has('search') || request()->has('category1') || request()->has('category2') || request()->has('category3'))
+                    <div class="mr-4">
+                        <a href="{{ route('parts.index') }}" class="text-xs font-bold underline underline-offset-4 text-indigo-400">
+                            پاکسازی جستجو
+                        </a>
+                    </div>
+                @endif
             </div>
         </div>
         <div class="flex items-center space-x-4 space-x-reverse">
@@ -142,42 +155,17 @@
     </div>
 
     <!-- Search -->
-    <div
-        class="card-search" {{ request()->has('search') || request()->has('category1') || request()->has('category2') || request()->has('category3') ? 'x-data={open:true}' : 'x-data={open:false}' }}>
-        <div class="card-header-search" @click="open = !open">
-            <p class="card-title">
-                جستجو
-            </p>
-            <div class="card-title-search">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                     stroke="currentColor" class="w-6 h-6 transition" :class="{'rotate-180' : open}">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
-                </svg>
-            </div>
-        </div>
-        <div class="grid grid-cols-4 gap-4 pb-7" x-show="open" x-cloak>
-            <form class="col-span-1 card">
-                <div class="mb-4">
-                    <label for="inputSearch" class="form-label">
-                        جستجو براساس نام
-                    </label>
-                    <input type="text" id="inputSearch" name="search" class="input-text" placeholder="مثال : پیچ"
-                           value="{{ request('search') }}">
-                </div>
-                <div class="flex justify-end">
-                    <button class="form-submit-btn" type="submit">
-                        جستجو
-                    </button>
-                </div>
+    <div class="bg-white p-2 rounded-lg shadow-sm border border-gray-200 mt-4">
+        <div class="grid grid-cols-4 gap-4">
+            <form class="col-span-1">
+                <input type="text" id="inputSearch" name="search" class="input-text" placeholder="جستجو کلمه + اینتر"
+                       value="{{ request('search') }}">
             </form>
 
-            <form class="card col-span-3 grid grid-cols-3 gap-4">
+            <form class="col-span-3 grid grid-cols-3 gap-4" id="searchCategoryForm">
                 <div>
-                    <label for="inputCategory1" class="form-label">
-                        دسته بندی قطعه
-                    </label>
                     <select name="category1" id="inputCategory1" class="input-text" onchange="getCategory1()">
-                        <option value="">انتخاب کنید</option>
+                        <option value="">انتخاب دسته بندی</option>
                         @foreach($categories as $category)
                             <option
                                 value="{{ $category->id }}" {{ request('category1') == $category->id ? 'selected' : '' }}>
@@ -191,10 +179,8 @@
                         @php
                             $category2 = \App\Models\Category::find(request('category1'))->children;
                         @endphp
-                        <label for="inputCategory2" class="block mb-2 md:text-sm text-xs text-black">زیردسته
-                            اول</label>
                         <select name="category2" id="inputCategory2" class="input-text" onchange="getCategory2()">
-                            <option value="">انتخاب کنید</option>
+                            <option value="">زیر دسته</option>
                             @foreach($category2 as $category)
                                 <option
                                     value="{{ $category->id }}" {{ request('category2') == $category->id ? 'selected' : '' }}>
@@ -209,10 +195,8 @@
                         @php
                             $category3 = \App\Models\Category::find(request('category2'))->children;
                         @endphp
-                        <label for="inputCategory3" class="block mb-2 md:text-sm text-xs text-black">زیردسته
-                            دوم</label>
-                        <select name="category3" id="inputCategory3" class="input-text">
-                            <option value="">انتخاب کنید</option>
+                        <select name="category3" id="inputCategory3" class="input-text" onchange="searchCategory()">
+                            <option value="">زیر دسته</option>
                             @foreach($category3 as $category)
                                 <option
                                     value="{{ $category->id }}" {{ request('category3') == $category->id ? 'selected' : '' }}>
@@ -222,18 +206,7 @@
                         </select>
                     @endif
                 </div>
-
-                <div class="col-span-3 flex justify-end">
-                    <button type="submit" class="form-submit-btn">جستجو</button>
-                </div>
             </form>
-            @if(request()->has('search') || request()->has('category1') || request()->has('category2') || request()->has('category3'))
-                <div>
-                    <a href="{{ route('parts.index') }}" class="form-detail-btn text-xs">
-                        پاکسازی جستجو
-                    </a>
-                </div>
-            @endif
         </div>
     </div>
 

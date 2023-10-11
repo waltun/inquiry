@@ -217,7 +217,7 @@
     </div>
 
     <!-- Search -->
-    <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200 mt-4">
+    <div class="bg-white p-2 rounded-lg shadow-sm border border-gray-200 mt-4">
         <div class="grid grid-cols-4 gap-4">
             <form class="col-span-1">
                 <input type="text" id="inputSearch" name="search" class="input-text" placeholder="جستجو + اینتر"
