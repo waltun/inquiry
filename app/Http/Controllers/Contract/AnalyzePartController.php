@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Contract;
 
 use App\Http\Controllers\Controller;
+use App\Models\Contract;
 use App\Models\ContractProductAmount;
 use App\Models\Part;
 use Illuminate\Http\Request;
@@ -57,7 +58,6 @@ class AnalyzePartController extends Controller
 
             foreach ($amounts as $amount) {
                 $amount->buyer_manage = $request->buyer_manage[$index];
-                $amount->status = $request->status[$index];
                 $amount->save();
             }
         }
@@ -65,5 +65,19 @@ class AnalyzePartController extends Controller
         alert()->success('ثبت موفق', 'اطلاعات با موفقیت ثبت شد');
 
         return back();
+    }
+
+    public function storeStatus(Request $request)
+    {
+        $amounts = ContractProductAmount::where('part_id', $request->part_id)->get();
+
+        foreach ($amounts as $amount) {
+            if ($amount->product->contract->id == $request->contract_id) {
+                $amount->status = $request->status;
+                $amount->save();
+            }
+        }
+
+        alert()->success('ثبت موفق', 'اطلاعات با موفقیت ثبت شد');
     }
 }
