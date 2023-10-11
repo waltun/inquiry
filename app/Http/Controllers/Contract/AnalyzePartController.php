@@ -11,8 +11,26 @@ class AnalyzePartController extends Controller
 {
     public function index()
     {
-        $amounts = ContractProductAmount::where('status', '=', 'ordered')
+        $amounts = ContractProductAmount::query();
+
+        $amounts = $amounts->where('status', '=', 'ordered')
             ->orWhere('status', '=', null)->where('value', '>', 0)->get();
+
+        if (request()->has('buyer_manage') && !is_null(request('buyer_manage'))) {
+            $amounts = $amounts->where('buyer_manage', request('buyer_manage'));
+        }
+
+        if (request()->has('search') && !is_null($keyword = request('search'))) {
+            $parts = collect([]);
+            foreach ($amounts as $amount) {
+                $part = Part::where('name', 'LIKE', "%{$keyword}%")->where('id', $amount->part_id)->first();
+                if (!is_null($part)) {
+                    $parts->push($part->id);
+                }
+            }
+            $parts = $parts->toArray();
+            $amounts = $amounts->whereIn('part_id', $parts);
+        }
 
         $values = [];
 

@@ -100,20 +100,13 @@
                     </option>
                 </select>
             </div>
-            <div>
-                <select name="status" id="inputStatus" class="input-text" onchange="searchPart()">
-                    <option value="">انتخاب وضعیت</option>
-                    <option value="ordered" {{ request('status') == 'ordered' ? 'selected' : '' }}>
-                        سفارش گذاری شده ها
-                    </option>
-                    <option value="buy" {{ request('status') == 'buy' ? 'selected' : '' }}>
-                        خریداری و تحویل انبار شده ها
-                    </option>
-                    <option value="available" {{ request('status') == 'available' ? 'selected' : '' }}>
-                        موجودی انبار
-                    </option>
-                </select>
-            </div>
+            @if(request()->has('search') || request()->has('buyer_manage'))
+                <div>
+                    <a href="{{ route('contracts.analyze-parts.index') }}" class="page-warning-btn inline-flex">
+                        پاکسازی فیلتر
+                    </a>
+                </div>
+            @endif
         </form>
     </div>
 
