@@ -27,9 +27,8 @@
                     success: function (res) {
                         if (res.data != null) {
                             section.innerHTML = `
-                            <label for="inputCategory" class="form-label">زیر دسته</label>
                             <select class="input-text text-xs" onchange="getCategory2()" id="inputCategory2" name="category2">
-                                <option value="">انتخاب کنید</option>
+                                <option value="">انتخاب زیر دسته</option>
                                     ${
                                 res.data.map(function (category) {
                                     return `<option value="${category.id}">${category.name}</option>`
@@ -60,9 +59,8 @@
                     success: function (res) {
                         if (res.data != null) {
                             section.innerHTML = `
-                            <label for="inputCategory3" class="form-label">زیر دسته</label>
-                            <select class="input-text text-xs" name="category3" id="inputCategory3">
-                                <option value="">انتخاب کنید</option>
+                            <select class="input-text text-xs" name="category3" id="inputCategory3" onchange="searchCategory()">
+                                <option value="">انتخاب زیر دسته</option>
                                     ${
                                 res.data.map(function (category) {
                                     return `<option value="${category.id}">${category.name}</option>`
@@ -126,6 +124,12 @@
                 }
             });
         </script>
+        <script>
+            function searchCategory() {
+                let form = document.getElementById('searchCategoryForm');
+                form.submit();
+            }
+        </script>
     </x-slot>
 
     <!-- Breadcrumb -->
@@ -172,10 +176,18 @@
                 <path stroke-linecap="round" stroke-linejoin="round"
                       d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z"></path>
             </svg>
-            <div class="mr-2">
+            <div class="mr-2 flex items-center">
                 <p class="font-bold text-2xl text-black dark:text-white">
                     بخش قیمت گذاری قطعات
                 </p>
+
+                @if(request()->has('search') || request()->has('category1') || request()->has('category2') || request()->has('category3'))
+                    <div class="mr-4">
+                        <a href="{{ route('parts.price.index') }}" class="text-xs underline underline-offset-4 text-indigo-400 font-bold">
+                            پاکسازی جستجو
+                        </a>
+                    </div>
+                @endif
             </div>
         </div>
         <div class="flex items-center space-x-4 space-x-reverse">
@@ -205,59 +217,30 @@
     </div>
 
     <!-- Search -->
-    <div
-        class="card-search" {{ request()->has('search') || request()->has('category1') || request()->has('category2') || request()->has('category3') ? 'x-data={open:true}' : 'x-data={open:false}' }}>
-        <div class="card-header-search" @click="open = !open">
-            <p class="card-title">
-                جستجو
-            </p>
-            <div class="card-title-search">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                     stroke="currentColor" class="w-6 h-6 transition" :class="{'rotate-180' : open}">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
-                </svg>
-            </div>
-        </div>
-        <div class="grid grid-cols-4 gap-4 pb-7" x-show="open" x-cloak>
-            <form class="col-span-1 card">
-                <div class="mb-4">
-                    <label for="inputSearch" class="form-label">
-                        جستجو براساس نام
-                    </label>
-                    <input type="text" id="inputSearch" name="search" class="input-text" placeholder="مثال : پیچ"
-                           value="{{ request('search') }}">
-                </div>
-                <div class="flex justify-end">
-                    <button class="form-submit-btn" type="submit">
-                        جستجو
-                    </button>
-                </div>
+    <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200 mt-4">
+        <div class="grid grid-cols-4 gap-4">
+            <form class="col-span-1">
+                <input type="text" id="inputSearch" name="search" class="input-text" placeholder="جستجو + اینتر"
+                       value="{{ request('search') }}">
             </form>
 
-            <form class="card col-span-3 grid grid-cols-3 gap-4">
-                <div>
-                    <label for="inputCategory1" class="form-label">
-                        دسته بندی قطعه
-                    </label>
-                    <select name="category1" id="inputCategory1" class="input-text" onchange="getCategory1()">
-                        <option value="">انتخاب کنید</option>
-                        @foreach($categories as $category)
-                            <option
-                                value="{{ $category->id }}" {{ request('category1') == $category->id ? 'selected' : '' }}>
-                                {{ $category->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
+            <form class="col-span-3 grid grid-cols-3 gap-4" id="searchCategoryForm">
+                <select name="category1" id="inputCategory1" class="input-text" onchange="getCategory1()">
+                    <option value="">انتخاب دسته بندی</option>
+                    @foreach($categories as $category)
+                        <option
+                            value="{{ $category->id }}" {{ request('category1') == $category->id ? 'selected' : '' }}>
+                            {{ $category->name }}
+                        </option>
+                    @endforeach
+                </select>
                 <div id="categorySection1">
                     @if(request()->has('category2'))
                         @php
                             $category2 = \App\Models\Category::find(request('category1'))->children;
                         @endphp
-                        <label for="inputCategory2" class="block mb-2 md:text-sm text-xs text-black">زیردسته
-                            اول</label>
                         <select name="category2" id="inputCategory2" class="input-text" onchange="getCategory2()">
-                            <option value="">انتخاب کنید</option>
+                            <option value="">انتخاب زیر دسته</option>
                             @foreach($category2 as $category)
                                 <option
                                     value="{{ $category->id }}" {{ request('category2') == $category->id ? 'selected' : '' }}>
@@ -272,10 +255,8 @@
                         @php
                             $category3 = \App\Models\Category::find(request('category2'))->children;
                         @endphp
-                        <label for="inputCategory3" class="block mb-2 md:text-sm text-xs text-black">زیردسته
-                            دوم</label>
-                        <select name="category3" id="inputCategory3" class="input-text">
-                            <option value="">انتخاب کنید</option>
+                        <select name="category3" id="inputCategory3" class="input-text" onchange="searchCategory()">
+                            <option value="">انتخاب زیر دسته</option>
                             @foreach($category3 as $category)
                                 <option
                                     value="{{ $category->id }}" {{ request('category3') == $category->id ? 'selected' : '' }}>
@@ -285,18 +266,7 @@
                         </select>
                     @endif
                 </div>
-
-                <div class="col-span-3 flex justify-end">
-                    <button type="submit" class="form-submit-btn">جستجو</button>
-                </div>
             </form>
-            @if(request()->has('search') || request()->has('category1') || request()->has('category2') || request()->has('category3'))
-                <div>
-                    <a href="{{ route('parts.price.index') }}" class="form-detail-btn text-xs">
-                        پاکسازی جستجو
-                    </a>
-                </div>
-            @endif
         </div>
     </div>
 
