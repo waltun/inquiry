@@ -84,158 +84,385 @@
 
     <!-- Content -->
     <div class="mt-4">
-        <div class="grid grid-cols-3 gap-4">
-            <a href="" class="dashboard-cards group">
-                <div class="flex items-center">
-                    <div class="dashboard-card-icon bg-yellow-600 dark:bg-slate-800">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                             stroke="currentColor" class="w-6 h-6 text-white group-hover:text-myBlue-100">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/>
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                        </svg>
-                    </div>
-                    <div class="mr-4">
-                        <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
-                            جزئیات پروژه
-                        </p>
-                    </div>
-                </div>
-                <div>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                         class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
-                        <path fill-rule="evenodd"
-                              d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                              clip-rule="evenodd"/>
-                    </svg>
-                </div>
-            </a>
+        <div x-data="{tab : 'financial'}" class="mb-8">
+            <div class="border-b border-indigo-400 dark:border-black mt-6">
+                <ul class="flex md:flex-wrap -mb-px text-sm font-medium text-center text-gray-600 whitespace-nowrap overflow-x-auto">
+                    <li class="ml-2">
+                        <button x-on:click="tab = 'financial'" type="button"
+                                class="inline-flex p-4 text-myBlue-100 group rounded-t-lg dark:text-white"
+                                :class="{ 'text-myBlue-100 border border-indigo-400 bg-gray-100 dark:bg-slate-900': tab === 'financial' }"
+                                aria-current="page">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                 stroke="currentColor" class="w-5 h-5 ml-2 text-blue-600"
+                                 :class="{ 'text-blue-700': tab === 'financial' }">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M9 3.75H6.912a2.25 2.25 0 00-2.15 1.588L2.35 13.177a2.25 2.25 0 00-.1.661V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18v-4.162c0-.224-.034-.447-.1-.661L19.24 5.338a2.25 2.25 0 00-2.15-1.588H15M2.25 13.5h3.86a2.25 2.25 0 012.012 1.244l.256.512a2.25 2.25 0 002.013 1.244h3.218a2.25 2.25 0 002.013-1.244l.256-.512a2.25 2.25 0 012.013-1.244h3.859M12 3v8.25m0 0l-3-3m3 3l3-3"/>
+                            </svg>
 
-            <a href="{{ route('contracts.products', $contract->id) }}" class="dashboard-cards group">
-                <div class="flex items-center">
-                    <div class="dashboard-card-icon bg-indigo-600 dark:bg-slate-800">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                             stroke="currentColor" class="w-6 h-6 text-white group-hover:text-myBlue-100">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M9 4.5v15m6-15v15m-10.875 0h15.75c.621 0 1.125-.504 1.125-1.125V5.625c0-.621-.504-1.125-1.125-1.125H4.125C3.504 4.5 3 5.004 3 5.625v12.75c0 .621.504 1.125 1.125 1.125z"></path>
-                        </svg>
-                    </div>
-                    <div class="mr-4">
-                        <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
-                            لیست محصولات و اقلام
-                        </p>
-                    </div>
-                </div>
-                <div>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                         class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
-                        <path fill-rule="evenodd"
-                              d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                              clip-rule="evenodd"/>
-                    </svg>
-                </div>
-            </a>
+                            بخش مالی
+                        </button>
+                    </li>
+                    <li class="ml-2">
+                        <button x-on:click="tab = 'factory'" type="button"
+                                class="inline-flex p-4 text-myBlue-100 group rounded-t-lg dark:text-white"
+                                :class="{ 'text-myBlue-100 border border-indigo-400 bg-gray-100 dark:bg-slate-900': tab === 'factory' }"
+                                aria-current="page">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                 stroke="currentColor" class="w-5 h-5 ml-2 text-blue-600"
+                                 :class="{ 'text-blue-700': tab === 'factory' }">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/>
+                            </svg>
 
-            <a href="{{ route('contracts.parts.index', $contract->id) }}" class="dashboard-cards group">
-                <div class="flex items-center">
-                    <div class="dashboard-card-icon bg-yellow-500 dark:bg-slate-800">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                             stroke="currentColor" class="w-6 h-6 text-white group-hover:text-myBlue-100">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M10.343 3.94c.09-.542.56-.94 1.11-.94h1.093c.55 0 1.02.398 1.11.94l.149.894c.07.424.384.764.78.93.398.164.855.142 1.205-.108l.737-.527a1.125 1.125 0 011.45.12l.773.774c.39.389.44 1.002.12 1.45l-.527.737c-.25.35-.272.806-.107 1.204.165.397.505.71.93.78l.893.15c.543.09.94.56.94 1.109v1.094c0 .55-.397 1.02-.94 1.11l-.893.149c-.425.07-.765.383-.93.78-.165.398-.143.854.107 1.204l.527.738c.32.447.269 1.06-.12 1.45l-.774.773a1.125 1.125 0 01-1.449.12l-.738-.527c-.35-.25-.806-.272-1.203-.107-.397.165-.71.505-.781.929l-.149.894c-.09.542-.56.94-1.11.94h-1.094c-.55 0-1.019-.398-1.11-.94l-.148-.894c-.071-.424-.384-.764-.781-.93-.398-.164-.854-.142-1.204.108l-.738.527c-.447.32-1.06.269-1.45-.12l-.773-.774a1.125 1.125 0 01-.12-1.45l.527-.737c.25-.35.273-.806.108-1.204-.165-.397-.505-.71-.93-.78l-.894-.15c-.542-.09-.94-.56-.94-1.109v-1.094c0-.55.398-1.02.94-1.11l.894-.149c.424-.07.765-.383.93-.78.165-.398.143-.854-.107-1.204l-.527-.738a1.125 1.125 0 01.12-1.45l.773-.773a1.125 1.125 0 011.45-.12l.737.527c.35.25.807.272 1.204.107.397-.165.71-.505.78-.929l.15-.894z"/>
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                        </svg>
-                    </div>
-                    <div class="mr-4">
-                        <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
-                            ریز آنالیز قطعات محصولات
-                        </p>
-                    </div>
-                </div>
-                <div>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                         class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
-                        <path fill-rule="evenodd"
-                              d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                              clip-rule="evenodd"/>
-                    </svg>
-                </div>
-            </a>
+                            بخش کارخانه
+                        </button>
+                    </li>
+                    <li class="ml-2">
+                        <button x-on:click="tab = 'document'" type="button"
+                                class="inline-flex p-4 text-myBlue-100 group rounded-t-lg dark:text-white"
+                                :class="{ 'text-myBlue-100 border border-indigo-400 bg-gray-100 dark:bg-slate-900': tab === 'document' }"
+                                aria-current="page">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                 stroke="currentColor" class="w-5 h-5 ml-2 text-blue-600"
+                                 :class="{ 'text-blue-700': tab === 'document' }">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
 
-            <a href="{{ route('contracts.payments.index', $contract->id) }}" class="dashboard-cards group">
-                <div class="flex items-center">
-                    <div class="dashboard-card-icon bg-green-500 dark:bg-slate-800">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                             stroke="currentColor" class="w-6 h-6 text-white group-hover:text-myBlue-100">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z"/>
-                        </svg>
-                    </div>
-                    <div class="mr-4">
-                        <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
-                            پرداخت های پروژه
-                        </p>
-                    </div>
-                </div>
-                <div>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                         class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
-                        <path fill-rule="evenodd"
-                              d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                              clip-rule="evenodd"/>
-                    </svg>
-                </div>
-            </a>
+                            بخش اسناد فنی
+                        </button>
+                    </li>
+                </ul>
+            </div>
 
-            <a href="{{ route('contracts.guarantees.index', $contract->id) }}" class="dashboard-cards group">
-                <div class="flex items-center">
-                    <div class="dashboard-card-icon bg-red-500 dark:bg-slate-800">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                             stroke="currentColor" class="w-6 h-6 text-white group-hover:text-myBlue-100">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                    </div>
-                    <div class="mr-4">
-                        <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
-                            تضامین پروژه
-                        </p>
-                    </div>
-                </div>
-                <div>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                         class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
-                        <path fill-rule="evenodd"
-                              d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                              clip-rule="evenodd"/>
-                    </svg>
-                </div>
-            </a>
+            <div x-show="tab === 'financial'"
+                 class="border border-indigo-400 dark:border-black border-t-0 rounded-b-lg px-4 py-6" x-cloak>
+                <div class="md:grid grid-cols-4 gap-4 space-y-4 md:space-y-0">
+                    <a href="{{ route('contracts.payments.index', $contract->id) }}" class="dashboard-cards group">
+                        <div class="flex items-center">
+                            <div class="dashboard-card-icon bg-green-500 dark:bg-slate-800">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5"
+                                     stroke="currentColor" class="w-6 h-6 text-white group-hover:text-myBlue-100">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z"/>
+                                </svg>
+                            </div>
+                            <div class="mr-4">
+                                <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
+                                    پرداخت های پروژه
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                 class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                                <path fill-rule="evenodd"
+                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </a>
 
-            <a href="{{ route('contracts.marketings.index', $contract->id) }}" class="dashboard-cards group">
-                <div class="flex items-center">
-                    <div class="dashboard-card-icon bg-gray-500 dark:bg-slate-800">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                             stroke="currentColor" class="w-6 h-6 text-white group-hover:text-myBlue-100">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M10.34 15.84c-.688-.06-1.386-.09-2.09-.09H7.5a4.5 4.5 0 110-9h.75c.704 0 1.402-.03 2.09-.09m0 9.18c.253.962.584 1.892.985 2.783.247.55.06 1.21-.463 1.511l-.657.38c-.551.318-1.26.117-1.527-.461a20.845 20.845 0 01-1.44-4.282m3.102.069a18.03 18.03 0 01-.59-4.59c0-1.586.205-3.124.59-4.59m0 9.18a23.848 23.848 0 018.835 2.535M10.34 6.66a23.847 23.847 0 008.835-2.535m0 0A23.74 23.74 0 0018.795 3m.38 1.125a23.91 23.91 0 011.014 5.395m-1.014 8.855c-.118.38-.245.754-.38 1.125m.38-1.125a23.91 23.91 0 001.014-5.395m0-3.46c.495.413.811 1.035.811 1.73 0 .695-.316 1.317-.811 1.73m0-3.46a24.347 24.347 0 010 3.46"/>
-                        </svg>
-                    </div>
-                    <div class="mr-4">
-                        <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
-                            بازاریابی های پروژه
-                        </p>
-                    </div>
+                    <a href="{{ route('contracts.marketings.index', $contract->id) }}" class="dashboard-cards group">
+                        <div class="flex items-center">
+                            <div class="dashboard-card-icon bg-gray-500 dark:bg-slate-800">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5"
+                                     stroke="currentColor" class="w-6 h-6 text-white group-hover:text-myBlue-100">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M10.34 15.84c-.688-.06-1.386-.09-2.09-.09H7.5a4.5 4.5 0 110-9h.75c.704 0 1.402-.03 2.09-.09m0 9.18c.253.962.584 1.892.985 2.783.247.55.06 1.21-.463 1.511l-.657.38c-.551.318-1.26.117-1.527-.461a20.845 20.845 0 01-1.44-4.282m3.102.069a18.03 18.03 0 01-.59-4.59c0-1.586.205-3.124.59-4.59m0 9.18a23.848 23.848 0 018.835 2.535M10.34 6.66a23.847 23.847 0 008.835-2.535m0 0A23.74 23.74 0 0018.795 3m.38 1.125a23.91 23.91 0 011.014 5.395m-1.014 8.855c-.118.38-.245.754-.38 1.125m.38-1.125a23.91 23.91 0 001.014-5.395m0-3.46c.495.413.811 1.035.811 1.73 0 .695-.316 1.317-.811 1.73m0-3.46a24.347 24.347 0 010 3.46"/>
+                                </svg>
+                            </div>
+                            <div class="mr-4">
+                                <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
+                                    بازاریابی های پروژه
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                 class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                                <path fill-rule="evenodd"
+                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </a>
+
+                    <a href="{{ route('contracts.guarantees.index', $contract->id) }}" class="dashboard-cards group">
+                        <div class="flex items-center">
+                            <div class="dashboard-card-icon bg-red-500 dark:bg-slate-800">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5"
+                                     stroke="currentColor" class="w-6 h-6 text-white group-hover:text-myBlue-100">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+                            <div class="mr-4">
+                                <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
+                                    تضامین پروژه
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                 class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                                <path fill-rule="evenodd"
+                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </a>
+
+                    <a href="{{ route('contracts.products', $contract->id) }}" class="dashboard-cards group">
+                        <div class="flex items-center">
+                            <div class="dashboard-card-icon bg-indigo-600 dark:bg-slate-800">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5"
+                                     stroke="currentColor" class="w-6 h-6 text-white group-hover:text-myBlue-100">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M9 4.5v15m6-15v15m-10.875 0h15.75c.621 0 1.125-.504 1.125-1.125V5.625c0-.621-.504-1.125-1.125-1.125H4.125C3.504 4.5 3 5.004 3 5.625v12.75c0 .621.504 1.125 1.125 1.125z"></path>
+                                </svg>
+                            </div>
+                            <div class="mr-4">
+                                <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
+                                    لیست محصولات و اقلام
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                 class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                                <path fill-rule="evenodd"
+                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </a>
+
+                    <a href="{{ route('contracts.parts.index', $contract->id) }}" class="dashboard-cards group">
+                        <div class="flex items-center">
+                            <div class="dashboard-card-icon bg-yellow-500 dark:bg-slate-800">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5"
+                                     stroke="currentColor" class="w-6 h-6 text-white group-hover:text-myBlue-100">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M10.343 3.94c.09-.542.56-.94 1.11-.94h1.093c.55 0 1.02.398 1.11.94l.149.894c.07.424.384.764.78.93.398.164.855.142 1.205-.108l.737-.527a1.125 1.125 0 011.45.12l.773.774c.39.389.44 1.002.12 1.45l-.527.737c-.25.35-.272.806-.107 1.204.165.397.505.71.93.78l.893.15c.543.09.94.56.94 1.109v1.094c0 .55-.397 1.02-.94 1.11l-.893.149c-.425.07-.765.383-.93.78-.165.398-.143.854.107 1.204l.527.738c.32.447.269 1.06-.12 1.45l-.774.773a1.125 1.125 0 01-1.449.12l-.738-.527c-.35-.25-.806-.272-1.203-.107-.397.165-.71.505-.781.929l-.149.894c-.09.542-.56.94-1.11.94h-1.094c-.55 0-1.019-.398-1.11-.94l-.148-.894c-.071-.424-.384-.764-.781-.93-.398-.164-.854-.142-1.204.108l-.738.527c-.447.32-1.06.269-1.45-.12l-.773-.774a1.125 1.125 0 01-.12-1.45l.527-.737c.25-.35.273-.806.108-1.204-.165-.397-.505-.71-.93-.78l-.894-.15c-.542-.09-.94-.56-.94-1.109v-1.094c0-.55.398-1.02.94-1.11l.894-.149c.424-.07.765-.383.93-.78.165-.398.143-.854-.107-1.204l-.527-.738a1.125 1.125 0 01.12-1.45l.773-.773a1.125 1.125 0 011.45-.12l.737.527c.35.25.807.272 1.204.107.397-.165.71-.505.78-.929l.15-.894z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                </svg>
+                            </div>
+                            <div class="mr-4">
+                                <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
+                                    ریز آنالیز قطعات محصولات
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                 class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                                <path fill-rule="evenodd"
+                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </a>
+
+                    <a href="" class="dashboard-cards group">
+                        <div class="flex items-center">
+                            <div class="dashboard-card-icon bg-yellow-600 dark:bg-slate-800">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5"
+                                     stroke="currentColor" class="w-6 h-6 text-white group-hover:text-myBlue-100">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                </svg>
+                            </div>
+                            <div class="mr-4">
+                                <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
+                                    جزئیات پروژه
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                 class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                                <path fill-rule="evenodd"
+                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </a>
                 </div>
-                <div>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                         class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
-                        <path fill-rule="evenodd"
-                              d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                              clip-rule="evenodd"/>
-                    </svg>
+            </div>
+
+            <div x-show="tab === 'factory'"
+                 class="border border-indigo-400 dark:border-black border-t-0 rounded-b-lg px-4 py-6" x-cloak>
+                <div class="md:grid grid-cols-4 gap-4 space-y-4 md:space-y-0">
+                    <a href="{{ route('contracts.recipe.index', $contract->id) }}" class="dashboard-cards group">
+                        <div class="flex items-center">
+                            <div class="dashboard-card-icon bg-green-500 dark:bg-slate-800">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5" stroke="currentColor"
+                                     class="w-6 h-6 text-white group-hover:text-myBlue-100">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
+                                </svg>
+                            </div>
+                            <div class="mr-4">
+                                <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
+                                    دستور ساخت ها
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                 class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                                <path fill-rule="evenodd"
+                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </a>
+
+                    <a href="" class="dashboard-cards group">
+                        <div class="flex items-center">
+                            <div class="dashboard-card-icon bg-gray-500 dark:bg-slate-800">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5" stroke="currentColor"
+                                     class="w-6 h-6 text-white group-hover:text-myBlue-100">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"/>
+                                </svg>
+                            </div>
+                            <div class="mr-4">
+                                <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
+                                    پکینگ لیست ها
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                 class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                                <path fill-rule="evenodd"
+                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </a>
+
+                    <a href="" class="dashboard-cards group">
+                        <div class="flex items-center">
+                            <div class="dashboard-card-icon bg-red-500 dark:bg-slate-800">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5" stroke="currentColor"
+                                     class="w-6 h-6 text-white group-hover:text-myBlue-100">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/>
+                                </svg>
+                            </div>
+                            <div class="mr-4">
+                                <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
+                                    پایان ساخت ها
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                 class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                                <path fill-rule="evenodd"
+                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </a>
+
+                    <a href="" class="dashboard-cards group">
+                        <div class="flex items-center">
+                            <div class="dashboard-card-icon bg-indigo-500 dark:bg-slate-800">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5" stroke="currentColor"
+                                     class="w-6 h-6 text-white group-hover:text-myBlue-100">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9"/>
+                                </svg>
+                            </div>
+                            <div class="mr-4">
+                                <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
+                                    مجوز خروج
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                 class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                                <path fill-rule="evenodd"
+                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </a>
                 </div>
-            </a>
+            </div>
+
+            <div x-show="tab === 'document'"
+                 class="border border-indigo-400 dark:border-black border-t-0 rounded-b-lg px-4 py-6" x-cloak>
+                <div class="md:grid grid-cols-4 gap-4 space-y-4 md:space-y-0">
+                    <a href="" class="dashboard-cards group">
+                        <div class="flex items-center">
+                            <div class="dashboard-card-icon bg-yellow-600 dark:bg-slate-800">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-white group-hover:text-myBlue-100">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 01-1.125-1.125M3.375 19.5h7.5c.621 0 1.125-.504 1.125-1.125m-9.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-7.5A1.125 1.125 0 0112 18.375m9.75-12.75c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125m19.5 0v1.5c0 .621-.504 1.125-1.125 1.125M2.25 5.625v1.5c0 .621.504 1.125 1.125 1.125m0 0h17.25m-17.25 0h7.5c.621 0 1.125.504 1.125 1.125M3.375 8.25c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m17.25-3.75h-7.5c-.621 0-1.125.504-1.125 1.125m8.625-1.125c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125M12 10.875v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 10.875c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125M13.125 12h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125M20.625 12c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5M12 14.625v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 14.625c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125m0 1.5v-1.5m0 0c0-.621.504-1.125 1.125-1.125m0 0h7.5"/>
+                                </svg>
+                            </div>
+                            <div class="mr-4">
+                                <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
+                                    دیتاشیت ها
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                 class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                                <path fill-rule="evenodd"
+                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </a>
+
+                    <a href="" class="dashboard-cards group">
+                        <div class="flex items-center">
+                            <div class="dashboard-card-icon bg-green-500 dark:bg-slate-800">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5" stroke="currentColor"
+                                     class="w-6 h-6 text-white group-hover:text-myBlue-100">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z"/>
+                                </svg>
+                            </div>
+                            <div class="mr-4">
+                                <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
+                                    نقشه ها
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                 class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                                <path fill-rule="evenodd"
+                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 </x-layout>
