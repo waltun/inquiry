@@ -1,10 +1,34 @@
 <x-layout>
     <x-slot name="js">
+        <script src="{{ asset('plugins/jquery.min.js') }}"></script>
         <script>
             function searchPart() {
                 let form = document.getElementById('searchForm');
 
                 form.submit();
+            }
+
+            function storeStatus(part_id, contract_id) {
+                let status = document.getElementById("inputStatus" + part_id).value;
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('contracts.analyze-parts.store-status') }}',
+                    data: {
+                        part_id: part_id,
+                        contract_id: contract_id,
+                        status: status
+                    },
+                    success: function (res) {
+                        location.reload();
+                    }
+                });
             }
         </script>
     </x-slot>
@@ -100,20 +124,13 @@
                     </option>
                 </select>
             </div>
-            <div>
-                <select name="status" id="inputStatus" class="input-text" onchange="searchPart()">
-                    <option value="">انتخاب وضعیت</option>
-                    <option value="ordered" {{ request('status') == 'ordered' ? 'selected' : '' }}>
-                        سفارش گذاری شده ها
-                    </option>
-                    <option value="buy" {{ request('status') == 'buy' ? 'selected' : '' }}>
-                        خریداری و تحویل انبار شده ها
-                    </option>
-                    <option value="available" {{ request('status') == 'available' ? 'selected' : '' }}>
-                        موجودی انبار
-                    </option>
-                </select>
-            </div>
+            @if(request()->has('search') || request()->has('buyer_manage'))
+                <div>
+                    <a href="{{ route('contracts.analyze-parts.index') }}" class="page-warning-btn inline-flex">
+                        پاکسازی فیلتر
+                    </a>
+                </div>
+            @endif
         </form>
     </div>
 
@@ -134,8 +151,7 @@
                     <th class="p-4">واحد</th>
                     <th class="p-4">مقدار</th>
                     <th class="p-4">قرارداد ها</th>
-                    <th class="p-4">مسئول خرید</th>
-                    <th class="p-4 rounded-tl-lg">وضعیت</th>
+                    <th class="p-4 rounded-tl-lg">مسئول خرید</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -178,7 +194,7 @@
                                                 <div class="bg-white dark:bg-slate-800 p-4">
                                                     <div class="mb-4 flex justify-between items-center">
                                                         <h3 class="text-lg font-bold text-gray-900 dark:text-white">
-                                                            قطعه مورد نظر در قرارداد ها
+                                                            قطعه مورد نظر در قراردادها
                                                         </h3>
                                                         <button type="button" @click="open = false">
                                                             <span class="modal-close">
@@ -210,22 +226,54 @@
                                                             @php
                                                                 $contract = \App\Models\Contract::find($contractId);
                                                             @endphp
-                                                            <div
-                                                                class="flex items-center space-x-4 space-x-reverse p-2 rounded-lg border border-gray-200">
-                                                                <p class="text-sm font-medium">
-                                                                    قرارداد
-                                                                    : {{ $contract->name }}
-                                                                </p>
-                                                                <span>|</span>
-                                                                <p class="text-sm font-medium">
-                                                                    میزان استفاده
-                                                                    : {{ $contractAmountValue }} {{ $part->unit }}
-                                                                </p>
-                                                                <span>|</span>
-                                                                <a href="{{ route('contracts.parts.index', $contract->id) }}"
-                                                                   class="text-sm font-medium text-indigo-600">
-                                                                    مشاهده قرارداد
-                                                                </a>
+                                                            <div class="p-2 rounded-lg border border-gray-200">
+                                                                <div class="grid grid-cols-4 gap-4 items-center">
+                                                                    <div>
+                                                                        <p class="text-sm font-medium">
+                                                                            قرارداد
+                                                                            : {{ $contract->name }}
+                                                                        </p>
+                                                                    </div>
+                                                                    <div>
+                                                                        <p class="text-sm font-medium">
+                                                                            میزان استفاده
+                                                                            : {{ $contractAmountValue }} {{ $part->unit }}
+                                                                        </p>
+                                                                    </div>
+                                                                    <div>
+                                                                        <a href="{{ route('contracts.parts.index', $contract->id) }}"
+                                                                           class="text-sm font-medium text-indigo-600">
+                                                                            مشاهده قرارداد
+                                                                        </a>
+                                                                    </div>
+                                                                    <div
+                                                                        class="flex items-center space-x-2 space-x-reverse">
+                                                                        <select name="status"
+                                                                                id="inputStatus{{ $part->id }}"
+                                                                                class="input-text">
+                                                                            <option value="">
+                                                                                انتخاب وضعیت
+                                                                            </option>
+                                                                            <option
+                                                                                value="ordered" {{ $value['status'] == 'ordered' ? 'selected' : '' }}>
+                                                                                سفارش گذاری شد
+                                                                            </option>
+                                                                            <option
+                                                                                value="buy" {{ $value['status'] == 'buy' ? 'selected' : '' }}>
+                                                                                خریداری و تحویل انبار شد
+                                                                            </option>
+                                                                            <option
+                                                                                value="available" {{ $value['status'] == 'available' ? 'selected' : '' }}>
+                                                                                موجودی انبار می باشد
+                                                                            </option>
+                                                                        </select>
+                                                                        <button type="button"
+                                                                                onclick="storeStatus({{ $part->id }},{{ $contract->id }})"
+                                                                                class="form-submit-btn py-2">
+                                                                            ثبت
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         @endforeach
                                                     </div>
@@ -236,29 +284,13 @@
                                 </div>
                             </div>
                         </td>
-                        <td class="table-tr-td border-t-0 border-x-0">
+                        <td class="table-tr-td border-t-0 border-r-0">
                             <select name="buyer_manage[]" id="inputBuyer{{ $part->id }}" class="input-text">
                                 <option value="factory" {{ $value['buyer_manage'] == 'factory' ? 'selected' : '' }}>
                                     تدارکات کارخانه
                                 </option>
                                 <option value="office" {{ $value['buyer_manage'] == 'office' ? 'selected' : '' }}>
                                     دفتر مرکزی
-                                </option>
-                            </select>
-                        </td>
-                        <td class="table-tr-td border-t-0 border-r-0">
-                            <select name="status[]" id="inputStatus{{ $part->id }}" class="input-text">
-                                <option value="">
-                                    انتخاب کنید
-                                </option>
-                                <option value="ordered" {{ $value['status'] == 'ordered' ? 'selected' : '' }}>
-                                    سفارش گذاری شد
-                                </option>
-                                <option value="buy" {{ $value['status'] == 'buy' ? 'selected' : '' }}>
-                                    خریداری و تحویل انبار شد
-                                </option>
-                                <option value="available" {{ $value['status'] == 'available' ? 'selected' : '' }}>
-                                    موجودی انبار می باشد
                                 </option>
                             </select>
                             <input type="hidden" name="part_ids[]" value="{{ $part->id }}">
@@ -269,8 +301,8 @@
             </table>
         </div>
 
-        <div class="bg-white p-2 rounded-lg shadow flex justify-end sticky bottom-4 border border-indigo-400">
-            <button class="form-submit-btn">
+        <div class="inline-flex sticky bottom-4 bg-white p-2 shadow rounded-lg border border-indigo-400">
+            <button type="submit" class="form-submit-btn">
                 ثبت اطلاعات
             </button>
         </div>

@@ -14,7 +14,6 @@ use App\Http\Controllers\CollectionPartController;
 use App\Http\Controllers\Contract\AnalyzePartController;
 use App\Http\Controllers\Contract\GuaranteeController;
 use App\Http\Controllers\Contract\MarketingController;
-use App\Http\Controllers\Contract\RecipeController;
 use App\Http\Controllers\MarketingController as AllMarketings;
 use App\Http\Controllers\Contract\MarketPaymentController;
 use App\Http\Controllers\Contract\PaymentController;
@@ -568,7 +567,4 @@ Route::middleware(['auth', 'web'])->group(function () {
 
     Route::get('/contracts/analyze-parts/all-parts', [AnalyzePartController::class, 'index'])->name('contracts.analyze-parts.index');
     Route::post('/contracts/analyze-parts/all-parts', [AnalyzePartController::class, 'store'])->name('contracts.analyze-parts.store');
-
-    Route::get('/contracts/{contract}/recipe', [RecipeController::class, 'index'])->name('contracts.recipe.index');
-    Route::get('/contracts/{contract}/recipe/{revision}', [RecipeController::class, 'revision'])->name('contracts.recipe.revision');
 });
