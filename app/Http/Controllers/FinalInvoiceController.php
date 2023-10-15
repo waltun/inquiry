@@ -176,6 +176,15 @@ class FinalInvoiceController extends Controller
                         'weight' => $amount->weight ?? 0
                     ]);
                 }
+
+                $contractProduct->spareAmounts()->create([
+                    'value' => $amount->value,
+                    'value2' => $amount->value2,
+                    'part_id' => $amount->part_id,
+                    'price' => $amount->price,
+                    'sort' => $amount->sort,
+                    'weight' => $amount->weight ?? 0
+                ]);
             }
         }
 
