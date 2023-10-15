@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Amount;
 use App\Models\Contract;
 use App\Models\ContractProduct;
+use App\Models\Customer;
+use App\Models\Invoice;
+use App\Models\Part;
 use Illuminate\Http\Request;
 
 class ContractController extends Controller
@@ -24,6 +28,37 @@ class ContractController extends Controller
         }
 
         return view('contracts.index', compact('contracts'));
+    }
+
+    public function create()
+    {
+        $customers = Customer::all();
+
+        return view('contracts.create', compact('customers'));
+    }
+
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'customer_id' => 'required|integer',
+            'type' => 'required|string|in:official,operational',
+        ]);
+
+        $number = '';
+        if ($data['type'] == 'official') {
+            $number = $this->getOfficialCode();
+        }
+        if ($data['type'] == 'operational') {
+            $number = $this->getOperationalCode();
+        }
+
+        $data["number"] = $number;
+
+        auth()->user()->contracts()->create($data);
+
+        alert()->success('ثبت موفق', 'تبدیل پیش فاکتور به قطعه با موفقیت انجام شد');
+
+        return redirect()->route('contracts.index');
     }
 
     public function products(Contract $contract)
@@ -56,6 +91,143 @@ class ContractController extends Controller
 
     public function show(Contract $contract)
     {
-        return view('contracts.show', compact('contract'));
+        $invoices = Invoice::where('complete', '1')->latest()->get();
+        return view('contracts.show', compact('contract', 'invoices'));
+    }
+
+    public function selectInvoice(Request $request, Contract $contract)
+    {
+        $data = $request->validate([
+            'invoice_id' => 'required|integer'
+        ]);
+
+        $invoice = Invoice::find($data["invoice_id"]);
+
+        $contract->name = $invoice->inquiry->name;
+        $contract->marketer = $invoice->inquiry->marketer;
+        $contract->user_id = $invoice->user_id;
+        $contract->invoice_id = $invoice->id;
+        $contract->save();
+
+        foreach ($invoice->products as $product) {
+            $amounts = Amount::where('product_id', $product->product_id)->get();
+
+            $contractProduct = $contract->products()->create([
+                'quantity' => $product->quantity,
+                'price' => $product->price,
+                'model_custom_name' => $product->model_custom_name,
+                'tag' => $product->description,
+                'type' => $product->type,
+                'group_id' => $product->group_id,
+                'model_id' => $product->model_id,
+                'part_id' => $product->part_id,
+                'product_id' => $product->product_id
+            ]);
+
+            foreach ($amounts as $amount) {
+                $part = Part::find($amount->part_id);
+                if ($part->collection && !$part->children->isEmpty()) {
+                    foreach ($part->children as $child) {
+                        if (!$child->children->isEmpty()) {
+                            foreach ($child->children as $ch) {
+                                $contractProduct->amounts()->create([
+                                    'value' => $ch->pivot->value,
+                                    'value2' => $ch->pivot->value2,
+                                    'part_id' => $ch->id,
+                                    'price' => $ch->price,
+                                    'sort' => $ch->pivot->sort,
+                                    'weight' => $ch->weight ?? 0
+                                ]);
+                            }
+                        } else {
+                            $contractProduct->amounts()->create([
+                                'value' => $child->pivot->value,
+                                'value2' => $child->pivot->value2,
+                                'part_id' => $child->id,
+                                'price' => $child->price,
+                                'sort' => $child->pivot->sort,
+                                'weight' => $child->weight ?? 0
+                            ]);
+                        }
+                    }
+                } else {
+                    $contractProduct->amounts()->create([
+                        'value' => $amount->value,
+                        'value2' => $amount->value2,
+                        'part_id' => $amount->part_id,
+                        'price' => $amount->price,
+                        'sort' => $amount->sort,
+                        'weight' => $amount->weight ?? 0
+                    ]);
+                }
+
+                $contractProduct->spareAmounts()->create([
+                    'value' => $amount->value,
+                    'value2' => $amount->value2,
+                    'part_id' => $amount->part_id,
+                    'price' => $amount->price,
+                    'sort' => $amount->sort,
+                    'weight' => $amount->weight ?? 0
+                ]);
+            }
+        }
+
+        alert()->success('ثبت موفق', 'پیش قلکتور با موفقیت برای قرارداد ثبت شد');
+
+        return back();
+    }
+
+    public function getOfficialCode()
+    {
+        $contracts = Contract::select('number')->where('number', '!=', null)->where('type', 'official')->get();
+
+        $number = 0;
+        $explodeNumber = '';
+        foreach ($contracts as $contract) {
+            $explodeNumber = explode('-', $contract->number);
+            if ((int)$explodeNumber[2] > $number) {
+                $number = (int)$explodeNumber[2];
+            }
+        }
+
+        $year = jdate(now())->getYear();
+
+        if (!$contracts->isEmpty()) {
+            if ($year > $explodeNumber[0]) {
+                $contractNumber = '1000';
+            } else {
+                $contractNumber = str_pad($number + 1, 4, "0", STR_PAD_RIGHT);
+            }
+        } else {
+            $contractNumber = '1000';
+        }
+        return $year . '-1-' . $contractNumber;
+    }
+
+    public function getOperationalCode()
+    {
+        $contracts = Contract::select('number')->where('number', '!=', null)->where('type', 'operational')->get();
+
+        $number = 0;
+        $explodeNumber = '';
+        foreach ($contracts as $contract) {
+            $explodeNumber = explode('-', $contract->number);
+            if ((int)$explodeNumber[2] > $number) {
+                $number = (int)$explodeNumber[2];
+            }
+        }
+
+        $year = jdate(now())->getYear();
+
+        if (!$contracts->isEmpty()) {
+            if ($year > $explodeNumber[0]) {
+                $contractNumber = '1000';
+            } else {
+                $contractNumber = str_pad($number + 1, 4, "0", STR_PAD_RIGHT);
+            }
+        } else {
+            $contractNumber = '1000';
+        }
+        return $year . '-2-' . $contractNumber;
     }
 }

@@ -49,6 +49,15 @@
                 </p>
             </div>
         </div>
+        <div class="flex items-center space-x-4 space-x-reverse">
+            <a href="{{ route('contracts.create') }}" class="page-success-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                     stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+                </svg>
+                <span class="mr-2">ایجاد قرارداد جدید</span>
+            </a>
+        </div>
     </div>
 
     <!-- Content -->
@@ -84,13 +93,13 @@
                             {{ $contract->number ? "CNT-" . $contract->number : 'در حال انجام' }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $contract->name }}
+                            {{ $contract->name ?? '-' }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             {{ $contract->user->name }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $contract->marketer }}
+                            {{ $contract->marketer ?? '-' }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             {{ jdate($contract->created_at)->format('%A, %d %B %Y') }}

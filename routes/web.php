@@ -546,6 +546,11 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::patch('/marketers/{marketerAccount}/edit-accounts', [MarketerAccountController::class, 'update'])->name('marketers.accounts.update');
     Route::delete('/marketers/{marketerAccount}/accounts', [MarketerAccountController::class, 'destroy'])->name('marketers.accounts.destroy');
 
+    Route::get('/contracts/new/create', [ContractController::class, 'create'])->name('contracts.create');
+    Route::post('/contracts/new/create', [ContractController::class, 'store'])->name('contracts.store');
+
+    Route::post('/contracts/{contract}/select-invoice', [ContractController::class, 'selectInvoice'])->name('contracts.select-invoice');
+
     Route::get('/contracts/{contract}/marketings', [MarketingController::class, 'index'])->name('contracts.marketings.index');
     Route::get('/contracts/{contract}/create-marketings', [MarketingController::class, 'create'])->name('contracts.marketings.create');
     Route::post('/contracts/{contract}/create-marketings', [MarketingController::class, 'store'])->name('contracts.marketings.store');
