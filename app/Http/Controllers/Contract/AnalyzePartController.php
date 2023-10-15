@@ -53,11 +53,12 @@ class AnalyzePartController extends Controller
 
     public function store(Request $request)
     {
-        foreach ($request->part_ids as $index => $id) {
-            $amounts = ContractProductAmount::where('part_id', $id)->get();
+        $amounts = ContractProductAmount::where('part_id', $request->part_id)->get();
 
-            foreach ($amounts as $amount) {
-                $amount->buyer_manage = $request->buyer_manage[$index];
+        foreach ($amounts as $index => $amount) {
+            if ($amount->product->contract_id == $request->contract_id) {
+                $amount->buyer_manage = $request->buyer_manage;
+                $amount->status = $request->status;
                 $amount->save();
             }
         }
@@ -65,19 +66,5 @@ class AnalyzePartController extends Controller
         alert()->success('ثبت موفق', 'اطلاعات با موفقیت ثبت شد');
 
         return back();
-    }
-
-    public function storeStatus(Request $request)
-    {
-        $amounts = ContractProductAmount::where('part_id', $request->part_id)->get();
-
-        foreach ($amounts as $amount) {
-            if ($amount->product->contract->id == $request->contract_id) {
-                $amount->status = $request->status;
-                $amount->save();
-            }
-        }
-
-        alert()->success('ثبت موفق', 'اطلاعات با موفقیت ثبت شد');
     }
 }

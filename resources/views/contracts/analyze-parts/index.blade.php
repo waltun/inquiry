@@ -7,29 +7,6 @@
 
                 form.submit();
             }
-
-            function storeStatus(part_id, contract_id) {
-                let status = document.getElementById("inputStatus" + part_id).value;
-
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-
-                $.ajax({
-                    type: 'POST',
-                    url: '{{ route('contracts.analyze-parts.store-status') }}',
-                    data: {
-                        part_id: part_id,
-                        contract_id: contract_id,
-                        status: status
-                    },
-                    success: function (res) {
-                        location.reload();
-                    }
-                });
-            }
         </script>
     </x-slot>
 
@@ -135,8 +112,7 @@
     </div>
 
     <!-- Content -->
-    <form method="POST" action="{{ route('contracts.analyze-parts.store') }}" class="mt-4">
-        @csrf
+    <div class="mt-4">
         <div class="card">
             <div class="card-header">
                 <p class="card-title text-lg">
@@ -150,8 +126,7 @@
                     <th class="p-4">نام قطعه</th>
                     <th class="p-4">واحد</th>
                     <th class="p-4">مقدار</th>
-                    <th class="p-4">قرارداد ها</th>
-                    <th class="p-4 rounded-tl-lg">مسئول خرید</th>
+                    <th class="p-4 rounded-tl-lg">قرارداد ها</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -173,7 +148,7 @@
                         <td class="table-tr-td border-t-0 border-x-0">
                             {{ $value['value'] }}
                         </td>
-                        <td class="table-tr-td border-t-0 border-x-0">
+                        <td class="table-tr-td border-t-0 border-r-0">
                             <div class="flex items-center justify-center" x-data="{open: false}">
                                 <button type="button" class="table-dropdown-copy" @click="open = !open">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -213,20 +188,36 @@
                                                     </div>
                                                     <div class="mt-6 space-y-4">
                                                         @php
+                                                            $contractAmountInfo = [];
                                                             $contractAmountValues = [];
                                                             foreach ($contractAmounts as $contractAmount) {
-                                                                $contractAmountValues[$contractAmount->product->contract->id] = 0;
+                                                                $contractAmountInfo[$contractAmount->product->contract_id] = [
+                                                                    "status" => null,
+                                                                    "buyer_manage" => null
+                                                                ];
+                                                                $contractAmountValues[$contractAmount->product->contract_id] = 0;
                                                             }
-
                                                             foreach ($contractAmounts as $contractAmount) {
-                                                                $contractAmountValues[$contractAmount->product->contract->id] += $contractAmount->value * $contractAmount->product->quantity;
+                                                                $contractAmountValues[$contractAmount->product->contract_id] += $contractAmount->value * $contractAmount->product->quantity;
+
+                                                                $contractAmountInfo[$contractAmount->product->contract_id] = [
+                                                                    "status" => $contractAmount->status,
+                                                                    "buyer_manage" => $contractAmount->buyer_manage
+                                                                ];
                                                             }
                                                         @endphp
-                                                        @foreach($contractAmountValues as $contractId => $contractAmountValue)
+                                                        @foreach($contractAmountInfo as $contractId => $contractAmountValue)
                                                             @php
                                                                 $contract = \App\Models\Contract::find($contractId);
                                                             @endphp
-                                                            <div class="p-2 rounded-lg border border-gray-200">
+                                                            <form method="POST"
+                                                                  action="{{ route('contracts.analyze-parts.store') }}"
+                                                                  class="p-2 rounded-lg border border-gray-200">
+                                                                @csrf
+                                                                <input type="hidden" name="contract_id"
+                                                                       value="{{ $contract->id }}">
+                                                                <input type="hidden" name="part_id"
+                                                                       value="{{ $part->id }}">
                                                                 <div class="grid grid-cols-4 gap-4 items-center">
                                                                     <div>
                                                                         <p class="text-sm font-medium">
@@ -237,7 +228,7 @@
                                                                     <div>
                                                                         <p class="text-sm font-medium">
                                                                             میزان استفاده
-                                                                            : {{ $contractAmountValue }} {{ $part->unit }}
+                                                                            : {{ $contractAmountValues[$contractId] }} {{ $part->unit }}
                                                                         </p>
                                                                     </div>
                                                                     <div>
@@ -248,33 +239,43 @@
                                                                     </div>
                                                                     <div
                                                                         class="flex items-center space-x-2 space-x-reverse">
-                                                                        <select name="status"
-                                                                                id="inputStatus{{ $part->id }}"
+                                                                        <select name="status" id="inputStatus"
                                                                                 class="input-text">
                                                                             <option value="">
-                                                                                انتخاب وضعیت
+                                                                                وضعیت
                                                                             </option>
                                                                             <option
-                                                                                value="ordered" {{ $value['status'] == 'ordered' ? 'selected' : '' }}>
+                                                                                value="ordered" {{ $contractAmountValue["status"] == 'ordered' ? 'selected' : '' }}>
                                                                                 سفارش گذاری شد
                                                                             </option>
                                                                             <option
-                                                                                value="buy" {{ $value['status'] == 'buy' ? 'selected' : '' }}>
+                                                                                value="buy" {{ $contractAmountValue["status"] == 'buy' ? 'selected' : '' }}>
                                                                                 خریداری و تحویل انبار شد
                                                                             </option>
                                                                             <option
-                                                                                value="available" {{ $value['status'] == 'available' ? 'selected' : '' }}>
+                                                                                value="available" {{ $contractAmountValue["status"] == 'available' ? 'selected' : '' }}>
                                                                                 موجودی انبار می باشد
                                                                             </option>
                                                                         </select>
-                                                                        <button type="button"
-                                                                                onclick="storeStatus({{ $part->id }},{{ $contract->id }})"
+                                                                        <select name="buyer_manage"
+                                                                                id="inputBuyer{{ $part->id }}"
+                                                                                class="input-text">
+                                                                            <option
+                                                                                value="factory" {{ $contractAmountValue["buyer_manage"] == 'factory' ? 'selected' : '' }}>
+                                                                                تدارکات کارخانه
+                                                                            </option>
+                                                                            <option
+                                                                                value="office" {{ $contractAmountValue["buyer_manage"] == 'office' ? 'selected' : '' }}>
+                                                                                دفتر مرکزی
+                                                                            </option>
+                                                                        </select>
+                                                                        <button type="submit"
                                                                                 class="form-submit-btn py-2">
                                                                             ثبت
                                                                         </button>
                                                                     </div>
                                                                 </div>
-                                                            </div>
+                                                            </form>
                                                         @endforeach
                                                     </div>
                                                 </div>
@@ -284,28 +285,10 @@
                                 </div>
                             </div>
                         </td>
-                        <td class="table-tr-td border-t-0 border-r-0">
-                            <select name="buyer_manage[]" id="inputBuyer{{ $part->id }}" class="input-text">
-                                <option value="factory" {{ $value['buyer_manage'] == 'factory' ? 'selected' : '' }}>
-                                    تدارکات کارخانه
-                                </option>
-                                <option value="office" {{ $value['buyer_manage'] == 'office' ? 'selected' : '' }}>
-                                    دفتر مرکزی
-                                </option>
-                            </select>
-                            <input type="hidden" name="part_ids[]" value="{{ $part->id }}">
-                        </td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
         </div>
-
-        <div class="inline-flex sticky bottom-4 bg-white p-2 shadow rounded-lg border border-indigo-400">
-            <button type="submit" class="form-submit-btn">
-                ثبت اطلاعات
-            </button>
-        </div>
-
-    </form>
+    </div>
 </x-layout>
