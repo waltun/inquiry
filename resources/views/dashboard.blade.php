@@ -261,7 +261,7 @@
 
         <div x-show="tab === 'contract'"
              class="border border-indigo-400 dark:border-black border-t-0 rounded-b-lg px-4 py-6" x-cloak>
-            <div class="md:grid grid-cols-4 gap-4 space-y-4 md:space-y-0">
+            <div class="md:grid grid-cols-2 gap-4 space-y-4 md:space-y-0">
                 @can('contracts')
                     <a href="{{ route('contracts.index') }}" class="dashboard-cards group">
                         <div class="flex items-center">
@@ -325,7 +325,7 @@
 
         <div x-show="tab === 'financial'"
              class="border border-indigo-400 dark:border-black border-t-0 rounded-b-lg px-4 py-6" x-cloak>
-            <div class="md:grid grid-cols-4 gap-4 space-y-4 md:space-y-0">
+            <div class="md:grid grid-cols-3 gap-4 space-y-4 md:space-y-0">
                 @can('customers')
                     <a href="{{ route('customers.index') }}" class="dashboard-cards group">
                         <div class="flex items-center">
@@ -410,7 +410,9 @@
                         </div>
                     </a>
                 @endcan
+            </div>
 
+            <div class="md:grid grid-cols-2 gap-4 space-y-4 md:space-y-0 mt-4">
                 @can('marketings')
                     <a href="{{ route('marketings.index') }}" class="dashboard-cards group">
                         <div class="flex items-center">
@@ -471,7 +473,7 @@
 
         <div x-show="tab === 'price'"
              class="border border-indigo-400 dark:border-black border-t-0 rounded-b-lg px-4 py-6" x-cloak>
-            <div class="md:grid grid-cols-4 gap-4 space-y-4 md:space-y-0">
+            <div class="md:grid grid-cols-2 gap-4 space-y-4 md:space-y-0">
                 @can('part-price')
                     <a href="{{ route('parts.price.index') }}" class="dashboard-cards group">
                         <div class="flex items-center">
@@ -654,7 +656,7 @@
 
         <div x-show="tab === 'admin'"
              class="border border-indigo-400 dark:border-black border-t-0 rounded-b-lg px-4 py-6" x-cloak>
-            <div class="md:grid grid-cols-4 gap-4 space-y-4 md:space-y-0">
+            <div class="md:grid grid-cols-3 gap-4 space-y-4 md:space-y-0">
                 @can('categories')
                     <a href="{{ route('categories.index') }}" class="dashboard-cards group">
                         <div class="flex items-center">
@@ -741,7 +743,9 @@
                         </div>
                     </a>
                 @endcan
+            </div>
 
+            <div class="md:grid grid-cols-3 gap-4 space-y-4 md:space-y-0 mt-4">
                 @canany(['groups','models'])
                     <a href="{{ route('groups.index') }}" class="dashboard-cards group">
                         <div class="flex items-center">
@@ -825,7 +829,9 @@
                         </div>
                     </a>
                 @endcan
+            </div>
 
+            <div class="md:grid grid-cols-3 gap-4 space-y-4 md:space-y-0 mt-4">
                 @can('roles')
                     <a href="{{ route('roles.index') }}" class="dashboard-cards group">
                         <div class="flex items-center">
