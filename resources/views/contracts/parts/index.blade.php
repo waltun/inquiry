@@ -134,7 +134,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($product->amounts()->orderBy('sort', 'ASC')->get() as $amount)
+                        @foreach($product->spareAmounts()->orderBy('sort', 'ASC')->get() as $amount)
                             @php
                                 $part = \App\Models\Part::find($amount->part_id);
                                 $totalPrice += ($amount->price * $amount->value);

@@ -186,6 +186,42 @@ class FinalInvoiceController extends Controller
                     'weight' => $amount->weight ?? 0
                 ]);
             }
+
+            if ($product->part_id != 0) {
+                $part = Part::find($product->part_id);
+                if ($part->collection && !$part->children->isEmpty()) {
+                    foreach ($part->children as $child) {
+                        if (!$child->children->isEmpty()) {
+                            foreach ($child->children as $ch) {
+                                $contractProduct->amounts()->create([
+                                    'value' => $ch->pivot->value,
+                                    'value2' => $ch->pivot->value2,
+                                    'part_id' => $ch->id,
+                                    'price' => $ch->price,
+                                    'sort' => $ch->pivot->sort,
+                                    'weight' => $ch->weight ?? 0
+                                ]);
+                            }
+                        } else {
+                            $contractProduct->amounts()->create([
+                                'value' => $child->pivot->value,
+                                'value2' => $child->pivot->value2,
+                                'part_id' => $child->id,
+                                'price' => $child->price,
+                                'sort' => $child->pivot->sort,
+                                'weight' => $child->weight ?? 0
+                            ]);
+                        }
+                    }
+                } else {
+                    $contractProduct->amounts()->create([
+                        'value' => $product->quantity,
+                        'value2' => $product->quantity2,
+                        'part_id' => $product->part_id,
+                        'price' => $product->price,
+                    ]);
+                }
+            }
         }
 
         alert()->success('ثبت موفق', 'تبدیل پیش فاکتور به قطعه با موفقیت انجام شد');
