@@ -124,7 +124,13 @@ class ContractController extends Controller
 
     public function products(Contract $contract)
     {
-        return view('contracts.products', compact('contract'));
+        if (auth()->user()->role == 'admin') {
+            $invoices = Invoice::latest()->where('complete', true)->paginate(25);
+        } else {
+            $invoices = Invoice::where('user_id', auth()->user()->id)->where('complete', true)->latest()->paginate(25);
+        }
+
+        return view('contracts.products', compact('contract', 'invoices'));
     }
 
     public function updateProducts(Request $request)
@@ -152,8 +158,7 @@ class ContractController extends Controller
 
     public function show(Contract $contract)
     {
-        $invoices = Invoice::where('complete', '1')->latest()->get();
-        return view('contracts.show', compact('contract', 'invoices'));
+        return view('contracts.show', compact('contract'));
     }
 
     public function selectInvoice(Request $request, Contract $contract)

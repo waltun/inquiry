@@ -65,234 +65,335 @@
             </svg>
             <div class="mr-2">
                 <p class="font-bold text-2xl text-black dark:text-white">
-                    لیست محصولات و قطعات قرارداد {{ $contract->name }}
+                    لیست محصولات و قطعات قرارداد {{ $contract->name }} - {{ $contract->customer->name }}
                 </p>
             </div>
+        </div>
+        <div class="flex items-center">
+            <a href="{{ route('contracts.show', $contract->id) }}" class="page-warning-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"></path>
+                </svg>
+                بازگشت
+            </a>
         </div>
     </div>
 
     <!-- Content -->
     <div class="mt-4 space-y-4">
-        <!-- Product List -->
-        @php
-            $productTotalPrice = 0;
-        @endphp
-        @if(!$contract->products()->where('group_id','!=',0)->where('model_id','!=',0)->get()->isEmpty())
-            <div class="card">
-                <div class="card-header">
-                    <p class="card-title text-lg">لیست محصولات</p>
-                </div>
+        @if(!is_null($contract->invoice_id))
+            <!-- Product List -->
+            @php
+                $productTotalPrice = 0;
+            @endphp
+            @if(!$contract->products()->where('group_id','!=',0)->where('model_id','!=',0)->get()->isEmpty())
+                <div class="card">
+                    <div class="card-header">
+                        <p class="card-title text-lg">لیست محصولات</p>
+                    </div>
 
-                <div class="mt-8 overflow-x-auto rounded-lg">
+                    <div class="mt-8 overflow-x-auto rounded-lg">
+                        <table class="w-full border-collapse">
+                            <thead>
+                            <tr class="table-th-tr">
+                                <th scope="col" class="p-4 rounded-tr-lg">
+                                    ردیف
+                                </th>
+                                <th scope="col" class="p-4">
+                                    دسته محصول
+                                </th>
+                                <th scope="col" class="p-4">
+                                    مدل محصول
+                                </th>
+                                <th scope="col" class="p-4">
+                                    تگ
+                                </th>
+                                <th scope="col" class="p-4">
+                                    تعداد
+                                </th>
+                                <th scope="col" class="p-4">
+                                    قیمت واحد (تومان)
+                                </th>
+                                <th scope="col" class="p-4">
+                                    قیمت کل (تومان)
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($contract->products()->where('group_id','!=',0)->where('model_id','!=',0)->get() as $product)
+                                <input type="hidden" name="products[]" value="{{ $product->id }}">
+                                @php
+                                    $modell = \App\Models\Modell::find($product->model_id);
+
+                                    $productTotalPrice += $product->price * $product->quantity;
+                                @endphp
+                                <tr class="table-tb-tr group whitespace-normal {{ $loop->even ? 'bg-sky-100' : '' }}">
+                                    <td class="table-tr-td border-t-0 border-l-0">
+                                        {{ $loop->index + 1 }}
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-x-0">
+                                        {{ $modell->parent->name }}
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-x-0">
+                                        {{ $product->model_custom_name ?? $modell->name }}
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-x-0">
+                                        {{ $product->description ?? '-' }}
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-x-0">
+                                        {{ $product->quantity }}
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-x-0">
+                                        {{ number_format($product->price) }}
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-r-0">
+                                        {{ number_format($product->price * $product->quantity) }}
+                                    </td>
+                                </tr>
+                            @endforeach
+                            <tr class="table-tb-tr group">
+                                <td class="table-tr-td border-t-0" colspan="10">
+                                    <div class="flex justify-end items-center">
+                                        <p class="table-price-label">
+                                            قیمت کل : {{ number_format($productTotalPrice) }} تومان
+                                        </p>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            @endif
+
+            <!-- Part List -->
+            @php
+                $types = ['setup','years','control','power_cable','control_cable','pipe','install_setup_price','setup_price','supervision','transport','other','setup_one','install','cable','canal','copper_piping','carbon_piping',null];
+                $partsTotalPrice = 0;
+            @endphp
+            @foreach($types as $type)
+                @php
+                    $products = $contract->products()->where('part_id','!=',0)->where('type',$type)->get();
+                @endphp
+                @if(!$products->isEmpty())
+                    <div class="card">
+                        <div class="card-header">
+                            <p class="card-title text-lg">
+                                @switch($type)
+                                    @case('setup')
+                                        قطعات یدکی راه اندازی
+                                        @break
+                                    @case('years')
+                                        قطعات یدکی دوسالانه
+                                        @break
+                                    @case('control')
+                                        قطعات کنترلی
+                                        @break
+                                    @case('power_cable')
+                                        قطعات کابل قدرت
+                                        @break
+                                    @case('control_cable')
+                                        قطعات کابل کنترلی
+                                        @break
+                                    @case('pipe')
+                                        قطعات لوله و اتصالات
+                                        @break
+                                    @case('install_setup_price')
+                                        دستمزد نصب و راه اندازی
+                                        @break
+                                    @case('setup_price')
+                                        دستمزد راه اندازی
+                                        @break
+                                    @case('supervision')
+                                        دستمزد نظارت
+                                        @break
+                                    @case('transport')
+                                        هزینه حمل
+                                        @break
+                                    @case('other')
+                                        سایر تجهیزات
+                                        @break
+                                    @case('setup_one')
+                                        قطعات راه اندازی
+                                        @break
+                                    @case('install')
+                                        قطعات نصب
+                                        @break
+                                    @case('cable')
+                                        اقلام کابل کشی
+                                        @break
+                                    @case('canal')
+                                        اقلام کانال کشی
+                                        @break
+                                    @case('copper_piping')
+                                        دستمزد لوله کشی مسی
+                                        @break
+                                    @case('carbon_piping')
+                                        دستمزد لوله کشی کربن استیل
+                                        @break
+                                    @case('')
+                                        سایر تجهیزات (قطعات قبلی)
+                                        @break
+                                @endswitch
+                            </p>
+                        </div>
+                        <table class="w-full border-collapse">
+                            <thead>
+                            <tr class="table-th-tr">
+                                <th class="p-4 rounded-tr-lg">ردیف</th>
+                                <th class="p-4">نام قطعه</th>
+                                <th class="p-4">واحد</th>
+                                <th class="p-4">تعداد</th>
+                                <th class="p-4">قیمت واحد (تومان)</th>
+                                <th class="p-4">قیمت کل (تومان)</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @php
+                                $partTotalPrice = 0;
+                            @endphp
+                            @foreach($products as $product)
+                                @php
+                                    $part = \App\Models\Part::find($product->part_id);
+                                    $partTotalPrice += $product->price * $product->quantity;
+
+                                @endphp
+                                <tr class="table-tb-tr group whitespace-normal {{ $loop->even ? 'bg-sky-100' : '' }}">
+                                    <td class="table-tr-td border-t-0 border-l-0">
+                                        {{ $loop->index + 1 }}
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-x-0">
+                                        {{ $part->name }}
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-x-0">
+                                        {{ $part->unit }}
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-x-0">
+                                        {{ $product->quantity }}
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-x-0">
+                                        {{ number_format($product->price) }}
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-r-0">
+                                        {{ number_format($product->price * $product->quantity) }}
+                                    </td>
+                                </tr>
+                            @endforeach
+                            @php
+                                $partsTotalPrice += $partTotalPrice;
+                            @endphp
+                            <tr class="table-tb-tr group">
+                                <td class="table-tr-td border-t-0" colspan="9">
+                                    <div class="flex justify-end">
+                                        <p class="table-price-label">
+                                            جمع قیمت : {{ number_format($partTotalPrice) }} تومان
+                                        </p>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                @endif
+            @endforeach
+
+            <!-- Total price -->
+            <div class="flex justify-end items-center sticky bottom-4 space-x-4 space-x-reverse">
+                <p class="table-price-label text-lg">
+                    قیمت نهایی قرارداد : {{ number_format($productTotalPrice + $partsTotalPrice) }} تومان
+                </p>
+            </div>
+        @else
+            <div class="mb-4">
+                <p class="text-red-500 font-bold">
+                    * توجه : هیچ پیش فاکتوری برای این قرارداد انتخاب نشده، لطفا برای ادامه از لیست پیش فاکتور ها انتخاب
+                    کنید.
+                </p>
+            </div>
+
+            <div class="mt-4 space-y-4">
+                <div class="mt-8 overflow-x-auto rounded-lg hidden md:block">
                     <table class="w-full border-collapse">
                         <thead>
                         <tr class="table-th-tr">
                             <th scope="col" class="p-4 rounded-tr-lg">
-                                ردیف
+                                شماره پیش فاکتور
                             </th>
                             <th scope="col" class="p-4">
-                                دسته محصول
+                                نام پروژه
                             </th>
                             <th scope="col" class="p-4">
-                                مدل محصول
+                                مسئول پروژه
                             </th>
                             <th scope="col" class="p-4">
-                                تگ
+                                بازاریاب
                             </th>
                             <th scope="col" class="p-4">
-                                تعداد
+                                تاریخ
                             </th>
-                            <th scope="col" class="p-4">
-                                قیمت واحد (تومان)
-                            </th>
-                            <th scope="col" class="p-4">
-                                قیمت کل (تومان)
+                            <th scope="col" class="p-4 rounded-tl-lg">
+                                <span class="sr-only">اقدامات</span>
                             </th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($contract->products()->where('group_id','!=',0)->where('model_id','!=',0)->get() as $product)
-                            <input type="hidden" name="products[]" value="{{ $product->id }}">
-                            @php
-                                $modell = \App\Models\Modell::find($product->model_id);
-
-                                $productTotalPrice += $product->price * $product->quantity;
-                            @endphp
-                            <tr class="table-tb-tr group whitespace-normal {{ $loop->even ? 'bg-sky-100' : '' }}">
+                        @foreach($invoices as $invoice)
+                            <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
                                 <td class="table-tr-td border-t-0 border-l-0">
-                                    {{ $loop->index + 1 }}
+                                    INV-{{ $invoice->invoice_number ? $invoice->invoice_number : $invoice->inquiry->inquiry_number }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
-                                    {{ $modell->parent->name }}
+                                    {{ $invoice->inquiry->name }}
+                                </td>
+                                @php
+                                    $user = \App\Models\User::find($invoice->user_id);
+                                @endphp
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    {{ $user->name }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
-                                    {{ $product->model_custom_name ?? $modell->name }}
+                                    {{ $invoice->inquiry->marketer }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
-                                    {{ $product->description ?? '-' }}
-                                </td>
-                                <td class="table-tr-td border-t-0 border-x-0">
-                                    {{ $product->quantity }}
-                                </td>
-                                <td class="table-tr-td border-t-0 border-x-0">
-                                    {{ number_format($product->price) }}
+                                    {{ jdate($invoice->created_at)->format('%A, %d %B %Y') }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-r-0">
-                                    {{ number_format($product->price * $product->quantity) }}
+                                    <div class="flex items-center space-x-4 space-x-reverse">
+                                        <a href="{{ route('invoices.final.print',$invoice->id) }}"
+                                           class="table-dropdown-copy text-xs" target="_blank">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                 stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                      d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z"/>
+                                            </svg>
+                                            قیمت
+                                        </a>
+                                        <form action="{{ route('contracts.select-invoice', $contract->id) }}"
+                                              method="POST">
+                                            @csrf
+                                            <input type="hidden" name="invoice_id" value="{{ $invoice->id }}">
+                                            <button type="submit" class="table-success-btn"
+                                                    onclick="return confirm('به قرارداد اضافه شود ؟')">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                     stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          d="M12 4.5v15m7.5-7.5h-15"/>
+                                                </svg>
+                                                افزودن به قرارداد
+                                            </button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
-                        <tr class="table-tb-tr group">
-                            <td class="table-tr-td border-t-0" colspan="10">
-                                <div class="flex justify-end items-center">
-                                    <p class="table-price-label">
-                                        قیمت کل : {{ number_format($productTotalPrice) }} تومان
-                                    </p>
-                                </div>
-                            </td>
-                        </tr>
                         </tbody>
                     </table>
+                </div>
+
+                <div class="mt-4">
+                    {{ $invoices->links() }}
                 </div>
             </div>
         @endif
-
-        <!-- Part List -->
-        @php
-            $types = ['setup','years','control','power_cable','control_cable','pipe','install_setup_price','setup_price','supervision','transport','other','setup_one','install','cable','canal','copper_piping','carbon_piping',null];
-            $partsTotalPrice = 0;
-        @endphp
-        @foreach($types as $type)
-            @php
-                $products = $contract->products()->where('part_id','!=',0)->where('type',$type)->get();
-            @endphp
-            @if(!$products->isEmpty())
-                <div class="card">
-                    <div class="card-header">
-                        <p class="card-title text-lg">
-                            @switch($type)
-                                @case('setup')
-                                    قطعات یدکی راه اندازی
-                                    @break
-                                @case('years')
-                                    قطعات یدکی دوسالانه
-                                    @break
-                                @case('control')
-                                    قطعات کنترلی
-                                    @break
-                                @case('power_cable')
-                                    قطعات کابل قدرت
-                                    @break
-                                @case('control_cable')
-                                    قطعات کابل کنترلی
-                                    @break
-                                @case('pipe')
-                                    قطعات لوله و اتصالات
-                                    @break
-                                @case('install_setup_price')
-                                    دستمزد نصب و راه اندازی
-                                    @break
-                                @case('setup_price')
-                                    دستمزد راه اندازی
-                                    @break
-                                @case('supervision')
-                                    دستمزد نظارت
-                                    @break
-                                @case('transport')
-                                    هزینه حمل
-                                    @break
-                                @case('other')
-                                    سایر تجهیزات
-                                    @break
-                                @case('setup_one')
-                                    قطعات راه اندازی
-                                    @break
-                                @case('install')
-                                    قطعات نصب
-                                    @break
-                                @case('cable')
-                                    اقلام کابل کشی
-                                    @break
-                                @case('canal')
-                                    اقلام کانال کشی
-                                    @break
-                                @case('copper_piping')
-                                    دستمزد لوله کشی مسی
-                                    @break
-                                @case('carbon_piping')
-                                    دستمزد لوله کشی کربن استیل
-                                    @break
-                                @case('')
-                                    سایر تجهیزات (قطعات قبلی)
-                                    @break
-                            @endswitch
-                        </p>
-                    </div>
-                    <table class="w-full border-collapse">
-                        <thead>
-                        <tr class="table-th-tr">
-                            <th class="p-4 rounded-tr-lg">ردیف</th>
-                            <th class="p-4">نام قطعه</th>
-                            <th class="p-4">واحد</th>
-                            <th class="p-4">تعداد</th>
-                            <th class="p-4">قیمت واحد (تومان)</th>
-                            <th class="p-4">قیمت کل (تومان)</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @php
-                            $partTotalPrice = 0;
-                        @endphp
-                        @foreach($products as $product)
-                            @php
-                                $part = \App\Models\Part::find($product->part_id);
-                                $partTotalPrice += $product->price * $product->quantity;
-
-                            @endphp
-                            <tr class="table-tb-tr group whitespace-normal {{ $loop->even ? 'bg-sky-100' : '' }}">
-                                <td class="table-tr-td border-t-0 border-l-0">
-                                    {{ $loop->index + 1 }}
-                                </td>
-                                <td class="table-tr-td border-t-0 border-x-0">
-                                    {{ $part->name }}
-                                </td>
-                                <td class="table-tr-td border-t-0 border-x-0">
-                                    {{ $part->unit }}
-                                </td>
-                                <td class="table-tr-td border-t-0 border-x-0">
-                                    {{ $product->quantity }}
-                                </td>
-                                <td class="table-tr-td border-t-0 border-x-0">
-                                    {{ number_format($product->price) }}
-                                </td>
-                                <td class="table-tr-td border-t-0 border-r-0">
-                                    {{ number_format($product->price * $product->quantity) }}
-                                </td>
-                            </tr>
-                        @endforeach
-                        @php
-                            $partsTotalPrice += $partTotalPrice;
-                        @endphp
-                        <tr class="table-tb-tr group">
-                            <td class="table-tr-td border-t-0" colspan="9">
-                                <div class="flex justify-end">
-                                    <p class="table-price-label">
-                                        جمع قیمت : {{ number_format($partTotalPrice) }} تومان
-                                    </p>
-                                </div>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            @endif
-        @endforeach
-
-        <!-- Total price -->
-        <div class="flex justify-end items-center sticky bottom-4 space-x-4 space-x-reverse">
-            <p class="table-price-label text-lg">
-                قیمت نهایی قرارداد : {{ number_format($productTotalPrice + $partsTotalPrice) }} تومان
-            </p>
-        </div>
     </div>
 </x-layout>
