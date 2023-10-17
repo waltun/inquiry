@@ -164,7 +164,8 @@ class ContractController extends Controller
     public function selectInvoice(Request $request, Contract $contract)
     {
         $data = $request->validate([
-            'invoice_id' => 'required|integer'
+            'invoice_id' => 'required|integer',
+            'amount' => 'required|integer'
         ]);
 
         $invoice = Invoice::find($data["invoice_id"]);
@@ -192,39 +193,41 @@ class ContractController extends Controller
 
             foreach ($amounts as $amount) {
                 $part = Part::find($amount->part_id);
-                if ($part->collection && !$part->children->isEmpty()) {
-                    foreach ($part->children as $child) {
-                        if (!$child->children->isEmpty()) {
-                            foreach ($child->children as $ch) {
+                if ($data["amount"] == '1') {
+                    if ($part->collection && !$part->children->isEmpty()) {
+                        foreach ($part->children as $child) {
+                            if (!$child->children->isEmpty()) {
+                                foreach ($child->children as $ch) {
+                                    $contractProduct->amounts()->create([
+                                        'value' => $ch->pivot->value,
+                                        'value2' => $ch->pivot->value2,
+                                        'part_id' => $ch->id,
+                                        'price' => $ch->price,
+                                        'sort' => $ch->pivot->sort,
+                                        'weight' => $ch->weight ?? 0
+                                    ]);
+                                }
+                            } else {
                                 $contractProduct->amounts()->create([
-                                    'value' => $ch->pivot->value,
-                                    'value2' => $ch->pivot->value2,
-                                    'part_id' => $ch->id,
-                                    'price' => $ch->price,
-                                    'sort' => $ch->pivot->sort,
-                                    'weight' => $ch->weight ?? 0
+                                    'value' => $child->pivot->value,
+                                    'value2' => $child->pivot->value2,
+                                    'part_id' => $child->id,
+                                    'price' => $child->price,
+                                    'sort' => $child->pivot->sort,
+                                    'weight' => $child->weight ?? 0
                                 ]);
                             }
-                        } else {
-                            $contractProduct->amounts()->create([
-                                'value' => $child->pivot->value,
-                                'value2' => $child->pivot->value2,
-                                'part_id' => $child->id,
-                                'price' => $child->price,
-                                'sort' => $child->pivot->sort,
-                                'weight' => $child->weight ?? 0
-                            ]);
                         }
+                    } else {
+                        $contractProduct->amounts()->create([
+                            'value' => $amount->value,
+                            'value2' => $amount->value2,
+                            'part_id' => $amount->part_id,
+                            'price' => $amount->price,
+                            'sort' => $amount->sort,
+                            'weight' => $amount->weight ?? 0
+                        ]);
                     }
-                } else {
-                    $contractProduct->amounts()->create([
-                        'value' => $amount->value,
-                        'value2' => $amount->value2,
-                        'part_id' => $amount->part_id,
-                        'price' => $amount->price,
-                        'sort' => $amount->sort,
-                        'weight' => $amount->weight ?? 0
-                    ]);
                 }
 
                 $contractProduct->spareAmounts()->create([

@@ -71,8 +71,10 @@
         </div>
         <div class="flex items-center">
             <a href="{{ route('contracts.show', $contract->id) }}" class="page-warning-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"></path>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                     stroke="currentColor" class="w-4 h-4 ml-1">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"></path>
                 </svg>
                 بازگشت
             </a>
@@ -368,20 +370,76 @@
                                             </svg>
                                             قیمت
                                         </a>
-                                        <form action="{{ route('contracts.select-invoice', $contract->id) }}"
-                                              method="POST">
-                                            @csrf
-                                            <input type="hidden" name="invoice_id" value="{{ $invoice->id }}">
-                                            <button type="submit" class="table-success-btn"
-                                                    onclick="return confirm('به قرارداد اضافه شود ؟')">
+                                        <div x-data="{open:false}">
+                                            <button class="table-success-btn" type="button" @click="open = !open">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                      stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
-                                                          d="M12 4.5v15m7.5-7.5h-15"/>
+                                                          d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/>
                                                 </svg>
                                                 افزودن به قرارداد
                                             </button>
-                                        </form>
+                                            <div class="relative z-10" x-show="open" x-cloak>
+                                                <div class="modal-backdrop"></div>
+                                                <div class="fixed z-10 inset-0 overflow-y-auto">
+                                                    <div class="modal">
+                                                        <div class="modal-body">
+                                                            <form method="POST"
+                                                                  class="bg-white dark:bg-slate-800 p-4"
+                                                                  action="{{ route('contracts.select-invoice', $contract->id) }}">
+                                                                @csrf
+                                                                <input type="hidden" name="invoice_id" value="{{ $invoice->id }}">
+                                                                <div class="mb-4 flex justify-between items-center">
+                                                                    <h3 class="text-lg font-bold text-gray-900 dark:text-white">
+                                                                        افزودن پیش فاکتور به قرارداد
+                                                                    </h3>
+                                                                    <button type="button" @click="open = false">
+                                                                        <span class="modal-close">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                 fill="none"
+                                                                                 viewBox="0 0 24 24"
+                                                                                 stroke-width="1.5"
+                                                                                 stroke="currentColor"
+                                                                                 class="w-5 h-5 dark:text-white">
+                                                                                <path stroke-linecap="round"
+                                                                                      stroke-linejoin="round"
+                                                                                      d="M6 18L18 6M6 6l12 12"/>
+                                                                            </svg>
+                                                                        </span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="mt-6">
+                                                                    <div class="mb-4">
+                                                                        <label for="inputAmount{{ $invoice->id }}"
+                                                                               class="form-label">
+                                                                            افزودن قطعات پیش فاکتور به آنالیز همه قطعات
+                                                                        </label>
+                                                                        <select name="amount"
+                                                                                id="inputAmount{{ $invoice->id }}"
+                                                                                class="input-text">
+                                                                            <option value="">انتخاب کنید</option>
+                                                                            <option value="1">بله</option>
+                                                                            <option value="0">خیر</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div
+                                                                        class="flex justify-end items-center space-x-4 space-x-reverse">
+                                                                        <button type="submit" class="form-submit-btn">
+                                                                            افزودن به قرارداد
+                                                                        </button>
+                                                                        <button type="button" class="form-cancel-btn"
+                                                                                @click="open = false">
+                                                                            انصراف!
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </td>
                             </tr>
