@@ -8,7 +8,9 @@ use App\Models\ContractProduct;
 use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\Part;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Morilog\Jalali\Jalalian;
 
 class ContractController extends Controller
 {
@@ -21,11 +23,9 @@ class ContractController extends Controller
 
     public function index()
     {
-        if (auth()->user()->role == 'admin') {
-            $contracts = Contract::latest()->with(['invoice', 'products'])->paginate(20);
-        } else {
-            $contracts = auth()->user()->contracts()->with(['invoice', 'products'])->paginate(20);
-        }
+        $contracts = Contract::latest()->with(['invoice', 'products'])->paginate(20);
+
+        //$contracts = auth()->user()->contracts()->with(['invoice', 'products'])->paginate(20);
 
         return view('contracts.index', compact('contracts'));
     }
@@ -59,6 +59,67 @@ class ContractController extends Controller
         alert()->success('ثبت موفق', 'تبدیل پیش فاکتور به قطعه با موفقیت انجام شد');
 
         return redirect()->route('contracts.index');
+    }
+
+    public function edit(Contract $contract)
+    {
+        $users = User::all();
+
+        $date = '';
+        if (!is_null($contract->start_contract_date)) {
+            $day = jdate($contract->start_contract_date)->getDay();
+            $month = jdate($contract->start_contract_date)->getMonth();
+            $year = jdate($contract->start_contract_date)->getYear();
+            $date = $year . '-' . $month . '-' . $day;
+        }
+
+        return view('contracts.edit', compact('contract', 'users', 'date'));
+    }
+
+    public function update(Request $request, Contract $contract)
+    {
+        $data = $request->validate([
+            'start_contract_date' => 'required|string|max:255',
+            'user_id' => 'required|integer'
+        ]);
+
+        if (!is_null($data['start_contract_date'])) {
+            $explodeDate = explode('-', $data['start_contract_date']);
+            $data['start_contract_date'] = (new Jalalian($explodeDate[0], $explodeDate[1], $explodeDate[2]))->toCarbon()->toDateTimeString();
+        }
+
+        $contract->update($data);
+
+        alert()->success('بروزرسانی موفق', 'بروزرسانی قرارداد با موفقیت انجام شد');
+
+        return redirect()->route('contracts.index');
+    }
+
+    public function destroy(Contract $contract)
+    {
+        if (!$contract->products->isEmpty()) {
+            foreach ($contract->products as $product) {
+                if (!$product->amounts->isEmpty()) {
+                    foreach ($product->amounts as $amount) {
+                        $amount->delete();
+                    }
+                }
+
+                if (!$product->spareAmounts->isEmpty()) {
+                    foreach ($product->spareAmounts as $spareAmount) {
+                        $spareAmount->delete();
+                    }
+                }
+
+                $product->delete();
+            }
+        }
+
+        $contract->delete();
+
+        alert()->success('حذف موفق', 'حذف قرارداد با موفقیت انجام شد');
+
+        return back();
     }
 
     public function products(Contract $contract)

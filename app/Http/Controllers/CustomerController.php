@@ -17,12 +17,7 @@ class CustomerController extends Controller
 
     public function index()
     {
-
-        if (auth()->user()->role == 'admin') {
-            $customers = Customer::latest()->paginate(20);
-        } else {
-            $customers = auth()->user()->customers()->latest()->paginate(20);
-        }
+        $customers = Customer::latest()->paginate(20);
 
         return view('customers.index', compact('customers'));
     }

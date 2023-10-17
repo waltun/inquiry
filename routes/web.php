@@ -549,6 +549,11 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/contracts/new/create', [ContractController::class, 'create'])->name('contracts.create');
     Route::post('/contracts/new/create', [ContractController::class, 'store'])->name('contracts.store');
 
+    Route::get('/contracts/{contract}/edit', [ContractController::class, 'edit'])->name('contracts.edit');
+    Route::patch('/contracts/{contract}/edit', [ContractController::class, 'update'])->name('contracts.update');
+
+    Route::delete('/contracts/{contract}/delete', [ContractController::class, 'destroy'])->name('contracts.destroy');
+
     Route::post('/contracts/{contract}/select-invoice', [ContractController::class, 'selectInvoice'])->name('contracts.select-invoice');
 
     Route::get('/contracts/{contract}/marketings', [MarketingController::class, 'index'])->name('contracts.marketings.index');
