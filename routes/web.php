@@ -15,6 +15,7 @@ use App\Http\Controllers\Contract\AnalyzePartController;
 use App\Http\Controllers\Contract\GuaranteeController;
 use App\Http\Controllers\Contract\MarketingController;
 use App\Http\Controllers\Contract\RecipeController;
+use App\Http\Controllers\Contract\ProductController as ContractProduct;
 use App\Http\Controllers\MarketingController as AllMarketings;
 use App\Http\Controllers\Contract\MarketPaymentController;
 use App\Http\Controllers\Contract\PaymentController;
@@ -582,4 +583,7 @@ Route::middleware(['auth', 'web'])->group(function () {
 
     Route::get('/contracts/{contract}/recipe', [RecipeController::class, 'index'])->name('contracts.recipe.index');
     Route::get('/contracts/{contract}/recipe/{revision}', [RecipeController::class, 'revision'])->name('contracts.recipe.revision');
+
+    Route::get('/contracts/{contract}/choose-product', [ContractProduct::class, 'choose'])->name('contracts.choose-product');
+    Route::post('/contracts/products/choose-product', [ContractProduct::class, 'storeChoose'])->name('contracts.store-choose-product');
 });

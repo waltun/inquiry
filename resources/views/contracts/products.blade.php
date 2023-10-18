@@ -69,7 +69,15 @@
                 </p>
             </div>
         </div>
-        <div class="flex items-center">
+        <div class="flex items-center space-x-4 space-x-reverse">
+            <a href="{{ route('contracts.choose-product', $contract->id) }}" class="page-success-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                     stroke="currentColor" class="w-4 h-4 ml-1">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/>
+                </svg>
+                انتخاب محصول جدید
+            </a>
+
             <a href="{{ route('contracts.show', $contract->id) }}" class="page-warning-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                      stroke="currentColor" class="w-4 h-4 ml-1">
