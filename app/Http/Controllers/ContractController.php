@@ -176,7 +176,7 @@ class ContractController extends Controller
         $contract->invoice_id = $invoice->id;
         $contract->save();
 
-        foreach ($invoice->products as $product) {
+        foreach ($invoice->products()->where('deleted_at', null)->get() as $product) {
             $amounts = Amount::where('product_id', $product->product_id)->get();
 
             $contractProduct = $contract->products()->create([
