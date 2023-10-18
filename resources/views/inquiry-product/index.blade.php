@@ -9,6 +9,8 @@
                     ids.push($(this).val());
                 });
 
+                ids.shift();
+
                 if (ids.length <= 0) {
                     alert("لطفا موارد مورد نظر را انتخاب کنید")
                 } else {
