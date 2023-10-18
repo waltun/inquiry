@@ -133,6 +133,27 @@ class ContractController extends Controller
         return view('contracts.products', compact('contract', 'invoices'));
     }
 
+    public function destroyProduct(ContractProduct $contractProduct)
+    {
+        if (!$contractProduct->spareAmounts->isEmpty()) {
+            foreach ($contractProduct->spareAmounts as $spareAmount) {
+                $spareAmount->delete();
+            }
+        }
+
+        if (!$contractProduct->amounts->isEmpty()) {
+            foreach ($contractProduct->amounts as $amount) {
+                $amount->delete();
+            }
+        }
+
+        $contractProduct->delete();
+
+        alert()->success('حذف موفق', 'حذف محصول با موفقیت انجام شد');
+
+        return back();
+    }
+
     public function updateProducts(Request $request)
     {
         $request->validate([
@@ -179,9 +200,12 @@ class ContractController extends Controller
         foreach ($invoice->products()->where('deleted_at', null)->get() as $product) {
             $amounts = Amount::where('product_id', $product->product_id)->get();
 
+            $price = 0;
+            $price = $product->price / $product->percent * $product->quantity;
+
             $contractProduct = $contract->products()->create([
                 'quantity' => $product->quantity,
-                'price' => $product->price,
+                'price' => $price,
                 'model_custom_name' => $product->model_custom_name,
                 'tag' => $product->description,
                 'type' => $product->type,

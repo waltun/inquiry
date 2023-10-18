@@ -513,6 +513,7 @@ Route::middleware(['auth', 'web'])->group(function () {
 
     Route::get('/contracts', [ContractController::class, 'index'])->name('contracts.index');
     Route::get('/contracts/{contract}/products', [ContractController::class, 'products'])->name('contracts.products');
+    Route::delete('/contracts/products/{contractProduct}/delete', [ContractController::class, 'destroyProduct'])->name('contracts.destroy-product');
     Route::post('/contracts/products/update', [ContractController::class, 'updateProducts'])->name('contracts.update-products');
     Route::get('/contracts/{contract}', [ContractController::class, 'show'])->name('contracts.show');
 
