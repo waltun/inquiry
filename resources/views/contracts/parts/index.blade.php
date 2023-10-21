@@ -109,7 +109,9 @@
                     $totalPrice = 0;
                     $weight = 0;
                 @endphp
-                <div class="card">
+                <form method="POST" action="{{ route('contracts.parts.store-amounts', $contract->id) }}" class="card">
+                    @csrf
+                    <input type="hidden" name="product_id" value="{{ $product->id }}">
                     <div class="card-header">
                         <p class="card-title text-lg">
                             لیست قطعات محصول
@@ -119,8 +121,9 @@
                     </div>
                     <table class="w-full border-collapse">
                         <thead>
-                        <tr class="table-th-tr whitespace-normal">
+                        <tr class="table-th-tr whitespace-nowrap">
                             <th class="p-4 rounded-tr-lg">ردیف</th>
+                            <th class="p-4">دسته بندی</th>
                             <th class="p-4">نام قطعه</th>
                             <th class="p-4">واحد</th>
                             <th class="p-4">وزن</th>
@@ -139,13 +142,45 @@
                                 $part = \App\Models\Part::find($amount->part_id);
                                 $totalPrice += ($amount->price * $amount->value);
                                 $weight += $amount->weight * $amount->value;
+
+                                $category = $part->categories[1];
+                                $selectedCategory = $part->categories[2];
                             @endphp
-                            <tr class="table-tb-tr group whitespace-normal">
+                            <tr class="table-tb-tr group whitespace-nowrap">
                                 <td class="table-tr-td border-t-0 border-l-0">
-                                    {{ $loop->index + 1 }}
+                                    <input type="number" class="input-text text-center w-14" name="sorts[]"
+                                           value="{{ $amount->sort }}">
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
-                                    {{ $part->name }}
+                                    <select id="inputCategory{{ $part->id }}" class="input-text w-32">
+                                        @foreach($category->children as $child)
+                                            <option
+                                                value="{{ $child->id }}" {{ $child->id == $selectedCategory->id ? 'selected' : '' }}>
+                                                {{ $child->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </td>
+                                @php
+                                    $lastCategory = $part->categories()->latest()->first();
+                                    $categoryParts = $lastCategory->parts;
+                                @endphp
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    <select name="part_ids[]" class="input-text" id="groupPartList{{ $part->id }}">
+                                        @foreach($categoryParts as $part2)
+                                            @if(!session()->has('selectedPart' . $part2->id))
+                                                <option
+                                                    value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
+                                                    {{ $part2->name }}
+                                                </option>
+                                            @else
+                                                <option
+                                                    value="{{ $part2->id }}" {{ $part2->product_id == $product->id ? 'selected' : '' }}>
+                                                    {{ $part2->name }}
+                                                </option>
+                                            @endif
+                                        @endforeach
+                                    </select>
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     {{ $part->unit }}
@@ -157,15 +192,21 @@
                                     {{ $part->weight }}
                                 </td>
                                 @if(auth()->user()->role == 'admin')
-                                    <td class="table-tr-td border-t-0 border-x-0 whitespace-nowrap">
+                                    <td class="table-tr-td border-t-0 border-x-0">
                                         {{ number_format($amount->price) }}
                                     </td>
                                 @endif
                                 <td class="table-tr-td border-t-0 border-x-0">
-                                    {{ $amount->value }}
-                                    @if(!is_null($amount->value2))
-                                        / {{ $amount->value2 }}
-                                    @endif
+                                    <div class="flex items-center justify-center">
+                                        <input type="text" name="amounts[]" id="inputAmount{{ $part->id }}"
+                                               class="input-text w-24 text-center" value="{{ $amount->value }}">
+                                        @if(!is_null($part->unit2))
+                                            <p class="mr-2">/</p>
+                                            <input type="text" id="inputUnit{{ $part->id }}"
+                                                   class="input-text w-20 mr-2" placeholder="{{ $part->unit2 }}"
+                                                   value="{{ $amount->value2 }}">
+                                        @endif
+                                    </div>
                                 </td>
                                 @if(auth()->user()->role == 'admin')
                                     <td class="table-tr-td border-t-0 border-r-0">
@@ -185,7 +226,12 @@
                         </tr>
                         </tbody>
                     </table>
-                </div>
+                    <div class="mt-4">
+                        <button type="submit" class="page-success-btn">
+                            ثبت مقادیر
+                        </button>
+                    </div>
+                </form>
             @endforeach
         @endif
 

@@ -255,5 +255,65 @@
                 </div>
             @endif
         @endforeach
+
+        <!-- Detail Parts -->
+        @foreach($contract->products()->where('group_id','!=',0)->where('model_id','!=',0)->get() as $product)
+            @php
+                $modell = \App\Models\Modell::find($product->model_id);
+            @endphp
+            <div class="card">
+                <div class="card-header">
+                    <p class="card-title text-lg">
+                        لیست قطعات محصول
+                        <span class="text-red-600">{{ $modell->parent->name }}</span> -
+                        <span class="text-red-600">{{ $product->model_custom_name ?? $modell->name }}</span>
+                    </p>
+                </div>
+                <table class="w-full border-collapse">
+                    <thead>
+                    <tr class="table-th-tr whitespace-nowrap">
+                        <th class="p-4 rounded-tr-lg">ردیف</th>
+                        <th class="p-4">نام قطعه</th>
+                        <th class="p-4">واحد</th>
+                        <th class="p-4">وزن</th>
+                        <th class="p-4 rounded-tl-lg"> مقادیر</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($product->spareAmounts()->orderBy('sort', 'ASC')->get() as $amount)
+                        @php
+                            $part = \App\Models\Part::find($amount->part_id);
+                        @endphp
+                        <tr class="table-tb-tr group whitespace-nowrap">
+                            <td class="table-tr-td border-t-0 border-l-0">
+                                {{ $amount->sort }}
+                            </td>
+                            <td class="table-tr-td border-t-0 border-x-0">
+                                {{ $part->name }}
+                            </td>
+                            <td class="table-tr-td border-t-0 border-x-0">
+                                {{ $part->unit }}
+                                @if(!is_null($part->unit2))
+                                    / {{ $part->unit2 }}
+                                @endif
+                            </td>
+                            <td class="table-tr-td border-t-0 border-x-0">
+                                {{ $part->weight }}
+                            </td>
+                            <td class="table-tr-td border-t-0 border-r-0">
+                                <div class="flex items-center justify-center">
+                                    {{ $amount->value }}
+                                    @if(!is_null($part->unit2))
+                                        <p class="mr-2">/</p>
+                                        {{ $amount->value2 }}
+                                    @endif
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @endforeach
     </div>
 </x-layout>
