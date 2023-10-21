@@ -108,6 +108,14 @@
                 </select>
             </div>
 
+            <div class="mb-4">
+                <label for="inputOldNumber" class="form-label">
+                    شماره قرارداد قبلی
+                </label>
+                <input type="text" class="input-text" name="old_number" value="{{ old('old_number') }}"
+                       id="inputOldNumber" placeholder="شماره قرارداد سیستم قبلی را وارد کنید">
+            </div>
+
         </div>
 
         <div class="flex items-center space-x-4 space-x-reverse">

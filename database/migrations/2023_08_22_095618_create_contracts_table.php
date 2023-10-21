@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->string('name')->nullable();
             $table->string('marketer')->nullable();
             $table->string('number')->nullable();
+            $table->string('old_number')->nullable();
             $table->string('customer_number')->nullable();
             $table->string('period')->nullable();
             $table->bigInteger('price')->nullable();

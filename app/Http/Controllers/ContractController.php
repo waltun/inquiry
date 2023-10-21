@@ -42,6 +42,7 @@ class ContractController extends Controller
         $data = $request->validate([
             'customer_id' => 'required|integer',
             'type' => 'required|string|in:official,operational',
+            'old_number' => 'nullable|string|max:255'
         ]);
 
         $number = '';
@@ -80,7 +81,8 @@ class ContractController extends Controller
     {
         $data = $request->validate([
             'start_contract_date' => 'required|string|max:255',
-            'user_id' => 'required|integer'
+            'user_id' => 'required|integer',
+            'old_number' => 'nullable|string|max:255'
         ]);
 
         if (!is_null($data['start_contract_date'])) {

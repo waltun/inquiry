@@ -96,11 +96,20 @@
                     <option value="">انتخاب کنید</option>
                     @foreach($users as $user)
                         <option
-                                value="{{ $user->id }}" {{ old('user_id', $contract->user_id) == $user->id ? 'selected' : '' }}>
+                            value="{{ $user->id }}" {{ old('user_id', $contract->user_id) == $user->id ? 'selected' : '' }}>
                             {{ $user->name }}
                         </option>
                     @endforeach
                 </select>
+            </div>
+
+            <div class="mb-4">
+                <label for="inputOldNumber" class="form-label">
+                    شماره قرارداد قبلی
+                </label>
+                <input type="text" class="input-text" name="old_number"
+                       value="{{ old('old_number', $contract->old_number) }}"
+                       id="inputOldNumber" placeholder="شماره قرارداد سیستم قبلی را وارد کنید">
             </div>
         </div>
 
