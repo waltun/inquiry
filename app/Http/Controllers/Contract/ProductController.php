@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Contract;
 
 use App\Http\Controllers\Controller;
+use App\Models\Amount;
 use App\Models\Contract;
 use App\Models\Invoice;
+use App\Models\InvoiceProduct;
+use App\Models\Part;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -12,22 +15,88 @@ class ProductController extends Controller
     public function choose(Contract $contract)
     {
         if (auth()->user()->role == 'admin') {
-            $invoices = Invoice::latest()->where('complete', true)->get();
+            $invoices = Invoice::latest()->where('complete', true)->paginate(20);
         } else {
-            $invoices = Invoice::where('user_id', auth()->user()->id)->where('complete', true)->latest()->get();
+            $invoices = Invoice::where('user_id', auth()->user()->id)->where('complete', true)->latest()->paginate(20);
         }
 
         return view('contracts.products.choose-product', compact('contract', 'invoices'));
     }
 
-    public function storeChoose(Request $request)
+    public function invoice(Contract $contract, Invoice $invoice)
     {
-        $invoice = Invoice::find($request->invoice_id);
-        $products = $invoice->products()->where('deleted_at', null)->get();
+        return view('contracts.products.invoice-products', compact('contract', 'invoice'));
+    }
 
-        if (!$products->isEmpty()) {
-            return response(['products' => $products]);
+    public function storeInvoice(Request $request, Contract $contract, Invoice $invoice)
+    {
+        $product = InvoiceProduct::find($request->product_id);
+
+        $amounts = Amount::where('product_id', $product->product_id)->get();
+
+        $price = $product->price / $product->percent;
+
+        $contractProduct = $contract->products()->create([
+            'quantity' => $product->quantity,
+            'price' => $price,
+            'model_custom_name' => $product->model_custom_name,
+            'tag' => $product->description,
+            'type' => $product->type,
+            'group_id' => $product->group_id,
+            'model_id' => $product->model_id,
+            'part_id' => $product->part_id,
+            'product_id' => $product->product_id
+        ]);
+
+        foreach ($amounts as $amount) {
+            $part = Part::find($amount->part_id);
+            if ($part->collection && !$part->children->isEmpty()) {
+                foreach ($part->children as $child) {
+                    if (!$child->children->isEmpty()) {
+                        foreach ($child->children as $ch) {
+                            $contractProduct->amounts()->create([
+                                'value' => $ch->pivot->value,
+                                'value2' => $ch->pivot->value2,
+                                'part_id' => $ch->id,
+                                'price' => $ch->price,
+                                'sort' => $ch->pivot->sort,
+                                'weight' => $ch->weight ?? 0
+                            ]);
+                        }
+                    } else {
+                        $contractProduct->amounts()->create([
+                            'value' => $child->pivot->value,
+                            'value2' => $child->pivot->value2,
+                            'part_id' => $child->id,
+                            'price' => $child->price,
+                            'sort' => $child->pivot->sort,
+                            'weight' => $child->weight ?? 0
+                        ]);
+                    }
+                }
+            } else {
+                $contractProduct->amounts()->create([
+                    'value' => $amount->value,
+                    'value2' => $amount->value2,
+                    'part_id' => $amount->part_id,
+                    'price' => $amount->price,
+                    'sort' => $amount->sort,
+                    'weight' => $amount->weight ?? 0
+                ]);
+            }
+
+            $contractProduct->spareAmounts()->create([
+                'value' => $amount->value,
+                'value2' => $amount->value2,
+                'part_id' => $amount->part_id,
+                'price' => $amount->price,
+                'sort' => $amount->sort,
+                'weight' => $amount->weight ?? 0
+            ]);
         }
-        return response(['data' => null]);
+
+        alert()->success('ثبت موفق', 'محصول با موفقیت به قرارداد اضافه شد');
+
+        return redirect()->route('contracts.products', $contract->id);
     }
 }

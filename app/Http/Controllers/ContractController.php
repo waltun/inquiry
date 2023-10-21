@@ -200,7 +200,6 @@ class ContractController extends Controller
         foreach ($invoice->products()->where('deleted_at', null)->get() as $product) {
             $amounts = Amount::where('product_id', $product->product_id)->get();
 
-            $price = 0;
             $price = $product->price / $product->percent * $product->quantity;
 
             $contractProduct = $contract->products()->create([

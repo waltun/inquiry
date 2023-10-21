@@ -1,60 +1,4 @@
 <x-layout>
-    <x-slot name="js">
-        <script src="{{ asset('plugins/jquery.min.js') }}"></script>
-        <script src="{{ asset('plugins/select2/select2.min.js') }}"></script>
-        <script>
-            $("#inputInvoice").select2();
-
-            function chooseProduct(event) {
-                let invoice_id = event.target.value;
-                let section = document.getElementById("productSection");
-
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-
-                $.ajax({
-                    type: 'POST',
-                    url: '{{ route('contracts.store-choose-product') }}',
-                    data: {
-                        invoice_id: invoice_id,
-                    },
-                    success: function (res) {
-                        res.products.map(function (product) {
-                            section.innerHTML = `
-                                <tr class="table-tb-tr group whitespace-normal">
-                                <td class="table-tr-td border-t-0 border-l-0">
-                                    1
-                                </td>
-                                <td class="table-tr-td border-t-0 border-x-0">
-                                    ${product.model_id}
-                                </td>
-                                <td class="table-tr-td border-t-0 border-x-0">
-                                    ${product.model_custom_name}
-                                </td>
-                                <td class="table-tr-td border-t-0 border-x-0">
-                                    ${product.description}
-                                </td>
-                                <td class="table-tr-td border-t-0 border-x-0">
-                                    ${product.quantity}
-                                </td>
-                                <td class="table-tr-td border-t-0 border-x-0">
-                                    ${product.price}
-                                </td>
-                            </tr>
-                            `
-                        });
-                    }
-                });
-            }
-        </script>
-    </x-slot>
-    <x-slot name="css">
-        <link rel="stylesheet" href="{{ asset('plugins/select2/select2.min.css') }}">
-    </x-slot>
-
     <!-- Breadcrumb -->
     <div class="flex items-center space-x-2 space-x-reverse whitespace-nowrap">
         <a href="{{ route('dashboard') }}" class="flex items-center">
@@ -157,68 +101,73 @@
     </div>
 
     <!-- Choose Invoice -->
-    <div class="mt-4">
-        <div class="card">
-            <div class="card-header">
-                <p class="card-title">
-                    پیش فاکتور های نهایی
-                </p>
-            </div>
-
-            <div class="mb-4">
-                <label for="inputInvoice" class="form-label">انتخاب پیش فاکتور</label>
-                <select name="invoice_id" id="inputInvoice" class="input-text" onchange="chooseProduct(event)">
-                    <option value="">انتخاب کنید</option>
-                    @foreach($invoices as $invoice)
-                        <option value="{{ $invoice->id }}">
+    <div class="mt-4 space-y-4">
+        <div class="mt-8 overflow-x-auto rounded-lg hidden md:block">
+            <table class="w-full border-collapse">
+                <thead>
+                <tr class="table-th-tr">
+                    <th scope="col" class="p-4 rounded-tr-lg">
+                        شماره پیش فاکتور
+                    </th>
+                    <th scope="col" class="p-4">
+                        نام پروژه
+                    </th>
+                    <th scope="col" class="p-4">
+                        مسئول پروژه
+                    </th>
+                    <th scope="col" class="p-4">
+                        بازاریاب
+                    </th>
+                    <th scope="col" class="p-4">
+                        تاریخ
+                    </th>
+                    <th scope="col" class="p-4 rounded-tl-lg">
+                        <span class="sr-only">اقدامات</span>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($invoices as $invoice)
+                    <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
+                        <td class="table-tr-td border-t-0 border-l-0">
                             INV-{{ $invoice->invoice_number ? $invoice->invoice_number : $invoice->inquiry->inquiry_number }}
-                            | {{ $invoice->inquiry->name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- Products -->
-    <div class="mt-4">
-        <div class="card">
-            <div class="card-header">
-                <p class="card-title">
-                    لیست محصولات پیش فاکتور
-                </p>
-            </div>
-
-            <div class="mt-8 overflow-x-auto rounded-lg">
-                <table class="w-full border-collapse">
-                    <thead>
-                    <tr class="table-th-tr">
-                        <th scope="col" class="p-4 rounded-tr-lg">
-                            ردیف
-                        </th>
-                        <th scope="col" class="p-4">
-                            دسته محصول
-                        </th>
-                        <th scope="col" class="p-4">
-                            مدل محصول
-                        </th>
-                        <th scope="col" class="p-4">
-                            تگ
-                        </th>
-                        <th scope="col" class="p-4">
-                            تعداد
-                        </th>
-                        <th scope="col" class="p-4">
-                            قیمت واحد (تومان)
-                        </th>
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            {{ $invoice->inquiry->name }}
+                        </td>
+                        @php
+                            $user = \App\Models\User::find($invoice->user_id);
+                        @endphp
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            {{ $user->name }}
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            {{ $invoice->inquiry->marketer }}
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            {{ jdate($invoice->created_at)->format('%A, %d %B %Y') }}
+                        </td>
+                        <td class="table-tr-td border-t-0 border-r-0">
+                            <div class="flex items-center space-x-4 space-x-reverse">
+                                <a href="{{ route('contracts.choose-product.invoice',[$contract->id, $invoice->id]) }}"
+                                   class="table-dropdown-copy text-xs">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                              d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
+                                    </svg>
+                                    محصولات
+                                </a>
+                            </div>
+                        </td>
                     </tr>
-                    </thead>
-                    <tbody id="productSection">
+                @endforeach
+                </tbody>
+            </table>
+        </div>
 
-                    </tbody>
-                </table>
-            </div>
+        <div class="mt-4">
+            {{ $invoices->links() }}
         </div>
     </div>
 </x-layout>

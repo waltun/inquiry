@@ -73,6 +73,7 @@ class InvoiceController extends Controller
             $product->quantity = $request->quantities[$index];
             $product->price = $request->prices[$index];
             $product->percent = $request->percents[$index];
+            $product->show_price = true;
 
             $product->save();
         }
@@ -99,6 +100,7 @@ class InvoiceController extends Controller
             $product->quantity = $request->quantities[$index];
             $product->price = $request->prices[$index];
             $product->percent = $request->percents[$index];
+            $product->show_price = true;
 
             $product->save();
         }
