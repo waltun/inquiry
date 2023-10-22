@@ -25,7 +25,7 @@ class ContractController extends Controller
     {
         $contracts = Contract::query();
 
-        if ($keyword = request('search') && !is_null(request('search'))) {
+        if ($keyword = request('search')) {
             $contracts->where('name', 'LIKE', "%{$keyword}%")
                 ->orWhere('number', 'LIKE', "%{$keyword}%")
                 ->orWhere('marketer', 'LIKE', "%{$keyword}%");
@@ -39,7 +39,7 @@ class ContractController extends Controller
             $contracts->where('customer_id', request('customer'));
         }
 
-        $contracts = $contracts->latest()->with(['invoice', 'products'])->paginate(20);
+        $contracts = $contracts->latest()->with(['invoice', 'products'])->paginate(20)->withQueryString();
 
         $customers = Customer::latest()->get();
         return view('contracts.index', compact('contracts', 'customers'));
@@ -217,7 +217,7 @@ class ContractController extends Controller
         foreach ($invoice->products()->where('deleted_at', null)->get() as $product) {
             $amounts = Amount::where('product_id', $product->product_id)->get();
 
-            $price = $product->price / $product->percent * $product->quantity;
+            $price = $product->price / $product->percent;
 
             $contractProduct = $contract->products()->create([
                 'quantity' => $product->quantity,

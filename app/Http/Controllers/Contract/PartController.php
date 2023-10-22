@@ -58,6 +58,7 @@ class PartController extends Controller
             } else {
                 $product->amounts()->create([
                     'value' => $request->amounts[$index],
+                    'value2' => $request->amounts2[$index],
                     'part_id' => $id,
                     'price' => $part->price,
                     'weight' => $part->weight ?? 0,
@@ -67,6 +68,7 @@ class PartController extends Controller
 
             $product->spareAmounts()->create([
                 'value' => $request->amounts[$index],
+                'value2' => $request->amounts2[$index],
                 'part_id' => $id,
                 'weight' => $part->weight,
                 'price' => $part->price,

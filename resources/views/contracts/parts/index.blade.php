@@ -1,4 +1,108 @@
 <x-layout>
+    <x-slot name="js">
+        <script src="{{ asset('plugins/jquery.min.js') }}"></script>
+        <script>
+            function changePart(event, part, product) {
+                let id = event.target.value;
+                let section = document.getElementById('partList' + part);
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('inquiries.product.changePart') }}',
+                    data: {
+                        id: id,
+                        part: part,
+                        product: product
+                    },
+                    success: function (res) {
+                        let parts = res.data;
+                        section.innerHTML = `
+                        <select class="input-text" onchange="changePart(event,${part})" id="inputCategory${part}">
+                            ${
+                            parts.map(function (part) {
+                                return `<option value="${part.id}">${part.name}</option>`
+                            })
+                        }
+                        </select>`
+                    }
+                });
+            }
+        </script>
+        <script>
+            function changeUnit1(event, cid) {
+
+                let id = document.getElementById('partList' + cid).value;
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('inquiries.product.getPart') }}',
+                    data: {
+                        id: id,
+                    },
+                    success: function (res) {
+                        let part = res.data;
+                        let value = event.target.value;
+                        let input2 = document.getElementById('inputAmount2' + cid);
+                        let inputValue = document.getElementById('inputUnitValue' + cid);
+                        let operator1 = part.operator2;
+                        let formula1 = part.formula2;
+                        let result = 0;
+
+                        result = eval(value + operator1 + formula1);
+                        let formatResult = Intl.NumberFormat().format(result);
+                        input2.value = formatResult.replace(',', '');
+                        inputValue.value = result;
+                    }
+                });
+            }
+
+            function changeUnit2(event, cid) {
+
+                let id = document.getElementById('partList' + cid).value;
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('inquiries.product.getPart') }}',
+                    data: {
+                        id: id,
+                    },
+                    success: function (res) {
+                        let part = res.data;
+                        let value = event.target.value;
+                        let input1 = document.getElementById('inputAmount' + cid);
+                        let inputValue = document.getElementById('inputUnitValue' + cid);
+                        let operator2 = part.operator1;
+                        let formula2 = part.formula1;
+                        let result = 0;
+
+                        result = eval(value + operator2 + formula2);
+                        let formatResult = Intl.NumberFormat().format(result);
+                        input1.value = formatResult.replace(',', '');
+                        inputValue.value = value;
+                    }
+                });
+            }
+        </script>
+    </x-slot>
+
     <!-- Breadcrumb -->
     <div class="flex items-center space-x-2 space-x-reverse whitespace-nowrap">
         <a href="{{ route('dashboard') }}" class="flex items-center">
@@ -152,7 +256,8 @@
                                            value="{{ $amount->sort }}">
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
-                                    <select id="inputCategory{{ $part->id }}" class="input-text w-32">
+                                    <select id="inputCategory{{ $part->id }}" class="input-text w-32"
+                                            onchange="changePart(event,{{ $part->id, $product->id }})">
                                         @foreach($category->children as $child)
                                             <option
                                                 value="{{ $child->id }}" {{ $child->id == $selectedCategory->id ? 'selected' : '' }}>
@@ -166,7 +271,7 @@
                                     $categoryParts = $lastCategory->parts;
                                 @endphp
                                 <td class="table-tr-td border-t-0 border-x-0">
-                                    <select name="part_ids[]" class="input-text" id="groupPartList{{ $part->id }}">
+                                    <select name="part_ids[]" class="input-text" id="partList{{ $part->id }}">
                                         @foreach($categoryParts as $part2)
                                             @if(!session()->has('selectedPart' . $part2->id))
                                                 <option
@@ -199,13 +304,17 @@
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     <div class="flex items-center justify-center">
                                         <input type="text" name="amounts[]" id="inputAmount{{ $part->id }}"
-                                               class="input-text w-24 text-center" value="{{ $amount->value }}">
+                                               class="input-text w-24 text-center" value="{{ $amount->value }}"
+                                               onkeyup="changeUnit1(event,{{ $part->id }})">
                                         @if(!is_null($part->unit2))
                                             <p class="mr-2">/</p>
-                                            <input type="text" id="inputUnit{{ $part->id }}"
+                                            <input type="text" id="inputAmount2{{ $part->id }}"
                                                    class="input-text w-20 mr-2" placeholder="{{ $part->unit2 }}"
-                                                   value="{{ $amount->value2 }}">
+                                                   value="{{ $amount->value2 }}"
+                                                   onkeyup="changeUnit2(event,{{ $part->id }})">
                                         @endif
+                                        <input type="hidden" name="amounts2[]" id="inputUnitValue{{ $part->id }}"
+                                               value="{{ $amount->value2 }}">
                                     </div>
                                 </td>
                                 @if(auth()->user()->role == 'admin')
