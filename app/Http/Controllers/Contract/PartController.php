@@ -84,7 +84,7 @@ class PartController extends Controller
                 'value' => $request->amounts[$index],
                 'value2' => $request->amounts2[$index],
                 'part_id' => $id,
-                'weight' => $part->weight,
+                'weight' => $part->weight ?? 0,
                 'price' => $part->price,
                 'sort' => $request->sorts[$index]
             ]);
