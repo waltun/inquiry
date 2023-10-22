@@ -1,4 +1,11 @@
 <x-layout>
+    <script>
+        function searchForm() {
+            let form = document.getElementById('search-form');
+            form.submit();
+        }
+    </script>
+
     <!-- Breadcrumb -->
     <div class="flex items-center space-x-2 space-x-reverse">
         <a href="{{ route('dashboard') }}" class="flex items-center">
@@ -43,10 +50,16 @@
                 <path stroke-linecap="round" stroke-linejoin="round"
                       d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/>
             </svg>
-            <div class="mr-2">
+            <div class="mr-2 flex items-center">
                 <p class="font-bold text-2xl text-black dark:text-white">
                     لیست قراردادها
                 </p>
+                @if(request()->has('search') || request()->has('type') || request()->has('customer'))
+                    <a href="{{ route('contracts.index') }}"
+                       class="text-sm font-bold underline underline-offset-4 text-indigo-500 mr-4">
+                        پاکسازی فیلتر
+                    </a>
+                @endif
             </div>
         </div>
         <div class="flex items-center space-x-4 space-x-reverse">
@@ -58,6 +71,38 @@
                 <span class="mr-2">ایجاد قرارداد جدید</span>
             </a>
         </div>
+    </div>
+
+    <!-- Search -->
+    <div class="p-4 bg-white rounded-lg shadow mt-4">
+        <form action="" method="get" class="grid grid-cols-3 gap-4" id="search-form">
+            <div>
+                <input type="text" name="search" value="{{ request('search') }}" class="input-text"
+                       placeholder="جستجوی نام و شماره قرارداد + اینتر ">
+            </div>
+            <div>
+                <select name="type" class="input-text" onchange="searchForm()">
+                    <option value="">نوع قراداد</option>
+                    <option value="official" {{ request('type') == 'official' ? 'selected' : '' }}>
+                        رسمی
+                    </option>
+                    <option value="operational" {{ request('type') == 'operational' ? 'selected' : '' }}>
+                        عملکردی
+                    </option>
+                </select>
+            </div>
+            <div>
+                <select name="customer" class="input-text" onchange="searchForm()">
+                    <option value="">انتخاب مشتری</option>
+                    @foreach($customers as $customer)
+                        <option
+                            value="{{ $customer->id }}" {{ request('customer') == $customer->id ? 'selected' : '' }}>
+                            {{ $customer->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        </form>
     </div>
 
     <!-- Content -->

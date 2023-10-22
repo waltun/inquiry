@@ -23,11 +23,26 @@ class ContractController extends Controller
 
     public function index()
     {
-        $contracts = Contract::latest()->with(['invoice', 'products'])->paginate(20);
+        $contracts = Contract::query();
 
-        //$contracts = auth()->user()->contracts()->with(['invoice', 'products'])->paginate(20);
+        if ($keyword = request('search') && !is_null(request('search'))) {
+            $contracts->where('name', 'LIKE', "%{$keyword}%")
+                ->orWhere('number', 'LIKE', "%{$keyword}%")
+                ->orWhere('marketer', 'LIKE', "%{$keyword}%");
+        }
 
-        return view('contracts.index', compact('contracts'));
+        if (request()->has('type') && !is_null(request('type'))) {
+            $contracts->where('type', request('type'));
+        }
+
+        if (request()->has('customer') && !is_null(request('customer'))) {
+            $contracts->where('customer_id', request('customer'));
+        }
+
+        $contracts = $contracts->latest()->with(['invoice', 'products'])->paginate(20);
+
+        $customers = Customer::latest()->get();
+        return view('contracts.index', compact('contracts', 'customers'));
     }
 
     public function create()
