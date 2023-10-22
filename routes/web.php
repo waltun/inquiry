@@ -583,7 +583,6 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/contracts/analyze-parts/all-parts', [AnalyzePartController::class, 'store'])->name('contracts.analyze-parts.store');
 
     Route::get('/contracts/{contract}/recipe', [RecipeController::class, 'index'])->name('contracts.recipe.index');
-    Route::get('/contracts/{contract}/recipe/{revision}', [RecipeController::class, 'revision'])->name('contracts.recipe.revision');
 
     Route::get('/contracts/{contract}/choose-product', [ContractProduct::class, 'choose'])->name('contracts.choose-product');
     Route::get('/contracts/{contract}/choose-product/{invoice}', [ContractProduct::class, 'invoice'])->name('contracts.choose-product.invoice');

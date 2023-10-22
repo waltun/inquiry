@@ -15,6 +15,15 @@ return new class extends Migration
     {
         Schema::create('contract_part_histories', function (Blueprint $table) {
             $table->id();
+
+            $table->unsignedBigInteger('old_part_id');
+            $table->unsignedBigInteger('new_part_id');
+            $table->unsignedBigInteger('contract_product_id');
+            $table->unsignedBigInteger('contract_id');
+            $table->unsignedBigInteger('user_id');
+
+            $table->string('type');
+
             $table->timestamps();
         });
     }

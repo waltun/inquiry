@@ -28,4 +28,9 @@ class ContractProduct extends Model
     {
         return $this->hasMany(ContractProductAmountSpare::class, 'contract_product_id');
     }
+
+    public function histories()
+    {
+        return $this->hasMany(ContractPartHistory::class);
+    }
 }

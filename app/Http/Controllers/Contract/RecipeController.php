@@ -12,9 +12,4 @@ class RecipeController extends Controller
     {
         return view('contracts.recipe.index', compact('contract'));
     }
-
-    public function revision(Contract $contract, $revision)
-    {
-        return view('contracts.recipe.revision', compact('contract', 'revision'));
-    }
 }
