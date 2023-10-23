@@ -19,15 +19,9 @@ return new class extends Migration {
             $table->string('marketer')->nullable();
             $table->string('number')->nullable();
             $table->string('old_number')->nullable();
-            $table->string('customer_number')->nullable();
-            $table->string('period')->nullable();
             $table->bigInteger('price')->nullable();
-            $table->boolean('tax')->nullable();
-
-            $table->timestamp('build_date')->nullable();
-            $table->timestamp('delivery_date')->nullable();
+            $table->boolean('recipe')->default(0);
             $table->timestamp('start_contract_date')->nullable();
-            $table->timestamp('sale_service_date')->nullable();
             $table->timestamp('send_date')->nullable();
 
             $table->unsignedBigInteger('invoice_id')->nullable();

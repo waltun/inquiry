@@ -10,9 +10,8 @@ class Contract extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'marketer', 'number', 'customer_number', 'period', 'price', 'tax', 'build_date', 'delivery_date',
-        'start_contract_date', 'sale_service_date', 'send_date', 'invoice_id', 'user_id', 'customer_id', 'type',
-        'old_number'
+        'name', 'marketer', 'number', 'price', 'start_contract_date', 'send_date', 'invoice_id', 'user_id', 'customer_id',
+        'type', 'old_number', 'recipe'
     ];
 
     public function invoice()
