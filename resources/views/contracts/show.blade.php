@@ -84,14 +84,16 @@
         </div>
         <div class="flex items-center space-x-4 space-x-reverse">
             <a href="{{ route('contracts.marketings.create', $contract->id) }}" class="page-success-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                     stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path>
                 </svg>
                 <span class="mr-2">ایجاد بازاریابی</span>
             </a>
 
             <a href="{{ route('contracts.guarantees.create', $contract->id) }}" class="page-success-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                     stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path>
                 </svg>
                 <span class="mr-2">ایجاد تضمین</span>
@@ -303,7 +305,8 @@
             <div x-show="tab === 'factory'"
                  class="border border-indigo-400 dark:border-black border-t-0 rounded-b-lg px-4 py-6" x-cloak>
                 <div class="md:grid grid-cols-4 gap-4 space-y-4 md:space-y-0">
-                    <a href="{{ route('contracts.recipe.index', $contract->id) }}" class="dashboard-cards group">
+                    <a href="{{ route('contracts.recipe.index', $contract->id) }}"
+                       class="dashboard-cards group relative">
                         <div class="flex items-center">
                             <div class="dashboard-card-icon bg-green-500 dark:bg-slate-800">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -326,6 +329,20 @@
                                       clip-rule="evenodd"/>
                             </svg>
                         </div>
+                        @php
+                            $status = false;
+                            foreach ($contract->products as $product) {
+                                if (!$product->histories->isEmpty()) {
+                                    $status = true;
+                                    break;
+                                }
+                            }
+                        @endphp
+                        @if($status)
+                            <span class="w-3 h-3 rounded-full bg-myRed-200 absolute -right-0.5 -top-0.5"></span>
+                            <span
+                                class="w-3 h-3 rounded-full bg-myRed-200 absolute -right-0.5 -top-0.5 animate-ping"></span>
+                        @endif
                     </a>
 
                     <a href="" class="dashboard-cards group">

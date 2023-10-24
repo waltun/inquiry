@@ -29,7 +29,7 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p">
-                    قراردادها
+                    قرارداد ها
                 </p>
             </div>
         </a>
@@ -41,7 +41,7 @@
                       clip-rule="evenodd"/>
             </svg>
         </div>
-        <a href="{{ route('contracts.show', $contract->id) }}" class="flex items-center">
+        <a href="{{ route('contracts.recipe.index', $contract->id) }}" class="flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                  stroke="currentColor" class="breadcrumb-svg">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -49,7 +49,7 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p">
-                    مشاهده قرارداد {{ $contract->name }}
+                    دستور ساخت های قرارداد {{ $contract->name }}
                 </p>
             </div>
         </a>
@@ -69,7 +69,7 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p-active">
-                    دستور ساخت
+                    دستور ساخت ریویژن {{ $revision }}
                 </p>
             </div>
         </div>
@@ -85,7 +85,7 @@
             </svg>
             <div class="mr-2">
                 <p class="font-bold text-2xl text-black dark:text-white">
-                    دستور ساخت
+                    دستور ساخت ریویژن {{ $revision }}
                 </p>
             </div>
         </div>
@@ -119,9 +119,6 @@
                             <th scope="col" class="p-4">
                                 تعداد
                             </th>
-                            <th scope="col" class="p-4">
-                                تغییرات
-                            </th>
                         </tr>
                         </thead>
                         <tbody>
@@ -135,9 +132,7 @@
                                     {{ $loop->index + 1 }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
-                                    <a href="#product{{ $product->id }}">
-                                        {{ $modell->parent->name }}
-                                    </a>
+                                    {{ $modell->parent->name }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     {{ $product->model_custom_name ?? $modell->name }}
@@ -145,95 +140,8 @@
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     {{ $product->description ?? '-' }}
                                 </td>
-                                <td class="table-tr-td border-t-0 border-x-0">
-                                    {{ $product->quantity }}
-                                </td>
                                 <td class="table-tr-td border-t-0 border-r-0">
-                                    @if(!$product->histories->isEmpty())
-                                        <div class="flex items-center justify-center" x-data="{open:false}">
-                                            <button class="table-warning-btn" @click="open = !open" type="button">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                     stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                          d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/>
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                                </svg>
-                                                مشاهده
-                                            </button>
-                                            <div class="relative z-10" x-show="open" x-cloak>
-                                                <div class="modal-backdrop"></div>
-                                                <div class="fixed z-10 inset-0 overflow-y-auto">
-                                                    <div class="modal">
-                                                        <div class="modal-body">
-                                                            <div class="bg-white dark:bg-slate-800 p-4">
-                                                                <div class="mb-4 flex justify-between items-center">
-                                                                    <h3 class="text-lg font-bold text-gray-900 dark:text-white">
-                                                                        تغییرات قطعات محصول {{ $modell->parent->name }}
-                                                                        - {{ $product->model_custom_name ?? $modell->name }}
-                                                                    </h3>
-                                                                    <button type="button" @click="open = false">
-                                                                    <span class="modal-close">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                             fill="none"
-                                                                             viewBox="0 0 24 24"
-                                                                             stroke-width="1.5" stroke="currentColor"
-                                                                             class="w-5 h-5 dark:text-white">
-                                                                            <path stroke-linecap="round"
-                                                                                  stroke-linejoin="round"
-                                                                                  d="M6 18L18 6M6 6l12 12"/>
-                                                                        </svg>
-                                                                    </span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="mt-6 space-y-2">
-                                                                    @foreach($product->histories as $history)
-                                                                        <div class="p-2 border border-gray-200 rounded-lg">
-                                                                            <div class="grid grid-cols-5 gap-4">
-                                                                                <div>
-                                                                                    <p class="text-xs font-medium text-black">
-                                                                                        تاریخ
-                                                                                        : {{ jdate($history->created_at)->format('Y/m/d') }}
-                                                                                    </p>
-                                                                                </div>
-                                                                                <div>
-                                                                                    @php
-                                                                                        $user = \App\Models\User::find($history->user_id);
-                                                                                    @endphp
-                                                                                    <p class="text-xs font-medium text-black">
-                                                                                        توسط : {{ $user->name }}
-                                                                                    </p>
-                                                                                </div>
-                                                                                <div class="col-span-3">
-                                                                                    @php
-                                                                                        $oldPart = \App\Models\Part::find($history->old_part_id);
-                                                                                        $newPart = \App\Models\Part::find($history->new_part_id);
-                                                                                    @endphp
-                                                                                    <p class="text-xs font-medium text-black">
-                                                                                        @switch($history->type)
-                                                                                            @case('change')
-                                                                                                قطعه <span
-                                                                                                    class="text-indigo-600">{{ $oldPart->name }}</span>
-                                                                                                به <span
-                                                                                                    class="text-indigo-600">{{ $newPart->name }}</span>
-                                                                                                تغییر یافت
-                                                                                                @break
-                                                                                        @endswitch
-                                                                                    </p>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    @endforeach
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @else
-                                        -
-                                    @endif
+                                    {{ $product->quantity }}
                                 </td>
                             </tr>
                         @endforeach
@@ -353,87 +261,13 @@
             @php
                 $modell = \App\Models\Modell::find($product->model_id);
             @endphp
-            <div class="card" id="product{{ $product->id }}">
+            <div class="card">
                 <div class="card-header">
                     <p class="card-title text-lg">
                         لیست قطعات محصول
                         <span class="text-red-600">{{ $modell->parent->name }}</span> -
                         <span class="text-red-600">{{ $product->model_custom_name ?? $modell->name }}</span>
                     </p>
-                </div>
-                <div class="mb-4 flex justify-end" x-data="{open:false}">
-                    <button type="button" class="page-warning-btn" @click="open = !open">
-                        مشاهده تغییرات
-                    </button>
-                    <div class="relative z-10" x-show="open" x-cloak>
-                        <div class="modal-backdrop"></div>
-                        <div class="fixed z-10 inset-0 overflow-y-auto">
-                            <div class="modal">
-                                <div class="modal-body">
-                                    <div class="bg-white dark:bg-slate-800 p-4">
-                                        <div class="mb-4 flex justify-between items-center">
-                                            <h3 class="text-lg font-bold text-gray-900 dark:text-white">
-                                                تغییرات قطعات محصول {{ $modell->parent->name }}
-                                                - {{ $product->model_custom_name ?? $modell->name }}
-                                            </h3>
-                                            <button type="button" @click="open = false">
-                                                <span class="modal-close">
-                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                         fill="none"
-                                                         viewBox="0 0 24 24"
-                                                         stroke-width="1.5" stroke="currentColor"
-                                                         class="w-5 h-5 dark:text-white">
-                                                        <path stroke-linecap="round"
-                                                              stroke-linejoin="round"
-                                                              d="M6 18L18 6M6 6l12 12"/>
-                                                    </svg>
-                                                </span>
-                                            </button>
-                                        </div>
-                                        <div class="mt-6 space-y-2">
-                                            @foreach($product->histories as $history)
-                                                <div class="p-2 border border-gray-200 rounded-lg">
-                                                    <div class="grid grid-cols-5 gap-4">
-                                                        <div>
-                                                            <p class="text-xs font-medium text-black">
-                                                                تاریخ
-                                                                : {{ jdate($history->created_at)->format('Y/m/d') }}
-                                                            </p>
-                                                        </div>
-                                                        <div>
-                                                            @php
-                                                                $user = \App\Models\User::find($history->user_id);
-                                                            @endphp
-                                                            <p class="text-xs font-medium text-black">
-                                                                توسط : {{ $user->name }}
-                                                            </p>
-                                                        </div>
-                                                        <div class="col-span-3">
-                                                            @php
-                                                                $oldPart = \App\Models\Part::find($history->old_part_id);
-                                                                $newPart = \App\Models\Part::find($history->new_part_id);
-                                                            @endphp
-                                                            <p class="text-xs font-medium text-black">
-                                                                @switch($history->type)
-                                                                    @case('change')
-                                                                        قطعه <span
-                                                                            class="text-indigo-600">{{ $oldPart->name }}</span>
-                                                                        به <span
-                                                                            class="text-indigo-600">{{ $newPart->name }}</span>
-                                                                        تغییر یافت
-                                                                        @break
-                                                                @endswitch
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <table class="w-full border-collapse">
                     <thead>
