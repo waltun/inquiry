@@ -297,17 +297,10 @@
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     <select name="part_ids[]" class="input-text" id="partList{{ $part->id }}">
                                         @foreach($categoryParts as $part2)
-                                            @if(!session()->has('selectedPart' . $part2->id))
-                                                <option
-                                                    value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
-                                                    {{ $part2->name }}
-                                                </option>
-                                            @else
-                                                <option
-                                                    value="{{ $part2->id }}" {{ $part2->product_id == $product->id ? 'selected' : '' }}>
-                                                    {{ $part2->name }}
-                                                </option>
-                                            @endif
+                                            <option
+                                                value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
+                                                {{ $part2->name }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </td>
@@ -348,18 +341,9 @@
                                 @endif
                             </tr>
                         @endforeach
-                        <tr class="table-tb-tr group">
-                            <td class="table-tr-td border-t-0" colspan="9">
-                                <div class="flex justify-end">
-                                    <p class="table-price-label">
-                                        جمع قیمت : {{ number_format($totalPrice) }} تومان
-                                    </p>
-                                </div>
-                            </td>
-                        </tr>
                         </tbody>
                     </table>
-                    <div class="mt-4">
+                    <div class="mt-4 sticky bottom-4">
                         <button type="submit" class="page-success-btn">
                             ثبت مقادیر
                         </button>
