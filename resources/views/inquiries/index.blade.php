@@ -1,4 +1,13 @@
 <x-layout>
+    <x-slot name="js">
+        <script>
+            function searchForm() {
+                let form = document.getElementById('search-form');
+                form.submit();
+            }
+        </script>
+    </x-slot>
+
     <!-- Breadcrumb -->
     <div class="flex items-center space-x-2 space-x-reverse overflow-x-auto md:overflow-hidden">
         <a href="{{ route('dashboard') }}" class="flex items-center">
@@ -35,84 +44,6 @@
         </div>
     </div>
 
-    <!-- Search -->
-    <div class="card-search" {{ request()->query() ? 'x-data={open:true}' : 'x-data={open:false}' }}>
-        <div class="card-header-search" @click="open=!open">
-            <p class="card-title">
-                جستجو در استعلام ها
-            </p>
-            <div class="card-title-search">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                     stroke="currentColor" class="w-6 h-6 transition" :class="{'rotate-180' : open}">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
-                </svg>
-            </div>
-        </div>
-        <form method="GET" action="" class="mt-4 md:grid grid-cols-4 gap-4 space-y-4 md:space-y-0" x-show="open"
-              x-cloak>
-            <div class="mb-4">
-                <label for="inputInquiryNumber" class="form-label">شماره استعلام</label>
-                <input type="text" id="inputInquiryNumber" class="input-text" name="inquiry_number"
-                       placeholder="جستجو براساس شماره استعلام (بدون INQ)" value="{{ request('inquiry_number') }}">
-            </div>
-            <div class="mb-4">
-                <label for="inputName" class="form-label">نام پروژه</label>
-                <input type="text" id="inputName" class="input-text" name="name"
-                       placeholder="جستجو براساس نام پروژه" value="{{ request('name') }}">
-            </div>
-            <div class="mb-4">
-                <label for="inputManager" class="form-label">مسئول پروژه</label>
-                <select name="user_id" id="inputManager" class="input-text">
-                    <option value="">انتخاب کنید</option>
-                    @foreach(\App\Models\User::all() as $user)
-                        <option value="{{ $user->id }}" {{ request('user_id') == $user->id ? 'selected' : '' }}>
-                            {{ $user->name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-            <div>
-                <label for="inputMarketer" class="form-label">بازاریاب</label>
-                <input type="text" id="inputMarketer" class="input-text" name="marketer"
-                       placeholder="جستجو براساس بازاریاب" value="{{ request('marketer') }}">
-            </div>
-            <div>
-                <label for="inputGroup" class="form-label">دسته</label>
-                <select name="group_id" id="inputGroup" class="input-text">
-                    <option value="">جستجو براساس دسته</option>
-                    @foreach($groups as $group)
-                        <option
-                            value="{{ $group->id }}" {{ $group->id == request()->get('group_id') ? 'selected' : '' }}>
-                            {{ $group->name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-            <div>
-                <label for="inputModell" class="form-label">مدل</label>
-                <select name="model_id" id="inputModell" class="input-text">
-                    <option value="">جستجو براساس مدل</option>
-                    @foreach($modells as $modell)
-                        <option
-                            value="{{ $modell->id }}" {{ $modell->id == request()->get('model_id') ? 'selected' : '' }}>
-                            {{ $modell->name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="col-span-4 flex justify-end space-x-2 space-x-reverse pb-4">
-                <button class="form-submit-btn" type="submit">
-                    جستجو
-                </button>
-                @if(request()->query())
-                    <a href="{{ route('inquiries.index') }}" class="form-detail-btn">
-                        پاکسازی
-                    </a>
-                @endif
-            </div>
-        </form>
-    </div>
-
     <!-- Navigation -->
     <div class="md:flex items-center justify-between mt-8 space-y-4 md:space-y-0">
         <div class="flex items-center">
@@ -121,10 +52,17 @@
                 <path stroke-linecap="round" stroke-linejoin="round"
                       d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
-            <div class="mr-2">
+            <div class="mr-2 flex items-center">
                 <p class="font-bold text-2xl text-black dark:text-white">
                     لیست استعلام ها
                 </p>
+
+                @if(request()->has('search') || request()->has('marketer'))
+                    <a href="{{ route('inquiries.index') }}"
+                       class="text-sm font-medium text-indigo-500 underline underline-offset-4 mr-4">
+                        پاکسازی جستجو
+                    </a>
+                @endif
             </div>
         </div>
         <div class="flex items-center space-x-4 space-x-reverse">
@@ -136,6 +74,23 @@
                 <span class="mr-2">ایجاد استعلام جدید</span>
             </a>
         </div>
+    </div>
+
+    <!-- Search -->
+    <div class="bg-white rounded-lg border border-gray-200 shadow p-4 mt-4">
+        <form method="GET" action="" class="md:grid grid-cols-4 gap-4" id="search-form">
+            <input type="text" id="inputInquiryNumber" class="input-text" name="search"
+                   placeholder="جستجو + اینتر" value="{{ request('search') }}">
+
+            <select name="marketer" id="inputManager" class="input-text" onchange="searchForm()">
+                <option value="">انتخاب مسئول پروژه</option>
+                @foreach(\App\Models\User::all() as $user)
+                    <option value="{{ $user->id }}" {{ request('marketer') == $user->id ? 'selected' : '' }}>
+                        {{ $user->name }}
+                    </option>
+                @endforeach
+            </select>
+        </form>
     </div>
 
     <!-- Content -->

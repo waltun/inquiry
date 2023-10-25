@@ -46,30 +46,16 @@ class InquiryController extends Controller
 
     public function index()
     {
-        $searchableFields = [
-            'inquiry_number' => 'LIKE',
-            'name' => 'LIKE',
-            'marketer' => 'LIKE',
-            'model_id' => '=',
-            'group_id' => '=',
-        ];
-
         $inquiries = Inquiry::query();
 
-        foreach ($searchableFields as $field => $operator) {
-            if (request()->has($field) && request()->get($field) != null) {
-                if ($field == 'model_id' || $field == 'group_id') {
-                    $inquiries = $inquiries->whereHas('products', function ($query) use ($field, $operator) {
-                        $query->where($field, $operator, request()->get($field));
-                    });
-                } else {
-                    $inquiries = $inquiries->where($field, $operator, "%" . request()->get($field) . "%");
-                }
-            }
+        if ($key = request('search')) {
+            $inquiries->where('name', 'LIKE', "%{$key}%")
+                ->orWhere('marketer', 'LIKE', "%{$key}%")
+                ->orWhere('inquiry_number', 'LIKE', "%{$key}%");
         }
 
-        if (request()->has('user_id') && !is_null(request('user_id'))) {
-            $inquiries = $inquiries->where('user_id', request('user_id'));
+        if (request()->has('marketer') && !is_null(request('marketer'))) {
+            $inquiries = $inquiries->where('user_id', request('marketer'));
         }
 
         if (auth()->user()->role == 'admin') {
@@ -79,11 +65,8 @@ class InquiryController extends Controller
             $inquiries = $inquiries->where('submit', 0)->where('user_id', auth()->user()->id)->latest()->paginate(25);
         }
 
-
-        $modells = Modell::where('parent_id', '!=', 0)->get();
-        $groups = Group::all();
         $delete = DeleteButton::where('active', '1')->first();
-        return view('inquiries.index', compact('inquiries', 'modells', 'groups', 'delete'));
+        return view('inquiries.index', compact('inquiries', 'delete'));
     }
 
     public function create()
@@ -191,31 +174,16 @@ class InquiryController extends Controller
 
     public function submitted()
     {
-        $searchableFields = [
-            'inquiry_number' => 'LIKE',
-            'name' => 'LIKE',
-            'manager' => 'LIKE',
-            'marketer' => 'LIKE',
-            'model_id' => '=',
-            'group_id' => '=',
-        ];
-
         $inquiries = Inquiry::query();
 
-        foreach ($searchableFields as $field => $operator) {
-            if (request()->has($field) && request()->get($field) != null) {
-                if ($field == 'model_id' || $field == 'group_id') {
-                    $inquiries = $inquiries->whereHas('products', function ($query) use ($field, $operator) {
-                        $query->where($field, $operator, request()->get($field));
-                    });
-                } else {
-                    $inquiries = $inquiries->where($field, $operator, "%" . request()->get($field) . "%");
-                }
-            }
+        if ($key = request('search')) {
+            $inquiries->where('name', 'LIKE', "%{$key}%")
+                ->orWhere('marketer', 'LIKE', "%{$key}%")
+                ->orWhere('inquiry_number', 'LIKE', "%{$key}%");
         }
 
-        if (request()->has('user_id') && !is_null(request('user_id'))) {
-            $inquiries = $inquiries->where('user_id', request('user_id'));
+        if (request()->has('marketer') && !is_null(request('marketer'))) {
+            $inquiries = $inquiries->where('user_id', request('marketer'));
         }
 
         if (auth()->user()->role === 'admin') {
@@ -265,31 +233,16 @@ class InquiryController extends Controller
 
     public function priced()
     {
-        $searchableFields = [
-            'inquiry_number' => 'LIKE',
-            'name' => 'LIKE',
-            'manager' => 'LIKE',
-            'marketer' => 'LIKE',
-            'model_id' => '=',
-            'group_id' => '=',
-        ];
-
         $inquiries = Inquiry::query();
 
-        foreach ($searchableFields as $field => $operator) {
-            if (request()->has($field) && request()->get($field) != null) {
-                if ($field == 'model_id' || $field == 'group_id') {
-                    $inquiries = $inquiries->whereHas('products', function ($query) use ($field, $operator) {
-                        $query->where($field, $operator, request()->get($field));
-                    });
-                } else {
-                    $inquiries = $inquiries->where($field, $operator, "%" . request()->get($field) . "%");
-                }
-            }
+        if ($key = request('search')) {
+            $inquiries->where('name', 'LIKE', "%{$key}%")
+                ->orWhere('marketer', 'LIKE', "%{$key}%")
+                ->orWhere('inquiry_number', 'LIKE', "%{$key}%");
         }
 
-        if (request()->has('user_id') && !is_null(request('user_id'))) {
-            $inquiries = $inquiries->where('user_id', request('user_id'));
+        if (request()->has('marketer') && !is_null(request('marketer'))) {
+            $inquiries = $inquiries->where('user_id', request('marketer'));
         }
 
         if (auth()->user()->role === 'admin') {
