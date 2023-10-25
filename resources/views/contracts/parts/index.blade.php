@@ -101,6 +101,29 @@
                 });
             }
         </script>
+        <script>
+            function deletePart(part_id, product_id) {
+                if (confirm('قطعه حذف شود ؟')) {
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '{{ route('contracts.parts.destroy') }}',
+                        data: {
+                            part_id: part_id,
+                            product_id: product_id,
+                        },
+                        success: function (res) {
+                            location.reload();
+                        }
+                    });
+                }
+            }
+        </script>
     </x-slot>
 
     <!-- Breadcrumb -->
@@ -224,7 +247,6 @@
     <!-- Content -->
     <div class="mt-4">
         @php
-            $finalPrice = 0;
             $products = $contract->products()->where('group_id','!=',0)->where('model_id','!=',0)->get();
         @endphp
 
@@ -233,8 +255,6 @@
             @foreach($products as $product)
                 @php
                     $modell = \App\Models\Modell::find($product->model_id);
-                    $finalPrice += $product->price;
-                    $totalPrice = 0;
                     $weight = 0;
                 @endphp
                 <form method="POST" action="{{ route('contracts.parts.store-amounts', $contract->id) }}" class="card">
@@ -255,14 +275,16 @@
                             <th class="p-4">نام قطعه</th>
                             <th class="p-4">واحد</th>
                             <th class="p-4">وزن</th>
-                            <th class="p-4 rounded-tl-lg"> مقادیر</th>
+                            <th class="p-4">مقادیر</th>
+                            <th class="p-4 rounded-tl-lg">
+                                <span class="sr-only">اقدامات</span>
+                            </th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($product->spareAmounts()->orderBy('sort', 'ASC')->get() as $amount)
                             @php
                                 $part = \App\Models\Part::find($amount->part_id);
-                                $totalPrice += ($amount->price * $amount->value);
                                 $weight += $amount->weight * $amount->value;
 
                                 $category = $part->categories[1];
@@ -307,7 +329,7 @@
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     {{ $part->weight }}
                                 </td>
-                                <td class="table-tr-td border-t-0 border-r-0">
+                                <td class="table-tr-td border-t-0 border-x-0">
                                     <div class="flex items-center justify-center">
                                         <input type="text" name="amounts[]" id="inputAmount{{ $part->id }}"
                                                class="input-text w-24 text-center" value="{{ $amount->value }}"
@@ -322,6 +344,16 @@
                                         <input type="hidden" name="amounts2[]" id="inputUnitValue{{ $part->id }}"
                                                value="{{ $amount->value2 }}">
                                     </div>
+                                </td>
+                                <td class="table-tr-td border-t-0 border-r-0">
+                                    <button class="table-delete-btn" type="button"
+                                            onclick="deletePart({{ $part->id }},{{ $product->id }})">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                             stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                  d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
+                                        </svg>
+                                    </button>
                                 </td>
                             </tr>
                         @endforeach
@@ -353,7 +385,6 @@
         <!-- Part List -->
         @php
             $types = ['setup','years','control','power_cable','control_cable','pipe','install_setup_price','setup_price','supervision','transport','other','setup_one','install','cable','canal','copper_piping','carbon_piping',null];
-            $partsTotalPrice = 0;
         @endphp
         @foreach($types as $type)
             @php
@@ -427,20 +458,13 @@
                             <th class="p-4 rounded-tr-lg">ردیف</th>
                             <th class="p-4">نام قطعه</th>
                             <th class="p-4">واحد</th>
-                            <th class="p-4">تعداد</th>
-                            <th class="p-4">قیمت واحد (تومان)</th>
-                            <th class="p-4">قیمت کل (تومان)</th>
+                            <th class="p-4 rounded-tl-lg">تعداد</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @php
-                            $partTotalPrice = 0;
-                        @endphp
                         @foreach($products as $product)
                             @php
                                 $part = \App\Models\Part::find($product->part_id);
-                                $partTotalPrice += $product->price * $product->quantity;
-
                             @endphp
                             <tr class="table-tb-tr group whitespace-normal {{ $loop->even ? 'bg-sky-100' : '' }}">
                                 <td class="table-tr-td border-t-0 border-l-0">
@@ -452,29 +476,11 @@
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     {{ $part->unit }}
                                 </td>
-                                <td class="table-tr-td border-t-0 border-x-0">
-                                    {{ $product->quantity }}
-                                </td>
-                                <td class="table-tr-td border-t-0 border-x-0">
-                                    {{ number_format($product->price) }}
-                                </td>
                                 <td class="table-tr-td border-t-0 border-r-0">
-                                    {{ number_format($product->price * $product->quantity) }}
+                                    {{ $product->quantity }}
                                 </td>
                             </tr>
                         @endforeach
-                        @php
-                            $partsTotalPrice += $partTotalPrice;
-                        @endphp
-                        <tr class="table-tb-tr group">
-                            <td class="table-tr-td border-t-0" colspan="9">
-                                <div class="flex justify-end">
-                                    <p class="table-price-label">
-                                        جمع قیمت : {{ number_format($partTotalPrice) }} تومان
-                                    </p>
-                                </div>
-                            </td>
-                        </tr>
                         </tbody>
                     </table>
                 </div>

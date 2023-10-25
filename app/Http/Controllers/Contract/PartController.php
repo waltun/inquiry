@@ -202,6 +202,22 @@ class PartController extends Controller
 
         alert()->success('ثبت موفق', 'افزودن قطعه به قرارداد با موفقیت انجام شد');
 
-        return redirect()->route('contracts.parts.index');
+        return redirect()->route('contracts.parts.index', $contract->id);
+    }
+
+    public function destroyPart(Request $request)
+    {
+        $product = ContractProduct::find($request->product_id);
+
+        $amounts = $product->amounts()->where('part_id', $request->part_id)->get();
+
+        foreach ($amounts as $amount) {
+            $amount->delete();
+        }
+
+        $spareAmount = $product->spareAmounts()->where('part_id', $request->part_id)->first();
+        $spareAmount->delete();
+
+        alert()->success('حذف موفق', 'حذف قطعه از قرارداد با موفقیت انجام شد');
     }
 }
