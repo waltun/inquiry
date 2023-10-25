@@ -36,16 +36,20 @@ class AnalyzePartController extends Controller
         $values = [];
 
         foreach ($amounts as $amount) {
-            $values[$amount->part_id] = [
-                'value' => 0,
-                'buyer' => $amount->buyer,
-                'buyer_manage' => $amount->buyer_manage,
-                'status' => $amount->status
-            ];
+            if ($amount->product->contract->recipe) {
+                $values[$amount->part_id] = [
+                    'value' => 0,
+                    'buyer' => $amount->buyer,
+                    'buyer_manage' => $amount->buyer_manage,
+                    'status' => $amount->status
+                ];
+            }
         }
 
         foreach ($amounts as $amount) {
-            $values[$amount->part_id]['value'] += $amount->value * $amount->product->quantity;
+            if ($amount->product->contract->recipe) {
+                $values[$amount->part_id]['value'] += $amount->value * $amount->product->quantity;
+            }
         }
 
         return view('contracts.analyze-parts.index', compact('values', 'amounts'));

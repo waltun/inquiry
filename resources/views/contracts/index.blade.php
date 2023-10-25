@@ -1,10 +1,19 @@
 <x-layout>
-    <script>
-        function searchForm() {
-            let form = document.getElementById('search-form');
-            form.submit();
-        }
-    </script>
+    <x-slot name="js">
+        <script src="{{ asset('plugins/jquery.min.js') }}"></script>
+        <script src="{{ asset('plugins/select2/select2.min.js') }}"></script>
+        <script>
+            function searchForm() {
+                let form = document.getElementById('search-form');
+                form.submit();
+            }
+
+            $("#inputCustomer").select2();
+        </script>
+    </x-slot>
+    <x-slot name="css">
+        <link rel="stylesheet" href="{{ asset('plugins/select2/select2.min.css') }}">
+    </x-slot>
 
     <!-- Breadcrumb -->
     <div class="flex items-center space-x-2 space-x-reverse">
@@ -92,7 +101,7 @@
                 </select>
             </div>
             <div>
-                <select name="customer" class="input-text" onchange="searchForm()">
+                <select name="customer" class="input-text" onchange="searchForm()" id="inputCustomer">
                     <option value="">انتخاب مشتری</option>
                     @foreach($customers as $customer)
                         <option
