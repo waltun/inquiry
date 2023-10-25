@@ -191,19 +191,23 @@
                                                             $contractAmountInfo = [];
                                                             $contractAmountValues = [];
                                                             foreach ($contractAmounts as $contractAmount) {
-                                                                $contractAmountInfo[$contractAmount->product->contract_id] = [
+                                                                if ($contractAmount->product->contract->recipe) {
+                                                                    $contractAmountInfo[$contractAmount->product->contract_id] = [
                                                                     "status" => null,
                                                                     "buyer_manage" => null
                                                                 ];
                                                                 $contractAmountValues[$contractAmount->product->contract_id] = 0;
+                                                                }
                                                             }
                                                             foreach ($contractAmounts as $contractAmount) {
-                                                                $contractAmountValues[$contractAmount->product->contract_id] += $contractAmount->value * $contractAmount->product->quantity;
+                                                                if ($contractAmount->product->contract->recipe) {
+                                                                    $contractAmountValues[$contractAmount->product->contract_id] += $contractAmount->value * $contractAmount->product->quantity;
 
-                                                                $contractAmountInfo[$contractAmount->product->contract_id] = [
-                                                                    "status" => $contractAmount->status,
-                                                                    "buyer_manage" => $contractAmount->buyer_manage
-                                                                ];
+                                                                    $contractAmountInfo[$contractAmount->product->contract_id] = [
+                                                                        "status" => $contractAmount->status,
+                                                                        "buyer_manage" => $contractAmount->buyer_manage
+                                                                    ];
+                                                                }
                                                             }
                                                         @endphp
                                                         @foreach($contractAmountInfo as $contractId => $contractAmountValue)
