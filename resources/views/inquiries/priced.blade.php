@@ -183,7 +183,7 @@
                             {{ $inquiry->marketer }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ jdate($inquiry->updated_at)->format('%A, Y/m/d') }}
+                            {{ jdate($inquiry->created_at)->format('%A, Y/m/d') }}
                         </td>
                         <td class="table-tr-td border-r-0 whitespace-nowrap">
                             <div class="flex items-center justify-center space-x-4 space-x-reverse relative"

@@ -255,13 +255,7 @@
                             <th class="p-4">نام قطعه</th>
                             <th class="p-4">واحد</th>
                             <th class="p-4">وزن</th>
-                            @if(auth()->user()->role == 'admin')
-                                <th class="p-4">قیمت واحد (تومان)</th>
-                            @endif
-                            <th class="p-4"> مقادیر</th>
-                            @if(auth()->user()->role == 'admin')
-                                <th class="p-4 rounded-tl-lg">جمع کل (تومان)</th>
-                            @endif
+                            <th class="p-4 rounded-tl-lg"> مقادیر</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -313,12 +307,7 @@
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     {{ $part->weight }}
                                 </td>
-                                @if(auth()->user()->role == 'admin')
-                                    <td class="table-tr-td border-t-0 border-x-0">
-                                        {{ number_format($amount->price) }}
-                                    </td>
-                                @endif
-                                <td class="table-tr-td border-t-0 border-x-0">
+                                <td class="table-tr-td border-t-0 border-r-0">
                                     <div class="flex items-center justify-center">
                                         <input type="text" name="amounts[]" id="inputAmount{{ $part->id }}"
                                                class="input-text w-24 text-center" value="{{ $amount->value }}"
@@ -334,13 +323,22 @@
                                                value="{{ $amount->value2 }}">
                                     </div>
                                 </td>
-                                @if(auth()->user()->role == 'admin')
-                                    <td class="table-tr-td border-t-0 border-r-0">
-                                        {{ number_format($amount->price * $amount->value) }}
-                                    </td>
-                                @endif
                             </tr>
                         @endforeach
+                        <tr class="table-tb-tr">
+                            <td colspan="8" class="table-tr-td border-t-0">
+                                <a href="{{ route('contracts.parts.add-part', [$contract->id, $product->id]) }}"
+                                   class="w-8 h-8 rounded-full bg-green-500 grid place-content-center mr-2"
+                                   title="افزودن قطعه">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         stroke-width="2"
+                                         stroke="currentColor" class="w-6 h-6 text-white">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                              d="M12 4.5v15m7.5-7.5h-15"></path>
+                                    </svg>
+                                </a>
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                     <div class="mt-4 sticky bottom-4">

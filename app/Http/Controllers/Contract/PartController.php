@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Contract;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Contract;
 use App\Models\ContractPartHistory;
 use App\Models\ContractProduct;
@@ -106,5 +107,101 @@ class PartController extends Controller
         alert()->success('ثبت موفق', 'دستور ساخت با موفقیت صادر شد');
 
         return back();
+    }
+
+    public function addPart(Contract $contract, ContractProduct $product)
+    {
+        $parts = Part::query();
+        $categories = Category::where('parent_id', 0)->get();
+
+        if ($keyword = request('search')) {
+            $parts->where('name', 'LIKE', "%{$keyword}%");
+        }
+
+        if (!is_null(request('category3'))) {
+            if (request()->has('category3')) {
+                $parts = $parts->whereHas('categories', function ($q) {
+                    $q->where('category_id', request('category3'));
+                });
+            }
+        }
+
+        if (is_null(request('category3'))) {
+            if (request()->has('category2')) {
+                $parts = $parts->whereHas('categories', function ($q) {
+                    $q->where('category_id', request('category2'));
+                });
+            }
+        }
+
+        $parts = $parts->latest()->paginate(25);
+
+        return view('contracts.parts.add-part', compact('contract', 'product', 'categories', 'parts'));
+    }
+
+    public function storePart(Request $request, Contract $contract, ContractProduct $product)
+    {
+        $request->validate([
+            'quantity' => 'required|numeric',
+            'tag' => 'nullable|string|max:255',
+            'part_id' => 'required|integer'
+        ]);
+
+        $part = Part::find($request->part_id);
+
+        if ($product->spareAmounts->isEmpty()) {
+            $sort = 1;
+        } else {
+            $max = $product->spareAmounts()->max('sort');
+            $sort = $max + 1;
+        }
+
+        $product->spareAmounts()->create([
+            'value' => $request->quantity,
+            'value2' => $request->quantity2,
+            'price' => $part->price,
+            'weight' => $part->weight ?? 0,
+            'part_id' => $part->id,
+            'sort' => $sort
+        ]);
+
+        if ($part->collection && !$part->children->isEmpty()) {
+            foreach ($part->children as $child) {
+                if (!$child->children->isEmpty()) {
+                    foreach ($child->children as $ch) {
+                        $product->amounts()->create([
+                            'value' => $ch->pivot->value,
+                            'value2' => $ch->pivot->value2,
+                            'part_id' => $ch->id,
+                            'price' => $ch->price,
+                            'sort' => $ch->pivot->sort,
+                            'weight' => $ch->weight ?? 0
+                        ]);
+                    }
+                } else {
+                    $product->amounts()->create([
+                        'value' => $child->pivot->value,
+                        'value2' => $child->pivot->value2,
+                        'part_id' => $child->id,
+                        'price' => $child->price,
+                        'sort' => $child->pivot->sort,
+                        'weight' => $child->weight ?? 0
+                    ]);
+                }
+            }
+        } else {
+            $product->amounts()->create([
+                'value' => $request->quantity,
+                'value2' => $request->quantity2,
+                'part_id' => $part->id,
+                'price' => $part->price,
+                'sort' => 0,
+                'weight' => $part->weight ?? 0
+            ]);
+        }
+
+        alert()->success('ثبت موفق', 'افزودن قطعه به قرارداد با موفقیت انجام شد');
+
+        return redirect()->route('contracts.parts.index');
     }
 }
