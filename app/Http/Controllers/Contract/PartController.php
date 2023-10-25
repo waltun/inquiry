@@ -109,6 +109,17 @@ class PartController extends Controller
         return back();
     }
 
+    public function destroyRecipe(Contract $contract)
+    {
+        $contract->update([
+            'recipe' => false
+        ]);
+
+        alert()->success('حذف موفق', 'دستور ساخت با موفقیت حذف شد');
+
+        return back();
+    }
+
     public function addPart(Contract $contract, ContractProduct $product)
     {
         $parts = Part::query();

@@ -240,6 +240,14 @@
                    class="text-xs text-indigo-500 font-medium" target="_blank">
                     مشاهده
                 </a>
+                <span>|</span>
+                <form action="{{ route('contracts.parts.destroy-recipe', $contract->id) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="text-xs text-red-500 font-medium"
+                            onclick="return confirm('دستور ساخت حذف شود ؟')">
+                        حذف
+                    </button>
+                </form>
             </div>
         @endif
     </div>
