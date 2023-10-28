@@ -264,7 +264,7 @@
                                                                 $convertorInput = \App\Models\ConvertorInput::where('part_id', $part->id)->where('inquiry_id', $inquiry->id)->first();
                                                             }
                                                             $lastCategory = $part->categories->last();
-                                                            $attributes = $lastCategory->attributes()->orderBy('sort', 'ASC')->get();;
+                                                            $attributes = $lastCategory->attributes()->orderBy('sort', 'ASC')->get();
                                                         @endphp
                                                         @if(!$attributes->isEmpty())
                                                             <div class="mb-2">
@@ -647,6 +647,7 @@
                                                                                     {{ $attribute->unit != '-' ? $attribute->unit : '' }}
                                                                                 </p>
                                                                             </div>
+
                                                                             <div
                                                                                 class="p-0 col-span-6 {{ $loop->first ? 'mt-2' : '' }}">
                                                                                 <p class="text-black"
