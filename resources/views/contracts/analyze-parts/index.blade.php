@@ -126,6 +126,7 @@
                     <th class="p-4">نام قطعه</th>
                     <th class="p-4">واحد</th>
                     <th class="p-4">مقدار</th>
+                    <th class="p-4">خریدار</th>
                     <th class="p-4 rounded-tl-lg">قرارداد ها</th>
                 </tr>
                 </thead>
@@ -147,6 +148,15 @@
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             {{ $value['value'] }}
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            @if($value['buyer_manage'] == 'factory')
+                                تدارکات کارخانه
+                            @elseif(is_null($value['buyer_manage']))
+                                -
+                            @else
+                                دفتر مرکزی
+                            @endif
                         </td>
                         <td class="table-tr-td border-t-0 border-r-0">
                             <div class="flex items-center justify-center" x-data="{open: false}">

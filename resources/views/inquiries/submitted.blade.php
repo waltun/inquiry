@@ -1,4 +1,13 @@
 <x-layout>
+    <x-slot name="js">
+        <script>
+            function searchForm() {
+                let form = document.getElementById('search-form');
+                form.submit();
+            }
+        </script>
+    </x-slot>
+
     <!-- Breadcrumb -->
     <div class="flex items-center space-x-2 space-x-reverse">
         <a href="{{ route('dashboard') }}" class="flex items-center">
@@ -68,19 +77,44 @@
     </div>
 
     <!-- Search -->
-    <div class="bg-white rounded-lg border border-gray-200 shadow p-4 mt-4">
-        <form method="GET" action="" class="md:grid grid-cols-4 gap-4" id="search-form">
-            <input type="text" id="inputInquiryNumber" class="input-text" name="search"
-                   placeholder="جستجو + اینتر" value="{{ request('search') }}">
-
-            <select name="marketer" id="inputManager" class="input-text" onchange="searchForm()">
-                <option value="">انتخاب مسئول پروژه</option>
-                @foreach(\App\Models\User::all() as $user)
-                    <option value="{{ $user->id }}" {{ request('marketer') == $user->id ? 'selected' : '' }}>
-                        {{ $user->name }}
-                    </option>
-                @endforeach
-            </select>
+    <div class="p-4 bg-white rounded-lg shadow border border-gray-200 mt-4">
+        <form method="GET" action="" class="mt-4 md:grid grid-cols-4 gap-4 space-y-4 md:space-y-0" id="search-form">
+            <div class="mb-4">
+                <input type="text" id="inputSearch" class="input-text" name="search"
+                       placeholder="جستجو + اینتر" value="{{ request('search') }}">
+            </div>
+            <div class="mb-4">
+                <select name="user_id" id="inputManager" class="input-text" onchange="searchForm()">
+                    <option value="">انتخاب مسئول پروژه</option>
+                    @foreach(\App\Models\User::all() as $user)
+                        <option value="{{ $user->id }}" {{ request('user_id') == $user->id ? 'selected' : '' }}>
+                            {{ $user->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div>
+                <select name="group_id" id="inputGroup" class="input-text" onchange="searchForm()">
+                    <option value="">جستجو براساس دسته</option>
+                    @foreach($groups as $group)
+                        <option
+                            value="{{ $group->id }}" {{ $group->id == request()->get('group_id') ? 'selected' : '' }}>
+                            {{ $group->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div>
+                <select name="model_id" id="inputModell" class="input-text" onchange="searchForm()">
+                    <option value="">جستجو براساس مدل</option>
+                    @foreach($modells as $modell)
+                        <option
+                            value="{{ $modell->id }}" {{ $modell->id == request()->get('model_id') ? 'selected' : '' }}>
+                            {{ $modell->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
         </form>
     </div>
 

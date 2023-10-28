@@ -48,14 +48,26 @@ class InquiryController extends Controller
     {
         $inquiries = Inquiry::query();
 
-        if ($key = request('search')) {
-            $inquiries->where('name', 'LIKE', "%{$key}%")
-                ->orWhere('marketer', 'LIKE', "%{$key}%")
-                ->orWhere('inquiry_number', 'LIKE', "%{$key}%");
+        if (request()->has('model_id') && !is_null(request('model_id'))) {
+            $inquiries = $inquiries->whereHas('products', function ($query) {
+                $query->where('model_id', '=', request()->get('model_id'));
+            });
         }
 
-        if (request()->has('marketer') && !is_null(request('marketer'))) {
-            $inquiries = $inquiries->where('user_id', request('marketer'));
+        if (request()->has('group_id') && !is_null(request('group_id'))) {
+            $inquiries = $inquiries->whereHas('products', function ($query) {
+                $query->where('group_id', '=', request()->get('group_id'));
+            });
+        }
+
+        if (request()->has('search') && !is_null(request('search'))) {
+            $inquiries = $inquiries->where('name', 'LIKE', "%" . request()->get('search') . "%")
+                ->orWhere('marketer', 'LIKE', "%" . request()->get('search') . "%")
+                ->orWhere('inquiry_number', 'LIKE', "%" . request()->get('search') . "%");
+        }
+
+        if (request()->has('user_id') && !is_null(request('user_id'))) {
+            $inquiries = $inquiries->where('user_id', request('user_id'));
         }
 
         if (auth()->user()->role == 'admin') {
@@ -65,8 +77,10 @@ class InquiryController extends Controller
             $inquiries = $inquiries->where('submit', 0)->where('user_id', auth()->user()->id)->latest()->paginate(25);
         }
 
+        $modells = Modell::where('parent_id', '!=', 0)->get();
+        $groups = Group::all();
         $delete = DeleteButton::where('active', '1')->first();
-        return view('inquiries.index', compact('inquiries', 'delete'));
+        return view('inquiries.index', compact('inquiries', 'delete', 'groups', 'modells'));
     }
 
     public function create()
@@ -176,14 +190,26 @@ class InquiryController extends Controller
     {
         $inquiries = Inquiry::query();
 
-        if ($key = request('search')) {
-            $inquiries->where('name', 'LIKE', "%{$key}%")
-                ->orWhere('marketer', 'LIKE', "%{$key}%")
-                ->orWhere('inquiry_number', 'LIKE', "%{$key}%");
+        if (request()->has('model_id') && !is_null(request('model_id'))) {
+            $inquiries = $inquiries->whereHas('products', function ($query) {
+                $query->where('model_id', '=', request()->get('model_id'));
+            });
         }
 
-        if (request()->has('marketer') && !is_null(request('marketer'))) {
-            $inquiries = $inquiries->where('user_id', request('marketer'));
+        if (request()->has('group_id') && !is_null(request('group_id'))) {
+            $inquiries = $inquiries->whereHas('products', function ($query) {
+                $query->where('group_id', '=', request()->get('group_id'));
+            });
+        }
+
+        if (request()->has('search') && !is_null(request('search'))) {
+            $inquiries = $inquiries->where('name', 'LIKE', "%" . request()->get('search') . "%")
+                ->orWhere('marketer', 'LIKE', "%" . request()->get('search') . "%")
+                ->orWhere('inquiry_number', 'LIKE', "%" . request()->get('search') . "%");
+        }
+
+        if (request()->has('user_id') && !is_null(request('user_id'))) {
+            $inquiries = $inquiries->where('user_id', request('user_id'));
         }
 
         if (auth()->user()->role === 'admin') {
@@ -221,10 +247,6 @@ class InquiryController extends Controller
             'submit' => true,
             'message' => null,
         ]);
-        //Send Notification
-        //$adminUsers = User::where('role', 'admin')->get();
-        //auth()->user()->notify(new NewInquiryNotification($inquiry));
-        //Notification::send($adminUsers, new NewInquiryNotification($inquiry));
 
         alert()->success('ثبت نهایی موفق', 'ثبت نهایی با موفقیت انجام شد و برای مدیریت ارسال شد');
 
@@ -233,16 +255,29 @@ class InquiryController extends Controller
 
     public function priced()
     {
+
         $inquiries = Inquiry::query();
 
-        if ($key = request('search')) {
-            $inquiries->where('name', 'LIKE', "%{$key}%")
-                ->orWhere('marketer', 'LIKE', "%{$key}%")
-                ->orWhere('inquiry_number', 'LIKE', "%{$key}%");
+        if (request()->has('model_id') && !is_null(request('model_id'))) {
+            $inquiries = $inquiries->whereHas('products', function ($query) {
+                $query->where('model_id', '=', request()->get('model_id'));
+            });
         }
 
-        if (request()->has('marketer') && !is_null(request('marketer'))) {
-            $inquiries = $inquiries->where('user_id', request('marketer'));
+        if (request()->has('group_id') && !is_null(request('group_id'))) {
+            $inquiries = $inquiries->whereHas('products', function ($query) {
+                $query->where('group_id', '=', request()->get('group_id'));
+            });
+        }
+
+        if (request()->has('search') && !is_null(request('search'))) {
+            $inquiries = $inquiries->where('name', 'LIKE', "%" . request()->get('search') . "%")
+                ->orWhere('marketer', 'LIKE', "%" . request()->get('search') . "%")
+                ->orWhere('inquiry_number', 'LIKE', "%" . request()->get('search') . "%");
+        }
+
+        if (request()->has('user_id') && !is_null(request('user_id'))) {
+            $inquiries = $inquiries->where('user_id', request('user_id'));
         }
 
         if (auth()->user()->role === 'admin') {

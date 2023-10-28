@@ -169,7 +169,8 @@
                             <input type="hidden" name="attributes[]" value="{{ $attribute->id }}">
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $attribute->unit }}
+                            <input type="text" class="input-text text-center w-32"
+                                   value="{{ $attribute->pivot->unit ?? $attribute->unit }}" name="units[]">
                         </td>
                         <td class="table-tr-td border-t-0 border-r-0">
                             @php
@@ -203,7 +204,6 @@
                 </a>
             </div>
         </form>
-
     @else
         <div class="mt-8 bg-myYellow-100 rounded-lg p-4 shadow-yellow">
             <p class="text-black text-center text-sm font-bold">

@@ -141,7 +141,7 @@
                                 <div class="mb-2">
                                     <div class="mb-2 pt-2 {{ !$loop->first ? 'border-t border-gray-200' : '' }}">
                                         <p class="text-sm font-bold text-indigo-700">
-                                            {{ $modelAttribute->name }}
+                                            {{ $modelAttribute->name ?? '-' }}
                                         </p>
                                     </div>
                                     <div class="grid grid-cols-3 gap-4">

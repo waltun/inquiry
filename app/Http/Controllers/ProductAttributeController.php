@@ -27,14 +27,20 @@ class ProductAttributeController extends Controller
             'values' => 'array',
         ]);
 
+        $modell = Modell::find($product->model_id);
+
         $values = collect([]);
         foreach ($request['attributes'] as $index => $id) {
             $attribute = Attribute::find($id);
+            $modellAttribute = $modell->parent->attributes()->where('attribute_id', $attribute->id)->first();
+
             if (!is_null($request->values[$index])) {
                 $value = $attribute->values()->firstOrCreate([
                     'value' => $request->values[$index]
                 ]);
 
+                $modellAttribute->pivot->unit = $request->units[$index];
+                $modellAttribute->pivot->save();
                 $values->push($value->id);
             }
         }
