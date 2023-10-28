@@ -38,6 +38,7 @@ class PartAttributeController extends Controller
             'attributes' => 'required|array',
             'values.*' => 'nullable|string|max:255',
             'values' => 'array',
+            'show_datasheet' => 'required|in:0,1'
         ]);
 
         $values = collect([]);
@@ -53,6 +54,8 @@ class PartAttributeController extends Controller
         }
 
         $part->attributeValues()->sync($values);
+        $part->show_datasheet = $request->show_datasheet;
+        $part->save();
 
         alert()->success('ثبت موفق', 'مقادیر مشخصه فنی با موفقیت ثبت شد');
 

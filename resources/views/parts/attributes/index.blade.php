@@ -109,7 +109,6 @@
     @if(!$attributes->isEmpty())
         <form method="post" action="{{ route('parts.attributes.store',$part->id) }}">
             @csrf
-
             <table class="w-full border-collapse">
                 <thead>
                 <tr class="table-th-tr">
@@ -162,6 +161,19 @@
                 </tbody>
                 @endforeach
             </table>
+
+            <div class="mt-4">
+                <label for="inputShowDatasheet" class="form-label">نمایش دیتاشیت این قطعه در دیتاشیت اصلی</label>
+                <select name="show_datasheet" id="inputShowDatasheet" class="input-text">
+                    <option value="">انتخاب کنید</option>
+                    <option value="1" {{ $part->show_datasheet ? 'selected' : '' }}>
+                        نمایش در دیتاشیت
+                    </option>
+                    <option value="0" {{ !$part->show_datasheet ? 'selected' : '' }}>
+                        عدم نمایش در دیتاشیت
+                    </option>
+                </select>
+            </div>
 
             <div class="flex space-x-4 space-x-reverse sticky bottom-4 z-50 mt-4">
                 <button type="submit" class="form-submit-btn">

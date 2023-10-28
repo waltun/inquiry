@@ -40,6 +40,9 @@ return new class extends Migration {
 
             $table->boolean('percent_submit')->default(0);
             $table->timestamp('price_updated_at')->nullable();
+
+            $table->boolean('show_datasheet')->default(1)->nullable();
+
             $table->timestamps();
         });
     }
