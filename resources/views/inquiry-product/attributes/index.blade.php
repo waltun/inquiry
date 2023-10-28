@@ -130,6 +130,19 @@
                 <span class="mr-1 text-sm">بازگشت</span>
             </a>
         </div>
+        <div class="flex items-center space-x-4 space-x-reverse">
+            <p class="text-xs font-medium text-black">
+                تگ : {{ $product->description ?? '-' }}
+            </p>
+            <span>|</span>
+            <p class="text-xs font-medium text-black">
+                تعداد : {{ $product->quantity ?? '-' }}
+            </p>
+            <span>|</span>
+            <p class="text-xs font-medium text-black">
+                مشخصه : {{ $product->property ?? '-' }}
+            </p>
+        </div>
     </div>
 
     <div class="mt-4">

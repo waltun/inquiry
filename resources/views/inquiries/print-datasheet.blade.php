@@ -256,12 +256,14 @@
                                                         @php
                                                             $coilInput = null;
                                                             $convertorInput = null;
+                                                            $damperInput = null;
                                                         @endphp
                                                         @php
                                                             $part = \App\Models\Part::find($amount->part_id);
                                                             if ($part->coil) {
                                                                 $coilInput = \App\Models\CoilInput::where('part_id', $part->id)->first();
                                                                 $convertorInput = \App\Models\ConvertorInput::where('part_id', $part->id)->where('inquiry_id', $inquiry->id)->first();
+                                                                $damperInput = \App\Models\DamperInput::where('part_id', $part->id)->where('inquiry_id', $inquiry->id)->first();
                                                             }
                                                             $lastCategory = $part->categories->last();
                                                             $attributes = $lastCategory->attributes()->orderBy('sort', 'ASC')->get();
@@ -543,89 +545,75 @@
                                                                                 </p>
                                                                             </div>
                                                                         </div>
-                                                                    @else
-                                                                        <div class="grid grid-cols-3">
-                                                                            <div class="p-2">
-                                                                                <p class="text-xs font-medium text-black">
-                                                                                    Actual Cooling Load :
+                                                                    @endif
+                                                                @elseif(!is_null($damperInput))
+                                                                    @if(($damperInput->type == 'Raft' || $damperInput->type == 'Taze') || $damperInput->type == 'Bargasht' || $damperInput->type == 'Exast')
+                                                                        <div class="grid grid-cols-12">
+                                                                            <div
+                                                                                class="p-0 col-span-4 mt-2">
+                                                                                <p class="text-black"
+                                                                                   style="font-size: 9px">
+                                                                                    Debbie Air :
                                                                                 </p>
                                                                             </div>
-                                                                            <div class="p-2">
-                                                                                <p class="text-xs text-black">
-                                                                                    Ton
-                                                                                </p>
-                                                                            </div>
-                                                                            <div class="p-2">
-                                                                                <p class="text-xs text-black">
-                                                                                    {{ $convertorInput->tonaj }}
-                                                                                </p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="grid grid-cols-3">
-                                                                            <div class="p-2">
-                                                                                <p class="text-xs font-medium text-black">
-                                                                                    Refrigerant :
-                                                                                </p>
-                                                                            </div>
-                                                                            <div class="p-2">
-                                                                                <p class="text-xs text-black">
+                                                                            <div
+                                                                                class="p-0 col-span-2 mt-2">
+                                                                                <p class="text-black"
+                                                                                   style="font-size: 9px">
                                                                                     -
                                                                                 </p>
                                                                             </div>
-                                                                            <div class="p-2">
-                                                                                <p class="text-xs text-black">
-                                                                                    {{ $convertorInput->gaz }}
+                                                                            <div
+                                                                                class="p-0 col-span-6 mt-2">
+                                                                                <p class="text-black"
+                                                                                   style="font-size: 9px">
+                                                                                    {{ $damperInput->debi_hava_taze }}
                                                                                 </p>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="grid grid-cols-3">
-                                                                            <div class="p-2">
-                                                                                <p class="text-xs font-medium text-black">
-                                                                                    Shell Size :
+                                                                        <div class="grid grid-cols-12">
+                                                                            <div
+                                                                                class="p-0 col-span-4 {{ $loop->first ? 'mt-2' : '' }}">
+                                                                                <p class="text-black"
+                                                                                   style="font-size: 9px">
+                                                                                    Air Speed :
                                                                                 </p>
                                                                             </div>
-                                                                            <div class="p-2">
-                                                                                <p class="text-xs text-black">
-                                                                                    Inch
-                                                                                </p>
-                                                                            </div>
-                                                                            <div class="p-2">
-                                                                                <p class="text-xs text-black">
-                                                                                    {{ $convertorInput->size_loole_pooste }}
-                                                                                </p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="grid grid-cols-3">
-                                                                            <div class="p-2">
-                                                                                <p class="text-xs font-medium text-black">
-                                                                                    Tube :
-                                                                                </p>
-                                                                            </div>
-                                                                            <div class="p-2">
-                                                                                <p class="text-xs text-black">
+                                                                            <div
+                                                                                class="p-0 col-span-2 {{ $loop->first ? 'mt-2' : '' }}">
+                                                                                <p class="text-black"
+                                                                                   style="font-size: 9px">
                                                                                     -
                                                                                 </p>
                                                                             </div>
-                                                                            <div class="p-2">
-                                                                                <p class="text-xs text-black">
-                                                                                    {{ $convertorInput->loole_messi }}
+                                                                            <div
+                                                                                class="p-0 col-span-6 {{ $loop->first ? 'mt-2' : '' }}">
+                                                                                <p class="text-black"
+                                                                                   style="font-size: 9px">
+                                                                                    {{ $damperInput->sorat_hava }}
                                                                                 </p>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="grid grid-cols-3">
-                                                                            <div class="p-2">
-                                                                                <p class="text-xs font-medium text-black">
-                                                                                    Inlet & Outlet Connection :
+                                                                        <div class="grid grid-cols-12">
+                                                                            <div
+                                                                                class="p-0 col-span-4 {{ $loop->first ? 'mt-2' : '' }}">
+                                                                                <p class="text-black"
+                                                                                   style="font-size: 9px">
+                                                                                    Number of Blades :
                                                                                 </p>
                                                                             </div>
-                                                                            <div class="p-2">
-                                                                                <p class="text-xs text-black">
-                                                                                    Inch
+                                                                            <div
+                                                                                class="p-0 col-span-2 {{ $loop->first ? 'mt-2' : '' }}">
+                                                                                <p class="text-black"
+                                                                                   style="font-size: 9px">
+                                                                                    No.
                                                                                 </p>
                                                                             </div>
-                                                                            <div class="p-2">
-                                                                                <p class="text-xs text-black">
-                                                                                    {{ $convertorInput->flanch }}
+                                                                            <div
+                                                                                class="p-0 col-span-6 {{ $loop->first ? 'mt-2' : '' }}">
+                                                                                <p class="text-black"
+                                                                                   style="font-size: 9px">
+                                                                                    {{ $damperInput->tedad_pare }}
                                                                                 </p>
                                                                             </div>
                                                                         </div>
@@ -647,7 +635,6 @@
                                                                                     {{ $attribute->unit != '-' ? $attribute->unit : '' }}
                                                                                 </p>
                                                                             </div>
-
                                                                             <div
                                                                                 class="p-0 col-span-6 {{ $loop->first ? 'mt-2' : '' }}">
                                                                                 <p class="text-black"
