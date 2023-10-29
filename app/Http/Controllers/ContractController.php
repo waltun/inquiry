@@ -270,6 +270,31 @@ class ContractController extends Controller
                     }
                 }
 
+                if ($part->extract && !$part->children->isEmpty()) {
+                    foreach ($part->children as $child) {
+                        if ($child->extract && !$child->children->isEmpty()) {
+                            foreach ($child->children as $ch) {
+                                $contractProduct->spareAmounts()->create([
+                                    'value' => $ch->pivot->value,
+                                    'value2' => $ch->pivot->value2,
+                                    'part_id' => $ch->id,
+                                    'price' => $ch->price,
+                                    'sort' => $ch->pivot->sort,
+                                    'weight' => $ch->weight ?? 0
+                                ]);
+                            }
+                        } else {
+                            $contractProduct->spareAmounts()->create([
+                                'value' => $child->pivot->value,
+                                'value2' => $child->pivot->value2,
+                                'part_id' => $child->id,
+                                'price' => $child->price,
+                                'sort' => $child->pivot->sort,
+                                'weight' => $child->weight ?? 0
+                            ]);
+                        }
+                    }
+                }
                 $contractProduct->spareAmounts()->create([
                     'value' => $amount->value,
                     'value2' => $amount->value2,
