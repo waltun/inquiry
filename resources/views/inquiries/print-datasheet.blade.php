@@ -38,12 +38,14 @@
                     <div class="w-full h-5 bg-[#cf3b61]"></div>
                     <div class="absolute right-72 top-5 mr-16 p-1">
                         <div class="flex items-center justify-center whitespace-nowrap mt-2">
-                            <p class="text-xs font-bold text-black mr-16">
-                                تاریخ : {{ jdate($inquiry->created_at)->format('Y/m/d') }}
-                            </p>
-                            <p class="text-xs font-bold text-black mr-8">
-                                شماره : INQ-{{ $inquiry->inquiry_number }}
-                            </p>
+                            @if(!is_null($inquiry->archive_at))
+                                <p class="text-xs font-bold text-black mr-16">
+                                    تاریخ : {{ jdate($inquiry->archive_at)->format('Y/m/d') }}
+                                </p>
+                                <p class="text-xs font-bold text-black mr-8">
+                                    شماره : INQ-{{ $inquiry->inquiry_number }}
+                                </p>
+                            @endif
                         </div>
                     </div>
                 </header>
@@ -250,7 +252,7 @@
                                                     <div class="break-inside-avoid whitespace-nowrap">
                                                         <div class="bg-green-800 p-1.5">
                                                             <p class="font-bold text-center text-white text-sm">
-                                                                {{ $midCategory->name_en ?? $midCategory->name }}
+                                                                {{ $midCategory->name_en ?? $midCategory->name }} - {{ $lastCategory->name_en ?? '' }}
                                                             </p>
                                                         </div>
                                                         <div class="bg-white">
