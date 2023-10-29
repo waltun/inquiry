@@ -1,5 +1,73 @@
 <x-layout>
     <x-slot name="js">
+        <script src="{{ asset('plugins/jquery.min.js') }}"></script>
+        <script>
+            function getCategory1() {
+                let id = document.getElementById('inputCategory1').value;
+                let section = document.getElementById('categorySection1');
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('parts.getCategory') }}',
+                    data: {
+                        id: id,
+                    },
+                    success: function (res) {
+                        if (res.data != null) {
+                            section.innerHTML = `
+                            <label for="inputCategory" class="form-label">زیر دسته</label>
+                            <select class="input-text" onchange="getCategory2()" id="inputCategory2" name="categories[]">
+                                <option value="">انتخاب کنید</option>
+                                    ${
+                                res.data.map(function (category) {
+                                    return `<option value="${category.id}">${category.name}</option>`
+                                })
+                            }
+                            </select>`
+                        }
+                    }
+                });
+            }
+
+            function getCategory2() {
+                let id = document.getElementById('inputCategory2').value;
+                let section = document.getElementById('categorySection2');
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('parts.getCategory') }}',
+                    data: {
+                        id: id,
+                    },
+                    success: function (res) {
+                        if (res.data != null) {
+                            section.innerHTML = `
+                            <label for="inputCategory3" class="form-label">زیر دسته</label>
+                            <select class="input-text" name="categories[]" id="inputCategory3">
+                                <option value="">انتخاب کنید</option>
+                                    ${
+                                res.data.map(function (category) {
+                                    return `<option value="${category.id}">${category.name}</option>`
+                                })
+                            }
+                            </select>`
+                        }
+                    }
+                });
+            }
+        </script>
         <script>
             function showPrice(event) {
                 let value = event.target.value;
@@ -115,7 +183,7 @@
                 <label for="inputCategory1" class="form-label">
                     دسته اصلی قطعه
                 </label>
-                <select name="categories[]" id="inputCategory1" class="input-text">
+                <select name="categories[]" id="inputCategory1" class="input-text" onchange="getCategory1()">
                     @foreach($categories as $category)
                         <option
                             value="{{ $category->id }}" {{ $partCategory[0]->id == $category->id ? 'selected' : '' }}>
@@ -124,7 +192,7 @@
                     @endforeach
                 </select>
             </div>
-            <div class="mt-4">
+            <div class="mt-4" id="categorySection1">
                 <label for="inputCategory2" class="form-label">
                     زیردسته اول قطعه
                 </label>
@@ -136,7 +204,7 @@
                     @endforeach
                 </select>
             </div>
-            <div class="mt-4">
+            <div class="mt-4" id="categorySection2">
                 <label for="inputCategory3" class="form-label">
                     زیردسته دوم قطعه
                 </label>

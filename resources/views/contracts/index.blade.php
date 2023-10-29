@@ -124,6 +124,9 @@
                         شماره قرارداد
                     </th>
                     <th scope="col" class="p-4">
+                        شماره قرارداد قبلی
+                    </th>
+                    <th scope="col" class="p-4">
                         نام خریدار
                     </th>
                     <th scope="col" class="p-4">
@@ -147,7 +150,10 @@
                 @foreach($contracts as $contract)
                     <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
                         <td class="table-tr-td border-t-0 border-l-0">
-                            {{ $contract->number ? "CNT-" . $contract->number : 'در حال انجام' }}
+                            {{ "CNT-" . $contract->number }}
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            {{ $contract->old_number ?? '-' }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             {{ $contract->customer->name }}
