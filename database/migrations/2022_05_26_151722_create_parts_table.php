@@ -42,6 +42,7 @@ return new class extends Migration {
             $table->timestamp('price_updated_at')->nullable();
 
             $table->boolean('show_datasheet')->default(1)->nullable();
+            $table->boolean('extract')->default(1)->nullable();
 
             $table->timestamps();
         });

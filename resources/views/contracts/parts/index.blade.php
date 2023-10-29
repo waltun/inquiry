@@ -298,7 +298,7 @@
                                 $category = $part->categories[1];
                                 $selectedCategory = $part->categories[2];
                             @endphp
-                            <tr class="table-tb-tr group whitespace-nowrap">
+                            <tr class="table-tb-tr group whitespace-nowrap {{ $loop->even ? 'bg-sky-100' : '' }}">
                                 <td class="table-tr-td border-t-0 border-l-0">
                                     <input type="number" class="input-text text-center w-14" name="sorts[]"
                                            value="{{ $amount->sort }}">
@@ -399,7 +399,8 @@
                 $products = $contract->products()->where('part_id','!=',0)->where('type',$type)->get();
             @endphp
             @if(!$products->isEmpty())
-                <div class="card">
+                <form method="POST" action="{{ route('contracts.products.store-product', $contract->id) }}" class="card">
+                    @csrf
                     <div class="card-header">
                         <p class="card-title text-lg">
                             @switch($type)
@@ -464,34 +465,82 @@
                         <thead>
                         <tr class="table-th-tr">
                             <th class="p-4 rounded-tr-lg">ردیف</th>
+                            <th class="p-4">دسته بندی</th>
                             <th class="p-4">نام قطعه</th>
                             <th class="p-4">واحد</th>
-                            <th class="p-4 rounded-tl-lg">تعداد</th>
+                            <th class="p-4">تعداد</th>
+                            <th class="p-4 rounded-tl-lg">
+                                <span class="sr-only">اقدامات</span>
+                            </th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($products as $product)
+                            <input type="hidden" name="product_id" value="{{ $product->id }}">
                             @php
                                 $part = \App\Models\Part::find($product->part_id);
+
+                                $category = $part->categories[1];
+                                $selectedCategory = $part->categories[2];
                             @endphp
                             <tr class="table-tb-tr group whitespace-normal {{ $loop->even ? 'bg-sky-100' : '' }}">
                                 <td class="table-tr-td border-t-0 border-l-0">
                                     {{ $loop->index + 1 }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
-                                    {{ $part->name }}
+                                    <select id="inputCategory{{ $product->id }}" class="input-text w-32"
+                                            onchange="changePart(event,{{ $part->id, $product->id }})">
+                                        @foreach($category->children as $child)
+                                            <option
+                                                value="{{ $child->id }}" {{ $child->id == $selectedCategory->id ? 'selected' : '' }}>
+                                                {{ $child->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </td>
+                                @php
+                                    $lastCategory = $part->categories()->latest()->first();
+                                    $categoryParts = $lastCategory->parts;
+                                @endphp
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    <select name="part_ids[]" class="input-text" id="partList{{ $part->id }}">
+                                        @foreach($categoryParts as $part2)
+                                            <option
+                                                value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
+                                                {{ $part2->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     {{ $part->unit }}
                                 </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    <div class="flex items-center justify-center">
+                                        <input type="text" name="quantities[]" id="inputQuantity{{ $product->id }}"
+                                               class="input-text w-24 text-center" value="{{ $product->quantity }}">
+                                    </div>
+                                </td>
                                 <td class="table-tr-td border-t-0 border-r-0">
-                                    {{ $product->quantity }}
+                                    <button class="table-delete-btn" type="button"
+                                            onclick="deletePart({{ $part->id }},{{ $product->id }})">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                             stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                  d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
+                                        </svg>
+                                    </button>
                                 </td>
                             </tr>
                         @endforeach
                         </tbody>
                     </table>
-                </div>
+                    <div class="mt-4">
+                        <button type="submit" class="page-success-btn">
+                            ثبت مقادیر
+                        </button>
+                    </div>
+                </form>
             @endif
         @endforeach
     </div>

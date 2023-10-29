@@ -77,7 +77,7 @@
         </script>
         <script>
             let submitButton = document.getElementById('submit-button');
-            submitButton.addEventListener('click',function (){
+            submitButton.addEventListener('click', function () {
                 submitButton.classList.add('hidden')
             });
         </script>
@@ -178,6 +178,20 @@
                 <select name="collection" id="inputCollection" class="input-text">
                     <option value="false" {{ old('collection') == 'false' ? 'selected' : '' }}>نباشد</option>
                     <option value="true" {{ old('collection') == 'true' ? 'selected' : '' }}>باشد</option>
+                </select>
+            </div>
+
+            <div class="mt-4">
+                <label for="inputExtract" class="form-label">
+                    اکسترکت شدن قطعات زیرمجموعه در بخش قرارداد
+                </label>
+                <select name="extract" id="inputExtract" class="input-text">
+                    <option value="0" {{ old('extract') == '0' ? 'selected' : '' }}>
+                        اکسترکت نشود
+                    </option>
+                    <option value="1" {{ old('extract') == '1' ? 'selected' : '' }}>
+                        اکسترکت شود
+                    </option>
                 </select>
             </div>
 

@@ -231,4 +231,9 @@ class PartController extends Controller
 
         alert()->success('حذف موفق', 'حذف قطعه از قرارداد با موفقیت انجام شد');
     }
+
+    public function storeProduct(Request $request, Contract $contract)
+    {
+        dd($request->all());
+    }
 }

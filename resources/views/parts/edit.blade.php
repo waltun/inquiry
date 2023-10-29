@@ -170,6 +170,19 @@
                     <option value="true" {{ $part->collection ? 'selected' : '' }}>باشد</option>
                 </select>
             </div>
+            <div class="mt-4">
+                <label for="inputExtract" class="form-label">
+                    اکسترکت شدن قطعات زیرمجموعه در بخش قرارداد
+                </label>
+                <select name="extract" id="inputExtract" class="input-text">
+                    <option value="0" {{ old('extract', $part->extract) == '0' ? 'selected' : '' }}>
+                        اکسترکت نشود
+                    </option>
+                    <option value="1" {{ old('extract', $part->extract) == '1' ? 'selected' : '' }}>
+                        اکسترکت شود
+                    </option>
+                </select>
+            </div>
         </div>
 
         <div class="card">

@@ -81,7 +81,8 @@ class PartController extends Controller
             'formula1' => 'nullable|numeric',
             'formula2' => 'nullable|numeric',
             'weight' => 'nullable|numeric',
-            'name_en' => 'nullable|string|max:255'
+            'name_en' => 'nullable|string|max:255',
+            'extract' => 'required|in:0,1',
         ]);
 
         if ($data['collection'] == 'true') {
@@ -134,7 +135,8 @@ class PartController extends Controller
             'formula1' => 'nullable|numeric',
             'formula2' => 'nullable|numeric',
             'weight' => 'nullable|numeric',
-            'name_en' => 'nullable|string|max:255'
+            'name_en' => 'nullable|string|max:255',
+            'extract' => 'required|in:0,1',
         ]);
 
         if ($data['collection'] == 'true') {
