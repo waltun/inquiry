@@ -61,7 +61,7 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p-active">
-                    مشاهده قرارداد {{ $contract->name }} - {{ $contract->customer->name }}
+                    مشاهده قرارداد {{ $contract->name }} - {{ $contract->customer->name }} - CNT-{{ $contract->number }}
                 </p>
             </div>
         </div>
@@ -78,7 +78,7 @@
             </svg>
             <div class="mr-2">
                 <p class="font-bold text-2xl text-black dark:text-white">
-                    مشاهده قرارداد {{ $contract->name }} - {{ $contract->customer->name }}
+                    مشاهده قرارداد {{ $contract->name }} - {{ $contract->customer->name }} - CNT-{{ $contract->number }}
                 </p>
             </div>
         </div>

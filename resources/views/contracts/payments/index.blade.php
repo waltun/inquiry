@@ -112,7 +112,7 @@
             </svg>
             <div class="mr-2">
                 <p class="font-bold text-2xl text-black dark:text-white">
-                    لیست پرداخت های قرارداد {{ $contract->name }}
+                    لیست پرداخت های قرارداد {{ $contract->name }} - {{ $contract->customer->name }} - CNT-{{ $contract->number }}
                 </p>
             </div>
         </div>

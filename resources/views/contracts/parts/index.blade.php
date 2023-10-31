@@ -214,7 +214,7 @@
             </svg>
             <div class="mr-2">
                 <p class="font-bold text-2xl text-black dark:text-white">
-                    قطعات محصولات قرارداد {{ $contract->name }}
+                    قطعات محصولات قرارداد {{ $contract->name }} - {{ $contract->customer->name }} - CNT-{{ $contract->number }}
                 </p>
             </div>
         </div>
