@@ -236,8 +236,8 @@
                                 <div x-show="open" @click.away="open = false" class="table-dropdown -top-16 left-8"
                                      x-cloak>
                                     @can('inquiry-datasheet')
-                                        <a href="{{ route('inquiries.datasheet',$inquiry->id) }}"
-                                           class="table-dropdown-edit">
+                                        <a href="{{ route('inquiries.printDatasheet',$inquiry->id) }}"
+                                           class="table-dropdown-edit" target="_blank">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                  stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
