@@ -448,9 +448,12 @@
                                                                 </option>
                                                                 <option value="setup_price">دستمزد راه اندازی</option>
                                                                 <option value="supervision">دستمزد نظارت</option>
-                                                                <option value="copper_piping">دستمزد لوله کشی مسی</option>
-                                                                <option value="carbon_piping">دستمزد لوله کربن استیل</option>
+                                                                <option value="copper_piping">دستمزد لوله کشی مسی
+                                                                </option>
+                                                                <option value="carbon_piping">دستمزد لوله کربن استیل
+                                                                </option>
                                                                 <option value="transport">هزینه حمل</option>
+                                                                <option value="coil">انواع کویل</option>
                                                                 <option value="other">سایر تجهیزات</option>
                                                             </select>
                                                         </div>

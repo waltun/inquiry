@@ -329,7 +329,7 @@
                                 {{ $part->name }}
                             </td>
                             <td class="table-tr-td border-t-0 border-x-0">
-                                @switch($part->type)
+                                @switch($product->type)
                                     @case('setup')
                                         قطعات یدکی راه اندازی
                                         @break
@@ -348,8 +348,11 @@
                                     @case('pipe')
                                         قطعات لوله و اتصالات
                                         @break
+                                    @case('install_setup_price')
+                                        دستمزد نصب و راه اندازی
+                                        @break
                                     @case('setup_price')
-                                        دستمزد راه‌اندازی و نصب
+                                        دستمزد راه اندازی
                                         @break
                                     @case('supervision')
                                         دستمزد نظارت
@@ -360,8 +363,29 @@
                                     @case('other')
                                         سایر تجهیزات
                                         @break
+                                    @case('setup_one')
+                                        قطعات راه اندازی
+                                        @break
+                                    @case('install')
+                                        قطعات نصب
+                                        @break
+                                    @case('cable')
+                                        اقلام کابل کشی
+                                        @break
+                                    @case('canal')
+                                        اقلام کانال کشی
+                                        @break
+                                    @case('copper_piping')
+                                        دستمزد لوله کشی مسی
+                                        @break
+                                    @case('carbon_piping')
+                                        دستمزد لوله کشی کربن استیل
+                                        @break
+                                    @case('coil')
+                                        انواع کویل
+                                        @break
                                     @case('')
-                                        -
+                                        سایر تجهیزات (قطعات قبلی)
                                         @break
                                 @endswitch
                             </td>

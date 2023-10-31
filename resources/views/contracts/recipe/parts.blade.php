@@ -404,7 +404,7 @@
 
         <!-- Part List -->
         @php
-            $types = ['setup','years','control','power_cable','control_cable','pipe','install_setup_price','setup_price','supervision','transport','other','setup_one','install','cable','canal','copper_piping','carbon_piping',null];
+            $types = ['setup','years','control','power_cable','control_cable','pipe','install_setup_price','setup_price','supervision','transport','other','setup_one','install','cable','canal','copper_piping','carbon_piping', 'coil',null];
             $partsTotalPrice = 0;
         @endphp
         @foreach($types as $type)
@@ -466,6 +466,9 @@
                                     @break
                                 @case('carbon_piping')
                                     دستمزد لوله کشی کربن استیل
+                                    @break
+                                @case('coil')
+                                    انواع کویل
                                     @break
                                 @case('')
                                     سایر تجهیزات (قطعات قبلی)

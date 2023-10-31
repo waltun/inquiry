@@ -143,7 +143,7 @@ class InquiryPartController extends Controller
             'types' => 'required'
         ]);
 
-        $types = ['setup', 'years', 'control', 'power_cable', 'control_cable', 'pipe', 'install_setup_price', 'setup_price', 'supervision', 'transport', 'other', 'setup_one', 'install', 'cable', 'canal', 'copper_piping', 'carbon_piping', null];
+        $types = ['setup', 'years', 'control', 'power_cable', 'control_cable', 'pipe', 'install_setup_price', 'setup_price', 'supervision', 'transport', 'other', 'setup_one', 'install', 'cable', 'canal', 'copper_piping', 'carbon_piping', 'coil', null];
 
         foreach ($types as $type) {
             if ($request['submitType'] == $type) {
