@@ -252,7 +252,8 @@
                                                     <div class="break-inside-avoid whitespace-nowrap">
                                                         <div class="bg-green-800 p-1.5">
                                                             <p class="font-bold text-center text-white text-sm">
-                                                                {{ $midCategory->name_en ?? $midCategory->name }} - {{ $lastCategory->name_en ?? '' }}
+                                                                {{ $midCategory->name_en ?? $midCategory->name }}
+                                                                {{ $lastCategory->name_en ? "-" . $lastCategory->name_en : '' }}
                                                             </p>
                                                         </div>
                                                         <div class="bg-white">

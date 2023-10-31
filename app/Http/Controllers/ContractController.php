@@ -203,7 +203,6 @@ class ContractController extends Controller
     {
         $data = $request->validate([
             'invoice_id' => 'required|integer',
-            'amount' => 'required|integer'
         ]);
 
         $invoice = Invoice::find($data["invoice_id"]);
@@ -233,43 +232,6 @@ class ContractController extends Controller
 
             foreach ($amounts as $amount) {
                 $part = Part::find($amount->part_id);
-                if ($data["amount"] == '1') {
-                    if ($part->collection && !$part->children->isEmpty()) {
-                        foreach ($part->children as $child) {
-                            if (!$child->children->isEmpty()) {
-                                foreach ($child->children as $ch) {
-                                    $contractProduct->amounts()->create([
-                                        'value' => $ch->pivot->value,
-                                        'value2' => $ch->pivot->value2,
-                                        'part_id' => $ch->id,
-                                        'price' => $ch->price,
-                                        'sort' => $ch->pivot->sort,
-                                        'weight' => $ch->weight ?? 0
-                                    ]);
-                                }
-                            } else {
-                                $contractProduct->amounts()->create([
-                                    'value' => $child->pivot->value,
-                                    'value2' => $child->pivot->value2,
-                                    'part_id' => $child->id,
-                                    'price' => $child->price,
-                                    'sort' => $child->pivot->sort,
-                                    'weight' => $child->weight ?? 0
-                                ]);
-                            }
-                        }
-                    } else {
-                        $contractProduct->amounts()->create([
-                            'value' => $amount->value,
-                            'value2' => $amount->value2,
-                            'part_id' => $amount->part_id,
-                            'price' => $amount->price,
-                            'sort' => $amount->sort,
-                            'weight' => $amount->weight ?? 0
-                        ]);
-                    }
-                }
-
                 if ($part->extract && !$part->children->isEmpty()) {
                     foreach ($part->children as $child) {
                         if ($child->extract && !$child->children->isEmpty()) {
@@ -307,6 +269,29 @@ class ContractController extends Controller
         }
 
         alert()->success('ثبت موفق', 'پیش قلکتور با موفقیت برای قرارداد ثبت شد');
+
+        return back();
+    }
+
+    public function deleteAll(Contract $contract)
+    {
+        foreach ($contract->products as $product) {
+            if (!$product->spareAmounts->isEmpty()) {
+                foreach ($product->spareAmounts as $spareAmount) {
+                    $spareAmount->delete();
+                }
+            }
+
+            if (!$product->amounts->isEmpty()) {
+                foreach ($product->amounts as $amount) {
+                    $amount->delete();
+                }
+            }
+
+            $product->delete();
+        }
+
+        alert()->success('حذف موفق', 'همه محصولات قرارداد با موفقیت حذف شدند');
 
         return back();
     }

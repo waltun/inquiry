@@ -49,7 +49,8 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p-active">
-                    محصولات قرارداد {{ $contract->name }} - {{ $contract->customer->name }} - CNT-{{ $contract->number }}
+                    محصولات قرارداد {{ $contract->name }} - {{ $contract->customer->name }} -
+                    CNT-{{ $contract->number }}
                 </p>
             </div>
         </div>
@@ -65,7 +66,8 @@
             </svg>
             <div class="mr-2">
                 <p class="font-bold text-2xl text-black dark:text-white">
-                    لیست محصولات و قطعات قرارداد {{ $contract->name }} - {{ $contract->customer->name }} - CNT-{{ $contract->number }}
+                    لیست محصولات و قطعات قرارداد {{ $contract->name }} - {{ $contract->customer->name }} -
+                    CNT-{{ $contract->number }}
                 </p>
             </div>
         </div>
@@ -359,11 +361,24 @@
                 @endif
             @endforeach
 
-            <!-- Total price -->
-            <div class="flex justify-end items-center sticky bottom-4 space-x-4 space-x-reverse">
-                <p class="table-price-label text-lg">
-                    قیمت نهایی قرارداد : {{ number_format($productTotalPrice + $partsTotalPrice) }} تومان
-                </p>
+            <div class="flex items-center justify-between">
+                <!-- Delete All -->
+                <form method="POST" action="{{ route('contracts.products.delete-all', $contract->id) }}"
+                      class="mt-4">
+                    @csrf
+                    @method('DELETE')
+
+                    <button class="form-cancel-btn" type="submit" onclick="return confirm('همه محصولات حذف شود ؟')">
+                        حذف همه محصولات
+                    </button>
+                </form>
+
+                <!-- Total price -->
+                <div class="flex justify-end items-center sticky bottom-4 space-x-4 space-x-reverse">
+                    <p class="table-price-label text-lg">
+                        قیمت نهایی قرارداد : {{ number_format($productTotalPrice + $partsTotalPrice) }} تومان
+                    </p>
+                </div>
             </div>
         @else
             <div class="mb-4">
@@ -430,8 +445,12 @@
                                             </svg>
                                             قیمت
                                         </a>
-                                        <div x-data="{open:false}">
-                                            <button class="table-success-btn" type="button" @click="open = !open">
+                                        <form action="{{ route('contracts.select-invoice', $contract->id) }}"
+                                              method="POST">
+                                            @csrf
+                                            <input type="hidden" name="invoice_id" value="{{ $invoice->id }}">
+                                            <button class="table-success-btn" type="submit"
+                                                    onclick="return confirm('پیش فاکتور به قرارداد اضافه شود ؟')">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                      stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -439,67 +458,7 @@
                                                 </svg>
                                                 افزودن به قرارداد
                                             </button>
-                                            <div class="relative z-10" x-show="open" x-cloak>
-                                                <div class="modal-backdrop"></div>
-                                                <div class="fixed z-10 inset-0 overflow-y-auto">
-                                                    <div class="modal">
-                                                        <div class="modal-body">
-                                                            <form method="POST"
-                                                                  class="bg-white dark:bg-slate-800 p-4"
-                                                                  action="{{ route('contracts.select-invoice', $contract->id) }}">
-                                                                @csrf
-                                                                <input type="hidden" name="invoice_id"
-                                                                       value="{{ $invoice->id }}">
-                                                                <div class="mb-4 flex justify-between items-center">
-                                                                    <h3 class="text-lg font-bold text-gray-900 dark:text-white">
-                                                                        افزودن پیش فاکتور به قرارداد
-                                                                    </h3>
-                                                                    <button type="button" @click="open = false">
-                                                                        <span class="modal-close">
-                                                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                 fill="none"
-                                                                                 viewBox="0 0 24 24"
-                                                                                 stroke-width="1.5"
-                                                                                 stroke="currentColor"
-                                                                                 class="w-5 h-5 dark:text-white">
-                                                                                <path stroke-linecap="round"
-                                                                                      stroke-linejoin="round"
-                                                                                      d="M6 18L18 6M6 6l12 12"/>
-                                                                            </svg>
-                                                                        </span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="mt-6">
-                                                                    <div class="mb-4">
-                                                                        <label for="inputAmount{{ $invoice->id }}"
-                                                                               class="form-label">
-                                                                            افزودن قطعات پیش فاکتور به آنالیز همه قطعات
-                                                                        </label>
-                                                                        <select name="amount"
-                                                                                id="inputAmount{{ $invoice->id }}"
-                                                                                class="input-text">
-                                                                            <option value="">انتخاب کنید</option>
-                                                                            <option value="1">بله</option>
-                                                                            <option value="0">خیر</option>
-                                                                        </select>
-                                                                    </div>
-                                                                    <div
-                                                                        class="flex justify-end items-center space-x-4 space-x-reverse">
-                                                                        <button type="submit" class="form-submit-btn">
-                                                                            افزودن به قرارداد
-                                                                        </button>
-                                                                        <button type="button" class="form-cancel-btn"
-                                                                                @click="open = false">
-                                                                            انصراف!
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        </form>
 
                                     </div>
                                 </td>

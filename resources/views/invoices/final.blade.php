@@ -200,7 +200,7 @@
                                     </button>
                                     <div x-show="open" @click.away="open = false" class="table-dropdown -top-12 -right-36"
                                          x-cloak>
-                                        <a href="{{ route('invoices.final.datasheet',$invoice->id) }}"
+                                        <a href="{{ route('invoices.final.printDatasheet',$invoice->id) }}"
                                            class="table-dropdown-copy text-xs">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                  stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
