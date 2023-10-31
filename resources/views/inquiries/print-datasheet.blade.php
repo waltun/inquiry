@@ -171,11 +171,11 @@
                                                     $productsAttribute = $modell->attributes[$keys[0]];
                                                     $modelAttribute = \App\Models\AttributeGroup::find($productsAttribute->pivot->attribute_group_id);
                                                 @endphp
-                                                <div class="mb-0.5 whitespace-nowrap grid grid-cols-12">
+                                                <div class="mb-0.5 grid grid-cols-12">
                                                     <div
                                                         class="col-span-2 bg-[#cf3b61] flex h-full items-center rounded-md">
                                                         <div class="py-1 px-2">
-                                                            <p class="font-bold text-white" style="font-size: 11px">
+                                                            <p class="font-bold text-white text-xs">
                                                                 {{ $modelAttribute->name ?? '-' }} :
                                                             </p>
                                                         </div>
@@ -190,17 +190,17 @@
                                                                 <div class="col-span-5 flex items-center">
                                                                     <div
                                                                         class="w-2 h-2 bg-black flex-shrink-0 mr-1"></div>
-                                                                    <p class="mt-0.5" style="font-size: 9px">
+                                                                    <p class="mt-0.5 text-xs font-medium text-black">
                                                                         {{ $productAttribute->name }} :
                                                                     </p>
                                                                 </div>
-                                                                <div class="col-span-3">
-                                                                    <p class="mt-0.5" style="font-size: 9px">
+                                                                <div class="col-span-3 flex items-center">
+                                                                    <p class="mt-0.5 text-xs font-medium text-black">
                                                                         {{ $productAttribute->pivot->unit ?? $productAttribute->unit }}
                                                                     </p>
                                                                 </div>
-                                                                <div class="col-span-4">
-                                                                    <p class="mt-0.5" style="font-size: 9px">
+                                                                <div class="col-span-4 flex items-center">
+                                                                    <p class="mt-0.5 text-xs font-medium text-black">
                                                                         @if(!$product->attributeValues->isEmpty())
                                                                             @foreach($productAttribute->values as $value)
                                                                                 @if($product->attributeValues->contains($value))
@@ -273,121 +273,121 @@
                                                                 <div class="mb-2">
                                                                     @if(!is_null($coilInput))
                                                                         <div class="grid grid-cols-3">
-                                                                            <div class="p-1">
+                                                                            <div class="mt-2">
                                                                                 <p class="text-xs font-medium text-black">
                                                                                     Tube :
                                                                                 </p>
                                                                             </div>
-                                                                            <div class="p-1">
+                                                                            <div class="mt-2">
                                                                                 <p class="text-xs text-black">
                                                                                     -
                                                                                 </p>
                                                                             </div>
-                                                                            <div class="p-1">
+                                                                            <div class="mt-2">
                                                                                 <p class="text-xs text-black">
                                                                                     {{ $coilInput->loole_messi }}
                                                                                 </p>
                                                                             </div>
                                                                         </div>
                                                                         <div class="grid grid-cols-3">
-                                                                            <div class="p-2">
+                                                                            <div>
                                                                                 <p class="text-xs font-medium text-black">
                                                                                     Fin :
                                                                                 </p>
                                                                             </div>
-                                                                            <div class="p-2">
+                                                                            <div>
                                                                                 <p class="text-xs text-black">
                                                                                     -
                                                                                 </p>
                                                                             </div>
-                                                                            <div class="p-2">
+                                                                            <div>
                                                                                 <p class="text-xs text-black">
                                                                                     {{ $coilInput->fin_coil }}
                                                                                 </p>
                                                                             </div>
                                                                         </div>
                                                                         <div class="grid grid-cols-3">
-                                                                            <div class="p-2">
+                                                                            <div>
                                                                                 <p class="text-xs font-medium text-black">
                                                                                     Number of Row :
                                                                                 </p>
                                                                             </div>
-                                                                            <div class="p-2">
+                                                                            <div>
                                                                                 <p class="text-xs text-black">
                                                                                     No.
                                                                                 </p>
                                                                             </div>
-                                                                            <div class="p-2">
+                                                                            <div>
                                                                                 <p class="text-xs text-black">
                                                                                     {{ $coilInput->tedad_radif_coil }}
                                                                                 </p>
                                                                             </div>
                                                                         </div>
                                                                         <div class="grid grid-cols-3">
-                                                                            <div class="p-2">
+                                                                            <div>
                                                                                 <p class="text-xs font-medium text-black">
                                                                                     Fin per Inch :
                                                                                 </p>
                                                                             </div>
-                                                                            <div class="p-2">
+                                                                            <div>
                                                                                 <p class="text-xs text-black">
                                                                                     FPI
                                                                                 </p>
                                                                             </div>
-                                                                            <div class="p-2">
+                                                                            <div>
                                                                                 <p class="text-xs text-black">
                                                                                     {{ $coilInput->fin_dar_inch }}
                                                                                 </p>
                                                                             </div>
                                                                         </div>
                                                                         <div class="grid grid-cols-3">
-                                                                            <div class="p-2">
+                                                                            <div>
                                                                                 <p class="text-xs font-medium text-black">
                                                                                     Frame :
                                                                                 </p>
                                                                             </div>
-                                                                            <div class="p-2">
+                                                                            <div>
                                                                                 <p class="text-xs text-black">
                                                                                     -
                                                                                 </p>
                                                                             </div>
-                                                                            <div class="p-2">
+                                                                            <div>
                                                                                 <p class="text-xs text-black">
                                                                                     {{ $coilInput->zekhamat_frame_coil }}
                                                                                 </p>
                                                                             </div>
                                                                         </div>
                                                                         <div class="grid grid-cols-3">
-                                                                            <div class="p-2">
+                                                                            <div>
                                                                                 <p class="text-xs font-medium text-black">
                                                                                     Coating :
                                                                                 </p>
                                                                             </div>
-                                                                            <div class="p-2">
+                                                                            <div>
                                                                                 <p class="text-xs text-black">
                                                                                     -
                                                                                 </p>
                                                                             </div>
-                                                                            <div class="p-2">
+                                                                            <div>
                                                                                 <p class="text-xs text-black">
                                                                                     {{ $coilInput->pooshesh_khordegi }}
                                                                                 </p>
                                                                             </div>
                                                                         </div>
                                                                         <div class="grid grid-cols-3">
-                                                                            <div class="p-2">
+                                                                            <div>
                                                                                 <p class="text-xs font-medium text-black">
                                                                                     Face Area :
                                                                                 </p>
                                                                             </div>
-                                                                            <div class="p-2">
+                                                                            <div>
                                                                                 <p class="text-xs text-black">
                                                                                     FT^2
                                                                                 </p>
                                                                             </div>
-                                                                            <div class="p-2">
+                                                                            <div>
                                                                                 <p class="text-xs text-black">
-                                                                                    {{ $coilInput->sathe_coil }}
+                                                                                    {{ number_format($coilInput->sathe_coil, 2) }}
                                                                                 </p>
                                                                             </div>
                                                                         </div>
@@ -552,22 +552,19 @@
                                                                             @foreach($attributes as $attribute)
                                                                                 <div
                                                                                     class="p-0 col-span-4 {{ $loop->first ? 'mt-2' : '' }}">
-                                                                                    <p class="text-black"
-                                                                                       style="font-size: 9px">
+                                                                                    <p class="text-xs font-medium text-black">
                                                                                         {{ $attribute->name }} :
                                                                                     </p>
                                                                                 </div>
                                                                                 <div
                                                                                     class="p-0 col-span-2 {{ $loop->first ? 'mt-2' : '' }}">
-                                                                                    <p class="text-black"
-                                                                                       style="font-size: 9px">
+                                                                                    <p class="text-xs font-medium text-black">
                                                                                         {{ $attribute->unit != '-' ? $attribute->unit : '' }}
                                                                                     </p>
                                                                                 </div>
                                                                                 <div
                                                                                     class="p-0 col-span-6 {{ $loop->first ? 'mt-2' : '' }}">
-                                                                                    <p class="text-black"
-                                                                                       style="font-size: 9px">
+                                                                                    <p class="text-xs font-medium text-black">
                                                                                         @php
                                                                                             $foundValue = false;
                                                                                         @endphp
