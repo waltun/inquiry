@@ -133,13 +133,13 @@
                             $inquiry = $invoice->inquiry;
                             $products = $inquiry->products()->where('group_id','!=',0)->where('model_id','!=',0)->get();
                         @endphp
-
                         @foreach($products as $product)
                             @php
                                 $childModell = \App\Models\Modell::find($product->model_id);
                                 $modell = $childModell->parent;
                             @endphp
-                            <div class="rounded-xl mx-4 border border-myBlue-100" style="page-break-before: always">
+                            <div class="rounded-xl mx-4 border border-myBlue-100 mb-2 pb-2"
+                                 style="page-break-before: always">
                                 <div class="bg-[#005a96] p-1.5 rounded-t-lg">
                                     <p class="text-center text-white font-extrabold text-base">
                                         Datasheet for : {{ $product->model_custom_name }}
@@ -174,33 +174,33 @@
                                                 <div class="mb-0.5 grid grid-cols-12">
                                                     <div
                                                         class="col-span-2 bg-[#cf3b61] flex h-full items-center rounded-md">
-                                                        <div class="py-1 px-2">
+                                                        <div class="py-0.5 px-2">
                                                             <p class="font-bold text-white text-xs">
                                                                 {{ $modelAttribute->name ?? '-' }} :
                                                             </p>
                                                         </div>
                                                     </div>
                                                     <div
-                                                        class="ml-2 col-span-10 grid grid-cols-2 {{ $loop->first ? '' : 'border-t border-[#cf3b61]' }}">
+                                                        class="ml-2 col-span-10 {{ $loop->first ? '' : 'border-t border-[#cf3b61]' }}">
                                                         @foreach($keys as $key)
                                                             @php
                                                                 $productAttribute = $modell->attributes[$key];
                                                             @endphp
-                                                            <div class="grid grid-cols-12 py-1">
-                                                                <div class="col-span-5 flex items-center">
+                                                            <div class="grid grid-cols-12 py-0.5">
+                                                                <div class="col-span-4 flex items-center">
                                                                     <div
                                                                         class="w-2 h-2 bg-black flex-shrink-0 mr-1"></div>
                                                                     <p class="mt-0.5 text-xs font-medium text-black">
                                                                         {{ $productAttribute->name }} :
                                                                     </p>
                                                                 </div>
-                                                                <div class="col-span-3 flex items-center">
-                                                                    <p class="mt-0.5 text-xs font-medium text-black">
+                                                                <div class="col-span-2 flex items-center">
+                                                                    <p class="text-xs font-medium text-black">
                                                                         {{ $productAttribute->pivot->unit ?? $productAttribute->unit }}
                                                                     </p>
                                                                 </div>
-                                                                <div class="col-span-4 flex items-center">
-                                                                    <p class="mt-0.5 text-xs font-medium text-black">
+                                                                <div class="col-span-6 flex items-center">
+                                                                    <p class="text-xs font-medium text-black">
                                                                         @if(!$product->attributeValues->isEmpty())
                                                                             @foreach($productAttribute->values as $value)
                                                                                 @if($product->attributeValues->contains($value))
@@ -249,346 +249,401 @@
                                             @endphp
                                             @if($display)
                                                 @if($part->show_datasheet)
-                                                    <div class="break-inside-avoid whitespace-nowrap">
-                                                        <div class="bg-green-800 p-1.5">
-                                                            <p class="font-bold text-center text-white text-sm">
-                                                                {{ $midCategory->name_en ?? $midCategory->name }}
-                                                                {{ $lastCategory->name_en ? "-" . $lastCategory->name_en : '' }}
-                                                            </p>
-                                                        </div>
-                                                        <div class="bg-white">
-                                                            @php
-                                                                $coilInput = null;
-                                                                $convertorInput = null;
-                                                            @endphp
-                                                            @php
-                                                                $part = \App\Models\Part::find($amount->part_id);
-                                                                if ($part->coil) {
-                                                                    $coilInput = \App\Models\CoilInput::where('part_id', $part->id)->first();
-                                                                    $convertorInput = \App\Models\ConvertorInput::where('part_id', $part->id)->where('inquiry_id', $inquiry->id)->first();
-                                                                }
-                                                                $lastCategory = $part->categories->last();
-                                                                $attributes = $lastCategory->attributes()->orderBy('sort', 'ASC')->get();
-                                                            @endphp
-                                                            @if(!$attributes->isEmpty())
-                                                                <div class="mb-2">
-                                                                    @if(!is_null($coilInput))
-                                                                        <div class="grid grid-cols-3">
-                                                                            <div class="mt-2">
-                                                                                <p class="text-xs font-medium text-black">
-                                                                                    Tube :
-                                                                                </p>
-                                                                            </div>
-                                                                            <div class="mt-2">
-                                                                                <p class="text-xs text-black">
-                                                                                    -
-                                                                                </p>
-                                                                            </div>
-                                                                            <div class="mt-2">
-                                                                                <p class="text-xs text-black">
-                                                                                    {{ $coilInput->loole_messi }}
-                                                                                </p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="grid grid-cols-3">
-                                                                            <div>
-                                                                                <p class="text-xs font-medium text-black">
-                                                                                    Fin :
-                                                                                </p>
-                                                                            </div>
-                                                                            <div>
-                                                                                <p class="text-xs text-black">
-                                                                                    -
-                                                                                </p>
-                                                                            </div>
-                                                                            <div>
-                                                                                <p class="text-xs text-black">
-                                                                                    {{ $coilInput->fin_coil }}
-                                                                                </p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="grid grid-cols-3">
-                                                                            <div>
-                                                                                <p class="text-xs font-medium text-black">
-                                                                                    Number of Row :
-                                                                                </p>
-                                                                            </div>
-                                                                            <div>
-                                                                                <p class="text-xs text-black">
-                                                                                    No.
-                                                                                </p>
-                                                                            </div>
-                                                                            <div>
-                                                                                <p class="text-xs text-black">
-                                                                                    {{ $coilInput->tedad_radif_coil }}
-                                                                                </p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="grid grid-cols-3">
-                                                                            <div>
-                                                                                <p class="text-xs font-medium text-black">
-                                                                                    Fin per Inch :
-                                                                                </p>
-                                                                            </div>
-                                                                            <div>
-                                                                                <p class="text-xs text-black">
-                                                                                    FPI
-                                                                                </p>
-                                                                            </div>
-                                                                            <div>
-                                                                                <p class="text-xs text-black">
-                                                                                    {{ $coilInput->fin_dar_inch }}
-                                                                                </p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="grid grid-cols-3">
-                                                                            <div>
-                                                                                <p class="text-xs font-medium text-black">
-                                                                                    Frame :
-                                                                                </p>
-                                                                            </div>
-                                                                            <div>
-                                                                                <p class="text-xs text-black">
-                                                                                    -
-                                                                                </p>
-                                                                            </div>
-                                                                            <div>
-                                                                                <p class="text-xs text-black">
-                                                                                    {{ $coilInput->zekhamat_frame_coil }}
-                                                                                </p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="grid grid-cols-3">
-                                                                            <div>
-                                                                                <p class="text-xs font-medium text-black">
-                                                                                    Coating :
-                                                                                </p>
-                                                                            </div>
-                                                                            <div>
-                                                                                <p class="text-xs text-black">
-                                                                                    -
-                                                                                </p>
-                                                                            </div>
-                                                                            <div>
-                                                                                <p class="text-xs text-black">
-                                                                                    {{ $coilInput->pooshesh_khordegi }}
-                                                                                </p>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="grid grid-cols-3">
-                                                                            <div>
-                                                                                <p class="text-xs font-medium text-black">
-                                                                                    Face Area :
-                                                                                </p>
-                                                                            </div>
-                                                                            <div>
-                                                                                <p class="text-xs text-black">
-                                                                                    FT^2
-                                                                                </p>
-                                                                            </div>
-                                                                            <div>
-                                                                                <p class="text-xs text-black">
-                                                                                    {{ number_format($coilInput->sathe_coil, 2) }}
-                                                                                </p>
-                                                                            </div>
-                                                                        </div>
-                                                                    @elseif(!is_null($convertorInput))
-                                                                        @if($convertorInput->type == 'Evaporator')
+                                                    @if(!is_null($amount->value) && $amount->value > 0)
+                                                        <div class="break-inside-avoid whitespace-nowrap">
+                                                            <div class="bg-green-800 p-1.5">
+                                                                <p class="font-bold text-center text-white text-sm">
+                                                                    {{ $midCategory->name_en ?? $midCategory->name }}
+                                                                    {{ $lastCategory->name_en ? " - " . $lastCategory->name_en : '' }}
+                                                                </p>
+                                                            </div>
+                                                            <div class="bg-white">
+                                                                @php
+                                                                    $coilInput = null;
+                                                                    $convertorInput = null;
+                                                                @endphp
+                                                                @php
+                                                                    $part = \App\Models\Part::find($amount->part_id);
+                                                                    if ($part->coil) {
+                                                                        $coilInput = \App\Models\CoilInput::where('part_id', $part->id)->first();
+                                                                        $convertorInput = \App\Models\ConvertorInput::where('part_id', $part->id)->where('inquiry_id', $inquiry->id)->first();
+                                                                    }
+                                                                    $lastCategory = $part->categories->last();
+                                                                    $attributes = $lastCategory->attributes()->orderBy('sort', 'ASC')->get();
+                                                                @endphp
+                                                                @if(!$attributes->isEmpty())
+                                                                    <div class="mb-2">
+                                                                        @if(!is_null($coilInput))
                                                                             <div class="grid grid-cols-3">
-                                                                                <div class="p-2">
-                                                                                    <p class="text-xs font-medium text-black">
-                                                                                        Actual Cooling Load :
-                                                                                    </p>
-                                                                                </div>
-                                                                                <div class="p-2">
-                                                                                    <p class="text-xs text-black">
-                                                                                        Ton
-                                                                                    </p>
-                                                                                </div>
-                                                                                <div class="p-2">
-                                                                                    <p class="text-xs text-black">
-                                                                                        {{ $convertorInput->tonaj }}
-                                                                                    </p>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="grid grid-cols-3">
-                                                                                <div class="p-2">
-                                                                                    <p class="text-xs font-medium text-black">
-                                                                                        Refrigerant :
-                                                                                    </p>
-                                                                                </div>
-                                                                                <div class="p-2">
-                                                                                    <p class="text-xs text-black">
-                                                                                        -
-                                                                                    </p>
-                                                                                </div>
-                                                                                <div class="p-2">
-                                                                                    <p class="text-xs text-black">
-                                                                                        {{ $convertorInput->gaz }}
-                                                                                    </p>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="grid grid-cols-3">
-                                                                                <div class="p-2">
-                                                                                    <p class="text-xs font-medium text-black">
-                                                                                        Number of Curcuits :
-                                                                                    </p>
-                                                                                </div>
-                                                                                <div class="p-2">
-                                                                                    <p class="text-xs text-black">
-                                                                                        No.
-                                                                                    </p>
-                                                                                </div>
-                                                                                <div class="p-2">
-                                                                                    <p class="text-xs text-black">
-                                                                                        {{ $convertorInput->tedad_madar }}
-                                                                                    </p>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="grid grid-cols-3">
-                                                                                <div class="p-2">
-                                                                                    <p class="text-xs font-medium text-black">
-                                                                                        Shell Size :
-                                                                                    </p>
-                                                                                </div>
-                                                                                <div class="p-2">
-                                                                                    <p class="text-xs text-black">
-                                                                                        Inch
-                                                                                    </p>
-                                                                                </div>
-                                                                                <div class="p-2">
-                                                                                    <p class="text-xs text-black">
-                                                                                        {{ $convertorInput->size_loole_pooste }}
-                                                                                    </p>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="grid grid-cols-3">
-                                                                                <div class="p-1">
+                                                                                <div class="mt-2">
                                                                                     <p class="text-xs font-medium text-black">
                                                                                         Tube :
                                                                                     </p>
                                                                                 </div>
-                                                                                <div class="p-1">
-                                                                                    <p class="text-xs text-black">
+                                                                                <div class="mt-2">
+                                                                                    <p class="text-xs font-medium text-black">
                                                                                         -
                                                                                     </p>
                                                                                 </div>
-                                                                                <div class="p-1">
-                                                                                    <p class="text-xs text-black">
-                                                                                        {{ $convertorInput->loole_messi }}
+                                                                                <div class="mt-2">
+                                                                                    <p class="text-xs font-medium text-black">
+                                                                                        {{ $coilInput->loole_messi }}
                                                                                     </p>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="grid grid-cols-3">
-                                                                                <div class="p-2">
+                                                                                <div>
                                                                                     <p class="text-xs font-medium text-black">
-                                                                                        Insulation :
+                                                                                        Fin :
                                                                                     </p>
                                                                                 </div>
-                                                                                <div class="p-2">
-                                                                                    <p class="text-xs text-black">
+                                                                                <div>
+                                                                                    <p class="text-xs font-medium text-black">
                                                                                         -
                                                                                     </p>
                                                                                 </div>
-                                                                                <div class="p-2">
-                                                                                    <p class="text-xs text-black">
-                                                                                        {{ $convertorInput->ayegh }}
+                                                                                <div>
+                                                                                    <p class="text-xs font-medium text-black">
+                                                                                        {{ $coilInput->fin_coil }}
                                                                                     </p>
                                                                                 </div>
                                                                             </div>
                                                                             <div class="grid grid-cols-3">
-                                                                                <div class="p-2">
+                                                                                <div>
                                                                                     <p class="text-xs font-medium text-black">
-                                                                                        Inlet & Outlet Connection :
+                                                                                        Number of Row :
                                                                                     </p>
                                                                                 </div>
-                                                                                <div class="p-2">
-                                                                                    <p class="text-xs text-black">
-                                                                                        Inch
-                                                                                    </p>
-                                                                                </div>
-                                                                                <div class="p-2">
-                                                                                    <p class="text-xs text-black">
-                                                                                        {{ $convertorInput->flanch }}
-                                                                                    </p>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="grid grid-cols-3">
-                                                                                <div class="p-2">
+                                                                                <div>
                                                                                     <p class="text-xs font-medium text-black">
-                                                                                        Bafel Material :
-                                                                                    </p>
-                                                                                </div>
-                                                                                <div class="p-2">
-                                                                                    <p class="text-xs text-black">
-                                                                                        -
-                                                                                    </p>
-                                                                                </div>
-                                                                                <div class="p-2">
-                                                                                    <p class="text-xs text-black">
-                                                                                        {{ $convertorInput->noe_bafel }}
-                                                                                    </p>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="grid grid-cols-3">
-                                                                                <div class="p-2">
-                                                                                    <p class="text-xs font-medium text-black">
-                                                                                        Number of Bafel :
-                                                                                    </p>
-                                                                                </div>
-                                                                                <div class="p-2">
-                                                                                    <p class="text-xs text-black">
                                                                                         No.
                                                                                     </p>
                                                                                 </div>
-                                                                                <div class="p-2">
-                                                                                    <p class="text-xs text-black">
-                                                                                        {{ $convertorInput->tedad_bafel }}
+                                                                                <div>
+                                                                                    <p class="text-xs font-medium text-black">
+                                                                                        {{ $coilInput->tedad_radif_coil }}
                                                                                     </p>
                                                                                 </div>
                                                                             </div>
-                                                                        @endif
-                                                                    @else
-                                                                        <div class="grid grid-cols-12">
-                                                                            @foreach($attributes as $attribute)
-                                                                                <div
-                                                                                    class="p-0 col-span-4 {{ $loop->first ? 'mt-2' : '' }}">
+                                                                            <div class="grid grid-cols-3">
+                                                                                <div>
                                                                                     <p class="text-xs font-medium text-black">
-                                                                                        {{ $attribute->name }} :
+                                                                                        Fin per Inch :
                                                                                     </p>
                                                                                 </div>
-                                                                                <div
-                                                                                    class="p-0 col-span-2 {{ $loop->first ? 'mt-2' : '' }}">
+                                                                                <div>
                                                                                     <p class="text-xs font-medium text-black">
-                                                                                        {{ $attribute->unit != '-' ? $attribute->unit : '' }}
+                                                                                        FPI
                                                                                     </p>
                                                                                 </div>
-                                                                                <div
-                                                                                    class="p-0 col-span-6 {{ $loop->first ? 'mt-2' : '' }}">
+                                                                                <div>
                                                                                     <p class="text-xs font-medium text-black">
-                                                                                        @php
-                                                                                            $foundValue = false;
-                                                                                        @endphp
-                                                                                        @foreach($attribute->values as $value)
-                                                                                            @if($part->attributeValues->contains($value))
-                                                                                                {{ $value->value }}
-                                                                                                @php
-                                                                                                    $foundValue = true;
-                                                                                                @endphp
+                                                                                        {{ $coilInput->fin_dar_inch }}
+                                                                                    </p>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="grid grid-cols-3">
+                                                                                <div>
+                                                                                    <p class="text-xs font-medium text-black">
+                                                                                        Frame :
+                                                                                    </p>
+                                                                                </div>
+                                                                                <div>
+                                                                                    <p class="text-xs font-medium text-black">
+                                                                                        -
+                                                                                    </p>
+                                                                                </div>
+                                                                                <div>
+                                                                                    <p class="text-xs font-medium text-black">
+                                                                                        {{ $coilInput->zekhamat_frame_coil }}
+                                                                                    </p>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="grid grid-cols-3">
+                                                                                <div>
+                                                                                    <p class="text-xs font-medium text-black">
+                                                                                        Coating :
+                                                                                    </p>
+                                                                                </div>
+                                                                                <div>
+                                                                                    <p class="text-xs font-medium text-black">
+                                                                                        -
+                                                                                    </p>
+                                                                                </div>
+                                                                                <div>
+                                                                                    <p class="text-xs font-medium text-black">
+                                                                                        {{ $coilInput->pooshesh_khordegi }}
+                                                                                    </p>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="grid grid-cols-3">
+                                                                                <div>
+                                                                                    <p class="text-xs font-medium text-black">
+                                                                                        Face Area :
+                                                                                    </p>
+                                                                                </div>
+                                                                                <div>
+                                                                                    <p class="text-xs font-medium text-black">
+                                                                                        FT^2
+                                                                                    </p>
+                                                                                </div>
+                                                                                <div>
+                                                                                    <p class="text-xs font-medium text-black">
+                                                                                        {{ number_format($coilInput->sathe_coil, 2) }}
+                                                                                    </p>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="grid grid-cols-3">
+                                                                                <div>
+                                                                                    <p class="text-xs font-medium text-black">
+                                                                                        Quantity :
+                                                                                    </p>
+                                                                                </div>
+                                                                                <div>
+                                                                                    <p class="text-xs font-medium text-black">
+                                                                                        No.
+                                                                                    </p>
+                                                                                </div>
+                                                                                <div>
+                                                                                    <p class="text-xs font-medium text-black">
+                                                                                        {{ number_format($amount->value, 0) }}
+                                                                                    </p>
+                                                                                </div>
+                                                                            </div>
+                                                                        @elseif(!is_null($convertorInput))
+                                                                            @if($convertorInput->type == 'Evaporator')
+                                                                                <div class="grid grid-cols-3">
+                                                                                    <div class="mt-2">
+                                                                                        <p class="text-xs font-medium text-black">
+                                                                                            Actual Cooling Load :
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div class="mt-2">
+                                                                                        <p class="text-xs text-black font-medium">
+                                                                                            Ton
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div class="mt-2">
+                                                                                        <p class="text-xs text-black font-medium">
+                                                                                            {{ $convertorInput->tonaj }}
+                                                                                        </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="grid grid-cols-3">
+                                                                                    <div>
+                                                                                        <p class="text-xs font-medium text-black">
+                                                                                            Refrigerant :
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div>
+                                                                                        <p class="text-xs text-black font-medium">
+                                                                                            -
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div>
+                                                                                        <p class="text-xs text-black font-medium">
+                                                                                            {{ $convertorInput->gaz }}
+                                                                                        </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="grid grid-cols-3">
+                                                                                    <div>
+                                                                                        <p class="text-xs font-medium text-black">
+                                                                                            Number of Curcuits :
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div>
+                                                                                        <p class="text-xs text-black font-medium">
+                                                                                            No.
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div>
+                                                                                        <p class="text-xs text-black font-medium">
+                                                                                            {{ $convertorInput->tedad_madar }}
+                                                                                        </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="grid grid-cols-3">
+                                                                                    <div>
+                                                                                        <p class="text-xs font-medium text-black">
+                                                                                            Shell :
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div>
+                                                                                        <p class="text-xs text-black font-medium">
+                                                                                            Inch
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div>
+                                                                                        <p class="text-xs text-black font-medium">
+                                                                                            {{ $convertorInput->size_loole_pooste }}
+                                                                                        </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="grid grid-cols-3">
+                                                                                    <div>
+                                                                                        <p class="text-xs font-medium text-black">
+                                                                                            Tube :
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div>
+                                                                                        <p class="text-xs text-black font-medium">
+                                                                                            -
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div>
+                                                                                        <p class="text-xs text-black font-medium">
+                                                                                            {{ $convertorInput->loole_messi }}
+                                                                                        </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="grid grid-cols-3">
+                                                                                    <div>
+                                                                                        <p class="text-xs font-medium text-black">
+                                                                                            Insulation :
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div>
+                                                                                        <p class="text-xs text-black font-medium">
+                                                                                            -
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div>
+                                                                                        <p class="text-xs text-black font-medium">
+                                                                                            {{ $convertorInput->ayegh }}
+                                                                                        </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="grid grid-cols-3">
+                                                                                    <div>
+                                                                                        <p class="text-xs font-medium text-black">
+                                                                                            Inlet & Outlet Connection :
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div>
+                                                                                        <p class="text-xs text-black font-medium">
+                                                                                            Inch
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div>
+                                                                                        <p class="text-xs text-black font-medium">
+                                                                                            {{ $convertorInput->flanch }}
+                                                                                        </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="grid grid-cols-3">
+                                                                                    <div>
+                                                                                        <p class="text-xs font-medium text-black">
+                                                                                            Bafel Material :
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div>
+                                                                                        <p class="text-xs text-black font-medium">
+                                                                                            -
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div>
+                                                                                        <p class="text-xs text-black font-medium">
+                                                                                            {{ $convertorInput->noe_bafel }}
+                                                                                        </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="grid grid-cols-3">
+                                                                                    <div>
+                                                                                        <p class="text-xs font-medium text-black">
+                                                                                            Number of Bafel :
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div>
+                                                                                        <p class="text-xs text-black font-medium">
+                                                                                            No.
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div>
+                                                                                        <p class="text-xs text-black font-medium">
+                                                                                            {{ $convertorInput->tedad_bafel }}
+                                                                                        </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="grid grid-cols-3">
+                                                                                    <div>
+                                                                                        <p class="text-xs font-medium text-black">
+                                                                                            Quantity :
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div>
+                                                                                        <p class="text-xs text-black font-medium">
+                                                                                            No.
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div>
+                                                                                        <p class="text-xs text-black font-medium">
+                                                                                            {{ number_format($amount->value) }}
+                                                                                        </p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            @endif
+                                                                        @else
+                                                                            <div class="grid grid-cols-12">
+                                                                                @foreach($attributes as $attribute)
+                                                                                    <div
+                                                                                        class="p-0 col-span-4 {{ $loop->first ? 'mt-2' : '' }}">
+                                                                                        <p class="text-xs font-medium text-black">
+                                                                                            {{ $attribute->name }} :
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="p-0 col-span-2 {{ $loop->first ? 'mt-2' : '' }}">
+                                                                                        <p class="text-xs font-medium text-black">
+                                                                                            {{ $attribute->unit != '-' ? $attribute->unit : '' }}
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="p-0 col-span-6 {{ $loop->first ? 'mt-2' : '' }}">
+                                                                                        <p class="text-xs font-medium text-black">
+                                                                                            @php
+                                                                                                $foundValue = false;
+                                                                                            @endphp
+                                                                                            @foreach($attribute->values as $value)
+                                                                                                @if($part->attributeValues->contains($value))
+                                                                                                    {{ $value->value }}
+                                                                                                    @php
+                                                                                                        $foundValue = true;
+                                                                                                    @endphp
+                                                                                                @endif
+                                                                                            @endforeach
+                                                                                            @if(!$foundValue)
+                                                                                                {{ $attribute->pivot->default_value ?? '' }}
                                                                                             @endif
-                                                                                        @endforeach
-                                                                                        @if(!$foundValue)
-                                                                                            {{ $attribute->pivot->default_value ?? '' }}
-                                                                                        @endif
-                                                                                    </p>
-                                                                                </div>
-                                                                            @endforeach
-                                                                        </div>
-                                                                    @endif
-                                                                </div>
-                                                            @endif
+                                                                                        </p>
+                                                                                    </div>
+                                                                                @endforeach
+                                                                                @if($lastCategory->show_count)
+                                                                                    <div class="p-0 col-span-4">
+                                                                                        <p class="text-xs font-medium text-black">
+                                                                                            Quantity :
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="p-0 col-span-2">
+                                                                                        <p class="text-xs font-medium text-black">
+                                                                                            No.
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="p-0 col-span-6 {{ $loop->first ? 'mt-2' : '' }}">
+                                                                                        <p class="text-xs font-medium text-black">
+                                                                                            {{ number_format($amount->value, 0) }}
+                                                                                        </p>
+                                                                                    </div>
+                                                                                @endif
+                                                                            </div>
+                                                                        @endif
+                                                                    </div>
+                                                                @endif
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    @endif
                                                 @endif
                                             @endif
                                         @endforeach
@@ -596,7 +651,6 @@
                                 </div>
                             </div>
                         @endforeach
-
                     </div>
                 </div>
             </td>
