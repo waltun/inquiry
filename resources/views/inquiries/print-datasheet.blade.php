@@ -8,12 +8,20 @@
     <title>INQ-{{ $inquiry->inquiry_number }}</title>
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+
+    <style>
+        @page {
+            @bottom-left {
+                content: counter(page);
+            }
+        }
+    </style>
 </head>
 <body class="font-IRANSans">
 
 <!-- Content -->
 <div class="mx-auto" style="width: 21cm">
-    <table style="page-break-after: always" class="w-full relative">
+    <table style="page-break-after: always;" class="w-full relative">
         <!-- Header -->
         <thead style="display: table-header-group">
         <tr>
@@ -65,7 +73,8 @@
                         </p>
                     </div>
                     <div class="w-36 h-10 bg-[#005a96] absolute -top-6 z-10"
-                         style="border-top-left-radius: 2rem"></div>
+                         style="border-top-left-radius: 2rem" id="counter">
+                    </div>
                     <div class="w-full bg-[#005a96] mb-0 -mr-2 p-1">
                         <div class="flex items-center mr-2">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"

@@ -17,7 +17,21 @@ class CustomerController extends Controller
 
     public function index()
     {
-        $customers = Customer::latest()->paginate(20);
+        $customers = Customer::query();
+
+        if ($keyword = request('search')) {
+            $customers->where('name', 'LIKE', "%{$keyword}%")
+                ->orWhere('name', 'LIKE', "%{$keyword}%")
+                ->orWhere('registration_number', 'LIKE', "%{$keyword}%")
+                ->orWhere('phone', 'LIKE', "%{$keyword}%")
+                ->orWhere('email', 'LIKE', "%{$keyword}%");
+        }
+
+        if (request()->has('type') && !is_null(request('type'))) {
+            $customers = $customers->where('type', request('type'));
+        }
+
+        $customers = $customers->latest()->paginate(20);
 
         return view('customers.index', compact('customers'));
     }

@@ -1,4 +1,13 @@
 <x-layout>
+    <x-slot name="js">
+        <script>
+            function searchForm() {
+                let form = document.getElementById('search-form');
+                form.submit();
+            }
+        </script>
+    </x-slot>
+
     <!-- Breadcrumb -->
     <div class="flex items-center space-x-2 space-x-reverse">
         <a href="{{ route('dashboard') }}" class="flex items-center">
@@ -43,10 +52,16 @@
                 <path stroke-linecap="round" stroke-linejoin="round"
                       d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/>
             </svg>
-            <div class="mr-2">
+            <div class="mr-2 flex items-center">
                 <p class="font-bold text-2xl text-black dark:text-white">
                     لیست مشتریان
                 </p>
+                @if(request()->has('search') || request()->has('type'))
+                    <a href="{{ route('customers.index') }}"
+                       class="text-sm mr-4 text-indigo-500 underline underline-offset-4 font-medium">
+                        پاکسازی جستجو
+                    </a>
+                @endif
             </div>
         </div>
         <div class="flex items-center space-x-4 space-x-reverse">
@@ -58,6 +73,27 @@
                 <span class="mr-2">ایجاد مشتری جدید</span>
             </a>
         </div>
+    </div>
+
+    <!-- Search -->
+    <div class="p-4 bg-white rounded-lg shadow mt-4">
+        <form action="" method="get" class="grid grid-cols-3 gap-4" id="search-form">
+            <div>
+                <input type="text" name="search" value="{{ request('search') }}" class="input-text"
+                       placeholder="جستجوی نام و شماره و ایمیل و... + اینتر ">
+            </div>
+            <div>
+                <select name="type" class="input-text" onchange="searchForm()">
+                    <option value="">نوع مشتری</option>
+                    <option value="real" {{ request('type') == 'real' ? 'selected' : '' }}>
+                        حقیقی
+                    </option>
+                    <option value="legal" {{ request('type') == 'legal' ? 'selected' : '' }}>
+                        حقوقی
+                    </option>
+                </select>
+            </div>
+        </form>
     </div>
 
     <!-- Content -->
