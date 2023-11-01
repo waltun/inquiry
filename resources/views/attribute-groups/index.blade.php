@@ -94,6 +94,14 @@
                                                value="{{ old('name') }}"
                                                placeholder="نام نمایشی دسته بندی را وارد کنید">
                                     </div>
+                                    <div class="mb-4">
+                                        <label class="form-label" for="inputSort">
+                                            Sort
+                                        </label>
+                                        <input type="text" name="srot" id="inputSort" class="input-text py-2"
+                                               value="{{ old('sort') }}"
+                                               placeholder="اولویت نمایش">
+                                    </div>
                                     <div class="flex justify-end items-center space-x-4 space-x-reverse">
                                         <button type="submit" class="form-submit-btn">
                                             ثبت
@@ -115,7 +123,7 @@
                 <thead>
                 <tr class="table-th-tr">
                     <th scope="col" class="p-2 rounded-tr-lg">
-                        #
+                        Sort
                     </th>
                     <th scope="col" class="p-2">
                         نام
@@ -129,7 +137,7 @@
                 @foreach($groups as $group)
                     <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
                         <td class="table-tr-td border-t-0 border-l-0">
-                            {{ $loop->index + 1 }}
+                            {{ $group->sort }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             {{ $group->name }}
@@ -192,10 +200,19 @@
                                                                 <label class="form-label" for="inputName">
                                                                     نام دسته بندی
                                                                 </label>
-                                                                <input type="text" name="name" id="inputName"
+                                                                <input type="text" name="name" id="inputName{{ $group->id }}"
                                                                        class="input-text py-2"
                                                                        value="{{ old('name') ?? $group->name }}"
                                                                        placeholder="نام نمایشی دسته بندی را وارد کنید">
+                                                            </div>
+                                                            <div class="mb-4">
+                                                                <label class="form-label" for="inputName">
+                                                                    Sort
+                                                                </label>
+                                                                <input type="text" name="sort" id="inputSort{{ $group->id }}"
+                                                                       class="input-text py-2"
+                                                                       value="{{ old('sort') ?? $group->sort }}"
+                                                                       placeholder="اولویت نمایش">
                                                             </div>
                                                             <div
                                                                 class="flex justify-end items-center space-x-4 space-x-reverse">

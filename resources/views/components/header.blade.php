@@ -59,11 +59,16 @@
             </p>
         </div>
 
-        <div class="mr-5 border border-white px-4 py-1 rounded-md">
+        <div class="mr-5 border border-white px-4 py-1 rounded-md relative">
             <a href="{{ route('inquiryPrice.index') }}" class="text-sm font-bold text-white"
                target="_blank">
                 درخواست های بروزرسانی قیمت
             </a>
+            @if(!\App\Models\InquiryPrice::all()->isEmpty())
+                <span class="w-3 h-3 rounded-full bg-myRed-200 absolute -right-0.5 -top-0.5"></span>
+                <span
+                    class="w-3 h-3 rounded-full bg-myRed-200 absolute -right-0.5 -top-0.5 animate-ping"></span>
+            @endif
         </div>
     </div>
 
