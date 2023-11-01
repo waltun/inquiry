@@ -22,7 +22,7 @@ class CategoryController extends Controller
     {
         Gate::authorize('categories');
 
-        $categories = Category::where('parent_id', 0)->with(['children'])->latest()->paginate(25);
+        $categories = Category::where('parent_id', 0)->with(['children'])->paginate(25);
         $delete = DeleteButton::where('active', '1')->first();
 
         return view('categories.index', compact('categories', 'delete'));

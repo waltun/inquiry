@@ -70,8 +70,13 @@
                 <p class="card-title">مشخصات کلی</p>
             </div>
             <div class="mt-4">
-                <label for="inputName" class="form-label">نام مدل</label>
+                <label for="inputName" class="form-label">نام</label>
                 <input type="text" id="inputName" name="name" class="input-text" value="{{ $modell->name }}">
+            </div>
+            <div class="mt-4">
+                <label for="inputModel" class="form-label">مدل</label>
+                <input type="text" id="inputModel" name="model" class="input-text" value="{{ $modell->model }}"
+                    placeholder="مدل مربوطه را به صورت کامل وارد کنید">
             </div>
         </div>
 

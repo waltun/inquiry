@@ -89,10 +89,12 @@ class ModellAttributeController extends Controller
     {
         $selectedModell = Modell::find($request->modell_id);
 
-        $selectedModell->attributes()->delete();
+        if (!$modell->attributes->isEmpty()) {
+            $modell->attributes()->delete();
+        }
 
-        foreach ($modell->attributes as $attribute) {
-            $selectedModell->attributes()->attach($attribute->id, [
+        foreach ($selectedModell->attributes as $attribute) {
+            $modell->attributes()->attach($attribute->id, [
                 'sort' => $attribute->pivot->sort,
                 'default_value' => $attribute->pivot->default_value
             ]);

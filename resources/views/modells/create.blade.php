@@ -86,7 +86,7 @@
                 <p class="card-title">مشخصات کلی</p>
             </div>
             <div class="mt-4">
-                <label for="inputName" class="form-label">نام مدل</label>
+                <label for="inputName" class="form-label">نام</label>
                 <input type="text" id="inputName" name="name" class="input-text" placeholder="مثال : 200"
                        value="{{ old('name') }}">
             </div>
@@ -100,6 +100,11 @@
                     <input type="hidden" name="parent_id" value="{{ $modell->id }}">
                 </div>
             @endif
+            <div class="mt-4">
+                <label for="inputModel" class="form-label">مدل</label>
+                <input type="text" id="inputModel" name="model" class="input-text" value="{{ old('model') }}"
+                       placeholder="مدل مربوطه را به صورت کامل وارد کنید">
+            </div>
         </div>
 
         <div class="card">

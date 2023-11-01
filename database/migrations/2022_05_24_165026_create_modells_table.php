@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->id();
 
             $table->string('name');
+            $table->string('model')->nullable();
             $table->string('code');
             $table->decimal(5, 2)->default(0.00);
             $table->boolean('standard')->default(false);

@@ -252,6 +252,11 @@
                             </a>
                             <span class="dark:text-white">|</span>
                             <a href="{{ route('modells.children',$child->id) }}"
+                               class="font-bold text-black text-base group-hover:text-white dark:text-white">
+                                {{ $child->model }}
+                            </a>
+                            <span class="dark:text-white">|</span>
+                            <a href="{{ route('modells.children',$child->id) }}"
                                class="font-medium text-black text-xs group-hover:text-white dark:text-white">
                                 کد : {{ $child->code }}
                             </a>

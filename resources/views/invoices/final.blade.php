@@ -25,6 +25,7 @@
     <x-slot name="css">
         <link rel="stylesheet" href="{{ asset('plugins/date-picker/persianDatepicker-default.css') }}">
     </x-slot>
+
     <!-- Breadcrumb -->
     <div class="flex items-center space-x-2 space-x-reverse">
         <a href="{{ route('dashboard') }}" class="flex items-center">
@@ -61,60 +62,6 @@
         </div>
     </div>
 
-    <!-- Search -->
-    <div class="card-search" {{ request()->query() ? 'x-data={open:true}' : 'x-data={open:false}' }}>
-        <div class="card-header-search" @click="open=!open">
-            <p class="card-title">
-                جستجو در پیش فاکتور ها
-            </p>
-            <div class="card-title-search">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                     stroke="currentColor" class="w-6 h-6 transition" :class="{'rotate-180' : open}">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
-                </svg>
-            </div>
-        </div>
-        <form method="GET" action="" class="mt-4 md:grid grid-cols-4 gap-4 space-y-4 md:space-y-0" x-show="open"
-              x-cloak>
-            <div class="mb-4">
-                <label for="inputInquiryNumber" class="form-label">شماره پیش فاکتور</label>
-                <input type="text" id="inputInquiryNumber" class="input-text" name="inquiry_number"
-                       placeholder="جستجو براساس شماره استعلام (بدون INQ)" value="{{ request('inquiry_number') }}">
-            </div>
-            <div class="mb-4">
-                <label for="inputName" class="form-label">نام پروژه</label>
-                <input type="text" id="inputName" class="input-text" name="name"
-                       placeholder="جستجو براساس نام پروژه" value="{{ request('name') }}">
-            </div>
-            <div class="mb-4">
-                <label for="inputManager" class="form-label">مسئول پروژه</label>
-                <select name="user_id" id="inputManager" class="input-text">
-                    <option value="">انتخاب کنید</option>
-                    @foreach(\App\Models\User::all() as $user)
-                        <option value="{{ $user->id }}" {{ request('user_id') == $user->id ? 'selected' : '' }}>
-                            {{ $user->name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-            <div>
-                <label for="inputMarketer" class="form-label">بازاریاب</label>
-                <input type="text" id="inputMarketer" class="input-text" name="marketer"
-                       placeholder="جستجو براساس بازاریاب" value="{{ request('marketer') }}">
-            </div>
-            <div class="col-span-4 flex justify-end space-x-2 space-x-reverse pb-4">
-                <button class="form-submit-btn" type="submit">
-                    جستجو
-                </button>
-                @if(request()->query())
-                    <a href="{{ route('invoices.final.index') }}" class="form-detail-btn">
-                        پاکسازی
-                    </a>
-                @endif
-            </div>
-        </form>
-    </div>
-
     <!-- Navigation -->
     <div class="md:flex items-center justify-between mt-8 space-y-4 md:space-y-0">
         <div class="flex items-center">
@@ -123,12 +70,34 @@
                 <path stroke-linecap="round" stroke-linejoin="round"
                       d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/>
             </svg>
-            <div class="mr-2">
+            <div class="mr-2 flex items-center">
                 <p class="font-bold text-2xl text-black dark:text-white">
                     لیست پیش فاکتور های نهایی
                 </p>
+                @if(request()->has('search') || request()->has('type'))
+                    <a href="{{ route('invoices.final.index') }}"
+                       class="text-sm font-medium text-indigo-500 underline underline-offset-4 mr-4">
+                        پاکسازی جستجو
+                    </a>
+                @endif
             </div>
         </div>
+    </div>
+
+    <!-- Search -->
+    <div class="bg-white p-4 rounded-lg shadow border border-gray-200 mt-4">
+        <form method="GET" action="" class="grid grid-cols-4 gap-4" id="search-form">
+            <input type="text" id="inputSearch" class="input-text" name="search"
+                   placeholder="جستجو نام و شماره و بازاریاب و... + اینتر" value="{{ request('search') }}">
+            <select name="user_id" id="inputManager" class="input-text" onchange="searchForm()">
+                <option value="">انتخاب مسئول پروژه</option>
+                @foreach(\App\Models\User::all() as $user)
+                    <option value="{{ $user->id }}" {{ request('user_id') == $user->id ? 'selected' : '' }}>
+                        {{ $user->name }}
+                    </option>
+                @endforeach
+            </select>
+        </form>
     </div>
 
     <!-- Content -->
@@ -198,7 +167,8 @@
                                                   d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/>
                                         </svg>
                                     </button>
-                                    <div x-show="open" @click.away="open = false" class="table-dropdown -top-12 -right-36"
+                                    <div x-show="open" @click.away="open = false"
+                                         class="table-dropdown -top-12 -right-36"
                                          x-cloak>
                                         <a href="{{ route('invoices.final.printDatasheet',$invoice->id) }}"
                                            class="table-dropdown-copy text-xs">

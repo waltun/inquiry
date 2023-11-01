@@ -142,13 +142,12 @@
                         @php
                             $products = $inquiry->products()->where('group_id','!=',0)->where('model_id','!=',0)->get();
                         @endphp
-
                         @foreach($products as $product)
                             @php
                                 $childModell = \App\Models\Modell::find($product->model_id);
                                 $modell = $childModell->parent;
                             @endphp
-                            <div class="rounded-xl mx-4 border border-myBlue-100" style="page-break-before: always">
+                            <div class="rounded-xl mx-4 border border-myBlue-100 mb-2 pb-2" style="page-break-before: always">
                                 <div class="bg-[#005a96] p-1.5 rounded-t-lg">
                                     <p class="text-center text-white font-extrabold text-base">
                                         Datasheet for : {{ $product->model_custom_name }}
@@ -607,7 +606,6 @@
                                 </div>
                             </div>
                         @endforeach
-
                     </div>
                 </div>
             </td>

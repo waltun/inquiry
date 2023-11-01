@@ -16,28 +16,14 @@ class FinalInvoiceController extends Controller
 {
     public function index()
     {
-        $searchableFields = [
-            'inquiry_number' => 'LIKE',
-            'name' => 'LIKE',
-            'marketer' => 'LIKE',
-            'model_id' => '=',
-            'group_id' => '=',
-        ];
-
         $invoices = Invoice::query();
 
-        foreach ($searchableFields as $field => $operator) {
-            if (request()->has($field) && request()->get($field) != null) {
-                if ($field == 'model_id' || $field == 'group_id') {
-                    $invoices = $invoices->whereHas('inquiry', function ($query) use ($field, $operator) {
-                        $query->where($field, $operator, request()->get($field));
-                    });
-                } else {
-                    $invoices = $invoices->whereHas('inquiry', function ($query) use ($field, $operator) {
-                        $query->where($field, $operator, "%" . request()->get($field) . "%");
-                    });
-                }
-            }
+        if ($keyword = request('search')) {
+            $invoices->whereHas('inquiry', function ($query) use ($keyword) {
+                $query->where('name', 'LIKE', "%{$keyword}%")
+                    ->orWhere('marketer', 'LIKE', "%{$keyword}%")
+                    ->orWhere('inquiry_number', 'LIKE', "%{$keyword}%");
+            });
         }
 
         if (request()->has('user_id') && !is_null(request('user_id'))) {

@@ -283,17 +283,16 @@
                                             </span>
                                         </button>
                                     </div>
-                                    <form method="post"
-                                          action="{{ route('modells.attributes.replicate',$modell->id) }}"
-                                          class="mt-6">
+                                    <form method="POST" class="mt-6"
+                                          action="{{ route('modells.attributes.replicate',$modell->id) }}">
                                         @csrf
 
                                         <div class="mb-4">
                                             <label for="inputModell" class="form-label">انتخاب مدل</label>
                                             <select name="modell_id" id="inputModell" class="input-text">
                                                 <option value="">انتخاب کنید</option>
-                                                @foreach(\App\Models\Modell::all() as $child)
-                                                    @if(!$child->children->isEmpty())
+                                                @foreach(\App\Models\Modell::all()->except($modell->id) as $child)
+                                                    @if(!$child->children->isEmpty() && !$child->attributes->isEmpty())
                                                         <option value="{{ $child->id }}">
                                                             {{ $child->name }}
                                                         </option>

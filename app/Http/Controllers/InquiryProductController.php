@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\DeleteButton;
 use App\Models\Group;
 use App\Models\Inquiry;
+use App\Models\InquiryPrice;
 use App\Models\Modell;
 use App\Models\Part;
 use App\Models\Product;
@@ -136,7 +137,60 @@ class InquiryProductController extends Controller
         $inquiry = Inquiry::find($product->inquiry_id);
         $amounts = Amount::where('product_id', $product->id)->orderBy('sort', 'ASC')->get();
         $specials = Special::all()->pluck('part_id')->toArray();
+
         $setting = Setting::where('active', '1')->first();
+        if ($setting) {
+            if ($setting->price_color_type == 'month') {
+                $lastTime = \Carbon\Carbon::now()->subMonth($setting->price_color_last_time);
+            }
+            if ($setting->price_color_type == 'day') {
+                $lastTime = \Carbon\Carbon::now()->subDay($setting->price_color_last_time);
+            }
+            if ($setting->price_color_type == 'hour') {
+                $lastTime = \Carbon\Carbon::now()->subHour($setting->price_color_last_time);
+            }
+        }
+
+        $partIds = InquiryPrice::select(['part_id'])->distinct()->pluck('part_id')->toArray();
+
+        foreach ($modell->parts as $part) {
+            if (!$part->children->isEmpty()) {
+                foreach ($part->children as $child) {
+                    if (!$child->children->isEmpty()) {
+                        foreach ($child->children as $ch) {
+                            if (!in_array($ch->id, $partIds)) {
+                                if (($ch->price_updated_at < $lastTime && $ch->price > 0) || ($ch->price_updated_at < $lastTime && $ch->price == 0)) {
+                                    auth()->user()->inquiryPrices()->create([
+                                        'part_id' => $ch->id,
+                                        'inquiry_id' => $inquiry->id
+                                    ]);
+                                }
+                            }
+                        }
+                    } else {
+                        if (!in_array($child->id, $partIds)) {
+                            if (($child->price_updated_at < $lastTime && $child->price > 0) || ($child->price_updated_at < $lastTime && $child->price == 0)) {
+
+                                auth()->user()->inquiryPrices()->create([
+                                    'part_id' => $child->id,
+                                    'inquiry_id' => $inquiry->id
+                                ]);
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (!in_array($part->id, $partIds)) {
+                    if (($part->price_updated_at < $lastTime && $part->price > 0) || ($part->price_updated_at < $lastTime && $part->price == 0)) {
+                        auth()->user()->inquiryPrices()->create([
+                            'part_id' => $part->id,
+                            'inquiry_id' => $inquiry->id
+                        ]);
+                    }
+                }
+            }
+        }
+
         return view('inquiry-product.amounts', compact('product', 'group', 'modell', 'inquiry', 'amounts', 'specials', 'setting'));
     }
 

@@ -1,4 +1,13 @@
 <x-layout>
+    <x-slot name="js">
+        <script>
+            function searchForm() {
+                let form = document.getElementById('search-form');
+                form.submit();
+            }
+        </script>
+    </x-slot>
+
     <!-- Breadcrumb -->
     <div class="flex items-center space-x-2 space-x-reverse">
         <a href="{{ route('dashboard') }}" class="flex items-center">
@@ -381,6 +390,30 @@
                 </div>
             </div>
         @else
+            <!-- Search -->
+            <div class="bg-white p-4 rounded-lg shadow border border-gray-200 mt-6">
+                <form method="GET" action="" class="grid grid-cols-4 gap-4" id="search-form">
+                    <input type="text" id="inputSearch" class="input-text" name="search"
+                           placeholder="جستجو نام و شماره و بازاریاب و... + اینتر" value="{{ request('search') }}">
+                    <select name="user_id" id="inputManager" class="input-text" onchange="searchForm()">
+                        <option value="">انتخاب مسئول پروژه</option>
+                        @foreach(\App\Models\User::all() as $user)
+                            <option value="{{ $user->id }}" {{ request('user_id') == $user->id ? 'selected' : '' }}>
+                                {{ $user->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @if(request()->has('search') || request()->has('type'))
+                        <div>
+                            <a href="{{ route('contracts.products', $contract->id) }}"
+                               class="text-sm font-medium text-indigo-500 underline underline-offset-4">
+                                پاکسازی جستجو
+                            </a>
+                        </div>
+                    @endif
+                </form>
+            </div>
+
             <div class="mb-4">
                 <p class="text-red-500 font-bold">
                     * توجه : هیچ پیش فاکتوری برای این قرارداد انتخاب نشده، لطفا برای ادامه از لیست پیش فاکتور ها انتخاب

@@ -141,13 +141,28 @@ class ContractController extends Controller
 
     public function products(Contract $contract)
     {
-        if (auth()->user()->role == 'admin') {
-            $invoices = Invoice::latest()->where('complete', true)->paginate(25);
-        } else {
-            $invoices = Invoice::where('user_id', auth()->user()->id)->where('complete', true)->latest()->paginate(25);
+        $invoices = Invoice::query();
+
+        if ($keyword = request('search')) {
+            $invoices->whereHas('inquiry', function ($query) use ($keyword) {
+                $query->where('name', 'LIKE', "%{$keyword}%")
+                    ->orWhere('marketer', 'LIKE', "%{$keyword}%")
+                    ->orWhere('inquiry_number', 'LIKE', "%{$keyword}%");
+            });
         }
 
-        return view('contracts.products', compact('contract', 'invoices'));
+        if (request()->has('user_id') && !is_null(request('user_id'))) {
+            $invoices = $invoices->where('user_id', request('user_id'));
+        }
+
+        if (auth()->user()->role == 'admin') {
+            $invoices = $invoices->latest()->where('complete', true)->paginate(25);
+        } else {
+            $invoices = $invoices->where('user_id', auth()->user()->id)->where('complete', true)->latest()->paginate(25);
+        }
+
+        $customers = Customer::all();
+        return view('contracts.products', compact('contract', 'invoices', 'customers'));
     }
 
     public function destroyProduct(ContractProduct $contractProduct)
@@ -237,7 +252,7 @@ class ContractController extends Controller
                         if ($child->extract && !$child->children->isEmpty()) {
                             foreach ($child->children as $ch) {
                                 $contractProduct->spareAmounts()->create([
-                                    'value' => $ch->pivot->value,
+                                    'value' => $ch->pivot->value * $amount->value,
                                     'value2' => $ch->pivot->value2,
                                     'part_id' => $ch->id,
                                     'price' => $ch->price,
@@ -247,7 +262,7 @@ class ContractController extends Controller
                             }
                         } else {
                             $contractProduct->spareAmounts()->create([
-                                'value' => $child->pivot->value,
+                                'value' => $child->pivot->value * $amount->value,
                                 'value2' => $child->pivot->value2,
                                 'part_id' => $child->id,
                                 'price' => $child->price,

@@ -473,7 +473,6 @@ Route::middleware(['auth', 'web'])->group(function () {
 
     //Inquiry Price Routes
     Route::get('/inquiry-price', [InquiryPriceController::class, 'index'])->name('inquiryPrice.index');
-    Route::post('/inquiry-price/{part}/{inquiry}/store', [InquiryPriceController::class, 'store'])->name('inquiryPrice.store');
     Route::patch('/inquiry-price/{inquiry}/update', [InquiryPriceController::class, 'update'])->name('inquiryPrice.update');
     Route::patch('/inquiry-price/{modell}/updateProduct', [InquiryPriceController::class, 'updateProduct'])->name('inquiryPrice.updateProduct');
     Route::patch('/inquiry-price/{part}/update-date', [InquiryPriceController::class, 'updateDate'])->name('inquiryPrice.updateDate');

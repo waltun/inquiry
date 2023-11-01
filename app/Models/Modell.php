@@ -11,7 +11,7 @@ class Modell extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'group_id', 'code', 'parent_id', 'percent', 'standard'
+        'name', 'group_id', 'code', 'parent_id', 'percent', 'standard', 'model'
     ];
 
     public function group()

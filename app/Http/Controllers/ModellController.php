@@ -41,7 +41,8 @@ class ModellController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'percent' => 'nullable|numeric',
-            'standard' => 'required|integer'
+            'standard' => 'required|integer',
+            'model' => 'nullable|string|max:255'
         ]);
 
         if (is_null($request->percent)) {
@@ -62,6 +63,7 @@ class ModellController extends Controller
                 'parent_id' => $modell->id,
                 'percent' => $percent,
                 'standard' => $request['standard'],
+                'model' => $request['model']
             ]);
         } else {
             $code = $this->getLastCode($group);
@@ -96,7 +98,8 @@ class ModellController extends Controller
         $request->validate([
             'name' => 'required|string|max:2550',
             'percent' => 'nullable|numeric',
-            'standard' => 'required|integer'
+            'standard' => 'required|integer',
+            'model' => 'nullable|string|max:255'
         ]);
 
         if (is_null($request->percent)) {
@@ -115,6 +118,7 @@ class ModellController extends Controller
                 'parent_id' => $request['parent_id'],
                 'percent' => $percent,
                 'standard' => $request['standard'],
+                'model' => $request['model']
             ]);
         }
 
@@ -155,6 +159,7 @@ class ModellController extends Controller
         $newModell = $modell->replicate()->fill([
             'code' => $lastModellCode,
             'name' => $modell->name . " کپی شده",
+            'model' => $modell->model
         ]);
         $newModell->save();
 
