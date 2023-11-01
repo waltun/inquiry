@@ -29,31 +29,6 @@
             });
         </script>
         <script>
-            function storeInquiryPrice(part, inquiry) {
-                let successUpdatePrice = document.getElementById('successUpdatePrice' + part);
-                let updatePriceBtn = document.getElementById('updatePriceBtn' + part);
-
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-
-                $.ajax({
-                    type: 'POST',
-                    url: '/inquiry-price/' + part + '/' + inquiry + '/' + 'store',
-                    data: {
-                        part_id: part,
-                        inquiry_id: inquiry
-                    },
-                    success: function (res) {
-                        successUpdatePrice.classList.remove('hidden');
-                        updatePriceBtn.classList.add('hidden');
-                    }
-                });
-            }
-        </script>
-        <script>
             function changeFormula(event, cid) {
                 let id = event.target.value;
 
@@ -740,43 +715,6 @@
                                         } else {
                                             $totalPrice += $part->price * $product->quantity;
                                         }
-
-                                        switch ($setting->price_color_type) {
-                                            case 'month' :
-                                                $lastTime = \Carbon\Carbon::now()->subMonth($setting->price_color_last_time);
-                                                $midTime = \Carbon\Carbon::now()->subMonth($setting->price_color_mid_time);
-                                                break;
-                                            case 'day' :
-                                                $lastTime = \Carbon\Carbon::now()->subDay($setting->price_color_last_time);
-                                                $midTime = \Carbon\Carbon::now()->subDay($setting->price_color_mid_time);
-                                                break;
-                                            case 'hour' :
-                                                $lastTime = \Carbon\Carbon::now()->subHour($setting->price_color_last_time);
-                                                $midTime = \Carbon\Carbon::now()->subHour($setting->price_color_mid_time);
-                                                break;
-                                        }
-
-                                        if ($part->collection == '0') {
-                                            if ($part->price_updated_at < $lastTime && $part->price > 0) {
-                                                $color = 'text-red-500';
-                                            }
-                                            if ($part->price_updated_at > $lastTime && $part->price_updated_at > $midTime && $part->price > 0) {
-                                                $color = 'text-black';
-                                            }
-                                            if ($part->price_updated_at < $lastTime && $part->price == 0) {
-                                                $color = 'text-red-600';
-                                            }
-                                        }
-
-										foreach ($part->children as $child) {
-											if ($child->price_updated_at < $lastTime && $child->price > 0) {
-												$color = 'text-red-500';
-											}
-											if ($child->price_updated_at < $lastTime && $child->price == 0) {
-												$color = 'text-red-600';
-											}
-										}
-
                                         $category = $part->categories[1];
                                         $selectedCategory = $part->categories[2];
                                     @endphp
@@ -817,7 +755,7 @@
                                             <div class="flex items-center space-x-2 space-x-reverse">
                                                 <select name="part_ids[]" class="input-text"
                                                         id="groupPartList{{ $part->id }}"
-                                                        onchange="showCalculateButton('{{ $part->id }}'); changeFormula(event,{{ $part->id }});">
+                                                        onchange="changeFormula(event,{{ $part->id }});">
                                                     @foreach($categoryParts as $part2)
                                                         <option
                                                             value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
@@ -986,47 +924,6 @@
                                                 @if($product->percent > 0)
                                                     <p class="p-1 bg-green-400 text-white text-xs rounded-lg group-hover:bg-myGreen-100">
                                                         ضریب ثبت شده
-                                                    </p>
-                                                @endif
-                                                @php
-                                                    $parents = [];
-                                                @endphp
-                                                @if($color == 'text-red-500' || $color == 'text-red-600')
-                                                    @php
-                                                        $inquiryPriceIds = \App\Models\InquiryPrice::where('part_id', $part->id)->pluck('part_id')->toArray();
-                                                        $parentIds = \App\Models\Part::whereIn('id', \App\Models\InquiryPrice::all()->pluck('part_id'))->whereHas('parents')->pluck('id')->flatten()->toArray();
-                                                    @endphp
-                                                    @if(!in_array($part->id, $inquiryPriceIds) && !in_array($part->id, $parentIds))
-                                                        <button type="button" id="updatePriceBtn{{ $part->id }}"
-                                                                onclick="storeInquiryPrice({{ $part->id }},{{ $inquiry->id }})">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                 title="ارسال درخواست بروزرسانی قیمت"
-                                                                 viewBox="0 0 24 24" stroke-width="1.5"
-                                                                 stroke="currentColor"
-                                                                 class="w-5 h-5 text-red-500">
-                                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                                      d="M12 9v3.75m0-10.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.249-8.25-3.286zm0 13.036h.008v.008H12v-.008z"/>
-                                                            </svg>
-                                                        </button>
-                                                    @else
-                                                        <p>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                 viewBox="0 0 24 24" stroke-width="1.5"
-                                                                 stroke="currentColor"
-                                                                 class="w-5 h-5 text-red-500">
-                                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                                      d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                                            </svg>
-                                                        </p>
-                                                    @endif
-                                                    <p class="hidden" id="successUpdatePrice{{ $part->id }}">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                             viewBox="0 0 24 24" stroke-width="1.5"
-                                                             stroke="currentColor"
-                                                             class="w-5 h-5 text-red-500">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                  d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                                        </svg>
                                                     </p>
                                                 @endif
                                             </div>
