@@ -455,7 +455,7 @@
 
                     <!-- Invoice description -->
                     @if(!is_null($invoice->description))
-                        <div class="card border-0" style="page-break-before: always">
+                        <div class="card border-0">
                             <div class="card-header">
                                 <p class="card-title text-base font-Titr">
                                     شرایط پیش فاکتور

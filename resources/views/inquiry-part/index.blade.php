@@ -689,7 +689,10 @@
                                         واحد
                                     </th>
                                     <th scope="col" class="p-4">
-                                        قیمت واحد (تومان)
+                                        قیمت نت واحد (تومان)
+                                    </th>
+                                    <th scope="col" class="p-4">
+                                        قیمت با ضریب (تومان)
                                     </th>
                                     <th scope="col" class="p-4">
                                         تعداد
@@ -864,7 +867,14 @@
                                                            placeholder="قیمت">
                                                 </div>
                                             @else
-                                                {{ number_format($product->price == 0 ? $part->price : $product->price) }}
+                                                {{ number_format($part->price) }}
+                                            @endif
+                                        </td>
+                                        <td class="table-tr-td border-t-0 border-x-0">
+                                            @if($product->price)
+                                                {{ number_format($product->price) }}
+                                            @else
+                                                {{ number_format($part->price) }}
                                             @endif
                                         </td>
                                         <td class="table-tr-td border-t-0 border-x-0">
@@ -931,11 +941,11 @@
                                     </tr>
                                 @endforeach
                                 <tr class="table-tb-tr group">
-                                    <td class="table-tr-td border-t-0 border-t-0"
-                                        colspan="{{ $inquiry->submit ? '11' : '10' }}">
+                                    <td class="table-tr-td border-t-0"
+                                        colspan="{{ $inquiry->submit ? '12' : '11' }}">
                                         <div class="flex justify-between items-center">
                                             <a href="{{ route('inquiries.parts.create',$inquiry->id) }}"
-                                               class="w-8 h-8 rounded-full bg-green-500 block grid place-content-center mr-6"
+                                               class="w-8 h-8 rounded-full bg-green-500 grid place-content-center mr-6"
                                                title="افزودن قطعه جدید">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                      stroke-width="2"

@@ -295,7 +295,7 @@ class InquiryProductController extends Controller
         }
 
         if (!is_null($inquiryPart)) {
-            $totalPrice = $product->price == 0 ? $inquiryPart->price : $product->price;
+            $totalPrice = $inquiryPart->price;
         }
 
         return view('inquiry-product.percent', compact('inquiry', 'group', 'modell', 'totalPrice', 'product'));
@@ -327,13 +327,7 @@ class InquiryProductController extends Controller
         }
 
         if (!is_null($inquiryPart)) {
-
-            if ($product->price == 0) {
-                $finalPrice = $inquiryPart->price * $request['percent'];
-            } else {
-                $finalPrice = $product->price * $request['percent'];
-            }
-
+            $finalPrice = $inquiryPart->price * $request['percent'];
             $finalWeight = $inquiryPart->weight * $product->quantity;
             $product->part_price = $inquiryPart->price;
             $product->save();
