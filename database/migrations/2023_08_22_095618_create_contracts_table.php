@@ -23,6 +23,8 @@ return new class extends Migration {
             $table->boolean('recipe')->default(0);
             $table->timestamp('start_contract_date')->nullable();
             $table->timestamp('send_date')->nullable();
+            $table->string('type')->nullable();
+            $table->boolean('complete')->default(0);
 
             $table->unsignedBigInteger('invoice_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();

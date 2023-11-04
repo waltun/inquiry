@@ -517,6 +517,7 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/contracts/products/update', [ContractController::class, 'updateProducts'])->name('contracts.update-products');
     Route::get('/contracts/{contract}', [ContractController::class, 'show'])->name('contracts.show');
     Route::delete('/contracts/{contract}/products/delete-all', [ContractController::class, 'deleteAll'])->name('contracts.products.delete-all');
+    Route::post('contracts/{contract}/complete', [ContractController::class, 'complete'])->name('contracts.complete');
 
     Route::get('/contracts/{contract}/payments', [PaymentController::class, 'index'])->name('contracts.payments.index');
     Route::get('/contracts/{contract}/create-payments', [PaymentController::class, 'create'])->name('contracts.payments.create');

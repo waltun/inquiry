@@ -39,7 +39,7 @@ class ContractController extends Controller
             $contracts->where('customer_id', request('customer'));
         }
 
-        $contracts = $contracts->latest()->with(['invoice', 'products'])->paginate(20)->withQueryString();
+        $contracts = $contracts->latest()->with(['invoice', 'products'])->where('complete', 0)->paginate(20)->withQueryString();
 
         $customers = Customer::latest()->get();
         return view('contracts.index', compact('contracts', 'customers'));
@@ -307,6 +307,16 @@ class ContractController extends Controller
         }
 
         alert()->success('حذف موفق', 'همه محصولات قرارداد با موفقیت حذف شدند');
+
+        return back();
+    }
+
+    public function complete(Contract $contract)
+    {
+        $contract->complete = 1;
+        $contract->save();
+
+        alert()->success('ثبت موفق', 'وضعیت قرارداد با موفقیت به اتمام شده تغییر کرد');
 
         return back();
     }

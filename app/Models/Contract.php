@@ -11,7 +11,7 @@ class Contract extends Model
 
     protected $fillable = [
         'name', 'marketer', 'number', 'price', 'start_contract_date', 'send_date', 'invoice_id', 'user_id', 'customer_id',
-        'type', 'old_number', 'recipe'
+        'type', 'old_number', 'recipe', 'complete'
     ];
 
     public function invoice()
