@@ -12,6 +12,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CollectionCoilController;
 use App\Http\Controllers\CollectionPartController;
 use App\Http\Controllers\Contract\AnalyzePartController;
+use App\Http\Controllers\Contract\FinalContractController;
 use App\Http\Controllers\Contract\GuaranteeController;
 use App\Http\Controllers\Contract\MarketingController;
 use App\Http\Controllers\Contract\RecipeController;
@@ -518,6 +519,8 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/contracts/{contract}', [ContractController::class, 'show'])->name('contracts.show');
     Route::delete('/contracts/{contract}/products/delete-all', [ContractController::class, 'deleteAll'])->name('contracts.products.delete-all');
     Route::post('contracts/{contract}/complete', [ContractController::class, 'complete'])->name('contracts.complete');
+
+    Route::get('final-contracts', [FinalContractController::class, 'index'])->name('final-contracts.index');
 
     Route::get('/contracts/{contract}/payments', [PaymentController::class, 'index'])->name('contracts.payments.index');
     Route::get('/contracts/{contract}/create-payments', [PaymentController::class, 'create'])->name('contracts.payments.create');

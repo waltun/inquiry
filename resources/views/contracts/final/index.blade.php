@@ -45,7 +45,7 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p-active">
-                    قرارداد ها
+                    قرارداد های تمام شده
                 </p>
             </div>
         </div>
@@ -61,7 +61,7 @@
             </svg>
             <div class="mr-2 flex items-center">
                 <p class="font-bold text-2xl text-black dark:text-white">
-                    لیست قراردادها
+                    لیست قراردادهای تمام شده
                 </p>
                 @if(request()->has('search') || request()->has('type') || request()->has('customer'))
                     <a href="{{ route('contracts.index') }}"
@@ -72,20 +72,13 @@
             </div>
         </div>
         <div class="flex items-center space-x-4 space-x-reverse">
-            <a href="{{ route('contracts.create') }}" class="page-success-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                     stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
-                </svg>
-                <span class="mr-2">ایجاد قرارداد جدید</span>
-            </a>
-            <a href="{{ route('final-contracts.index') }}" class="page-warning-btn">
+            <a href="{{ route('contracts.index') }}" class="page-warning-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                      stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round"
                           d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"></path>
                 </svg>
-                <span class="mr-2">لیست قراردادهای تمام شده</span>
+                <span class="mr-2">لیست قرارداد ها</span>
             </a>
         </div>
     </div>
@@ -191,7 +184,7 @@
                                     مشاهده
                                 </a>
 
-                                <form action="{{ route('contracts.complete', $contract->id) }}" method="POST">
+                                <form action="" method="POST">
                                     @csrf
 
                                     <button type="submit" class="table-success-btn"
@@ -201,7 +194,7 @@
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                   d="M4.5 12.75l6 6 9-13.5"/>
                                         </svg>
-                                        اتمام
+                                        بازگردانی
                                     </button>
                                 </form>
 

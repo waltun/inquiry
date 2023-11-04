@@ -295,7 +295,7 @@ class InquiryProductController extends Controller
         }
 
         if (!is_null($inquiryPart)) {
-            $totalPrice = $inquiryPart->price;
+            $totalPrice = $product->price == 0 ? $inquiryPart->price : $product->price;
         }
 
         return view('inquiry-product.percent', compact('inquiry', 'group', 'modell', 'totalPrice', 'product'));
@@ -327,7 +327,11 @@ class InquiryProductController extends Controller
         }
 
         if (!is_null($inquiryPart)) {
-            $finalPrice = $inquiryPart->price * $request['percent'];
+            if ($product->price == 0) {
+                $finalPrice = $inquiryPart->price * $request['percent'];
+            } else {
+                $finalPrice = $product->price * $request['percent'];
+            }
             $finalWeight = $inquiryPart->weight * $product->quantity;
             $product->part_price = $inquiryPart->price;
             $product->save();
@@ -382,13 +386,15 @@ class InquiryProductController extends Controller
 
         foreach ($request->ids as $id) {
             $product = Product::find($id);
-            $inquiry = Inquiry::find($product->inquiry_id);
-            $user = User::find($inquiry->user_id);
             $totalPrice = 0;
 
             foreach ($product->amounts as $amount) {
                 $part = Part::find($amount->part_id);
-                $totalPrice += ($part->price * $amount->value);
+                if ($product->price == 0) {
+                    $totalPrice += ($part->price * $amount->value);
+                } else {
+                    $totalPrice += ($product->price * $amount->value);
+                }
                 $amountPrice = Part::find($amount->part_id)->price;
                 $amount->price = $amountPrice;
                 $amount->save();
