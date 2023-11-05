@@ -39,7 +39,7 @@ class ContractController extends Controller
             $contracts->where('customer_id', request('customer'));
         }
 
-        $contracts = $contracts->latest()->with(['invoice', 'products'])->where('complete', 0)->paginate(20)->withQueryString();
+        $contracts = $contracts->orderBy('number', 'DESC')->with(['invoice', 'products'])->where('complete', 0)->paginate(20)->withQueryString();
 
         $customers = Customer::latest()->get();
         return view('contracts.index', compact('contracts', 'customers'));

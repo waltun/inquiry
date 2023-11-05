@@ -14,7 +14,7 @@ class PaymentController extends Controller
 
     public function index()
     {
-        $contracts = Contract::latest()->with(['payments', 'products'])->paginate(20);
+        $contracts = Contract::orderBy('number', 'DESC')->with(['payments', 'products'])->paginate(20);
         return view('payments.index', compact('contracts'));
     }
 }
