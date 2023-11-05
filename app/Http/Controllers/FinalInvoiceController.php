@@ -31,9 +31,9 @@ class FinalInvoiceController extends Controller
         }
 
         if (auth()->user()->role == 'admin') {
-            $invoices = $invoices->latest()->where('complete', true)->paginate(25);
+            $invoices = $invoices->latest()->where('complete', true)->paginate(25)->withQueryString();
         } else {
-            $invoices = $invoices->where('user_id', auth()->user()->id)->where('complete', true)->latest()->paginate(25);
+            $invoices = $invoices->where('user_id', auth()->user()->id)->where('complete', true)->latest()->paginate(25)->withQueryString();
         }
 
         $customers = Customer::select(['name', 'id'])->get();

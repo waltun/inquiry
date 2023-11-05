@@ -97,7 +97,8 @@ class ContractController extends Controller
         $data = $request->validate([
             'start_contract_date' => 'required|string|max:255',
             'user_id' => 'required|integer',
-            'old_number' => 'nullable|string|max:255'
+            'old_number' => 'nullable|string|max:255',
+            'name' => 'required|string|max:255'
         ]);
 
         if (!is_null($data['start_contract_date'])) {

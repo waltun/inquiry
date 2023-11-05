@@ -85,6 +85,12 @@
             </div>
 
             <div class="mb-4">
+                <label for="inputName" class="form-label">نام پروژه</label>
+                <input type="text" id="inputName" name="name" class="input-text"
+                       value="{{ old('name', $contract->name) }}" placeholder="نام پروژه را وارد کنید">
+            </div>
+
+            <div class="mb-4">
                 <label for="inputDate" class="form-label">تاریخ قرارداد</label>
                 <input type="text" id="inputDate" name="start_contract_date" class="input-text"
                        value="{{ old('date', $date) }}" placeholder="برای انتخاب تاریخ کلیک کنید">

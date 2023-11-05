@@ -21,6 +21,12 @@
                 });
             }
         </script>
+        <script>
+            function searchForm() {
+                let form = document.getElementById('search-form');
+                form.submit();
+            }
+        </script>
     </x-slot>
     <x-slot name="css">
         <link rel="stylesheet" href="{{ asset('plugins/date-picker/persianDatepicker-default.css') }}">

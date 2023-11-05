@@ -187,14 +187,14 @@
                                         @php
                                             $modell = \App\Models\Modell::find($product->model_id);
 
-                                            $price = ceil($product->price / 1000) * 1000;
+                                            $price = $product->price;
                                             $productPercentPrice = 0;
                                             if ($product->percent > 0) {
-                                                $productTotalPrice += ceil($price * $product->quantity / $product->percent / 1000) * 1000;
-                                                $productPercentPrice = ceil($price * $product->quantity / $product->percent / 1000) * 1000;
+                                                $productTotalPrice += $price * $product->quantity / $product->percent;
+                                                $productPercentPrice = $price * $product->quantity / $product->percent;
                                             } else {
-                                                $productTotalPrice += ceil($price * $product->quantity / 1000) * 1000;
-                                                $productPercentPrice = ceil($price * $product->quantity / 1000) * 1000;
+                                                $productTotalPrice += $price * $product->quantity;
+                                                $productPercentPrice = $price * $product->quantity;
                                             }
                                         @endphp
                                         <tr class="text-black text-xs text-center">
@@ -217,7 +217,7 @@
                                                 {{ $product->quantity }}
                                             </td>
                                             @php
-                                                $percentPrice = ceil($price / $product->percent / 1000) * 1000;
+                                                $percentPrice = $price / $product->percent;
                                             @endphp
                                             @if($product->show_price)
                                                 <td class="border border-black border-t-0 border-l p-1">
@@ -345,14 +345,14 @@
                                         @php
                                             $part = \App\Models\Part::find($product->part_id);
 
-                                            $price = ceil($product->price / 1000) * 1000;
+                                            $price = $product->price;
                                             $partPercentPrice = 0;
                                             if ($product->percent > 0) {
-                                                $partTotalPrice += ceil($price * $product->quantity / $product->percent / 1000) * 1000;
-                                                $partPercentPrice = ceil($price * $product->quantity / $product->percent / 1000) * 1000;
+                                                $partTotalPrice += $price * $product->quantity / $product->percent;
+                                                $partPercentPrice = $price * $product->quantity / $product->percent;
                                             } else {
-                                                $partTotalPrice += ceil($price * $product->quantity / 1000) * 1000;
-                                                $partPercentPrice = ceil($price * $product->quantity / 1000) * 1000;
+                                                $partTotalPrice += $price * $product->quantity;
+                                                $partPercentPrice = $price * $product->quantity;
                                             }
                                         @endphp
                                         <tr class="border bg-white text-black border-black text-xs text-center">
@@ -369,7 +369,7 @@
                                                 {{ $product->quantity }}
                                             </td>
                                             @php
-                                                $percentPrice = ceil($price / $product->percent / 1000) * 1000;
+                                                $percentPrice = $price / $product->percent;
                                             @endphp
                                             @if($product->show_price)
                                                 <td class="p-1 border-black border-t-0 border-l">

@@ -193,41 +193,63 @@
                         $leftPrice = $contractPrice - $paymentPrice;
                         $leftTaxPrice = $contractTaxPrice - $paymentPrice;
                     @endphp
-                    <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
-                        <td class="table-tr-td border-t-0 border-l-0">
-                            {{ "CNT-" . $contract->number }}
+                    <tr class="table-tb-tr group hover:font-bold hover:text-red-600 {{ $loop->even ? 'bg-sky-100' : '' }}">
+                        <td class="table-tr-td border-t-0 border-l-0 group-hover:scale-110">
+                            <a href="{{ route('contracts.show', $contract->id) }}">
+                                {{ "CNT-" . $contract->number }}
+                            </a>
                         </td>
-                        <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $contract->old_number ?? '-' }}
+                        <td class="table-tr-td border-t-0 border-x-0 group-hover:scale-110">
+                            <a href="{{ route('contracts.show', $contract->id) }}">
+                                {{ $contract->old_number ?? '-' }}
+                            </a>
                         </td>
-                        <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $contract->customer->name }}
+                        <td class="table-tr-td border-t-0 border-x-0 group-hover:scale-110">
+                            <a href="{{ route('contracts.show', $contract->id) }}">
+                                {{ $contract->customer->name }}
+                            </a>
                         </td>
-                        <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $contract->name ?? '-' }}
+                        <td class="table-tr-td border-t-0 border-x-0 group-hover:scale-110">
+                            <a href="{{ route('contracts.show', $contract->id) }}">
+                                {{ $contract->name ?? '-' }}
+                            </a>
                         </td>
-                        <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $contract->user->name }}
+                        <td class="table-tr-td border-t-0 border-x-0 group-hover:scale-110">
+                            <a href="{{ route('contracts.show', $contract->id) }}">
+                                {{ $contract->user->name }}
+                            </a>
                         </td>
-                        <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $contract->marketer ?? '-' }}
+                        <td class="table-tr-td border-t-0 border-x-0 group-hover:scale-110">
+                            <a href="{{ route('contracts.show', $contract->id) }}">
+                                @if(!$contract->marketings->isEmpty())
+                                    دارد
+                                @else
+                                    ندارد
+                                @endif
+                            </a>
                         </td>
-                        <td class="table-tr-td border-t-0 border-x-0">
-                            {{ jdate($contract->start_contract_date)->format('Y/m/d') }}
+                        <td class="table-tr-td border-t-0 border-x-0 group-hover:scale-110">
+                            <a href="{{ route('contracts.show', $contract->id) }}">
+                                {{ jdate($contract->start_contract_date)->format('Y/m/d') }}
+                            </a>
                         </td>
-                        <td class="table-tr-td border-t-0 border-x-0">
-                            @if($contract->type == 'official')
-                                {{ number_format($contractTaxPrice) }}
-                            @else
-                                {{ number_format($contractPrice) }}
-                            @endif
+                        <td class="table-tr-td border-t-0 border-x-0 group-hover:scale-110">
+                            <a href="{{ route('contracts.show', $contract->id) }}">
+                                @if($contract->type == 'official')
+                                    {{ number_format($contractTaxPrice) }}
+                                @else
+                                    {{ number_format($contractPrice) }}
+                                @endif
+                            </a>
                         </td>
-                        <td class="table-tr-td border-t-0 border-x-0">
-                            @if($contract->type == 'official')
-                                {{ number_format($leftTaxPrice) }}
-                            @else
-                                {{ number_format($leftPrice) }}
-                            @endif
+                        <td class="table-tr-td border-t-0 border-x-0 group-hover:scale-110">
+                            <a href="{{ route('contracts.show', $contract->id) }}">
+                                @if($contract->type == 'official')
+                                    {{ number_format($leftTaxPrice) }}
+                                @else
+                                    {{ number_format($leftPrice) }}
+                                @endif
+                            </a>
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             @if(!$contract->products->isEmpty())
@@ -389,19 +411,6 @@
 
                                     <div x-show="open" @click.away="open = false" class="table-dropdown -top-4 left-8"
                                          x-cloak>
-
-                                        <a href="{{ route('contracts.show', $contract->id) }}"
-                                           class="table-dropdown-copy text-xs">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                 stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                      d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/>
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                            </svg>
-                                            مشاهده
-                                        </a>
-
                                         <form action="{{ route('contracts.complete', $contract->id) }}" method="POST">
                                             @csrf
 
