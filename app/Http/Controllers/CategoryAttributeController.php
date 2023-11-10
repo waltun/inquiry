@@ -83,10 +83,12 @@ class CategoryAttributeController extends Controller
     {
         $selectedCategory = Category::find($request->category_id);
 
-        $selectedCategory->attributes()->delete();
+        if (!$category->attributes->isEmpty()) {
+            $category->attributes()->delete();
+        }
 
-        foreach ($category->attributes as $attribute) {
-            $selectedCategory->attributes()->attach($attribute->id, [
+        foreach ($selectedCategory->attributes as $attribute) {
+            $category->attributes()->attach($attribute->id, [
                 'sort' => $attribute->pivot->sort,
                 'default_value' => $attribute->pivot->default_value
             ]);

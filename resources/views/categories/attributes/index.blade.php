@@ -290,8 +290,8 @@
                                             <label for="inputCategory" class="form-label">انتخاب دسته بندی</label>
                                             <select name="category_id" id="inputCategory" class="input-text">
                                                 <option value="">انتخاب کنید</option>
-                                                @foreach(\App\Models\Category::all() as $child)
-                                                    @if($child->id !== $category->id && $child->children->isEmpty())
+                                                @foreach(\App\Models\Category::all()->except($category->id) as $child)
+                                                    @if($child->children->isEmpty() && !$child->attributes->isEmpty())
                                                         <option value="{{ $child->id }}">
                                                             {{ $child->name }}
                                                         </option>
