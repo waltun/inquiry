@@ -43,8 +43,10 @@
         <script>
             function showPrice(event, id, totalPrice) {
                 let value = totalPrice * event.target.value;
+                let input = document.getElementById('inputFinalPrice' + id);
                 let priceSection = document.getElementById('finalPrice' + id);
                 priceSection.innerText = Intl.NumberFormat().format(value) + ' ' + 'تومان';
+                input.value = parseInt(value);
             }
         </script>
     </x-slot>
@@ -470,9 +472,15 @@
                                                                             <div class="card-header">
                                                                                 <p class="card-title">قیمت فروش شرکت</p>
                                                                             </div>
+                                                                            <div class="mt-4">
+                                                                                <input type="number" class="input-text"
+                                                                                       name="final_price"
+                                                                                       value="{{ $totalPrice * $product->percent }}"
+                                                                                       id="inputFinalPrice{{ $product->id }}">
+                                                                            </div>
                                                                             <div
-                                                                                class="mt-4 bg-myBlue-300 p-2 rounded-lg">
-                                                                                <p class="text-center text-lg font-bold text-white"
+                                                                                class="mt-4">
+                                                                                <p class="text-center text-lg font-bold text-black"
                                                                                    id="finalPrice{{ $product->id }}">
                                                                                     {{ number_format($totalPrice * $product->percent) }}
                                                                                     تومان
@@ -481,7 +489,8 @@
                                                                         </div>
 
                                                                         <div class="col-span-3">
-                                                                            <button type="submit" class="form-submit-btn">
+                                                                            <button type="submit"
+                                                                                    class="form-submit-btn">
                                                                                 ثبت ضریب
                                                                             </button>
                                                                         </div>

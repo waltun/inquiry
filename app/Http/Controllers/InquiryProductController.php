@@ -304,26 +304,30 @@ class InquiryProductController extends Controller
     public function storePercent(Request $request, Product $product)
     {
         $request->validate([
-            'percent' => 'required|numeric|between:1,3'
+            'percent' => 'required|numeric|between:1,3',
+            'final_price' => 'nullable|numeric'
         ]);
 
         $group = Group::find($product->group_id);
         $modell = Modell::find($product->model_id);
         $inquiryPart = Part::find($product->part_id);
         $inquiry = Inquiry::find($product->inquiry_id);
-        $user = User::find($inquiry->user_id);
 
-        $totalPrice = 0;
         $totalWeight = 0;
 
         if (!is_null($group) && !is_null($modell)) {
             foreach ($product->amounts as $amount) {
                 $part = Part::find($amount->part_id);
-                $totalPrice += $part->price * $amount->value;
                 $totalWeight += $part->weight * $amount->value;
             }
-            $finalPrice = $totalPrice * $request['percent'];
             $finalWeight = $totalWeight * $product->quantity;
+
+            $product->update([
+                'price' => $request->final_price,
+                'percent' => $request['percent'],
+                'weight' => $finalWeight,
+                'percent_by' => $request->user()->id,
+            ]);
         }
 
         if (!is_null($inquiryPart)) {
@@ -333,16 +337,15 @@ class InquiryProductController extends Controller
                 $finalPrice = $product->price * $request['percent'];
             }
             $finalWeight = $inquiryPart->weight * $product->quantity;
-            $product->part_price = $inquiryPart->price;
-            $product->save();
-        }
 
-        $product->update([
-            'price' => $finalPrice,
-            'percent' => $request['percent'],
-            'weight' => $finalWeight,
-            'percent_by' => $request->user()->id,
-        ]);
+            $product->update([
+                'price' => $finalPrice,
+                'percent' => $request['percent'],
+                'weight' => $finalWeight,
+                'percent_by' => $request->user()->id,
+                'part_price' => $inquiryPart->price
+            ]);
+        }
 
         foreach ($product->amounts as $amount) {
             $amountPrice = Part::find($amount->part_id)->price;
