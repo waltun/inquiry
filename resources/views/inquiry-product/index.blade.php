@@ -483,10 +483,10 @@
                                                                                 <p class="card-title">قیمت فروش شرکت</p>
                                                                             </div>
                                                                             <div class="mt-4">
-                                                                                <input type="number" class="input-text"
+                                                                                <input type="text" class="input-text"
                                                                                        name="final_price"
                                                                                        onkeyup="calculatePercent(event, {{ $product->id }}, {{ $totalPrice }})"
-                                                                                       value="{{ $totalPrice * $product->percent }}"
+                                                                                       value="{{ $product->price ? $product->price : $totalPrice * $product->percent }}"
                                                                                        id="inputFinalPrice{{ $product->id }}">
                                                                             </div>
                                                                             <div
