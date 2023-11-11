@@ -169,15 +169,21 @@
                                                     $attributeGroupIds->push($attr->pivot->attribute_group_id);
                                                 }
                                             });
-                                            $uniqueAttributeGroupIds = $attributeGroupIds->unique();
+
+                                            $attributeGroups = \App\Models\AttributeGroup::whereIn('id', $attributeGroupIds->unique()->toArray())->get();
                                             $attributeGroupIds = $attributeGroupIds->toArray();
+                                            $sortedAttributeGroups = $attributeGroups->sortBy('sort');
                                         @endphp
                                         <div class="bg-white py-2">
-                                            @foreach($uniqueAttributeGroupIds as $uniqueAttributeGroupId)
+                                            @foreach($sortedAttributeGroups  as $sortedAttributeGroup)
                                                 @php
-                                                    $keys = array_keys($attributeGroupIds, $uniqueAttributeGroupId);
-                                                    $productsAttribute = $modell->attributes[$keys[0]];
-                                                    $modelAttribute = \App\Models\AttributeGroup::find($productsAttribute->pivot->attribute_group_id);
+                                                    $keys = array_keys($attributeGroupIds, $sortedAttributeGroup->id);
+
+                                                    $productsAttribute = $modell->attributes->first(function ($attr) use ($sortedAttributeGroup) {
+                                                        return $attr->pivot->attribute_group_id === $sortedAttributeGroup->id;
+                                                    });
+
+                                                    $modelAttribute = $sortedAttributeGroup;
                                                 @endphp
                                                 <div class="mb-0.5 grid grid-cols-12">
                                                     <div
@@ -639,7 +645,7 @@
                                                                                         </p>
                                                                                     </div>
                                                                                     <div
-                                                                                        class="p-0 col-span-6 {{ $loop->first ? 'mt-2' : '' }}">
+                                                                                        class="p-0 col-span-6">
                                                                                         <p class="text-xs font-medium text-black">
                                                                                             {{ number_format($amount->value, 0) }}
                                                                                         </p>
