@@ -48,6 +48,16 @@
                 priceSection.innerText = Intl.NumberFormat().format(value) + ' ' + 'تومان';
                 input.value = parseInt(value);
             }
+
+            function calculatePercent(event, id, totalPrice) {
+                let value = event.target.value;
+                let percent = value / totalPrice;
+                let input = document.getElementById('inputPercent' + id);
+                input.value = (Math.round(percent * 100) / 100).toFixed(2);
+
+                let priceSection = document.getElementById('finalPrice' + id);
+                priceSection.innerText = Intl.NumberFormat().format(value) + ' ' + 'تومان';
+            }
         </script>
     </x-slot>
 
@@ -475,6 +485,7 @@
                                                                             <div class="mt-4">
                                                                                 <input type="number" class="input-text"
                                                                                        name="final_price"
+                                                                                       onkeyup="calculatePercent(event, {{ $product->id }}, {{ $totalPrice }})"
                                                                                        value="{{ $totalPrice * $product->percent }}"
                                                                                        id="inputFinalPrice{{ $product->id }}">
                                                                             </div>
