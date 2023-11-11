@@ -179,7 +179,7 @@
                                                 <div class="bg-white dark:bg-slate-800 p-4">
                                                     <div class="mb-4 flex justify-between items-center">
                                                         <h3 class="text-lg font-bold text-gray-900 dark:text-white">
-                                                            قطعه مورد نظر در قراردادها
+                                                            قطعه {{ $part->name }} در قراردادها
                                                         </h3>
                                                         <button type="button" @click="open = false">
                                                             <span class="modal-close">
