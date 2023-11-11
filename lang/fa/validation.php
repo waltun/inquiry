@@ -230,6 +230,7 @@ return [
         'tedad_madar' => 'تعداد مدار',
         'toole_loole_messi' => 'طول لوله مسی',
         'tedad_loole_messi' => 'تعداد لوله مسی',
-        'toole_loole_pooste' => 'طول لوله پوسته'
+        'toole_loole_pooste' => 'طول لوله پوسته',
+        'percents.*' => 'ضریب',
     ],
 ];

@@ -105,6 +105,10 @@
         </form>
     </div>
 
+    <div class="mt-4">
+        <x-errors />
+    </div>
+
     <!-- Content -->
     <div class="mt-4 space-y-4">
         <!-- Product List -->

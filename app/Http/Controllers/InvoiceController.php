@@ -49,7 +49,7 @@ class InvoiceController extends Controller
             'quantities' => 'required|array',
             'prices.*' => 'required|numeric',
             'prices' => 'required|array',
-            'percents.*' => 'required|numeric',
+            'percents.*' => 'required|numeric|between:0,1',
             'percents' => 'required|array',
         ]);
 
