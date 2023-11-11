@@ -12,7 +12,7 @@ class ModellAttributeController extends Controller
     public function index(Modell $modell)
     {
         $attributes = $modell->attributes()->orderBy('sort', 'ASC')->get();
-        $allAttributes = Attribute::all();
+        $allAttributes = Attribute::all()->unique('unit');
         $groups = AttributeGroup::all();
         return view('modells.attributes.index', compact('modell', 'attributes', 'allAttributes', 'groups'));
     }

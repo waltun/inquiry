@@ -12,7 +12,7 @@ class CategoryAttributeController extends Controller
     public function index(Category $category)
     {
         $attributes = $category->attributes()->orderBy('sort', 'ASC')->get();
-        $allAttributes = Attribute::all();
+        $allAttributes = Attribute::all()->unique('unit');
         $groups = AttributeGroup::all();
         return view('categories.attributes.index', compact('attributes', 'category', 'allAttributes', 'groups'));
     }
