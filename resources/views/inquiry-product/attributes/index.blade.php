@@ -142,6 +142,17 @@
             <p class="text-xs font-medium text-black">
                 مشخصه : {{ $product->property ?? '-' }}
             </p>
+
+            @php
+                $weight = 0;
+                foreach ($product->amounts as $amount) {
+                    $weight += $amount->weight * $amount->value;
+                }
+            @endphp
+            <span>|</span>
+            <p class="text-xs font-medium text-black">
+                وزن : {{ number_format($weight) }} کیلوگرم
+            </p>
         </div>
     </div>
 
