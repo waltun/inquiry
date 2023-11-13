@@ -47,11 +47,6 @@ class SeparateCalculateElectricalController extends Controller
 
     public function storePanel(Request $request, Part $part)
     {
-        $request->validate([
-            'values' => 'required|array',
-            'values.*' => 'required|numeric'
-        ]);
-
         $code = $this->getLastCode($part);
 
         $newPart = $part->replicate()->fill([
@@ -74,17 +69,18 @@ class SeparateCalculateElectricalController extends Controller
         }
 
         $totalPrice = 0;
-        foreach ($request['part_ids'] as $index => $id) {
-            $childPart = Part::find($id);
+        foreach ($part->children()->orderBy('sort', 'ASC')->get() as $index => $child) {
+            foreach ($child->children()->orderBy('sort', 'ASC')->get() as $index2 => $ch) {
+                $newPart->children()->attach($ch->id, [
+                    'parent_part_id' => $request->part_ids[$index][$index2],
+                    'value' => $request->values[$index][$index2],
+                    'sort' => $request->sorts[$index][$index2]
+                ]);
 
-            $newPart->children()->attach($id, [
-                'parent_part_id' => $request->part_ids[$index],
-                'value' => $request->values[$index],
-                'sort' => $request->sorts[$index]
-            ]);
-
-            $totalPrice += ($childPart->price * $request->values[$index]);
+                $totalPrice += ($ch->price * $request->values[$index][$index2]);
+            }
         }
+
         $newPart->price = $totalPrice;
         $newPart->save();
 
@@ -178,11 +174,6 @@ class SeparateCalculateElectricalController extends Controller
 
     public function storeAir(Request $request, Part $part)
     {
-        $request->validate([
-            'values' => 'required|array',
-            'values.*' => 'required|numeric'
-        ]);
-
         $code = $this->getLastCode($part);
 
         $newPart = $part->replicate()->fill([
@@ -205,16 +196,16 @@ class SeparateCalculateElectricalController extends Controller
         }
 
         $totalPrice = 0;
-        foreach ($request['part_ids'] as $index => $id) {
-            $childPart = Part::find($id);
+        foreach ($part->children()->orderBy('sort', 'ASC')->get() as $index => $child) {
+            foreach ($child->children()->orderBy('sort', 'ASC')->get() as $index2 => $ch) {
+                $newPart->children()->attach($ch->id, [
+                    'parent_part_id' => $request->part_ids[$index][$index2],
+                    'value' => $request->values[$index][$index2],
+                    'sort' => $request->sorts[$index][$index2]
+                ]);
 
-            $newPart->children()->attach($id, [
-                'parent_part_id' => $request->part_ids[$index],
-                'value' => $request->values[$index],
-                'sort' => $request->sorts[$index]
-            ]);
-
-            $totalPrice += ($childPart->price * $request->values[$index]);
+                $totalPrice += ($ch->price * $request->values[$index][$index2]);
+            }
         }
         $newPart->price = $totalPrice;
         $newPart->save();
@@ -244,11 +235,6 @@ class SeparateCalculateElectricalController extends Controller
 
     public function storeZent(Request $request, Part $part)
     {
-        $request->validate([
-            'values' => 'required|array',
-            'values.*' => 'required|numeric'
-        ]);
-
         $code = $this->getLastCode($part);
 
         $newPart = $part->replicate()->fill([
@@ -271,16 +257,16 @@ class SeparateCalculateElectricalController extends Controller
         }
 
         $totalPrice = 0;
-        foreach ($request['part_ids'] as $index => $id) {
-            $childPart = Part::find($id);
+        foreach ($part->children()->orderBy('sort', 'ASC')->get() as $index => $child) {
+            foreach ($child->children()->orderBy('sort', 'ASC')->get() as $index2 => $ch) {
+                $newPart->children()->attach($ch->id, [
+                    'parent_part_id' => $request->part_ids[$index][$index2],
+                    'value' => $request->values[$index][$index2],
+                    'sort' => $request->sorts[$index][$index2]
+                ]);
 
-            $newPart->children()->attach($id, [
-                'parent_part_id' => $request->part_ids[$index],
-                'value' => $request->values[$index],
-                'sort' => $request->sorts[$index]
-            ]);
-
-            $totalPrice += ($childPart->price * $request->values[$index]);
+                $totalPrice += ($ch->price * $request->values[$index][$index2]);
+            }
         }
         $newPart->price = $totalPrice;
         $newPart->save();
@@ -310,11 +296,6 @@ class SeparateCalculateElectricalController extends Controller
 
     public function storeMini(Request $request, Part $part)
     {
-        $request->validate([
-            'values' => 'required|array',
-            'values.*' => 'required|numeric'
-        ]);
-
         $code = $this->getLastCode($part);
 
         $newPart = $part->replicate()->fill([
@@ -337,16 +318,16 @@ class SeparateCalculateElectricalController extends Controller
         }
 
         $totalPrice = 0;
-        foreach ($request['part_ids'] as $index => $id) {
-            $childPart = Part::find($id);
+        foreach ($part->children()->orderBy('sort', 'ASC')->get() as $index => $child) {
+            foreach ($child->children()->orderBy('sort', 'ASC')->get() as $index2 => $ch) {
+                $newPart->children()->attach($ch->id, [
+                    'parent_part_id' => $request->part_ids[$index][$index2],
+                    'value' => $request->values[$index][$index2],
+                    'sort' => $request->sorts[$index][$index2]
+                ]);
 
-            $newPart->children()->attach($id, [
-                'parent_part_id' => $request->part_ids[$index],
-                'value' => $request->values[$index],
-                'sort' => $request->sorts[$index]
-            ]);
-
-            $totalPrice += ($childPart->price * $request->values[$index]);
+                $totalPrice += ($ch->price * $request->values[$index][$index2]);
+            }
         }
         $newPart->price = $totalPrice;
         $newPart->save();
