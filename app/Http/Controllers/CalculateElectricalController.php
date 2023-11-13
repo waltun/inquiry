@@ -58,11 +58,13 @@ class CalculateElectricalController extends Controller
 
         foreach ($part->children()->orderBy('sort', 'ASC')->get() as $index => $child) {
             foreach ($child->children()->orderBy('sort', 'ASC')->get() as $index2 => $ch) {
-                $newPart->children()->attach($ch->id, [
-                    'parent_part_id' => $request->part_ids[$index][$index2],
-                    'value' => $request->values[$index][$index2],
-                    'sort' => $request->sorts[$index][$index2]
-                ]);
+                if ($request->values[$index][$index2] > 0) {
+                    $newPart->children()->attach($ch->id, [
+                        'parent_part_id' => $request->part_ids[$index][$index2],
+                        'value' => $request->values[$index][$index2],
+                        'sort' => $request->sorts[$index][$index2]
+                    ]);
+                }
             }
         }
 
@@ -122,11 +124,13 @@ class CalculateElectricalController extends Controller
 
         foreach ($part->children()->orderBy('sort', 'ASC')->get() as $index => $child) {
             foreach ($child->children()->orderBy('sort', 'ASC')->get() as $index2 => $ch) {
-                $newPart->children()->attach($ch->id, [
-                    'parent_part_id' => $request->part_ids[$index][$index2],
-                    'value' => $request->values[$index][$index2],
-                    'sort' => $request->sorts[$index][$index2]
-                ]);
+                if ($request->values[$index][$index2] > 0) {
+                    $newPart->children()->attach($ch->id, [
+                        'parent_part_id' => $request->part_ids[$index][$index2],
+                        'value' => $request->values[$index][$index2],
+                        'sort' => $request->sorts[$index][$index2]
+                    ]);
+                }
             }
         }
 
@@ -186,11 +190,13 @@ class CalculateElectricalController extends Controller
 
         foreach ($part->children()->orderBy('sort', 'ASC')->get() as $index => $child) {
             foreach ($child->children()->orderBy('sort', 'ASC')->get() as $index2 => $ch) {
-                $newPart->children()->attach($ch->id, [
-                    'parent_part_id' => $request->part_ids[$index][$index2],
-                    'value' => $request->values[$index][$index2],
-                    'sort' => $request->sorts[$index][$index2]
-                ]);
+                if ($request->values[$index][$index2] > 0) {
+                    $newPart->children()->attach($ch->id, [
+                        'parent_part_id' => $request->part_ids[$index][$index2],
+                        'value' => $request->values[$index][$index2],
+                        'sort' => $request->sorts[$index][$index2]
+                    ]);
+                }
             }
         }
 
@@ -250,11 +256,13 @@ class CalculateElectricalController extends Controller
 
         foreach ($part->children()->orderBy('sort', 'ASC')->get() as $index => $child) {
             foreach ($child->children()->orderBy('sort', 'ASC')->get() as $index2 => $ch) {
-                $newPart->children()->attach($ch->id, [
-                    'parent_part_id' => $request->part_ids[$index][$index2],
-                    'value' => $request->values[$index][$index2],
-                    'sort' => $request->sorts[$index][$index2]
-                ]);
+                if ($request->values[$index][$index2] > 0) {
+                    $newPart->children()->attach($ch->id, [
+                        'parent_part_id' => $request->part_ids[$index][$index2],
+                        'value' => $request->values[$index][$index2],
+                        'sort' => $request->sorts[$index][$index2]
+                    ]);
+                }
             }
         }
 
@@ -314,11 +322,13 @@ class CalculateElectricalController extends Controller
 
         foreach ($part->children()->orderBy('sort', 'ASC')->get() as $index => $child) {
             foreach ($child->children()->orderBy('sort', 'ASC')->get() as $index2 => $ch) {
-                $newPart->children()->attach($ch->id, [
-                    'parent_part_id' => $request->part_ids[$index][$index2],
-                    'value' => $request->values[$index][$index2],
-                    'sort' => $request->sorts[$index][$index2]
-                ]);
+                if ($request->values[$index][$index2] > 0) {
+                    $newPart->children()->attach($ch->id, [
+                        'parent_part_id' => $request->part_ids[$index][$index2],
+                        'value' => $request->values[$index][$index2],
+                        'sort' => $request->sorts[$index][$index2]
+                    ]);
+                }
             }
         }
 
