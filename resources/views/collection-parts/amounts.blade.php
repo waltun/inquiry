@@ -174,10 +174,10 @@
                         مقادیر
                     </th>
                     <th scope="col" class="p-4">
-                        قیمت
+                        قیمت (تومان)
                     </th>
                     <th scope="col" class="p-4 rounded-tl-lg">
-                        قیمت کل
+                        قیمت کل (تومان)
                     </th>
                 </tr>
                 </thead>
@@ -252,13 +252,13 @@
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             @if($childPart->price)
-                                {{ number_format($childPart->price) }} تومان
+                                {{ number_format($childPart->price) }}
                             @else
                                 منتظر قیمت گذاری
                             @endif
                         </td>
                         <td class="table-tr-td border-t-0 border-r-0">
-                            {{ number_format($childPart->price * $childPart->pivot->value) }} تومان
+                            {{ number_format($childPart->price * $childPart->pivot->value) }}
                         </td>
                     </tr>
                 @endforeach
