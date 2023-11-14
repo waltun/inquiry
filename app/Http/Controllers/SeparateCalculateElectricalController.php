@@ -135,23 +135,14 @@ class SeparateCalculateElectricalController extends Controller
             $newPart->categories()->sync($part->categories);
         }
 
-        $totalPrice = 0;
-        foreach ($part->children as $index => $child) {
-            foreach ($child->children as $index2 => $ch) {
-                if ($request->values[$index][$index2] > 0) {
-                    $newPart->children()->attach($ch->id, [
-                        'parent_part_id' => $request->part_ids[$index][$index2],
-                        'value' => $request->values[$index][$index2],
-                        'sort' => $request->sorts[$index][$index2]
-                    ]);
-                }
+        $newPart->children()->syncWithoutDetaching($part->children);
 
-                $totalPrice += ($ch->price * $request->values[$index][$index2]);
-            }
+        foreach ($newPart->children as $index => $child) {
+            $child->children()->syncWithoutDetaching($request);
         }
 
-        $newPart->price = $totalPrice;
-        $newPart->save();
+        //$newPart->price = $totalPrice;
+        //$newPart->save();
 
         alert()->success('محاسبه موفق', 'محاسبه تابلو برق با موفقیت انجام شد');
 

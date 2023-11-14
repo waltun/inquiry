@@ -13,6 +13,9 @@
                 tags: true,
                 width: '100%'
             });
+            $("#inputCategory").select2({
+                width: '100%'
+            });
         </script>
         <script>
             function updateAttribute(id) {
@@ -205,7 +208,7 @@
                                             <label for="inputUnit" class="form-label">واحد مشخصه فنی</label>
                                             <select name="unit" id="inputUnit" class="input-text">
                                                 <option value=""></option>
-                                                @foreach($allAttributes as $allAttribute)
+                                                @foreach($allAttributes->unique('unit') as $allAttribute)
                                                     <option value="{{ $allAttribute->unit }}">
                                                         {{ $allAttribute->unit }}
                                                     </option>
@@ -382,94 +385,6 @@
                             </td>
                             <td class="table-tr-td border-t-0 border-r-0">
                                 <div class="flex items-center justify-center space-x-4 space-x-reverse relative">
-
-                                    <div x-data="{open:false}">
-                                        <button type="button" @click="open = !open" class="table-dropdown-edit">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                 stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                      d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"/>
-                                            </svg>
-                                            ویرایش
-                                        </button>
-
-                                        <!-- Edit Modal -->
-                                        <div class="relative z-10" x-show="open" x-cloak>
-                                            <div class="modal-backdrop"></div>
-                                            <div class="fixed z-10 inset-0 overflow-y-auto">
-                                                <div class="modal">
-                                                    <div class="modal-body">
-                                                        <div class="bg-white dark:bg-slate-800 p-4">
-                                                            <div class="mb-4 flex justify-between items-center">
-                                                                <h3 class="text-lg font-bold text-gray-900 dark:text-white">
-                                                                    ویرایش {{ $attribute->name }}
-                                                                </h3>
-                                                                <button type="button" @click="open = false">
-                                                                    <span class="modal-close">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                             fill="none"
-                                                                             viewBox="0 0 24 24"
-                                                                             stroke-width="1.5" stroke="currentColor"
-                                                                             class="w-5 h-5 dark:text-white">
-                                                                            <path stroke-linecap="round"
-                                                                                  stroke-linejoin="round"
-                                                                                  d="M6 18L18 6M6 6l12 12"/>
-                                                                        </svg>
-                                                                    </span>
-                                                                </button>
-                                                            </div>
-                                                            <div class="mt-6">
-                                                                <div class="mb-4">
-                                                                    <label for="inputNameUpdate{{ $attribute->id }}"
-                                                                           class="form-label">
-                                                                        نام مشخصه فنی
-                                                                    </label>
-                                                                    <input type="text" name="name"
-                                                                           id="inputNameUpdate{{ $attribute->id }}"
-                                                                           class="input-text"
-                                                                           value="{{ $attribute->name }}">
-                                                                </div>
-                                                                <div class="mb-4">
-                                                                    <label for="inputUnitUpdate{{ $attribute->id }}"
-                                                                           class="form-label">
-                                                                        واحد مشخصه فنی
-                                                                    </label>
-                                                                    <input type="text" name="unit"
-                                                                           id="inputUnitUpdate{{ $attribute->id }}"
-                                                                           class="input-text"
-                                                                           value="{{ $attribute->unit }}">
-                                                                </div>
-                                                                <div class="mt-2 space-y-2">
-                                                                    <p class="text-xs font-bold text-red-600 dark:text-red-400">
-                                                                        * از این قسمت فقط می‌توانید نام مشخصه فنی را
-                                                                        تغییر
-                                                                        دهید.
-                                                                    </p>
-                                                                    <p class="text-xs font-bold text-red-600 dark:text-red-400">
-                                                                        * لطفا توجه کنید اگر نام تکراری وارد شود، سیستم
-                                                                        آن
-                                                                        را قبول نمی‌کند.
-                                                                    </p>
-                                                                </div>
-                                                                <div
-                                                                    class="flex justify-end items-center space-x-4 space-x-reverse">
-                                                                    <button type="button" class="form-edit-btn"
-                                                                            onclick="updateAttribute({{ $attribute->id }})">
-                                                                        بروزرسانی مشخصه
-                                                                    </button>
-                                                                    <button type="button" class="form-cancel-btn"
-                                                                            @click="open = false">
-                                                                        انصراف!
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                     <div class="table-delete-btn">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                              stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">

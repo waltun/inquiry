@@ -12,7 +12,7 @@ class CategoryAttributeController extends Controller
     public function index(Category $category)
     {
         $attributes = $category->attributes()->orderBy('sort', 'ASC')->get();
-        $allAttributes = Attribute::all()->unique('unit');
+        $allAttributes = Attribute::all();
         $groups = AttributeGroup::all();
         return view('categories.attributes.index', compact('attributes', 'category', 'allAttributes', 'groups'));
     }
@@ -83,19 +83,21 @@ class CategoryAttributeController extends Controller
     {
         $selectedCategory = Category::find($request->category_id);
 
-        if (!$category->attributes->isEmpty()) {
-            $category->attributes()->delete();
+        if (!$selectedModell->attributes->isEmpty()) {
+            $category->attributes()->detach();
+
+            foreach ($selectedCategory->attributes as $attribute) {
+                $category->attributes()->attach($attribute->id, [
+                    'sort' => $attribute->pivot->sort,
+                    'default_value' => $attribute->pivot->default_value
+                ]);
+            }
+
+            alert()->success('کپی موفق', 'دیتاشیت با موفقیت کپی شد');
+            return back();
         }
 
-        foreach ($selectedCategory->attributes as $attribute) {
-            $category->attributes()->attach($attribute->id, [
-                'sort' => $attribute->pivot->sort,
-                'default_value' => $attribute->pivot->default_value
-            ]);
-        }
-
-        alert()->success('کپی موفق', 'دیتاشیت با موفقیت کپی شد');
-
+        alert()->error('خطا!', 'دسته انتخاب شده فاقد دیتاشیت می باشد');
         return back();
     }
 

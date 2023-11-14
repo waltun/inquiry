@@ -12,7 +12,7 @@ class ModellAttributeController extends Controller
     public function index(Modell $modell)
     {
         $attributes = $modell->attributes()->orderBy('sort', 'ASC')->get();
-        $allAttributes = Attribute::all()->unique('unit');
+        $allAttributes = Attribute::all();
         $groups = AttributeGroup::all();
         return view('modells.attributes.index', compact('modell', 'attributes', 'allAttributes', 'groups'));
     }
@@ -89,19 +89,21 @@ class ModellAttributeController extends Controller
     {
         $selectedModell = Modell::find($request->modell_id);
 
-        if (!$modell->attributes->isEmpty()) {
-            $modell->attributes()->delete();
+        if (!$selectedModell->attributes->isEmpty()) {
+            $modell->attributes()->detach();
+
+            foreach ($selectedModell->attributes as $attribute) {
+                $modell->attributes()->attach($attribute->id, [
+                    'sort' => $attribute->pivot->sort,
+                    'default_value' => $attribute->pivot->default_value
+                ]);
+            }
+
+            alert()->success('کپی موفق', 'دیتاشیت با موفقیت کپی شد');
+            return back();
         }
 
-        foreach ($selectedModell->attributes as $attribute) {
-            $modell->attributes()->attach($attribute->id, [
-                'sort' => $attribute->pivot->sort,
-                'default_value' => $attribute->pivot->default_value
-            ]);
-        }
-
-        alert()->success('کپی موفق', 'دیتاشیت با موفقیت کپی شد');
-
+        alert()->error('خطا!', 'دسته انتخاب شده فاقد دیتاشیت می باشد');
         return back();
     }
 

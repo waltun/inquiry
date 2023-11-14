@@ -209,6 +209,15 @@ class PartController extends Controller
             $newPart->categories()->attach($category->id);
         }
 
+        if (!$part->children->isEmpty()) {
+            foreach ($part->children as $child) {
+                $newPart->children()->attach($child->id, [
+                    'value' => $child->pivot->value,
+                    'sort' => $child->pivot->sort
+                ]);
+            }
+        }
+
         alert()->success('کپی موفق', 'کپی قطعه با موفقیت انجام شد');
 
         return back();
