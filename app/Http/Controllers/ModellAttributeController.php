@@ -95,7 +95,10 @@ class ModellAttributeController extends Controller
             foreach ($selectedModell->attributes as $attribute) {
                 $modell->attributes()->attach($attribute->id, [
                     'sort' => $attribute->pivot->sort,
-                    'default_value' => $attribute->pivot->default_value
+                    'default_value' => $attribute->pivot->default_value,
+                    'attribute_group_id' => $attribute->pivot->attribute_group_id,
+                    'show_data' => $attribute->pivot->show_data,
+                    'unit' => $attribute->pivot->unit
                 ]);
             }
 
