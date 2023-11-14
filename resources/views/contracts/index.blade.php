@@ -149,12 +149,14 @@
                     <th scope="col" class="p-4">
                         تاریخ
                     </th>
-                    <th scope="col" class="p-4">
-                        قیمت کل (تومان)
-                    </th>
-                    <th scope="col" class="p-4">
-                        بدهی (تومان)
-                    </th>
+                    @can('contract-price')
+                        <th scope="col" class="p-4">
+                            قیمت کل (تومان)
+                        </th>
+                        <th scope="col" class="p-4">
+                            بدهی (تومان)
+                        </th>
+                    @endcan
                     <th scope="col" class="p-4">
                         محصولات
                     </th>
@@ -233,24 +235,26 @@
                                 {{ jdate($contract->start_contract_date)->format('Y/m/d') }}
                             </a>
                         </td>
-                        <td class="table-tr-td border-t-0 border-x-0 group-hover:scale-110">
-                            <a href="{{ route('contracts.show', $contract->id) }}">
-                                @if($contract->type == 'official')
-                                    {{ number_format($contractTaxPrice) }}
-                                @else
-                                    {{ number_format($contractPrice) }}
-                                @endif
-                            </a>
-                        </td>
-                        <td class="table-tr-td border-t-0 border-x-0 group-hover:scale-110">
-                            <a href="{{ route('contracts.show', $contract->id) }}">
-                                @if($contract->type == 'official')
-                                    {{ number_format($leftTaxPrice) }}
-                                @else
-                                    {{ number_format($leftPrice) }}
-                                @endif
-                            </a>
-                        </td>
+                        @can('contract-price')
+                            <td class="table-tr-td border-t-0 border-x-0 group-hover:scale-110">
+                                <a href="{{ route('contracts.show', $contract->id) }}">
+                                    @if($contract->type == 'official')
+                                        {{ number_format($contractTaxPrice) }}
+                                    @else
+                                        {{ number_format($contractPrice) }}
+                                    @endif
+                                </a>
+                            </td>
+                            <td class="table-tr-td border-t-0 border-x-0 group-hover:scale-110">
+                                <a href="{{ route('contracts.show', $contract->id) }}">
+                                    @if($contract->type == 'official')
+                                        {{ number_format($leftTaxPrice) }}
+                                    @else
+                                        {{ number_format($leftPrice) }}
+                                    @endif
+                                </a>
+                            </td>
+                        @endcan
                         <td class="table-tr-td border-t-0 border-x-0">
                             @if(!$contract->products->isEmpty())
                                 <div class="flex items-center justify-center" x-data="{open: false}">
