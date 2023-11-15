@@ -56,16 +56,10 @@ class CalculateElectricalController extends Controller
             $newPart->categories()->sync($part->categories);
         }
 
-        foreach ($part->children()->orderBy('sort', 'ASC')->get() as $index => $child) {
-            foreach ($child->children()->orderBy('sort', 'ASC')->get() as $index2 => $ch) {
-                if ($request->values[$index][$index2] > 0) {
-                    $newPart->children()->attach($ch->id, [
-                        'parent_part_id' => $request->part_ids[$index][$index2],
-                        'value' => $request->values[$index][$index2],
-                        'sort' => $request->sorts[$index][$index2]
-                    ]);
-                }
-            }
+        $newPart->children()->syncWithoutDetaching($part->children);
+
+        foreach ($newPart->children as $index => $child) {
+            $child->children()->syncWithoutDetaching($request->part_ids[$index]);
         }
 
         $request->session()->put('electrical-btn-' . $part->id . $product->id, 'calculated');
@@ -122,16 +116,10 @@ class CalculateElectricalController extends Controller
             $newPart->categories()->sync($part->categories);
         }
 
-        foreach ($part->children()->orderBy('sort', 'ASC')->get() as $index => $child) {
-            foreach ($child->children()->orderBy('sort', 'ASC')->get() as $index2 => $ch) {
-                if ($request->values[$index][$index2] > 0) {
-                    $newPart->children()->attach($ch->id, [
-                        'parent_part_id' => $request->part_ids[$index][$index2],
-                        'value' => $request->values[$index][$index2],
-                        'sort' => $request->sorts[$index][$index2]
-                    ]);
-                }
-            }
+        $newPart->children()->syncWithoutDetaching($part->children);
+
+        foreach ($newPart->children as $index => $child) {
+            $child->children()->syncWithoutDetaching($request->part_ids[$index]);
         }
 
         $request->session()->put('electrical-btn-' . $part->id . $product->id, 'calculated');
@@ -188,16 +176,10 @@ class CalculateElectricalController extends Controller
             $newPart->categories()->sync($part->categories);
         }
 
-        foreach ($part->children()->orderBy('sort', 'ASC')->get() as $index => $child) {
-            foreach ($child->children()->orderBy('sort', 'ASC')->get() as $index2 => $ch) {
-                if ($request->values[$index][$index2] > 0) {
-                    $newPart->children()->attach($ch->id, [
-                        'parent_part_id' => $request->part_ids[$index][$index2],
-                        'value' => $request->values[$index][$index2],
-                        'sort' => $request->sorts[$index][$index2]
-                    ]);
-                }
-            }
+        $newPart->children()->syncWithoutDetaching($part->children);
+
+        foreach ($newPart->children as $index => $child) {
+            $child->children()->syncWithoutDetaching($request->part_ids[$index]);
         }
 
         $request->session()->put('electrical-btn-' . $part->id . $product->id, 'calculated');
@@ -254,16 +236,10 @@ class CalculateElectricalController extends Controller
             $newPart->categories()->sync($part->categories);
         }
 
-        foreach ($part->children()->orderBy('sort', 'ASC')->get() as $index => $child) {
-            foreach ($child->children()->orderBy('sort', 'ASC')->get() as $index2 => $ch) {
-                if ($request->values[$index][$index2] > 0) {
-                    $newPart->children()->attach($ch->id, [
-                        'parent_part_id' => $request->part_ids[$index][$index2],
-                        'value' => $request->values[$index][$index2],
-                        'sort' => $request->sorts[$index][$index2]
-                    ]);
-                }
-            }
+        $newPart->children()->syncWithoutDetaching($part->children);
+
+        foreach ($newPart->children as $index => $child) {
+            $child->children()->syncWithoutDetaching($request->part_ids[$index]);
         }
 
         $request->session()->put('electrical-btn-' . $part->id . $product->id, 'calculated');
@@ -320,16 +296,10 @@ class CalculateElectricalController extends Controller
             $newPart->categories()->sync($part->categories);
         }
 
-        foreach ($part->children()->orderBy('sort', 'ASC')->get() as $index => $child) {
-            foreach ($child->children()->orderBy('sort', 'ASC')->get() as $index2 => $ch) {
-                if ($request->values[$index][$index2] > 0) {
-                    $newPart->children()->attach($ch->id, [
-                        'parent_part_id' => $request->part_ids[$index][$index2],
-                        'value' => $request->values[$index][$index2],
-                        'sort' => $request->sorts[$index][$index2]
-                    ]);
-                }
-            }
+        $newPart->children()->syncWithoutDetaching($part->children);
+
+        foreach ($newPart->children as $index => $child) {
+            $child->children()->syncWithoutDetaching($request->part_ids[$index]);
         }
 
         $request->session()->put('electrical-btn-' . $part->id . $product->id, 'calculated');

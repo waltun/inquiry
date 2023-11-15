@@ -186,86 +186,176 @@
                     $totalPrice = 0;
                     $totalWeight = 0;
                 @endphp
-                @foreach($parentPart->children()->orderBy('sort','ASC')->get() as $childPart)
-                    @php
-                        $category = $childPart->categories[1];
-                        $selectedCategory = $childPart->categories[2];
+                @foreach($parentPart->children()->orderBy('sort','ASC')->get() as $index => $childPart)
+                    @if(!$childPart->children->isEmpty())
+                        <tr class="bg-yellow-500">
+                            <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
+                                {{ $childPart->name }}
+                            </td>
+                        </tr>
+                    @endif
 
-                        $totalPrice += $childPart->price * $childPart->pivot->value;
-                        $totalWeight += $childPart->weight * $childPart->pivot->value;
-                    @endphp
-                    <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
-                        <td class="table-tr-td border-t-0 border-l-0">
-                            <input type="text" class="input-text w-14 text-center" name="sorts[]"
-                                   id="partSort{{ $childPart->id }}"
-                                   value="{{ $childPart->pivot->sort == 0 ||  $childPart->pivot->sort == null ? $loop->index+1 : $childPart->pivot->sort }}">
-                        </td>
-                        <td class="table-tr-td border-t-0 border-x-0">
-                            <select name="" id="inputCategory{{ $childPart->id }}" class="input-text w-28"
-                                    onchange="changePart(event,{{ $childPart->id }})">
-                                @foreach($category->children as $child2)
-                                    <option
-                                        value="{{ $child2->id }}" {{ $child2->id == $selectedCategory->id ? 'selected' : '' }}>
-                                        {{ $child2->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </td>
-                        <td class="table-tr-td border-t-0 border-x-0">
+                    @if(!$childPart->children->isEmpty())
+                        @foreach($childPart->children()->orderBy('sort', 'ASC')->get() as $index2 => $child)
                             @php
-                                $selectedPart = \App\Models\Part::find($childPart->id);
-                                $lastCategory = $selectedPart->categories()->latest()->first();
-                                $categoryParts = $lastCategory->parts;
+                                $category = $child->categories[1];
+                                $selectedCategory = $child->categories[2];
+
+                                $totalPrice += $child->price * $child->pivot->value;
+                                $totalWeight += $child->weight * $child->pivot->value;
                             @endphp
-                            <select name="part_ids[]" class="input-text" id="groupPartList{{ $childPart->id }}">
-                                @foreach($categoryParts as $part2)
-                                    <option
-                                        value="{{ $part2->id }}" {{ $part2->id == $childPart->id ? 'selected' : '' }}>
-                                        {{ $part2->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </td>
-                        <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $childPart->unit }}
-                            @if(!is_null($childPart->unit2))
-                                /
-                                {{ $childPart->unit2 }}
-                            @endif
-                        </td>
-                        <td class="table-tr-td border-t-0 border-x-0">
-                            <input type="text" name="values[]" id="inputValue{{ $childPart->id }}"
-                                   class="input-text w-20 text-center" onkeyup="changeUnit1(event,{{ $childPart }})"
-                                   value="{{ $childPart->pivot->value ?? '' }}">
-                            @if(!is_null($childPart->unit2))
+                            <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
+                                <td class="table-tr-td border-t-0 border-l-0">
+                                    <input type="text" class="input-text w-14 text-center"
+                                           name="sorts[{{ $index }}][{{ $index2 }}]"
+                                           id="partSort{{ $child->id }}"
+                                           value="{{ $child->pivot->sort == 0 ||  $child->pivot->sort == null ? $loop->index+1 : $child->pivot->sort }}">
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    <select name="" id="inputCategory{{ $child->id }}" class="input-text w-28"
+                                            onchange="changePart(event,{{ $child->id }})">
+                                        @foreach($category->children as $child2)
+                                            <option
+                                                value="{{ $child2->id }}" {{ $child2->id == $selectedCategory->id ? 'selected' : '' }}>
+                                                {{ $child2->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    @php
+                                        $selectedPart = \App\Models\Part::find($child->id);
+                                        $lastCategory = $selectedPart->categories()->latest()->first();
+                                        $categoryParts = $lastCategory->parts;
+                                    @endphp
+                                    <select name="part_ids[{{ $index }}][{{ $index2 }}]" class="input-text"
+                                            id="groupPartList{{ $child->id }}">
+                                        @foreach($categoryParts as $part2)
+                                            <option
+                                                value="{{ $part2->id }}" {{ $part2->id == $child->id ? 'selected' : '' }}>
+                                                {{ $part2->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    {{ $child->unit }}
+                                    @if(!is_null($child->unit2))
+                                        /
+                                        {{ $child->unit2 }}
+                                    @endif
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    <input type="text" name="values[{{ $index }}][{{ $index2 }}]"
+                                           id="inputValue{{ $child->id }}"
+                                           class="input-text w-20 text-center" onkeyup="changeUnit1(event,{{ $child }})"
+                                           value="{{ $child->pivot->value ?? '' }}">
+                                    @if(!is_null($child->unit2))
+                                        @php
+                                            $string = $child->pivot->value . $child->operator2 . $child->formula2;
+                                        @endphp
+                                        /
+                                        <input type="text" id="inputUnit{{ $child->id }}"
+                                               class="input-text w-20 text-center"
+                                               onkeyup="changeUnit2(event,{{ $child }})"
+                                               placeholder="{{ $child->unit2 }}" name="values2[]"
+                                               value="{{ $child->pivot->value2 ?? number_format(eval("return " . $string . ';'), 2) }}">
+                                    @endif
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    @if($child->price)
+                                        {{ number_format($child->price) }}
+                                    @else
+                                        منتظر قیمت گذاری
+                                    @endif
+                                </td>
+                                <td class="table-tr-td border-t-0 border-r-0">
+                                    {{ number_format($child->price * $child->pivot->value) }}
+                                </td>
+                            </tr>
+                        @endforeach
+                    @else
+                        @php
+                            $category = $childPart->categories[1];
+                            $selectedCategory = $childPart->categories[2];
+
+                            $totalPrice += $childPart->price * $childPart->pivot->value;
+                            $totalWeight += $childPart->weight * $childPart->pivot->value;
+                        @endphp
+                        <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
+                            <td class="table-tr-td border-t-0 border-l-0">
+                                <input type="text" class="input-text w-14 text-center" name="sorts[]"
+                                       id="partSort{{ $childPart->id }}"
+                                       value="{{ $childPart->pivot->sort == 0 ||  $childPart->pivot->sort == null ? $loop->index+1 : $childPart->pivot->sort }}">
+                            </td>
+                            <td class="table-tr-td border-t-0 border-x-0">
+                                <select name="" id="inputCategory{{ $childPart->id }}" class="input-text w-28"
+                                        onchange="changePart(event,{{ $childPart->id }})">
+                                    @foreach($category->children as $child2)
+                                        <option
+                                            value="{{ $child2->id }}" {{ $child2->id == $selectedCategory->id ? 'selected' : '' }}>
+                                            {{ $child2->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </td>
+                            <td class="table-tr-td border-t-0 border-x-0">
                                 @php
-                                    $string = $childPart->pivot->value . $childPart->operator2 . $childPart->formula2;
+                                    $selectedPart = \App\Models\Part::find($childPart->id);
+                                    $lastCategory = $selectedPart->categories()->latest()->first();
+                                    $categoryParts = $lastCategory->parts;
                                 @endphp
-                                /
-                                <input type="text" id="inputUnit{{ $childPart->id }}"
-                                       class="input-text w-20 text-center" onkeyup="changeUnit2(event,{{ $childPart }})"
-                                       placeholder="{{ $childPart->unit2 }}" name="values2[]"
-                                       value="{{ $childPart->pivot->value2 ?? number_format(eval("return " . $string . ';'), 2) }}">
-                            @endif
-                            <input type="hidden" name="units[]" id="inputUnitValue{{ $childPart->id }}"
-                                   value="{{ $childPart->pivot->value2 }}">
-                        </td>
-                        <td class="table-tr-td border-t-0 border-x-0">
-                            @if($childPart->price)
-                                {{ number_format($childPart->price) }}
-                            @else
-                                منتظر قیمت گذاری
-                            @endif
-                        </td>
-                        <td class="table-tr-td border-t-0 border-r-0">
-                            {{ number_format($childPart->price * $childPart->pivot->value) }}
-                        </td>
-                    </tr>
+                                <select name="part_ids[]" class="input-text" id="groupPartList{{ $childPart->id }}">
+                                    @foreach($categoryParts as $part2)
+                                        <option
+                                            value="{{ $part2->id }}" {{ $part2->id == $childPart->id ? 'selected' : '' }}>
+                                            {{ $part2->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </td>
+                            <td class="table-tr-td border-t-0 border-x-0">
+                                {{ $childPart->unit }}
+                                @if(!is_null($childPart->unit2))
+                                    /
+                                    {{ $childPart->unit2 }}
+                                @endif
+                            </td>
+                            <td class="table-tr-td border-t-0 border-x-0">
+                                <input type="text" name="values[]" id="inputValue{{ $childPart->id }}"
+                                       class="input-text w-20 text-center" onkeyup="changeUnit1(event,{{ $childPart }})"
+                                       value="{{ $childPart->pivot->value ?? '' }}">
+                                @if(!is_null($childPart->unit2))
+                                    @php
+                                        $string = $childPart->pivot->value . $childPart->operator2 . $childPart->formula2;
+                                    @endphp
+                                    /
+                                    <input type="text" id="inputUnit{{ $childPart->id }}"
+                                           class="input-text w-20 text-center"
+                                           onkeyup="changeUnit2(event,{{ $childPart }})"
+                                           placeholder="{{ $childPart->unit2 }}" name="values2[]"
+                                           value="{{ $childPart->pivot->value2 ?? number_format(eval("return " . $string . ';'), 2) }}">
+                                @endif
+                            </td>
+                            <td class="table-tr-td border-t-0 border-x-0">
+                                @if($childPart->price)
+                                    {{ number_format($childPart->price) }}
+                                @else
+                                    منتظر قیمت گذاری
+                                @endif
+                            </td>
+                            <td class="table-tr-td border-t-0 border-r-0">
+                                {{ number_format($childPart->price * $childPart->pivot->value) }}
+                            </td>
+                        </tr>
+                    @endif
+
                 @endforeach
                 <tr class="table-tb-tr group">
                     <td class="table-tr-td border-t-0" colspan="7">
                         <div class="flex items-center">
-                            <input type="text" class="input-text text-center" value="{{ $parentPart->name }}" name="name">
+                            <input type="text" class="input-text text-center" value="{{ $parentPart->name }}"
+                                   name="name">
                         </div>
                     </td>
                 </tr>

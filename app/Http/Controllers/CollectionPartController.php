@@ -168,15 +168,27 @@ class CollectionPartController extends Controller
         $totalPrice = 0;
         $totalWeight = 0;
         foreach ($parentPart->children()->orderBy('sort', 'ASC')->get() as $index => $child) {
-            $child->pivot->update([
-                'parent_part_id' => $request->part_ids[$index],
-                'value2' => $request->units[$index],
-                'value' => $request->values[$index],
-                'sort' => $request->sorts[$index]
-            ]);
+            if (!$child->children->isEmpty()) {
+                foreach ($child->children()->orderBy('sort', 'ASC')->get() as $index2 => $ch) {
+                    $ch->pivot->update([
+                        'parent_part_id' => $request->part_ids[$index][$index2],
+                        'value' => $request->values[$index][$index2],
+                        'sort' => $request->sorts[$index][$index2]
+                    ]);
 
-            $totalPrice += $child->price * $request->values[$index];
-            $totalWeight += $child->weight * $request->values[$index];
+                    $totalPrice += $ch->price * $request->values[$index][$index2];
+                    $totalWeight += $ch->weight * $request->values[$index][$index2];
+                }
+            } else {
+                $child->pivot->update([
+                    'parent_part_id' => $request->part_ids[$index],
+                    'value' => $request->values[$index],
+                    'sort' => $request->sorts[$index]
+                ]);
+
+                $totalPrice += $child->price * $request->values[$index];
+                $totalWeight += $child->weight * $request->values[$index];
+            }
         }
 
         $parentPart->price = $totalPrice;

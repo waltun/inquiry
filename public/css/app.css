@@ -1829,16 +1829,8 @@ Ensure the default browser behavior of the `hidden` attribute.
   grid-column: span 6 / span 6;
 }
 
-.col-span-12{
-  grid-column: span 12 / span 12;
-}
-
 .m-2{
   margin: 0.5rem;
-}
-
-.m-4{
-  margin: 1rem;
 }
 
 .my-4{
@@ -2338,6 +2330,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   grid-template-columns: repeat(12, minmax(0, 1fr));
 }
 
+.grid-cols-6{
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
 .grid-cols-5{
   grid-template-columns: repeat(5, minmax(0, 1fr));
 }
@@ -2621,6 +2617,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   border-color: rgb(207 59 97 / var(--tw-border-opacity));
 }
 
+.border-green-800{
+  --tw-border-opacity: 1;
+  border-color: rgb(22 101 52 / var(--tw-border-opacity));
+}
+
 .border-teal-400{
   --tw-border-opacity: 1;
   border-color: rgb(45 212 191 / var(--tw-border-opacity));
@@ -2634,11 +2635,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .border-indigo-600{
   --tw-border-opacity: 1;
   border-color: rgb(79 70 229 / var(--tw-border-opacity));
-}
-
-.border-green-800{
-  --tw-border-opacity: 1;
-  border-color: rgb(22 101 52 / var(--tw-border-opacity));
 }
 
 .bg-gray-100{
