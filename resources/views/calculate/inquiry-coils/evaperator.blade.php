@@ -260,6 +260,10 @@
                                 {{ is_null($inputs) ? (old('tedad_radif_coil') == '4' ? 'selected' : '') : ($inputs['tedad_radif_coil'] == '4' ? 'selected' : (old('tedad_radif_coil') == '4' ? 'selected' : '')) }}>
                                 4
                             </option>
+                            <option value="5"
+                                {{ is_null($inputs) ? (old('tedad_radif_coil') == '5' ? 'selected' : '') : ($inputs['tedad_radif_coil'] == '5' ? 'selected' : (old('tedad_radif_coil') == '5' ? 'selected' : '')) }}>
+                                5
+                            </option>
                             <option value="6"
                                 {{ is_null($inputs) ? (old('tedad_radif_coil') == '6' ? 'selected' : '') : ($inputs['tedad_radif_coil'] == '6' ? 'selected' : (old('tedad_radif_coil') == '6' ? 'selected' : '')) }}>
                                 6

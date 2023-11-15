@@ -116,10 +116,12 @@ class CalculateElectricalController extends Controller
             $newPart->categories()->sync($part->categories);
         }
 
-        $newPart->children()->syncWithoutDetaching($part->children);
+        $newPart->children()->sync($part->children);
 
         foreach ($newPart->children as $index => $child) {
-            $child->children()->syncWithoutDetaching($request->part_ids[$index]);
+            $child->children()->syncWithPivotValues($request->part_ids[$index], [
+                'inquiry_id' => $product->inquiry_id
+            ]);
         }
 
         $request->session()->put('electrical-btn-' . $part->id . $product->id, 'calculated');
