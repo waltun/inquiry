@@ -196,7 +196,7 @@
                     @endif
 
                     @if(!$childPart->children->isEmpty())
-                        @foreach($childPart->children()->orderBy('sort', 'ASC')->get() as $index2 => $child)
+                        @foreach($childPart->children()->wherePivot('head_part_id', $parentPart->id)->orderBy('sort', 'ASC')->get() as $index2 => $child)
                             @php
                                 $category = $child->categories[1];
                                 $selectedCategory = $child->categories[2];

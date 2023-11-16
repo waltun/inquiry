@@ -169,7 +169,7 @@ class CollectionPartController extends Controller
         $totalWeight = 0;
         foreach ($parentPart->children()->orderBy('sort', 'ASC')->get() as $index => $child) {
             if (!$child->children->isEmpty()) {
-                foreach ($child->children()->orderBy('sort', 'ASC')->get() as $index2 => $ch) {
+                foreach ($child->children()->wherePivot('head_part_id', $parentPart->id)->orderBy('sort', 'ASC')->get() as $index2 => $ch) {
                     $ch->pivot->update([
                         'parent_part_id' => $request->part_ids[$index][$index2],
                         'value' => $request->values[$index][$index2],
