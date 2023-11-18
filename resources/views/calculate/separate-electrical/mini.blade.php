@@ -223,7 +223,7 @@
                                 {{ $child->name }}
                             </td>
                         </tr>
-                        @foreach($child->children()->orderBy('sort', 'ASC')->get() as $index2 => $ch)
+                        @foreach($child->children()->where('head_part_id', null)->orderBy('sort', 'ASC')->get() as $index2 => $ch)
                             @php
                                 if (!is_null($part_ids)){
                                     $child = \App\Models\Part::find($part_ids[$index][$index2]);

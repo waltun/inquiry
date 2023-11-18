@@ -204,7 +204,7 @@
                         $totalWeight = 0;
                         $totalPrice = 0;
                     @endphp
-                    @foreach($parentPart->children()->orderBy('sort','ASC')->get() as $child)
+                    @foreach($parentPart->children()->where('head_part_id', null)->orderBy('sort','ASC')->get() as $child)
                         @php
                             $color = '';
                             switch ($setting->price_color_type) {

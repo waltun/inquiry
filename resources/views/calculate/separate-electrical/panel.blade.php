@@ -186,29 +186,28 @@
             @csrf
 
             <div class="bg-white shadow overflow-x-auto rounded-lg hidden md:block">
-                <table class="min-w-full">
-                    <thead>
-                    <tr class="bg-sky-200">
-                        <th scope="col"
-                            class="px-4 py-2 text-sm font-bold text-gray-800 text-center rounded-tr-md">
+                <table class="w-full border-collapse">
+                    <thead class="bg-indigo-300">
+                    <tr class="table-th-tr">
+                        <th scope="col" class="p-4 rounded-tr-lg">
                             ردیف
                         </th>
-                        <th scope="col" class="px-4 py-2 text-sm font-bold text-gray-800 text-center">
+                        <th scope="col" class="p-4">
                             دسته بندی
                         </th>
-                        <th scope="col" class="px-4 py-2 text-sm font-bold text-gray-800 text-center">
+                        <th scope="col" class="p-4">
                             نام
                         </th>
-                        <th scope="col" class="px-4 py-2 text-sm font-bold text-gray-800 text-center">
+                        <th scope="col" class="p-4">
                             واحد
                         </th>
-                        <th scope="col" class="px-4 py-2 text-sm font-bold text-gray-800 text-center">
+                        <th scope="col" class="p-4">
                             مقادیر
                         </th>
-                        <th scope="col" class="px-4 py-2 text-sm font-bold text-gray-800 text-center">
+                        <th scope="col" class="p-4">
                             قیمت
                         </th>
-                        <th scope="col" class="px-4 py-2 text-sm font-bold text-gray-800 text-center">
+                        <th scope="col" class="p-4 rounded-tl-lg">
                             قیمت کل
                         </th>
                     </tr>
@@ -224,7 +223,7 @@
                                 {{ $child->name }}
                             </td>
                         </tr>
-                        @foreach($child->children()->orderBy('sort','ASC')->get() as $index2 => $ch)
+                        @foreach($child->children()->where('head_part_id', null)->orderBy('sort','ASC')->get() as $index2 => $ch)
                             @php
                                 if (!is_null($part_ids)){
                                     $ch = \App\Models\Part::find($part_ids[$index][$index2]);
@@ -237,8 +236,8 @@
                                 $category = $ch->categories[1];
                                 $selectedCategory = $ch->categories[2];
                             @endphp
-                            <tr>
-                                <td class="px-4 py-1 whitespace-nowrap">
+                            <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
+                                <td class="table-tr-td border-t-0 border-l-0">
                                     @if(!is_null($part_ids))
                                         <input type="text" class="input-text w-14 text-center"
                                                name="sorts[{{ $index }}][{{ $index2 }}]"
@@ -250,7 +249,7 @@
                                                value="{{ $ch->pivot->sort == 0 ||  $ch->pivot->sort == null ? $loop->index+1 : $ch->pivot->sort }}">
                                     @endif
                                 </td>
-                                <td class="px-4 py-1">
+                                <td class="table-tr-td border-t-0 border-x-0">
                                     <select name="" id="inputCategory{{ $ch->id }}" class="input-text"
                                             onchange="changePart(event,{{ $ch->id }})">
                                         @foreach($category->children as $child2)
@@ -261,7 +260,7 @@
                                         @endforeach
                                     </select>
                                 </td>
-                                <td class="px-4 py-1 whitespace-nowrap">
+                                <td class="table-tr-td border-t-0 border-x-0">
                                     @php
                                         $selectedPart = \App\Models\Part::find($ch->id);
                                         $lastCategory = $selectedPart->categories()->latest()->first();
@@ -277,12 +276,12 @@
                                         @endforeach
                                     </select>
                                 </td>
-                                <td class="px-4 py-1 whitespace-nowrap">
+                                <td class="table-tr-td border-t-0 border-x-0">
                                     <p class="text-sm text-black text-center">
                                         {{ $ch->unit }}
                                     </p>
                                 </td>
-                                <td class="px-4 py-1 whitespace-nowrap">
+                                <td class="table-tr-td border-t-0 border-x-0">
                                     @if(!is_null($part_ids))
                                         <input type="text" name="values[{{ $index }}][{{ $index2 }}]"
                                                id="inputValue{{ $ch->id }}"
@@ -294,7 +293,7 @@
                                                value="{{ $ch->pivot->value ?? '' }}">
                                     @endif
                                 </td>
-                                <td class="px-4 py-1 whitespace-nowrap">
+                                <td class="table-tr-td border-t-0 border-x-0">
                                     @if($ch->price)
                                         <p class="text-sm text-black font-medium text-center">
                                             {{ number_format($ch->price) }} تومان
@@ -305,7 +304,7 @@
                                         </p>
                                     @endif
                                 </td>
-                                <td class="px-4 py-1 whitespace-nowrap">
+                                <td class="table-tr-td border-t-0 border-x-0">
                                     @if(!is_null($part_ids))
                                         <p class="text-sm text-black font-medium text-center">
                                             {{ number_format($ch->price * $values[$index][$index2]) }} تومان

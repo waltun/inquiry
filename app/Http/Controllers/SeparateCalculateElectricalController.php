@@ -68,10 +68,20 @@ class SeparateCalculateElectricalController extends Controller
             $newPart->categories()->sync($part->categories);
         }
 
-        $newPart->children()->syncWithoutDetaching($part->children);
+        foreach ($part->children()->orderBy('sort', 'ASC')->get() as $child) {
+            $newPart->children()->attach($child->id, [
+                'sort' => $child->pivot->sort,
+            ]);
+        }
 
-        foreach ($newPart->children as $index => $child) {
-            $child->children()->syncWithoutDetaching($request->part_ids[$index]);
+        foreach ($newPart->children()->orderBy('sort', 'ASC')->get() as $index => $child) {
+            foreach ($request->part_ids[$index] as $index2 => $id) {
+                $child->children()->attach($request->part_ids[$index][$index2], [
+                    'head_part_id' => $newPart->id,
+                    'value' => $request->values[$index][$index2],
+                    'sort' => $request->sorts[$index][$index2]
+                ]);
+            }
         }
 
         //$newPart->price = $totalPrice;
@@ -126,10 +136,20 @@ class SeparateCalculateElectricalController extends Controller
             $newPart->categories()->sync($part->categories);
         }
 
-        $newPart->children()->syncWithoutDetaching($part->children);
+        foreach ($part->children()->orderBy('sort', 'ASC')->get() as $child) {
+            $newPart->children()->attach($child->id, [
+                'sort' => $child->pivot->sort,
+            ]);
+        }
 
-        foreach ($newPart->children as $index => $child) {
-            $child->children()->syncWithoutDetaching($request->part_ids[$index]);
+        foreach ($newPart->children()->orderBy('sort', 'ASC')->get() as $index => $child) {
+            foreach ($request->part_ids[$index] as $index2 => $id) {
+                $child->children()->attach($request->part_ids[$index][$index2], [
+                    'head_part_id' => $newPart->id,
+                    'value' => $request->values[$index][$index2],
+                    'sort' => $request->sorts[$index][$index2]
+                ]);
+            }
         }
 
         //$newPart->price = $totalPrice;
@@ -181,10 +201,20 @@ class SeparateCalculateElectricalController extends Controller
             $newPart->categories()->sync($part->categories);
         }
 
-        $newPart->children()->syncWithoutDetaching($part->children);
+        foreach ($part->children()->orderBy('sort', 'ASC')->get() as $child) {
+            $newPart->children()->attach($child->id, [
+                'sort' => $child->pivot->sort,
+            ]);
+        }
 
-        foreach ($newPart->children as $index => $child) {
-            $child->children()->syncWithoutDetaching($request->part_ids[$index]);
+        foreach ($newPart->children()->orderBy('sort', 'ASC')->get() as $index => $child) {
+            foreach ($request->part_ids[$index] as $index2 => $id) {
+                $child->children()->attach($request->part_ids[$index][$index2], [
+                    'head_part_id' => $newPart->id,
+                    'value' => $request->values[$index][$index2],
+                    'sort' => $request->sorts[$index][$index2]
+                ]);
+            }
         }
 
         //$newPart->price = $totalPrice;
@@ -236,10 +266,20 @@ class SeparateCalculateElectricalController extends Controller
             $newPart->categories()->sync($part->categories);
         }
 
-        $newPart->children()->syncWithoutDetaching($part->children);
+        foreach ($part->children()->orderBy('sort', 'ASC')->get() as $child) {
+            $newPart->children()->attach($child->id, [
+                'sort' => $child->pivot->sort,
+            ]);
+        }
 
-        foreach ($newPart->children as $index => $child) {
-            $child->children()->syncWithoutDetaching($request->part_ids[$index]);
+        foreach ($newPart->children()->orderBy('sort', 'ASC')->get() as $index => $child) {
+            foreach ($request->part_ids[$index] as $index2 => $id) {
+                $child->children()->attach($request->part_ids[$index][$index2], [
+                    'head_part_id' => $newPart->id,
+                    'value' => $request->values[$index][$index2],
+                    'sort' => $request->sorts[$index][$index2]
+                ]);
+            }
         }
 
         //$newPart->price = $totalPrice;
@@ -292,10 +332,20 @@ class SeparateCalculateElectricalController extends Controller
         }
 
 
-        $newPart->children()->syncWithoutDetaching($part->children);
+        foreach ($part->children()->orderBy('sort', 'ASC')->get() as $child) {
+            $newPart->children()->attach($child->id, [
+                'sort' => $child->pivot->sort,
+            ]);
+        }
 
-        foreach ($newPart->children as $index => $child) {
-            $child->children()->syncWithoutDetaching($request->part_ids[$index]);
+        foreach ($newPart->children()->orderBy('sort', 'ASC')->get() as $index => $child) {
+            foreach ($request->part_ids[$index] as $index2 => $id) {
+                $child->children()->attach($request->part_ids[$index][$index2], [
+                    'head_part_id' => $newPart->id,
+                    'value' => $request->values[$index][$index2],
+                    'sort' => $request->sorts[$index][$index2]
+                ]);
+            }
         }
 
         //$newPart->price = $totalPrice;
