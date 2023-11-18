@@ -258,6 +258,7 @@
                                                     496, 495, 494, 493, 492, 472, 471, 133, 132, 131, 130, 129, 128
                                                 ];
                                                 $lastCategoryId = $part->categories()->latest()->first()->id;
+                                                $midCategory = $part->categories[1];
                                             @endphp
                                             @if(!$part->children->isEmpty() && $part->coil && in_array($lastCategoryId, $categoryIds))
                                                 @if(!is_null($amount->value) && $amount->value > 0)
@@ -265,62 +266,57 @@
                                                         <div class="border border-green-800">
                                                             <div class="bg-green-800 p-1.5 col-span-3 mb-2">
                                                                 <p class="font-bold text-center text-white text-sm">
-                                                                    {{ $part->name_en ?? $part->name }}
+                                                                    {{ $midCategory->name_en ?? $midCategory->name }}
+                                                                    {{ $lastCategory->name_en ? " - " . $lastCategory->name_en : '' }}
                                                                 </p>
                                                             </div>
                                                             <div class="grid grid-cols-2">
-                                                                @foreach($part->children as $children)
+                                                                @foreach($part->children()->orderBy('sort', 'ASC')->get() as $children)
                                                                     <div class="mx-2 mb-2">
                                                                         <div class="bg-green-800 p-1.5">
                                                                             <p class="font-bold text-center text-white text-sm">
                                                                                 {{ $children->name_en ?? $children->name }}
                                                                             </p>
                                                                         </div>
-                                                                        @foreach($children->children as $child)
+                                                                        @foreach($children->children()->where('head_part_id', $part->id)->orderBy('sort', 'ASC')->get() as $child)
                                                                             @php
                                                                                 $lastCategory = $child->categories->last();
                                                                                 $attributes = $lastCategory->attributes()->orderBy('sort', 'ASC')->get();
-                                                                                $display = false;
-                                                                                if (!$attributes->isEmpty()) {
-                                                                                    $display = true;
-                                                                                }
                                                                             @endphp
-                                                                            @if($display)
-                                                                                @if(!$attributes->isEmpty())
-                                                                                    @foreach($attributes as $attribute)
-                                                                                        <div
-                                                                                            class="p-0 col-span-2 {{ $loop->first ? 'mt-2' : '' }}">
-                                                                                            <p class="text-xs font-medium text-black">
-                                                                                                {{ $attribute->name }} :
-                                                                                            </p>
-                                                                                        </div>
-                                                                                        <div
-                                                                                            class="p-0 col-span-2 {{ $loop->first ? 'mt-2' : '' }}">
-                                                                                            <p class="text-xs font-medium text-black">
-                                                                                                {{ $attribute->unit != '-' ? $attribute->unit : '' }}
-                                                                                            </p>
-                                                                                        </div>
-                                                                                        <div
-                                                                                            class="p-0 col-span-2 {{ $loop->first ? 'mt-2' : '' }}">
-                                                                                            <p class="text-xs font-medium text-black">
-                                                                                                @php
-                                                                                                    $foundValue = false;
-                                                                                                @endphp
-                                                                                                @foreach($attribute->values as $value)
-                                                                                                    @if($part->attributeValues->contains($value))
-                                                                                                        {{ $value->value }}
-                                                                                                        @php
-                                                                                                            $foundValue = true;
-                                                                                                        @endphp
-                                                                                                    @endif
-                                                                                                @endforeach
-                                                                                                @if(!$foundValue)
-                                                                                                    {{ $attribute->pivot->default_value ?? '' }}
+                                                                            @if(!$attributes->isEmpty())
+                                                                                @foreach($attributes as $attribute)
+                                                                                    <div
+                                                                                        class="p-0 col-span-2 {{ $loop->first ? 'mt-2' : '' }}">
+                                                                                        <p class="text-xs font-medium text-black">
+                                                                                            {{ $attribute->name }} :
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="p-0 col-span-2 {{ $loop->first ? 'mt-2' : '' }}">
+                                                                                        <p class="text-xs font-medium text-black">
+                                                                                            {{ $attribute->unit != '-' ? $attribute->unit : '' }}
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div
+                                                                                        class="p-0 col-span-2 {{ $loop->first ? 'mt-2' : '' }}">
+                                                                                        <p class="text-xs font-medium text-black">
+                                                                                            @php
+                                                                                                $foundValue = false;
+                                                                                            @endphp
+                                                                                            @foreach($attribute->values as $value)
+                                                                                                @if($part->attributeValues->contains($value))
+                                                                                                    {{ $value->value }}
+                                                                                                    @php
+                                                                                                        $foundValue = true;
+                                                                                                    @endphp
                                                                                                 @endif
-                                                                                            </p>
-                                                                                        </div>
-                                                                                    @endforeach
-                                                                                @endif
+                                                                                            @endforeach
+                                                                                            @if(!$foundValue)
+                                                                                                {{ $attribute->pivot->default_value ?? '' }}
+                                                                                            @endif
+                                                                                        </p>
+                                                                                    </div>
+                                                                                @endforeach
                                                                             @endif
                                                                         @endforeach
                                                                     </div>
