@@ -188,7 +188,7 @@ class SeparateCalculateCoilController extends Controller
             $sabetVaznVaragh = 70;
             $ertefaFin = $tedadMogheyiatLoole * $gamDarErtefa;
             $satheCoil = ($tedadMogheyiatLoole * 0.984 * $tooleCoil) / 144;
-            $electrodNoghre = $tedadU * 2;
+            $electrodNoghre = $tedadLooleDarRadif * $tedadRadifCoil * 1.5;
             $azot = $tedadRadifCoil * $satheCoil * 0.15;
             $electrodBerenj = ($tedadMadarLoole * 2) * 3;
         }
@@ -209,7 +209,7 @@ class SeparateCalculateCoilController extends Controller
             $sabetVaznVaragh = 80;
             $ertefaFin = $tedadMogheyiatLoole * $gamDarErtefa;
             $satheCoil = ($tedadMogheyiatLoole * 1.25 * $tooleCoil) / 144;
-            $electrodNoghre = $tedadU * 2.6;
+            $electrodNoghre = $tedadLooleDarRadif * $tedadRadifCoil * 2 * 2.6;
             $azot = $tedadRadifCoil * $satheCoil * 0.2;
             $electrodBerenj = ($tedadMadarLoole * 2) * 4;
         }
@@ -545,7 +545,13 @@ class SeparateCalculateCoilController extends Controller
             $sabetVaznVaragh = 110;
             $ertefaFin = $tedadMogheyiatLoole * $gamDarErtefa;
             $satheCoil = ($tedadMogheyiatLoole * 0.984 * $tooleCoil) / 144;
-            $electrodNoghre = $tedadU * 2;
+
+            if ($kham == '0') {
+                $electrodNoghre = $tedadLooleDarRadif * $tedadRadifCoil * 1.5;
+            } else {
+                $electrodNoghre = $tedadLooleDarRadif * $tedadRadifCoil * 2 * 1.5;
+            }
+
             $azot = $tedadRadifCoil * $satheCoil * 0.15;
             $electrodBerenj = ($tedadMadarLoole * 2) * 7.6;
         }
@@ -566,7 +572,7 @@ class SeparateCalculateCoilController extends Controller
             $sabetVaznVaragh = 120;
             $ertefaFin = $tedadMogheyiatLoole * $gamDarErtefa;
             $satheCoil = ($tedadMogheyiatLoole * 1.25 * $tooleCoil) / 144;
-            $electrodNoghre = $tedadU * 2.6;
+            $electrodNoghre = $tedadLooleDarRadif * $tedadRadifCoil * 2 * 2.6;
             $azot = $tedadRadifCoil * $satheCoil * 0.2;
             $electrodBerenj = ($tedadMadarLoole * 2) * 10;
         }
@@ -871,7 +877,11 @@ class SeparateCalculateCoilController extends Controller
             $sabetVaznVaragh = 110;
             $ertefaFin = $tedadMogheyiatLoole * $gamDarErtefa;
             $satheCoil = ($tedadMogheyiatLoole * 0.984 * $tooleCoil) / 144;
-            $electrodNoghre = $tedadU * 2;
+            if ($kham == '0') {
+                $electrodNoghre = $tedadLooleDarRadif * $tedadRadifCoil * 1.5;
+            } else {
+                $electrodNoghre = $tedadLooleDarRadif * $tedadRadifCoil * 2 * 1.5;
+            }
             $azot = $tedadRadifCoil * $satheCoil * 0.15;
             $electrodBerenj = ($tedadMadarLoole * 2) * 7.6;
         }
@@ -892,7 +902,7 @@ class SeparateCalculateCoilController extends Controller
             $sabetVaznVaragh = 120;
             $ertefaFin = $tedadMogheyiatLoole * $gamDarErtefa;
             $satheCoil = ($tedadMogheyiatLoole * 1.25 * $tooleCoil) / 144;
-            $electrodNoghre = $tedadU * 2.6;
+            $electrodNoghre = $tedadLooleDarRadif * $tedadRadifCoil * 2 * 2.6;
             $azot = $tedadRadifCoil * $satheCoil * 0.2;
             $electrodBerenj = ($tedadMadarLoole * 2) * 10;
         }
@@ -1195,7 +1205,11 @@ class SeparateCalculateCoilController extends Controller
             $sabetVaznVaragh = 110;
             $ertefaFin = $tedadMogheyiatLoole * $gamDarErtefa;
             $satheCoil = ($tedadMogheyiatLoole * 0.984 * $tooleCoil) / 144;
-            $electrodNoghre = $tedadU * 2;
+            if ($kham == '0') {
+                $electrodNoghre = $tedadLooleDarRadif * $tedadRadifCoil * 1.5;
+            } else {
+                $electrodNoghre = $tedadLooleDarRadif * $tedadRadifCoil * 2 * 1.5;
+            }
             $azot = $tedadRadifCoil * $satheCoil * 0.15;
         }
 
@@ -1215,7 +1229,7 @@ class SeparateCalculateCoilController extends Controller
             $sabetVaznVaragh = 120;
             $ertefaFin = $tedadMogheyiatLoole * $gamDarErtefa;
             $satheCoil = ($tedadMogheyiatLoole * 1.25 * $tooleCoil) / 144;
-            $electrodNoghre = $tedadU * 2.6;
+            $electrodNoghre = $tedadLooleDarRadif * $tedadRadifCoil * 2 * 2.6;
             $azot = $tedadRadifCoil * $satheCoil * 0.2;
         }
 
@@ -1515,7 +1529,13 @@ class SeparateCalculateCoilController extends Controller
             $sabetVaznVaragh = 110;
             $ertefaFin = $tedadMogheyiatLoole * $gamDarErtefa;
             $satheCoil = ($tedadMogheyiatLoole * 0.984 * $tooleCoil) / 144;
-            $electrodNoghre = $tedadU * 2;
+
+            if ($kham == '0') {
+                $electrodNoghre = $tedadLooleDarRadif * $tedadRadifCoil * 1.5;
+            } else {
+                $electrodNoghre = $tedadLooleDarRadif * $tedadRadifCoil * 2 * 1.5;
+            }
+
             $azot = $tedadRadifCoil * $satheCoil * 0.15;
             if ($collectorAhaniId > 0 && !is_null($collectorAhaniId)) {
                 $electrodBerenj = $tedadMadarLoole * 3;
@@ -1540,7 +1560,7 @@ class SeparateCalculateCoilController extends Controller
             $sabetVaznVaragh = 120;
             $ertefaFin = $tedadMogheyiatLoole * $gamDarErtefa;
             $satheCoil = ($tedadMogheyiatLoole * 1.25 * $tooleCoil) / 144;
-            $electrodNoghre = $tedadU * 2.6;
+            $electrodNoghre = $tedadLooleDarRadif * $tedadRadifCoil * 2 * 2.6;
             $azot = $tedadRadifCoil * $satheCoil * 0.2;
             if ($collectorAhaniId > 0 && !is_null($collectorAhaniId)) {
                 $electrodBerenj = $tedadMadarLoole * 4;

@@ -288,15 +288,20 @@
                                                                             </div>
                                                                             @foreach($children->children()->where('head_part_id', $part->id)->orderBy('sort', 'ASC')->get() as $child)
                                                                                 @if($child->pivot->value > 0)
-                                                                                    <div class="col-span-2 grid grid-cols-2">
-                                                                                        <div class="p-0 {{ $loop->first ? 'mt-2' : '' }}">
+                                                                                    <div
+                                                                                        class="col-span-2 grid grid-cols-3">
+                                                                                        <div
+                                                                                            class="p-0 col-span-2 flex items-center {{ $loop->first ? 'mt-2' : '' }}">
+                                                                                            <div class="w-2 h-2 rounded-full border-2 border-black mb-1 mr-1"></div>
                                                                                             <p class="text-xs font-medium text-black">
-                                                                                                {{ $child->name_en ?? 'ندارد' }} :
+                                                                                                {{ $child->name_en ?? 'ندارد' }}
+                                                                                                :
                                                                                             </p>
                                                                                         </div>
-                                                                                        <div class="p-0 {{ $loop->first ? 'mt-2' : '' }}">
+                                                                                        <div
+                                                                                            class="p-0 col-span-1 {{ $loop->first ? 'mt-2' : '' }}">
                                                                                             <p class="text-xs font-medium text-black">
-                                                                                                {{ $child->pivot->value }}
+                                                                                                {{ number_format($child->pivot->value) }}
                                                                                             </p>
                                                                                         </div>
                                                                                     </div>
