@@ -117,7 +117,7 @@ class SeparateCalculateCoilController extends Controller
         if ($looleMessiId == '58' || $looleMessiId == '59') {
             $uMessiPart = Part::find('96');
         }
-        if ($looleMessiId == '53' || $looleMessiId == '54' || $looleMessiId == '55') {
+        if ($looleMessiId == '53' || $looleMessiId == '54' || $looleMessiId == '55' || $looleMessiId == '584') {
             $uMessiPart = Part::find('89');
         }
         if ($looleMessiId == '56' || $looleMessiId == '57') {
@@ -165,7 +165,7 @@ class SeparateCalculateCoilController extends Controller
         }
 
         //Loole Messi 3/8
-        if ($looleMessiId == '53' || $looleMessiId == '54' || $looleMessiId == '55') {
+        if ($looleMessiId == '53' || $looleMessiId == '54' || $looleMessiId == '55' || $looleMessiId == '584') {
             //Zekhamat 0.35
             if ($looleMessiId == '53') {
                 $looleMessi = ($tooleCoil + 4) * $tedadRadifCoil * $tedadLooleDarRadif * 0.002286;
@@ -177,6 +177,10 @@ class SeparateCalculateCoilController extends Controller
             //Zekhamat 0.5
             if ($looleMessiId == '55') {
                 $looleMessi = ($tooleCoil + 4) * $tedadRadifCoil * $tedadLooleDarRadif * 0.0032258;
+            }
+            //Zekhamat 0.63
+            if ($looleMessiId == '584') {
+                $looleMessi = ($tooleCoil + 4) * $tedadRadifCoil * $tedadLooleDarRadif * 0.0040640;
             }
             $tedadU = ($tedadRadifCoil * $tedadLooleDarRadif / 2) - $tedadMadarLoole;
             $gamDarRadif = 21.6;
@@ -296,7 +300,7 @@ class SeparateCalculateCoilController extends Controller
         if ($looleMessiId == '58' || $looleMessiId == '59') {
             $looleMessiName = '58';
         }
-        if ($looleMessiId == '53' || $looleMessiId == '54' || $looleMessiId == '55') {
+        if ($looleMessiId == '53' || $looleMessiId == '54' || $looleMessiId == '55' || $looleMessiId == '584') {
             $looleMessiName = '38';
         }
         if ($looleMessiId == '56' || $looleMessiId == '57') {
@@ -471,7 +475,7 @@ class SeparateCalculateCoilController extends Controller
         if ($looleMessiId == '58' || $looleMessiId == '59') {
             $uMessiPart = Part::find('96');
         }
-        if ($looleMessiId == '53' || $looleMessiId == '54' || $looleMessiId == '55') {
+        if ($looleMessiId == '53' || $looleMessiId == '54' || $looleMessiId == '55' || $looleMessiId == '584') {
             $uMessiPart = Part::find('89');
         }
         if ($looleMessiId == '56' || $looleMessiId == '57') {
@@ -518,7 +522,7 @@ class SeparateCalculateCoilController extends Controller
         }
 
         //Loole Messi 3/8
-        if ($looleMessiId == '53' || $looleMessiId == '54' || $looleMessiId == '55') {
+        if ($looleMessiId == '53' || $looleMessiId == '54' || $looleMessiId == '55' || $looleMessiId == '584') {
             //Zekhamat 0.35
             if ($looleMessiId == '53') {
                 $looleMessi = ($tooleCoil + 4) * $tedadRadifCoil * $tedadLooleDarRadif * 0.002286;
@@ -530,6 +534,10 @@ class SeparateCalculateCoilController extends Controller
             //Zekhamat 0.5
             if ($looleMessiId == '55') {
                 $looleMessi = ($tooleCoil + 4) * $tedadRadifCoil * $tedadLooleDarRadif * 0.0032258;
+            }
+            //Zekhamat 0.63
+            if ($looleMessiId == '584') {
+                $looleMessi = ($tooleCoil + 4) * $tedadRadifCoil * $tedadLooleDarRadif * 0.0040640;
             }
             $tedadU = ($tedadRadifCoil * $tedadLooleDarRadif / 2) - $tedadMadarLoole;
             $gamDarRadif = 21.6;
@@ -629,7 +637,7 @@ class SeparateCalculateCoilController extends Controller
         if ($looleMessiId == '58' || $looleMessiId == '59') {
             $looleMessiName = '58';
         }
-        if ($looleMessiId == '53' || $looleMessiId == '54' || $looleMessiId == '55') {
+        if ($looleMessiId == '53' || $looleMessiId == '54' || $looleMessiId == '55' || $looleMessiId == '584') {
             $looleMessiName = '38';
         }
         if ($looleMessiId == '56' || $looleMessiId == '57') {
@@ -794,7 +802,7 @@ class SeparateCalculateCoilController extends Controller
         if ($looleMessiId == '58' || $looleMessiId == '59') {
             $uMessiPart = Part::find('96');
         }
-        if ($looleMessiId == '53' || $looleMessiId == '54' || $looleMessiId == '55') {
+        if ($looleMessiId == '53' || $looleMessiId == '54' || $looleMessiId == '55' || $looleMessiId == '584') {
             $uMessiPart = Part::find('89');
         }
         if ($looleMessiId == '56' || $looleMessiId == '57') {
@@ -841,7 +849,7 @@ class SeparateCalculateCoilController extends Controller
         }
 
         //Loole Messi 3/8
-        if ($looleMessiId == '53' || $looleMessiId == '54' || $looleMessiId == '55') {
+        if ($looleMessiId == '53' || $looleMessiId == '54' || $looleMessiId == '55' || $looleMessiId == '584') {
             //Zekhamat 0.35
             if ($looleMessiId == '53') {
                 $looleMessi = ($tooleCoil + 4) * $tedadRadifCoil * $tedadLooleDarRadif * 0.002286;
@@ -853,6 +861,9 @@ class SeparateCalculateCoilController extends Controller
             //Zekhamat 0.5
             if ($looleMessiId == '55') {
                 $looleMessi = ($tooleCoil + 4) * $tedadRadifCoil * $tedadLooleDarRadif * 0.0032258;
+            }
+            if ($looleMessiId == '584') {
+                $looleMessi = ($tooleCoil + 4) * $tedadRadifCoil * $tedadLooleDarRadif * 0.0040640;
             }
             $tedadU = ($tedadRadifCoil * $tedadLooleDarRadif / 2) - $tedadMadarLoole;
             $gamDarRadif = 21.6;
@@ -952,7 +963,7 @@ class SeparateCalculateCoilController extends Controller
         if ($looleMessiId == '58' || $looleMessiId == '59') {
             $looleMessiName = '58';
         }
-        if ($looleMessiId == '53' || $looleMessiId == '54' || $looleMessiId == '55') {
+        if ($looleMessiId == '53' || $looleMessiId == '54' || $looleMessiId == '55' || $looleMessiId == '584') {
             $looleMessiName = '38';
         }
         if ($looleMessiId == '56' || $looleMessiId == '57') {
@@ -1116,7 +1127,7 @@ class SeparateCalculateCoilController extends Controller
         if ($looleMessiId == '58' || $looleMessiId == '59') {
             $uMessiPart = Part::find('96');
         }
-        if ($looleMessiId == '53' || $looleMessiId == '54' || $looleMessiId == '55') {
+        if ($looleMessiId == '53' || $looleMessiId == '54' || $looleMessiId == '55' || $looleMessiId == '584') {
             $uMessiPart = Part::find('89');
         }
         if ($looleMessiId == '56' || $looleMessiId == '57') {
@@ -1162,7 +1173,7 @@ class SeparateCalculateCoilController extends Controller
         }
 
         //Loole Messi 3/8
-        if ($looleMessiId == '53' || $looleMessiId == '54' || $looleMessiId == '55') {
+        if ($looleMessiId == '53' || $looleMessiId == '54' || $looleMessiId == '55' || $looleMessiId == '584') {
             //Zekhamat 0.35
             if ($looleMessiId == '53') {
                 $looleMessi = ($tooleCoil + 4) * $tedadRadifCoil * $tedadLooleDarRadif * 0.002286;
@@ -1174,6 +1185,9 @@ class SeparateCalculateCoilController extends Controller
             //Zekhamat 0.5
             if ($looleMessiId == '55') {
                 $looleMessi = ($tooleCoil + 4) * $tedadRadifCoil * $tedadLooleDarRadif * 0.0032258;
+            }
+            if ($looleMessiId == '584') {
+                $looleMessi = ($tooleCoil + 4) * $tedadRadifCoil * $tedadLooleDarRadif * 0.0040640;
             }
             $tedadU = ($tedadRadifCoil * $tedadLooleDarRadif / 2) - $tedadMadarLoole;
             $gamDarRadif = 21.6;
@@ -1269,7 +1283,7 @@ class SeparateCalculateCoilController extends Controller
         if ($looleMessiId == '58' || $looleMessiId == '59') {
             $looleMessiName = '58';
         }
-        if ($looleMessiId == '53' || $looleMessiId == '54' || $looleMessiId == '55') {
+        if ($looleMessiId == '53' || $looleMessiId == '54' || $looleMessiId == '55' || $looleMessiId == '584') {
             $looleMessiName = '38';
         }
         if ($looleMessiId == '56' || $looleMessiId == '57') {
@@ -1428,7 +1442,7 @@ class SeparateCalculateCoilController extends Controller
         if ($looleMessiId == '58' || $looleMessiId == '59') {
             $uMessiPart = Part::find('96');
         }
-        if ($looleMessiId == '53' || $looleMessiId == '54' || $looleMessiId == '55') {
+        if ($looleMessiId == '53' || $looleMessiId == '54' || $looleMessiId == '55' || $looleMessiId == '584') {
             $uMessiPart = Part::find('89');
         }
         if ($looleMessiId == '56' || $looleMessiId == '57') {
@@ -1479,7 +1493,7 @@ class SeparateCalculateCoilController extends Controller
         }
 
         //Loole Messi 3/8
-        if ($looleMessiId == '53' || $looleMessiId == '54' || $looleMessiId == '55') {
+        if ($looleMessiId == '53' || $looleMessiId == '54' || $looleMessiId == '55' || $looleMessiId == '584') {
             //Zekhamat 0.35
             if ($looleMessiId == '53') {
                 $looleMessi = ($tooleCoil + 4) * $tedadRadifCoil * $tedadLooleDarRadif * 0.002286;
@@ -1491,6 +1505,9 @@ class SeparateCalculateCoilController extends Controller
             //Zekhamat 0.5
             if ($looleMessiId == '55') {
                 $looleMessi = ($tooleCoil + 4) * $tedadRadifCoil * $tedadLooleDarRadif * 0.0032258;
+            }
+            if ($looleMessiId == '584') {
+                $looleMessi = ($tooleCoil + 4) * $tedadRadifCoil * $tedadLooleDarRadif * 0.0040640;
             }
             $tedadU = ($tedadRadifCoil * $tedadLooleDarRadif / 2) - $tedadMadarLoole;
             $gamDarRadif = 21.6;
@@ -1600,7 +1617,7 @@ class SeparateCalculateCoilController extends Controller
         if ($looleMessiId == '58' || $looleMessiId == '59') {
             $looleMessiName = '58';
         }
-        if ($looleMessiId == '53' || $looleMessiId == '54' || $looleMessiId == '55') {
+        if ($looleMessiId == '53' || $looleMessiId == '54' || $looleMessiId == '55' || $looleMessiId == '584') {
             $looleMessiName = '38';
         }
         if ($looleMessiId == '56' || $looleMessiId == '57') {

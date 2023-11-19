@@ -187,6 +187,10 @@
                                 {{ is_null($inputs) ? (old('loole_messi') == '55' ? 'selected' : '') : ($inputs['loole_messi'] == "55" ? 'selected' : (old('loole_messi') == '55' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','55')->first()->name }}
                             </option>
+                            <option value="{{ \App\Models\Part::where('id','584')->first()->id }}"
+                                {{ is_null($inputs) ? (old('loole_messi') == '584' ? 'selected' : '') : ($inputs['loole_messi'] == "584" ? 'selected' : (old('loole_messi') == '584' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::where('id','584')->first()->name }}
+                            </option>
                             <option value="{{ \App\Models\Part::where('id','56')->first()->id }}"
                                 {{ is_null($inputs) ? (old('loole_messi') == '56' ? 'selected' : '') : ($inputs['loole_messi'] == "56" ? 'selected' : (old('loole_messi') == '56' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::where('id','56')->first()->name }}
@@ -761,7 +765,7 @@
                     <tr class="table-tb-tr group">
                         <td class="table-tr-td border-t-0" colspan="4">
                             <p class="text-lg font-bold">
-                                وزن دستگاه (کلیوگرم)
+                                وزن دستگاه (کیلوگرم)
                             </p>
                         </td>
                         <td class="table-tr-td border-t-0 border-r-0"
