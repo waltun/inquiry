@@ -237,7 +237,6 @@
                                     ویرایش
                                 </a>
 
-                                @if(!$payment->confirm)
                                     <button type="button" onclick="destroyPayment({{ $payment->id }})"
                                             class="table-delete-btn">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -247,7 +246,6 @@
                                         </svg>
                                         حذف
                                     </button>
-                                @endif
                             </div>
                         </td>
                     </tr>

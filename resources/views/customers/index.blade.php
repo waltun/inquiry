@@ -117,6 +117,9 @@
                     <th scope="col" class="p-4">
                         کدملی
                     </th>
+                    <th scope="col" class="p-4">
+                        قرارداد ها
+                    </th>
                     <th scope="col" class="p-4 rounded-tl-lg">
                         <span class="sr-only">اقدامات</span>
                     </th>
@@ -139,6 +142,9 @@
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             {{ $customer->nation }}
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            {{ count($customer->contracts) }}
                         </td>
                         <td class="table-tr-td border-t-0 border-r-0 whitespace-nowrap">
                             <div class="flex items-center space-x-4 space-x-reverse">
