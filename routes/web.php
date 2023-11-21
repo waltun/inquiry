@@ -12,6 +12,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CollectionCoilController;
 use App\Http\Controllers\CollectionPartController;
 use App\Http\Controllers\Contract\AnalyzePartController;
+use App\Http\Controllers\Contract\EndProductionController;
 use App\Http\Controllers\Contract\FinalContractController;
 use App\Http\Controllers\Contract\GuaranteeController;
 use App\Http\Controllers\Contract\MarketingController;
@@ -596,8 +597,11 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/contracts/{contract}/recipe', [RecipeController::class, 'index'])->name('contracts.recipe.index');
     Route::get('/contracts/{contract}/recipe/parts', [RecipeController::class, 'parts'])->name('contracts.recipe.parts');
     Route::post('/contracts/{contract}/recipe/parts', [RecipeController::class, 'storeParts'])->name('contracts.recipe.store-parts');
+    Route::patch('/contracts/{contract}/recipe/{product}/end-of-production', [RecipeController::class, 'endProduction'])->name('contracts.recipe.end-of-production');
 
     Route::get('/contracts/{contract}/choose-product', [ContractProduct::class, 'choose'])->name('contracts.choose-product');
     Route::get('/contracts/{contract}/choose-product/{invoice}', [ContractProduct::class, 'invoice'])->name('contracts.choose-product.invoice');
     Route::post('/contracts/{contract}/choose-product/{invoice}', [ContractProduct::class, 'storeInvoice'])->name('contracts.choose-product.store-invoice');
+
+    Route::get('/contracts/{contract}/end-of-production', [EndProductionController::class, 'index'])->name('contracts.end-of-production.index');
 });

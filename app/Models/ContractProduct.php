@@ -11,7 +11,7 @@ class ContractProduct extends Model
 
     protected $fillable = [
         'quantity', 'price', 'model_custom_name', 'description', 'type', 'delivery_date', 'warranty_date', 'tag',
-        'contract_id', 'group_id', 'model_id', 'part_id', 'product_id'
+        'contract_id', 'group_id', 'model_id', 'part_id', 'product_id', 'status', 'end_at'
     ];
 
     public function contract()

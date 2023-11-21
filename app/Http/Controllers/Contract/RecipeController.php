@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Contract;
 
 use App\Http\Controllers\Controller;
 use App\Models\Contract;
-use App\Models\ContractPartHistory;
 use App\Models\ContractProduct;
 use App\Models\Part;
 use Illuminate\Http\Request;
@@ -94,6 +93,18 @@ class RecipeController extends Controller
         }
 
         alert()->success('ثبت موفق', 'ثبت مقادیر با موفقیت انجام شد');
+
+        return back();
+    }
+
+    public function endProduction(Contract $contract, ContractProduct $product)
+    {
+        $product->update([
+            'status' => 'end',
+            'end_at' => now()
+        ]);
+
+        alert()->success('ثبت موفق', 'صدور پایان ساخت با موفقیت انجام شد');
 
         return back();
     }

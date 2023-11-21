@@ -318,7 +318,7 @@
                                 </div>
                                 <div class="mr-4">
                                     <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
-                                        دستور ساخت ها
+                                        دستور ساخت‌ها
                                     </p>
                                 </div>
                             </div>
@@ -347,6 +347,35 @@
                         </a>
                     @endif
 
+                    @if($contract->products->contains('status', 'end'))
+                        <a href="{{ route('contracts.end-of-production.index', $contract->id) }}"
+                           class="dashboard-cards group">
+                            <div class="flex items-center">
+                                <div class="dashboard-card-icon bg-red-500 dark:bg-slate-800">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         stroke-width="1.5" stroke="currentColor"
+                                         class="w-6 h-6 text-white group-hover:text-myBlue-100">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                              d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/>
+                                    </svg>
+                                </div>
+                                <div class="mr-4">
+                                    <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
+                                        پایان ساخت‌ها
+                                    </p>
+                                </div>
+                            </div>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                     class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                                    <path fill-rule="evenodd"
+                                          d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                          clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                        </a>
+                    @endif
+
                     <a href="" class="dashboard-cards group">
                         <div class="flex items-center">
                             <div class="dashboard-card-icon bg-gray-500 dark:bg-slate-800">
@@ -360,32 +389,6 @@
                             <div class="mr-4">
                                 <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
                                     پکینگ لیست‌ها
-                                </p>
-                            </div>
-                        </div>
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                 class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
-                                <path fill-rule="evenodd"
-                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                                      clip-rule="evenodd"/>
-                            </svg>
-                        </div>
-                    </a>
-
-                    <a href="" class="dashboard-cards group">
-                        <div class="flex items-center">
-                            <div class="dashboard-card-icon bg-red-500 dark:bg-slate-800">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                     stroke-width="1.5" stroke="currentColor"
-                                     class="w-6 h-6 text-white group-hover:text-myBlue-100">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                          d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/>
-                                </svg>
-                            </div>
-                            <div class="mr-4">
-                                <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
-                                    پایان ساخت ها
                                 </p>
                             </div>
                         </div>
