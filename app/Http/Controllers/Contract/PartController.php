@@ -234,6 +234,68 @@ class PartController extends Controller
 
     public function storeProduct(Request $request, Contract $contract)
     {
-        dd($request->all());
+        $products = $contract->products()->where('part_id', '!=', 0)->get();
+
+        foreach ($products as $product) {
+            if (!$product->spareAmounts->isEmpty()) {
+                if ($contract->recipe) {
+                    foreach ($product->spareAmounts()->orderBy('sort', 'ASC')->get() as $index => $spareAmount) {
+                        if ($spareAmount->part_id != $request->part_ids[$index]) {
+                            ContractPartHistory::create([
+                                'old_part_id' => $spareAmount->part_id,
+                                'new_part_id' => $request->part_ids[$index],
+                                'contract_product_id' => $product->id,
+                                'contract_id' => $contract->id,
+                                'user_id' => auth()->user()->id,
+                                'type' => 'change'
+                            ]);
+                        }
+                    }
+                }
+
+                $product->spareAmounts()->delete();
+            }
+
+            if (!$product->amounts->isEmpty()) {
+                $product->amounts()->delete();
+            }
+
+            foreach ($request->part_ids as $index => $id) {
+                $part = Part::find($id);
+
+                if ($part->collection && !$part->children->isEmpty()) {
+                    foreach ($part->children as $child) {
+                        if (!$child->children->isEmpty()) {
+                            foreach ($child->children as $ch) {
+                                $product->amounts()->create([
+                                    'value' => $ch->pivot->value,
+                                    'value2' => $ch->pivot->value2,
+                                    'part_id' => $ch->id,
+                                    'price' => $ch->price,
+                                    'sort' => $ch->pivot->sort,
+                                    'weight' => $ch->weight ?? 0
+                                ]);
+                            }
+                        } else {
+                            $product->amounts()->create([
+                                'value' => $child->pivot->value,
+                                'value2' => $child->pivot->value2,
+                                'part_id' => $child->id,
+                                'price' => $child->price,
+                                'sort' => $child->pivot->sort,
+                                'weight' => $child->weight ?? 0
+                            ]);
+                        }
+                    }
+                }
+            }
+
+            $product->quantity = $request->quantities[$index];
+            $product->save();
+        }
+
+        alert()->success('ثبت موفق', 'ثبت مقادیر با موفقیت انجام شد');
+
+        return back();
     }
 }
