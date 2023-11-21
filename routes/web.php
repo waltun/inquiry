@@ -602,6 +602,4 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/contracts/{contract}/choose-product', [ContractProduct::class, 'choose'])->name('contracts.choose-product');
     Route::get('/contracts/{contract}/choose-product/{invoice}', [ContractProduct::class, 'invoice'])->name('contracts.choose-product.invoice');
     Route::post('/contracts/{contract}/choose-product/{invoice}', [ContractProduct::class, 'storeInvoice'])->name('contracts.choose-product.store-invoice');
-
-    Route::get('/contracts/{contract}/end-of-production', [EndProductionController::class, 'index'])->name('contracts.end-of-production.index');
 });

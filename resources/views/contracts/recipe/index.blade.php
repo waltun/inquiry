@@ -98,14 +98,6 @@
                 </svg>
                 ویرایش دستورساخت
             </a>
-            <a href="{{ route('contracts.end-of-production.index', $contract->id) }}" class="page-warning-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                     stroke="currentColor" class="w-4 h-4 ml-1">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                          d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 010 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 010-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375z"/>
-                </svg>
-                پایان ساخت ها
-            </a>
         </div>
     </div>
 
@@ -151,7 +143,7 @@
                             @php
                                 $modell = \App\Models\Modell::find($product->model_id);
                             @endphp
-                            <tr class="table-tb-tr group whitespace-normal {{ $loop->even ? 'bg-sky-100' : '' }}">
+                            <tr class="table-tb-tr group whitespace-normal {{ $loop->even ? 'bg-sky-100' : '' }} {{ $product->status == 'end' ? 'text-green-600 font-bold' : '' }}">
                                 <td class="table-tr-td border-t-0 border-l-0">
                                     {{ $loop->index + 1 }}
                                 </td>
@@ -259,14 +251,13 @@
                                 </td>
                                 <td class="table-tr-td border-t-0 border-r-0">
                                     @if($product->status == 'end')
-                                        <div
-                                            class="flex items-center justify-center bg-green-500 text-white rounded-lg">
+                                        <div class="flex items-center justify-center">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                  stroke-width="2" stroke="currentColor" class="w-4 h-4 ml-1">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                       d="M4.5 12.75l6 6 9-13.5"/>
                                             </svg>
-                                            صادر شده
+                                            صادر شده ( {{ jdate($product->end_at)->format('Y/m/d') }} )
                                         </div>
                                     @else
                                         <form method="POST" class="flex justify-center"
