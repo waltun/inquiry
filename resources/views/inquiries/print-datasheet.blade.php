@@ -145,7 +145,12 @@
                         @foreach($products as $product)
                             @php
                                 $childModell = \App\Models\Modell::find($product->model_id);
-                                $modell = $childModell->parent;
+
+                                if ($childModell->standard && !$childModell->attributes->isEmpty()) {
+                                    $modell = $childModell;
+                                } else {
+                                    $modell = $childModell->parent;
+                                }
                             @endphp
                             <div class="rounded-xl mx-4 border border-myBlue-100 mb-2 pb-2"
                                  style="page-break-before: always">
@@ -292,7 +297,8 @@
                                                                                         class="col-span-2 grid grid-cols-3">
                                                                                         <div
                                                                                             class="p-0 col-span-2 flex items-center {{ $loop->first ? 'mt-2' : '' }}">
-                                                                                            <div class="w-2 h-2 rounded-full border-2 border-black mb-1 mr-1"></div>
+                                                                                            <div
+                                                                                                class="w-2 h-2 rounded-full border-2 border-black mb-1 mr-1"></div>
                                                                                             <p class="text-xs font-medium text-black">
                                                                                                 {{ $child->name_en ?? 'ندارد' }}
                                                                                                 :
