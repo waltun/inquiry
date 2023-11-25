@@ -336,12 +336,22 @@ class InquiryController extends Controller
 
                         $newPart->categories()->syncWithoutDetaching($part->categories);
 
-                        foreach ($part->children as $child) {
+                        foreach ($part->children()->orderBy('sort','ASC')->get() as $child) {
                             $newPart->children()->syncWithoutDetaching([
                                 $child->id => [
                                     'value' => $child->pivot->value
                                 ]
                             ]);
+
+                            if (!$child->children->isEmpty()) {
+                                foreach ($child->children()->where('head_part_id', $part->id)->orderBy('sort','ASC')->get() as $ch) {
+                                    $child->children()->attach($ch->id, [
+                                        'head_part_id' => $newPart->id,
+                                        'value' => $ch->pivot->value,
+                                        'sort' => $ch->pivot->sort
+                                    ]);
+                                }
+                            }
                         }
 
                         $totalPrice = 0;
