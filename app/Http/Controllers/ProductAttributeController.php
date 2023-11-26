@@ -13,7 +13,13 @@ class ProductAttributeController extends Controller
     public function index(Product $product)
     {
         $modell = Modell::find($product->model_id);
-        $attributes = $modell->parent->attributes()->orderBy('sort', 'ASC')->get();
+
+        if ($modell->standard) {
+            $attributes = $modell->attributes()->orderBy('sort', 'ASC')->get();
+        } else {
+            $attributes = $modell->parent->attributes()->orderBy('sort', 'ASC')->get();
+        }
+
         $inquiry = Inquiry::find($product->inquiry_id);
         return view('inquiry-product.attributes.index', compact('attributes', 'product', 'modell', 'inquiry'));
     }
