@@ -242,8 +242,10 @@ class CollectionPartController extends Controller
                 'sort' => $request->sorts[$index]
             ]);
 
-            $totalPrice += $child->price * $request->values[$index];
-            $totalWeight += $child->weight * $request->values[$index];
+            $part = Part::find($request->part_ids[$index]);
+
+            $totalPrice += $part->price * $request->values[$index];
+            $totalWeight += $part->weight * $request->values[$index];
         }
 
         $parentPart->price = $totalPrice;
