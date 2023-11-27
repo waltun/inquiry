@@ -1,24 +1,4 @@
 <x-layout>
-    <x-slot name="js">
-        <script src="{{ asset('plugins/jquery.min.js') }}"></script>
-        <script src="{{ asset('plugins/date-picker/persianDatepicker.min.js') }}"></script>
-        <script>
-            $("#inputDate").persianDatepicker({
-                formatDate: "YYYY-MM-DD",
-            });
-        </script>
-        <script>
-            function showPrice(event) {
-                let value = event.target.value;
-                let priceSection = document.getElementById('priceSection');
-                priceSection.innerText = Intl.NumberFormat('fa-IR').format(value) + ' تومان ';
-            }
-        </script>
-    </x-slot>
-    <x-slot name="css">
-        <link rel="stylesheet" href="{{ asset('plugins/date-picker/persianDatepicker-default.css') }}">
-    </x-slot>
-
     <!-- Breadcrumb -->
     <div class="flex items-center space-x-2 space-x-reverse whitespace-nowrap">
         <a href="{{ route('dashboard') }}" class="flex items-center">
@@ -49,7 +29,7 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p">
-                    قرارداد ها
+                    قراردادها
                 </p>
             </div>
         </a>
@@ -82,7 +62,7 @@
                       clip-rule="evenodd"/>
             </svg>
         </div>
-        <a href="{{ route('contracts.payments.index', $contract->id) }}" class="flex items-center">
+        <a href="{{ route('packings.index', $contract->id) }}" class="flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                  stroke="currentColor" class="breadcrumb-svg">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -90,7 +70,7 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p">
-                    مدیریت پرداخت های {{ $contract->name }}
+                    مدیریت پکینگ لیست‌ها
                 </p>
             </div>
         </a>
@@ -109,7 +89,7 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p-active">
-                    ایجاد پرداخت جدید {{ $contract->name }}
+                    ایجاد پکینگ جدید
                 </p>
             </div>
         </div>
@@ -121,7 +101,7 @@
     </div>
 
     <!-- Form -->
-    <form method="POST" action="{{ route('contracts.payments.store', $contract->id) }}" class="mt-4">
+    <form method="POST" action="{{ route('packings.store', $contract->id) }}" class="mt-4">
         @csrf
 
         <div class="card">
@@ -132,82 +112,32 @@
             </div>
 
             <div class="mb-4">
-                <label for="inputCashType" class="form-label">نوع پرداختی</label>
-                <select name="cash_type" id="inputCashType" class="input-text">
-                    <option value="">انتخاب کنید</option>
-                    <option value="check" {{ old('cash_type') == 'check' ? 'selected' : '' }}>
-                        چک
-                    </option>
-                    <option value="cash" {{ old('cash_type') == 'cash' ? 'selected' : '' }}>
-                        نقدی
-                    </option>
-                </select>
-            </div>
-
-            <div class="mb-4">
-                <label for="inputPrice" class="form-label">
-                    مبلغ (تومان)
-                    <span class="mr-4 text-sm font-medium" id="priceSection">
-
-                    </span>
+                <label for="inputName" class="form-label">
+                    نام ردیف
                 </label>
-                <input type="text" id="inputPrice" name="price" class="input-text" value="{{ old('price') }}"
-                       placeholder="مثلا : 10000000" onkeyup="showPrice(event)">
+                <input type="text" id="inputName" name="name" class="input-text" value="{{ old('name') }}"
+                       placeholder="لایه بیرونی فن کویل">
             </div>
 
             <div class="mb-4">
-                <label for="inputDate" class="form-label">تاریخ وصول / واریز</label>
-                <input type="text" id="inputDate" name="date" class="input-text" value="{{ old('date') }}"
-                       placeholder="برای انتخاب تاریخ کلیک کنید">
+                <label for="inputUnit" class="form-label">واحد</label>
+                <input type="text" id="inputUnit" name="unit" class="input-text" value="{{ old('unit') }}"
+                       placeholder="دستگاه">
             </div>
 
             <div class="mb-4">
-                <label for="inputText" class="form-label">شرح</label>
-                <input type="text" id="inputText" name="text" class="input-text" value="{{ old('text') }}"
-                       placeholder="مثلا : چک دو ماهه به شماره 155555">
-            </div>
-
-            <div class="mb-4">
-                <label for="inputType" class="form-label">بابت</label>
-                <select name="type" id="inputType" class="input-text">
-                    <option value="">انتخاب کنید</option>
-                    <option value="prepayment" {{ old('type') == 'prepayment' ? 'selected' : '' }}>
-                        پیش پرداخت
-                    </option>
-                    <option value="interim_payment" {{ old('type') == 'interim_payment' ? 'selected' : '' }}>
-                        میان پرداخت
-                    </option>
-                    <option value="clearing" {{ old('type') == 'clearing' ? 'selected' : '' }}>
-                        تسویه
-                    </option>
-                    <option value="return" {{ old('type') == 'return' ? 'selected' : '' }}>
-                        عودت
-                    </option>
-                </select>
-            </div>
-
-            <div class="mb-4">
-                <label for="inputAccount" class="form-label">انتخاب حساب</label>
-                <select name="account_id" id="inputAccount" class="input-text">
-                    <option value="">انتخاب کنید</option>
-                    @foreach($accounts as $account)
-                        <option value="{{ $account->id }}" {{ old('account_id') == $account->id ? 'selected' : '' }}>
-                            {{ $account->bank }} | {{ $account->branch }} | {{ $account->account_number }}
-                        </option>
-                    @endforeach
-                    <option value="0" {{ old('account_id') == "0" ? 'selected' : '' }}>
-                        سایر
-                    </option>
-                </select>
+                <label for="inputWeight" class="form-label">وزن (کیلوگرم)</label>
+                <input type="text" id="inputWeight" name="weight" class="input-text" value="{{ old('weight') }}"
+                       placeholder="1452">
             </div>
 
         </div>
 
         <div class="flex items-center space-x-4 space-x-reverse">
             <button type="submit" class="form-submit-btn" id="submit-button">
-                ثبت پرداخت
+                ثبت پکینگ
             </button>
-            <a href="{{ route('contracts.payments.index', $contract->id) }}" class="form-cancel-btn">
+            <a href="{{ route('packings.index', $contract->id) }}" class="form-cancel-btn">
                 انصراف
             </a>
         </div>

@@ -98,6 +98,14 @@
                 </svg>
                 <span class="mr-2">ایجاد تضمین</span>
             </a>
+
+            <a href="{{ route('packings.create', $contract->id) }}" class="page-success-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                     stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path>
+                </svg>
+                <span class="mr-2">ایجاد پکینگ</span>
+            </a>
         </div>
     </div>
 
@@ -347,31 +355,32 @@
                         </a>
                     @endif
 
-                    <a href="" class="dashboard-cards group">
-                        <div class="flex items-center">
-                            <div class="dashboard-card-icon bg-gray-500 dark:bg-slate-800">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                     stroke-width="1.5" stroke="currentColor"
-                                     class="w-6 h-6 text-white group-hover:text-myBlue-100">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                          d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"/>
+                    @if(!$contract->packings->isEmpty())
+                        <a href="{{ route('packings.index', $contract->id) }}" class="dashboard-cards group">
+                            <div class="flex items-center">
+                                <div class="dashboard-card-icon bg-gray-500 dark:bg-slate-800">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-white group-hover:text-myBlue-100">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                              d="M5.25 14.25h13.5m-13.5 0a3 3 0 01-3-3m3 3a3 3 0 100 6h13.5a3 3 0 100-6m-16.5-3a3 3 0 013-3h13.5a3 3 0 013 3m-19.5 0a4.5 4.5 0 01.9-2.7L5.737 5.1a3.375 3.375 0 012.7-1.35h7.126c1.062 0 2.062.5 2.7 1.35l2.587 3.45a4.5 4.5 0 01.9 2.7m0 0a3 3 0 01-3 3m0 3h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008zm-3 6h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008z"></path>
+                                    </svg>
+                                </div>
+                                <div class="mr-4">
+                                    <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
+                                        پکینگ لیست‌ها
+                                    </p>
+                                </div>
+                            </div>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                     class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                                    <path fill-rule="evenodd"
+                                          d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                          clip-rule="evenodd"/>
                                 </svg>
                             </div>
-                            <div class="mr-4">
-                                <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
-                                    پکینگ لیست‌ها
-                                </p>
-                            </div>
-                        </div>
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                 class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
-                                <path fill-rule="evenodd"
-                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                                      clip-rule="evenodd"/>
-                            </svg>
-                        </div>
-                    </a>
+                        </a>
+                    @endif
 
                     <a href="" class="dashboard-cards group">
                         <div class="flex items-center">

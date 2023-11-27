@@ -135,6 +135,9 @@
                             <th scope="col" class="p-4">
                                 پایان ساخت
                             </th>
+                            <th scope="col" class="p-4">
+                                پکینگ
+                            </th>
                         </tr>
                         </thead>
                         <tbody>
@@ -249,7 +252,7 @@
                                         -
                                     @endif
                                 </td>
-                                <td class="table-tr-td border-t-0 border-r-0">
+                                <td class="table-tr-td border-t-0 border-x-0">
                                     @if($product->status == 'end')
                                         <div class="flex items-center justify-center">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -275,6 +278,79 @@
                                                 صدور
                                             </button>
                                         </form>
+                                    @endif
+                                </td>
+                                <td class="table-tr-td border-t-0 border-r-0">
+                                    @if(!is_null($product->packing_id))
+                                        {{ $product->packing->name }}
+                                    @else
+                                        <div class="flex items-center justify-center" x-data="{open:false}">
+                                            <button class="table-warning-btn" @click="open = !open" type="button">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                     stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/>
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                </svg>
+                                                انتخاب پکینگ
+                                            </button>
+                                            <div class="relative z-10" x-show="open" x-cloak>
+                                                <div class="modal-backdrop"></div>
+                                                <div class="fixed z-10 inset-0 overflow-y-auto">
+                                                    <div class="modal">
+                                                        <div class="modal-body">
+                                                            <form method="POST"
+                                                                  action="{{ route('contracts.recipe.add-to-packing', [$contract->id, $product->id]) }}"
+                                                                  class="bg-white dark:bg-slate-800 p-4">
+                                                                @csrf
+                                                                @method('PATCH')
+
+                                                                <div class="mb-4 flex justify-between items-center">
+                                                                    <h3 class="text-lg font-bold text-gray-900 dark:text-white">
+                                                                        اضافه کردن محصول به پکینگ
+                                                                    </h3>
+                                                                    <button type="button" @click="open = false">
+                                                                    <span class="modal-close">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                             fill="none"
+                                                                             viewBox="0 0 24 24"
+                                                                             stroke-width="1.5" stroke="currentColor"
+                                                                             class="w-5 h-5 dark:text-white">
+                                                                            <path stroke-linecap="round"
+                                                                                  stroke-linejoin="round"
+                                                                                  d="M6 18L18 6M6 6l12 12"/>
+                                                                        </svg>
+                                                                    </span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="mt-6 space-y-2">
+                                                                    <div class="mb-4">
+                                                                        <label for="inputPacking" class="form-label">
+                                                                            انتخاب پکینگ
+                                                                        </label>
+                                                                        <select name="packing_id" id="inputPacking"
+                                                                                class="input-text">
+                                                                            <option value="">انتخاب کنید</option>
+                                                                            @foreach($contract->packings as $packing)
+                                                                                <option value="{{ $packing->id }}">
+                                                                                    {{ $packing->name }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="flex justify-end">
+                                                                        <button type="submit" class="form-submit-btn">
+                                                                            افزودن
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     @endif
                                 </td>
                             </tr>

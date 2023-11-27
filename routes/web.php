@@ -16,6 +16,7 @@ use App\Http\Controllers\Contract\EndProductionController;
 use App\Http\Controllers\Contract\FinalContractController;
 use App\Http\Controllers\Contract\GuaranteeController;
 use App\Http\Controllers\Contract\MarketingController;
+use App\Http\Controllers\Contract\PackingController;
 use App\Http\Controllers\Contract\RecipeController;
 use App\Http\Controllers\Contract\ProductController as ContractProduct;
 use App\Http\Controllers\MarketingController as AllMarketings;
@@ -598,8 +599,11 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::get('/contracts/{contract}/recipe/parts', [RecipeController::class, 'parts'])->name('contracts.recipe.parts');
     Route::post('/contracts/{contract}/recipe/parts', [RecipeController::class, 'storeParts'])->name('contracts.recipe.store-parts');
     Route::patch('/contracts/{contract}/recipe/{product}/end-of-production', [RecipeController::class, 'endProduction'])->name('contracts.recipe.end-of-production');
+    Route::patch('/contracts/{contract}/recipe/{product}/add-to-packing', [RecipeController::class, 'addToPacking'])->name('contracts.recipe.add-to-packing');
 
     Route::get('/contracts/{contract}/choose-product', [ContractProduct::class, 'choose'])->name('contracts.choose-product');
     Route::get('/contracts/{contract}/choose-product/{invoice}', [ContractProduct::class, 'invoice'])->name('contracts.choose-product.invoice');
     Route::post('/contracts/{contract}/choose-product/{invoice}', [ContractProduct::class, 'storeInvoice'])->name('contracts.choose-product.store-invoice');
+
+    Route::resource('contracts/{contract}/packings', PackingController::class);
 });

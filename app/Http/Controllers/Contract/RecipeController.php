@@ -108,4 +108,19 @@ class RecipeController extends Controller
 
         return back();
     }
+
+    public function addToPacking(Request $request, Contract $contract, ContractProduct $product)
+    {
+        $request->validate([
+            'packing_id' => 'required|integer'
+        ]);
+
+        $product->update([
+            'packing_id' => $request->packing_id
+        ]);
+
+        alert()->success('ثبت موفق', 'محصول با موفقیت به پکینگ اضافه شد');
+
+        return back();
+    }
 }

@@ -179,7 +179,7 @@
                         پیش پرداخت
                     </option>
                     <option
-                        value="interim_payment" {{ old('type', $payment->type) == 'interim_payment' ? 'selected' : '' }}>
+                            value="interim_payment" {{ old('type', $payment->type) == 'interim_payment' ? 'selected' : '' }}>
                         میان پرداخت
                     </option>
                     <option value="clearing" {{ old('type', $payment->type) == 'clearing' ? 'selected' : '' }}>
@@ -197,10 +197,13 @@
                     <option value="">انتخاب کنید</option>
                     @foreach($accounts as $account)
                         <option
-                            value="{{ $account->id }}" {{ old('account_id', $payment->account_id) == $account->id ? 'selected' : '' }}>
+                                value="{{ $account->id }}" {{ old('account_id', $payment->account_id) == $account->id ? 'selected' : '' }}>
                             {{ $account->bank }} | {{ $account->branch }} | {{ $account->account_number }}
                         </option>
                     @endforeach
+                    <option value="0" {{ old('account_id', $payment->account_id) == "0" ? 'selected' : '' }}>
+                        سایر
+                    </option>
                 </select>
             </div>
 

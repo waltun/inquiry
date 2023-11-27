@@ -21,8 +21,6 @@ return new class extends Migration
             $table->string('model_custom_name')->nullable();
             $table->text('description')->nullable();
             $table->string('type')->nullable();
-            $table->timestamp('delivery_date')->nullable();
-            $table->timestamp('warranty_date')->nullable();
             $table->string('tag')->nullable();
 
             $table->unsignedBigInteger('contract_id');

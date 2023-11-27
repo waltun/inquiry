@@ -10,7 +10,7 @@ class ContractProduct extends Model
     use HasFactory;
 
     protected $fillable = [
-        'quantity', 'price', 'model_custom_name', 'description', 'type', 'delivery_date', 'warranty_date', 'tag',
+        'quantity', 'price', 'model_custom_name', 'description', 'type', 'tag', 'packing_id',
         'contract_id', 'group_id', 'model_id', 'part_id', 'product_id', 'status', 'end_at'
     ];
 
@@ -32,5 +32,10 @@ class ContractProduct extends Model
     public function histories()
     {
         return $this->hasMany(ContractPartHistory::class);
+    }
+
+    public function packing()
+    {
+        return $this->belongsTo(Packing::class);
     }
 }

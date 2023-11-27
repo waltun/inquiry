@@ -53,4 +53,9 @@ class Contract extends Model
     {
         return $this->hasMany(Marketing::class);
     }
+
+    public function packings()
+    {
+        return $this->hasMany(Packing::class);
+    }
 }
