@@ -606,4 +606,5 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::post('/contracts/{contract}/choose-product/{invoice}', [ContractProduct::class, 'storeInvoice'])->name('contracts.choose-product.store-invoice');
 
     Route::resource('contracts/{contract}/packings', PackingController::class);
+    Route::get('/contracts/{contract}/packings/list/print', [PackingController::class, 'print'])->name('contracts.packings.print');
 });

@@ -214,14 +214,14 @@
             </svg>
             <div class="mr-2">
                 <p class="font-bold text-2xl text-black dark:text-white">
-                    قطعات محصولات قرارداد {{ $contract->name }} - {{ $contract->customer->name }} - CNT-{{ $contract->number }}
+                    قطعات محصولات قرارداد {{ $contract->name }} - {{ $contract->customer->name }} -
+                    CNT-{{ $contract->number }}
                 </p>
             </div>
         </div>
         @if(!$contract->recipe)
-            <form action="{{ route('contracts.parts.store-recipe', $contract->id) }}" method="POST">
-                @csrf
-                <button type="submit" class="page-success-btn" onclick="return confirm('دستور ساخت صادر شود ؟')">
+            <div class="flex items-center justify-center" x-data="{open:false}">
+                <button class="page-success-btn" @click="open = !open" type="button">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                          stroke="currentColor" class="w-4 h-4 ml-1">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -229,7 +229,56 @@
                     </svg>
                     صدور دستور ساخت
                 </button>
-            </form>
+                <div class="relative z-10" x-show="open" x-cloak>
+                    <div class="modal-backdrop"></div>
+                    <div class="fixed z-10 inset-0 overflow-y-auto">
+                        <div class="modal">
+                            <div class="modal-body">
+                                <form method="POST" action="{{ route('contracts.parts.store-recipe', $contract->id) }}"
+                                      class="bg-white dark:bg-slate-800 p-4">
+                                    @csrf
+                                    <div class="mb-4 flex justify-between items-center">
+                                        <h3 class="text-lg font-bold text-gray-900 dark:text-white">
+                                            صدور دستور ساخت برای قرارداد
+                                        </h3>
+                                        <button type="button" @click="open = false">
+                                            <span class="modal-close">
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                     fill="none"
+                                                     viewBox="0 0 24 24"
+                                                     stroke-width="1.5" stroke="currentColor"
+                                                     class="w-5 h-5 dark:text-white">
+                                                    <path stroke-linecap="round"
+                                                          stroke-linejoin="round"
+                                                          d="M6 18L18 6M6 6l12 12"/>
+                                                </svg>
+                                            </span>
+                                        </button>
+                                    </div>
+                                    <div class="mt-6 space-y-2">
+                                        <div class="mb-4">
+                                            <label for="inputPacking" class="form-label">
+                                                انتخاب ریز آنالیز قطعات
+                                            </label>
+                                            <select name="store_parts" id="inputPacking"
+                                                    class="input-text">
+                                                <option value="">انتخاب کنید</option>
+                                                <option value="1">اضافه شود</option>
+                                                <option value="0">اضافه نشود</option>
+                                            </select>
+                                        </div>
+                                        <div class="flex justify-end">
+                                            <button type="submit" class="form-submit-btn">
+                                                صدور
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         @else
             <div class="flex items-center space-x-2 space-x-reverse">
                 <p class="text-sm font-medium text-red-600">
@@ -399,7 +448,8 @@
                 $products = $contract->products()->where('part_id','!=',0)->where('type',$type)->get();
             @endphp
             @if(!$products->isEmpty())
-                <form method="POST" action="{{ route('contracts.products.store-product', $contract->id) }}" class="card">
+                <form method="POST" action="{{ route('contracts.products.store-product', $contract->id) }}"
+                      class="card">
                     @csrf
                     <div class="card-header">
                         <p class="card-title text-lg">

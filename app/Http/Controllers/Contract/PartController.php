@@ -41,46 +41,50 @@ class PartController extends Controller
             $product->spareAmounts()->delete();
         }
 
-        if (!$product->amounts->isEmpty()) {
-            $product->amounts()->delete();
+        if ($contract->recipe) {
+            if (!$product->amounts->isEmpty()) {
+                $product->amounts()->delete();
+            }
         }
 
         foreach ($request->part_ids as $index => $id) {
             $part = Part::find($id);
 
-            if ($part->collection && !$part->children->isEmpty()) {
-                foreach ($part->children as $child) {
-                    if (!$child->children->isEmpty()) {
-                        foreach ($child->children as $ch) {
+            if ($contract->recipe) {
+                if ($part->collection && !$part->children->isEmpty()) {
+                    foreach ($part->children as $child) {
+                        if (!$child->children->isEmpty()) {
+                            foreach ($child->children as $ch) {
+                                $product->amounts()->create([
+                                    'value' => $ch->pivot->value,
+                                    'value2' => $ch->pivot->value2,
+                                    'part_id' => $ch->id,
+                                    'price' => $ch->price,
+                                    'sort' => $ch->pivot->sort,
+                                    'weight' => $ch->weight ?? 0
+                                ]);
+                            }
+                        } else {
                             $product->amounts()->create([
-                                'value' => $ch->pivot->value,
-                                'value2' => $ch->pivot->value2,
-                                'part_id' => $ch->id,
-                                'price' => $ch->price,
-                                'sort' => $ch->pivot->sort,
-                                'weight' => $ch->weight ?? 0
+                                'value' => $child->pivot->value,
+                                'value2' => $child->pivot->value2,
+                                'part_id' => $child->id,
+                                'price' => $child->price,
+                                'sort' => $child->pivot->sort,
+                                'weight' => $child->weight ?? 0
                             ]);
                         }
-                    } else {
-                        $product->amounts()->create([
-                            'value' => $child->pivot->value,
-                            'value2' => $child->pivot->value2,
-                            'part_id' => $child->id,
-                            'price' => $child->price,
-                            'sort' => $child->pivot->sort,
-                            'weight' => $child->weight ?? 0
-                        ]);
                     }
+                } else {
+                    $product->amounts()->create([
+                        'value' => $request->amounts[$index],
+                        'value2' => $request->amounts2[$index],
+                        'part_id' => $id,
+                        'price' => $part->price,
+                        'weight' => $part->weight ?? 0,
+                        'sort' => $request->sorts[$index]
+                    ]);
                 }
-            } else {
-                $product->amounts()->create([
-                    'value' => $request->amounts[$index],
-                    'value2' => $request->amounts2[$index],
-                    'part_id' => $id,
-                    'price' => $part->price,
-                    'weight' => $part->weight ?? 0,
-                    'sort' => $request->sorts[$index]
-                ]);
             }
 
             $product->spareAmounts()->create([
@@ -98,11 +102,60 @@ class PartController extends Controller
         return back();
     }
 
-    public function storeRecipe(Contract $contract)
+    public function storeRecipe(Request $request, Contract $contract)
     {
         $contract->update([
             'recipe' => true
         ]);
+
+        foreach ($contract->products as $product) {
+            if ($contract->recipe) {
+                if (!$product->amounts->isEmpty()) {
+                    $product->amounts()->delete();
+                }
+            }
+
+            if ($contract->recipe && $request->store_parts == '1') {
+                foreach ($product->spareAmounts as $amount) {
+                    $part = Part::find($amount->part_id);
+
+                    if ($part->collection && !$part->children->isEmpty()) {
+                        foreach ($part->children as $child) {
+                            if (!$child->children->isEmpty()) {
+                                foreach ($child->children as $ch) {
+                                    $product->amounts()->create([
+                                        'value' => $ch->pivot->value,
+                                        'value2' => $ch->pivot->value2,
+                                        'part_id' => $ch->id,
+                                        'price' => $ch->price,
+                                        'sort' => $ch->pivot->sort,
+                                        'weight' => $ch->weight ?? 0
+                                    ]);
+                                }
+                            } else {
+                                $product->amounts()->create([
+                                    'value' => $child->pivot->value,
+                                    'value2' => $child->pivot->value2,
+                                    'part_id' => $child->id,
+                                    'price' => $child->price,
+                                    'sort' => $child->pivot->sort,
+                                    'weight' => $child->weight ?? 0
+                                ]);
+                            }
+                        }
+                    } else {
+                        $product->amounts()->create([
+                            'value' => $amount->value,
+                            'value2' => $amount->value2,
+                            'part_id' => $amount->part_id,
+                            'price' => $amount->price,
+                            'weight' => $amount->weight ?? 0,
+                            'sort' => $amount->sort
+                        ]);
+                    }
+                }
+            }
+        }
 
         alert()->success('ثبت موفق', 'دستور ساخت با موفقیت صادر شد');
 
@@ -114,6 +167,12 @@ class PartController extends Controller
         $contract->update([
             'recipe' => false
         ]);
+
+        foreach ($contract->products as $product) {
+            if (!$product->amounts->isEmpty()) {
+                $product->amounts()->delete();
+            }
+        }
 
         alert()->success('حذف موفق', 'دستور ساخت با موفقیت حذف شد');
 

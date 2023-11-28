@@ -68,4 +68,9 @@ class PackingController extends Controller
 
         return back();
     }
+
+    public function print(Contract $contract)
+    {
+        return view('contracts.packings.print', compact('contract'));
+    }
 }
