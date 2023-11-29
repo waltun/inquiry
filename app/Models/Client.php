@@ -15,6 +15,6 @@ class Client extends Model
 
     public function inquiries()
     {
-        return $this->hasMany(Inquiry::class);
+        return $this->belongsToMany(Inquiry::class);
     }
 }

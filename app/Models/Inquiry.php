@@ -30,8 +30,8 @@ Inquiry extends Model
         return $this->hasMany(Invoice::class);
     }
 
-    public function client()
+    public function clients()
     {
-        return $this->belongsTo(Client::class);
+        return $this->belongsToMany(Client::class);
     }
 }

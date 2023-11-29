@@ -96,12 +96,14 @@ class InquiryController extends Controller
             'name' => 'required|string|max:255',
             'marketer' => 'required|string|max:255',
             'type' => 'required|in:product,part,both',
-            'client_id' => 'required|integer'
+            'client_ids' => 'required|array'
         ]);
 
         $data['user_id'] = $request->user()->id;
 
-        Inquiry::create($data);
+        $inquiry = Inquiry::create($data);
+
+        $inquiry->clients()->sync($data['client_ids']);
 
         alert()->success('ثبت موفق', 'ثبت استعلام با موفقیت انجام شد');
 
@@ -147,10 +149,12 @@ class InquiryController extends Controller
             'name' => 'required|string|max:255',
             'marketer' => 'required|string|max:255',
             'type' => 'required|in:product,part,both',
-            'client_id' => 'required|integer'
+            'client_ids' => 'required|array'
         ]);
 
         $inquiry->update($data);
+
+        $inquiry->clients()->sync($data['client_ids']);
 
         alert()->success('ویرایش موفق', 'ویرایش استعلام با موفقیت انجام شد');
 
@@ -182,6 +186,10 @@ class InquiryController extends Controller
         $collectionParts = Part::where('inquiry_id', $inquiry->id)->get();
         foreach ($collectionParts as $collectionPart) {
             $collectionPart->delete();
+        }
+
+        if (!$inquiry->clients->isEmpty()) {
+            $inquiry->clients()->detach();
         }
 
         $inquiry->delete();

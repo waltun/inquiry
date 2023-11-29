@@ -1,4 +1,15 @@
 <x-layout>
+    <x-slot name="js">
+        <script src="{{ asset('plugins/jquery.min.js') }}"></script>
+        <script src="{{ asset('plugins/select2/select2.min.js') }}"></script>
+        <script>
+            $("#inputClient").select2()
+        </script>
+    </x-slot>
+    <x-slot name="css">
+        <link rel="stylesheet" href="{{ asset('plugins/select2/select2.min.css') }}">
+    </x-slot>
+
     <!-- Breadcrumb -->
     <div class="flex items-center space-x-2 space-x-reverse">
         <a href="{{ route('dashboard') }}" class="flex items-center">
@@ -98,13 +109,15 @@
                 <input type="text" id="inputMarketer" name="marketer" class="input-text"
                        placeholder="مثال : احمد رضایی" value="{{ $inquiry->marketer }}">
             </div>
+            @php
+                $clientIds = $inquiry->clients()->pluck('client_id')->toArray();
+            @endphp
             <div class="mt-4">
                 <label for="inputClient" class="form-label">انتخاب خریدار</label>
-                <select name="client_id" id="inputClient" class="input-text">
-                    <option value="">انتخاب کنید</option>
+                <select name="client_ids[]" id="inputClient" class="input-text" multiple>
                     @foreach($clients as $client)
                         <option
-                            value="{{ $client->id }}" {{ old('client_id', $inquiry->client_id) == $client->id ? 'selected' : '' }}>
+                            value="{{ $client->id }}" {{ in_array($client->id, $clientIds) ? 'selected' : '' }}>
                             {{ $client->name }}
                         </option>
                     @endforeach

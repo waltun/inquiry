@@ -1,12 +1,21 @@
 <x-layout>
     <x-slot name="js">
+        <script src="{{ asset('plugins/jquery.min.js') }}"></script>
+        <script src="{{ asset('plugins/select2/select2.min.js') }}"></script>
         <script>
             let submitButton = document.getElementById('submit-button');
-            submitButton.addEventListener('click',function (){
+            submitButton.addEventListener('click', function () {
                 submitButton.classList.add('hidden')
             });
         </script>
+        <script>
+            $("#inputClient").select2()
+        </script>
     </x-slot>
+    <x-slot name="css">
+        <link rel="stylesheet" href="{{ asset('plugins/select2/select2.min.css') }}">
+    </x-slot>
+
     <!-- Breadcrumb -->
     <div class="flex items-center space-x-2 space-x-reverse">
         <a href="{{ route('dashboard') }}" class="flex items-center">
@@ -107,8 +116,7 @@
 
             <div class="mt-4">
                 <label for="inputClient" class="form-label">انتخاب خریدار</label>
-                <select name="client_id" id="inputClient" class="input-text">
-                    <option value="">انتخاب کنید</option>
+                <select name="client_ids[]" id="inputClient" class="input-text" multiple>
                     @foreach($clients as $client)
                         <option value="{{ $client->id }}" {{ old('client_id') == $client->id ? 'selected' : '' }}>
                             {{ $client->name }}
