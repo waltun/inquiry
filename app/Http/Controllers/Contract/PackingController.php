@@ -62,6 +62,11 @@ class PackingController extends Controller
 
     public function destroy(Contract $contract, Packing $packing)
     {
+        foreach ($packing->products as $product) {
+            $product->packing_id = null;
+            $product->save();
+        }
+
         $packing->delete();
 
         alert()->success('حذف موفق', 'پکینگ با موفقیت حذف شد');

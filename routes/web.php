@@ -9,6 +9,7 @@ use App\Http\Controllers\CalculateDamperController;
 use App\Http\Controllers\CalculateElectricalController;
 use App\Http\Controllers\CategoryAttributeController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CollectionCoilController;
 use App\Http\Controllers\CollectionPartController;
 use App\Http\Controllers\Contract\AnalyzePartController;
@@ -607,4 +608,6 @@ Route::middleware(['auth', 'web'])->group(function () {
 
     Route::resource('contracts/{contract}/packings', PackingController::class);
     Route::get('/contracts/{contract}/packings/list/print', [PackingController::class, 'print'])->name('contracts.packings.print');
+
+    Route::resource('clients', ClientController::class)->except(['show']);
 });
