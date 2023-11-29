@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Amount;
+use App\Models\Client;
 use App\Models\DeleteButton;
 use App\Models\Group;
 use App\Models\Inquiry;
@@ -85,7 +86,8 @@ class InquiryController extends Controller
 
     public function create()
     {
-        return view('inquiries.create');
+        $clients = Client::all();
+        return view('inquiries.create', compact('clients'));
     }
 
     public function store(Request $request)
@@ -93,7 +95,8 @@ class InquiryController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'marketer' => 'required|string|max:255',
-            'type' => 'required|in:product,part,both'
+            'type' => 'required|in:product,part,both',
+            'client_id' => 'required|integer'
         ]);
 
         $data['user_id'] = $request->user()->id;
@@ -134,7 +137,8 @@ class InquiryController extends Controller
 
     public function edit(Inquiry $inquiry)
     {
-        return view('inquiries.edit', compact('inquiry'));
+        $clients = Client::all();
+        return view('inquiries.edit', compact('inquiry', 'clients'));
     }
 
     public function update(Request $request, Inquiry $inquiry)
@@ -143,6 +147,7 @@ class InquiryController extends Controller
             'name' => 'required|string|max:255',
             'marketer' => 'required|string|max:255',
             'type' => 'required|in:product,part,both',
+            'client_id' => 'required|integer'
         ]);
 
         $inquiry->update($data);
@@ -336,7 +341,7 @@ class InquiryController extends Controller
 
                         $newPart->categories()->syncWithoutDetaching($part->categories);
 
-                        foreach ($part->children()->orderBy('sort','ASC')->get() as $child) {
+                        foreach ($part->children()->orderBy('sort', 'ASC')->get() as $child) {
                             $newPart->children()->syncWithoutDetaching([
                                 $child->id => [
                                     'value' => $child->pivot->value
@@ -344,7 +349,7 @@ class InquiryController extends Controller
                             ]);
 
                             if (!$child->children->isEmpty()) {
-                                foreach ($child->children()->where('head_part_id', $part->id)->orderBy('sort','ASC')->get() as $ch) {
+                                foreach ($child->children()->where('head_part_id', $part->id)->orderBy('sort', 'ASC')->get() as $ch) {
                                     $child->children()->attach($ch->id, [
                                         'head_part_id' => $newPart->id,
                                         'value' => $ch->pivot->value,

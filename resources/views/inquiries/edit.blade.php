@@ -98,6 +98,18 @@
                 <input type="text" id="inputMarketer" name="marketer" class="input-text"
                        placeholder="مثال : احمد رضایی" value="{{ $inquiry->marketer }}">
             </div>
+            <div class="mt-4">
+                <label for="inputClient" class="form-label">انتخاب خریدار</label>
+                <select name="client_id" id="inputClient" class="input-text">
+                    <option value="">انتخاب کنید</option>
+                    @foreach($clients as $client)
+                        <option
+                            value="{{ $client->id }}" {{ old('client_id', $inquiry->client_id) == $client->id ? 'selected' : '' }}>
+                            {{ $client->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
         </div>
 
         <div class="flex items-center space-x-4 space-x-reverse">

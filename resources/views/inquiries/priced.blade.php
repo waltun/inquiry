@@ -131,6 +131,9 @@
                         نام پروژه
                     </th>
                     <th scope="col" class="p-4">
+                        مشتری
+                    </th>
+                    <th scope="col" class="p-4">
                         مسئول پروژه
                     </th>
                     <th scope="col" class="p-4">
@@ -152,6 +155,9 @@
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             {{ $inquiry->name }}
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            {{ $inquiry->client->name ?? '-' }}
                         </td>
                         @php
                             $user = \App\Models\User::find($inquiry->user_id);

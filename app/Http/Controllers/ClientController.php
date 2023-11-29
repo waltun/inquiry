@@ -9,7 +9,15 @@ class ClientController extends Controller
 {
     public function index()
     {
-        $clients = Client::latest()->paginate(20);
+        $clients = Client::query();
+
+        if ($keyword = request('search')) {
+            $clients->where('name', 'LIKE', "%{$keyword}%")
+                ->orWhere('phone', 'LIKE', "%{$keyword}%")
+                ->orWhere('email', 'LIKE', "%{$keyword}%");
+        }
+
+        $clients = $clients->latest()->paginate(20);
         return view('clients.index', compact('clients'));
     }
 
@@ -23,7 +31,8 @@ class ClientController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'phone' => 'nullable|numeric',
-            'email' => 'nullable|string|email'
+            'email' => 'nullable|string|email',
+            'company' => 'nullable|string|max:255',
         ]);
 
         Client::create($data);
@@ -43,7 +52,8 @@ class ClientController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'phone' => 'nullable|numeric',
-            'email' => 'nullable|string|email'
+            'email' => 'nullable|string|email',
+            'company' => 'nullable|string|max:255',
         ]);
 
         $client->update($data);
