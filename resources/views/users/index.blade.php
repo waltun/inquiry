@@ -46,6 +46,17 @@
             <div class="mr-2">
                 <p class="font-bold text-2xl text-black dark:text-white">
                     لیست کاربران
+                    @switch(request('role'))
+                        @case('admin')
+                            مدیر
+                            @break
+                        @case('staff')
+                            کارمند
+                            @break
+                        @case('client')
+                            مشتری استعلام
+                            @break
+                    @endswitch
                 </p>
             </div>
         </div>
@@ -58,6 +69,27 @@
                 <span class="mr-2">ایجاد کاربر جدید</span>
             </a>
         </div>
+    </div>
+
+    <div class="mt-4 flex items-center space-x-2 space-x-reverse">
+        <a href="{{ route('users.index') }}" class="text-xs text-indigo-400 font-medium">
+            همه کاربران ({{ \App\Models\User::count() }})
+        </a>
+        <span> | </span>
+        <a href="{{ route('users.index') }}?role=admin"
+           class="text-xs font-medium {{ request('role') == 'admin' ? 'text-indigo-600 underline' : 'text-indigo-400' }}">
+            کاربران مدیر ({{ \App\Models\User::where('role', 'admin')->count() }})
+        </a>
+        <span> | </span>
+        <a href="{{ route('users.index') }}?role=staff"
+           class="text-xs font-medium {{ request('role') == 'staff' ? 'text-indigo-600 underline' : 'text-indigo-400' }}">
+            کاربران کارمند ({{ \App\Models\User::where('role', 'staff')->count() }})
+        </a>
+        <span> | </span>
+        <a href="{{ route('users.index') }}?role=client"
+           class="text-xs font-medium {{ request('role') == 'client' ? 'text-indigo-600 underline' : 'text-indigo-400' }}">
+            مشتری های استعلام ({{ \App\Models\User::where('role', 'client')->count() }})
+        </a>
     </div>
 
     <!-- Content -->
@@ -84,6 +116,9 @@
                     <th scope="col" class="p-4">
                         دسترسی ها
                     </th>
+                    <th scope="col" class="p-4">
+                        نقش
+                    </th>
                     <th scope="col" class="p-4 rounded-tl-lg">
                         <span class="sr-only">اقدامات</span>
                     </th>
@@ -102,10 +137,10 @@
                             {{ $user->phone }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $user->internal_number }}
+                            {{ $user->internal_number ?? '-' }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $user->email }}
+                            {{ $user->email ?? '-' }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             <div class="flex justify-center">
@@ -123,6 +158,22 @@
                                     مدیر
                                 @endif
                             </div>
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            @switch($user->role)
+                                @case('admin')
+                                    مدیر
+                                    @break
+                                @case('staff')
+                                    کارمند
+                                    @break
+                                @case('user')
+                                    کاربر معمولی
+                                    @break
+                                @case('client')
+                                    مشتری استعلام
+                                    @break
+                            @endswitch
                         </td>
                         <td class="table-tr-td border-t-0 border-r-0 whitespace-nowrap">
                             <div class="flex items-center justify-center space-x-4 space-x-reverse relative"
@@ -169,61 +220,6 @@
                 @endforeach
                 </tbody>
             </table>
-        </div>
-
-        <!-- Mobile List -->
-        <div class="block md:hidden">
-            @foreach($users as $user)
-                <div class="bg-white rounded-md p-4 border border-gray-200 shadow-sm mb-4 relative z-30">
-                <span
-                    class="absolute right-2 top-2 p-2 w-6 h-6 rounded-full bg-indigo-300 text-black text-xs grid place-content-center font-bold">
-                    {{ $loop->index+1 }}
-                </span>
-                    <div class="space-y-4">
-                        <p class="text-xs text-black text-center">نام و نام خانوادگی : {{ $user->name }}</p>
-                        <p class="text-xs text-black text-center">شماره تماس : {{ $user->phone }}</p>
-                        <p class="text-xs text-black text-center">ایمیل : {{ $user->email }}</p>
-                        <p class="text-xs text-black text-center">
-                            @switch($user->role)
-                                @case('user')
-                                    کاربر عادی - ثبت نام جدید
-                                    @break
-                                @case('it')
-                                    مدیر آی تی (IT)
-                                    @break
-                                @case('admin')
-                                    مدیر
-                                    @break
-                                @case('co-sales-expert')
-                                    کارشناس ارشد فروش
-                                    @break
-                                @case('sales-expert')
-                                    کارشناس فروش
-                                    @break
-                                @case('accounting')
-                                    حسابداری
-                                    @break
-                                @case('inventory')
-                                    انبار داری
-                                    @break
-                            @endswitch
-                        </p>
-                        <div class="flex w-full justify-between">
-                            <a href="{{ route('users.edit',$user->id) }}" class="form-edit-btn text-xs">
-                                ویرایش
-                            </a>
-                            <form action="{{ route('users.destroy',$user->id) }}" method="POST"
-                                  class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <button class="form-cancel-btn text-xs" onclick="return confirm('کاربر حذف شود ؟')">
-                                    حذف
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
         </div>
     </div>
 </x-layout>

@@ -13,7 +13,6 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CollectionCoilController;
 use App\Http\Controllers\CollectionPartController;
 use App\Http\Controllers\Contract\AnalyzePartController;
-use App\Http\Controllers\Contract\EndProductionController;
 use App\Http\Controllers\Contract\FinalContractController;
 use App\Http\Controllers\Contract\GuaranteeController;
 use App\Http\Controllers\Contract\MarketingController;

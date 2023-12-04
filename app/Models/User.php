@@ -75,4 +75,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Marketer::class);
     }
+
+    public function inquiries()
+    {
+        return $this->belongsToMany(Inquiry::class);
+    }
+
+    public function invoices()
+    {
+        return $this->belongsToMany(Invoice::class);
+    }
 }

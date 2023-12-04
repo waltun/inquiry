@@ -47,11 +47,11 @@ class UserController extends Controller
     {
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255', 'unique:users'],
+            'email' => ['nullable', 'email', 'max:255', 'unique:users'],
             'phone' => ['required', 'digits:11', 'regex:/(09)[0-9]{9}/', 'numeric', 'unique:users'],
-            'nation' => ['required', 'digits:10', 'numeric', 'unique:users'],
+            'nation' => ['nullable', 'digits:10', 'numeric', 'unique:users'],
             'gender' => ['required', 'in:male,female'],
-            'role' => ['required', 'in:admin,staff,user'],
+            'role' => ['required', 'in:admin,staff,user,client'],
             'active' => ['required', 'integer', 'in:0,1'],
             'internal_number' => ['nullable', 'numeric']
         ]);
@@ -77,11 +77,11 @@ class UserController extends Controller
     {
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
+            'email' => ['nullable', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'phone' => ['required', 'digits:11', 'regex:/(09)[0-9]{9}/', 'numeric', Rule::unique('users')->ignore($user->id)],
-            'nation' => ['required', 'digits:10', 'numeric', Rule::unique('users')->ignore($user->id)],
+            'nation' => ['nullable', 'digits:10', 'numeric', Rule::unique('users')->ignore($user->id)],
             'gender' => ['required', 'in:male,female'],
-            'role' => ['required', 'in:admin,staff,user'],
+            'role' => ['required', 'in:admin,staff,user,client'],
             'active' => ['required', 'integer', 'in:0,1'],
             'internal_number' => ['nullable', 'numeric']
         ]);

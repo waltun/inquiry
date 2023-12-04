@@ -32,4 +32,9 @@ class Invoice extends Model
     {
         return $this->hasMany(Contract::class);
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
 }

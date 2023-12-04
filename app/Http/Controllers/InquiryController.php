@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Amount;
-use App\Models\Client;
 use App\Models\DeleteButton;
 use App\Models\Group;
 use App\Models\Inquiry;
@@ -14,12 +12,7 @@ use App\Models\Part;
 use App\Models\Product;
 use App\Models\Special;
 use App\Models\User;
-use App\Notifications\CopyInquiryNotification;
-use App\Notifications\CorrectionInquiryNotification;
-use App\Notifications\NewInquiryNotification;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Notification;
 
 class InquiryController extends Controller
 {
@@ -86,8 +79,8 @@ class InquiryController extends Controller
 
     public function create()
     {
-        $clients = Client::all();
-        return view('inquiries.create', compact('clients'));
+        $users = User::where('role', 'client')->get();
+        return view('inquiries.create', compact('users'));
     }
 
     public function store(Request $request)
@@ -96,14 +89,14 @@ class InquiryController extends Controller
             'name' => 'required|string|max:255',
             'marketer' => 'required|string|max:255',
             'type' => 'required|in:product,part,both',
-            'client_ids' => 'required|array'
+            'user_ids' => 'required|array'
         ]);
 
         $data['user_id'] = $request->user()->id;
 
         $inquiry = Inquiry::create($data);
 
-        $inquiry->clients()->sync($data['client_ids']);
+        $inquiry->users()->sync($data['user_ids']);
 
         alert()->success('ثبت موفق', 'ثبت استعلام با موفقیت انجام شد');
 
@@ -990,6 +983,8 @@ class InquiryController extends Controller
                 'show_price' => true
             ]);
         }
+
+        $newInvoice->users()->sync($inquiry->users);
 
         alert()->success('ثبت موفق', 'صدور پیش فاکتور برای این استعلام انجام شد');
 

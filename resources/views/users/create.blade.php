@@ -60,7 +60,7 @@
     </div>
 
     <!-- Form -->
-    <form method="POST" action="{{ route('users.store') }}" class="md:grid grid-cols-2 gap-4 mt-4">
+    <form method="POST" action="{{ route('users.store') }}" class="md:grid grid-cols-3 gap-4 mt-4">
         @csrf
 
         <div class="card">
@@ -86,31 +86,6 @@
                        placeholder="مثال : 09123456789" value="{{ old('phone') }}">
             </div>
 
-            <div class="mt-4">
-                <label for="inputInternal" class="form-label">داخلی مورد نظر</label>
-                <input type="number" id="inputInternal" name="internal_number" class="input-text hide-appearance"
-                       placeholder="مثال : 1" value="{{ old('internal_number') }}">
-            </div>
-
-        </div>
-
-        <div class="card">
-            <div class="card-header">
-                <p class="card-title">رمز عبور</p>
-            </div>
-
-            <div class="mt-4">
-                <label for="inputPassword" class="form-label">رمز عبور</label>
-                <input type="password" id="inputPassword" name="password" class="input-text"
-                       placeholder="حداقل 8 حرف یا کلمه">
-            </div>
-
-            <div class="mt-4">
-                <label for="inputPasswordRepeat" class="form-label">تکرار رمزعبور</label>
-                <input type="password" id="inputPasswordRepeat" name="password_confirmation" class="input-text"
-                       placeholder="باید با رمز عبور یکی باشد">
-            </div>
-
         </div>
 
         <div class="card">
@@ -133,6 +108,12 @@
                 </select>
             </div>
 
+            <div class="mt-4">
+                <label for="inputInternal" class="form-label">داخلی مورد نظر</label>
+                <input type="number" id="inputInternal" name="internal_number" class="input-text hide-appearance"
+                       placeholder="مثال : 1" value="{{ old('internal_number') }}">
+            </div>
+
         </div>
 
         <div class="card">
@@ -153,6 +134,9 @@
                     <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>
                         کاربر عادی
                     </option>
+                    <option value="client" {{ old('role') == 'client' ? 'selected' : '' }}>
+                        مشتری استعلام
+                    </option>
                 </select>
             </div>
 
@@ -167,13 +151,15 @@
 
         </div>
 
-        <div class="flex items-center space-x-4 space-x-reverse bottom-4 sticky">
-            <button type="submit" class="form-submit-btn">
-                ثبت کاربر
-            </button>
-            <a href="{{ route('users.index') }}" class="form-cancel-btn">
-                انصراف
-            </a>
+        <div class="col-span-3">
+            <div class="flex items-center space-x-4 space-x-reverse bottom-4 sticky">
+                <button type="submit" class="form-submit-btn">
+                    ثبت کاربر
+                </button>
+                <a href="{{ route('users.index') }}" class="form-cancel-btn">
+                    انصراف
+                </a>
+            </div>
         </div>
     </form>
 </x-layout>

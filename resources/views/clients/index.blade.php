@@ -57,7 +57,7 @@
             </div>
         </div>
         <div class="flex items-center space-x-4 space-x-reverse">
-            <a href="{{ route('clients.create') }}" class="page-success-btn">
+            <a href="{{ route('users.create') }}" class="page-success-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                      stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
@@ -65,16 +65,6 @@
                 <span class="mr-2">ایجاد مشتری استعلام جدید</span>
             </a>
         </div>
-    </div>
-
-    <!-- Search -->
-    <div class="p-4 bg-white rounded-lg shadow border border-gray-200 mt-4">
-        <form method="GET" action="" class="mt-4 md:grid grid-cols-4 gap-4 space-y-4 md:space-y-0" id="search-form">
-            <div class="mb-4">
-                <input type="text" id="inputSearch" class="input-text" name="search"
-                       placeholder="جستجو + اینتر" value="{{ request('search') }}">
-            </div>
-        </form>
     </div>
 
     <!-- Content -->
@@ -85,9 +75,6 @@
                 <tr class="table-th-tr">
                     <th scope="col" class="p-4 rounded-tr-lg">
                         نام خریدار
-                    </th>
-                    <th scope="col" class="p-4">
-                        نام شرکت
                     </th>
                     <th scope="col" class="p-4">
                         شماره تماس
@@ -104,26 +91,23 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($clients as $client)
+                @foreach($users as $user)
                     <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
                         <td class="table-tr-td border-t-0 border-l-0">
-                            {{ $client->name }}
+                            {{ $user->name }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $client->company ?? '-' }}
+                            {{ $user->phone ?? '-' }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $client->phone ?? '-' }}
+                            {{ $user->email ?? '-' }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $client->email ?? '-' }}
-                        </td>
-                        <td class="table-tr-td border-t-0 border-x-0">
-                            {{ count($client->inquiries) }}
+                            {{ count($user->inquiries) }}
                         </td>
                         <td class="table-tr-td border-t-0 border-r-0">
                             <div class="flex items-center justify-center space-x-4 space-x-reverse">
-                                <a href="{{ route('clients.edit',$client->id) }}"
+                                <a href="{{ route('users.edit',$user->id) }}"
                                    class="table-dropdown-edit">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                          stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
@@ -132,7 +116,7 @@
                                     </svg>
                                     ویرایش
                                 </a>
-                                <form action="{{ route('clients.destroy',$client->id) }}" method="POST"
+                                <form action="{{ route('users.destroy',$user->id) }}" method="POST"
                                       class="table-dropdown-delete">
                                     @csrf
                                     @method('DELETE')
@@ -141,7 +125,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                               d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
                                     </svg>
-                                    <button onclick="return confirm('استعلام حذف شود ؟')">
+                                    <button onclick="return confirm('مشتری استعلام حذف شود ؟')">
                                         حذف
                                     </button>
                                 </form>
@@ -154,7 +138,7 @@
         </div>
 
         <div class="mt-4">
-            {!! $clients->links() !!}
+            {!! $users->links() !!}
         </div>
     </div>
 </x-layout>

@@ -9,7 +9,7 @@
             });
         </script>
         <script>
-            $("#inputClient").select2()
+            $("#inputUser").select2()
         </script>
     </x-slot>
     <x-slot name="css">
@@ -115,11 +115,11 @@
             </div>
 
             <div class="mt-4">
-                <label for="inputClient" class="form-label">انتخاب خریدار</label>
-                <select name="client_ids[]" id="inputClient" class="input-text" multiple>
-                    @foreach($clients as $client)
-                        <option value="{{ $client->id }}" {{ old('client_id') == $client->id ? 'selected' : '' }}>
-                            {{ $client->name }}
+                <label for="inputUser" class="form-label">انتخاب خریدار</label>
+                <select name="user_ids[]" id="inputUser" class="input-text" multiple>
+                    @foreach($users as $user)
+                        <option value="{{ $user->id }}" {{ old('user_ids') == $user->id ? 'selected' : '' }}>
+                            {{ $user->name }}
                         </option>
                     @endforeach
                 </select>
