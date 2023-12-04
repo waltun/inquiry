@@ -185,9 +185,10 @@
                 @php
                     $totalPrice = 0;
                     $totalWeight = 0;
+                    $ids = ['6052', '6053', '6054', '6055', '6057', '6058', '6059', '6060', '6062', '6063', '6064'];
                 @endphp
                 @foreach($parentPart->children()->orderBy('sort','ASC')->get() as $index => $childPart)
-                    @if(!$childPart->children->isEmpty())
+                    @if(!$childPart->children->isEmpty() && in_array($childPart->id, $ids))
                         <tr class="bg-yellow-500">
                             <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
                                 {{ $childPart->name }}
@@ -195,7 +196,7 @@
                         </tr>
                     @endif
 
-                    @if(!$childPart->children->isEmpty())
+                    @if(!$childPart->children->isEmpty() && in_array($childPart->id, $ids))
                         @foreach($childPart->children()->wherePivot('head_part_id', $parentPart->id)->orderBy('sort', 'ASC')->get() as $index2 => $child)
                             @php
                                 $category = $child->categories[1];
