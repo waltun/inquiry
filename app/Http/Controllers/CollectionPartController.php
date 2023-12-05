@@ -169,13 +169,14 @@ class CollectionPartController extends Controller
         $totalWeight = 0;
         $ids = ['6052', '6053', '6054', '6055', '6057', '6058', '6059', '6060', '6062', '6063', '6064'];
 
-        foreach ($parentPart->children()->orderBy('sort', 'ASC')->get() as $index => $child) {
+        foreach ($parentPart->children()->where('head_part_id', null)->orderBy('sort', 'ASC')->get() as $index => $child) {
             if (!$child->children->isEmpty() && in_array($child->id, $ids)) {
                 foreach ($child->children()->wherePivot('head_part_id', $parentPart->id)->orderBy('sort', 'ASC')->get() as $index2 => $ch) {
                     $ch->pivot->update([
                         'parent_part_id' => $request->part_ids[$index][$index2],
                         'value' => $request->values[$index][$index2],
-                        'sort' => $request->sorts[$index][$index2]
+                        'sort' => $request->sorts[$index][$index2],
+                        'head_part_id' => $parentPart->id,
                     ]);
 
                     $totalPrice += $ch->price * $request->values[$index][$index2];
@@ -236,18 +237,31 @@ class CollectionPartController extends Controller
     {
         $totalPrice = 0;
         $totalWeight = 0;
-        foreach ($parentPart->children()->orderBy('sort', 'ASC')->get() as $index => $child) {
-            $child->pivot->update([
-                'parent_part_id' => $request->part_ids[$index],
-                'value2' => $request->units[$index],
-                'value' => $request->values[$index],
-                'sort' => $request->sorts[$index]
-            ]);
+        $ids = ['6052', '6053', '6054', '6055', '6057', '6058', '6059', '6060', '6062', '6063', '6064'];
 
-            $part = Part::find($request->part_ids[$index]);
+        foreach ($parentPart->children()->where('head_part_id', null)->orderBy('sort', 'ASC')->get() as $index => $child) {
+            if (!$child->children->isEmpty() && in_array($child->id, $ids)) {
+                foreach ($child->children()->wherePivot('head_part_id', $parentPart->id)->orderBy('sort', 'ASC')->get() as $index2 => $ch) {
+                    $ch->pivot->update([
+                        'parent_part_id' => $request->part_ids[$index][$index2],
+                        'value' => $request->values[$index][$index2],
+                        'sort' => $request->sorts[$index][$index2],
+                        'head_part_id' => $parentPart->id,
+                    ]);
 
-            $totalPrice += $part->price * $request->values[$index];
-            $totalWeight += $part->weight * $request->values[$index];
+                    $totalPrice += $ch->price * $request->values[$index][$index2];
+                    $totalWeight += $ch->weight * $request->values[$index][$index2];
+                }
+            } else {
+                $child->pivot->update([
+                    'parent_part_id' => $request->part_ids[$index],
+                    'value' => $request->values[$index],
+                    'sort' => $request->sorts[$index]
+                ]);
+
+                $totalPrice += $child->price * $request->values[$index];
+                $totalWeight += $child->weight * $request->values[$index];
+            }
         }
 
         $parentPart->price = $totalPrice;
