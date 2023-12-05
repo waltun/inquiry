@@ -48,9 +48,15 @@
                 </p>
             </div>
             <div class="flex justify-center">
-                <a href="{{ route('dashboard') }}" class="form-detail-btn">
-                    بازگشت به داشبورد
-                </a>
+                @if(auth()->user()->role != 'client')
+                    <a href="{{ route('dashboard') }}" class="form-detail-btn">
+                        بازگشت به داشبورد
+                    </a>
+                @else
+                    <a href="{{ route('dashboard') }}" class="form-detail-btn">
+                        بازگشت به پنل مشتریان
+                    </a>
+                @endif
             </div>
         </div>
     </div>
