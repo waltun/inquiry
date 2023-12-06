@@ -142,12 +142,12 @@ class InquiryController extends Controller
             'name' => 'required|string|max:255',
             'marketer' => 'required|string|max:255',
             'type' => 'required|in:product,part,both',
-            'client_ids' => 'required|array'
+            'user_ids' => 'required|array'
         ]);
 
         $inquiry->update($data);
 
-        $inquiry->clients()->sync($data['client_ids']);
+        $inquiry->users()->sync($data['user_ids']);
 
         alert()->success('ویرایش موفق', 'ویرایش استعلام با موفقیت انجام شد');
 
@@ -181,8 +181,8 @@ class InquiryController extends Controller
             $collectionPart->delete();
         }
 
-        if (!$inquiry->clients->isEmpty()) {
-            $inquiry->clients()->detach();
+        if (!$inquiry->users->isEmpty()) {
+            $inquiry->users()->sync($data['user_ids']);
         }
 
         $inquiry->delete();
