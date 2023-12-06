@@ -3,7 +3,7 @@
         <script src="{{ asset('plugins/jquery.min.js') }}"></script>
         <script src="{{ asset('plugins/select2/select2.min.js') }}"></script>
         <script>
-            $("#inputClient").select2()
+            $("#inputUser").select2()
         </script>
     </x-slot>
     <x-slot name="css">
@@ -110,15 +110,15 @@
                        placeholder="مثال : احمد رضایی" value="{{ $inquiry->marketer }}">
             </div>
             @php
-                $clientIds = $inquiry->clients()->pluck('client_id')->toArray();
+                $userIds = $inquiry->users()->pluck('user_id')->toArray();
             @endphp
             <div class="mt-4">
-                <label for="inputClient" class="form-label">انتخاب خریدار</label>
-                <select name="client_ids[]" id="inputClient" class="input-text" multiple>
-                    @foreach($clients as $client)
+                <label for="inputUser" class="form-label">انتخاب خریدار</label>
+                <select name="user_ids[]" id="inputUser" class="input-text" multiple>
+                    @foreach($users as $user)
                         <option
-                            value="{{ $client->id }}" {{ in_array($client->id, $clientIds) ? 'selected' : '' }}>
-                            {{ $client->name }}
+                            value="{{ $user->id }}" {{ in_array($user->id, $userIds) ? 'selected' : '' }}>
+                            {{ $user->name }}
                         </option>
                     @endforeach
                 </select>

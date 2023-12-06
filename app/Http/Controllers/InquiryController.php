@@ -132,8 +132,8 @@ class InquiryController extends Controller
 
     public function edit(Inquiry $inquiry)
     {
-        $clients = Client::all();
-        return view('inquiries.edit', compact('inquiry', 'clients'));
+        $users = User::where('role', 'client')->get();
+        return view('inquiries.edit', compact('inquiry', 'users'));
     }
 
     public function update(Request $request, Inquiry $inquiry)
