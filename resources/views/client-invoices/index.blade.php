@@ -49,7 +49,7 @@
                 </p>
 
                 @if(request()->has('search'))
-                    <a href="{{ route('clients.index') }}"
+                    <a href="{{ route('client-invoices.index') }}"
                        class="text-sm font-medium text-indigo-500 underline underline-offset-4 mr-4">
                         پاکسازی جستجو
                     </a>

@@ -9,8 +9,8 @@ use App\Http\Controllers\CalculateDamperController;
 use App\Http\Controllers\CalculateElectricalController;
 use App\Http\Controllers\CategoryAttributeController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ClientInvoiceController;
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CollectionCoilController;
 use App\Http\Controllers\CollectionPartController;
 use App\Http\Controllers\Contract\AnalyzePartController;
@@ -513,6 +513,7 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::get('/final-invoices/{invoice}/datasheet', [FinalInvoiceController::class, 'datasheet'])->name('invoices.final.datasheet');
         Route::get('/final-invoices/{invoice}/print-datasheet', [FinalInvoiceController::class, 'printDatasheet'])->name('invoices.final.printDatasheet');
         Route::post('/final-invoices/{invoice}/add-to-contract', [FinalInvoiceController::class, 'addToContract'])->name('invoices.final.addToContract');
+        Route::post('/final-invoices/{invoice}/sms/{user}', [FinalInvoiceController::class, 'invoiceSMS'])->name('invoices.final.sms');
 
         Route::resource('attribute-groups', AttributeGroupController::class)->except(['create', 'edit', 'show']);
 
@@ -610,11 +611,12 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::resource('contracts/{contract}/packings', PackingController::class);
         Route::get('/contracts/{contract}/packings/list/print', [PackingController::class, 'print'])->name('contracts.packings.print');
 
-        Route::get('/clients', [ClientController::class, 'index'])->name('clients.index');
+        Route::get('/client-invoices', [ClientInvoiceController::class, 'index'])->name('client-invoices.index');
     });
 
     Route::middleware('client')->group(function () {
-        Route::get('/client-invoices/{user}', [ClientInvoiceController::class, 'index'])->name('client-invoice.index');
+        Route::get('/clients/{user}', [ClientController::class, 'dashboard'])->name('clients.dashboard');
+        Route::get('/clients/{user}/invoices', [ClientController::class, 'invoice'])->name('clients.invoices');
     });
 
 });

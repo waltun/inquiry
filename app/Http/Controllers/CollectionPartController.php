@@ -184,13 +184,10 @@ class CollectionPartController extends Controller
                 }
             } else {
                 $child->pivot->update([
-                    'parent_part_id' => $request->part_ids[$index],
+                    'parent_part_id' => $request->part_ids[$index][$index2],
                     'value' => $request->values[$index],
-                    'sort' => $request->sorts[$index]
+                    'sort' => $request->sorts[$index],
                 ]);
-
-                $totalPrice += $child->price * $request->values[$index];
-                $totalWeight += $child->weight * $request->values[$index];
             }
         }
 

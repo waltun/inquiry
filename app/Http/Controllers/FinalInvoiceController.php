@@ -9,8 +9,10 @@ use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\InvoiceProduct;
 use App\Models\Part;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Morilog\Jalali\Jalalian;
+use Melipayamak;
 
 class FinalInvoiceController extends Controller
 {
@@ -214,6 +216,19 @@ class FinalInvoiceController extends Controller
 
         return redirect()->route('contracts.index');
     }
+
+    public function invoiceSMS(Invoice $invoice, User $user)
+    {
+        $api = new Melipayamak\MelipayamakApi('9022228553', '@2047507881Pp');
+        $smsSoap = $api->sms('soap');
+        $to = $user->phone;
+        $smsSoap->sendByBaseNumber([$user->name, $invoice->invoice_number, $user->phone], $to, '178529');
+
+        alert()->success('ارسال موفق', 'پیام با موفقیت برای مشتری ارسال شد');
+
+        return back();
+    }
+
 
     public function getOfficialCode(array $data)
     {

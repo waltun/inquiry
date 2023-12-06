@@ -93,7 +93,11 @@ class AuthController extends Controller
 
                     alert()->success('ورود موفق', 'شما با موفقیت وارد سیستم شدید');
 
-                    return redirect()->route('dashboard');
+                    if ($user->role == 'client') {
+                        return redirect()->route('clients.invoices', $user->id);
+                    } else {
+                        return redirect()->route('dashboard');
+                    }
                 } else {
                     return back()->with('code-error', 'کد وارد شده صحیح نمی باشد!');
                 }

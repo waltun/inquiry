@@ -21,30 +21,11 @@
 </head>
 <body class="font-IRANSans bg-gray-50">
 
-Main panel
+<x-clients.header />
 
-<script>
-    let sidebar = document.getElementById('sidebar');
-    let menuIcon = document.getElementById('menu-icon');
-    let closeIcon = document.getElementById('close-icon');
-    let layout = document.getElementById('layout');
-
-    menuIcon.addEventListener('click', function () {
-        sidebar.classList.remove('w-0');
-        sidebar.classList.add('w-72');
-        layout.classList.add('pr-72');
-        menuIcon.classList.add('hidden');
-        closeIcon.classList.remove('hidden');
-    });
-
-    closeIcon.addEventListener('click', function () {
-        sidebar.classList.add('w-0');
-        sidebar.classList.remove('w-72');
-        layout.classList.remove('pr-72');
-        menuIcon.classList.remove('hidden');
-        closeIcon.classList.add('hidden');
-    });
-</script>
+<div class="my-6 mx-10">
+    {{ $slot }}
+</div>
 
 <script src="{{ asset('js/app.js') }}"></script>
 {{ $js ?? '' }}

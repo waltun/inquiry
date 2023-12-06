@@ -340,7 +340,7 @@
              class="border border-indigo-400 dark:border-black border-t-0 rounded-b-lg px-4 py-6" x-cloak>
             <div class="md:grid grid-cols-2 gap-4 space-y-4 md:space-y-0">
                 @can('contracts')
-                    <a href="{{ route('clients.index') }}" class="dashboard-cards group">
+                    <a href="{{ route('client-invoices.index') }}" class="dashboard-cards group">
                         <div class="flex items-center">
                             <div class="dashboard-card-icon bg-yellow-600 dark:bg-slate-800">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
