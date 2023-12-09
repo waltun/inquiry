@@ -182,7 +182,7 @@ class InquiryController extends Controller
         }
 
         if (!$inquiry->users->isEmpty()) {
-            $inquiry->users()->sync($data['user_ids']);
+            $inquiry->users()->detach();
         }
 
         $inquiry->delete();

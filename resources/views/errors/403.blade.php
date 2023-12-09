@@ -48,13 +48,13 @@
                 </p>
             </div>
             <div class="flex justify-center">
-                @if(auth()->user()->role != 'client')
-                    <a href="{{ route('dashboard') }}" class="form-detail-btn">
-                        بازگشت به داشبورد
+                @if(auth()->user()->role == 'client')
+                    <a href="{{ route('clients.dashboard', auth()->user()->id) }}" class="form-detail-btn">
+                        بازگشت به پنل مشتریان
                     </a>
                 @else
                     <a href="{{ route('dashboard') }}" class="form-detail-btn">
-                        بازگشت به پنل مشتریان
+                        بازگشت به داشبورد
                     </a>
                 @endif
             </div>

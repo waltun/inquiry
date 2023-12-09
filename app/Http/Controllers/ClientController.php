@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Invoice;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -16,5 +17,10 @@ class ClientController extends Controller
     {
         $invoices = $user->invoices;
         return view('clients.invoices', compact('user', 'invoices'));
+    }
+
+    public function showInvoice(User $user, Invoice $invoice)
+    {
+        return view('clients.show-invoice', compact('user', 'invoice'));
     }
 }
