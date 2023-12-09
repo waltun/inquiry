@@ -222,10 +222,11 @@ class CollectionPartController extends Controller
 
         $newPart->categories()->syncWithoutDetaching($parentPart->categories);
 
-        foreach ($parentPart->children()->orderBy('sort', 'ASC')->get() as $part) {
-            $newPart->children()->orderBy('sort', 'ASC')->syncWithoutDetaching([
+        foreach ($parentPart->children()->orderByPivot('sort', 'ASC')->get() as $part) {
+            $newPart->children()->attach([
                 $part->id => [
-                    'value' => $part->pivot->value
+                    'value' => $part->pivot->value,
+                    'sort' => $part->pivot->sort
                 ]
             ]);
         }
@@ -244,7 +245,7 @@ class CollectionPartController extends Controller
         foreach ($parentPart->children()->where('head_part_id', null)->orderBy('sort', 'ASC')->get() as $index => $child) {
             if (!$child->children->isEmpty() && in_array($child->id, $ids)) {
                 foreach ($child->children()->wherePivot('head_part_id', $parentPart->id)->orderBy('sort', 'ASC')->get() as $index2 => $ch) {
-                    DB::table('part_child')->where('parent_part_id', $ch->id)->where('head_part_id', $parentPart->id)
+                    DB::table('part_child')->where('parent_part_id', $ch->id)->where('head_part_id', null)
                         ->where('child_part_id', $child->id)->update([
                             'parent_part_id' => $request->part_ids[$index][$index2],
                             'value' => $request->values[$index][$index2],
@@ -256,11 +257,14 @@ class CollectionPartController extends Controller
                     $totalWeight += $ch->weight * $request->values[$index][$index2];
                 }
             } else {
-                $child->pivot->update([
-                    'parent_part_id' => $request->part_ids[$index],
-                    'value' => $request->values[$index],
-                    'sort' => $request->sorts[$index]
-                ]);
+
+                DB::table('part_child')->where('parent_part_id', $child->id)->where('head_part_id', null)
+                    ->where('child_part_id', $parentPart->id)->update([
+                        'parent_part_id' => $request->part_ids[$index],
+                        'value' => $request->values[$index],
+                        'sort' => $request->sorts[$index],
+                        'head_part_id' => null
+                    ]);
 
                 $totalPrice += $child->price * $request->values[$index];
                 $totalWeight += $child->weight * $request->values[$index];

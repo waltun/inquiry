@@ -618,6 +618,7 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::get('/clients/{user}', [ClientController::class, 'dashboard'])->name('clients.dashboard');
         Route::get('/clients/{user}/invoices', [ClientController::class, 'invoice'])->name('clients.invoices');
         Route::get('/clients/{user}/invoices/{invoice}', [ClientController::class, 'showInvoice'])->name('clients.invoices.show');
+        Route::get('/clients/{user}/print-invoices/{invoice}', [ClientController::class, 'printInvoice'])->name('clients.invoices.print');
     });
 
 });
