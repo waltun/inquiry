@@ -7,6 +7,7 @@ use App\Models\DeleteButton;
 use App\Models\Part;
 use App\Models\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
 class CollectionPartController extends Controller
@@ -172,12 +173,13 @@ class CollectionPartController extends Controller
         foreach ($parentPart->children()->where('head_part_id', null)->orderBy('sort', 'ASC')->get() as $index => $child) {
             if (!$child->children->isEmpty() && in_array($child->id, $ids)) {
                 foreach ($child->children()->wherePivot('head_part_id', $parentPart->id)->orderBy('sort', 'ASC')->get() as $index2 => $ch) {
-                    $ch->pivot->update([
-                        'parent_part_id' => $request->part_ids[$index][$index2],
-                        'value' => $request->values[$index][$index2],
-                        'sort' => $request->sorts[$index][$index2],
-                        'head_part_id' => $parentPart->id,
-                    ]);
+                    DB::table('part_child')->where('parent_part_id', $ch->id)->where('head_part_id', $parentPart->id)
+                        ->where('child_part_id', $child->id)->update([
+                            'parent_part_id' => $request->part_ids[$index][$index2],
+                            'value' => $request->values[$index][$index2],
+                            'sort' => $request->sorts[$index][$index2],
+                            'head_part_id' => $parentPart->id,
+                        ]);
 
                     $totalPrice += $ch->price * $request->values[$index][$index2];
                     $totalWeight += $ch->weight * $request->values[$index][$index2];
@@ -242,12 +244,13 @@ class CollectionPartController extends Controller
         foreach ($parentPart->children()->where('head_part_id', null)->orderBy('sort', 'ASC')->get() as $index => $child) {
             if (!$child->children->isEmpty() && in_array($child->id, $ids)) {
                 foreach ($child->children()->wherePivot('head_part_id', $parentPart->id)->orderBy('sort', 'ASC')->get() as $index2 => $ch) {
-                    $ch->pivot->update([
-                        'parent_part_id' => $request->part_ids[$index][$index2],
-                        'value' => $request->values[$index][$index2],
-                        'sort' => $request->sorts[$index][$index2],
-                        'head_part_id' => $parentPart->id,
-                    ]);
+                    DB::table('part_child')->where('parent_part_id', $ch->id)->where('head_part_id', $parentPart->id)
+                        ->where('child_part_id', $child->id)->update([
+                            'parent_part_id' => $request->part_ids[$index][$index2],
+                            'value' => $request->values[$index][$index2],
+                            'sort' => $request->sorts[$index][$index2],
+                            'head_part_id' => $parentPart->id,
+                        ]);
 
                     $totalPrice += $ch->price * $request->values[$index][$index2];
                     $totalWeight += $ch->weight * $request->values[$index][$index2];
