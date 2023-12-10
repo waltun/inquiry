@@ -20,6 +20,7 @@ use App\Http\Controllers\Contract\MarketingController;
 use App\Http\Controllers\Contract\PackingController;
 use App\Http\Controllers\Contract\RecipeController;
 use App\Http\Controllers\Contract\ProductController as ContractProduct;
+use App\Http\Controllers\InformationController;
 use App\Http\Controllers\MarketingController as AllMarketings;
 use App\Http\Controllers\Contract\MarketPaymentController;
 use App\Http\Controllers\Contract\PaymentController;
@@ -612,6 +613,8 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::get('/contracts/{contract}/packings/list/print', [PackingController::class, 'print'])->name('contracts.packings.print');
 
         Route::get('/client-invoices', [ClientInvoiceController::class, 'index'])->name('client-invoices.index');
+
+        Route::resource('settings/information', InformationController::class)->except(['show']);
     });
 
     Route::middleware('client')->group(function () {

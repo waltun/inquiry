@@ -335,7 +335,7 @@
                                                         <div class="border border-green-800">
                                                             <div class="bg-green-800 p-1.5 col-span-3 mb-2">
                                                                 <p class="font-bold text-center text-white text-sm">
-                                                                    {{ $midCategoryPart->name_en ?? $midCategoryPart->name }}
+                                                                    {{ $midCategoryPart->name_en }}
                                                                     {{ $lastCategoryPart->name_en ? " - " . $lastCategoryPart->name_en : '' }}
                                                                 </p>
                                                             </div>
