@@ -218,15 +218,17 @@
                             @endif
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            <input type="hidden" value="{{ $payment->id }}" name="payments[]">
-                            <select name="confirms[]" id="inputConfirm{{ $payment->id }}" class="input-text">
-                                <option value="1" {{ $payment->confirm ? 'selected' : '' }}>
-                                    تایید
-                                </option>
-                                <option value="0" {{ !$payment->confirm ? 'selected' : '' }}>
-                                    عدم تایید
-                                </option>
-                            </select>
+                            @if(auth()->user()->role == 'admin')
+                                <input type="hidden" value="{{ $payment->id }}" name="payments[]">
+                                <select name="confirms[]" id="inputConfirm{{ $payment->id }}" class="input-text">
+                                    <option value="1" {{ $payment->confirm ? 'selected' : '' }}>
+                                        تایید
+                                    </option>
+                                    <option value="0" {{ !$payment->confirm ? 'selected' : '' }}>
+                                        عدم تایید
+                                    </option>
+                                </select>
+                            @endif
                         </td>
                         <td class="table-tr-td border-t-0 border-r-0 whitespace-nowrap">
                             <div class="flex items-center justify-center space-x-4 space-x-reverse">
@@ -260,7 +262,7 @@
                 <a href="{{ route('payments.index') }}" class="page-warning-btn">
                     همه پرداخت ها
                 </a>
-                @if(!$contract->payments->isEmpty())
+                @if(!$contract->payments->isEmpty() && auth()->user()->role == 'admin')
                     <button type="submit" class="form-submit-btn">
                         ثبت تاییدیه
                     </button>

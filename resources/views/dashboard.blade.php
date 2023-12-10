@@ -367,7 +367,7 @@
                     </a>
                 @endcan
 
-                @can('analyze-parts')
+                @can('customers')
                     <a href="{{ route('customers.index') }}" class="dashboard-cards group">
                         <div class="flex items-center">
                             <div class="dashboard-card-icon bg-red-500 dark:bg-slate-800">

@@ -17,7 +17,7 @@ class MarketerController extends Controller
 
     public function index()
     {
-        $marketers = auth()->user()->marketers()->latest()->paginate(20);
+        $marketers = Marketer::latest()->paginate(20);
         return view('marketers.index', compact('marketers'));
     }
 

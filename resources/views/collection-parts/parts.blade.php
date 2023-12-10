@@ -192,6 +192,9 @@
                             مقادیر
                         </th>
                         <th scope="col" class="p-4">
+                            نمایش در دیتاشیت
+                        </th>
+                        <th scope="col" class="p-4">
                             قیمت (تومان)
                         </th>
                         <th scope="col" class="p-4 rounded-tl-lg">
@@ -206,26 +209,6 @@
                     @endphp
                     @foreach($parentPart->children()->where('head_part_id', null)->orderBy('sort','ASC')->get() as $child)
                         @php
-                            $color = '';
-                            switch ($setting->price_color_type) {
-                                case 'month' :
-                                    $lastTime = \Carbon\Carbon::now()->subMonth($setting->price_color_last_time);
-                                    break;
-                                case 'day' :
-                                    $lastTime = \Carbon\Carbon::now()->subDay($setting->price_color_last_time);
-                                    break;
-                                case 'hour' :
-                                    $lastTime = \Carbon\Carbon::now()->subHour($setting->price_color_last_time);
-                                    break;
-                            }
-
-                            if ($child->price_updated_at < $lastTime && $child->price > 0) {
-                                $color = 'text-red-600';
-                            }
-                            if ($child->price_updated_at < $lastTime && $child->price == 0) {
-                                $color = 'text-red-600';
-                            }
-
                             $category = $child->categories[1];
                             $selectedCategory = $child->categories[2];
 
@@ -289,12 +272,22 @@
                                        value="{{ $child->pivot->value2 }}">
                             </td>
                             <td class="table-tr-td border-t-0 border-x-0">
+                                <select name="datasheets[]" class="input-text" id="datasheet{{ $child->id }}">
+                                    <option value="1" {{ $child->pivot->datasheet ? 'selected' : '' }}>
+                                        نمایش در دیتاشیت
+                                    </option>
+                                    <option value="0" {{ !$child->pivot->datasheet ? 'selected' : '' }}>
+                                        عدم نمایش در دیتاشیت
+                                    </option>
+                                </select>
+                            </td>
+                            <td class="table-tr-td border-t-0 border-x-0">
                                 @if($child->price)
-                                    <p class="{{ $color }}">
+                                    <p>
                                         {{ number_format($child->price) }}
                                     </p>
                                 @else
-                                    <p class="{{ $color }}">
+                                    <p>
                                         منتظر قیمت گذاری
                                     </p>
                                 @endif

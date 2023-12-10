@@ -131,22 +131,16 @@ class CollectionPartController extends Controller
     {
         $totalPrice = 0;
         $totalWeight = 0;
+        $ids = ['6052', '6053', '6054', '6055', '6057', '6058', '6059', '6060', '6062', '6063', '6064'];
 
         foreach ($parentPart->children()->orderBy('sort', 'ASC')->get() as $child) {
-            if ($child->pivot->sort > $parentPart->children()->orderBy('sort', 'ASC')->where('parent_part_id', $childId)->first()->pivot->sort) {
-                $child->pivot->sort = $child->pivot->sort - 1;
-                $child->pivot->save();
-            }
-        }
-
-        $parentPart->children()->detach($childId);
-
-        foreach ($parentPart->children as $child) {
             if ($child) {
                 $totalPrice += $child->price * $child->pivot->value;
                 $totalWeight += $child->weight * $child->pivot->value;
             }
         }
+
+        $parentPart->children()->wherePivot('head_part_id', null)->detach($childId);
 
         $parentPart->price = $totalPrice;
         $parentPart->weight = $totalWeight;
@@ -157,14 +151,16 @@ class CollectionPartController extends Controller
         return back();
     }
 
-    public function amounts(Part $parentPart)
+    public
+    function amounts(Part $parentPart)
     {
         $setting = Setting::where('active', '1')->first();
 
         return view('collection-parts.amounts', compact('parentPart', 'setting'));
     }
 
-    public function storeAmounts(Request $request, Part $parentPart)
+    public
+    function storeAmounts(Request $request, Part $parentPart)
     {
         $totalPrice = 0;
         $totalWeight = 0;
@@ -206,7 +202,8 @@ class CollectionPartController extends Controller
         return back();
     }
 
-    public function replicate(Part $parentPart)
+    public
+    function replicate(Part $parentPart)
     {
         $category = $parentPart->categories()->latest()->first();
         $lastPart = $category->parts()->latest()->first();
@@ -236,7 +233,8 @@ class CollectionPartController extends Controller
         return back();
     }
 
-    public function changeParts(Request $request, Part $parentPart)
+    public
+    function changeParts(Request $request, Part $parentPart)
     {
         $totalPrice = 0;
         $totalWeight = 0;
@@ -250,6 +248,7 @@ class CollectionPartController extends Controller
                             'parent_part_id' => $request->part_ids[$index][$index2],
                             'value' => $request->values[$index][$index2],
                             'sort' => $request->sorts[$index][$index2],
+                            'datasheet' => $request->datasheets[$index][$index2],
                             'head_part_id' => $parentPart->id,
                         ]);
 
@@ -263,6 +262,7 @@ class CollectionPartController extends Controller
                         'parent_part_id' => $request->part_ids[$index],
                         'value' => $request->values[$index],
                         'sort' => $request->sorts[$index],
+                        'datasheet' => $request->datasheets[$index],
                         'head_part_id' => null
                     ]);
 
@@ -280,7 +280,8 @@ class CollectionPartController extends Controller
         return back();
     }
 
-    public function print(Part $parentPart)
+    public
+    function print(Part $parentPart)
     {
         return view('collection-parts.print', compact('parentPart'));
     }
