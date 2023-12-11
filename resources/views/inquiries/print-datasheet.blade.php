@@ -486,6 +486,7 @@
                                                     $midCategory = $part->categories[1];
                                                     $lastCategory = $part->categories->last();
                                                     $attributes = $lastCategory->attributes()->orderBy('sort', 'ASC')->get();
+
                                                     $display = false;
                                                     if (!$attributes->isEmpty()) {
                                                         $display = true;
@@ -512,8 +513,6 @@
                                                                             $coilInput = \App\Models\CoilInput::where('part_id', $part->id)->first();
                                                                             $convertorInput = \App\Models\ConvertorInput::where('part_id', $part->id)->where('inquiry_id', $inquiry->id)->first();
                                                                         }
-                                                                        $lastCategory = $part->categories->last();
-                                                                        $attributes = $lastCategory->attributes()->orderBy('sort', 'ASC')->get();
                                                                     @endphp
                                                                     @if(!$attributes->isEmpty())
                                                                         <div class="mb-2">
@@ -659,7 +658,8 @@
                                                                                     <div class="grid grid-cols-3">
                                                                                         <div class="mt-2">
                                                                                             <p class="text-xs font-medium text-black">
-                                                                                                Actual Cooling Load :
+                                                                                                Actual Cooling Load
+                                                                                                :
                                                                                             </p>
                                                                                         </div>
                                                                                         <div class="mt-2">
@@ -835,7 +835,8 @@
                                                                                         <div
                                                                                             class="p-0 col-span-4 {{ $loop->first ? 'mt-2' : '' }}">
                                                                                             <p class="text-xs font-medium text-black">
-                                                                                                {{ $attribute->name }} :
+                                                                                                {{ $attribute->name }}
+                                                                                                :
                                                                                             </p>
                                                                                         </div>
                                                                                         <div
