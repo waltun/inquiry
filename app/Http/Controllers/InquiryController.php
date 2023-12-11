@@ -13,6 +13,7 @@ use App\Models\Product;
 use App\Models\Special;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class InquiryController extends Controller
 {
@@ -308,6 +309,7 @@ class InquiryController extends Controller
             'copy_id' => $inquiry->id
         ]);
         $newInquiry->save();
+        $newInquiry->users()->sync($inquiry->users);
 
         foreach ($inquiry->products as $product) {
             if ($product->part_id == 0) {
@@ -342,7 +344,7 @@ class InquiryController extends Controller
 
                         $newPart->categories()->syncWithoutDetaching($part->categories);
 
-                        foreach ($part->children()->orderBy('sort', 'ASC')->get() as $child) {
+                        foreach ($part->children()->where('head_part_id', null)->orderByPivot('sort', 'ASC')->get() as $child) {
                             $newPart->children()->syncWithoutDetaching([
                                 $child->id => [
                                     'value' => $child->pivot->value
@@ -351,10 +353,13 @@ class InquiryController extends Controller
 
                             if (!$child->children->isEmpty()) {
                                 foreach ($child->children()->where('head_part_id', $part->id)->orderBy('sort', 'ASC')->get() as $ch) {
-                                    $child->children()->attach($ch->id, [
+                                    DB::table('part_child')->insert([
+                                        'parent_part_id' => $ch->id,
+                                        'child_part_id' => $child->id,
                                         'head_part_id' => $newPart->id,
                                         'value' => $ch->pivot->value,
-                                        'sort' => $ch->pivot->sort
+                                        'sort' => $ch->pivot->sort,
+                                        'datasheet' => $ch->pivot->datasheet,
                                     ]);
                                 }
                             }
@@ -366,15 +371,23 @@ class InquiryController extends Controller
                         }
                         $newPart->price = $totalPrice;
                         $newPart->save();
-                    }
 
-                    $newAmount = $amount->replicate()->fill([
-                        'value' => $amount->value,
-                        'product_id' => $newProduct->id,
-                        'part_id' => $amount->part_id,
-                        'price' => max($amount->price, 0)
-                    ]);
-                    $newAmount->save();
+                        $newAmount = $amount->replicate()->fill([
+                            'value' => $amount->value,
+                            'product_id' => $newProduct->id,
+                            'part_id' => $newPart->id,
+                            'price' => max($amount->price, 0)
+                        ]);
+                        $newAmount->save();
+                    } else {
+                        $newAmount = $amount->replicate()->fill([
+                            'value' => $amount->value,
+                            'product_id' => $newProduct->id,
+                            'part_id' => $amount->part_id,
+                            'price' => max($amount->price, 0)
+                        ]);
+                        $newAmount->save();
+                    }
                 }
             } else {
                 $part = Part::find($product->part_id);
@@ -385,18 +398,33 @@ class InquiryController extends Controller
                 if ($part->coil == '1' && $part->collection == '1' && !is_null($part->inquiry_id)) {
                     $newPart = $part->replicate()->fill([
                         'code' => $code,
-                        'inquiry_id' => $newInquiry->id
+                        'name' => $part->name,
+                        'inquiry_id' => $newInquiry->id,
+                        'product_id' => $newProduct->id
                     ]);
                     $newPart->save();
 
                     $newPart->categories()->syncWithoutDetaching($part->categories);
 
-                    foreach ($part->children as $child) {
+                    foreach ($part->children()->where('head_part_id', null)->orderByPivot('sort', 'ASC')->get() as $child) {
                         $newPart->children()->syncWithoutDetaching([
                             $child->id => [
                                 'value' => $child->pivot->value
                             ]
                         ]);
+
+                        if (!$child->children->isEmpty()) {
+                            foreach ($child->children()->where('head_part_id', $part->id)->orderBy('sort', 'ASC')->get() as $ch) {
+                                DB::table('part_child')->insert([
+                                    'parent_part_id' => $ch->id,
+                                    'child_part_id' => $child->id,
+                                    'head_part_id' => $newPart->id,
+                                    'value' => $ch->pivot->value,
+                                    'sort' => $ch->pivot->sort,
+                                    'datasheet' => $ch->pivot->datasheet,
+                                ]);
+                            }
+                        }
                     }
 
                     $totalPrice = 0;
@@ -413,13 +441,7 @@ class InquiryController extends Controller
                         'price' => 0,
                         'part_id' => $newPart->id
                     ]);
-                    $newProduct->save();
 
-                    if (!$product->attributeValues->isEmpty()) {
-                        foreach ($product->attributeValues as $value) {
-                            $newProduct->attributeValues()->attach($value->id);
-                        }
-                    }
                 } else {
                     $newProduct = $product->replicate()->fill([
                         'percent' => 0,
@@ -428,12 +450,12 @@ class InquiryController extends Controller
                         'price' => 0,
                         'part_id' => $part->id
                     ]);
-                    $newProduct->save();
 
-                    if (!$product->attributeValues->isEmpty()) {
-                        foreach ($product->attributeValues as $value) {
-                            $newProduct->attributeValues()->attach($value->id);
-                        }
+                }
+                $newProduct->save();
+                if (!$product->attributeValues->isEmpty()) {
+                    foreach ($product->attributeValues as $value) {
+                        $newProduct->attributeValues()->attach($value->id);
                     }
                 }
             }
