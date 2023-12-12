@@ -19,7 +19,32 @@ class InformationController extends Controller
 
     public function store(Request $request)
     {
-        //
+        $informations = Information::all()->contains('active', 1);
+
+        if (!$informations) {
+            $data = $request->validate([
+                'title' => 'required|string|max:255',
+                'title_en' => 'nullable|string|max:255',
+                'logo' => 'nullable|string|max:255',
+                'website' => 'nullable|string|max:255',
+                'address' => 'nullable',
+                'phone' => 'nullable|string|max:255',
+                'telephone' => 'nullable|string|max:255',
+                'email' => 'nullable|string|email|max:255',
+                'header' => 'required|in:0,1',
+                'active' => 'required|in:0,1',
+            ]);
+
+            Information::create($data);
+
+            alert()->success('ثبت موفق', 'اطلاعات سربرگ با موفقیت ثبت شد');
+
+            return redirect()->route('information.index');
+        }
+
+        alert()->error('خطا', 'تنها یک سربرگ فعال مورد قبول است');
+
+        return back();
     }
 
     public function edit(Information $information)

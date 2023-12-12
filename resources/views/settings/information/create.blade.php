@@ -81,7 +81,7 @@
     </div>
 
     <!-- Form -->
-    <form method="POST" action="{{ route('settings.price-color.store') }}" class="mt-4">
+    <form method="POST" action="{{ route('information.store') }}" class="mt-4 md:grid grid-cols-3 gap-4">
         @csrf
 
         <div class="card">
@@ -90,59 +90,121 @@
             </div>
 
             <div class="mt-4">
-                <label for="inputPriceColorType" class="form-label">
-                    اساس نمایش رنگ‌ها در قیمت گذاری
+                <label for="inputTitle" class="form-label">
+                    عنوان
                 </label>
-                <select name="price_color_type" id="inputPriceColorType" class="input-text">
+                <input type="text" class="input-text" id="inputTitle" name="title"
+                       placeholder="مثلا : تهویه آذرباد" value="{{ old('title') }}">
+            </div>
+
+            <div class="mt-4">
+                <label for="inputTitleEn" class="form-label">
+                    عنوان انگلیسی
+                </label>
+                <input type="text" class="input-text" id="inputTitleEn" name="title_en"
+                       placeholder="مثلا : TAHVIEH AZARBAD" value="{{ old('title_en') }}">
+            </div>
+
+            <div class="mt-4">
+                <label for="inputWebsite" class="form-label">
+                    آدرس وب سایت
+                </label>
+                <input type="text" class="input-text" id="inputWebsite" name="website"
+                       placeholder="مثلا : tahviehazarbad.com" value="{{ old('website') }}">
+            </div>
+
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <p class="card-title">اطلاعات تماس</p>
+            </div>
+
+            <div class="mt-4">
+                <label for="inputPhone" class="form-label">
+                    شماره همراه
+                </label>
+                <input type="text" class="input-text" id="inputPhone" name="phone"
+                       placeholder="مثلا : 09123456789" value="{{ old('phone') }}">
+            </div>
+
+            <div class="mt-4">
+                <label for="inputTelephone" class="form-label">
+                    شماره شرکت
+                </label>
+                <input type="text" class="input-text" id="inputTelephone" name="telephone"
+                       placeholder="مثلا : 02122334455" value="{{ old('telephone') }}">
+            </div>
+
+            <div class="mt-4">
+                <label for="inputEmail" class="form-label">
+                    ایمیل
+                </label>
+                <input type="text" class="input-text" id="inputEmail" name="email"
+                       placeholder="مثلا : info@tahviehazarbad.ir" value="{{ old('email') }}">
+            </div>
+
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <p class="card-title">اطلاعات بیشتر</p>
+            </div>
+
+            <div class="mt-4">
+                <label for="inputLogo" class="form-label">
+                    انتخاب لوگو
+                </label>
+                <input type="file" class="input-text" id="inputLogo" name="logo" value="{{ old('logo') }}">
+            </div>
+
+            <div class="mt-4">
+                <label for="inputAddress" class="form-label">
+                    آدرس
+                </label>
+                <input type="text" class="input-text" id="inputAddress" name="address"
+                       placeholder="مثلا : پونک" value="{{ old('address') }}">
+            </div>
+
+            <div class="mt-4">
+                <label for="inputHeader" class="form-label">
+                    نمایش هدر و فوتر در صفحه پرینت
+                </label>
+                <select name="header" id="inputHeader" class="input-text">
                     <option value="">انتخاب کنید</option>
-                    <option value="hour">
-                        ساعت
-                    </option>
-                    <option value="day">
-                        روز
-                    </option>
-                    <option value="month">
-                        ماه
-                    </option>
+                    <option value="1" {{ old('header') == '1' ? 'selected' : '' }}>نمایش</option>
+                    <option value="0" {{ old('header') == '0' ? 'selected' : '' }}>عدم نمایش</option>
                 </select>
-            </div>
-
-            <div class="mt-4">
-                <label for="inputPriceColorMidTime" class="form-label">
-                    مدت زمان میانی تغییر رنگ بخش قیمت گذاری بر اساس انتخاب بالا (زرد رنگ)
-                </label>
-                <input type="text" class="input-text" id="inputPriceColorMidTime" name="price_color_mid_time"
-                       placeholder="مثلا : 2 یا 24 یا 1">
-            </div>
-
-            <div class="mt-4">
-                <label for="inputPriceColorLastTime" class="form-label">
-                    مدت زمان نهایی تغییر رنگ بخش قیمت گذاری بر اساس انتخاب بالا (قرمز رنگ)
-                </label>
-                <input type="text" class="input-text" id="inputPriceColorLastTime" name="price_color_last_time"
-                       placeholder="مثلا : 2 یا 24 یا 1">
             </div>
 
             <div class="mt-4">
                 <label for="inputActive" class="form-label">
-                    نوع
+                    فعال بودن این هدر
                 </label>
                 <select name="active" id="inputActive" class="input-text">
                     <option value="">انتخاب کنید</option>
-                    <option value="1">فعال</option>
-                    <option value="0">غیر فعال</option>
+                    <option value="1" {{ old('active') == '1' ? 'selected' : '' }}>فعال باشد</option>
+                    <option value="0" {{ old('active') == '0' ? 'selected' : '' }}>فعال نباشد</option>
                 </select>
             </div>
 
         </div>
 
-        <div class="flex items-center space-x-4 space-x-reverse">
-            <button type="submit" class="form-submit-btn">
-                ثبت تنظیمات
-            </button>
-            <a href="{{ route('settings.price-color.index') }}" class="form-cancel-btn">
-                انصراف
-            </a>
+        <div class="col-span-3">
+            <div class="flex items-center space-x-4 space-x-reverse">
+                <button type="submit" class="form-submit-btn">
+                    ثبت سربرگ
+                </button>
+                <a href="{{ route('settings.price-color.index') }}" class="form-cancel-btn">
+                    انصراف
+                </a>
+            </div>
         </div>
     </form>
+
+    <div class="mt-4">
+        <p class="text-sm font-bold text-red-600">
+            * توجه : تنها یک سربرگ "فعال" مورد قبول است، اگر سربرگ فعالی دارید این سربرگ را "فعال نباشد" انتخاب کنید.
+        </p>
+    </div>
 </x-layout>

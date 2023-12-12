@@ -10,6 +10,6 @@ class Information extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title', 'logo', 'website', 'address', 'phone', 'telephone', 'email', 'header'
+        'title', 'logo', 'website', 'address', 'phone', 'telephone', 'email', 'header', 'title_en', 'active'
     ];
 }
