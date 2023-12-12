@@ -219,29 +219,30 @@
                 </p>
             </div>
         </div>
-        @if(!$contract->recipe)
-            <div class="flex items-center justify-center" x-data="{open:false}">
-                <button class="page-success-btn" @click="open = !open" type="button">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                         stroke="currentColor" class="w-4 h-4 ml-1">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/>
-                    </svg>
-                    صدور دستور ساخت
-                </button>
-                <div class="relative z-10" x-show="open" x-cloak>
-                    <div class="modal-backdrop"></div>
-                    <div class="fixed z-10 inset-0 overflow-y-auto">
-                        <div class="modal">
-                            <div class="modal-body">
-                                <form method="POST" action="{{ route('contracts.parts.store-recipe', $contract->id) }}"
-                                      class="bg-white dark:bg-slate-800 p-4">
-                                    @csrf
-                                    <div class="mb-4 flex justify-between items-center">
-                                        <h3 class="text-lg font-bold text-gray-900 dark:text-white">
-                                            صدور دستور ساخت برای قرارداد
-                                        </h3>
-                                        <button type="button" @click="open = false">
+        @if(auth()->user()->role == 'admin')
+            @if(!$contract->recipe)
+                <div class="flex items-center justify-center" x-data="{open:false}">
+                    <button class="page-success-btn" @click="open = !open" type="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" class="w-4 h-4 ml-1">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/>
+                        </svg>
+                        صدور دستور ساخت
+                    </button>
+                    <div class="relative z-10" x-show="open" x-cloak>
+                        <div class="modal-backdrop"></div>
+                        <div class="fixed z-10 inset-0 overflow-y-auto">
+                            <div class="modal">
+                                <div class="modal-body">
+                                    <form method="POST" action="{{ route('contracts.parts.store-recipe', $contract->id) }}"
+                                          class="bg-white dark:bg-slate-800 p-4">
+                                        @csrf
+                                        <div class="mb-4 flex justify-between items-center">
+                                            <h3 class="text-lg font-bold text-gray-900 dark:text-white">
+                                                صدور دستور ساخت برای قرارداد
+                                            </h3>
+                                            <button type="button" @click="open = false">
                                             <span class="modal-close">
                                                 <svg xmlns="http://www.w3.org/2000/svg"
                                                      fill="none"
@@ -253,51 +254,52 @@
                                                           d="M6 18L18 6M6 6l12 12"/>
                                                 </svg>
                                             </span>
-                                        </button>
-                                    </div>
-                                    <div class="mt-6 space-y-2">
-                                        <div class="mb-4">
-                                            <label for="inputPacking" class="form-label">
-                                                انتخاب ریز آنالیز قطعات
-                                            </label>
-                                            <select name="store_parts" id="inputPacking"
-                                                    class="input-text">
-                                                <option value="">انتخاب کنید</option>
-                                                <option value="1">اضافه شود</option>
-                                                <option value="0">اضافه نشود</option>
-                                            </select>
-                                        </div>
-                                        <div class="flex justify-end">
-                                            <button type="submit" class="form-submit-btn">
-                                                صدور
                                             </button>
                                         </div>
-                                    </div>
-                                </form>
+                                        <div class="mt-6 space-y-2">
+                                            <div class="mb-4">
+                                                <label for="inputPacking" class="form-label">
+                                                    انتخاب ریز آنالیز قطعات
+                                                </label>
+                                                <select name="store_parts" id="inputPacking"
+                                                        class="input-text">
+                                                    <option value="">انتخاب کنید</option>
+                                                    <option value="1">اضافه شود</option>
+                                                    <option value="0">اضافه نشود</option>
+                                                </select>
+                                            </div>
+                                            <div class="flex justify-end">
+                                                <button type="submit" class="form-submit-btn">
+                                                    صدور
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        @else
-            <div class="flex items-center space-x-2 space-x-reverse">
-                <p class="text-sm font-medium text-red-600">
-                    دستور ساخت صادر شده
-                </p>
-                <span>|</span>
-                <a href="{{ route('contracts.recipe.index', $contract->id) }}"
-                   class="text-xs text-indigo-500 font-medium" target="_blank">
-                    مشاهده
-                </a>
-                <span>|</span>
-                <form action="{{ route('contracts.parts.destroy-recipe', $contract->id) }}" method="POST">
-                    @csrf
-                    <button type="submit" class="text-xs text-red-500 font-medium"
-                            onclick="return confirm('دستور ساخت حذف شود ؟')">
-                        حذف
-                    </button>
-                </form>
-            </div>
+            @else
+                <div class="flex items-center space-x-2 space-x-reverse">
+                    <p class="text-sm font-medium text-red-600">
+                        دستور ساخت صادر شده
+                    </p>
+                    <span>|</span>
+                    <a href="{{ route('contracts.recipe.index', $contract->id) }}"
+                       class="text-xs text-indigo-500 font-medium" target="_blank">
+                        مشاهده
+                    </a>
+                    <span>|</span>
+                    <form action="{{ route('contracts.parts.destroy-recipe', $contract->id) }}" method="POST">
+                        @csrf
+                        <button type="submit" class="text-xs text-red-500 font-medium"
+                                onclick="return confirm('دستور ساخت حذف شود ؟')">
+                            حذف
+                        </button>
+                    </form>
+                </div>
+            @endif
         @endif
     </div>
 
