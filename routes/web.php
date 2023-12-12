@@ -581,7 +581,7 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::post('/contract-marketing/{marketing}/create-payments', [MarketPaymentController::class, 'store'])->name('contracts.marketings.payments.store');
         Route::get('/contract-marketing/{marketPayment}/edit-payments', [MarketPaymentController::class, 'edit'])->name('contracts.marketings.payments.edit');
         Route::patch('/contract-marketing/{marketPayment}/edit-payments', [MarketPaymentController::class, 'update'])->name('contracts.marketings.payments.update');
-        Route::delete('/contract-marketing/{marketPayment}/delete-payments', [MarketPaymentController::class, 'destroy'])->name('contracts.marketings.payments.destroy');
+        Route::post('/contract-marketing/market-payment/delete-payments', [MarketPaymentController::class, 'destroy'])->name('contracts.marketings.payments.destroy');
         Route::post('/contract-marketing/{marketing}/confirm-payments', [MarketPaymentController::class, 'confirm'])->name('contracts.marketings.payments.confirm');
 
         Route::get('/marketings', [AllMarketings::class, 'index'])->name('marketings.index');

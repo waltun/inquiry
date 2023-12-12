@@ -13,7 +13,7 @@
 
                     $.ajax({
                         type: 'POST',
-                        url: '{{ route('contracts.payments.destroy') }}',
+                        url: '{{ route('contracts.marketings.payments.destroy') }}',
                         data: {
                             id: id
                         },
@@ -144,14 +144,25 @@
             </table>
 
             <div class="mt-4 flex justify-between items-center">
-                <a href="{{ route('contracts.marketings.index', $marketing->contract_id) }}" class="page-warning-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                         stroke="currentColor" class="w-4 h-4 ml-1">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M15 15l6-6m0 0l-6-6m6 6H9a6 6 0 000 12h3"/>
-                    </svg>
-                    بازگشت
-                </a>
+                <div class="flex items-center justify-center space-x-4 space-x-reverse">
+                    <a href="{{ route('contracts.marketings.index', $marketing->contract_id) }}"
+                       class="page-warning-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" class="w-4 h-4 ml-1">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M15 15l6-6m0 0l-6-6m6 6H9a6 6 0 000 12h3"/>
+                        </svg>
+                        بازگشت
+                    </a>
+                    <a href="{{ route('marketings.index') }}" class="page-info-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" class="w-4 h-4 ml-1">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z"></path>
+                        </svg>
+                        همه بازاریابی ها
+                    </a>
+                </div>
                 @if(!$marketing->payments->isEmpty())
                     <button type="submit" class="form-submit-btn">
                         ثبت تاییدیه
@@ -187,7 +198,8 @@
 
     <div class="mt-4 space-y-4">
         <p class="text-sm font-bold text-red-600">
-            * برای محاسبه پرداخت‌ها و مانده حساب (تایید نهایی)، علاوه بر تاییدیه مدیر، تاریخ واریزی (توسط مدیر مالی) هم باید ثبت شود.
+            * برای محاسبه پرداخت‌ها و مانده حساب (تایید نهایی)، علاوه بر تاییدیه مدیر، تاریخ واریزی (توسط مدیر مالی) هم
+            باید ثبت شود.
         </p>
     </div>
 </x-layout>

@@ -133,14 +133,24 @@
                                     جزئیات
                                 </a>
 
+                                @if($marketing->payments->isEmpty())
+                                    <p class="p-1 rounded-lg bg-red-500 text-white shadow-sm">
+                                        منتظر ثبت درخواست
+                                    </p>
+                                @endif
                                 @if(count($marketing->payments()->where('confirm', 0)->get()) > 0)
                                     <p class="p-1 rounded-lg bg-red-500 text-white shadow-sm">
                                         منتظر تایید پرداخت
                                     </p>
                                 @endif
-                                @if(count($marketing->payments()->where('date', null)->get()) > 0)
+                                @if(count($marketing->payments()->where('confirm', 1)->where('date', null)->get()) > 0)
                                     <p class="p-1 rounded-lg bg-red-500 text-white shadow-sm">
                                         منتظر ثبت تاریخ
+                                    </p>
+                                @endif
+                                @if(count($marketing->payments()->where('confirm', 1)->where('date', '!=', null)->get()) > 0)
+                                    <p class="py-1 px-2 rounded-lg bg-green-500 text-white shadow-sm">
+                                        اتمام
                                     </p>
                                 @endif
                             </div>

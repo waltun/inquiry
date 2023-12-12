@@ -39,10 +39,14 @@ class MarketPaymentController extends Controller
     {
         $accounts = $marketPayment->marketing->marketer->accounts;
 
-        $day = jdate($marketPayment->date)->getDay();
-        $month = jdate($marketPayment->date)->getMonth();
-        $year = jdate($marketPayment->date)->getYear();
-        $date = $year . '-' . $month . '-' . $day;
+        if (!is_null($marketPayment->date)) {
+            $day = jdate($marketPayment->date)->getDay();
+            $month = jdate($marketPayment->date)->getMonth();
+            $year = jdate($marketPayment->date)->getYear();
+            $date = $year . '-' . $month . '-' . $day;
+        } else {
+            $date = '';
+        }
 
         return view('contracts.marketings.payments.edit', compact('marketPayment', 'accounts', 'date'));
     }
@@ -58,9 +62,13 @@ class MarketPaymentController extends Controller
         return redirect()->route('contracts.marketings.payments.index', $marketPayment->marketing_id);
     }
 
-    public function destroy()
+    public function destroy(Request $request)
     {
-        //
+        $marketPayment = MarketPayment::find($request->id);
+
+        $marketPayment->delete();
+
+        alert()->success('حذف موفق', 'پرداخت بازاریابی با موفقیت حذف شد');
     }
 
     public function confirm(Request $request, Marketing $marketing)
