@@ -533,7 +533,7 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::post('/contracts/{contract}/create-payments', [PaymentController::class, 'store'])->name('contracts.payments.store');
         Route::get('/contracts/{payment}/edit-payments', [PaymentController::class, 'edit'])->name('contracts.payments.edit');
         Route::patch('/contracts/{payment}/edit-payments', [PaymentController::class, 'update'])->name('contracts.payments.update');
-        Route::post('/contracts/delete-payments', [PaymentController::class, 'destroy'])->name('contracts.payments.destroy');
+        Route::post('/contracts/payments/delete-payments', [PaymentController::class, 'destroy'])->name('contracts.payments.destroy');
         Route::post('/contracts/{contract}/confirm-payments', [PaymentController::class, 'confirm'])->name('contracts.payments.confirm');
 
         Route::get('/contracts/{contract}/guarantees', [GuaranteeController::class, 'index'])->name('contracts.guarantees.index');

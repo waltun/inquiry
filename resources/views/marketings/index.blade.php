@@ -89,7 +89,7 @@
                 @endphp
                 @foreach($marketings as $marketing)
                     @php
-                        $paymentPrice += $marketing->payments()->where('confirm', 1)->sum('price');
+                        $paymentPrice += $marketing->payments()->where('confirm', 1)->where('date', '!=', null)->sum('price');
                     @endphp
                     <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
                         <td class="table-tr-td border-t-0 border-l-0">
@@ -111,12 +111,12 @@
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             <p class="text-green-600">
-                                {{ number_format($marketing->payments->sum('price')) }}
+                                {{ number_format($marketing->payments()->where('confirm', 1)->where('date', '!=', null)->sum('price')) }}
                             </p>
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             <p class="text-red-600">
-                                {{ number_format($marketing->price - $marketing->payments->sum('price')) }}
+                                {{ number_format($marketing->price - $marketing->payments()->where('confirm', 1)->where('date', '!=', null)->sum('price')) }}
                             </p>
                         </td>
                         <td class="table-tr-td border-t-0 border-r-0">
@@ -138,6 +138,11 @@
                                         منتظر تایید پرداخت
                                     </p>
                                 @endif
+                                @if(count($marketing->payments()->where('date', null)->get()) > 0)
+                                    <p class="p-1 rounded-lg bg-red-500 text-white shadow-sm">
+                                        منتظر ثبت تاریخ
+                                    </p>
+                                @endif
                             </div>
                         </td>
                     </tr>
@@ -154,17 +159,17 @@
     <div class="mt-8 grid grid-cols-3 gap-4">
         <div class="p-4 rounded-lg shadow bg-indigo-500">
             <p class="text-base text-white text-center font-bold">
-                مبلغ کل بازاریابی ها : {{ number_format($marketings->sum('price')) }} تومان
+                مبلغ کل بازاریابی‌ها : {{ number_format($marketings->sum('price')) }} تومان
             </p>
         </div>
         <div class="p-4 rounded-lg shadow bg-green-500">
             <p class="text-base text-white text-center font-bold">
-                مجموع همه پرداخت ها : {{ number_format($paymentPrice) }} تومان
+                مجموع همه پرداخت‌ها : {{ number_format($paymentPrice) }} تومان
             </p>
         </div>
         <div class="p-4 rounded-lg shadow bg-red-500">
             <p class="text-base text-white text-center font-bold">
-                مانده همه حساب ها : {{ number_format($marketings->sum('price') - $paymentPrice) }} تومان
+                مانده همه حساب‌ها : {{ number_format($marketings->sum('price') - $paymentPrice) }} تومان
             </p>
         </div>
     </div>

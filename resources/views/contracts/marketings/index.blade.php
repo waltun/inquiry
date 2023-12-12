@@ -255,7 +255,7 @@
     @php
         $price = 0;
         foreach ($contract->marketings as $marketing) {
-            foreach ($marketing->payments as $payment) {
+            foreach ($marketing->payments()->where('confirm', 1)->where('date', '!=', null)->get() as $payment) {
                 $price += $payment->price;
             }
         }

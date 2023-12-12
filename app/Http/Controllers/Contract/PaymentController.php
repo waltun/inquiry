@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Contract;
 use App\Http\Controllers\Controller;
 use App\Models\Account;
 use App\Models\Contract;
+use App\Models\MarketPayment;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 use Morilog\Jalali\Jalalian;
@@ -62,7 +63,7 @@ class PaymentController extends Controller
 
     public function destroy(Request $request)
     {
-        $payment = Payment::find($request->id);
+        $payment = MarketPayment::find($request->id);
 
         $payment->delete();
 
