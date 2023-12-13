@@ -50,7 +50,7 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p-active">
-                    تنظیمات نمایش رنگ برای قیمت
+                    تنظیمات سربرگ پیش فاکتور
                 </p>
             </div>
         </div>
@@ -66,21 +66,19 @@
             </svg>
             <div class="mr-2">
                 <p class="font-bold text-2xl text-black dark:text-white">
-                    تنظیمات نمایش رنگ برای قیمت
+                    تنظیمات سربرگ پیش فاکتور
                 </p>
             </div>
         </div>
-        @if($settings->isEmpty())
-            <div class="flex items-center space-x-4 space-x-reverse">
-                <a href="{{ route('roles.create') }}" class="page-success-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                         stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
-                    </svg>
-                    <span class="mr-2">ایجاد تنظیمات جدید</span>
-                </a>
-            </div>
-        @endif
+        <div class="flex items-center space-x-4 space-x-reverse">
+            <a href="{{ route('information.create') }}" class="page-success-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                     stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+                </svg>
+                <span class="mr-2">ایجاد تنظیمات جدید</span>
+            </a>
+        </div>
     </div>
 
     <!-- Content -->
@@ -93,16 +91,19 @@
                         ردیف
                     </th>
                     <th scope="col" class="p-4">
-                        اساس نمایش رنگ ها
+                        عنوان
                     </th>
                     <th scope="col" class="p-4">
-                        مدت زمان میانی تغییر رنگ
+                        شماره
                     </th>
                     <th scope="col" class="p-4">
-                        مدت زمان نهایی تغییر رنگ
+                        ایمیل
                     </th>
                     <th scope="col" class="p-4">
-                        نوع
+                        نمایش هدر و فوتر
+                    </th>
+                    <th scope="col" class="p-4">
+                        فعال
                     </th>
                     <th scope="col" class="p-4 rounded-tl-lg">
                         <span class="sr-only">اقدامات</span>
@@ -110,32 +111,33 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($settings as $setting)
+                @foreach($information as $info)
                     <tr class="table-tb-tr group">
                         <td class="table-tr-td border-t-0 border-l-0">
                             {{ $loop->index + 1 }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            @switch($setting->price_color_type)
-                                @case('hour')
-                                    ساعت
-                                    @break
-                                @case('day')
-                                    روز
-                                    @break
-                                @case('month')
-                                    ماه
-                                    @break
-                            @endswitch
+                            {{ $info->title }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $setting->price_color_mid_time }}
+                            {{ $info->phone }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $setting->price_color_last_time }}
+                            {{ $info->email }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            @if($setting->active == '1')
+                            @if($info->header)
+                                <p class="text-green-600">
+                                    نمایش
+                                </p>
+                            @else
+                                <p class="text-red-600">
+                                    عدم نمایش
+                                </p>
+                            @endif
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            @if($info->active)
                                 <p class="text-green-600">
                                     فعال
                                 </p>
@@ -147,7 +149,7 @@
                         </td>
                         <td class="table-tr-td border-t-0 border-r-0">
                             <div class="flex items-center space-x-4 space-x-reverse">
-                                <a href="{{ route('settings.price-color.edit',$setting->id) }}"
+                                <a href="{{ route('information.edit',$info->id) }}"
                                    class="table-dropdown-edit">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                          stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
@@ -156,7 +158,7 @@
                                     </svg>
                                     ویرایش
                                 </a>
-                                <form action="{{ route('settings.price-color.destroy',$setting->id) }}" method="POST">
+                                <form action="{{ route('information.destroy',$info->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button class="table-delete-btn" onclick="return confirm('تنظیمات حذف شود ؟')">

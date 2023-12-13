@@ -275,7 +275,7 @@
                                                                 </p>
                                                             </div>
                                                             <div class="grid grid-cols-2">
-                                                                @foreach($part->children()->orderBy('sort', 'ASC')->get() as $children)
+                                                                @foreach($part->children()->wherePivot('head_part_id', null)->orderBy('sort', 'ASC')->get() as $children)
                                                                     @php
                                                                         $showData = false;
                                                                         foreach ($children->children()->where('head_part_id', $part->id)->orderBy('sort', 'ASC')->get() as $child) {

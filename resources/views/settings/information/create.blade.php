@@ -195,7 +195,7 @@
                 <button type="submit" class="form-submit-btn">
                     ثبت سربرگ
                 </button>
-                <a href="{{ route('settings.price-color.index') }}" class="form-cancel-btn">
+                <a href="{{ route('information.index') }}" class="form-cancel-btn">
                     انصراف
                 </a>
             </div>

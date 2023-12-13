@@ -67,7 +67,8 @@ class CalculateElectricalController extends Controller
                 $child->children()->attach($request->part_ids[$index][$index2], [
                     'head_part_id' => $newPart->id,
                     'value' => $request->values[$index][$index2],
-                    'sort' => $request->sorts[$index][$index2]
+                    'sort' => $request->sorts[$index][$index2],
+                    'datasheet' => 1
                 ]);
             }
         }
@@ -137,7 +138,8 @@ class CalculateElectricalController extends Controller
                 $child->children()->attach($request->part_ids[$index][$index2], [
                     'head_part_id' => $newPart->id,
                     'value' => $request->values[$index][$index2],
-                    'sort' => $request->sorts[$index][$index2]
+                    'sort' => $request->sorts[$index][$index2],
+                    'datasheet' => 1
                 ]);
             }
         }
@@ -207,7 +209,8 @@ class CalculateElectricalController extends Controller
                 $child->children()->attach($request->part_ids[$index][$index2], [
                     'head_part_id' => $newPart->id,
                     'value' => $request->values[$index][$index2],
-                    'sort' => $request->sorts[$index][$index2]
+                    'sort' => $request->sorts[$index][$index2],
+                    'datasheet' => 1
                 ]);
             }
         }
@@ -277,7 +280,8 @@ class CalculateElectricalController extends Controller
                 $child->children()->attach($request->part_ids[$index][$index2], [
                     'head_part_id' => $newPart->id,
                     'value' => $request->values[$index][$index2],
-                    'sort' => $request->sorts[$index][$index2]
+                    'sort' => $request->sorts[$index][$index2],
+                    'datasheet' => 1
                 ]);
             }
         }
@@ -347,7 +351,8 @@ class CalculateElectricalController extends Controller
                 $child->children()->attach($request->part_ids[$index][$index2], [
                     'head_part_id' => $newPart->id,
                     'value' => $request->values[$index][$index2],
-                    'sort' => $request->sorts[$index][$index2]
+                    'sort' => $request->sorts[$index][$index2],
+                    'datasheet' => 1
                 ]);
             }
         }
