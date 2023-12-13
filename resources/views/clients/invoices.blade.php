@@ -60,11 +60,8 @@
                         <td class="table-tr-td border-t-0 border-x-0">
                             {{ $invoice->inquiry->name }}
                         </td>
-                        @php
-                            $user = \App\Models\User::find($invoice->user_id);
-                        @endphp
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $user->name }}
+                            {{ auth()->user()->id }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             {{ jdate($invoice->created_at)->format('%A, %d %B %Y') }}

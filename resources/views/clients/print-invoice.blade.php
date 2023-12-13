@@ -8,6 +8,22 @@
     <title>INV-{{ $invoice->invoice_number ? $invoice->invoice_number : $invoice->inquiry->inquiry_number }}</title>
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+
+    <style>
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                color-adjust: exact;
+            }
+
+            @page {
+                size: A4;
+                margin: 0; /* Adjust the margin as needed */
+                width: 210mm; /* A4 width */
+                height: 297mm; /* A4 height */
+            }
+        }
+    </style>
 </head>
 <body class="font-IRANSans">
 

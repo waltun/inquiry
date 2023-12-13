@@ -28,4 +28,9 @@ class ClientController extends Controller
     {
         return view('clients.print-invoice', compact('user', 'invoice'));
     }
+
+    public function printDatasheet(User $user, Invoice $invoice)
+    {
+        return view('clients.print-datasheet', compact('user', 'invoice'));
+    }
 }

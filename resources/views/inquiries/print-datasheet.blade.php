@@ -326,10 +326,6 @@
                                                         $lastCategoryPart = $part->categories->last();
                                                         $attributesPart = $lastCategoryPart->attributes()->orderBy('sort', 'ASC')->get();
                                                         $midCategoryPart = $part->categories[1];
-                                                        $displayPart = false;
-                                                        if (!$attributesPart->isEmpty()) {
-                                                            $displayPart = true;
-                                                        }
                                                     @endphp
                                                     <div class="break-inside-avoid whitespace-nowrap">
                                                         <div class="border border-green-800">
@@ -469,7 +465,7 @@
                                                                                     <div
                                                                                         class="p-0 col-span-1 {{ $loop->first ? 'mt-2' : '' }}">
                                                                                         <p class="text-xs font-medium text-black">
-                                                                                            {{ number_format($children->pivot->value, 0) }}
+                                                                                            {{ number_format($children->pivot->value * $amount->value, 0) }}
                                                                                         </p>
                                                                                     </div>
                                                                                 </div>

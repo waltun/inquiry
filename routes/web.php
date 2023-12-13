@@ -622,6 +622,7 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::get('/clients/{user}/invoices', [ClientController::class, 'invoice'])->name('clients.invoices');
         Route::get('/clients/{user}/invoices/{invoice}', [ClientController::class, 'showInvoice'])->name('clients.invoices.show');
         Route::get('/clients/{user}/print-invoices/{invoice}', [ClientController::class, 'printInvoice'])->name('clients.invoices.print');
+        Route::get('/clients/{user}/print-datasheet/{invoice}', [ClientController::class, 'printDatasheet'])->name('clients.invoices.printDatasheet');
     });
 
 });
