@@ -21,12 +21,28 @@ class ClientController extends Controller
 
     public function showInvoice(User $user, Invoice $invoice)
     {
-        return view('clients.show-invoice', compact('user', 'invoice'));
+        $showPriceProduct = $invoice->products()->select('show_price')->where('group_id', '!=', 0)
+            ->where('model_id', '!=', 0)->get()->contains('show_price', '==', '0');
+        $showPricePart = $invoice->products()->select('show_price')->where('part_id', '!=', 0)
+            ->get()->contains('show_price', '==', '0');
+
+        $invoiceUserIds = $invoice->users->pluck('id')->toArray();
+
+        if (in_array(auth()->user()->id, $invoiceUserIds)) {
+            $invoice->seen_at = now();
+            $invoice->save();
+        }
+
+        return view('clients.show-invoice', compact('user', 'invoice', 'showPricePart', 'showPriceProduct'));
     }
 
     public function printInvoice(User $user, Invoice $invoice)
     {
-        return view('clients.print-invoice', compact('user', 'invoice'));
+        $showPriceProduct = $invoice->products()->select('show_price')->where('group_id', '!=', 0)
+            ->where('model_id', '!=', 0)->get()->contains('show_price', '==', '0');
+        $showPricePart = $invoice->products()->select('show_price')->where('part_id', '!=', 0)
+            ->get()->contains('show_price', '==', '0');
+        return view('clients.print-invoice', compact('user', 'invoice', 'showPricePart', 'showPriceProduct'));
     }
 
     public function printDatasheet(User $user, Invoice $invoice)

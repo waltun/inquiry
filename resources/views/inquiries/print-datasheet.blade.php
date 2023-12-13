@@ -293,19 +293,15 @@
                                                                             </div>
                                                                             @foreach($children->children()->where('head_part_id', $part->id)->orderBy('sort', 'ASC')->get() as $child)
                                                                                 @if($child->pivot->value > 0 && $child->pivot->datasheet)
-                                                                                    <div
-                                                                                        class="col-span-2 grid grid-cols-3">
-                                                                                        <div
-                                                                                            class="p-0 col-span-2 flex items-center {{ $loop->first ? 'mt-2' : '' }}">
-                                                                                            <div
-                                                                                                class="w-2 h-2 rounded-full border-2 border-black mb-1 mr-1"></div>
+                                                                                    <div class="col-span-2 grid grid-cols-3">
+                                                                                        <div class="p-0 col-span-2 flex items-center mt-1">
+                                                                                            <div class="w-2 h-2 rounded-full border-2 border-black mb-1 mr-1"></div>
                                                                                             <p class="text-xs font-medium text-black">
                                                                                                 {{ $child->name_en ?? 'ندارد' }}
                                                                                                 :
                                                                                             </p>
                                                                                         </div>
-                                                                                        <div
-                                                                                            class="p-0 col-span-1 {{ $loop->first ? 'mt-2' : '' }}">
+                                                                                        <div class="p-0 col-span-1 mt-1">
                                                                                             <p class="text-xs font-medium text-black">
                                                                                                 {{ number_format($child->pivot->value) }}
                                                                                             </p>
@@ -436,7 +432,7 @@
                                                                                                 @endphp
                                                                                                 @foreach($attribute->values as $value)
                                                                                                     @if($children->attributeValues->contains($value))
-                                                                                                        {{ $value->value }}
+                                                                                                        {{ $value->value }} {{ $attribute->unit != '-' ? "(" . $attribute->unit . ")" : '' }}
                                                                                                         @php
                                                                                                             $foundValue = true;
                                                                                                         @endphp

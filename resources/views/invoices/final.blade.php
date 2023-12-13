@@ -62,7 +62,7 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p-active">
-                    پیش فاکتور های نهایی
+                    پیش فاکتورهای نهایی
                 </p>
             </div>
         </div>
@@ -127,6 +127,9 @@
                     <th scope="col" class="p-4">
                         تاریخ
                     </th>
+                    <th scope="col" class="p-4">
+                        تاریخ مشاهده مشتری
+                    </th>
                     <th scope="col" class="p-4 rounded-tl-lg">
                         <span class="sr-only">اقدامات</span>
                     </th>
@@ -152,6 +155,13 @@
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             {{ jdate($invoice->created_at)->format('%A, %d %B %Y') }}
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            @if(!is_null($invoice->seen_at))
+                                {{ jdate($invoice->seen_at)->format('%A, %d %B %Y - H:i') }}
+                            @else
+                                -
+                            @endif
                         </td>
                         <td class="table-tr-td border-t-0 border-r-0">
                             <div class="flex items-center justify-center">
@@ -212,6 +222,22 @@
                                                 حذف
                                             </button>
                                         </form>
+                                        @php
+                                            $invoiceUser = $invoice->users()->latest()->first();
+                                        @endphp
+                                        @if($invoiceUser)
+                                            <a href="{{ route('clients.dashboard', $invoiceUser) }}" target="_blank"
+                                               class="table-dropdown-restore text-xs">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                     stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/>
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                </svg>
+                                                مشاهده پنل مشتری
+                                            </a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
