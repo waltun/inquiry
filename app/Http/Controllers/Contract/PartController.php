@@ -124,8 +124,8 @@ class PartController extends Controller
                             if (!$child->children->isEmpty()) {
                                 foreach ($child->children as $ch) {
                                     $product->amounts()->create([
-                                        'value' => $ch->pivot->value,
-                                        'value2' => $ch->pivot->value2,
+                                        'value' => $ch->pivot->value * $child->pivot->value * $amount->value,
+                                        'value2' => $ch->pivot->value2 * $child->pivot->value2 * $amount->value2,
                                         'part_id' => $ch->id,
                                         'price' => $ch->price,
                                         'sort' => $ch->pivot->sort,
@@ -134,8 +134,8 @@ class PartController extends Controller
                                 }
                             } else {
                                 $product->amounts()->create([
-                                    'value' => $child->pivot->value,
-                                    'value2' => $child->pivot->value2,
+                                    'value' => $child->pivot->value * $amount->value,
+                                    'value2' => $child->pivot->value2 * $amount->value2,
                                     'part_id' => $child->id,
                                     'price' => $child->price,
                                     'sort' => $child->pivot->sort,
