@@ -301,10 +301,13 @@
                                                                     $modell = \App\Models\Modell::find($product->model_id);
                                                                 @endphp
                                                                 <div class="p-2 rounded-lg border border-gray-200">
-                                                                    <div>
+                                                                    <div class="space-x-4 space-x-reverse flex items-center">
                                                                         <p class="text-sm font-medium">
                                                                             {{ $modell->parent->name }}
                                                                             - {{ $product->model_custom_name ?? $modell->name }}
+                                                                        </p>
+                                                                        <p class="text-sm font-medium">
+                                                                            تعداد : {{ $product->quantity }}
                                                                         </p>
                                                                     </div>
                                                                 </div>
@@ -384,9 +387,12 @@
                                                                             @php
                                                                                 $part = \App\Models\Part::find($product->part_id);
                                                                             @endphp
-                                                                            <div class="mb-2">
+                                                                            <div class="mb-2 flex items-center space-x-4 space-x-reverse">
                                                                                 <p class="text-sm font-medium">
                                                                                     {{ $part->name  }}
+                                                                                </p>
+                                                                                <p class="text-sm font-medium">
+                                                                                    تعداد : {{ $product->quantity  }}
                                                                                 </p>
                                                                             </div>
                                                                         @endforeach

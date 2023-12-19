@@ -7,7 +7,6 @@ use App\Models\Category;
 use App\Models\Contract;
 use App\Models\ContractPartHistory;
 use App\Models\ContractProduct;
-use App\Models\ContractProductAmountSpare;
 use App\Models\Part;
 use Illuminate\Http\Request;
 
@@ -117,7 +116,11 @@ class PartController extends Controller
 
             if ($contract->recipe && $request->store_parts == '1') {
                 foreach ($product->spareAmounts as $amount) {
-                    $part = Part::find($amount->part_id);
+                    if (!is_null($product->part_id) && $product->part_id != 0) {
+                        $part = Part::find($product->part_id);
+                    } else {
+                        $part = Part::find($amount->part_id);
+                    }
 
                     if ($part->collection && !$part->children->isEmpty()) {
                         foreach ($part->children as $child) {
