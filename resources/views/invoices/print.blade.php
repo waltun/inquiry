@@ -156,6 +156,9 @@
                             <th scope="col" class="p-4">
                                 نمایش قیمت
                             </th>
+                            <th scope="col" class="p-4">
+                                نمایش دیتاشیت
+                            </th>
                         </tr>
                         </thead>
                         <tbody>
@@ -201,7 +204,7 @@
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     {{ number_format($productPercentPrice) }}
                                 </td>
-                                <td class="table-tr-td border-t-0 border-r-0">
+                                <td class="table-tr-td border-t-0 border-x-0">
                                     <select name="show_prices[]" id="inputShowPrice{{ $product->id }}"
                                             class="input-text">
                                         <option value="1" {{ $product->show_price ? 'selected' : '' }}>
@@ -213,10 +216,21 @@
                                     </select>
                                     <input type="hidden" name="products[]" value="{{ $product->id }}">
                                 </td>
+                                <td class="table-tr-td border-t-0 border-r-0">
+                                    <select name="show_datasheets[]" id="inputShowDatasheet{{ $product->id }}"
+                                            class="input-text">
+                                        <option value="1" {{ $product->show_datasheet ? 'selected' : '' }}>
+                                            نمایش دیتاشیت
+                                        </option>
+                                        <option value="0" {{ !$product->show_datasheet ? 'selected' : '' }}>
+                                            عدم نمایش دیتاشیت
+                                        </option>
+                                    </select>
+                                </td>
                             </tr>
                         @endforeach
                         <tr class="table-tb-tr group">
-                            <td class="table-tr-td border-t-0" colspan="9">
+                            <td class="table-tr-td border-t-0" colspan="10">
                                 <div class="flex items-center justify-end">
                                     <p class="table-price-label">
                                         قیمت کل : {{ number_format($productTotalPrice) }} تومان

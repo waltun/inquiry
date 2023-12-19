@@ -9,6 +9,7 @@ use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\InvoiceProduct;
 use App\Models\Part;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Morilog\Jalali\Jalalian;
@@ -84,6 +85,15 @@ class FinalInvoiceController extends Controller
             $product = InvoiceProduct::find($id);
             $product->show_price = $request->show_prices[$index];
             $product->save();
+        }
+
+        foreach ($request->products as $index => $id) {
+            $invoiceProduct = InvoiceProduct::find($id);
+            $product = Product::find($invoiceProduct->product_id);
+            $product->show_datasheet = $request->show_datasheets[$index];
+            $invoiceProduct->show_datasheet = $request->show_datasheets[$index];
+            $product->save();
+            $invoiceProduct->save();
         }
 
         alert()->success('ثبت موفق', 'ثبت نمایش قیمت با موفقیت انجام شد');
@@ -228,7 +238,6 @@ class FinalInvoiceController extends Controller
 
         return back();
     }
-
 
     public function getOfficialCode(array $data)
     {

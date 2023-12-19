@@ -93,7 +93,7 @@
             <td>
                 @php
                     $inquiry = $invoice->inquiry;
-                    $products = $inquiry->products()->where('group_id','!=',0)->where('model_id','!=',0)->get();
+                    $products = $inquiry->products()->where('group_id','!=',0)->where('model_id','!=',0)->where('show_datasheet', true)->get();
                 @endphp
                 <div class="relative">
                     <div class="card border-0 mb-0">

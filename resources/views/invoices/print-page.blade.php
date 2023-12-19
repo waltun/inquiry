@@ -474,15 +474,15 @@
                             <p class="text-xs font-bold bg-[#cf3b61] text-white py-1 px-2 rounded-lg">
                                 کارشناس : {{ $invoice->user->name }} - داخلی {{ $invoice->user->internal_number }}
                             </p>
-                            <div class="mt-4 flex items-center space-x-4 space-x-reverse">
-                                <img src="{{ asset('images/sign/mohr.jpg') }}" alt="" class="w-32">
-                                <img src="{{ $invoice->user->sign }}" alt="" class="w-32">
-                            </div>
                         </div>
-                        <div class="ml-10">
+                        <div class="ml-10 flex items-center space-x-4 space-x-reverse">
                             <p class="text-sm font-bold text-black text-center font-Titr">
                                 با احترام فراوان<br> شرکت تهویه آذرباد
                             </p>
+                            <div class="mt-4 flex items-center space-x-4 space-x-reverse">
+                                <img src="{{ asset('images/sign/mohr.jpg') }}" alt="" class="w-24">
+                                <img src="{{ $invoice->user->sign }}" alt="" class="w-24">
+                            </div>
                         </div>
                     </div>
                 </div>
