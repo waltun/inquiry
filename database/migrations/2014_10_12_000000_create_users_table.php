@@ -23,6 +23,7 @@ return new class extends Migration {
             $table->string('nation')->nullable();
             $table->enum('role', ['admin', 'staff', 'user', 'client']);
             $table->integer('active')->default(0);
+            $table->string('sign')->nullable();
 
             $table->softDeletes();
             $table->rememberToken();
