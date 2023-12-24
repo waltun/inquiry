@@ -77,7 +77,7 @@
             </svg>
             <div class="mr-2">
                 <p class="font-bold text-2xl text-black dark:text-white">
-                    آنالیز قطعات استفاده شده در قرارداد ها
+                    آنالیز قطعات استفاده شده در قراردادها
                 </p>
             </div>
         </div>
@@ -85,7 +85,7 @@
 
     <!-- Search -->
     <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200 mt-4">
-        <form class="grid grid-cols-3 gap-4" id="searchForm">
+        <form class="grid grid-cols-4 gap-4" id="searchForm">
             <div>
                 <input type="text" name="search" value="{{ request('search') }}" class="input-text"
                        placeholder="جستجو براساس نام قطعه">
@@ -99,6 +99,16 @@
                     <option value="office" {{ request('buyer_manage') == 'office' ? 'selected' : '' }}>
                         دفتر مرکزی
                     </option>
+                </select>
+            </div>
+            <div>
+                <select name="contract" id="inputContract" class="input-text">
+                    <option value="">انتخاب قرارداد</option>
+                    @foreach($searchContracts as $searchContract)
+                        <option value="{{ $searchContract->id }}">
+                            {{ $searchContract->name }}
+                        </option>
+                    @endforeach
                 </select>
             </div>
             @if(request()->has('search') || request()->has('buyer_manage'))
@@ -131,7 +141,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($values as $partId => $value)
+                @foreach($paginator->items() as $partId => $value)
                     @php
                         $part = \App\Models\Part::find($partId);
                         $contractAmounts = $amounts->where('part_id', $partId);
@@ -303,6 +313,10 @@
                 @endforeach
                 </tbody>
             </table>
+
+            <div class="mt-4">
+                {{ $paginator->links() }}
+            </div>
         </div>
     </div>
 </x-layout>
