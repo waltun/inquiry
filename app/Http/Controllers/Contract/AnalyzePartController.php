@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Contract;
 
 use App\Http\Controllers\Controller;
+use App\Models\Contract;
 use App\Models\ContractProductAmount;
 use App\Models\Part;
 use Illuminate\Http\Request;
@@ -19,6 +20,12 @@ class AnalyzePartController extends Controller
 
         if (request()->has('buyer_manage') && !is_null(request('buyer_manage'))) {
             $amounts = $amounts->where('buyer_manage', request('buyer_manage'));
+        }
+
+        if (request()->has('contract_id') && !is_null(request('contract_id'))) {
+            $contract = Contract::find(request('contract_id'));
+            $productIds = $contract->products->pluck('id')->toArray();
+            $amounts = $amounts->whereIn('contract_product_id', $productIds);
         }
 
         if (request()->has('search') && !is_null($keyword = request('search'))) {

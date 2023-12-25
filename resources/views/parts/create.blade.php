@@ -194,6 +194,19 @@
                     </option>
                 </select>
             </div>
+            <div class="mt-4">
+                <label for="inputExtract" class="form-label">
+                    اضافه شدن به آنالیز همه قطعات
+                </label>
+                <select name="analyzee" id="inputAnalyzee" class="input-text">
+                    <option value="1" {{ old('analyzee') == '1' ? 'selected' : '' }}>
+                        اضافه شود
+                    </option>
+                    <option value="0" {{ old('analyzee') == '0' ? 'selected' : '' }}>
+                        اضافه نشود
+                    </option>
+                </select>
+            </div>
 
         </div>
 

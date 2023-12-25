@@ -102,10 +102,10 @@
                 </select>
             </div>
             <div>
-                <select name="contract" id="inputContract" class="input-text">
+                <select name="contract_id" id="inputContract" class="input-text" onchange="searchPart()">
                     <option value="">انتخاب قرارداد</option>
                     @foreach($searchContracts as $searchContract)
-                        <option value="{{ $searchContract->id }}">
+                        <option value="{{ $searchContract->id }}" {{ request('contract_id') == $searchContract->id ? 'selected' : '' }}>
                             {{ $searchContract->name }}
                         </option>
                     @endforeach

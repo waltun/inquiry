@@ -183,6 +183,19 @@
                     </option>
                 </select>
             </div>
+            <div class="mt-4">
+                <label for="inputExtract" class="form-label">
+                    اضافه شدن به آنالیز همه قطعات
+                </label>
+                <select name="analyzee" id="inputAnalyzee" class="input-text">
+                    <option value="0" {{ old('analyzee', $part->analyzee) == '0' ? 'selected' : '' }}>
+                        اضافه نشود
+                    </option>
+                    <option value="1" {{ old('analyzee', $part->analyzee) == '1' ? 'selected' : '' }}>
+                        اضافه شود
+                    </option>
+                </select>
+            </div>
         </div>
 
         <div class="card">

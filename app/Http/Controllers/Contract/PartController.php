@@ -50,39 +50,41 @@ class PartController extends Controller
             $part = Part::find($id);
 
             if ($contract->recipe) {
-                if ($part->collection && !$part->children->isEmpty()) {
-                    foreach ($part->children as $child) {
-                        if (!$child->children->isEmpty()) {
-                            foreach ($child->children as $ch) {
+                if ($part->analyzee) {
+                    if ($part->collection && !$part->children->isEmpty()) {
+                        foreach ($part->children as $child) {
+                            if (!$child->children->isEmpty()) {
+                                foreach ($child->children as $ch) {
+                                    $product->amounts()->create([
+                                        'value' => $ch->pivot->value,
+                                        'value2' => $ch->pivot->value2,
+                                        'part_id' => $ch->id,
+                                        'price' => $ch->price,
+                                        'sort' => $ch->pivot->sort,
+                                        'weight' => $ch->weight ?? 0
+                                    ]);
+                                }
+                            } else {
                                 $product->amounts()->create([
-                                    'value' => $ch->pivot->value,
-                                    'value2' => $ch->pivot->value2,
-                                    'part_id' => $ch->id,
-                                    'price' => $ch->price,
-                                    'sort' => $ch->pivot->sort,
-                                    'weight' => $ch->weight ?? 0
+                                    'value' => $child->pivot->value,
+                                    'value2' => $child->pivot->value2,
+                                    'part_id' => $child->id,
+                                    'price' => $child->price,
+                                    'sort' => $child->pivot->sort,
+                                    'weight' => $child->weight ?? 0
                                 ]);
                             }
-                        } else {
-                            $product->amounts()->create([
-                                'value' => $child->pivot->value,
-                                'value2' => $child->pivot->value2,
-                                'part_id' => $child->id,
-                                'price' => $child->price,
-                                'sort' => $child->pivot->sort,
-                                'weight' => $child->weight ?? 0
-                            ]);
                         }
+                    } else {
+                        $product->amounts()->create([
+                            'value' => $request->amounts[$index],
+                            'value2' => $request->amounts2[$index],
+                            'part_id' => $id,
+                            'price' => $part->price,
+                            'weight' => $part->weight ?? 0,
+                            'sort' => $request->sorts[$index]
+                        ]);
                     }
-                } else {
-                    $product->amounts()->create([
-                        'value' => $request->amounts[$index],
-                        'value2' => $request->amounts2[$index],
-                        'part_id' => $id,
-                        'price' => $part->price,
-                        'weight' => $part->weight ?? 0,
-                        'sort' => $request->sorts[$index]
-                    ]);
                 }
             }
 
@@ -122,39 +124,45 @@ class PartController extends Controller
                         $part = Part::find($amount->part_id);
                     }
 
-                    if ($part->collection && !$part->children->isEmpty()) {
-                        foreach ($part->children as $child) {
-                            if (!$child->children->isEmpty()) {
-                                foreach ($child->children as $ch) {
-                                    $product->amounts()->create([
-                                        'value' => $ch->pivot->value * $child->pivot->value * $amount->value,
-                                        'value2' => $ch->pivot->value2 * $child->pivot->value2 * $amount->value2,
-                                        'part_id' => $ch->id,
-                                        'price' => $ch->price,
-                                        'sort' => $ch->pivot->sort,
-                                        'weight' => $ch->weight ?? 0
-                                    ]);
+                    if ($part->analyzee) {
+                        if ($part->collection && !$part->children->isEmpty()) {
+                            foreach ($part->children as $child) {
+                                if ($child->analyzee) {
+                                    if (!$child->children->isEmpty()) {
+                                        foreach ($child->children as $ch) {
+                                            if ($ch->analyzee) {
+                                                $product->amounts()->create([
+                                                    'value' => $ch->pivot->value * $child->pivot->value * $amount->value,
+                                                    'value2' => $ch->pivot->value2 * $child->pivot->value2 * $amount->value2,
+                                                    'part_id' => $ch->id,
+                                                    'price' => $ch->price,
+                                                    'sort' => $ch->pivot->sort,
+                                                    'weight' => $ch->weight ?? 0
+                                                ]);
+                                            }
+                                        }
+                                    } else {
+                                        $product->amounts()->create([
+                                            'value' => $child->pivot->value * $amount->value,
+                                            'value2' => $child->pivot->value2 * $amount->value2,
+                                            'part_id' => $child->id,
+                                            'price' => $child->price,
+                                            'sort' => $child->pivot->sort,
+                                            'weight' => $child->weight ?? 0
+                                        ]);
+                                    }
                                 }
-                            } else {
-                                $product->amounts()->create([
-                                    'value' => $child->pivot->value * $amount->value,
-                                    'value2' => $child->pivot->value2 * $amount->value2,
-                                    'part_id' => $child->id,
-                                    'price' => $child->price,
-                                    'sort' => $child->pivot->sort,
-                                    'weight' => $child->weight ?? 0
-                                ]);
                             }
+                        } else {
+                            $product->amounts()->create([
+                                'value' => $amount->value,
+                                'value2' => $amount->value2,
+                                'part_id' => $amount->part_id,
+                                'price' => $amount->price,
+                                'weight' => $amount->weight ?? 0,
+                                'sort' => $amount->sort
+                            ]);
                         }
-                    } else {
-                        $product->amounts()->create([
-                            'value' => $amount->value,
-                            'value2' => $amount->value2,
-                            'part_id' => $amount->part_id,
-                            'price' => $amount->price,
-                            'weight' => $amount->weight ?? 0,
-                            'sort' => $amount->sort
-                        ]);
                     }
                 }
             }

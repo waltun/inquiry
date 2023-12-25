@@ -83,6 +83,7 @@ class PartController extends Controller
             'weight' => 'nullable|numeric',
             'name_en' => 'nullable|string|max:255',
             'extract' => 'required|in:0,1',
+            'analyzee' => 'required|in:0,1'
         ]);
 
         if ($data['collection'] == 'true') {
@@ -137,6 +138,7 @@ class PartController extends Controller
             'weight' => 'nullable|numeric',
             'name_en' => 'nullable|string|max:255',
             'extract' => 'required|in:0,1',
+            'analyzee' => 'required|in:0,1'
         ]);
 
         if ($data['collection'] == 'true') {
