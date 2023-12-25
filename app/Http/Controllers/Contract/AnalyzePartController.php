@@ -67,6 +67,7 @@ class AnalyzePartController extends Controller
             if ($amount->product->contract_id == $request->contract_id) {
                 $amount->buyer_manage = $request->buyer_manage;
                 $amount->status = $request->status;
+                $amount->user_id = $request->user_id;
                 $amount->save();
             }
         }
