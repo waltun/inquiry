@@ -429,7 +429,6 @@ class InquiryController extends Controller
                         'code' => $code,
                         'name' => $part->name,
                         'inquiry_id' => $newInquiry->id,
-                        'product_id' => $newProduct->id
                     ]);
                     $newPart->save();
 
