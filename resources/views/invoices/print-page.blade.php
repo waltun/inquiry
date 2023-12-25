@@ -39,7 +39,7 @@
                     <div class="absolute right-72 top-5 mr-16 p-1">
                         <div class="flex items-center justify-center whitespace-nowrap mt-2">
                             <p class="text-xs font-bold text-black mr-16">
-                                تاریخ : {{ jdate($invoice->created_at)->format('Y/m/d') }}
+                                تاریخ : {{ jdate($invoice->updated_at)->format('Y/m/d') }}
                             </p>
                             <p class="text-xs font-bold text-black mr-8">
                                 شماره :

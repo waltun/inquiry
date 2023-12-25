@@ -132,7 +132,8 @@ class InvoiceController extends Controller
 
             $invoice->update([
                 'complete' => true,
-                'price' => $totalPrice
+                'price' => $totalPrice,
+                ''
             ]);
 
             alert()->success('ثبت موفق', 'پیش فاکتور با موفقیت نهایی سازی شد');
