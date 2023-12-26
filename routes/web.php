@@ -608,6 +608,8 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::get('/contracts/{contract}/choose-product', [ContractProduct::class, 'choose'])->name('contracts.choose-product');
         Route::get('/contracts/{contract}/choose-product/{invoice}', [ContractProduct::class, 'invoice'])->name('contracts.choose-product.invoice');
         Route::post('/contracts/{contract}/choose-product/{invoice}', [ContractProduct::class, 'storeInvoice'])->name('contracts.choose-product.store-invoice');
+        Route::post('/contracts/{contract}/store-product-amount', [ContractProduct::class, 'storeAmounts'])->name('contracts.store-product-amount');
+        Route::delete('/contracts/{contract}/destroy-product-amount', [ContractProduct::class, 'destroyAmounts'])->name('contracts.destroy-product-amount');
 
         Route::resource('contracts/{contract}/packings', PackingController::class);
         Route::get('/contracts/{contract}/packings/list/print', [PackingController::class, 'print'])->name('contracts.packings.print');

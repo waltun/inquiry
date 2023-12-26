@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Amount;
 use App\Models\Contract;
 use App\Models\ContractProduct;
 use App\Models\Customer;
 use App\Models\Invoice;
-use App\Models\Part;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Morilog\Jalali\Jalalian;
@@ -230,11 +228,9 @@ class ContractController extends Controller
         $contract->save();
 
         foreach ($invoice->products()->where('deleted_at', null)->get() as $product) {
-            $amounts = Amount::where('product_id', $product->product_id)->get();
-
             $price = $product->price / $product->percent;
 
-            $contractProduct = $contract->products()->create([
+            $contract->products()->create([
                 'quantity' => $product->quantity,
                 'price' => $price,
                 'model_custom_name' => $product->model_custom_name,
@@ -245,43 +241,6 @@ class ContractController extends Controller
                 'part_id' => $product->part_id,
                 'product_id' => $product->product_id
             ]);
-
-            foreach ($amounts as $amount) {
-                $part = Part::find($amount->part_id);
-                if ($part->extract && !$part->children->isEmpty()) {
-                    foreach ($part->children as $child) {
-                        if ($child->extract && !$child->children->isEmpty()) {
-                            foreach ($child->children as $ch) {
-                                $contractProduct->spareAmounts()->create([
-                                    'value' => $ch->pivot->value * $amount->value,
-                                    'value2' => $ch->pivot->value2,
-                                    'part_id' => $ch->id,
-                                    'price' => $ch->price,
-                                    'sort' => $ch->pivot->sort,
-                                    'weight' => $ch->weight ?? 0
-                                ]);
-                            }
-                        } else {
-                            $contractProduct->spareAmounts()->create([
-                                'value' => $child->pivot->value * $amount->value,
-                                'value2' => $child->pivot->value2,
-                                'part_id' => $child->id,
-                                'price' => $child->price,
-                                'sort' => $child->pivot->sort,
-                                'weight' => $child->weight ?? 0
-                            ]);
-                        }
-                    }
-                }
-                $contractProduct->spareAmounts()->create([
-                    'value' => $amount->value,
-                    'value2' => $amount->value2,
-                    'part_id' => $amount->part_id,
-                    'price' => $amount->price,
-                    'sort' => $amount->sort,
-                    'weight' => $amount->weight ?? 0
-                ]);
-            }
         }
 
         alert()->success('ثبت موفق', 'پیش قلکتور با موفقیت برای قرارداد ثبت شد');

@@ -99,4 +99,63 @@ class ProductController extends Controller
 
         return redirect()->route('contracts.products', $contract->id);
     }
+
+    public function storeAmounts(Contract $contract)
+    {
+        foreach ($contract->products as $product) {
+            $amounts = Amount::where('product_id', $product->product_id)->get();
+
+            foreach ($amounts as $amount) {
+                $part = Part::find($amount->part_id);
+                if ($part->extract && !$part->children->isEmpty()) {
+                    foreach ($part->children as $child) {
+                        if ($child->extract && !$child->children->isEmpty()) {
+                            foreach ($child->children as $ch) {
+                                $product->spareAmounts()->create([
+                                    'value' => $ch->pivot->value * $amount->value,
+                                    'value2' => $ch->pivot->value2,
+                                    'part_id' => $ch->id,
+                                    'price' => $ch->price,
+                                    'sort' => $ch->pivot->sort,
+                                    'weight' => $ch->weight ?? 0
+                                ]);
+                            }
+                        } else {
+                            $product->spareAmounts()->create([
+                                'value' => $child->pivot->value * $amount->value,
+                                'value2' => $child->pivot->value2,
+                                'part_id' => $child->id,
+                                'price' => $child->price,
+                                'sort' => $child->pivot->sort,
+                                'weight' => $child->weight ?? 0
+                            ]);
+                        }
+                    }
+                }
+                $product->spareAmounts()->create([
+                    'value' => $amount->value,
+                    'value2' => $amount->value2,
+                    'part_id' => $amount->part_id,
+                    'price' => $amount->price,
+                    'sort' => $amount->sort,
+                    'weight' => $amount->weight ?? 0
+                ]);
+            }
+        }
+
+        alert()->success('ثبت موفق', 'مقادیر محصولات با موفقیت صادر شدند');
+
+        return back();
+    }
+
+    public function destroyAmounts(Contract $contract)
+    {
+        foreach ($contract->products as $product) {
+            $product->spareAmounts()->delete();
+        }
+
+        alert()->success('حذف موفق', 'مقادیر محصولات با موفقیت حذف شدند');
+
+        return back();
+    }
 }
