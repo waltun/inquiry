@@ -73,7 +73,7 @@
 
         <div class="mr-5 border border-white px-4 py-1 rounded-md relative">
             <a href="https://cp117.netafraz.com/roundcube/" class="text-sm font-bold text-white" target="_blank">
-                درسترسی به وب میل
+                دسترسی به وب میل
             </a>
         </div>
     </div>
