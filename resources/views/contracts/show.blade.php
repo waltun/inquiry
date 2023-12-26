@@ -252,6 +252,31 @@
                         </a>
                     @endif
 
+                    <a href="{{ route('contracts.invoices.index', $contract->id) }}" class="dashboard-cards group">
+                        <div class="flex items-center">
+                            <div class="dashboard-card-icon bg-red-500 dark:bg-slate-800">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-white group-hover:text-myBlue-100">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75"/>
+                                </svg>
+                            </div>
+                            <div class="mr-4">
+                                <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
+                                    پیش فاکتورهای پیوست
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                 class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                                <path fill-rule="evenodd"
+                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </a>
+
                     <a href="{{ route('contracts.products', $contract->id) }}" class="dashboard-cards group">
                         <div class="flex items-center">
                             <div class="dashboard-card-icon bg-indigo-600 dark:bg-slate-800">

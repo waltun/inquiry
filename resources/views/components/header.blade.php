@@ -70,6 +70,12 @@
                     class="w-3 h-3 rounded-full bg-myRed-200 absolute -right-0.5 -top-0.5 animate-ping"></span>
             @endif
         </div>
+
+        <div class="mr-5 border border-white px-4 py-1 rounded-md relative">
+            <a href="https://cp117.netafraz.com/roundcube/" class="text-sm font-bold text-white" target="_blank">
+                درسترسی به وب میل
+            </a>
+        </div>
     </div>
 
     <div x-data="{open:false}">

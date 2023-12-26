@@ -469,7 +469,6 @@
                         </table>
                     </div>
                 @endif
-
             @endforeach
 
             <div class="flex items-center justify-between">

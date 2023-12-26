@@ -239,7 +239,8 @@ class ContractController extends Controller
                 'group_id' => $product->group_id,
                 'model_id' => $product->model_id,
                 'part_id' => $product->part_id,
-                'product_id' => $product->product_id
+                'product_id' => $product->product_id,
+                'invoice_id' => $invoice->id
             ]);
         }
 

@@ -49,6 +49,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PartAttributeController;
 use App\Http\Controllers\PartController;
 use App\Http\Controllers\Contract\PartController as ContractPartController;
+use App\Http\Controllers\Contract\InvoiceController as ContractInvoiceController;
 use App\Http\Controllers\PartOfModellController;
 use App\Http\Controllers\PartPriceController;
 use App\Http\Controllers\PermissionController;
@@ -617,6 +618,8 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::get('/client-invoices', [ClientInvoiceController::class, 'index'])->name('client-invoices.index');
 
         Route::resource('settings/information', InformationController::class)->except(['show']);
+
+        Route::get('/contracts/{contract}/invoices', [ContractInvoiceController::class, 'index'])->name('contracts.invoices.index');
     });
 
     Route::middleware('client')->group(function () {
