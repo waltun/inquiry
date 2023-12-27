@@ -10,14 +10,9 @@ class Contract extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'marketer', 'number', 'price', 'start_contract_date', 'send_date', 'invoice_id', 'user_id', 'customer_id',
+        'name', 'marketer', 'number', 'price', 'start_contract_date', 'send_date', 'user_id', 'customer_id',
         'type', 'old_number', 'recipe', 'complete'
     ];
-
-    public function invoice()
-    {
-        return $this->belongsTo(Invoice::class);
-    }
 
     public function products()
     {
@@ -57,5 +52,10 @@ class Contract extends Model
     public function packings()
     {
         return $this->hasMany(Packing::class);
+    }
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
     }
 }

@@ -11,8 +11,8 @@ class InvoiceController extends Controller
 {
     public function index(Contract $contract)
     {
-        $invoice = Invoice::find($contract->invoice_id);
+        $invoices = $contract->invoices;
 
-        return view('contracts.invoices.index', compact('invoice', 'contract'));
+        return view('contracts.invoices.index', compact('invoices', 'contract'));
     }
 }

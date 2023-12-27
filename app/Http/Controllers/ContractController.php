@@ -37,7 +37,7 @@ class ContractController extends Controller
             $contracts->where('customer_id', request('customer'));
         }
 
-        $contracts = $contracts->orderBy('number', 'DESC')->with(['invoice', 'products'])->where('complete', 0)->paginate(20)->withQueryString();
+        $contracts = $contracts->orderBy('number', 'DESC')->with(['invoices', 'products'])->where('complete', 0)->paginate(20)->withQueryString();
 
         $customers = Customer::latest()->get();
         return view('contracts.index', compact('contracts', 'customers'));
@@ -224,7 +224,6 @@ class ContractController extends Controller
         $contract->name = $invoice->inquiry->name;
         $contract->marketer = $invoice->inquiry->marketer;
         $contract->user_id = $invoice->user_id;
-        $contract->invoice_id = $invoice->id;
         $contract->save();
 
         foreach ($invoice->products()->where('deleted_at', null)->get() as $product) {
@@ -240,13 +239,16 @@ class ContractController extends Controller
                 'model_id' => $product->model_id,
                 'part_id' => $product->part_id,
                 'product_id' => $product->product_id,
-                'invoice_id' => $invoice->id
+                'invoice_id' => $invoice->id,
             ]);
         }
 
+        $invoice->contract_id = $contract->id;
+        $invoice->save();
+
         alert()->success('ثبت موفق', 'پیش قلکتور با موفقیت برای قرارداد ثبت شد');
 
-        return back();
+        return redirect()->route('contracts.products', $contract->id);
     }
 
     public function deleteAll(Contract $contract)

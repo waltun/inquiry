@@ -38,4 +38,9 @@ class ContractProduct extends Model
     {
         return $this->belongsTo(Packing::class);
     }
+
+    public function invoice()
+    {
+        return $this->belongsTo(Invoice::class);
+    }
 }

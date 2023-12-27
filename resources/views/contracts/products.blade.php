@@ -156,6 +156,9 @@
                                     ردیف
                                 </th>
                                 <th scope="col" class="p-4">
+                                    پیش فاکتور
+                                </th>
+                                <th scope="col" class="p-4">
                                     دسته محصول
                                 </th>
                                 <th scope="col" class="p-4">
@@ -189,6 +192,12 @@
                                 <tr class="table-tb-tr group whitespace-normal {{ $loop->even ? 'bg-sky-100' : '' }}">
                                     <td class="table-tr-td border-t-0 border-l-0">
                                         {{ $loop->index + 1 }}
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-x-0">
+                                        <a href="{{ route('invoices.final.print', $product->invoice->id) }}"
+                                           target="_blank" class="text-indigo-500">
+                                            INV-{{ $product->invoice->inquiry->inquiry_number }}
+                                        </a>
                                     </td>
                                     <td class="table-tr-td border-t-0 border-x-0">
                                         {{ $modell->parent->name }}
@@ -517,7 +526,7 @@
 
             <div class="mb-4">
                 <p class="text-red-500 font-bold">
-                    * توجه : هیچ پیش فاکتوری برای این قرارداد انتخاب نشده، لطفا برای ادامه از لیست پیش فاکتور ها انتخاب
+                    * توجه : هیچ پیش فاکتوری برای این قرارداد انتخاب نشده، لطفا برای ادامه از لیست پیش فاکتورها انتخاب
                     کنید.
                 </p>
             </div>
@@ -569,7 +578,7 @@
                                     {{ jdate($invoice->created_at)->format('%A, %d %B %Y') }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-r-0">
-                                    <div class="flex items-center space-x-4 space-x-reverse">
+                                    <div class="flex items-center justify-center space-x-4 space-x-reverse">
                                         <a href="{{ route('invoices.final.print',$invoice->id) }}"
                                            class="table-dropdown-copy text-xs" target="_blank">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
