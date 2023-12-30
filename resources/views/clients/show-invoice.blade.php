@@ -159,10 +159,8 @@
                             $price = $product->price;
                             $productPercentPrice = 0;
                             if ($product->percent > 0) {
-                                $productTotalPrice += $price * $product->quantity / $product->percent;
                                 $productPercentPrice = $price * $product->quantity / $product->percent;
                             } else {
-                                $productTotalPrice += $price * $product->quantity;
                                 $productPercentPrice = $price * $product->quantity;
                             }
                         @endphp
@@ -210,12 +208,6 @@
                                 <p class="text-xs text-black text-center font-bold">
                                     قیمت کل :
                                     {{ number_format($productPercentPrice) }} تومان
-                                </p>
-                            </div>
-                            <div class="mb-3">
-                                <p class="text-xs text-black text-center font-bold">
-                                    جمع قیمت کل :
-                                    {{ number_format($productTotalPrice) }} تومان
                                 </p>
                             </div>
                         </div>
