@@ -605,6 +605,7 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::post('/contracts/{contract}/recipe/parts', [RecipeController::class, 'storeParts'])->name('contracts.recipe.store-parts');
         Route::patch('/contracts/{contract}/recipe/{product}/end-of-production', [RecipeController::class, 'endProduction'])->name('contracts.recipe.end-of-production');
         Route::patch('/contracts/{contract}/recipe/{product}/add-to-packing', [RecipeController::class, 'addToPacking'])->name('contracts.recipe.add-to-packing');
+        Route::patch('/contracts/{contract}/recipe/{product}/add-factory-text', [RecipeController::class, 'addFactoryText'])->name('contracts.recipe.add-factory-text');
 
         Route::get('/contracts/{contract}/choose-product', [ContractProduct::class, 'choose'])->name('contracts.choose-product');
         Route::get('/contracts/{contract}/choose-product/{invoice}', [ContractProduct::class, 'invoice'])->name('contracts.choose-product.invoice');

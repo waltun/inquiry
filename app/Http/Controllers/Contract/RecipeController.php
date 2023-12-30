@@ -123,4 +123,17 @@ class RecipeController extends Controller
 
         return back();
     }
+
+    public function addFactoryText(Request $request, Contract $contract, ContractProduct $product)
+    {
+        $data = $request->validate([
+            'factory_text' => 'required'
+        ]);
+
+        $product->update($data);
+
+        alert()->success('ثبت موفق', 'توضیحات محصول با موفقیت اضافه شد');
+
+        return back();
+    }
 }
