@@ -194,10 +194,12 @@
                                         {{ $loop->index + 1 }}
                                     </td>
                                     <td class="table-tr-td border-t-0 border-x-0">
-                                        <a href="{{ route('invoices.final.print', $product->invoice->id) }}"
-                                           target="_blank" class="text-indigo-500">
-                                            INV-{{ $product->invoice->inquiry->inquiry_number }}
-                                        </a>
+                                        @if($product->invoice_id)
+                                            <a href="{{ route('invoices.final.print', $product->invoice->id) }}"
+                                               target="_blank" class="text-indigo-500">
+                                                INV-{{ $product->invoice->inquiry->inquiry_number }}
+                                            </a>
+                                        @endif
                                     </td>
                                     <td class="table-tr-td border-t-0 border-x-0">
                                         {{ $modell->parent->name }}
@@ -336,6 +338,7 @@
                             <thead>
                             <tr class="table-th-tr">
                                 <th class="p-4 rounded-tr-lg">ردیف</th>
+                                <th class="p-4">پیش فاکتور</th>
                                 <th class="p-4">نام قطعه</th>
                                 <th class="p-4">واحد</th>
                                 <th class="p-4">تعداد</th>
@@ -357,6 +360,14 @@
                                 <tr class="table-tb-tr group whitespace-normal {{ $loop->even ? 'bg-sky-100' : '' }}">
                                     <td class="table-tr-td border-t-0 border-l-0">
                                         {{ $loop->index + 1 }}
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-x-0">
+                                        @if($product->invoice_id)
+                                            <a href="{{ route('invoices.final.print', $product->invoice->id) }}"
+                                               target="_blank" class="text-indigo-500">
+                                                INV-{{ $product->invoice->inquiry->inquiry_number }}
+                                            </a>
+                                        @endif
                                     </td>
                                     <td class="table-tr-td border-t-0 border-x-0">
                                         {{ $part->name }}
