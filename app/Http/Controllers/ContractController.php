@@ -6,6 +6,7 @@ use App\Models\Contract;
 use App\Models\ContractProduct;
 use App\Models\Customer;
 use App\Models\Invoice;
+use App\Models\Special;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Morilog\Jalali\Jalalian;
@@ -141,6 +142,7 @@ class ContractController extends Controller
     public function products(Contract $contract)
     {
         $invoices = Invoice::query();
+        $specials = Special::all()->pluck('part_id')->toArray();
 
         if ($keyword = request('search')) {
             $invoices->whereHas('inquiry', function ($query) use ($keyword) {
@@ -161,7 +163,7 @@ class ContractController extends Controller
         }
 
         $customers = Customer::all();
-        return view('contracts.products', compact('contract', 'invoices', 'customers'));
+        return view('contracts.products', compact('contract', 'invoices', 'customers', 'specials'));
     }
 
     public function destroyProduct(ContractProduct $contractProduct)
