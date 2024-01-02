@@ -125,9 +125,11 @@
                 <label for="inputRole" class="form-label">نقش (سِمَت)</label>
                 <select name="role" id="inputRole" class="input-text">
                     <option value="">انتخاب کنید</option>
-                    <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>
-                        مدیر عامل
-                    </option>
+                    @if(auth()->user()->role == 'admin')
+                        <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>
+                            مدیر عامل
+                        </option>
+                    @endif
                     <option value="staff" {{ old('role') == 'staff' ? 'selected' : '' }}>
                         کارمند
                     </option>

@@ -46,6 +46,7 @@ class AnalyzePartController extends Controller
             if ($amount->product->contract->recipe) {
                 $values[$amount->part_id] = [
                     'value' => 0,
+                    'value2' => 0,
                     'buyer' => $amount->buyer,
                     'buyer_manage' => $amount->buyer_manage,
                     'status' => $amount->status,
@@ -58,6 +59,7 @@ class AnalyzePartController extends Controller
         foreach ($amounts as $amount) {
             if ($amount->product->contract->recipe) {
                 $values[$amount->part_id]['value'] += $amount->value * $amount->product->quantity;
+                $values[$amount->part_id]['value2'] += $amount->value2 * $amount->product->quantity;
             }
         }
 

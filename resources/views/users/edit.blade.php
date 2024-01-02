@@ -125,9 +125,11 @@
             <div class="mt-4">
                 <label for="inputRole" class="form-label">نقش (سِمَت)</label>
                 <select name="role" id="inputRole" class="input-text">
-                    <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>
-                        مدیر عامل
-                    </option>
+                    @if(auth()->user()->role == 'admin')
+                        <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>
+                            مدیر عامل
+                        </option>
+                    @endif
                     <option value="staff" {{ $user->role == 'staff' ? 'selected' : '' }}>
                         کارمند
                     </option>

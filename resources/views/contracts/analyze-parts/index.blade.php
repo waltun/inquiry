@@ -106,7 +106,7 @@
                     <option value="">انتخاب قرارداد</option>
                     @foreach($searchContracts as $searchContract)
                         <option
-                            value="{{ $searchContract->id }}" {{ request('contract_id') == $searchContract->id ? 'selected' : '' }}>
+                                value="{{ $searchContract->id }}" {{ request('contract_id') == $searchContract->id ? 'selected' : '' }}>
                             {{ $searchContract->name }}
                         </option>
                     @endforeach
@@ -156,10 +156,20 @@
                                 {{ $part->name }}
                             </td>
                             <td class="table-tr-td border-t-0 border-x-0">
-                                {{ $part->unit }}
+                                <div class="flex items-center">
+                                    {{ $part->unit }}
+                                    @if($part->unit2)
+                                        / {{ $part->unit2 }}
+                                    @endif
+                                </div>
                             </td>
                             <td class="table-tr-td border-t-0 border-x-0">
-                                {{ $value['value'] }}
+                                <div class="flex items-center">
+                                    {{ $value['value'] }}
+                                    @if($value['value2'] > 0)
+                                         / {{ $value['value2'] }}
+                                    @endif
+                                </div>
                             </td>
                             <td class="table-tr-td border-t-0 border-x-0">
                                 @if($value['buyer_manage'] == 'factory')
@@ -251,7 +261,7 @@
                                                                         <input type="hidden" name="part_id"
                                                                                value="{{ $part->id }}">
                                                                         <div
-                                                                            class="grid grid-cols-3 gap-4 border-b border-gray-200 pb-3">
+                                                                                class="grid grid-cols-3 gap-4 border-b border-gray-200 pb-3">
                                                                             <div class="flex justify-center">
                                                                                 <p class="text-sm font-medium">
                                                                                     قرارداد
@@ -279,15 +289,15 @@
                                                                                         انتخاب وضعیت
                                                                                     </option>
                                                                                     <option
-                                                                                        value="ordered" {{ $contractAmountValue["status"] == 'ordered' ? 'selected' : '' }}>
+                                                                                            value="ordered" {{ $contractAmountValue["status"] == 'ordered' ? 'selected' : '' }}>
                                                                                         سفارش گذاری شد
                                                                                     </option>
                                                                                     <option
-                                                                                        value="buy" {{ $contractAmountValue["status"] == 'buy' ? 'selected' : '' }}>
+                                                                                            value="buy" {{ $contractAmountValue["status"] == 'buy' ? 'selected' : '' }}>
                                                                                         خریداری و تحویل انبار شد
                                                                                     </option>
                                                                                     <option
-                                                                                        value="available" {{ $contractAmountValue["status"] == 'available' ? 'selected' : '' }}>
+                                                                                            value="available" {{ $contractAmountValue["status"] == 'available' ? 'selected' : '' }}>
                                                                                         موجودی انبار می باشد
                                                                                     </option>
                                                                                 </select>
@@ -297,11 +307,11 @@
                                                                                         id="inputBuyer{{ $part->id }}"
                                                                                         class="input-text {{ !is_null($contractAmountValue["buyer_manage"]) ? 'bg-green-100' : '' }}">
                                                                                     <option
-                                                                                        value="factory" {{ $contractAmountValue["buyer_manage"] == 'factory' ? 'selected' : '' }}>
+                                                                                            value="factory" {{ $contractAmountValue["buyer_manage"] == 'factory' ? 'selected' : '' }}>
                                                                                         تدارکات کارخانه
                                                                                     </option>
                                                                                     <option
-                                                                                        value="office" {{ $contractAmountValue["buyer_manage"] == 'office' ? 'selected' : '' }}>
+                                                                                            value="office" {{ $contractAmountValue["buyer_manage"] == 'office' ? 'selected' : '' }}>
                                                                                         دفتر مرکزی
                                                                                     </option>
                                                                                 </select>
@@ -310,10 +320,11 @@
                                                                                 <select name="user_id"
                                                                                         id="inputUser{{ $part->id }}"
                                                                                         class="input-text {{ !is_null($contractAmountValue["user_id"]) ? 'bg-green-100' : '' }}">
-                                                                                    <option value="">انتخاب کاربر</option>
+                                                                                    <option value="">انتخاب کاربر
+                                                                                    </option>
                                                                                     @foreach(\App\Models\User::where('role', 'staff')->orWhere('role', 'admin')->get() as $user)
                                                                                         <option
-                                                                                            value="{{ $user->id }}" {{ $contractAmountValue["user_id"] == $user->id ? 'selected' : '' }}>
+                                                                                                value="{{ $user->id }}" {{ $contractAmountValue["user_id"] == $user->id ? 'selected' : '' }}>
                                                                                             {{ $user->name }}
                                                                                         </option>
                                                                                     @endforeach
@@ -326,7 +337,7 @@
                                                                                     <option value="">خرید کننده</option>
                                                                                     @foreach(\App\Models\User::where('role', 'staff')->orWhere('role', 'admin')->get() as $user)
                                                                                         <option
-                                                                                            value="{{ $user->id }}" {{ $contractAmountValue["shopper"] == $user->id ? 'selected' : '' }}>
+                                                                                                value="{{ $user->id }}" {{ $contractAmountValue["shopper"] == $user->id ? 'selected' : '' }}>
                                                                                             {{ $user->name }}
                                                                                         </option>
                                                                                     @endforeach
