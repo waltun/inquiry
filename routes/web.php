@@ -599,6 +599,7 @@ Route::middleware(['auth', 'web'])->group(function () {
 
         Route::get('/contracts/analyze-parts/all-parts', [AnalyzePartController::class, 'index'])->name('contracts.analyze-parts.index');
         Route::post('/contracts/analyze-parts/all-parts', [AnalyzePartController::class, 'store'])->name('contracts.analyze-parts.store');
+        Route::post('/contracts/analyze-parts/all-parts/purchase', [AnalyzePartController::class, 'purchase'])->name('contracts.analyze-parts.purchase');
 
         Route::get('/contracts/{contract}/recipe', [RecipeController::class, 'index'])->name('contracts.recipe.index');
         Route::get('/contracts/{contract}/recipe/parts', [RecipeController::class, 'parts'])->name('contracts.recipe.parts');

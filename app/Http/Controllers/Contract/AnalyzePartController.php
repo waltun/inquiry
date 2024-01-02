@@ -15,9 +15,6 @@ class AnalyzePartController extends Controller
     {
         $amounts = ContractProductAmount::query()->with(['product', 'product.contract']);
 
-        $amounts = $amounts->where('status', '=', 'ordered')
-            ->orWhere('status', '=', null)->where('value', '>', 0)->get();
-
         if (request()->has('buyer_manage') && !is_null(request('buyer_manage'))) {
             $amounts = $amounts->where('buyer_manage', request('buyer_manage'));
         }
@@ -33,6 +30,16 @@ class AnalyzePartController extends Controller
             $amounts = $amounts->whereIn('part_id', $partIds);
         }
 
+        if (auth()->user()->role != 'admin') {
+            $amounts = $amounts->where('status', '=', 'ordered')
+                ->orWhere('status', '=', null)->where('value', '>', 0)
+                ->where('shopper', auth()->user()->id)->where('buy_status', null)->get();
+        } else {
+            $amounts = $amounts->where('status', '=', 'ordered')
+                ->orWhere('status', '=', null)->where('buy_status', '=', null)
+                ->where('value', '>', 0)->get();
+        }
+
         $values = [];
 
         foreach ($amounts as $amount) {
@@ -41,7 +48,9 @@ class AnalyzePartController extends Controller
                     'value' => 0,
                     'buyer' => $amount->buyer,
                     'buyer_manage' => $amount->buyer_manage,
-                    'status' => $amount->status
+                    'status' => $amount->status,
+                    'shopper' => $amount->shopper,
+                    'buy_status' => $amount->buy_status
                 ];
             }
         }
@@ -75,6 +84,23 @@ class AnalyzePartController extends Controller
                 $amount->buyer_manage = $request->buyer_manage;
                 $amount->status = $request->status;
                 $amount->user_id = $request->user_id;
+                $amount->shopper = $request->shopper;
+                $amount->save();
+            }
+        }
+
+        alert()->success('ثبت موفق', 'اطلاعات با موفقیت ثبت شد');
+
+        return back();
+    }
+
+    public function purchase(Request $request)
+    {
+        $amounts = ContractProductAmount::where('part_id', $request->part_id)->get();
+
+        foreach ($amounts as $amount) {
+            if ($amount->product->contract_id == $request->contract_id) {
+                $amount->buy_status = 'purchase';
                 $amount->save();
             }
         }
