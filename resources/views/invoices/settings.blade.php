@@ -1,6 +1,11 @@
 <x-layout>
     <x-slot name="js">
         <script src="{{ asset('plugins/tinymce/tinymce.min.js') }}"></script>
+        <script src="{{ asset('plugins/jquery.min.js') }}"></script>
+        <script src="{{ asset('plugins/select2/select2.min.js') }}"></script>
+        <script>
+            $("#inputUser").select2()
+        </script>
         <script>
             tinymce.init({
                 selector: '#inputDescription',
@@ -20,6 +25,9 @@
                     "@import url('/fonts/font.css'); body { font-family: IRANSans; }",
             })
         </script>
+    </x-slot>
+    <x-slot name="css">
+        <link rel="stylesheet" href="{{ asset('plugins/select2/select2.min.css') }}">
     </x-slot>
 
     <!-- Breadcrumb -->
@@ -109,6 +117,21 @@
                           class="input-text h-64">
                         {{ $invoice->description ?? $invoice->inquiry->description }}
                 </textarea>
+            </div>
+
+            @php
+                $userIds = $invoice->users()->pluck('user_id')->toArray();
+            @endphp
+            <div class="mt-4">
+                <label for="inputUser" class="form-label">انتخاب خریدار</label>
+                <select name="user_ids[]" id="inputUser" class="input-text" multiple>
+                    @foreach($users as $user)
+                        <option
+                            value="{{ $user->id }}" {{ in_array($user->id, $userIds) ? 'selected' : '' }}>
+                            {{ $user->name }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
 
         </div>

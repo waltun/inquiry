@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Invoice;
 use App\Models\InvoiceProduct;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
@@ -154,20 +155,24 @@ class InvoiceController extends Controller
 
     public function settings(Invoice $invoice)
     {
-        return view('invoices.settings', compact('invoice'));
+        $users = User::where('role', 'client')->get();
+        return view('invoices.settings', compact('invoice', 'users'));
     }
 
     public function storeSettings(Request $request, Invoice $invoice)
     {
-        $request->validate([
+        $data = $request->validate([
             'tax' => 'required|in:0,1',
-            'description' => 'required'
+            'description' => 'required',
+            'user_ids' => 'required|array'
         ]);
 
         $invoice->update([
             'tax' => $request->tax,
             'description' => $request->description,
         ]);
+
+        $invoice->users()->sync($data['user_ids']);
 
         alert()->success('ثبت موفق', 'تنظیمات با موفقیت ثبت شد');
 
