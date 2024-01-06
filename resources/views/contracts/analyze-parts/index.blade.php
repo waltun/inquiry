@@ -106,7 +106,7 @@
                     <option value="">انتخاب قرارداد</option>
                     @foreach($searchContracts as $searchContract)
                         <option
-                                value="{{ $searchContract->id }}" {{ request('contract_id') == $searchContract->id ? 'selected' : '' }}>
+                            value="{{ $searchContract->id }}" {{ request('contract_id') == $searchContract->id ? 'selected' : '' }}>
                             {{ $searchContract->name }}
                         </option>
                     @endforeach
@@ -167,7 +167,7 @@
                                 <div class="flex items-center">
                                     {{ $value['value'] }}
                                     @if($value['value2'] > 0)
-                                         / {{ $value['value2'] }}
+                                        / {{ $value['value2'] }}
                                     @endif
                                 </div>
                             </td>
@@ -261,7 +261,7 @@
                                                                         <input type="hidden" name="part_id"
                                                                                value="{{ $part->id }}">
                                                                         <div
-                                                                                class="grid grid-cols-3 gap-4 border-b border-gray-200 pb-3">
+                                                                            class="grid grid-cols-3 gap-4 border-b border-gray-200 pb-3">
                                                                             <div class="flex justify-center">
                                                                                 <p class="text-sm font-medium">
                                                                                     قرارداد
@@ -281,7 +281,7 @@
                                                                                 </a>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="grid grid-cols-5 gap-4 mt-6">
+                                                                        <div class="grid grid-cols-4 gap-4 mt-6">
                                                                             <div>
                                                                                 <select name="status" id="inputStatus"
                                                                                         class="input-text {{ !is_null($contractAmountValue["status"]) ? 'bg-green-100' : '' }}">
@@ -289,15 +289,11 @@
                                                                                         انتخاب وضعیت
                                                                                     </option>
                                                                                     <option
-                                                                                            value="ordered" {{ $contractAmountValue["status"] == 'ordered' ? 'selected' : '' }}>
+                                                                                        value="ordered" {{ $contractAmountValue["status"] == 'ordered' ? 'selected' : '' }}>
                                                                                         سفارش گذاری شد
                                                                                     </option>
                                                                                     <option
-                                                                                            value="buy" {{ $contractAmountValue["status"] == 'buy' ? 'selected' : '' }}>
-                                                                                        خریداری و تحویل انبار شد
-                                                                                    </option>
-                                                                                    <option
-                                                                                            value="available" {{ $contractAmountValue["status"] == 'available' ? 'selected' : '' }}>
+                                                                                        value="available" {{ $contractAmountValue["status"] == 'available' ? 'selected' : '' }}>
                                                                                         موجودی انبار می باشد
                                                                                     </option>
                                                                                 </select>
@@ -306,38 +302,26 @@
                                                                                 <select name="buyer_manage"
                                                                                         id="inputBuyer{{ $part->id }}"
                                                                                         class="input-text {{ !is_null($contractAmountValue["buyer_manage"]) ? 'bg-green-100' : '' }}">
+                                                                                    <option value="">انتخاب بخش</option>
                                                                                     <option
-                                                                                            value="factory" {{ $contractAmountValue["buyer_manage"] == 'factory' ? 'selected' : '' }}>
+                                                                                        value="factory" {{ $contractAmountValue["buyer_manage"] == 'factory' ? 'selected' : '' }}>
                                                                                         تدارکات کارخانه
                                                                                     </option>
                                                                                     <option
-                                                                                            value="office" {{ $contractAmountValue["buyer_manage"] == 'office' ? 'selected' : '' }}>
+                                                                                        value="office" {{ $contractAmountValue["buyer_manage"] == 'office' ? 'selected' : '' }}>
                                                                                         دفتر مرکزی
                                                                                     </option>
-                                                                                </select>
-                                                                            </div>
-                                                                            <div>
-                                                                                <select name="user_id"
-                                                                                        id="inputUser{{ $part->id }}"
-                                                                                        class="input-text {{ !is_null($contractAmountValue["user_id"]) ? 'bg-green-100' : '' }}">
-                                                                                    <option value="">انتخاب کاربر
-                                                                                    </option>
-                                                                                    @foreach(\App\Models\User::where('role', 'staff')->orWhere('role', 'admin')->get() as $user)
-                                                                                        <option
-                                                                                                value="{{ $user->id }}" {{ $contractAmountValue["user_id"] == $user->id ? 'selected' : '' }}>
-                                                                                            {{ $user->name }}
-                                                                                        </option>
-                                                                                    @endforeach
                                                                                 </select>
                                                                             </div>
                                                                             <div>
                                                                                 <select name="shopper"
                                                                                         id="inputShopper{{ $part->id }}"
                                                                                         class="input-text {{ !is_null($contractAmountValue["shopper"]) ? 'bg-green-100' : '' }}">
-                                                                                    <option value="">خرید کننده</option>
+                                                                                    <option value="">انتخاب مسئول خرید
+                                                                                    </option>
                                                                                     @foreach(\App\Models\User::where('role', 'staff')->orWhere('role', 'admin')->get() as $user)
                                                                                         <option
-                                                                                                value="{{ $user->id }}" {{ $contractAmountValue["shopper"] == $user->id ? 'selected' : '' }}>
+                                                                                            value="{{ $user->id }}" {{ $contractAmountValue["shopper"] == $user->id ? 'selected' : '' }}>
                                                                                             {{ $user->name }}
                                                                                         </option>
                                                                                     @endforeach
@@ -352,18 +336,20 @@
                                                                         </div>
                                                                     </form>
                                                                     @if(is_null($contractAmountValue["buy_status"]))
-                                                                        <form method="POST"
-                                                                              action="{{ route('contracts.analyze-parts.purchase') }}"
-                                                                              class="mt-4">
-                                                                            @csrf
-                                                                            <input type="hidden" name="contract_id"
-                                                                                   value="{{ $contract->id }}">
-                                                                            <input type="hidden" name="part_id"
-                                                                                   value="{{ $part->id }}">
-                                                                            <button class="form-submit-btn">
-                                                                                خریداری شد
-                                                                            </button>
-                                                                        </form>
+                                                                        @if($contractAmountValue["status"] == 'ordered')
+                                                                            <form method="POST"
+                                                                                  action="{{ route('contracts.analyze-parts.purchase') }}"
+                                                                                  class="mt-4">
+                                                                                @csrf
+                                                                                <input type="hidden" name="contract_id"
+                                                                                       value="{{ $contract->id }}">
+                                                                                <input type="hidden" name="part_id"
+                                                                                       value="{{ $part->id }}">
+                                                                                <button class="form-submit-btn">
+                                                                                    خریداری شد
+                                                                                </button>
+                                                                            </form>
+                                                                        @endif
                                                                     @endif
                                                                 </div>
                                                             @endforeach
