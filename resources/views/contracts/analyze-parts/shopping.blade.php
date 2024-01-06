@@ -274,14 +274,14 @@
                                                                     </div>
                                                                     @if(!is_null($contractAmountValue["buy_status"]))
                                                                         <form method="POST"
-                                                                              action="{{ route('contracts.analyze-parts.purchase') }}"
+                                                                              action="{{ route('contracts.analyze-parts.shopping-parts.complete') }}"
                                                                               class="mt-4">
                                                                             @csrf
                                                                             <input type="hidden" name="contract_id"
                                                                                    value="{{ $contract->id }}">
                                                                             <input type="hidden" name="part_id"
                                                                                    value="{{ $part->id }}">
-                                                                            <button class="form-submit-btn">
+                                                                            <button class="form-submit-btn" onclick="return confirm('ورود به انبار ثبت شود ؟')">
                                                                                 ورود به انبار شد
                                                                             </button>
                                                                         </form>

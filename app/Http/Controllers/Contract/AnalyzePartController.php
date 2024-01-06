@@ -173,6 +173,23 @@ class AnalyzePartController extends Controller
         return view('contracts.analyze-parts.shopping', compact('amounts', 'searchContracts', 'paginator'));
     }
 
+    public function complete(Request $request)
+    {
+        $amounts = ContractProductAmount::where('part_id', $request->part_id)->get();
+
+        foreach ($amounts as $amount) {
+            if ($amount->product->contract_id == $request->contract_id) {
+                $amount->buy_status = 'success';
+                $amount->status = 'success';
+                $amount->save();
+            }
+        }
+
+        alert()->success('ثبت موفق', 'اطلاعات با موفقیت ثبت شد');
+
+        return back();
+    }
+
     /**
      * @param array $values
      * @return LengthAwarePaginator

@@ -345,7 +345,7 @@
                                                                                        value="{{ $contract->id }}">
                                                                                 <input type="hidden" name="part_id"
                                                                                        value="{{ $part->id }}">
-                                                                                <button class="form-submit-btn">
+                                                                                <button class="form-submit-btn" onclick="return confirm('قطعه خریداری شد ؟')">
                                                                                     خریداری شد
                                                                                 </button>
                                                                             </form>
