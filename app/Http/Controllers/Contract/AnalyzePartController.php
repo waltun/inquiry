@@ -112,6 +112,68 @@ class AnalyzePartController extends Controller
         return back();
     }
 
+    public function shopping()
+    {
+        $amounts = ContractProductAmount::query()->with(['product', 'product.contract']);
+
+        if (request()->has('buyer_manage') && !is_null(request('buyer_manage'))) {
+            $amounts = $amounts->where('buyer_manage', request('buyer_manage'));
+        }
+
+        if (request()->has('contract_id') && !is_null(request('contract_id'))) {
+            $contract = Contract::find(request('contract_id'));
+            $productIds = $contract->products->pluck('id')->toArray();
+            $amounts = $amounts->whereIn('contract_product_id', $productIds);
+        }
+
+        if (request()->has('search') && !is_null($keyword = request('search'))) {
+            $partIds = Part::where('name', 'LIKE', "%$keyword%")->pluck('id')->toArray();
+            $amounts = $amounts->whereIn('part_id', $partIds);
+        }
+
+        if (auth()->user()->role != 'admin') {
+            $amounts = $amounts->where('shopper', auth()->user()->id)->where('buy_status', 'purchase')->get();
+        } else {
+            $amounts = $amounts->where('buy_status', 'purchase')->get();
+        }
+
+        $values = [];
+
+        foreach ($amounts as $amount) {
+            if ($amount->product->contract->recipe) {
+                $values[$amount->part_id] = [
+                    'value' => 0,
+                    'value2' => 0,
+                    'buyer' => $amount->buyer,
+                    'buyer_manage' => $amount->buyer_manage,
+                    'status' => $amount->status,
+                    'shopper' => $amount->shopper,
+                    'buy_status' => $amount->buy_status
+                ];
+            }
+        }
+
+        foreach ($amounts as $amount) {
+            if ($amount->product->contract->recipe) {
+                $values[$amount->part_id]['value'] += $amount->value * $amount->product->quantity;
+                $values[$amount->part_id]['value2'] += $amount->value2 * $amount->product->quantity;
+            }
+        }
+
+        $uniqueAmounts = ContractProductAmount::all()->unique('contract_product_id');
+        $searchContracts = collect();
+
+        foreach ($uniqueAmounts as $uniqueAmount) {
+            $searchContracts->push($uniqueAmount->product->contract);
+        }
+
+        $searchContracts = $searchContracts->unique('id');
+
+        $paginator = $this->getAwarePaginator($values);
+
+        return view('contracts.analyze-parts.shopping', compact('amounts', 'searchContracts', 'paginator'));
+    }
+
     /**
      * @param array $values
      * @return LengthAwarePaginator
