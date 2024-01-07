@@ -10,7 +10,7 @@ class Packing extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'unit', 'weight', 'contract_id'
+        'name', 'unit', 'weight', 'contract_id', 'code', 'length', 'width', 'height', 'type'
     ];
 
     public function contract()

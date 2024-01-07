@@ -131,25 +131,25 @@
                     <div class="card border-0 mb-0">
                         <div class="mt-2">
                             @foreach($contract->packings as $packing)
-                                <div class="p-4 border border-black grid grid-cols-4 gap-4 mb-6">
+                                <div class="p-4 border border-black grid grid-cols-4 gap-4 mb-6 items-center">
                                     <div>
-                                        <p class="text-sm font-bold text-black">
+                                        <p class="text-sm font-bold text-black text-center">
                                             {{ $loop->index + 1 }}
                                         </p>
                                     </div>
                                     <div>
-                                        <p class="text-sm font-bold text-black">
+                                        <p class="text-sm font-bold text-black text-center">
                                             {{ $packing->name }}
                                         </p>
                                     </div>
                                     <div>
-                                        <p class="text-sm font-bold text-black">
+                                        <p class="text-sm font-bold text-black text-center">
                                             {{ $packing->unit }}
                                         </p>
                                     </div>
                                     <div>
-                                        <p class="text-sm font-bold text-black">
-                                            {{ $packing->weight }} کیلوگرم
+                                        <p class="text-sm font-bold text-black text-center">
+                                            {{ number_format($packing->weight) }} کیلوگرم
                                         </p>
                                     </div>
 
@@ -163,13 +163,16 @@
                                                         ردیف
                                                     </th>
                                                     <th scope="col" class="p-1" style="border-left: 1px solid black">
-                                                        دسته محصول
+                                                        محصول / دستگاه / تجهیز
                                                     </th>
                                                     <th scope="col" class="p-1" style="border-left: 1px solid black">
-                                                        مدل محصول
+                                                        مدل
                                                     </th>
                                                     <th scope="col" class="p-1" style="border-left: 1px solid black">
                                                         تگ
+                                                    </th>
+                                                    <th scope="col" class="p-1" style="border-left: 1px solid black">
+                                                        واحد
                                                     </th>
                                                     <th scope="col" class="p-1" style="border-left: 1px solid black">
                                                         تعداد
@@ -195,6 +198,9 @@
                                                             {{ $product->description ?? '-' }}
                                                         </td>
                                                         <td class="border border-black border-t-0 border-l p-1">
+                                                            دستگاه
+                                                        </td>
+                                                        <td class="border border-black border-t-0 border-l p-1">
                                                             {{ $product->quantity }}
                                                         </td>
                                                     </tr>
@@ -215,6 +221,9 @@
                                                         </td>
                                                         <td class="border border-black border-t-0 border-l p-1">
                                                             -
+                                                        </td>
+                                                        <td class="border border-black border-t-0 border-l p-1">
+                                                            {{ $part->unit }}
                                                         </td>
                                                         <td class="border border-black border-t-0 border-l p-1">
                                                             {{ $product->quantity }}

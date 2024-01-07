@@ -112,27 +112,53 @@
                 </p>
             </div>
 
-            <div class="mb-4">
-                <label for="inputName" class="form-label">
-                    نام ردیف
-                </label>
-                <input type="text" id="inputName" name="name" class="input-text"
-                       value="{{ old('name', $packing->name) }}"
-                       placeholder="لایه بیرونی فن کویل">
+            <div class="mb-4 grid grid-cols-2 gap-4">
+                <div>
+                    <label for="inputName" class="form-label">
+                        نام ردیف
+                    </label>
+                    <input type="text" id="inputName" name="name" class="input-text" value="{{ old('name', $packing->name) }}"
+                           placeholder="لایه بیرونی فن کویل">
+                </div>
+                <div>
+                    <label for="inputType" class="form-label">
+                        نوع بسته بندی
+                    </label>
+                    <input type="text" id="inputType" name="type" class="input-text" value="{{ old('type', $packing->type) }}"
+                           placeholder="پالت جوبی و کارتن و کاور نایلونی">
+                </div>
             </div>
 
-            <div class="mb-4">
-                <label for="inputUnit" class="form-label">واحد</label>
-                <input type="text" id="inputUnit" name="unit" class="input-text"
-                       value="{{ old('unit', $packing->unit) }}"
-                       placeholder="دستگاه">
+            <div class="mb-4 grid grid-cols-2 gap-4">
+                <div>
+                    <label for="inputUnit" class="form-label">واحد</label>
+                    <input type="text" id="inputUnit" name="unit" class="input-text" value="{{ old('unit', $packing->unit) }}"
+                           placeholder="دستگاه">
+                </div>
+
+                <div>
+                    <label for="inputWeight" class="form-label">وزن (کیلوگرم)</label>
+                    <input type="text" id="inputWeight" name="weight" class="input-text" value="{{ old('weight', $packing->weight) }}"
+                           placeholder="1452">
+                </div>
             </div>
 
-            <div class="mb-4">
-                <label for="inputWeight" class="form-label">وزن (کیلوگرم)</label>
-                <input type="text" id="inputWeight" name="weight" class="input-text"
-                       value="{{ old('weight', $packing->weight) }}"
-                       placeholder="1452">
+            <div class="mb-4 grid grid-cols-3 gap-4">
+                <div>
+                    <label for="inputLength" class="form-label">طول</label>
+                    <input type="text" id="inputLength" name="length" class="input-text" value="{{ old('length', $packing->length) }}"
+                           placeholder="77">
+                </div>
+                <div>
+                    <label for="inputWidth" class="form-label">عرض</label>
+                    <input type="text" id="inputWidth" name="width" class="input-text" value="{{ old('width', $packing->width) }}"
+                           placeholder="82">
+                </div>
+                <div>
+                    <label for="inputHeight" class="form-label">ارتفاع</label>
+                    <input type="text" id="inputHeight" name="height" class="input-text" value="{{ old('height', $packing->height) }}"
+                           placeholder="53">
+                </div>
             </div>
 
         </div>

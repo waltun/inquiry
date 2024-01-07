@@ -25,7 +25,11 @@ class PackingController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'unit' => 'required|string|max:255',
-            'weight' => 'required|numeric'
+            'weight' => 'required|numeric',
+            'length' => 'nullable|numeric',
+            'width' => 'nullable|numeric',
+            'height' => 'nullable|numeric',
+            'type' => 'required|string|max:255',
         ]);
 
         $contract->packings()->create($data);
@@ -50,7 +54,11 @@ class PackingController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'unit' => 'required|string|max:255',
-            'weight' => 'required|numeric'
+            'weight' => 'required|numeric',
+            'length' => 'nullable|numeric',
+            'width' => 'nullable|numeric',
+            'height' => 'nullable|numeric',
+            'type' => 'required|string|max:255',
         ]);
 
         alert()->success('بروزرسانی موفق', 'پکینگ با موفقیت بروزرسانی شد');
