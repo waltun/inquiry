@@ -18,37 +18,69 @@
         <thead style="display: table-header-group">
         <tr>
             <th>
-                <header class="flex fixed top-0 z-50 w-full">
-                    <div class="w-36 h-14 bg-[#cf3b61] -mr-10" style="transform: skew(30deg)"></div>
-                    <div class="w-96 h-14 bg-gray-100 mr-10" style="transform: skew(30deg)">
-                        <div class="flex items-center space-x-2 justify-center" style="transform: skew(-30deg)">
-                            <img src="{{ asset('images/azarbad.png') }}" alt="" class="w-24">
-                            <div class="space-y-1">
-                                <p class="text-sm font-medium text-myBlue-100 tracking-wider">تهویه آذرباد</p>
-                                <p class="text-xs font-medium text-myBlue-100">Tahvieh Azarbad</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="w-40 h-14 bg-gray-100 mr-10" style="transform: skew(30deg)">
-                        <div class="flex justify-between mx-3">
-                            <div class="w-6 h-16 bg-[#cf3b61]"></div>
-                            <div class="w-6 h-16 bg-[#005a96]"></div>
-                        </div>
-                    </div>
-                    <div class="w-full h-5 bg-[#cf3b61]"></div>
-                    <div class="absolute right-72 top-5 mr-16 p-1">
-                        <div class="flex items-center justify-center whitespace-nowrap mt-2">
-                            <p class="text-xs font-bold text-black mr-16">
-                                تاریخ : {{ jdate($contract->created_at)->format('Y/m/d') }}
-                            </p>
-                            <p class="text-xs font-bold text-black mr-8">
-                                شماره :
-                                PKL-{{ $contract->number }}
-                            </p>
-                        </div>
-                    </div>
+                <header class="flex fixed top-0 z-50 w-full p-5">
+                    <table class="table-fixed w-full border-collapse">
+                        <thead>
+                        <tr class="text-black border-2 border-black text-xs">
+                            <th scope="col" class="p-1 rounded-tr-lg"
+                                style="border-left: 1px solid black">
+                                <img src="{{ asset('images/azarbad.png') }}" alt="" class="w-24 mx-auto mb-2">
+                                <p class="text-sm">
+                                    فروشنده : شرکت تهویه آذرباد
+                                </p>
+                            </th>
+                            <th scope="col" class="p-1" style="border-left: 1px solid black">
+                                <p class="text-4xl">
+                                    Packing List
+                                </p>
+                            </th>
+                            <th scope="col" class="p-1" style="border-left: 1px solid black">
+                                <img src="{{ asset('images/azarbad.png') }}" alt="" class="w-24 mx-auto mb-2">
+                                <p class="text-sm">
+                                    خریدار : {{ $contract->customer->name }}
+                                </p>
+                            </th>
+                        </tr>
+                        <tr class="text-black border-x-2 border border-black text-xs">
+                            <th scope="col" class="p-1 rounded-tr-lg"
+                                style="border-left: 1px solid black">
+                                <p class="text-sm">
+                                    صفحه
+                                </p>
+                            </th>
+                            <th scope="col" class="p-1" style="border-left: 1px solid black">
+                                <p class="text-sm">
+                                    شماره سند
+                                </p>
+                            </th>
+                            <th scope="col" class="p-1" style="border-left: 1px solid black">
+                                <p class="text-sm">
+                                    تاریخ
+                                </p>
+                            </th>
+                        </tr>
+                        <tr class="text-black border-2 border-t border-black text-xs">
+                            <th scope="col" class="p-1 rounded-tr-lg"
+                                style="border-left: 1px solid black">
+                                <p class="text-sm">
+                                    1 از 1
+                                </p>
+                            </th>
+                            <th scope="col" class="p-1" style="border-left: 1px solid black">
+                                <p class="text-sm">
+                                    PL-{{ $contract->number }}
+                                </p>
+                            </th>
+                            <th scope="col" class="p-1" style="border-left: 1px solid black">
+                                <p class="text-sm">
+                                    {{ jdate($contract->updated_at)->format('Y/m/d') }}
+                                </p>
+                            </th>
+                        </tr>
+                        </thead>
+                    </table>
                 </header>
-                <div class="block mb-20 w-full"></div>
+                <div class="block mb-64 w-full"></div>
             </th>
         </tr>
         </thead>
@@ -131,111 +163,227 @@
                     <div class="card border-0 mb-0">
                         <div class="mt-2">
                             @foreach($contract->packings as $packing)
-                                <div class="p-4 border border-black grid grid-cols-4 gap-4 mb-6 items-center">
-                                    <div>
-                                        <p class="text-sm font-bold text-black text-center">
-                                            {{ $loop->index + 1 }}
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <p class="text-sm font-bold text-black text-center">
-                                            {{ $packing->name }}
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <p class="text-sm font-bold text-black text-center">
-                                            {{ $packing->unit }}
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <p class="text-sm font-bold text-black text-center">
-                                            {{ number_format($packing->weight) }} کیلوگرم
-                                        </p>
-                                    </div>
-
+                                <div>
+                                    <table class="table-fixed w-full border-collapse">
+                                        <thead>
+                                        <tr class="bg-sky-100 text-black border-2 border-black border-b-0 text-xs">
+                                            <th scope="col" class="p-1 rounded-tr-lg"
+                                                style="border-left: 1px solid black">
+                                                <p class="text-sm">
+                                                    شماره بسته : {{ $packing->code }}
+                                                </p>
+                                            </th>
+                                            <th scope="col" class="p-1" style="border-left: 1px solid black">
+                                                <p class="text-sm">
+                                                    شرح : {{ $packing->name }}
+                                                </p>
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                    </table>
                                     @if(!$packing->products->isEmpty())
-                                        <div class="col-span-4 border-t border-black pt-4">
-                                            <table class="w-full border-collapse">
-                                                <thead>
-                                                <tr class="bg-sky-100 text-black border border-black text-xs">
-                                                    <th scope="col" class="p-1 rounded-tr-lg"
-                                                        style="border-left: 1px solid black">
-                                                        ردیف
-                                                    </th>
-                                                    <th scope="col" class="p-1" style="border-left: 1px solid black">
-                                                        محصول / دستگاه / تجهیز
-                                                    </th>
-                                                    <th scope="col" class="p-1" style="border-left: 1px solid black">
-                                                        مدل
-                                                    </th>
-                                                    <th scope="col" class="p-1" style="border-left: 1px solid black">
-                                                        تگ
-                                                    </th>
-                                                    <th scope="col" class="p-1" style="border-left: 1px solid black">
-                                                        واحد
-                                                    </th>
-                                                    <th scope="col" class="p-1" style="border-left: 1px solid black">
-                                                        تعداد
-                                                    </th>
+                                        <table class="table-auto w-full border-collapse">
+                                            <thead>
+                                            <tr class="text-black border border-x-2 border-black text-xs">
+                                                <th scope="col" class="p-1 rounded-tr-lg"
+                                                    style="border-left: 1px solid black">
+                                                    ردیف
+                                                </th>
+                                                <th scope="col" class="p-1" style="border-left: 1px solid black">
+                                                    محصول / دستگاه / تجهیز
+                                                </th>
+                                                <th scope="col" class="p-1" style="border-left: 1px solid black">
+                                                    مدل
+                                                </th>
+                                                <th scope="col" class="p-1" style="border-left: 1px solid black">
+                                                    تگ
+                                                </th>
+                                                <th scope="col" class="p-1" style="border-left: 1px solid black">
+                                                    واحد
+                                                </th>
+                                                <th scope="col" class="p-1" style="border-left: 1px solid black">
+                                                    تعداد
+                                                </th>
+                                                <th scope="col" class="p-1" style="border-left: 1px solid black">
+                                                    MRS
+                                                </th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($packing->products()->where('group_id','!=',0)->where('model_id','!=',0)->get() as $product)
+                                                @php
+                                                    $modell = \App\Models\Modell::find($product->model_id);
+                                                @endphp
+                                                <tr class="text-black text-xs text-center">
+                                                    <td class="border border-r-2 border-black border-t-0 border-l p-1">
+                                                        {{ $loop->index + 1 }}
+                                                    </td>
+                                                    <td class="border border-black border-t-0 border-l p-1">
+                                                        {{ $modell->parent->name }}
+                                                    </td>
+                                                    <td class="border border-black border-t-0 border-l p-1">
+                                                        {{ $product->model_custom_name ?? $modell->name }}
+                                                    </td>
+                                                    <td class="border border-black border-t-0 border-l p-1">
+                                                        {{ $product->description ?? '-' }}
+                                                    </td>
+                                                    <td class="border border-black border-t-0 border-l p-1">
+                                                        دستگاه
+                                                    </td>
+                                                    <td class="border border-black border-t-0 border-l p-1">
+                                                        {{ $product->quantity }}
+                                                    </td>
+                                                    <td class="border border-black border-t-0 border-l-2 p-1">
+                                                        <div class="mx-auto w-4 h-4 border border-black">
+
+                                                        </div>
+                                                    </td>
                                                 </tr>
-                                                </thead>
-                                                <tbody>
-                                                @foreach($packing->products()->where('group_id','!=',0)->where('model_id','!=',0)->get() as $product)
-                                                    @php
-                                                        $modell = \App\Models\Modell::find($product->model_id);
-                                                    @endphp
-                                                    <tr class="text-black text-xs text-center">
-                                                        <td class="border border-black border-t-0 border-l p-1">
-                                                            {{ $loop->index + 1 }}
-                                                        </td>
-                                                        <td class="border border-black border-t-0 border-l p-1">
-                                                            {{ $modell->parent->name }}
-                                                        </td>
-                                                        <td class="border border-black border-t-0 border-l p-1">
-                                                            {{ $product->model_custom_name ?? $modell->name }}
-                                                        </td>
-                                                        <td class="border border-black border-t-0 border-l p-1">
-                                                            {{ $product->description ?? '-' }}
-                                                        </td>
-                                                        <td class="border border-black border-t-0 border-l p-1">
-                                                            دستگاه
-                                                        </td>
-                                                        <td class="border border-black border-t-0 border-l p-1">
-                                                            {{ $product->quantity }}
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                                @foreach($packing->products()->where('part_id','!=',0)->get() as $product)
-                                                    @php
-                                                        $part = \App\Models\Part::find($product->part_id);
-                                                    @endphp
-                                                    <tr class="text-black text-xs text-center">
-                                                        <td class="border border-black border-t-0 border-l p-1">
-                                                            {{ $loop->index + 1 }}
-                                                        </td>
-                                                        <td class="border border-black border-t-0 border-l p-1">
-                                                            {{ $part->name }}
-                                                        </td>
-                                                        <td class="border border-black border-t-0 border-l p-1">
-                                                            -
-                                                        </td>
-                                                        <td class="border border-black border-t-0 border-l p-1">
-                                                            -
-                                                        </td>
-                                                        <td class="border border-black border-t-0 border-l p-1">
-                                                            {{ $part->unit }}
-                                                        </td>
-                                                        <td class="border border-black border-t-0 border-l p-1">
-                                                            {{ $product->quantity }}
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                            @endforeach
+                                            @foreach($packing->products()->where('part_id','!=',0)->get() as $product)
+                                                @php
+                                                    $part = \App\Models\Part::find($product->part_id);
+                                                @endphp
+                                                <tr class="text-black text-xs text-center">
+                                                    <td class="border border-r-2 border-black border-t-0 border-l p-1">
+                                                        {{ $loop->index + 1 }}
+                                                    </td>
+                                                    <td class="border border-black border-t-0 border-l p-1">
+                                                        {{ $part->name }}
+                                                    </td>
+                                                    <td class="border border-black border-t-0 border-l p-1">
+                                                        -
+                                                    </td>
+                                                    <td class="border border-black border-t-0 border-l p-1">
+                                                        -
+                                                    </td>
+                                                    <td class="border border-black border-t-0 border-l p-1">
+                                                        {{ $part->unit }}
+                                                    </td>
+                                                    <td class="border border-black border-t-0 border-l p-1">
+                                                        {{ $product->quantity }}
+                                                    </td>
+                                                    <td class="border border-black border-t-0 border-l-2 p-1">
+                                                        <div class="mx-auto w-4 h-4 border border-black">
+
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
                                     @endif
+                                    <table class="table-fixed w-full border-collapse mb-4">
+                                        <thead>
+                                        <tr class="text-black border border-x-2 border-black border-t-0 text-xs">
+                                            <th scope="col" class="p-1 rounded-tr-lg"
+                                                style="border-left: 1px solid black">
+                                                ابعاد (CM)
+                                            </th>
+                                            <th scope="col" class="p-1" style="border-left: 1px solid black">
+                                                وزن (KG)
+                                            </th>
+                                            <th scope="col" class="p-1" style="border-left: 1px solid black">
+                                                حجم (M<sup>3</sup>)
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr class="text-black text-xs text-center">
+                                            <td class="border border-r-2 border-b-2 border-black border-t-0 border-l p-1 font-bold">
+                                                {{ $packing->length }}x{{ $packing->width }}x{{ $packing->height }}
+                                            </td>
+                                            <td class="border border-b-2 border-black border-t-0 border-l p-1 font-bold">
+                                                {{ $packing->weight }}
+                                            </td>
+                                            <td class="border border-b-2 border-black border-t-0 border-l-2 p-1 font-bold">
+                                                {{ $packing->length * $packing->width * $packing->height }}
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             @endforeach
+                            <div class="mt-16">
+                                <table class="table-fixed w-full border-collapse mb-8">
+                                    <thead>
+                                    <tr class="text-black border border-black text-xs">
+                                        <th scope="col" class="p-1 rounded-tr-lg"
+                                            style="border-left: 1px solid black" colspan="2">
+                                            نمایندگان فروشنده
+                                        </th>
+                                        <th scope="col" class="p-1" style="border-left: 1px solid black" colspan="4">
+                                            نمایندگان خریدار
+                                        </th>
+                                    </tr>
+                                    <tr class="text-black border border-black text-xs">
+                                        <th scope="col" class="p-1 rounded-tr-lg"
+                                            style="border-left: 1px solid black">
+                                            کنترل کیفی
+                                        </th>
+                                        <th scope="col" class="p-1" style="border-left: 1px solid black">
+                                            انبار
+                                        </th>
+                                        <th scope="col" class="p-1" style="border-left: 1px solid black">
+                                            مدیر
+                                        </th>
+
+                                        <th scope="col" class="p-1 rounded-tr-lg"
+                                            style="border-left: 1px solid black">
+                                            بازرس شخص ثالث
+                                        </th>
+                                        <th scope="col" class="p-1" style="border-left: 1px solid black">
+                                            نماینده خریدار
+                                        </th>
+                                        <th scope="col" class="p-1" style="border-left: 1px solid black">
+                                            نماینده کارفرما
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr class="text-black text-xs text-center">
+                                        <td class="p-8 border border-black">
+
+                                        </td>
+                                        <td class="p-8 border border-black">
+
+                                        </td>
+                                        <td class="p-8 border border-black">
+
+                                        </td>
+                                        <td class="p-8 border border-black">
+
+                                        </td>
+                                        <td class="p-8 border border-black">
+
+                                        </td>
+                                        <td class="p-8 border border-black">
+
+                                        </td>
+                                    </tr>
+                                    <tr class="text-black text-xs text-center">
+                                        <td class="p-4 border border-black">
+
+                                        </td>
+                                        <td class="p-4 border border-black">
+
+                                        </td>
+                                        <td class="p-4 border border-black">
+
+                                        </td>
+                                        <td class="p-4 border border-black">
+
+                                        </td>
+                                        <td class="p-4 border border-black">
+
+                                        </td>
+                                        <td class="p-4 border border-black">
+
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -246,9 +394,9 @@
 </div>
 
 <script>
-    window.onload = function () {
-        window.print();
-    }
+    // window.onload = function () {
+    //     window.print();
+    // }
 </script>
 
 </body>
