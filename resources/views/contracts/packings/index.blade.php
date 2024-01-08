@@ -112,6 +112,9 @@
                         #
                     </th>
                     <th scope="col" class="p-4">
+                        شماره
+                    </th>
+                    <th scope="col" class="p-4">
                         نام
                     </th>
                     <th scope="col" class="p-4">
@@ -119,6 +122,15 @@
                     </th>
                     <th scope="col" class="p-4">
                         وزن
+                    </th>
+                    <th scope="col" class="p-4">
+                        بسته بندی
+                    </th>
+                    <th scope="col" class="p-4">
+                        ابعاد
+                    </th>
+                    <th scope="col" class="p-4">
+                        حجم
                     </th>
                     <th scope="col" class="p-4">
                         محصولات
@@ -135,6 +147,9 @@
                             {{ $loop->index + 1 }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
+                            {{ $packing->code }}
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
                             {{ $packing->name }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
@@ -142,6 +157,15 @@
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             {{ $packing->weight }}
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            {{ $packing->type }}
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            {{ $packing->length }}x{{ $packing->width }}x{{ $packing->height }}
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            {{ $packing->length * $packing->width * $packing->height }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             <div class="flex justify-center items-center">

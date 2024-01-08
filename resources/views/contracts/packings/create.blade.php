@@ -123,7 +123,7 @@
                     <label for="inputType" class="form-label">
                         نوع بسته بندی
                     </label>
-                    <input type="text" id="inputType" name="name" class="input-text" value="{{ old('type') }}"
+                    <input type="text" id="inputType" name="type" class="input-text" value="{{ old('type') }}"
                            placeholder="پالت جوبی و کارتن و کاور نایلونی">
                 </div>
             </div>

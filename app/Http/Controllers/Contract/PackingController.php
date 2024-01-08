@@ -30,7 +30,12 @@ class PackingController extends Controller
             'width' => 'nullable|numeric',
             'height' => 'nullable|numeric',
             'type' => 'required|string|max:255',
+            'code' => 'nullable'
         ]);
+
+        $finalCode = $this->getFinalCode($contract);
+
+        $data['code'] = $finalCode;
 
         $contract->packings()->create($data);
 
@@ -85,5 +90,25 @@ class PackingController extends Controller
     public function print(Contract $contract)
     {
         return view('contracts.packings.print', compact('contract'));
+    }
+
+    /**
+     * @param Contract $contract
+     * @return string
+     */
+    public function getFinalCode(Contract $contract): string
+    {
+        $lastContractCode = explode('-', $contract->number)[2];
+        $currentYear = jdate(now())->getYear();
+        $lastPackingCode = $contract->packings()->max('code');
+
+        if (is_null($lastPackingCode)) {
+            $lastPackingCode = '01';
+        } else {
+            $explodeLastPackingCode = explode('-', $lastPackingCode)[2];
+            $lastPackingCode = str_pad($explodeLastPackingCode + 1, 2, "0", STR_PAD_LEFT);
+        }
+
+        return $currentYear . "-" . $lastContractCode . "-" . $lastPackingCode;
     }
 }
