@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Contract;
 
 use App\Http\Controllers\Controller;
 use App\Models\Contract;
+use App\Models\ContractProduct;
 use App\Models\Packing;
 use Illuminate\Http\Request;
 
@@ -90,6 +91,27 @@ class PackingController extends Controller
     public function print(Contract $contract)
     {
         return view('contracts.packings.print', compact('contract'));
+    }
+
+    public function choose(Contract $contract, Packing $packing)
+    {
+        return view('contracts.packings.choose', compact('contract', 'packing'));
+    }
+
+    public function storeChoose(Request $request, Contract $contract, Packing $packing)
+    {
+        $request->validate([
+            'product_id' => 'required|integer'
+        ]);
+
+        $product = ContractProduct::find($request->product_id);
+
+        $product->packing_id = $packing->id;
+        $product->save();
+
+        alert()->success('ثبت موفق', 'محصول با موفقیت به پکینگ اضافه شد');
+
+        return back();
     }
 
     /**

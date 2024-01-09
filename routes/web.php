@@ -619,6 +619,8 @@ Route::middleware(['auth', 'web'])->group(function () {
 
         Route::resource('contracts/{contract}/packings', PackingController::class);
         Route::get('/contracts/{contract}/packings/list/print', [PackingController::class, 'print'])->name('contracts.packings.print');
+        Route::get('contracts/{contract}/packings/{packing}/choose', [PackingController::class, 'choose'])->name('contracts.packings.choose');
+        Route::post('contracts/{contract}/packings/{packing}/choose', [PackingController::class, 'storeChoose'])->name('contracts.packings.store-choose');
 
         Route::get('/client-invoices', [ClientInvoiceController::class, 'index'])->name('client-invoices.index');
 

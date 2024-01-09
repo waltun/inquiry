@@ -91,7 +91,7 @@
     </div>
 
     <!-- Search -->
-    <div class="p-4 bg-white rounded-lg shadow mt-4">
+    <div class="mt-4">
         <form action="" method="get" class="grid grid-cols-3 gap-4" id="search-form">
             <div>
                 <input type="text" name="search" value="{{ request('search') }}" class="input-text"
@@ -120,47 +120,46 @@
                 </select>
             </div>
         </form>
-    </div>
 
     <!-- Content -->
     <div class="mt-4 space-y-4">
-        <div class="mt-8 overflow-x-auto rounded-lg hidden md:block">
+        <div class="overflow-x-auto rounded-lg hidden md:block">
             <table class="w-full border-collapse">
                 <thead>
                 <tr class="table-th-tr">
-                    <th scope="col" class="p-4 rounded-tr-lg">
+                    <th scope="col" class="p-2 rounded-tr-lg">
                         شماره قرارداد
                     </th>
-                    <th scope="col" class="p-4">
+                    <th scope="col" class="p-2">
                         شماره قرارداد قبلی
                     </th>
-                    <th scope="col" class="p-4">
+                    <th scope="col" class="p-2">
                         نام خریدار
                     </th>
-                    <th scope="col" class="p-4">
+                    <th scope="col" class="p-2">
                         نام پروژه
                     </th>
-                    <th scope="col" class="p-4">
+                    <th scope="col" class="p-2">
                         مسئول پروژه
                     </th>
-                    <th scope="col" class="p-4">
+                    <th scope="col" class="p-2">
                         بازاریاب
                     </th>
-                    <th scope="col" class="p-4">
+                    <th scope="col" class="p-2">
                         تاریخ
                     </th>
                     @can('contract-price')
-                        <th scope="col" class="p-4">
+                        <th scope="col" class="p-2">
                             قیمت کل (تومان)
                         </th>
-                        <th scope="col" class="p-4">
+                        <th scope="col" class="p-2">
                             بدهی (تومان)
                         </th>
                     @endcan
-                    <th scope="col" class="p-4">
+                    <th scope="col" class="p-2">
                         محصولات
                     </th>
-                    <th scope="col" class="p-4 rounded-tl-lg">
+                    <th scope="col" class="p-2 rounded-tl-lg">
                         <span class="sr-only">اقدامات</span>
                     </th>
                 </tr>
