@@ -435,7 +435,7 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="table-tr-td border-r-0 border-r-0">
+                            <td class="table-tr-td border-r-0">
                                 <div class="space-y-2">
                                     @can('submit-inquiry')
                                         <form action="{{ route('inquiries.submit',$inquiry->id) }}" method="POST"
