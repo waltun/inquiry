@@ -1,4 +1,20 @@
 <x-layout>
+    <x-slot name="js">
+        <script src="{{ asset('plugins/jquery.min.js') }}"></script>
+        <script src="{{ asset('plugins/select2/select2.min.js') }}"></script>
+        <script>
+            $("#inputName").select2({
+                tags: true
+            });
+            $("#inputType").select2({
+                tags: true
+            });
+        </script>
+    </x-slot>
+    <x-slot name="css">
+        <link rel="stylesheet" href="{{ asset('plugins/select2/select2.min.css') }}">
+    </x-slot>
+
     <!-- Breadcrumb -->
     <div class="flex items-center space-x-2 space-x-reverse whitespace-nowrap">
         <a href="{{ route('dashboard') }}" class="flex items-center">
@@ -112,33 +128,101 @@
                 </p>
             </div>
 
-            <div class="mb-4 grid grid-cols-2 gap-4">
+            <div class="mb-4 grid grid-cols-3 gap-4">
                 <div>
                     <label for="inputName" class="form-label">
                         نام ردیف
                     </label>
-                    <input type="text" id="inputName" name="name" class="input-text" value="{{ old('name', $packing->name) }}"
-                           placeholder="لایه بیرونی فن کویل">
+                    <select name="name" id="inputName" class="input-text">
+                        <option value="">انتخاب یا وارد کنید</option>
+                        @foreach($names as $name)
+                            <option value="{{ $name }}" {{ old('name', $packing->name) == $name ? 'selected' : '' }}>
+                                {{ $name }}
+                            </option>
+                        @endforeach
+                        @if(!in_array($packing->name, $names->toArray()))
+                            <option
+                                value="{{ $packing->name }}" {{ old('name', $packing->name) == $packing->name ? 'selected' : '' }}>
+                                {{ $packing->name }}
+                            </option>
+                        @endif
+                        <option
+                            value="قطعات یدکی راه اندازی" {{ old('name') == 'قطعات یدکی راه اندازی' ? 'selected' : '' }}>
+                            قطعات یدکی راه اندازی
+                        </option>
+                        <option value="قطعات راه اندازی" {{ old('name') == 'قطعات راه اندازی' ? 'selected' : '' }}>
+                            قطعات راه اندازی
+                        </option>
+                        <option value="قطعات نصب" {{ old('name') == 'قطعات نصب' ? 'selected' : '' }}>
+                            قطعات نصب
+                        </option>
+                        <option
+                            value="قطعات یدکی دو سالانه" {{ old('name') == 'قطعات یدکی دو سالانه' ? 'selected' : '' }}>
+                            قطعات یدکی دو سالانه
+                        </option>
+                        <option value="قطعات کنترلی" {{ old('name') == 'قطعات کنترلی' ? 'selected' : '' }}>
+                            قطعات کنترلی
+                        </option>
+                        <option value="کابل قدرت" {{ old('name') == 'کابل قدرت' ? 'selected' : '' }}>
+                            کابل قدرت
+                        </option>
+                        <option value="کابل کنترلی" {{ old('name') == 'کابل کنترلی' ? 'selected' : '' }}>
+                            کابل کنترلی
+                        </option>
+                        <option value="اقلام کابل کشی" {{ old('name') == 'اقلام کابل کشی' ? 'selected' : '' }}>
+                            اقلام کابل کشی
+                        </option>
+                        <option value="اقلام کانال کشی" {{ old('name') == 'اقلام کانال کشی' ? 'selected' : '' }}>
+                            اقلام کانال کشی
+                        </option>
+                        <option value="لوله و اتصالات" {{ old('name') == 'لوله و اتصالات' ? 'selected' : '' }}>
+                            لوله و اتصالات
+                        </option>
+                        <option value="انواع کویل" {{ old('name') == 'انواع کویل' ? 'selected' : '' }}>
+                            انواع کویل
+                        </option>
+                    </select>
                 </div>
                 <div>
+                    @php
+                        $types = [
+                            'کاور نایلون حباب دار با تسمه بندکشی',
+                            'پالت چوبی با روکش نایلون حباب دار و تسمه بندکشی',
+                            'کارتن',
+                            'باکس چوبی'
+                        ];
+                    @endphp
                     <label for="inputType" class="form-label">
                         نوع بسته بندی
                     </label>
-                    <input type="text" id="inputType" name="type" class="input-text" value="{{ old('type', $packing->type) }}"
-                           placeholder="پالت جوبی و کارتن و کاور نایلونی">
+                    <select name="type" id="inputType" class="input-text">
+                        <option value="">انتخاب یا وارد کنید</option>
+                        <option
+                            value="کاور نایلون حباب دار با تسمه بندکشی" {{ old('type', $packing->type) == 'کاور نایلون حباب دار با تسمه بندکشی' ? 'selected' : '' }}>
+                            کاور نایلون حباب دار با تسمه بندکشی
+                        </option>
+                        <option
+                            value="پالت چوبی با روکش نایلون حباب دار و تسمه بندکشی" {{ old('type', $packing->type) == 'پالت چوبی با روکش نایلون حباب دار و تسمه بندکشی' ? 'selected' : '' }}>
+                            پالت چوبی با روکش نایلون حباب دار و تسمه بندکشی
+                        </option>
+                        <option value="کارتن" {{ old('type', $packing->type) == 'کارتن' ? 'selected' : '' }}>
+                            کارتن
+                        </option>
+                        <option value="باکس چوبی" {{ old('type', $packing->type) == 'باکس چوبی' ? 'selected' : '' }}>
+                            باکس چوبی
+                        </option>
+                        @if(!in_array($packing->type, $types))
+                            <option
+                                value="$packing->type" {{ old('type', $packing->type) == $packing->type ? 'selected' : '' }}>
+                                {{ $packing->type }}
+                            </option>
+                        @endif
+                    </select>
                 </div>
-            </div>
-
-            <div class="mb-4 grid grid-cols-2 gap-4">
-                <div>
-                    <label for="inputUnit" class="form-label">واحد</label>
-                    <input type="text" id="inputUnit" name="unit" class="input-text" value="{{ old('unit', $packing->unit) }}"
-                           placeholder="دستگاه">
-                </div>
-
                 <div>
                     <label for="inputWeight" class="form-label">وزن (کیلوگرم)</label>
-                    <input type="text" id="inputWeight" name="weight" class="input-text" value="{{ old('weight', $packing->weight) }}"
+                    <input type="text" id="inputWeight" name="weight" class="input-text"
+                           value="{{ old('weight', $packing->weight) }}"
                            placeholder="1452">
                 </div>
             </div>
@@ -146,17 +230,20 @@
             <div class="mb-4 grid grid-cols-3 gap-4">
                 <div>
                     <label for="inputLength" class="form-label">طول</label>
-                    <input type="text" id="inputLength" name="length" class="input-text" value="{{ old('length', $packing->length) }}"
+                    <input type="text" id="inputLength" name="length" class="input-text"
+                           value="{{ old('length', $packing->length) }}"
                            placeholder="77">
                 </div>
                 <div>
                     <label for="inputWidth" class="form-label">عرض</label>
-                    <input type="text" id="inputWidth" name="width" class="input-text" value="{{ old('width', $packing->width) }}"
+                    <input type="text" id="inputWidth" name="width" class="input-text"
+                           value="{{ old('width', $packing->width) }}"
                            placeholder="82">
                 </div>
                 <div>
                     <label for="inputHeight" class="form-label">ارتفاع</label>
-                    <input type="text" id="inputHeight" name="height" class="input-text" value="{{ old('height', $packing->height) }}"
+                    <input type="text" id="inputHeight" name="height" class="input-text"
+                           value="{{ old('height', $packing->height) }}"
                            placeholder="53">
                 </div>
             </div>

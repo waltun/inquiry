@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Contract;
 use App\Http\Controllers\Controller;
 use App\Models\Contract;
 use App\Models\ContractProduct;
+use App\Models\Group;
+use App\Models\Modell;
 use App\Models\Packing;
 use Illuminate\Http\Request;
 
@@ -18,14 +20,18 @@ class PackingController extends Controller
 
     public function create(Contract $contract)
     {
-        return view('contracts.packings.create', compact('contract'));
+        $groups = Group::all();
+        $names = $groups->flatMap(function ($group) {
+            return $group->modells()->where('parent_id', 0)->pluck('name');
+        });
+
+        return view('contracts.packings.create', compact('contract', 'names'));
     }
 
     public function store(Request $request, Contract $contract)
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'unit' => 'required|string|max:255',
             'weight' => 'required|numeric',
             'length' => 'nullable|numeric',
             'width' => 'nullable|numeric',
@@ -52,14 +58,18 @@ class PackingController extends Controller
 
     public function edit(Contract $contract, Packing $packing)
     {
-        return view('contracts.packings.edit', compact('contract', 'packing'));
+        $groups = Group::all();
+        $names = $groups->flatMap(function ($group) {
+            return $group->modells()->where('parent_id', 0)->pluck('name');
+        });
+
+        return view('contracts.packings.edit', compact('contract', 'packing', 'names'));
     }
 
     public function update(Request $request, Contract $contract, Packing $packing)
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'unit' => 'required|string|max:255',
             'weight' => 'required|numeric',
             'length' => 'nullable|numeric',
             'width' => 'nullable|numeric',

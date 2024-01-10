@@ -118,9 +118,6 @@
                         نام
                     </th>
                     <th scope="col" class="p-4">
-                        واحد
-                    </th>
-                    <th scope="col" class="p-4">
                         وزن
                     </th>
                     <th scope="col" class="p-4">
@@ -151,9 +148,6 @@
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             {{ $packing->name }}
-                        </td>
-                        <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $packing->unit }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             {{ $packing->weight }}
