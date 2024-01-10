@@ -98,7 +98,7 @@
                     <option value="">جستجو براساس دسته</option>
                     @foreach($groups as $group)
                         <option
-                                value="{{ $group->id }}" {{ $group->id == request()->get('group_id') ? 'selected' : '' }}>
+                            value="{{ $group->id }}" {{ $group->id == request()->get('group_id') ? 'selected' : '' }}>
                             {{ $group->name }}
                         </option>
                     @endforeach
@@ -109,7 +109,7 @@
                     <option value="">جستجو براساس مدل</option>
                     @foreach($modells as $modell)
                         <option
-                                value="{{ $modell->id }}" {{ $modell->id == request()->get('model_id') ? 'selected' : '' }}>
+                            value="{{ $modell->id }}" {{ $modell->id == request()->get('model_id') ? 'selected' : '' }}>
                             {{ $modell->name }}
                         </option>
                     @endforeach
@@ -317,12 +317,12 @@
                                                                                     class="input-text">
                                                                                 @foreach(\App\Models\User::all() as $user)
                                                                                     <option
-                                                                                            value="{{ $user->id }}">{{ $user->name }}</option>
+                                                                                        value="{{ $user->id }}">{{ $user->name }}</option>
                                                                                 @endforeach
                                                                             </select>
                                                                         </div>
                                                                         <div
-                                                                                class="flex justify-end items-center space-x-4 space-x-reverse">
+                                                                            class="flex justify-end items-center space-x-4 space-x-reverse">
                                                                             <button type="submit"
                                                                                     class="form-submit-btn">
                                                                                 ثبت
@@ -383,12 +383,12 @@
                                                                                     class="input-text">
                                                                                 @foreach(\App\Models\User::where('role', 'staff')->orWhere('role', 'admin')->get() as $user)
                                                                                     <option
-                                                                                            value="{{ $user->id }}">{{ $user->name }}</option>
+                                                                                        value="{{ $user->id }}">{{ $user->name }}</option>
                                                                                 @endforeach
                                                                             </select>
                                                                         </div>
                                                                         <div
-                                                                                class="flex justify-end items-center space-x-4 space-x-reverse">
+                                                                            class="flex justify-end items-center space-x-4 space-x-reverse">
                                                                             <button type="submit"
                                                                                     class="form-submit-btn">
                                                                                 ثبت
@@ -496,14 +496,14 @@
                                                                             متن اصلاحیه
                                                                         </p>
                                                                         <div
-                                                                                class="mt-2 border border-gray-200 rounded-lg p-4 dark:border-black">
+                                                                            class="mt-2 border border-gray-200 rounded-lg p-4 dark:border-black">
                                                                             <p class="text-sm font-medium">
                                                                                 {{ $inquiry->message }}
                                                                             </p>
                                                                         </div>
                                                                     </div>
                                                                     <div
-                                                                            class="flex justify-end items-center space-x-4 space-x-reverse">
+                                                                        class="flex justify-end items-center space-x-4 space-x-reverse">
                                                                         <button type="button" class="form-cancel-btn"
                                                                                 @click="open = false">
                                                                             انصراف!
@@ -530,7 +530,8 @@
                     <div class="p-4 rounded-lg shadow-search bg-white border border-sky-100 space-y-4">
                         <div class="flex items-center justify-between">
                             <p class="text-xs font-medium text-black whitespace-nowrap">شماره استعلام :</p>
-                            <span class="border w-full mx-4 {{ $loop->odd ? 'border-sky-200' : 'border-red-200' }}"></span>
+                            <span
+                                class="border w-full mx-4 {{ $loop->odd ? 'border-sky-200' : 'border-red-200' }}"></span>
                             <p class="text-xs font-medium text-black whitespace-nowrap">
                                 @if(is_null($inquiry->inquiry_number))
                                     استعلام موقت
@@ -541,14 +542,16 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <p class="text-xs font-medium text-black whitespace-nowrap">نام پروژه :</p>
-                            <span class="border {{ $loop->odd ? 'border-sky-200' : 'border-red-200' }} w-full mx-4"></span>
+                            <span
+                                class="border {{ $loop->odd ? 'border-sky-200' : 'border-red-200' }} w-full mx-4"></span>
                             <p class="text-xs font-medium text-black whitespace-nowrap">
                                 {{ $inquiry->name }}
                             </p>
                         </div>
                         <div class="flex items-center justify-between">
                             <p class="text-xs font-medium text-black whitespace-nowrap">مسئول پروژه :</p>
-                            <span class="border {{ $loop->odd ? 'border-sky-200' : 'border-red-200' }} w-full mx-4"></span>
+                            <span
+                                class="border {{ $loop->odd ? 'border-sky-200' : 'border-red-200' }} w-full mx-4"></span>
                             @php
                                 $user = \App\Models\User::find($inquiry->user_id);
                             @endphp
@@ -558,14 +561,16 @@
                         </div>
                         <div class="flex items-center justify-between">
                             <p class="text-xs font-medium text-black whitespace-nowrap">بازاریاب :</p>
-                            <span class="border {{ $loop->odd ? 'border-sky-200' : 'border-red-200' }} w-full mx-4"></span>
+                            <span
+                                class="border {{ $loop->odd ? 'border-sky-200' : 'border-red-200' }} w-full mx-4"></span>
                             <p class="text-xs font-medium text-black whitespace-nowrap">
                                 {{ $inquiry->marketer }}
                             </p>
                         </div>
                         <div class="flex items-center justify-between">
                             <p class="text-xs font-medium text-black whitespace-nowrap">تاریخ :</p>
-                            <span class="border {{ $loop->odd ? 'border-sky-200' : 'border-red-200' }} w-full mx-4"></span>
+                            <span
+                                class="border {{ $loop->odd ? 'border-sky-200' : 'border-red-200' }} w-full mx-4"></span>
                             <p class="text-xs font-medium text-black whitespace-nowrap">
                                 {{ jdate($inquiry->created_at)->format('%A, %d %B %Y') }}
                             </p>
@@ -684,12 +689,12 @@
                                                                                 class="input-text">
                                                                             @foreach(\App\Models\User::all() as $user)
                                                                                 <option
-                                                                                        value="{{ $user->id }}">{{ $user->name }}</option>
+                                                                                    value="{{ $user->id }}">{{ $user->name }}</option>
                                                                             @endforeach
                                                                         </select>
                                                                     </div>
                                                                     <div
-                                                                            class="flex justify-end items-center space-x-4 space-x-reverse">
+                                                                        class="flex justify-end items-center space-x-4 space-x-reverse">
                                                                         <button type="submit" class="form-submit-btn">
                                                                             ثبت
                                                                         </button>
@@ -774,30 +779,31 @@
 
             @can('priced-inquiries')
                 <a href="{{ route('inquiries.priced') }}" class="dashboard-cards group bg-sky-200">
-                <div class="flex items-center">
-                    <div class="dashboard-card-icon bg-yellow-600 dark:bg-slate-800">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                             class="w-6 h-6 text-white group-hover:text-myBlue-100"
-                             fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    <div class="flex items-center">
+                        <div class="dashboard-card-icon bg-yellow-600 dark:bg-slate-800">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 class="w-6 h-6 text-white group-hover:text-myBlue-100"
+                                 fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <div class="mr-4">
+                            <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
+                                استعلام های قیمت گذاری شده
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                            <path fill-rule="evenodd"
+                                  d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                  clip-rule="evenodd"/>
                         </svg>
                     </div>
-                    <div class="mr-4">
-                        <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
-                            استعلام های قیمت گذاری شده
-                        </p>
-                    </div>
-                </div>
-                <div>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                         class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
-                        <path fill-rule="evenodd"
-                              d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                              clip-rule="evenodd"/>
-                    </svg>
-                </div>
-            </a>
-        @endcan
+                </a>
+            @endcan
+        </div>
     </div>
 </x-layout>
