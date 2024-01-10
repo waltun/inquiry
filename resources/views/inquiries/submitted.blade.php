@@ -402,7 +402,7 @@
                                                                             </label>
                                                                             <select name="user_id" id="inputUser"
                                                                                     class="input-text">
-                                                                                @foreach(\App\Models\User::all() as $user)
+                                                                                @foreach(\App\Models\User::where('role', 'staff')->orWhere('role', 'admin')->get() as $user)
                                                                                     <option
                                                                                         value="{{ $user->id }}">{{ $user->name }}</option>
                                                                                 @endforeach

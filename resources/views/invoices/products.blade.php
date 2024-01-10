@@ -55,7 +55,7 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p">
-                    پیش فاکتور ها
+                    پیش فاکتور های در حال انجام
                 </p>
             </div>
         </a>
@@ -95,18 +95,28 @@
                 </p>
             </div>
         </div>
-        <form action="{{ route('invoices.products.restore',$invoice->id) }}" method="POST">
-            @csrf
-            @method('PATCH')
+        <div class="flex items-center space-x-4 space-x-reverse">
+            <form action="{{ route('invoices.products.restore',$invoice->id) }}" method="POST">
+                @csrf
+                @method('PATCH')
 
-            <button class="page-info-btn" onclick="return confirm('محصولات حذف شده بازگردانی شوند ؟')">
-                بازگردانی محصولات
-            </button>
-        </form>
+                <button class="page-info-btn" onclick="return confirm('محصولات حذف شده بازگردانی شوند ؟')">
+                    بازگردانی محصولات
+                </button>
+            </form>
+            <a href="{{ route('invoices.index') }}" class="page-warning-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                     stroke="currentColor" class="w-4 h-4 ml-1">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3"/>
+                </svg>
+                برگشت
+            </a>
+        </div>
     </div>
 
     <div class="mt-4">
-        <x-errors />
+        <x-errors/>
     </div>
 
     <!-- Content -->
