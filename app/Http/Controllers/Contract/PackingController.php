@@ -114,6 +114,22 @@ class PackingController extends Controller
         return back();
     }
 
+    public function deleteProduct(Request $request, Contract $contract, Packing $packing)
+    {
+        $request->validate([
+            'product_id' => 'required|integer'
+        ]);
+
+        $product = ContractProduct::find($request->product_id);
+
+        $product->packing_id = null;
+        $product->save();
+
+        alert()->success('حذف موفق', 'محصول با موفقیت از پکینگ حذف شد');
+
+        return back();
+    }
+
     /**
      * @param Contract $contract
      * @return string
