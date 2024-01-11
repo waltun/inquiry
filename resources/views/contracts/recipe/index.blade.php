@@ -208,7 +208,7 @@
                                                                 <div class="mt-6 space-y-2">
                                                                     @foreach($product->histories as $history)
                                                                         <div
-                                                                            class="p-2 border border-gray-200 rounded-lg">
+                                                                                class="p-2 border border-gray-200 rounded-lg">
                                                                             <div class="grid grid-cols-5 gap-4">
                                                                                 <div>
                                                                                     <p class="text-xs font-medium text-black">
@@ -233,9 +233,9 @@
                                                                                         @switch($history->type)
                                                                                             @case('change')
                                                                                                 قطعه <span
-                                                                                                    class="text-indigo-600">{{ $oldPart->name }}</span>
+                                                                                                        class="text-indigo-600">{{ $oldPart->name }}</span>
                                                                                                 به <span
-                                                                                                    class="text-indigo-600">{{ $newPart->name }}</span>
+                                                                                                        class="text-indigo-600">{{ $newPart->name }}</span>
                                                                                                 تغییر یافت
                                                                                                 @break
                                                                                         @endswitch
@@ -285,7 +285,7 @@
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     @if(!is_null($product->packing_id))
-                                        {{ $product->packing->name }}
+                                        -
                                     @else
                                         <div class="flex items-center justify-center" x-data="{open:false}">
                                             <button class="table-warning-btn" @click="open = !open" type="button">
@@ -329,10 +329,12 @@
                                                                 </div>
                                                                 <div class="mt-6 space-y-2">
                                                                     <div class="mb-4">
-                                                                        <label for="inputPacking" class="form-label">
+                                                                        <label for="inputPacking{{ $product->id }}"
+                                                                               class="form-label">
                                                                             انتخاب پکینگ
                                                                         </label>
-                                                                        <select name="packing_id" id="inputPacking"
+                                                                        <select name="packing_id"
+                                                                                id="inputPacking{{ $product->id }}"
                                                                                 class="input-text">
                                                                             <option value="">انتخاب کنید</option>
                                                                             @foreach($contract->packings as $packing)
@@ -342,6 +344,26 @@
                                                                             @endforeach
                                                                         </select>
                                                                     </div>
+                                                                    <div class="mb-6">
+                                                                        <label for="inputQuantity{{ $product->id }}"
+                                                                               class="form-label">
+                                                                            تعداد اضافه شدن محصول
+                                                                        </label>
+                                                                        <input type="number" name="quantity"
+                                                                               id="inputQuantity{{ $product->id }}"
+                                                                               class="input-text"
+                                                                               value="{{ $product->quantity }}">
+                                                                    </div>
+                                                                    @if(!$product->packings->isEmpty())
+                                                                        <div class="mb-4 p-2 border border-gray-200 rounded-md bg-indigo-300">
+                                                                            <span class="text-white">
+                                                                                این محصول در پکینگ های زیر موجود است :
+                                                                            </span>
+                                                                            @foreach($product->packings as $packing)
+                                                                                {{ $packing->name }} -
+                                                                            @endforeach
+                                                                        </div>
+                                                                    @endif
                                                                     <div class="flex justify-end">
                                                                         <button type="submit" class="form-submit-btn">
                                                                             افزودن
@@ -547,7 +569,7 @@
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     @if($product->status == 'end')
                                         <div
-                                            class="flex items-center justify-center bg-green-500 text-white rounded-lg">
+                                                class="flex items-center justify-center bg-green-500 text-white rounded-lg">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                  stroke-width="2" stroke="currentColor" class="w-4 h-4 ml-1">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -723,9 +745,9 @@
                                                                 @switch($history->type)
                                                                     @case('change')
                                                                         قطعه <span
-                                                                            class="text-indigo-600">{{ $oldPart->name }}</span>
+                                                                                class="text-indigo-600">{{ $oldPart->name }}</span>
                                                                         به <span
-                                                                            class="text-indigo-600">{{ $newPart->name }}</span>
+                                                                                class="text-indigo-600">{{ $newPart->name }}</span>
                                                                         تغییر یافت
                                                                         @break
                                                                 @endswitch

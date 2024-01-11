@@ -20,6 +20,6 @@ class Packing extends Model
 
     public function products()
     {
-        return $this->hasMany(ContractProduct::class);
+        return $this->belongsToMany(ContractProduct::class)->withPivot(['quantity']);
     }
 }

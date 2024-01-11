@@ -169,7 +169,7 @@
                             {{ $product->description ?? '-' }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $product->quantity }}
+                            {{ $product->pivot->quantity }}
                         </td>
                         <td class="table-tr-td border-t-0 border-r-0">
                             <div class="flex items-center justify-center">

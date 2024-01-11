@@ -111,12 +111,18 @@ class RecipeController extends Controller
 
     public function addToPacking(Request $request, Contract $contract, ContractProduct $product)
     {
-        $request->validate([
-            'packing_id' => 'required|integer'
+        $data = $request->validate([
+            'packing_id' => 'required|integer',
+            'quantity' => 'required|numeric'
         ]);
 
-        $product->update([
-            'packing_id' => $request->packing_id
+        if ($data['quantity'] > $product->quantity) {
+            alert()->error('خطا', 'تعداد نباید بیشتر از تعداد محصول باشد');
+            return back();
+        }
+
+        $product->packings()->attach($data['packing_id'], [
+            'quantity' => $data['quantity']
         ]);
 
         alert()->success('ثبت موفق', 'محصول با موفقیت به پکینگ اضافه شد');

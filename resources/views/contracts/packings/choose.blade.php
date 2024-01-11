@@ -146,7 +146,7 @@
     <!-- Content -->
     <div class="mt-4 space-y-4">
         <!-- Product List -->
-        @if(!$contract->products()->where('group_id','!=',0)->where('model_id','!=',0)->where('packing_id', null)->get()->isEmpty())
+        @if(!$contract->products()->where('group_id','!=',0)->where('model_id','!=',0)->get()->isEmpty())
             <div class="card">
                 <div class="card-header">
                     <p class="card-title text-lg">لیست محصولات</p>
@@ -177,7 +177,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($contract->products()->where('group_id','!=',0)->where('model_id','!=',0)->where('packing_id', null)->get() as $product)
+                        @foreach($contract->products()->where('group_id','!=',0)->where('model_id','!=',0)->get() as $product)
                             <input type="hidden" name="products[]" value="{{ $product->id }}">
                             @php
                                 $modell = \App\Models\Modell::find($product->model_id);
@@ -199,15 +199,9 @@
                                     {{ $product->quantity }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-r-0">
-                                    <div class="flex items-center justify-center">
-                                        <form
-                                            action="{{ route('contracts.packings.store-choose', [$contract->id, $packing->id]) }}"
-                                            method="POST">
-                                            @csrf
-
-                                            <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                            <button class="table-warning-btn" type="submit"
-                                                    onclick="return confirm('به پکینگ اضافه شود ؟')">
+                                    <div class="flex items-center justify-center" x-data="{open : false}">
+                                        <div class="flex items-center justify-center" x-data="{open:false}">
+                                            <button class="table-warning-btn" @click="open = !open" type="button">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                      stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -215,7 +209,61 @@
                                                 </svg>
                                                 افزودن
                                             </button>
-                                        </form>
+                                            <div class="relative z-10" x-show="open" x-cloak>
+                                                <div class="modal-backdrop"></div>
+                                                <div class="fixed z-10 inset-0 overflow-y-auto">
+                                                    <div class="modal">
+                                                        <div class="modal-body">
+                                                            <form class="bg-white dark:bg-slate-800 p-4"
+                                                                  action="{{ route('contracts.packings.store-choose', [$contract->id, $packing->id]) }}"
+                                                                  method="POST">
+                                                                @csrf
+
+                                                                <div class="mb-4 flex justify-between items-center">
+                                                                    <h3 class="text-lg font-bold text-gray-900 dark:text-white">
+                                                                        اضافه کردن محصول {{ $modell->parent->name }}
+                                                                        - {{ $product->model_custom_name ?? $modell->name }}
+                                                                        به پکینگ
+                                                                    </h3>
+                                                                    <button type="button" @click="open = false">
+                                                                        <span class="modal-close">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                 fill="none"
+                                                                                 viewBox="0 0 24 24"
+                                                                                 stroke-width="1.5"
+                                                                                 stroke="currentColor"
+                                                                                 class="w-5 h-5 dark:text-white">
+                                                                                <path stroke-linecap="round"
+                                                                                      stroke-linejoin="round"
+                                                                                      d="M6 18L18 6M6 6l12 12"/>
+                                                                            </svg>
+                                                                        </span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="mt-6 space-y-2">
+                                                                    <input type="hidden" name="product_id"
+                                                                           value="{{ $product->id }}">
+                                                                    <input type="number" class="input-text"
+                                                                           name="quantity"
+                                                                           value="{{ $product->quantity }}"
+                                                                           placeholder="تعداد اضافه شدن این محصول">
+                                                                    <div class="mt-2">
+                                                                        <span class="text-xs text-red-600">
+                                                                        * نباید بیشتر از تعداد محصول باشد | حداکثر :     {{ $product->quantity }} تا
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="mt-4 flex justify-end">
+                                                                    <button type="submit" class="form-submit-btn">
+                                                                        افزودن
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>
@@ -232,7 +280,7 @@
         @endphp
         @foreach($types as $type)
             @php
-                $products = $contract->products()->where('part_id','!=',0)->where('type',$type)->where('packing_id', null)->get();
+                $products = $contract->products()->where('part_id','!=',0)->where('type',$type)->get();
             @endphp
             @if(!$products->isEmpty())
                 <div class="card">
@@ -328,14 +376,9 @@
                                     {{ $product->quantity }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-r-0">
-                                    <div class="flex items-center justify-center">
-                                        <form
-                                            action="{{ route('contracts.packings.store-choose', [$contract->id, $packing->id]) }}"
-                                            method="POST">
-                                            @csrf
-                                            <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                            <button class="table-warning-btn" type="submit"
-                                                    onclick="return confirm('به پکینگ اضافه شود ؟')">
+                                    <div class="flex items-center justify-center" x-data="{open : false}">
+                                        <div class="flex items-center justify-center" x-data="{open:false}">
+                                            <button class="table-warning-btn" @click="open = !open" type="button">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                      stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -343,7 +386,61 @@
                                                 </svg>
                                                 افزودن
                                             </button>
-                                        </form>
+                                            <div class="relative z-10" x-show="open" x-cloak>
+                                                <div class="modal-backdrop"></div>
+                                                <div class="fixed z-10 inset-0 overflow-y-auto">
+                                                    <div class="modal">
+                                                        <div class="modal-body">
+                                                            <form class="bg-white dark:bg-slate-800 p-4"
+                                                                  action="{{ route('contracts.packings.store-choose', [$contract->id, $packing->id]) }}"
+                                                                  method="POST">
+                                                                @csrf
+
+                                                                <div class="mb-4 flex justify-between items-center">
+                                                                    <h3 class="text-lg font-bold text-gray-900 dark:text-white">
+                                                                        اضافه کردن محصول {{ $modell->parent->name }}
+                                                                        - {{ $product->model_custom_name ?? $modell->name }}
+                                                                        به پکینگ
+                                                                    </h3>
+                                                                    <button type="button" @click="open = false">
+                                                                        <span class="modal-close">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                 fill="none"
+                                                                                 viewBox="0 0 24 24"
+                                                                                 stroke-width="1.5"
+                                                                                 stroke="currentColor"
+                                                                                 class="w-5 h-5 dark:text-white">
+                                                                                <path stroke-linecap="round"
+                                                                                      stroke-linejoin="round"
+                                                                                      d="M6 18L18 6M6 6l12 12"/>
+                                                                            </svg>
+                                                                        </span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="mt-6 space-y-2">
+                                                                    <input type="hidden" name="product_id"
+                                                                           value="{{ $product->id }}">
+                                                                    <input type="number" class="input-text"
+                                                                           name="quantity"
+                                                                           value="{{ $product->quantity }}"
+                                                                           placeholder="تعداد اضافه شدن این محصول">
+                                                                    <div class="mt-2">
+                                                                        <span class="text-xs text-red-600">
+                                                                        * نباید بیشتر از تعداد محصول باشد | حداکثر :     {{ $product->quantity }} تا
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="mt-4 flex justify-end">
+                                                                    <button type="submit" class="form-submit-btn">
+                                                                        افزودن
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>

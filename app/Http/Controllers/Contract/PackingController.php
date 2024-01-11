@@ -110,14 +110,21 @@ class PackingController extends Controller
 
     public function storeChoose(Request $request, Contract $contract, Packing $packing)
     {
-        $request->validate([
-            'product_id' => 'required|integer'
+        $data = $request->validate([
+            'product_id' => 'required|integer',
+            'quantity' => 'required|numeric'
         ]);
 
-        $product = ContractProduct::find($request->product_id);
+        $product = ContractProduct::find($data['product_id']);
 
-        $product->packing_id = $packing->id;
-        $product->save();
+        if ($data['quantity'] > $product->quantity) {
+            alert()->error('خطا', 'تعداد نباید بیشتر از تعداد محصول باشد');
+            return back();
+        }
+
+        $packing->products()->attach($product->id, [
+            'quantity' => $data['quantity']
+        ]);
 
         alert()->success('ثبت موفق', 'محصول با موفقیت به پکینگ اضافه شد');
 
@@ -130,10 +137,7 @@ class PackingController extends Controller
             'product_id' => 'required|integer'
         ]);
 
-        $product = ContractProduct::find($request->product_id);
-
-        $product->packing_id = null;
-        $product->save();
+        $packing->products()->detach($request->product_id);
 
         alert()->success('حذف موفق', 'محصول با موفقیت از پکینگ حذف شد');
 

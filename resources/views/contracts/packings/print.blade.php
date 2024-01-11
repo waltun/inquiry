@@ -298,7 +298,7 @@
                                                     {{ $packing->weight }}
                                                 </td>
                                                 <td class="border border-b-2 border-black border-t-0 border-l-2 p-1 font-bold">
-                                                    {{ $packing->length * $packing->width * $packing->height }}
+                                                    {{ $packing->length * $packing->width * $packing->height / 1000000 }}
                                                 </td>
                                             </tr>
                                             </tbody>

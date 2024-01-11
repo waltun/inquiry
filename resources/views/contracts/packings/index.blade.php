@@ -124,10 +124,10 @@
                         بسته بندی
                     </th>
                     <th scope="col" class="p-4">
-                        ابعاد
+                        ابعاد (CM)
                     </th>
                     <th scope="col" class="p-4">
-                        حجم
+                        حجم (M<sup>3</sup>)
                     </th>
                     <th scope="col" class="p-4">
                         محصولات
@@ -159,7 +159,7 @@
                             {{ $packing->length }}x{{ $packing->width }}x{{ $packing->height }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $packing->length * $packing->width * $packing->height }}
+                            {{ $packing->length * $packing->width * $packing->height / 1000000 }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             <div class="flex justify-center items-center">
@@ -172,7 +172,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                               d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                                     </svg>
-                                    مشاهده محصولات
+                                    مشاهده ({{ count($packing->products) }})
                                 </a>
                             </div>
                         </td>
