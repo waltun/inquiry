@@ -311,7 +311,8 @@
 
                                                                 <div class="mb-4 flex justify-between items-center">
                                                                     <h3 class="text-lg font-bold text-gray-900 dark:text-white">
-                                                                        اضافه کردن محصول به پکینگ
+                                                                        اضافه کردن محصول {{ $modell->parent->name }}
+                                                                        - {{ $product->model_custom_name ?? $modell->name }} به پکینگ
                                                                     </h3>
                                                                     <button type="button" @click="open = false">
                                                                     <span class="modal-close">
@@ -354,16 +355,16 @@
                                                                                class="input-text"
                                                                                value="{{ $product->quantity }}">
                                                                     </div>
-                                                                    @if(!$product->packings->isEmpty())
-                                                                        <div class="mb-4 p-2 border border-gray-200 rounded-md bg-indigo-300">
-                                                                            <span class="text-white">
-                                                                                این محصول در پکینگ های زیر موجود است :
-                                                                            </span>
-                                                                            @foreach($product->packings as $packing)
-                                                                                {{ $packing->name }} -
-                                                                            @endforeach
-                                                                        </div>
-                                                                    @endif
+                                                                    <div class="mt-4 border-t border-gray-400 pt-4">
+                                                                        @foreach($product->packings as $packing)
+                                                                            <div class="p-2 rounded-md bg-sky-100 mb-2">
+                                                                                <p class="text-sm font-bold">
+                                                                                    {{ $packing->name }} | تعداد
+                                                                                    : {{ $packing->pivot->quantity }}
+                                                                                </p>
+                                                                            </div>
+                                                                        @endforeach
+                                                                    </div>
                                                                     <div class="flex justify-end">
                                                                         <button type="submit" class="form-submit-btn">
                                                                             افزودن
@@ -653,6 +654,26 @@
                                                                                 </option>
                                                                             @endforeach
                                                                         </select>
+                                                                    </div>
+                                                                    <div class="mb-6">
+                                                                        <label for="inputQuantity{{ $product->id }}"
+                                                                               class="form-label">
+                                                                            تعداد اضافه شدن محصول
+                                                                        </label>
+                                                                        <input type="number" name="quantity"
+                                                                               id="inputQuantity{{ $product->id }}"
+                                                                               class="input-text"
+                                                                               value="{{ $product->quantity }}">
+                                                                    </div>
+                                                                    <div class="mt-4 border-t border-gray-400 pt-4">
+                                                                        @foreach($product->packings as $packing)
+                                                                            <div class="p-2 rounded-md bg-sky-100 mb-2">
+                                                                                <p class="text-sm font-bold">
+                                                                                    {{ $packing->name }} | تعداد
+                                                                                    : {{ $packing->pivot->quantity }}
+                                                                                </p>
+                                                                            </div>
+                                                                        @endforeach
                                                                     </div>
                                                                     <div class="flex justify-end">
                                                                         <button type="submit" class="form-submit-btn">
