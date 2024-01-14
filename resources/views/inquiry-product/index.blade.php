@@ -178,23 +178,44 @@
         </div>
     @endif
 
-    @can('submit-inquiry')
-        <div class="mt-4 flex justify-end">
-            <form action="{{ route('inquiries.submit',$inquiry->id) }}" method="POST">
-                @csrf
-                @method('PATCH')
-                <button class="page-success-btn"
-                        onclick="return confirm('استعلام ثبت نهایی شود ؟')">
+    @if(!$inquiry->submit)
+        @can('submit-inquiry')
+            <div class="mt-4 flex justify-end">
+                <form action="{{ route('inquiries.submit',$inquiry->id) }}" method="POST">
+                    @csrf
+                    @method('PATCH')
+                    <button class="page-success-btn"
+                            onclick="return confirm('استعلام ثبت نهایی شود ؟')">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                             stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M4.5 12.75l6 6 9-13.5"/>
+                        </svg>
+                        ثبت نهایی
+                    </button>
+                </form>
+            </div>
+        @endcan
+    @endif
+
+    @if($inquiry->submit)
+        @can('inquiry-final-submit')
+            @if(!$inquiry->products->pluck('percent')->contains(0))
+                <form action="{{ route('inquiries.finalSubmit',$inquiry->id) }}" method="POST"
+                      class="table-success-btn">
+                    @csrf
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                          stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
                         <path stroke-linecap="round" stroke-linejoin="round"
                               d="M4.5 12.75l6 6 9-13.5"/>
                     </svg>
-                    ثبت نهایی
-                </button>
-            </form>
-        </div>
-    @endcan
+                    <button onclick="return confirm('استعلام ثبت نهایی شود ؟')">
+                        ثبت نهایی
+                    </button>
+                </form>
+            @endif
+        @endcan
+    @endif
 
     <!-- Content -->
     <div class="mt-4 space-y-4">
