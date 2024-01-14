@@ -146,24 +146,34 @@
                 </thead>
                 <tbody>
                 @foreach($inquiries as $inquiry)
-                    <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
+                    <tr class="table-tb-tr group hover:font-bold hover:text-red-600 {{ $loop->even ? 'bg-sky-100' : '' }}">
                         <td class="table-tr-td border-t-0 border-l-0">
-                            {{ "INQ-" . $inquiry->inquiry_number }}
+                            <a href="{{ route('inquiries.products',$inquiry->id) }}">
+                                {{ "INQ-" . $inquiry->inquiry_number }}
+                            </a>
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $inquiry->name }}
+                            <a href="{{ route('inquiries.products',$inquiry->id) }}">
+                                {{ $inquiry->name }}
+                            </a>
                         </td>
                         @php
                             $user = \App\Models\User::find($inquiry->user_id);
                         @endphp
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $user->name }}
+                            <a href="{{ route('inquiries.products',$inquiry->id) }}">
+                                {{ $user->name }}
+                            </a>
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $inquiry->marketer }}
+                            <a href="{{ route('inquiries.products',$inquiry->id) }}">
+                                {{ $inquiry->marketer }}
+                            </a>
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ jdate($inquiry->created_at)->format('%A, Y/m/d') }}
+                            <a href="{{ route('inquiries.products',$inquiry->id) }}">
+                                {{ jdate($inquiry->created_at)->format('%A, Y/m/d') }}
+                            </a>
                         </td>
                         <td class="table-tr-td border-r-0 whitespace-nowrap">
                             <div class="flex items-center justify-center space-x-4 space-x-reverse relative"
@@ -175,19 +185,8 @@
                                               d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/>
                                     </svg>
                                 </button>
-                                <div x-show="open" @click.away="open = false" class="table-dropdown right-8 -top-12"
+                                <div x-show="open" @click.away="open = false" class="table-dropdown left-8 -top-16"
                                      x-cloak>
-                                    @can('inquiry-datasheet')
-                                        <a href="{{ route('inquiries.printDatasheet',$inquiry->id) }}"
-                                           class="table-dropdown-edit" target="_blank">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                 stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                      d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"></path>
-                                            </svg>
-                                            دیتاشیت
-                                        </a>
-                                    @endcan
                                     @can('copy-inquiry')
                                         <form action="{{ route('inquiries.copy',$inquiry->id) }}" method="POST"
                                               class="table-dropdown-copy">
@@ -424,95 +423,6 @@
                                             </form>
                                         @endcan
                                     @endif
-                                </div>
-
-                                @can('show-inquiry')
-                                    <a href="{{ route('inquiries.show',$inquiry->id) }}"
-                                       class="table-warning-btn">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                             stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                  d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/>
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                        </svg>
-                                        جزئیات
-                                    </a>
-                                @endcan
-                                @can('inquiry-product-list')
-                                    <a href="{{ route('inquiries.products',$inquiry->id) }}"
-                                       class="table-success-btn">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                             stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                  d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z"/>
-                                        </svg>
-                                        قیمت
-                                    </a>
-                                @endcan
-                                <div x-data="{open:false}">
-                                    <button class="table-dropdown-edit" @click="open = !open">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                             stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                  d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/>
-                                        </svg>
-                                        صدور پیش فاکتور
-                                    </button>
-
-                                    <div class="relative z-10" x-show="open" x-cloak>
-                                        <div class="modal-backdrop"></div>
-                                        <div class="fixed z-10 inset-0 overflow-y-auto">
-                                            <div class="modal">
-                                                <div class="modal-body">
-                                                    <form method="POST" class="bg-white dark:bg-slate-800 p-4"
-                                                          action="{{ route('inquiries.addToInvoice',$inquiry->id) }}">
-                                                        @csrf
-                                                        <div class="mb-4 flex justify-between items-center">
-                                                            <h3 class="text-lg font-bold text-gray-900 dark:text-white">
-                                                                صدور پیش فاکتور
-                                                            </h3>
-                                                            <button type="button" @click="open = false">
-                                                                <span class="modal-close">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                                         fill="none"
-                                                                         viewBox="0 0 24 24"
-                                                                         stroke-width="1.5" stroke="currentColor"
-                                                                         class="w-5 h-5 dark:text-white">
-                                                                        <path stroke-linecap="round"
-                                                                              stroke-linejoin="round"
-                                                                              d="M6 18L18 6M6 6l12 12"/>
-                                                                    </svg>
-                                                                </span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="mt-6">
-                                                            <div class="mb-4">
-                                                                <label for="inputBuyerPosition" class="form-label">
-                                                                    قابل توجه :
-                                                                </label>
-                                                                <input name="buyer_position" id="inputBuyerPosition"
-                                                                       class="input-text" value="مدیریت محترم">
-                                                            </div>
-                                                            <div class="mb-4">
-                                                                <label for="inputBuyerName" class="form-label">
-                                                                    نام شخص :
-                                                                </label>
-                                                                <input name="buyer_name" id="inputBuyerName"
-                                                                       class="input-text" value="جناب آقای">
-                                                            </div>
-                                                            <div
-                                                                class="flex justify-end items-center space-x-4 space-x-reverse">
-                                                                <button type="submit" class="form-submit-btn">
-                                                                    صدور
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </td>
