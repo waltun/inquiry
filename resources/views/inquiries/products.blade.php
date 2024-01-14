@@ -461,13 +461,13 @@
                                     {{ $loop->index + 1 }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
-                                    {{ $part->name }}
+                                    {{ $part->name ?? '-' }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     {{ $product->quantity }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
-                                    {{ $part->unit }}
+                                    {{ $part->unit ?? '-' }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     {{ number_format($product->price) }}
