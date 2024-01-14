@@ -110,24 +110,34 @@
                 </thead>
                 <tbody>
                 @foreach($invoices as $invoice)
-                    <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
+                    <tr class="table-tb-tr group hover:font-bold hover:text-red-600 {{ $loop->even ? 'bg-sky-100' : '' }}">
                         <td class="table-tr-td border-t-0 border-l-0">
-                            INV-{{ $invoice->invoice_number ? $invoice->invoice_number : $invoice->inquiry->inquiry_number }}
+                            <a href="{{ route('invoices.products',$invoice->id) }}">
+                                INV-{{ $invoice->invoice_number ? $invoice->invoice_number : $invoice->inquiry->inquiry_number }}
+                            </a>
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $invoice->inquiry->name }}
+                            <a href="{{ route('invoices.products',$invoice->id) }}">
+                                {{ $invoice->inquiry->name }}
+                            </a>
                         </td>
                         @php
                             $user = \App\Models\User::find($invoice->user_id);
                         @endphp
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $user->name }}
+                            <a href="{{ route('invoices.products',$invoice->id) }}">
+                                {{ $user->name }}
+                            </a>
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $invoice->inquiry->marketer }}
+                            <a href="{{ route('invoices.products',$invoice->id) }}">
+                                {{ $invoice->inquiry->marketer }}
+                            </a>
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ jdate($invoice->created_at)->format('%A, %d %B %Y') }}
+                            <a href="{{ route('invoices.products',$invoice->id) }}">
+                                {{ jdate($invoice->created_at)->format('%A, %d %B %Y') }}
+                            </a>
                         </td>
                         <td class="table-tr-td border-t-0 border-r-0">
                             <div class="flex items-center justify-center">
@@ -159,15 +169,6 @@
                                     <div x-show="open" @click.away="open = false"
                                          class="table-dropdown -right-24 -top-16 whitespace-nowrap"
                                          x-cloak>
-                                        <a href="{{ route('invoices.products',$invoice->id) }}"
-                                           class="table-warning-btn">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                 stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                      d="M9 4.5v15m6-15v15m-10.875 0h15.75c.621 0 1.125-.504 1.125-1.125V5.625c0-.621-.504-1.125-1.125-1.125H4.125C3.504 4.5 3 5.004 3 5.625v12.75c0 .621.504 1.125 1.125 1.125z"/>
-                                            </svg>
-                                            محصولات
-                                        </a>
                                         <a href="{{ route('invoices.settings',$invoice->id) }}"
                                            class="table-dropdown-edit">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -177,7 +178,7 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                       d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                                             </svg>
-                                            تنظیمات
+                                            ویرایش
                                         </a>
                                         <form method="POST" action="{{ route('invoices.destroy',$invoice->id) }}">
                                             @csrf
