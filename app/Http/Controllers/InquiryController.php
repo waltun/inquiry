@@ -84,7 +84,7 @@ class InquiryController extends Controller
 
     public function create()
     {
-        $users = User::where('role', 'client')->get();
+        $users = User::where('role', 'client')->orWhere('role', 'staff')->get();
         return view('inquiries.create', compact('users'));
     }
 
@@ -137,7 +137,7 @@ class InquiryController extends Controller
 
     public function edit(Inquiry $inquiry)
     {
-        $users = User::where('role', 'client')->get();
+        $users = User::where('role', 'client')->orWhere('role', 'staff')->get();
         return view('inquiries.edit', compact('inquiry', 'users'));
     }
 
