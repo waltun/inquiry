@@ -109,7 +109,7 @@
             <td>
                 @php
                     $inquiry = $invoice->inquiry;
-                    $products = $inquiry->products()->where('group_id','!=',0)->where('model_id','!=',0)->get();
+                    $products = $inquiry->products()->where('group_id','!=',0)->where('model_id','!=',0)->where('show_datasheet', true)->get();
                 @endphp
                 <div class="relative">
                     <div class="card border-0 mb-0">
@@ -167,7 +167,7 @@
                                                 @endphp
                                                 <div class="mb-0.5 grid grid-cols-12">
                                                     <div
-                                                        class="col-span-2 bg-[#cf3b61] flex h-full items-center rounded-md">
+                                                            class="col-span-2 bg-[#cf3b61] flex h-full items-center rounded-md">
                                                         <div class="py-0.5 px-2">
                                                             <p class="font-bold text-white text-xs">
                                                                 {{ $modelAttribute->name ?? '-' }} :
@@ -175,7 +175,7 @@
                                                         </div>
                                                     </div>
                                                     <div
-                                                        class="ml-2 col-span-10 {{ $loop->first ? '' : 'border-t border-[#cf3b61]' }}">
+                                                            class="ml-2 col-span-10 {{ $loop->first ? '' : 'border-t border-[#cf3b61]' }}">
                                                         @foreach($keys as $key)
                                                             @php
                                                                 $productAttribute = $modell->attributes[$key];
@@ -183,7 +183,7 @@
                                                             <div class="grid grid-cols-12 py-0.5">
                                                                 <div class="col-span-4 flex items-center">
                                                                     <div
-                                                                        class="w-2 h-2 bg-black flex-shrink-0 mr-1"></div>
+                                                                            class="w-2 h-2 bg-black flex-shrink-0 mr-1"></div>
                                                                     <p class="mt-0.5 text-xs font-medium text-black">
                                                                         {{ $productAttribute->name }} :
                                                                     </p>
@@ -268,18 +268,18 @@
                                                                             @foreach($children->children()->where('head_part_id', $part->id)->orderBy('sort', 'ASC')->get() as $child)
                                                                                 @if($child->pivot->value > 0 && $child->pivot->datasheet)
                                                                                     <div
-                                                                                        class="col-span-2 grid grid-cols-3">
+                                                                                            class="col-span-2 grid grid-cols-3">
                                                                                         <div
-                                                                                            class="p-0 col-span-2 flex items-center {{ $loop->first ? 'mt-2' : '' }}">
+                                                                                                class="p-0 col-span-2 flex items-center {{ $loop->first ? 'mt-2' : '' }}">
                                                                                             <div
-                                                                                                class="w-2 h-2 rounded-full border-2 border-black mb-1 mr-1"></div>
+                                                                                                    class="w-2 h-2 rounded-full border-2 border-black mb-1 mr-1"></div>
                                                                                             <p class="text-xs font-medium text-black">
                                                                                                 {{ $child->name_en ?? 'ندارد' }}
                                                                                                 :
                                                                                             </p>
                                                                                         </div>
                                                                                         <div
-                                                                                            class="p-0 col-span-1 {{ $loop->first ? 'mt-2' : '' }}">
+                                                                                                class="p-0 col-span-1 {{ $loop->first ? 'mt-2' : '' }}">
                                                                                             <p class="text-xs font-medium text-black">
                                                                                                 {{ number_format($child->pivot->value) }}
                                                                                             </p>
@@ -313,22 +313,22 @@
                                                             @if(!$attributesPart->isEmpty())
                                                                 <div class="mb-2">
                                                                     <div
-                                                                        class="grid grid-cols-12 border border-green-800 p-1 mx-2">
+                                                                            class="grid grid-cols-12 border border-green-800 p-1 mx-2">
                                                                         @foreach($attributesPart as $attribute)
                                                                             <div
-                                                                                class="p-0 col-span-4 {{ $loop->first ? 'mt-2' : '' }}">
+                                                                                    class="p-0 col-span-4 {{ $loop->first ? 'mt-2' : '' }}">
                                                                                 <p class="text-xs font-medium text-black">
                                                                                     {{ $attribute->name }} :
                                                                                 </p>
                                                                             </div>
                                                                             <div
-                                                                                class="p-0 col-span-2 {{ $loop->first ? 'mt-2' : '' }}">
+                                                                                    class="p-0 col-span-2 {{ $loop->first ? 'mt-2' : '' }}">
                                                                                 <p class="text-xs font-medium text-black">
                                                                                     {{ $attribute->unit != '-' ? $attribute->unit : '' }}
                                                                                 </p>
                                                                             </div>
                                                                             <div
-                                                                                class="p-0 col-span-6 {{ $loop->first ? 'mt-2' : '' }}">
+                                                                                    class="p-0 col-span-6 {{ $loop->first ? 'mt-2' : '' }}">
                                                                                 <p class="text-xs font-medium text-black">
                                                                                     @php
                                                                                         $foundValue = false;
@@ -349,19 +349,19 @@
                                                                         @endforeach
                                                                         @if($lastCategoryPart->show_count)
                                                                             <div
-                                                                                class="p-0 col-span-4">
+                                                                                    class="p-0 col-span-4">
                                                                                 <p class="text-xs font-medium text-black">
                                                                                     Quantity :
                                                                                 </p>
                                                                             </div>
                                                                             <div
-                                                                                class="p-0 col-span-2">
+                                                                                    class="p-0 col-span-2">
                                                                                 <p class="text-xs font-medium text-black">
                                                                                     No.
                                                                                 </p>
                                                                             </div>
                                                                             <div
-                                                                                class="p-0 col-span-6">
+                                                                                    class="p-0 col-span-6">
                                                                                 <p class="text-xs font-medium text-black">
                                                                                     {{ number_format($amount->value, 0) }}
                                                                                 </p>
@@ -383,7 +383,7 @@
                                                                     @endphp
                                                                     @if($showData)
                                                                         <div
-                                                                            class="mx-2 mb-2 border border-green-800 p-1">
+                                                                                class="mx-2 mb-2 border border-green-800 p-1">
                                                                             <div class="bg-green-800 p-1.5">
                                                                                 <p class="font-bold text-center text-white text-sm">
                                                                                     {{ $children->name_en ?? $children->name }}
@@ -392,18 +392,18 @@
                                                                             @foreach($attributes as $attribute)
                                                                                 @if($children->pivot->value > 0 && !$attributes->isEmpty())
                                                                                     <div
-                                                                                        class="col-span-2 grid grid-cols-4">
+                                                                                            class="col-span-2 grid grid-cols-4">
                                                                                         <div
-                                                                                            class="p-0 col-span-2 flex items-center {{ $loop->first ? 'mt-2' : '' }}">
+                                                                                                class="p-0 col-span-2 flex items-center {{ $loop->first ? 'mt-2' : '' }}">
                                                                                             <div
-                                                                                                class="w-2 h-2 rounded-full border-2 border-black mb-1 mr-1"></div>
+                                                                                                    class="w-2 h-2 rounded-full border-2 border-black mb-1 mr-1"></div>
                                                                                             <p class="text-xs font-medium text-black">
                                                                                                 {{ $attribute->name }}
                                                                                                 :
                                                                                             </p>
                                                                                         </div>
                                                                                         <div
-                                                                                            class="p-0 col-span-1 {{ $loop->first ? 'mt-2' : '' }}">
+                                                                                                class="p-0 col-span-1 {{ $loop->first ? 'mt-2' : '' }}">
                                                                                             <p class="text-xs font-medium text-black">
                                                                                                 @php
                                                                                                     $foundValue = false;
@@ -426,18 +426,18 @@
                                                                             @endforeach
                                                                             @if($lastCategory->show_count)
                                                                                 <div
-                                                                                    class="col-span-2 grid grid-cols-4">
+                                                                                        class="col-span-2 grid grid-cols-4">
                                                                                     <div
-                                                                                        class="p-0 col-span-2 flex items-center {{ $loop->first ? 'mt-2' : '' }}">
+                                                                                            class="p-0 col-span-2 flex items-center {{ $loop->first ? 'mt-2' : '' }}">
                                                                                         <div
-                                                                                            class="w-2 h-2 rounded-full border-2 border-black mb-1 mr-1"></div>
+                                                                                                class="w-2 h-2 rounded-full border-2 border-black mb-1 mr-1"></div>
                                                                                         <p class="text-xs font-medium text-black">
                                                                                             Quantity
                                                                                             :
                                                                                         </p>
                                                                                     </div>
                                                                                     <div
-                                                                                        class="p-0 col-span-1 {{ $loop->first ? 'mt-2' : '' }}">
+                                                                                            class="p-0 col-span-1 {{ $loop->first ? 'mt-2' : '' }}">
                                                                                         <p class="text-xs font-medium text-black">
                                                                                             {{ number_format($children->pivot->value * $amount->value, 0) }}
                                                                                         </p>
@@ -800,23 +800,23 @@
                                                                                 @endif
                                                                             @else
                                                                                 <div
-                                                                                    class="grid grid-cols-12 border border-green-800 p-1">
+                                                                                        class="grid grid-cols-12 border border-green-800 p-1">
                                                                                     @foreach($attributes as $attribute)
                                                                                         <div
-                                                                                            class="p-0 col-span-4 {{ $loop->first ? 'mt-2' : '' }}">
+                                                                                                class="p-0 col-span-4 {{ $loop->first ? 'mt-2' : '' }}">
                                                                                             <p class="text-xs font-medium text-black">
                                                                                                 {{ $attribute->name }}
                                                                                                 :
                                                                                             </p>
                                                                                         </div>
                                                                                         <div
-                                                                                            class="p-0 col-span-2 {{ $loop->first ? 'mt-2' : '' }}">
+                                                                                                class="p-0 col-span-2 {{ $loop->first ? 'mt-2' : '' }}">
                                                                                             <p class="text-xs font-medium text-black">
                                                                                                 {{ $attribute->unit != '-' ? $attribute->unit : '' }}
                                                                                             </p>
                                                                                         </div>
                                                                                         <div
-                                                                                            class="p-0 col-span-6 {{ $loop->first ? 'mt-2' : '' }}">
+                                                                                                class="p-0 col-span-6 {{ $loop->first ? 'mt-2' : '' }}">
                                                                                             <p class="text-xs font-medium text-black">
                                                                                                 @php
                                                                                                     $foundValue = false;
@@ -837,19 +837,19 @@
                                                                                     @endforeach
                                                                                     @if($lastCategory->show_count)
                                                                                         <div
-                                                                                            class="p-0 col-span-4">
+                                                                                                class="p-0 col-span-4">
                                                                                             <p class="text-xs font-medium text-black">
                                                                                                 Quantity :
                                                                                             </p>
                                                                                         </div>
                                                                                         <div
-                                                                                            class="p-0 col-span-2">
+                                                                                                class="p-0 col-span-2">
                                                                                             <p class="text-xs font-medium text-black">
                                                                                                 No.
                                                                                             </p>
                                                                                         </div>
                                                                                         <div
-                                                                                            class="p-0 col-span-6">
+                                                                                                class="p-0 col-span-6">
                                                                                             <p class="text-xs font-medium text-black">
                                                                                                 {{ number_format($amount->value, 0) }}
                                                                                             </p>

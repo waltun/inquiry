@@ -128,7 +128,7 @@
                     @foreach($users as $user)
                         <option
                             value="{{ $user->id }}" {{ in_array($user->id, $userIds) ? 'selected' : '' }}>
-                            {{ $user->name }}
+                            {{ $user->name }} | {{ $user->phone }}
                         </option>
                     @endforeach
                 </select>

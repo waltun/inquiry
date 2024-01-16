@@ -10,6 +10,7 @@ use App\Models\Inquiry;
 use App\Models\InquiryPrice;
 use App\Models\InquiryTerm;
 use App\Models\Invoice;
+use App\Models\InvoiceProduct;
 use App\Models\Modell;
 use App\Models\Part;
 use App\Models\Product;
@@ -163,34 +164,41 @@ class InquiryController extends Controller
     {
         $specials = Special::all()->pluck('id')->toArray();
 
-        if (!$inquiry->products->isEmpty()) {
-            foreach ($inquiry->products as $product) {
-                $modell = Modell::find($product->model_id);
-                if ($modell) {
-                    if (!$modell->parts->isEmpty()) {
-                        foreach ($modell->parts as $part) {
-                            if (in_array($part->id, $specials)) {
-                                session()->forget('selectedPart' . $part->id);
-                                session()->forget('price' . $part->id);
+        $inquiryInvoices = Invoice::where('inquiry_id', $inquiry->id)->get();
+
+        if (!$inquiryInvoices->isEmpty()) {
+            alert()->error('هشدار حذف', 'این استعلام در پیش فاکتور ها استفاده شده است');
+            return back();
+        } else {
+            if (!$inquiry->products->isEmpty()) {
+                foreach ($inquiry->products as $product) {
+                    $modell = Modell::find($product->model_id);
+                    if ($modell) {
+                        if (!$modell->parts->isEmpty()) {
+                            foreach ($modell->parts as $part) {
+                                if (in_array($part->id, $specials)) {
+                                    session()->forget('selectedPart' . $part->id);
+                                    session()->forget('price' . $part->id);
+                                }
                             }
                         }
                     }
                 }
+
+                $inquiry->products()->delete();
             }
 
-            $inquiry->products()->delete();
-        }
+            $collectionParts = Part::where('inquiry_id', $inquiry->id)->get();
+            foreach ($collectionParts as $collectionPart) {
+                $collectionPart->delete();
+            }
 
-        $collectionParts = Part::where('inquiry_id', $inquiry->id)->get();
-        foreach ($collectionParts as $collectionPart) {
-            $collectionPart->delete();
-        }
+            if (!$inquiry->users->isEmpty()) {
+                $inquiry->users()->detach();
+            }
 
-        if (!$inquiry->users->isEmpty()) {
-            $inquiry->users()->detach();
+            $inquiry->delete();
         }
-
-        $inquiry->delete();
 
         alert()->success('حذف موفق', 'حذف استعلام با موفقیت انجام شد');
 
@@ -254,80 +262,121 @@ class InquiryController extends Controller
 
         $partIds = InquiryPrice::select(['part_id'])->distinct()->pluck('part_id')->toArray();
 
-        foreach ($inquiry->products as $product) {
-            if ($product->amounts->isEmpty()) {
-                foreach ($modell->parts as $part) {
-                    if (!$part->children->isEmpty()) {
-                        foreach ($part->children as $child) {
-                            if (!$child->children->isEmpty()) {
-                                foreach ($child->children as $ch) {
-                                    if (!in_array($ch->id, $partIds)) {
-                                        if (($ch->price_updated_at < $lastTime && $ch->price > 0) || ($ch->price_updated_at < $lastTime && $ch->price == 0)) {
-                                            auth()->user()->inquiryPrices()->create([
-                                                'part_id' => $ch->id,
-                                                'inquiry_id' => $inquiry->id
-                                            ]);
-                                        }
-                                    }
-                                }
-                            } else {
-                                if (!in_array($child->id, $partIds)) {
-                                    if (($child->price_updated_at < $lastTime && $child->price > 0) || ($child->price_updated_at < $lastTime && $child->price == 0)) {
 
+        foreach ($inquiry->products as $product) {
+            $part = Part::find($product->part_id);
+
+            if ($product->part_id != 0) {
+                if (!$part->children->isEmpty()) {
+                    foreach ($part->children as $child) {
+                        if (!$child->children->isEmpty()) {
+                            foreach ($child->children as $ch) {
+                                if (!in_array($ch->id, $partIds)) {
+                                    if (($ch->price_updated_at < $lastTime && $ch->price > 0) || ($ch->price_updated_at < $lastTime && $ch->price == 0)) {
                                         auth()->user()->inquiryPrices()->create([
-                                            'part_id' => $child->id,
+                                            'part_id' => $ch->id,
                                             'inquiry_id' => $inquiry->id
                                         ]);
                                     }
                                 }
                             }
-                        }
-                    } else {
-                        if (!in_array($part->id, $partIds)) {
-                            if (($part->price_updated_at < $lastTime && $part->price > 0) || ($part->price_updated_at < $lastTime && $part->price == 0)) {
-                                auth()->user()->inquiryPrices()->create([
-                                    'part_id' => $part->id,
-                                    'inquiry_id' => $inquiry->id
-                                ]);
+                        } else {
+                            if (!in_array($child->id, $partIds)) {
+                                if (($child->price_updated_at < $lastTime && $child->price > 0) || ($child->price_updated_at < $lastTime && $child->price == 0)) {
+
+                                    auth()->user()->inquiryPrices()->create([
+                                        'part_id' => $child->id,
+                                        'inquiry_id' => $inquiry->id
+                                    ]);
+                                }
                             }
+                        }
+                    }
+                } else {
+                    if (!in_array($part->id, $partIds)) {
+                        if (($part->price_updated_at < $lastTime && $part->price > 0) || ($part->price_updated_at < $lastTime && $part->price == 0)) {
+                            auth()->user()->inquiryPrices()->create([
+                                'part_id' => $part->id,
+                                'inquiry_id' => $inquiry->id
+                            ]);
                         }
                     }
                 }
             } else {
-                foreach ($product->amounts as $amount) {
-                    $part = Part::find($amount->part_id);
-                    if (!$part->children->isEmpty()) {
-                        foreach ($part->children as $child) {
-                            if (!$child->children->isEmpty()) {
-                                foreach ($child->children as $ch) {
-                                    if (!in_array($ch->id, $partIds)) {
-                                        if (($ch->price_updated_at < $lastTime && $ch->price > 0) || ($ch->price_updated_at < $lastTime && $ch->price == 0)) {
+                if ($product->amounts->isEmpty()) {
+                    foreach ($modell->parts as $part) {
+                        if (!$part->children->isEmpty()) {
+                            foreach ($part->children as $child) {
+                                if (!$child->children->isEmpty()) {
+                                    foreach ($child->children as $ch) {
+                                        if (!in_array($ch->id, $partIds)) {
+                                            if (($ch->price_updated_at < $lastTime && $ch->price > 0) || ($ch->price_updated_at < $lastTime && $ch->price == 0)) {
+                                                auth()->user()->inquiryPrices()->create([
+                                                    'part_id' => $ch->id,
+                                                    'inquiry_id' => $inquiry->id
+                                                ]);
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    if (!in_array($child->id, $partIds)) {
+                                        if (($child->price_updated_at < $lastTime && $child->price > 0) || ($child->price_updated_at < $lastTime && $child->price == 0)) {
+
                                             auth()->user()->inquiryPrices()->create([
-                                                'part_id' => $ch->id,
+                                                'part_id' => $child->id,
                                                 'inquiry_id' => $inquiry->id
                                             ]);
                                         }
                                     }
                                 }
-                            } else {
-                                if (!in_array($child->id, $partIds)) {
-                                    if (($child->price_updated_at < $lastTime && $child->price > 0) || ($child->price_updated_at < $lastTime && $child->price == 0)) {
-
-                                        auth()->user()->inquiryPrices()->create([
-                                            'part_id' => $child->id,
-                                            'inquiry_id' => $inquiry->id
-                                        ]);
-                                    }
+                            }
+                        } else {
+                            if (!in_array($part->id, $partIds)) {
+                                if (($part->price_updated_at < $lastTime && $part->price > 0) || ($part->price_updated_at < $lastTime && $part->price == 0)) {
+                                    auth()->user()->inquiryPrices()->create([
+                                        'part_id' => $part->id,
+                                        'inquiry_id' => $inquiry->id
+                                    ]);
                                 }
                             }
                         }
-                    } else {
-                        if (!in_array($part->id, $partIds)) {
-                            if (($part->price_updated_at < $lastTime && $part->price > 0) || ($part->price_updated_at < $lastTime && $part->price == 0)) {
-                                auth()->user()->inquiryPrices()->create([
-                                    'part_id' => $part->id,
-                                    'inquiry_id' => $inquiry->id
-                                ]);
+                    }
+                } else {
+                    foreach ($product->amounts as $amount) {
+                        $part = Part::find($amount->part_id);
+                        if (!$part->children->isEmpty()) {
+                            foreach ($part->children as $child) {
+                                if (!$child->children->isEmpty()) {
+                                    foreach ($child->children as $ch) {
+                                        if (!in_array($ch->id, $partIds)) {
+                                            if (($ch->price_updated_at < $lastTime && $ch->price > 0) || ($ch->price_updated_at < $lastTime && $ch->price == 0)) {
+                                                auth()->user()->inquiryPrices()->create([
+                                                    'part_id' => $ch->id,
+                                                    'inquiry_id' => $inquiry->id
+                                                ]);
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    if (!in_array($child->id, $partIds)) {
+                                        if (($child->price_updated_at < $lastTime && $child->price > 0) || ($child->price_updated_at < $lastTime && $child->price == 0)) {
+
+                                            auth()->user()->inquiryPrices()->create([
+                                                'part_id' => $child->id,
+                                                'inquiry_id' => $inquiry->id
+                                            ]);
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            if (!in_array($part->id, $partIds)) {
+                                if (($part->price_updated_at < $lastTime && $part->price > 0) || ($part->price_updated_at < $lastTime && $part->price == 0)) {
+                                    auth()->user()->inquiryPrices()->create([
+                                        'part_id' => $part->id,
+                                        'inquiry_id' => $inquiry->id
+                                    ]);
+                                }
                             }
                         }
                     }
@@ -1030,10 +1079,7 @@ class InquiryController extends Controller
 
         alert()->success('ثبت موفق', 'شرایط استعلام با موفقیت ثبت شد');
 
-        if ($inquiry->submit) {
-            return redirect()->route('inquiries.submitted');
-        }
-        return redirect()->route('inquiries.index');
+        return redirect()->route('inquiries.product.index', $inquiry->id);
     }
 
     public function finalSubmit(Request $request, Inquiry $inquiry)
