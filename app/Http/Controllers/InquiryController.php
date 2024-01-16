@@ -190,7 +190,9 @@ class InquiryController extends Controller
 
             $collectionParts = Part::where('inquiry_id', $inquiry->id)->get();
             foreach ($collectionParts as $collectionPart) {
-                $collectionPart->delete();
+                if (!$collectionPart->standard) {
+                    $collectionPart->delete();
+                }
             }
 
             if (!$inquiry->users->isEmpty()) {
