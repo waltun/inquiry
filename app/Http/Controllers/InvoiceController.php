@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Contract;
 use App\Models\Invoice;
 use App\Models\InvoiceProduct;
 use App\Models\User;
@@ -147,7 +148,18 @@ class InvoiceController extends Controller
 
     public function destroy(Invoice $invoice)
     {
-        $invoice->delete();
+        $contractInvoice = Contract::where('invoice_id', $invoice->id)->get();
+
+        if (!$contractInvoice->isEmpty()) {
+            alert()->error('هشدار حذف', 'این پیش فاکتور در قرارداد ها استفاده شده است');
+            return back();
+        } else {
+            foreach ($invoice->products as $product) {
+                $product->delete();
+            }
+
+            $invoice->delete();
+        }
 
         alert()->success('حذف موفق', 'پیش فاکتور با موفقیت حذف شد');
         return back();
