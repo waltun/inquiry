@@ -109,6 +109,10 @@ class PartController extends Controller
             'recipe' => true
         ]);
 
+        $contract->products()->update([
+            'recipe' => true
+        ]);
+
         foreach ($contract->products as $product) {
             if ($contract->recipe) {
                 if (!$product->amounts->isEmpty()) {
