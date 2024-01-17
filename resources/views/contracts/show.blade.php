@@ -399,7 +399,7 @@
             <div x-show="tab === 'factory'"
                  class="border border-indigo-400 dark:border-black border-t-0 rounded-b-lg px-4 py-6" x-cloak>
                 <div class="md:grid grid-cols-4 gap-4 space-y-4 md:space-y-0">
-                    @if($contract->recipe)
+                    @if($contract->recipe || $contract->products->contains('recipe', 1))
                         <a href="{{ route('contracts.recipe.index', $contract->id) }}"
                            class="dashboard-cards group relative">
                             <div class="flex items-center">

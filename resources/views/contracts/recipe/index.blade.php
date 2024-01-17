@@ -104,7 +104,7 @@
     <!-- Content -->
     <div class="mt-4 space-y-4">
         <!-- Product List -->
-        @if(!$contract->products()->where('group_id','!=',0)->where('model_id','!=',0)->get()->isEmpty())
+        @if(!$contract->products()->where('group_id','!=',0)->where('model_id','!=',0)->where('recipe', 1)->get()->isEmpty())
             <div class="card">
                 <div class="card-header">
                     <p class="card-title text-lg">لیست محصولات</p>
@@ -144,7 +144,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($contract->products()->where('group_id','!=',0)->where('model_id','!=',0)->get() as $product)
+                        @foreach($contract->products()->where('group_id','!=',0)->where('model_id','!=',0)->where('recipe', 1)->get() as $product)
                             <input type="hidden" name="products[]" value="{{ $product->id }}">
                             @php
                                 $modell = \App\Models\Modell::find($product->model_id);
@@ -312,7 +312,8 @@
                                                                 <div class="mb-4 flex justify-between items-center">
                                                                     <h3 class="text-lg font-bold text-gray-900 dark:text-white">
                                                                         اضافه کردن محصول {{ $modell->parent->name }}
-                                                                        - {{ $product->model_custom_name ?? $modell->name }} به پکینگ
+                                                                        - {{ $product->model_custom_name ?? $modell->name }}
+                                                                        به پکینگ
                                                                     </h3>
                                                                     <button type="button" @click="open = false">
                                                                     <span class="modal-close">
@@ -471,7 +472,7 @@
         @endphp
         @foreach($types as $type)
             @php
-                $products = $contract->products()->where('part_id','!=',0)->where('type',$type)->get();
+                $products = $contract->products()->where('part_id','!=',0)->where('type',$type)->where('recipe', 1)->get();
             @endphp
             @if(!$products->isEmpty())
                 <div class="card">

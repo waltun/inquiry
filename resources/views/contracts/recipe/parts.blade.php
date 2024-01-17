@@ -251,7 +251,7 @@
     <!-- Content -->
     <div class="mt-4">
         @php
-            $products = $contract->products()->where('group_id','!=',0)->where('model_id','!=',0)->get();
+            $products = $contract->products()->where('group_id','!=',0)->where('model_id','!=',0)->where('recipe', 1)->get();
         @endphp
 
             <!-- Product List -->
@@ -409,7 +409,7 @@
         @endphp
         @foreach($types as $type)
             @php
-                $products = $contract->products()->where('part_id','!=',0)->where('type',$type)->get();
+                $products = $contract->products()->where('part_id','!=',0)->where('type',$type)->where('recipe', 1)->get();
             @endphp
             @if(!$products->isEmpty())
                 <div class="card">

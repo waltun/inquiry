@@ -12,7 +12,7 @@ class RecipeController extends Controller
 {
     public function index(Contract $contract)
     {
-        if ($contract->recipe) {
+        if ($contract->recipe || $contract->products->contains('recipe', 1)) {
             return view('contracts.recipe.index', compact('contract'));
         }
 
@@ -23,7 +23,7 @@ class RecipeController extends Controller
 
     public function parts(Contract $contract)
     {
-        if ($contract->recipe) {
+        if ($contract->recipe || $contract->products->contains('recipe', 1)) {
             return view('contracts.recipe.parts', compact('contract'));
         }
 

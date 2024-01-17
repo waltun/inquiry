@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Contract;
 use App\Http\Controllers\Controller;
 use App\Models\Amount;
 use App\Models\Contract;
+use App\Models\ContractProduct;
 use App\Models\Invoice;
 use App\Models\InvoiceProduct;
 use App\Models\Part;
@@ -159,6 +160,80 @@ class ProductController extends Controller
         }
 
         alert()->success('حذف موفق', 'مقادیر محصولات با موفقیت حذف شدند');
+
+        return back();
+    }
+
+    public function storeRecipe(Request $request, Contract $contract, ContractProduct $contractProduct)
+    {
+        $contractProduct->update([
+            'recipe' => true
+        ]);
+
+        if ($contract->products->every('recipe', 1)) {
+            $contract->update([
+                'recipe' => true
+            ]);
+        }
+
+        if ($contract->recipe) {
+            if (!$contractProduct->amounts->isEmpty()) {
+                $contractProduct->amounts()->delete();
+            }
+        }
+
+        if ($contract->recipe && $request->store_parts == '1') {
+            foreach ($contractProduct->spareAmounts as $amount) {
+                if (!is_null($contractProduct->part_id) && $contractProduct->part_id != 0) {
+                    $part = Part::find($contractProduct->part_id);
+                } else {
+                    $part = Part::find($amount->part_id);
+                }
+
+                if ($part->analyzee) {
+                    if ($part->collection && !$part->children->isEmpty()) {
+                        foreach ($part->children as $child) {
+                            if ($child->analyzee) {
+                                if (!$child->children->isEmpty()) {
+                                    foreach ($child->children as $ch) {
+                                        if ($ch->analyzee) {
+                                            $contractProduct->amounts()->create([
+                                                'value' => $ch->pivot->value * $child->pivot->value * $amount->value,
+                                                'value2' => $ch->pivot->value2 * $child->pivot->value2 * $amount->value2,
+                                                'part_id' => $ch->id,
+                                                'price' => $ch->price,
+                                                'sort' => $ch->pivot->sort,
+                                                'weight' => $ch->weight ?? 0
+                                            ]);
+                                        }
+                                    }
+                                } else {
+                                    $contractProduct->amounts()->create([
+                                        'value' => $child->pivot->value * $amount->value,
+                                        'value2' => $child->pivot->value2 * $amount->value2,
+                                        'part_id' => $child->id,
+                                        'price' => $child->price,
+                                        'sort' => $child->pivot->sort,
+                                        'weight' => $child->weight ?? 0
+                                    ]);
+                                }
+                            }
+                        }
+                    } else {
+                        $contractProduct->amounts()->create([
+                            'value' => $amount->value,
+                            'value2' => $amount->value2,
+                            'part_id' => $amount->part_id,
+                            'price' => $amount->price,
+                            'weight' => $amount->weight ?? 0,
+                            'sort' => $amount->sort
+                        ]);
+                    }
+                }
+            }
+        }
+
+        alert()->success('ثبت موفق', 'دستور ساخت با موفقیت صادر شد');
 
         return back();
     }

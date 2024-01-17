@@ -220,14 +220,97 @@
                                         {{ number_format($product->price * $product->quantity) }}
                                     </td>
                                     <td class="table-tr-td border-t-0 border-r-0">
-                                        <div class="flex justify-center">
+                                        <div class="flex justify-center space-x-4 space-x-reverse">
                                             @if(auth()->user()->role == 'admin')
-                                                <form
-                                                    action="{{ route('contracts.destroy-product', $product->id) }}"
-                                                    method="POST">
+                                                @if(!$product->recipe)
+                                                    <div x-data="{open: false}">
+                                                        <button type="button" class="table-success-btn"
+                                                                @click="open = !open">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                 viewBox="0 0 24 24" stroke-width="1.5"
+                                                                 stroke="currentColor" class="w-4 h-4 ml-1">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                      d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"></path>
+                                                            </svg>
+                                                            صدور دستور ساخت
+                                                        </button>
+                                                        <div class="relative z-10" x-show="open" x-cloak>
+                                                            <div class="modal-backdrop"></div>
+                                                            <div class="fixed z-10 inset-0 overflow-y-auto">
+                                                                <div class="modal">
+                                                                    <div class="modal-body">
+                                                                        <form method="POST"
+                                                                              action="{{ route('contracts.products.recipe', [$contract->id, $product->id]) }}"
+                                                                              class="bg-white dark:bg-slate-800 p-4">
+                                                                            @csrf
+                                                                            <div
+                                                                                class="mb-4 flex justify-between items-center">
+                                                                                <h3 class="text-lg font-bold text-gray-900 dark:text-white">
+                                                                                    صدور دستور ساخت محصول
+                                                                                </h3>
+                                                                                <button type="button"
+                                                                                        @click="open = false">
+                                                                                <span class="modal-close">
+                                                                                    <svg
+                                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                                        fill="none"
+                                                                                        viewBox="0 0 24 24"
+                                                                                        stroke-width="1.5"
+                                                                                        stroke="currentColor"
+                                                                                        class="w-5 h-5 dark:text-white">
+                                                                                        <path stroke-linecap="round"
+                                                                                              stroke-linejoin="round"
+                                                                                              d="M6 18L18 6M6 6l12 12"/>
+                                                                                    </svg>
+                                                                                </span>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="mt-6 space-y-2">
+                                                                                <div class="mb-4">
+                                                                                    <label for="inputPacking"
+                                                                                           class="form-label">
+                                                                                        انتخاب ریز آنالیز قطعات
+                                                                                    </label>
+                                                                                    <select name="store_parts"
+                                                                                            id="inputPacking"
+                                                                                            class="input-text">
+                                                                                        <option value="">انتخاب کنید
+                                                                                        </option>
+                                                                                        <option value="1">اضافه شود
+                                                                                        </option>
+                                                                                        <option value="0">اضافه نشود
+                                                                                        </option>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div class="flex justify-end">
+                                                                                    <button type="submit"
+                                                                                            class="form-submit-btn">
+                                                                                        صدور
+                                                                                    </button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @else
+                                                    <p type="button" class="table-success-btn"
+                                                       @click="open = !open">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                             viewBox="0 0 24 24" stroke-width="1.5"
+                                                             stroke="currentColor" class="w-4 h-4 ml-1">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                  d="m4.5 12.75 6 6 9-13.5"/>
+                                                        </svg>
+                                                        دستور ساخت صادر شده
+                                                    </p>
+                                                @endif
+                                                <form method="POST"
+                                                      action="{{ route('contracts.destroy-product', $product->id) }}">
                                                     @csrf
                                                     @method('DELETE')
-
                                                     <button type="submit" class="table-delete-btn"
                                                             onclick="return confirm('محصول حذف شود ؟')">
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -401,25 +484,113 @@
                                         {{ number_format($product->price * $product->quantity) }}
                                     </td>
                                     <td class="table-tr-td border-t-0 border-r-0">
-                                        <div class="flex justify-center">
-                                            <form
-                                                action="{{ route('contracts.destroy-product', $product->id) }}"
-                                                method="POST">
-                                                @csrf
-                                                @method('DELETE')
+                                        @if(auth()->user()->role == 'admin')
+                                            <div class="flex justify-center space-x-4 space-x-reverse">
+                                                @if(!$product->recipe)
+                                                    <div x-data="{open: false}">
+                                                        <button type="button" class="table-success-btn"
+                                                                @click="open = !open">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                 viewBox="0 0 24 24" stroke-width="1.5"
+                                                                 stroke="currentColor" class="w-4 h-4 ml-1">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                      d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"></path>
+                                                            </svg>
+                                                            صدور دستور ساخت
+                                                        </button>
+                                                        <div class="relative z-10" x-show="open" x-cloak>
+                                                            <div class="modal-backdrop"></div>
+                                                            <div class="fixed z-10 inset-0 overflow-y-auto">
+                                                                <div class="modal">
+                                                                    <div class="modal-body">
+                                                                        <form method="POST"
+                                                                              action="{{ route('contracts.products.recipe', [$contract->id, $product->id]) }}"
+                                                                              class="bg-white dark:bg-slate-800 p-4">
+                                                                            @csrf
+                                                                            <div
+                                                                                class="mb-4 flex justify-between items-center">
+                                                                                <h3 class="text-lg font-bold text-gray-900 dark:text-white">
+                                                                                    صدور دستور ساخت محصول
+                                                                                </h3>
+                                                                                <button type="button"
+                                                                                        @click="open = false">
+                                                                                <span class="modal-close">
+                                                                                    <svg
+                                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                                        fill="none"
+                                                                                        viewBox="0 0 24 24"
+                                                                                        stroke-width="1.5"
+                                                                                        stroke="currentColor"
+                                                                                        class="w-5 h-5 dark:text-white">
+                                                                                        <path stroke-linecap="round"
+                                                                                              stroke-linejoin="round"
+                                                                                              d="M6 18L18 6M6 6l12 12"/>
+                                                                                    </svg>
+                                                                                </span>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="mt-6 space-y-2">
+                                                                                <div class="mb-4">
+                                                                                    <label for="inputPacking"
+                                                                                           class="form-label">
+                                                                                        انتخاب ریز آنالیز قطعات
+                                                                                    </label>
+                                                                                    <select name="store_parts"
+                                                                                            id="inputPacking"
+                                                                                            class="input-text">
+                                                                                        <option value="">انتخاب کنید
+                                                                                        </option>
+                                                                                        <option value="1">اضافه شود
+                                                                                        </option>
+                                                                                        <option value="0">اضافه نشود
+                                                                                        </option>
+                                                                                    </select>
+                                                                                </div>
+                                                                                <div class="flex justify-end">
+                                                                                    <button type="submit"
+                                                                                            class="form-submit-btn">
+                                                                                        صدور
+                                                                                    </button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @else
+                                                    <p type="button" class="table-success-btn"
+                                                       @click="open = !open">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                             viewBox="0 0 24 24" stroke-width="1.5"
+                                                             stroke="currentColor" class="w-4 h-4 ml-1">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                  d="m4.5 12.75 6 6 9-13.5"/>
+                                                        </svg>
+                                                        دستور ساخت صادر شده
+                                                    </p>
+                                                @endif
+                                                <form
+                                                    action="{{ route('contracts.destroy-product', $product->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
 
-                                                <button type="submit" class="table-delete-btn"
-                                                        onclick="return confirm('محصول حذف شود ؟')">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                                                         class="w-4 h-4 ml-1">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                              d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
-                                                    </svg>
-                                                    حذف
-                                                </button>
-                                            </form>
-                                        </div>
+                                                    <button type="submit" class="table-delete-btn"
+                                                            onclick="return confirm('محصول حذف شود ؟')">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                             viewBox="0 0 24 24" stroke-width="1.5"
+                                                             stroke="currentColor"
+                                                             class="w-4 h-4 ml-1">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                  d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
+                                                        </svg>
+                                                        حذف
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
