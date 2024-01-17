@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Amount;
 use App\Models\Category;
+use App\Models\ContractProductAmount;
 use App\Models\DeleteButton;
 use App\Models\Part;
+use App\Models\Product;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -119,8 +122,17 @@ class CollectionPartController extends Controller
 
     public function destroy(Part $parentPart)
     {
-        $parentPart->children()->detach();
-        $parentPart->delete();
+        $contractPart = ContractProductAmount::where('part_id', $parentPart->id)->get();
+        $productPart = Product::where('part_id', $parentPart->id)->get();
+        $amountPart = Amount::where('part_id', $parentPart->id)->get();
+
+        if (!$contractPart->isEmpty() || !$productPart->isEmpty() || !$amountPart->isEmpty()) {
+            alert()->error('هشدار حذف', 'این قطعه در قرارداد، پیش فاکتور یا استعلام استفاده شده');
+            return back();
+        } else {
+            $parentPart->children()->detach();
+            $parentPart->delete();
+        }
 
         alert()->success('حذف موفق', 'حذف قطعه از مجموعه با موفقیت انجام شد');
 

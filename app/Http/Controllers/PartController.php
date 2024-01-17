@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Amount;
 use App\Models\Category;
+use App\Models\ContractProductAmount;
 use App\Models\DeleteButton;
 use App\Models\InquiryPrice;
 use App\Models\Part;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -186,7 +189,16 @@ class PartController extends Controller
     {
         Gate::authorize('parts');
 
-        $part->delete();
+        $contractPart = ContractProductAmount::where('part_id', $part->id)->get();
+        $productPart = Product::where('part_id', $part->id)->get();
+        $amountPart = Amount::where('part_id', $part->id)->get();
+
+        if (!$contractPart->isEmpty() || !$productPart->isEmpty() || !$amountPart->isEmpty()) {
+            alert()->error('هشدار حذف', 'این قطعه در قرارداد، پیش فاکتور یا استعلام استفاده شده');
+            return back();
+        } else {
+            $part->delete();
+        }
 
         alert()->success('حذف موفق', 'حذف قطعه با موفقیت انجام شد');
 
