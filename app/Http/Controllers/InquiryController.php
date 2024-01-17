@@ -183,6 +183,7 @@ class InquiryController extends Controller
                             }
                         }
                     }
+                    $product->amounts()->delete();
                 }
 
                 $inquiry->products()->delete();
