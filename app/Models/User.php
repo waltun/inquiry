@@ -90,4 +90,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(ContractProductAmount::class);
     }
+
+    public function todos()
+    {
+        return $this->hasMany(Todo::class);
+    }
 }

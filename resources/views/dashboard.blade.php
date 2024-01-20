@@ -1018,6 +1018,34 @@
                         </div>
                     </a>
                 @endcan
+
+                @can('todos')
+                    <a href="{{ route('todos.index') }}" class="dashboard-cards group">
+                        <div class="flex items-center">
+                            <div class="dashboard-card-icon bg-green-500 dark:bg-slate-800">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5" stroke="currentColor"
+                                     class="w-6 h-6 text-white group-hover:text-myBlue-100">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"/>
+                                </svg>
+                            </div>
+                            <div class="mr-4">
+                                <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
+                                    بخش کارهای روزانه
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                 class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                                <path fill-rule="evenodd"
+                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                    </a>
+                @endcan
             </div>
         </div>
 
@@ -1051,6 +1079,60 @@
                     </div>
                 </a>
             @endcan
+        </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4">
+        <div class="card">
+            <div class="card-header">
+                <p class="card-title">کارهای روزانه</p>
+            </div>
+
+            <div class="overflow-x-auto rounded-lg hidden md:block">
+                <table class="md:w-full border-collapse">
+                    <thead>
+                    <tr class="table-th-tr">
+                        <th scope="col" class="p-2 rounded-tr-lg">
+                            #
+                        </th>
+                        <th scope="col" class="p-2">
+                            عنوان
+                        </th>
+                        <th scope="col" class="p-2">
+                            تاریخ
+                        </th>
+                        <th scope="col" class="p-2">
+                            توضیحات
+                        </th>
+                        <th scope="col" class="p-2">
+                            کاربر
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($todos as $todo)
+                        <tr class="table-tb-tr group hover:font-bold hover:text-red-600 {{ $loop->even ? 'bg-sky-100' : '' }}">
+                            <td class="table-tr-td border-t-0 border-l-0">
+                                {{ $loop->index + 1 }}
+                            </td>
+                            <td class="table-tr-td border-t-0 border-x-0">
+                                {{ $todo->title }}
+                            </td>
+                            <td class="table-tr-td border-t-0 border-x-0">
+                                {{ jdate($todo->date)->format('Y/m/d') }}
+                            </td>
+                            <td class="table-tr-td border-t-0 border-x-0">
+                                {{ $todo->description }}
+                            </td>
+                            <td class="table-tr-td border-t-0 border-r-0">
+                                {{ $todo->user->name }}
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+
         </div>
     </div>
 </x-layout>

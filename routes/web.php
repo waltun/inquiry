@@ -61,6 +61,7 @@ use App\Http\Controllers\SeparateCalculateConverter;
 use App\Http\Controllers\SeparateCalculateDamperController;
 use App\Http\Controllers\SeparateCalculateElectricalController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\TodoController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -629,6 +630,8 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::resource('settings/information', InformationController::class)->except(['show']);
 
         Route::get('/contracts/{contract}/invoices', [ContractInvoiceController::class, 'index'])->name('contracts.invoices.index');
+
+        Route::resource('todos', TodoController::class);
     });
 
     Route::middleware('client')->group(function () {
