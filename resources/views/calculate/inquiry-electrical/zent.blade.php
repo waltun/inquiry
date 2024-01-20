@@ -164,38 +164,38 @@
         $part_ids = Session::get('part_ids');
     @endphp
 
-    <x-errors />
+    <x-errors/>
 
-        <!-- Content -->
+    <!-- Content -->
     <div class="mt-4">
         <!-- Laptop List -->
         <form method="POST" action="" id="form">
             @csrf
 
             <div class="bg-white shadow overflow-x-auto rounded-lg hidden md:block">
-                <table class="min-w-full">
-                    <thead>
-                    <tr class="bg-sky-200">
+                <table class="w-full border-collapse">
+                    <thead class="bg-indigo-300">
+                    <tr class="table-th-tr">
                         <th scope="col"
-                            class="px-4 py-2 text-sm font-bold text-gray-800 text-center rounded-tr-md">
+                            class="p-4 rounded-tr-lg">
                             ردیف
                         </th>
-                        <th scope="col" class="px-4 py-2 text-sm font-bold text-gray-800 text-center">
+                        <th scope="col" class="p-4">
                             دسته بندی
                         </th>
-                        <th scope="col" class="px-4 py-2 text-sm font-bold text-gray-800 text-center">
+                        <th scope="col" class="p-4">
                             نام
                         </th>
-                        <th scope="col" class="px-4 py-2 text-sm font-bold text-gray-800 text-center">
+                        <th scope="col" class="p-4">
                             واحد
                         </th>
-                        <th scope="col" class="px-4 py-2 text-sm font-bold text-gray-800 text-center">
+                        <th scope="col" class="p-4">
                             مقادیر
                         </th>
-                        <th scope="col" class="px-4 py-2 text-sm font-bold text-gray-800 text-center">
+                        <th scope="col" class="p-4">
                             قیمت
                         </th>
-                        <th scope="col" class="px-4 py-2 text-sm font-bold text-gray-800 text-center">
+                        <th scope="col" class="p-4 rounded-tl-lg">
                             قیمت کل
                         </th>
                     </tr>
@@ -206,143 +206,106 @@
                         $finalWeight = 0;
                     @endphp
                     @foreach($part->children()->orderBy('sort','ASC')->get() as $index => $child)
-                        @php
-                            if (!is_null($part_ids)){
-                                $child = \App\Models\Part::find($part_ids[$index]);
-                                $finalPrice += $child->price * $values[$index];
-                                $finalWeight += $child->weight * $values[$index];
-                            } else {
-                                $finalPrice += $child->price * $child->pivot->value;
-                                $finalWeight += $child->weight * $child->pivot->value;
-                            }
-                            $category = $child->categories[1];
-                            $selectedCategory = $child->categories[2];
-                        @endphp
-                        @switch($index)
-                            @case('0')
-                                <tr class="bg-yellow-500">
-                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
-                                        مشخصات کلید و المانهای ورودی
-                                    </td>
-                                </tr>
-                                @break
-                            @case('3')
-                                <tr class="bg-yellow-500">
-                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
-                                        مشخصات کلید و کنتاکتورهای فن الکترو موتور فن هوارسان
-                                    </td>
-                                </tr>
-                                @break
-                            @case('9')
-                                <tr class="bg-yellow-500">
-                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
-                                        مشخصات کلید و کنتاکتور الکترو پمپ‌ ها
-                                    </td>
-                                </tr>
-                                @break
-                            @case('12')
-                                <tr class="bg-yellow-500">
-                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
-                                        مشخصات کلیدها و کنتاکتورهای رطوبت زن
-                                    </td>
-                                </tr>
-                                @break
-                            @case('15')
-                                <tr class="bg-yellow-500">
-                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
-                                        سایر تجهیزات
-                                    </td>
-                                </tr>
-                                @break
-                            @case('22')
-                                <tr class="bg-yellow-500">
-                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
-                                        اطلاعات سیم و کابل
-                                    </td>
-                                </tr>
-                                @break
-                            @case('26')
-                                <tr class="bg-yellow-500">
-                                    <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
-                                        اقلام کنترلی
-                                    </td>
-                                </tr>
-                                @break
-                        @endswitch
-                        <tr>
-                            <td class="px-4 py-1 whitespace-nowrap">
-                                @if(!is_null($part_ids))
-                                    <input type="text" class="input-text w-14 text-center" name="sorts[]"
-                                           id="partSort{{ $child->id }}" value="{{ $sorts[$index] }}">
-                                @else
-                                    <input type="text" class="input-text w-14 text-center" name="sorts[]"
-                                           id="partSort{{ $child->id }}"
-                                           value="{{ $child->pivot->sort == 0 ||  $child->pivot->sort == null ? $loop->index+1 : $child->pivot->sort }}">
-                                @endif
-                            </td>
-                            <td class="px-4 py-1">
-                                <select name="" id="inputCategory{{ $child->id }}" class="input-text"
-                                        onchange="changePart(event,{{ $child->id }})">
-                                    @foreach($category->children as $child2)
-                                        <option
-                                            value="{{ $child2->id }}" {{ $child2->id == $selectedCategory->id ? 'selected' : '' }}>
-                                            {{ $child2->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </td>
-                            <td class="px-4 py-1 whitespace-nowrap">
-                                @php
-                                    $selectedPart = \App\Models\Part::find($child->id);
-                                    $lastCategory = $selectedPart->categories()->latest()->first();
-                                    $categoryParts = $lastCategory->parts;
-                                @endphp
-                                <select name="part_ids[]" class="input-text" id="groupPartList{{ $child->id }}">
-                                    @foreach($categoryParts as $part2)
-                                        <option
-                                            value="{{ $part2->id }}" {{ $part2->id == $child->id ? 'selected' : '' }}>
-                                            {{ $part2->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </td>
-                            <td class="px-4 py-1 whitespace-nowrap">
-                                <p class="text-sm text-black text-center">
-                                    {{ $child->unit }}
-                                </p>
-                            </td>
-                            <td class="px-4 py-1 whitespace-nowrap">
-                                @if(!is_null($part_ids))
-                                    <input type="text" name="values[]" id="inputValue{{ $child->id }}"
-                                           class="input-text w-24 text-center" value="{{ $values[$index] }}">
-                                @else
-                                    <input type="text" name="values[]" id="inputValue{{ $child->id }}"
-                                           class="input-text w-24 text-center" value="{{ $child->pivot->value ?? '' }}">
-                                @endif
-                            </td>
-                            <td class="px-4 py-1 whitespace-nowrap">
-                                @if($child->price)
-                                    <p class="text-sm text-black font-medium text-center">
-                                        {{ number_format($child->price) }} تومان
-                                    </p>
-                                @else
-                                    <p class="text-sm font-medium text-center">
-                                        منتظر قیمت گذاری
-                                    </p>
-                                @endif
-                            </td>
-                            <td class="px-4 py-1 whitespace-nowrap">
-                                @if(!is_null($part_ids))
-                                    <p class="text-sm text-black font-medium text-center">
-                                        {{ number_format($child->price * $values[$index]) }} تومان
-                                    </p>
-                                @else
-                                    <p class="text-sm text-black font-medium text-center">
-                                        {{ number_format($child->price * $child->pivot->value) }} تومان
-                                    </p>
-                                @endif
+                        <tr class="bg-yellow-500">
+                            <td class="px-4 py-2 text-center text-sm font-bold" colspan="7">
+                                {{ $child->name }}
                             </td>
                         </tr>
+                        @foreach($child->children()->wherePivot('head_part_id', null)->orderBy('sort', 'ASC')->get() as $index2 => $ch)
+                            @php
+                                if (!is_null($part_ids)){
+                                    $ch = \App\Models\Part::find($part_ids[$index][$index2]);
+                                    $finalPrice += $ch->price * (int)$values[$index][$index2];
+                                    $finalWeight += $ch->weight * (int)$values[$index][$index2];
+                                } else {
+                                    $finalPrice += $ch->price * (int)$ch->pivot->value;
+                                    $finalWeight += $ch->weight * (int)$ch->pivot->value;
+                                }
+                                $category = $ch->categories[1];
+                                $selectedCategory = $ch->categories[2];
+                            @endphp
+                            <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
+                                <td class="table-tr-td border-t-0 border-l-0">
+                                    @if(!is_null($part_ids))
+                                        <input type="text" class="input-text w-14 text-center"
+                                               name="sorts[{{ $index }}][{{ $index2 }}]"
+                                               id="partSort{{ $ch->id }}" value="{{ $sorts[$index][$index2] }}">
+                                    @else
+                                        <input type="text" class="input-text w-14 text-center"
+                                               name="sorts[{{ $index }}][{{ $index2 }}]"
+                                               id="partSort{{ $ch->id }}"
+                                               value="{{ $ch->pivot->sort == 0 ||  $ch->pivot->sort == null ? $loop->index+1 : $ch->pivot->sort }}">
+                                    @endif
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    <select name="" id="inputCategory{{ $ch->id }}" class="input-text"
+                                            onchange="changePart(event,{{ $ch->id }})">
+                                        @foreach($category->children as $child2)
+                                            <option
+                                                value="{{ $child2->id }}" {{ $child2->id == $selectedCategory->id ? 'selected' : '' }}>
+                                                {{ $child2->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    @php
+                                        $selectedPart = \App\Models\Part::find($ch->id);
+                                        $lastCategory = $selectedPart->categories()->latest()->first();
+                                        $categoryParts = $lastCategory->parts;
+                                    @endphp
+                                    <select name="part_ids[{{ $index }}][{{ $index2 }}]" class="input-text"
+                                            id="groupPartList{{ $ch->id }}">
+                                        @foreach($categoryParts as $part2)
+                                            <option
+                                                value="{{ $part2->id }}" {{ $part2->id == $ch->id ? 'selected' : '' }}>
+                                                {{ $part2->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    <p class="text-sm text-black text-center">
+                                        {{ $ch->unit }}
+                                    </p>
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    @if(!is_null($part_ids))
+                                        <input type="text" name="values[{{ $index }}][{{ $index2 }}]"
+                                               id="inputValue{{ $ch->id }}"
+                                               class="input-text w-24 text-center"
+                                               value="{{ $values[$index][$index2] }}">
+                                    @else
+                                        <input type="text" name="values[{{ $index }}][{{ $index2 }}]"
+                                               id="inputValue{{ $ch->id }}"
+                                               class="input-text w-24 text-center"
+                                               value="{{ $ch->pivot->value ?? '' }}">
+                                    @endif
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    @if($ch->price)
+                                        <p class="text-sm text-black font-medium text-center">
+                                            {{ number_format($ch->price) }} تومان
+                                        </p>
+                                    @else
+                                        <p class="text-sm font-medium text-center">
+                                            منتظر قیمت گذاری
+                                        </p>
+                                    @endif
+                                </td>
+                                <td class="table-tr-td border-t-0 border-r-0">
+                                    @if(!is_null($part_ids))
+                                        <p class="text-sm text-black font-medium text-center">
+                                            {{ number_format($ch->price * $values[$index][$index2]) }} تومان
+                                        </p>
+                                    @else
+                                        <p class="text-sm text-black font-medium text-center">
+                                            {{ number_format($ch->price * $ch->pivot->value) }} تومان
+                                        </p>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
                     @endforeach
                     </tbody>
                 </table>

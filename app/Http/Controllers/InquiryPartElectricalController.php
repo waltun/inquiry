@@ -64,7 +64,6 @@ class InquiryPartElectricalController extends Controller
     {
         $request->validate([
             'values' => 'required|array',
-            'values.*' => 'required|numeric',
             'quantity' => 'required|numeric'
         ]);
 
@@ -92,12 +91,21 @@ class InquiryPartElectricalController extends Controller
             $newPart->categories()->sync($part->categories);
         }
 
-        foreach ($request['part_ids'] as $index => $id) {
-            $newPart->children()->attach($id, [
-                'parent_part_id' => $request->part_ids[$index],
-                'value' => $request->values[$index],
-                'sort' => $request->sorts[$index]
+        foreach ($part->children()->orderBy('sort', 'ASC')->get() as $child) {
+            $newPart->children()->attach($child->id, [
+                'sort' => $child->pivot->sort,
             ]);
+        }
+
+        foreach ($newPart->children()->orderBy('sort', 'ASC')->get() as $index => $child) {
+            foreach ($request->part_ids[$index] as $index2 => $id) {
+                $child->children()->attach($request->part_ids[$index][$index2], [
+                    'head_part_id' => $newPart->id,
+                    'value' => $request->values[$index][$index2],
+                    'sort' => $request->sorts[$index][$index2],
+                    'datasheet' => 1
+                ]);
+            }
         }
 
         if ($inquiry->products()->where('part_id', '!=', 0)->get()->isEmpty()) {
@@ -141,7 +149,6 @@ class InquiryPartElectricalController extends Controller
     {
         $request->validate([
             'values' => 'required|array',
-            'values.*' => 'required|numeric',
             'quantity' => 'required|numeric'
         ]);
 
@@ -169,12 +176,21 @@ class InquiryPartElectricalController extends Controller
             $newPart->categories()->sync($part->categories);
         }
 
-        foreach ($request['part_ids'] as $index => $id) {
-            $newPart->children()->attach($id, [
-                'parent_part_id' => $request->part_ids[$index],
-                'value' => $request->values[$index],
-                'sort' => $request->sorts[$index]
+        foreach ($part->children()->orderBy('sort', 'ASC')->get() as $child) {
+            $newPart->children()->attach($child->id, [
+                'sort' => $child->pivot->sort,
             ]);
+        }
+
+        foreach ($newPart->children()->orderBy('sort', 'ASC')->get() as $index => $child) {
+            foreach ($request->part_ids[$index] as $index2 => $id) {
+                $child->children()->attach($request->part_ids[$index][$index2], [
+                    'head_part_id' => $newPart->id,
+                    'value' => $request->values[$index][$index2],
+                    'sort' => $request->sorts[$index][$index2],
+                    'datasheet' => 1
+                ]);
+            }
         }
 
         if ($inquiry->products()->where('part_id', '!=', 0)->get()->isEmpty()) {
@@ -218,7 +234,6 @@ class InquiryPartElectricalController extends Controller
     {
         $request->validate([
             'values' => 'required|array',
-            'values.*' => 'required|numeric',
             'quantity' => 'required|numeric'
         ]);
 
@@ -246,12 +261,21 @@ class InquiryPartElectricalController extends Controller
             $newPart->categories()->sync($part->categories);
         }
 
-        foreach ($request['part_ids'] as $index => $id) {
-            $newPart->children()->attach($id, [
-                'parent_part_id' => $request->part_ids[$index],
-                'value' => $request->values[$index],
-                'sort' => $request->sorts[$index]
+        foreach ($part->children()->orderBy('sort', 'ASC')->get() as $child) {
+            $newPart->children()->attach($child->id, [
+                'sort' => $child->pivot->sort,
             ]);
+        }
+
+        foreach ($newPart->children()->orderBy('sort', 'ASC')->get() as $index => $child) {
+            foreach ($request->part_ids[$index] as $index2 => $id) {
+                $child->children()->attach($request->part_ids[$index][$index2], [
+                    'head_part_id' => $newPart->id,
+                    'value' => $request->values[$index][$index2],
+                    'sort' => $request->sorts[$index][$index2],
+                    'datasheet' => 1
+                ]);
+            }
         }
 
         if ($inquiry->products()->where('part_id', '!=', 0)->get()->isEmpty()) {
@@ -295,7 +319,6 @@ class InquiryPartElectricalController extends Controller
     {
         $request->validate([
             'values' => 'required|array',
-            'values.*' => 'required|numeric',
             'quantity' => 'required|numeric'
         ]);
 
@@ -323,12 +346,21 @@ class InquiryPartElectricalController extends Controller
             $newPart->categories()->sync($part->categories);
         }
 
-        foreach ($request['part_ids'] as $index => $id) {
-            $newPart->children()->attach($id, [
-                'parent_part_id' => $request->part_ids[$index],
-                'value' => $request->values[$index],
-                'sort' => $request->sorts[$index]
+        foreach ($part->children()->orderBy('sort', 'ASC')->get() as $child) {
+            $newPart->children()->attach($child->id, [
+                'sort' => $child->pivot->sort,
             ]);
+        }
+
+        foreach ($newPart->children()->orderBy('sort', 'ASC')->get() as $index => $child) {
+            foreach ($request->part_ids[$index] as $index2 => $id) {
+                $child->children()->attach($request->part_ids[$index][$index2], [
+                    'head_part_id' => $newPart->id,
+                    'value' => $request->values[$index][$index2],
+                    'sort' => $request->sorts[$index][$index2],
+                    'datasheet' => 1
+                ]);
+            }
         }
 
         if ($inquiry->products()->where('part_id', '!=', 0)->get()->isEmpty()) {
@@ -372,7 +404,6 @@ class InquiryPartElectricalController extends Controller
     {
         $request->validate([
             'values' => 'required|array',
-            'values.*' => 'required|numeric',
             'quantity' => 'required|numeric'
         ]);
 
@@ -400,12 +431,21 @@ class InquiryPartElectricalController extends Controller
             $newPart->categories()->sync($part->categories);
         }
 
-        foreach ($request['part_ids'] as $index => $id) {
-            $newPart->children()->attach($id, [
-                'parent_part_id' => $request->part_ids[$index],
-                'value' => $request->values[$index],
-                'sort' => $request->sorts[$index]
+        foreach ($part->children()->orderBy('sort', 'ASC')->get() as $child) {
+            $newPart->children()->attach($child->id, [
+                'sort' => $child->pivot->sort,
             ]);
+        }
+
+        foreach ($newPart->children()->orderBy('sort', 'ASC')->get() as $index => $child) {
+            foreach ($request->part_ids[$index] as $index2 => $id) {
+                $child->children()->attach($request->part_ids[$index][$index2], [
+                    'head_part_id' => $newPart->id,
+                    'value' => $request->values[$index][$index2],
+                    'sort' => $request->sorts[$index][$index2],
+                    'datasheet' => 1
+                ]);
+            }
         }
 
         if ($inquiry->products()->where('part_id', '!=', 0)->get()->isEmpty()) {
