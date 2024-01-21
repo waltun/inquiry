@@ -10,10 +10,12 @@ class TodoController extends Controller
 {
     public function index()
     {
-        if (auth()->user()->role == 'admin') {
-            $todos = Todo::latest()->paginate(25);
-        } else {
-            $todos = auth()->user()->todos()->latest()->paginate(25);
+        $todos = auth()->user()->todos()->latest()->paginate(25);
+
+        $unCompleteTodos = auth()->user()->todos()->where('done', false)->where('date', '<=', now()->subDays(1))->get();
+        foreach ($unCompleteTodos as $unCompleteTodo) {
+            $unCompleteTodo->date = now();
+            $unCompleteTodo->save();
         }
 
         return view('todos.index', compact('todos'));
@@ -79,6 +81,16 @@ class TodoController extends Controller
         $todo->delete();
 
         alert()->success('حذف موفق', 'حذف کار با موفقیت انجام شد');
+
+        return back();
+    }
+
+    public function markAsDone(Todo $todo)
+    {
+        $todo->done = true;
+        $todo->save();
+
+        alert()->success('اتمام موفق', 'اتمام کار با موفقیت انجام شد');
 
         return back();
     }

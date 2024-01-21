@@ -1105,7 +1105,7 @@
                             توضیحات
                         </th>
                         <th scope="col" class="p-2">
-                            کاربر
+                            <span class="sr-only">اقدامات</span>
                         </th>
                     </tr>
                     </thead>
@@ -1115,17 +1115,37 @@
                             <td class="table-tr-td border-t-0 border-l-0">
                                 {{ $loop->index + 1 }}
                             </td>
-                            <td class="table-tr-td border-t-0 border-x-0">
+                            <td class="table-tr-td border-t-0 border-x-0 {{ $todo->done ? 'line-through opacity-50' : '' }}">
                                 {{ $todo->title }}
                             </td>
-                            <td class="table-tr-td border-t-0 border-x-0">
+                            <td class="table-tr-td border-t-0 border-x-0 {{ $todo->done ? 'line-through opacity-50' : '' }}">
                                 {{ jdate($todo->date)->format('Y/m/d') }}
                             </td>
-                            <td class="table-tr-td border-t-0 border-x-0">
-                                {{ $todo->description }}
+                            <td class="table-tr-td border-t-0 border-x-0 {{ $todo->done ? 'line-through opacity-50' : '' }}">
+                                {{ $todo->description ?? '-' }}
                             </td>
-                            <td class="table-tr-td border-t-0 border-r-0">
-                                {{ $todo->user->name }}
+                            <td class="table-tr-td border-t-0 border-r-0 whitespace-nowrap">
+                                <div class="flex items-center space-x-4 space-x-reverse justify-center">
+                                    @if(!$todo->done)
+                                        <form action="{{ route('todos.mark-as-done', $todo->id) }}"
+                                              method="POST"
+                                              class="table-success-btn">
+                                            @csrf
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                 stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                      d="m4.5 12.75 6 6 9-13.5"/>
+                                            </svg>
+                                            <button onclick="return confirm('کار تمام شود ؟')">
+                                                اتمام کار
+                                            </button>
+                                        </form>
+                                    @else
+                                        <span class="bg-green-500 px-2 rounded-md text-white">
+                                            انجام شده
+                                        </span>
+                                    @endif
+                                </div>
                             </td>
                         </tr>
                     @endforeach

@@ -632,6 +632,7 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::get('/contracts/{contract}/invoices', [ContractInvoiceController::class, 'index'])->name('contracts.invoices.index');
 
         Route::resource('todos', TodoController::class);
+        Route::post('todos/{todo}/mark-as-done', [TodoController::class, 'markAsDone'])->name('todos.mark-as-done');
     });
 
     Route::middleware('client')->group(function () {
