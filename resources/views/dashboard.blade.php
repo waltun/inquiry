@@ -1084,73 +1084,178 @@
 
     <div class="grid grid-cols-2 gap-4">
         <div class="card">
-            <div class="card-header">
-                <p class="card-title">کارهای روزانه</p>
-            </div>
+            <div x-data="{tab : 'today-todo'}" class="mb-8">
+                <div class="border-b border-indigo-400 dark:border-black">
+                    <ul class="flex md:flex-wrap -mb-px text-sm font-medium text-center text-gray-600 whitespace-nowrap overflow-x-auto">
+                        <li class="ml-2">
+                            <button x-on:click="tab = 'today-todo'" type="button"
+                                    class="inline-flex p-4 text-myBlue-100 group rounded-t-lg dark:text-white"
+                                    :class="{ 'text-myBlue-100 border border-indigo-400 bg-gray-100 dark:bg-slate-900': tab === 'today-todo' }"
+                                    aria-current="page">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5" stroke="currentColor"
+                                     :class="{ 'text-blue-700': tab === 'today-todo' }"
+                                     class="w-5 h-5 ml-2 text-blue-600">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"></path>
+                                </svg>
 
-            <div class="overflow-x-auto rounded-lg hidden md:block">
-                <table class="md:w-full border-collapse">
-                    <thead>
-                    <tr class="table-th-tr">
-                        <th scope="col" class="p-2 rounded-tr-lg">
-                            #
-                        </th>
-                        <th scope="col" class="p-2">
-                            عنوان
-                        </th>
-                        <th scope="col" class="p-2">
-                            تاریخ
-                        </th>
-                        <th scope="col" class="p-2">
-                            توضیحات
-                        </th>
-                        <th scope="col" class="p-2">
-                            <span class="sr-only">اقدامات</span>
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($todos as $todo)
-                        <tr class="table-tb-tr group hover:font-bold hover:text-red-600 {{ $loop->even ? 'bg-sky-100' : '' }}">
-                            <td class="table-tr-td border-t-0 border-l-0">
-                                {{ $loop->index + 1 }}
-                            </td>
-                            <td class="table-tr-td border-t-0 border-x-0 {{ $todo->done ? 'line-through opacity-50' : '' }}">
-                                {{ $todo->title }}
-                            </td>
-                            <td class="table-tr-td border-t-0 border-x-0 {{ $todo->done ? 'line-through opacity-50' : '' }}">
-                                {{ jdate($todo->date)->format('Y/m/d') }}
-                            </td>
-                            <td class="table-tr-td border-t-0 border-x-0 {{ $todo->done ? 'line-through opacity-50' : '' }}">
-                                {{ $todo->description ?? '-' }}
-                            </td>
-                            <td class="table-tr-td border-t-0 border-r-0 whitespace-nowrap">
-                                <div class="flex items-center space-x-4 space-x-reverse justify-center">
-                                    @if(!$todo->done)
-                                        <form action="{{ route('todos.mark-as-done', $todo->id) }}"
-                                              method="POST"
-                                              class="table-success-btn">
-                                            @csrf
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                 stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                      d="m4.5 12.75 6 6 9-13.5"/>
-                                            </svg>
-                                            <button onclick="return confirm('کار تمام شود ؟')">
-                                                اتمام کار
-                                            </button>
-                                        </form>
-                                    @else
-                                        <span class="bg-green-500 px-2 rounded-md text-white">
+                                کار های امروز
+                            </button>
+                        </li>
+                        <li class="ml-2">
+                            <button x-on:click="tab = 'all-todo'" type="button"
+                                    class="inline-flex p-4 text-myBlue-100 group rounded-t-lg dark:text-white"
+                                    :class="{ 'text-myBlue-100 border border-indigo-400 bg-gray-100 dark:bg-slate-900': tab === 'all-todo' }"
+                                    aria-current="page">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5" stroke="currentColor" class="w-5 h-5 ml-2 text-blue-600"
+                                     :class="{ 'text-blue-700': tab === 'all-todo' }">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                </svg>
+
+
+                                کار های آتی
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+
+                <div x-show="tab === 'today-todo'"
+                     class="rounded-b-lg px-4 py-6" x-cloak>
+                    <div class="overflow-x-auto rounded-lg hidden md:block">
+                        @if(!$todayTodos->isEmpty())
+                            <table class="md:w-full border-collapse">
+                                <thead>
+                                <tr class="table-th-tr">
+                                    <th scope="col" class="p-2 rounded-tr-lg">
+                                        تاریخ
+                                    </th>
+                                    <th scope="col" class="p-2">
+                                        عنوان
+                                    </th>
+                                    <th scope="col" class="p-2">
+                                        توضیحات
+                                    </th>
+                                    <th scope="col" class="p-2">
+                                        <span class="sr-only">اقدامات</span>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($todayTodos as $todo)
+                                    <tr class="table-tb-tr group hover:font-bold hover:text-red-600 {{ $loop->even ? 'bg-sky-100' : '' }}">
+                                        <td class="table-tr-td border-t-0 border-l-0">
+                                            {{ jdate($todo->date)->format('Y/m/d') }}
+                                        </td>
+                                        <td class="table-tr-td border-t-0 border-x-0 {{ $todo->done ? 'line-through opacity-50' : '' }}">
+                                            {{ $todo->title }}
+                                        </td>
+                                        <td class="table-tr-td border-t-0 border-x-0 {{ $todo->done ? 'line-through opacity-50' : '' }}">
+                                            {{ $todo->description ?? '-' }}
+                                        </td>
+                                        <td class="table-tr-td border-t-0 border-r-0 whitespace-nowrap">
+                                            <div class="flex items-center space-x-4 space-x-reverse justify-center">
+                                                @if(!$todo->done)
+                                                    <form action="{{ route('todos.mark-as-done', $todo->id) }}"
+                                                          method="POST"
+                                                          class="table-success-btn">
+                                                        @csrf
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                             viewBox="0 0 24 24"
+                                                             stroke-width="1.5" stroke="currentColor"
+                                                             class="w-4 h-4 ml-1">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                  d="m4.5 12.75 6 6 9-13.5"/>
+                                                        </svg>
+                                                        <button onclick="return confirm('کار تمام شود ؟')">
+                                                            اتمام کار
+                                                        </button>
+                                                    </form>
+                                                @else
+                                                    <span class="bg-green-500 px-2 rounded-md text-white">
                                             انجام شده
                                         </span>
-                                    @endif
-                                </div>
-                            </td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
+                                                @endif
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        @else
+                            <div class="bg-green-500 px-4 py-1 rounded-md">
+                                <p class="text-sm text-white text-center">
+                                    تبریک! شما همه کار های روزانه رو انجام دادید
+                                </p>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+
+                <div x-show="tab === 'all-todo'"
+                     class="rounded-b-lg px-4 py-6" x-cloak>
+                    <div class="overflow-x-auto rounded-lg hidden md:block">
+                        <table class="md:w-full border-collapse">
+                            <thead>
+                            <tr class="table-th-tr">
+                                <th scope="col" class="p-2 rounded-tr-lg">
+                                    تاریخ
+                                </th>
+                                <th scope="col" class="p-2">
+                                    عنوان
+                                </th>
+                                <th scope="col" class="p-2">
+                                    توضیحات
+                                </th>
+                                <th scope="col" class="p-2">
+                                    <span class="sr-only">اقدامات</span>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($allTodos as $todo)
+                                <tr class="table-tb-tr group hover:font-bold hover:text-red-600 {{ $loop->even ? 'bg-sky-100' : '' }}">
+                                    <td class="table-tr-td border-t-0 border-l-0">
+                                        {{ jdate($todo->date)->format('Y/m/d') }}
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-x-0 {{ $todo->done ? 'line-through opacity-50' : '' }}">
+                                        {{ $todo->title }}
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-x-0 {{ $todo->done ? 'line-through opacity-50' : '' }}">
+                                        {{ $todo->description ?? '-' }}
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-r-0 whitespace-nowrap">
+                                        <div class="flex items-center space-x-4 space-x-reverse justify-center">
+                                            @if(!$todo->done)
+                                                <form action="{{ route('todos.mark-as-done', $todo->id) }}"
+                                                      method="POST"
+                                                      class="table-success-btn">
+                                                    @csrf
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                         viewBox="0 0 24 24"
+                                                         stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                              d="m4.5 12.75 6 6 9-13.5"/>
+                                                    </svg>
+                                                    <button onclick="return confirm('کار تمام شود ؟')">
+                                                        اتمام کار
+                                                    </button>
+                                                </form>
+                                            @else
+                                                <span class="bg-green-500 px-2 rounded-md text-white">
+                                            انجام شده
+                                        </span>
+                                            @endif
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
         </div>
