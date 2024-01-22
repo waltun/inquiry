@@ -1110,6 +1110,12 @@ class InquiryController extends Controller
         ]);
         $newProduct->save();
 
+        if (!$product->attributeValues->isEmpty()) {
+            foreach ($product->attributeValues as $value) {
+                $newProduct->attributeValues()->attach($value->id);
+            }
+        }
+
         foreach ($product->amounts as $amount) {
             $part = Part::find($amount->part_id);
             $category = $part->categories()->latest()->first();
