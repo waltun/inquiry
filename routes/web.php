@@ -61,6 +61,7 @@ use App\Http\Controllers\SeparateCalculateConverter;
 use App\Http\Controllers\SeparateCalculateDamperController;
 use App\Http\Controllers\SeparateCalculateElectricalController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TodoController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -631,8 +632,11 @@ Route::middleware(['auth', 'web'])->group(function () {
 
         Route::get('/contracts/{contract}/invoices', [ContractInvoiceController::class, 'index'])->name('contracts.invoices.index');
 
-        Route::resource('todos', TodoController::class);
+        Route::resource('todos', TodoController::class)->except('show');
         Route::post('todos/{todo}/mark-as-done', [TodoController::class, 'markAsDone'])->name('todos.mark-as-done');
+
+        Route::resource('tasks', TaskController::class)->except('show');
+        Route::post('tasks/{task}/mark-as-done', [TaskController::class, 'markAsDone'])->name('tasks.mark-as-done');
     });
 
     Route::middleware('client')->group(function () {

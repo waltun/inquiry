@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inquiry;
+use App\Models\Task;
 use App\Models\Todo;
 use Illuminate\Http\Request;
 
@@ -22,6 +23,8 @@ class DashboardController extends Controller
             $unCompleteTodo->save();
         }
 
-        return view('dashboard', compact('inquiries', 'submitInquiries', 'todayTodos', 'allTodos'));
+        $receivedTasks = Task::whereBetween('date', [now()->startOfDay(), now()->endOfDay()->addDays(8)])->latest()->get();
+
+        return view('dashboard', compact('inquiries', 'submitInquiries', 'todayTodos', 'allTodos', 'receivedTasks'));
     }
 }
