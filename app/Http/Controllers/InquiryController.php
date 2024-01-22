@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Amount;
 use App\Models\CoilInput;
 use App\Models\DeleteButton;
 use App\Models\Group;
@@ -10,7 +9,6 @@ use App\Models\Inquiry;
 use App\Models\InquiryPrice;
 use App\Models\InquiryTerm;
 use App\Models\Invoice;
-use App\Models\InvoiceProduct;
 use App\Models\Modell;
 use App\Models\Part;
 use App\Models\Product;
@@ -123,8 +121,6 @@ class InquiryController extends Controller
             }
         }
 
-        $colspan = '';
-        $colspan2 = '';
         if (auth()->user()->role == 'admin') {
             $colspan = '6';
             $colspan2 = '4';
@@ -248,8 +244,6 @@ class InquiryController extends Controller
 
     public function submit(Inquiry $inquiry)
     {
-        $specials = Special::all()->pluck('part_id')->toArray();
-
         $setting = Setting::where('active', '1')->first();
         if ($setting) {
             if ($setting->price_color_type == 'month') {
@@ -677,8 +671,6 @@ class InquiryController extends Controller
 
     public function correction(Request $request, Inquiry $inquiry)
     {
-        $user = User::find($inquiry->user_id);
-
         $request->validate([
             'message' => 'required'
         ]);
@@ -694,16 +686,113 @@ class InquiryController extends Controller
         $newInquiry->save();
 
         foreach ($inquiry->products as $product) {
-            $newProduct = $product->replicate()->fill([
-                'percent' => 0,
-                'old_percent' => $product->percent,
-                'inquiry_id' => $newInquiry->id,
-                'price' => 0,
-            ]);
-            $newProduct->save();
+            if ($product->part_id == 0) {
+                $newProduct = $product->replicate()->fill([
+                    'percent' => 0,
+                    'old_percent' => $product->percent,
+                    'inquiry_id' => $newInquiry->id,
+                    'price' => 0
+                ]);
+                $newProduct->save();
 
-            foreach ($product->amounts as $amount) {
-                $part = Part::find($amount->part_id);
+                if (!$product->attributeValues->isEmpty()) {
+                    foreach ($product->attributeValues as $value) {
+                        $newProduct->attributeValues()->attach($value->id);
+                    }
+                }
+
+                foreach ($product->amounts as $amount) {
+                    $part = Part::find($amount->part_id);
+                    $category = $part->categories()->latest()->first();
+                    $lastPart = $category->parts()->latest()->first();
+                    $code = str_pad($lastPart->code + 1, 4, "0", STR_PAD_LEFT);
+
+                    if ($part->coil == '1' && $part->collection == '1' && !is_null($part->inquiry_id)) {
+                        $newPart = $part->replicate()->fill([
+                            'code' => $code,
+                            'name' => $part->name,
+                            'inquiry_id' => $newInquiry->id,
+                            'product_id' => $newProduct->id
+                        ]);
+                        $newPart->save();
+
+                        $coilInput = CoilInput::where('part_id', $part->id)->where('inquiry_id', $inquiry->id)->first();
+
+                        if (!is_null($coilInput)) {
+                            CoilInput::create([
+                                'loole_messi' => $coilInput->loole_messi,
+                                'fin_coil' => $coilInput->fin_coil,
+                                'tedad_radif_coil' => $coilInput->tedad_radif_coil,
+                                'fin_dar_inch' => $coilInput->fin_dar_inch,
+                                'zekhamat_frame_coil' => $coilInput->zekhamat_frame_coil,
+                                'pooshesh_khordegi' => $coilInput->pooshesh_khordegi,
+                                'collector_ahani' => $coilInput->collector_ahani,
+                                'collector_messi' => $coilInput->collector_messi,
+                                'electrod_noghre' => $coilInput->electrod_noghre,
+                                'noe_coil' => $coilInput->noe_coil,
+                                'toole_coil' => $coilInput->toole_coil,
+                                'tedad_loole_dar_radif' => $coilInput->tedad_loole_dar_radif,
+                                'tedad_mogheyiat_loole' => $coilInput->tedad_mogheyiat_loole,
+                                'tedad_madar_loole' => $coilInput->tedad_madar_loole,
+                                'kham' => $coilInput->kham,
+                                'tedad_madar_coil' => $coilInput->tedad_madar_coil,
+                                'tedad_soorakh_pakhshkon' => $coilInput->tedad_soorakh_pakhshkon,
+                                'sathe_coil' => $coilInput->sathe_coil,
+                                'type' => $coilInput->type,
+                                'part_id' => $newPart->id,
+                                'inquiry_id' => $newInquiry->id,
+                            ]);
+                        }
+
+                        $newPart->categories()->syncWithoutDetaching($part->categories);
+
+                        foreach ($part->children()->where('head_part_id', null)->orderByPivot('sort', 'ASC')->get() as $child) {
+                            $newPart->children()->syncWithoutDetaching([
+                                $child->id => [
+                                    'value' => $child->pivot->value
+                                ]
+                            ]);
+
+                            if (!$child->children->isEmpty()) {
+                                foreach ($child->children()->where('head_part_id', $part->id)->orderBy('sort', 'ASC')->get() as $ch) {
+                                    DB::table('part_child')->insert([
+                                        'parent_part_id' => $ch->id,
+                                        'child_part_id' => $child->id,
+                                        'head_part_id' => $newPart->id,
+                                        'value' => $ch->pivot->value,
+                                        'sort' => $ch->pivot->sort,
+                                        'datasheet' => $ch->pivot->datasheet,
+                                    ]);
+                                }
+                            }
+                        }
+
+                        $totalPrice = 0;
+                        foreach ($newPart->children as $child) {
+                            $totalPrice += ($child->price * $child->pivot->value);
+                        }
+                        $newPart->price = $totalPrice;
+                        $newPart->save();
+
+                        $newAmount = $amount->replicate()->fill([
+                            'value' => $amount->value,
+                            'product_id' => $newProduct->id,
+                            'part_id' => $newPart->id,
+                            'price' => max($amount->price, 0)
+                        ]);
+                        $newAmount->save();
+                    } else {
+                        $newAmount = $amount->replicate()->fill([
+                            'value' => $amount->value,
+                            'product_id' => $newProduct->id,
+                            'part_id' => $amount->part_id,
+                            'price' => max($amount->price, 0)
+                        ]);
+                        $newAmount->save();
+                    }
+                }
+            } else {
+                $part = Part::find($product->part_id);
                 $category = $part->categories()->latest()->first();
                 $lastPart = $category->parts()->latest()->first();
                 $code = str_pad($lastPart->code + 1, 4, "0", STR_PAD_LEFT);
@@ -713,41 +802,93 @@ class InquiryController extends Controller
                         'code' => $code,
                         'name' => $part->name,
                         'inquiry_id' => $newInquiry->id,
-                        'product_id' => $newProduct->id
                     ]);
                     $newPart->save();
 
+                    $coilInput = CoilInput::where('part_id', $part->id)->where('inquiry_id', $inquiry->id)->first();
+
+                    if (!is_null($coilInput)) {
+                        CoilInput::create([
+                            'loole_messi' => $coilInput->loole_messi,
+                            'fin_coil' => $coilInput->fin_coil,
+                            'tedad_radif_coil' => $coilInput->tedad_radif_coil,
+                            'fin_dar_inch' => $coilInput->fin_dar_inch,
+                            'zekhamat_frame_coil' => $coilInput->zekhamat_frame_coil,
+                            'pooshesh_khordegi' => $coilInput->pooshesh_khordegi,
+                            'collector_ahani' => $coilInput->collector_ahani,
+                            'collector_messi' => $coilInput->collector_messi,
+                            'electrod_noghre' => $coilInput->electrod_noghre,
+                            'noe_coil' => $coilInput->noe_coil,
+                            'toole_coil' => $coilInput->toole_coil,
+                            'tedad_loole_dar_radif' => $coilInput->tedad_loole_dar_radif,
+                            'tedad_mogheyiat_loole' => $coilInput->tedad_mogheyiat_loole,
+                            'tedad_madar_loole' => $coilInput->tedad_madar_loole,
+                            'kham' => $coilInput->kham,
+                            'tedad_madar_coil' => $coilInput->tedad_madar_coil,
+                            'tedad_soorakh_pakhshkon' => $coilInput->tedad_soorakh_pakhshkon,
+                            'sathe_coil' => $coilInput->sathe_coil,
+                            'type' => $coilInput->type,
+                            'part_id' => $newPart->id,
+                            'inquiry_id' => $newInquiry->id,
+                        ]);
+                    }
+
                     $newPart->categories()->syncWithoutDetaching($part->categories);
 
-                    foreach ($part->children as $child) {
+                    foreach ($part->children()->where('head_part_id', null)->orderByPivot('sort', 'ASC')->get() as $child) {
                         $newPart->children()->syncWithoutDetaching([
                             $child->id => [
                                 'value' => $child->pivot->value
                             ]
                         ]);
+
+                        if (!$child->children->isEmpty()) {
+                            foreach ($child->children()->where('head_part_id', $part->id)->orderBy('sort', 'ASC')->get() as $ch) {
+                                DB::table('part_child')->insert([
+                                    'parent_part_id' => $ch->id,
+                                    'child_part_id' => $child->id,
+                                    'head_part_id' => $newPart->id,
+                                    'value' => $ch->pivot->value,
+                                    'sort' => $ch->pivot->sort,
+                                    'datasheet' => $ch->pivot->datasheet,
+                                ]);
+                            }
+                        }
                     }
 
                     $totalPrice = 0;
                     foreach ($newPart->children as $child) {
                         $totalPrice += ($child->price * $child->pivot->value);
                     }
+                    $newPart->price = $totalPrice;
                     $newPart->save();
-                }
 
-                $newAmount = $amount->replicate()->fill([
-                    'value' => $amount->value,
-                    'product_id' => $newProduct->id,
-                    'part_id' => $amount->part_id,
-                    'price' => $amount->price
-                ]);
-                $newAmount->save();
+                    $newProduct = $product->replicate()->fill([
+                        'percent' => 0,
+                        'old_percent' => $product->percent,
+                        'inquiry_id' => $newInquiry->id,
+                        'price' => 0,
+                        'part_id' => $newPart->id
+                    ]);
+
+                } else {
+                    $newProduct = $product->replicate()->fill([
+                        'percent' => 0,
+                        'old_percent' => $product->percent,
+                        'inquiry_id' => $newInquiry->id,
+                        'price' => 0,
+                        'part_id' => $part->id
+                    ]);
+
+                }
+                $newProduct->save();
+                if (!$product->attributeValues->isEmpty()) {
+                    foreach ($product->attributeValues as $value) {
+                        $newProduct->attributeValues()->attach($value->id);
+                    }
+                }
             }
         }
-
-        //Send Notification
-        //if ($user) {
-        //    $user->notify(new CorrectionInquiryNotification($newInquiry));
-        //}
 
         alert()->success('اطلاح موفق', 'اصلاح استعلام با موفقیت انجام شد و برای کاربر ارسال شد');
 
@@ -756,8 +897,6 @@ class InquiryController extends Controller
 
     public function submittedCorrection(Request $request, Inquiry $inquiry)
     {
-        $user = User::find($inquiry->user_id);
-
         $request->validate([
             'message' => 'required'
         ]);
@@ -1085,7 +1224,7 @@ class InquiryController extends Controller
         return redirect()->route('inquiries.product.index', $inquiry->id);
     }
 
-    public function finalSubmit(Request $request, Inquiry $inquiry)
+    public function finalSubmit(Inquiry $inquiry)
     {
         if (!$inquiry->products->pluck('percent')->contains(0)) {
             $inquiry->archive_at = now();
@@ -1164,8 +1303,6 @@ class InquiryController extends Controller
 
     public function print(Inquiry $inquiry)
     {
-        $colspan = '';
-        $colspan2 = '';
         if (auth()->user()->role == 'admin' || auth()->user()->role == 'technical') {
             $colspan = '5';
             $colspan2 = '3';

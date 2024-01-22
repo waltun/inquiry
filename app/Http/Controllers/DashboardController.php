@@ -14,7 +14,7 @@ class DashboardController extends Controller
         $submitInquiries = Inquiry::where('submit', 1)->where('archive_at', null)->where('user_id', auth()->user()->id)->latest()->take(3)->get();
 
         $allTodos = auth()->user()->todos()->whereBetween('date', [now()->addDays(1)->startOfDay(), now()->endOfDay()->addDays(8)])->latest()->get();
-        $todayTodos = auth()->user()->todos()->where('date', now()->startOfDay())->where('done', false)->get();
+        $todayTodos = auth()->user()->todos()->whereBetween('date', [now()->startOfDay(), now()->endOfDay()])->where('done', false)->get();
 
         $unCompleteTodos = auth()->user()->todos()->where('done', false)->where('date', '<=', now()->subDays(1))->get();
         foreach ($unCompleteTodos as $unCompleteTodo) {

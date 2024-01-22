@@ -8,6 +8,14 @@ use Morilog\Jalali\Jalalian;
 
 class TodoController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:todos')->only(['index']);
+        $this->middleware('can:create-todo')->only(['create', 'store']);
+        $this->middleware('can:edit-todo')->only(['edit', 'update']);
+        $this->middleware('can:delete-todo')->only(['destroy']);
+    }
+
     public function index()
     {
         $todos = auth()->user()->todos()->latest()->paginate(25);
