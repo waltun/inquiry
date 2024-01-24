@@ -177,8 +177,8 @@
                                                 </form>
                                             @else
                                                 <span class="bg-green-500 px-2 rounded-md text-white">
-                                            انجام شده
-                                        </span>
+                                                    انجام شده
+                                                </span>
                                             @endif
                                             <div
                                                 class="flex items-center justify-center space-x-4 space-x-reverse relative"

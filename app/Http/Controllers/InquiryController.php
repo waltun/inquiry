@@ -1353,7 +1353,7 @@ class InquiryController extends Controller
     {
         $request->validate([
             'buyer_name' => 'required|string|max:255',
-            'buyer_position' => 'required|string|max:255',
+            'buyer_position' => 'nullable|string|max:255',
         ]);
 
         $sameInvoices = Invoice::where('inquiry_id', $inquiry->id)->get();

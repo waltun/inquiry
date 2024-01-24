@@ -23,7 +23,7 @@ class DashboardController extends Controller
             $unCompleteTodo->save();
         }
 
-        $receivedTasks = Task::whereBetween('date', [now()->startOfDay(), now()->endOfDay()->addDays(8)])->latest()->get();
+        $receivedTasks = Task::where('receiver_id', auth()->user()->id)->whereBetween('date', [now()->startOfDay(), now()->endOfDay()->addDays(8)])->latest()->get();
 
         return view('dashboard', compact('inquiries', 'submitInquiries', 'todayTodos', 'allTodos', 'receivedTasks'));
     }

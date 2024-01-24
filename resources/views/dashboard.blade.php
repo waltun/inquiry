@@ -1376,10 +1376,25 @@
                                 </td>
                                 <td class="table-tr-td border-t-0 border-r-0 whitespace-nowrap">
                                     <div class="flex items-center space-x-4 space-x-reverse justify-center">
-                                        @if($receivedTask->done)
+                                        @if(!$receivedTask->done)
+                                            <form action="{{ route('tasks.mark-as-done', $receivedTask->id) }}"
+                                                  method="POST"
+                                                  class="table-success-btn">
+                                                @csrf
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                     viewBox="0 0 24 24"
+                                                     stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          d="m4.5 12.75 6 6 9-13.5"/>
+                                                </svg>
+                                                <button onclick="return confirm('تسک تمام شود ؟')">
+                                                    اتمام کار
+                                                </button>
+                                            </form>
+                                        @else
                                             <span class="bg-green-500 px-2 rounded-md text-white">
-                                                انجام شده
-                                            </span>
+                                                    انجام شده
+                                                </span>
                                         @endif
                                     </div>
                                 </td>

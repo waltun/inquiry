@@ -334,7 +334,8 @@
                             <th class="p-4">قیمت نت واحد (تومان)</th>
                             <th class="p-4">قیمت با ضریب (تومان)</th>
                             <th class="p-4">قیمت کل (تومان)</th>
-                            <th class="p-4 rounded-tl-lg">نمایش قیمت</th>
+                            <th class="p-4">نمایش قیمت</th>
+                            <th class="p-4 rounded-tl-lg">نمایش دیتاشیت</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -392,13 +393,24 @@
                                     </select>
                                     <input type="hidden" name="products[]" value="{{ $product->id }}">
                                 </td>
+                                <td class="table-tr-td border-t-0 border-r-0">
+                                    <select name="show_datasheets[]" id="inputShowDatasheet{{ $product->id }}"
+                                            class="input-text">
+                                        <option value="1" {{ $product->show_datasheet ? 'selected' : '' }}>
+                                            نمایش دیتاشیت
+                                        </option>
+                                        <option value="0" {{ !$product->show_datasheet ? 'selected' : '' }}>
+                                            عدم نمایش دیتاشیت
+                                        </option>
+                                    </select>
+                                </td>
                             </tr>
                         @endforeach
                         @php
                             $partsTotalPrice += $partTotalPrice;
                         @endphp
                         <tr class="table-tb-tr group">
-                            <td class="table-tr-td border-t-0" colspan="8">
+                            <td class="table-tr-td border-t-0" colspan="9">
                                 <div class="flex justify-end">
                                     <p class="table-price-label">
                                         جمع قیمت : {{ number_format($partTotalPrice) }} تومان
