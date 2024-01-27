@@ -61,6 +61,12 @@ use App\Http\Controllers\SeparateCalculateConverter;
 use App\Http\Controllers\SeparateCalculateDamperController;
 use App\Http\Controllers\SeparateCalculateElectricalController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\System\CodingController;
+use App\Http\Controllers\System\LetterController;
+use App\Http\Controllers\System\PhonebookController;
+use App\Http\Controllers\System\SerialController;
+use App\Http\Controllers\System\StoreController;
+use App\Http\Controllers\System\SystemCategoryController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TodoController;
 use App\Http\Controllers\UserController;
@@ -637,6 +643,32 @@ Route::middleware(['auth', 'web'])->group(function () {
 
         Route::resource('tasks', TaskController::class)->except('show');
         Route::post('tasks/{task}/mark-as-done', [TaskController::class, 'markAsDone'])->name('tasks.mark-as-done');
+
+        //System Routes
+        Route::resource('phonebook', PhonebookController::class)->except(['show']);
+
+        Route::resource('letters', LetterController::class)->except(['show']);
+
+        Route::resource('serials', SerialController::class)->except(['show']);
+        Route::post('/serials/{serial}/replicate', [SerialController::class, 'replicate'])->name('serials.replicate');
+
+        Route::resource('coding', CodingController::class);
+        Route::post('/coding/getCategory', [CodingController::class, 'category'])->name('coding.category');
+        Route::post('/coding/{coding}/replicate', [CodingController::class, 'replicate'])->name('coding.replicate');
+        Route::get('/coding/export/all', [CodingController::class, 'exportPage'])->name('coding.exportPage');
+        Route::post('/coding/export/all', [CodingController::class, 'export'])->name('coding.export');
+
+        Route::resource('system-categories', SystemCategoryController::class);
+        Route::get('/system-categories/{system_category}/children', [SystemCategoryController::class, 'children'])->name('system-categories.children');
+
+        Route::get('/stores', [StoreController::class, 'index'])->name('stores.index');
+        Route::get('/stores/{store}/edit', [StoreController::class, 'edit'])->name('stores.edit');
+        Route::post('/stores', [StoreController::class, 'store'])->name('stores.store');
+        Route::patch('/stores/{store}', [StoreController::class, 'update'])->name('stores.update');
+        Route::delete('/stores/delete-store', [StoreController::class, 'destroy'])->name('stores.destroy');
+        Route::patch('/stores/edit/change-status', [StoreController::class, 'changeStatus'])->name('stores.changeStatus');
+        Route::post('/stores/search/category', [StoreController::class, 'searchCategory'])->name('stores.searchCategory');
+        Route::post('/stores/search/text', [StoreController::class, 'searchText'])->name('stores.searchText');
     });
 
     Route::middleware('client')->group(function () {
