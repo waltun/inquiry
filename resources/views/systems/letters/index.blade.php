@@ -200,7 +200,7 @@
                         {{ $letter->category }}
                     </td>
                     <td class="table-tr-td border-t-0 border-r-0">
-                        <div class="table-parent-dropdown" x-data="{open:false}">
+                        <div class="flex items-center justify-center space-x-4 space-x-reverse relative mr-2" x-data="{open:false}">
                             <button @click="open = !open">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                      stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -209,7 +209,7 @@
                                 </svg>
                             </button>
                             <div x-show="open" @click.away="open = false" x-cloak
-                                 class="table-dropdown -top-10 -right-24">
+                                 class="table-dropdown -right-9 -top-4 whitespace-nowrap">
                                 <a href="{{ route('letters.edit',$letter->id) }}"
                                    class="table-dropdown-edit">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

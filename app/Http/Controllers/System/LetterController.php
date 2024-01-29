@@ -10,13 +10,13 @@ use Morilog\Jalali\Jalalian;
 
 class LetterController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('can:letters')->only(['index']);
-        $this->middleware('can:create-letter')->only(['create', 'store']);
-        $this->middleware('can:edit-letter')->only(['edit', 'update']);
-        $this->middleware('can:delete-letter')->only(['destroy']);
-    }
+//    public function __construct()
+//    {
+//        $this->middleware('can:letters')->only(['index']);
+//        $this->middleware('can:create-letter')->only(['create', 'store']);
+//        $this->middleware('can:edit-letter')->only(['edit', 'update']);
+//        $this->middleware('can:delete-letter')->only(['destroy']);
+//    }
 
     public function index()
     {

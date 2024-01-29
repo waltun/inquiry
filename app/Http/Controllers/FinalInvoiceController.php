@@ -239,6 +239,17 @@ class FinalInvoiceController extends Controller
         return back();
     }
 
+    public function referral(Request $request, Invoice $invoice)
+    {
+        $invoice->update([
+            'user_id' => $request['user_id']
+        ]);
+
+        alert()->success('ارجاع موفق', 'ارجاع با موفقیت انجام شد و برای کاربر ارسال شد');
+
+        return back();
+    }
+
     public function getOfficialCode(array $data)
     {
         $contracts = Contract::select('number')->where('number', '!=', null)->where('type', 'official')->get();

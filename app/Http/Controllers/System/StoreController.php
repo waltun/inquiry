@@ -11,14 +11,14 @@ use Morilog\Jalali\Jalalian;
 
 class StoreController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('can:all-stores')->only(['index']);
-        $this->middleware('can:edit-all-stores')->only(['edit', 'update']);
-        $this->middleware('can:delete-all-stores')->only(['destroy']);
-        $this->middleware('can:change-status-all-stores')->only(['changeStatus']);
-        $this->middleware('can:export-all-stores')->only(['export']);
-    }
+//    public function __construct()
+//    {
+//        $this->middleware('can:all-stores')->only(['index']);
+//        $this->middleware('can:edit-all-stores')->only(['edit', 'update']);
+//        $this->middleware('can:delete-all-stores')->only(['destroy']);
+//        $this->middleware('can:change-status-all-stores')->only(['changeStatus']);
+//        $this->middleware('can:export-all-stores')->only(['export']);
+//    }
 
     public function index()
     {

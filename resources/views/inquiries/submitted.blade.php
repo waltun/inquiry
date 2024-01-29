@@ -147,19 +147,15 @@
                 <tbody>
                 @foreach($inquiries as $inquiry)
                     @php
-                        $color = '';
-                        $twoDays = \Carbon\Carbon::now()->subDays(2);
-                        $oneDay = \Carbon\Carbon::now()->subDay();
-                        if ($inquiry->created_at < $twoDays) {
-                            $color = 'text-red-500';
-                        }
-                        if ($inquiry->created_at > $twoDays && $inquiry->created_at < $oneDay) {
-                            $color = 'text-yellow-500';
+                        if ($inquiry->type == 'product' || $inquiry->type == 'both') {
+                            $route = route('inquiries.product.index', $inquiry->id);
+                        } else {
+                            $route = route('inquiries.parts.index', $inquiry->id);
                         }
                     @endphp
                     <tr class="table-tb-tr group hover:font-bold hover:text-red-600 {{ $loop->even ? 'bg-sky-100' : '' }}">
                         <td class="table-tr-td border-t-0 border-l-0">
-                            <a href="{{ route('inquiries.product.index',$inquiry->id) }}">
+                            <a href="{{ $route }}">
                                 @if($inquiry->inquiry_number)
                                     {{ "INQ-" . $inquiry->inquiry_number }}
                                 @else
@@ -168,7 +164,7 @@
                             </a>
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            <a href="{{ route('inquiries.product.index',$inquiry->id) }}">
+                            <a href="{{ $route }}">
                                 {{ $inquiry->name }}
                             </a>
                         </td>
@@ -176,17 +172,17 @@
                             $user = \App\Models\User::find($inquiry->user_id);
                         @endphp
                         <td class="table-tr-td border-t-0 border-x-0">
-                            <a href="{{ route('inquiries.product.index',$inquiry->id) }}">
+                            <a href="{{ $route }}">
                                 {{ $user->name }}
                             </a>
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            <a href="{{ route('inquiries.product.index',$inquiry->id) }}">
+                            <a href="{{ $route }}">
                                 {{ $inquiry->marketer }}
                             </a>
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            <a href="{{ route('inquiries.product.index',$inquiry->id) }}">
+                            <a href="{{ $route }}">
                                 {{ jdate($inquiry->created_at)->format('%A, %d %B %Y') }}
                             </a>
                         </td>

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\System\Letter;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -99,5 +100,10 @@ class User extends Authenticatable
     public function tasks()
     {
         return $this->hasMany(Task::class, 'user_id');
+    }
+
+    public function letters()
+    {
+        return $this->hasMany(Letter::class);
     }
 }
