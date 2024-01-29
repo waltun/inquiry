@@ -14,15 +14,15 @@ use Morilog\Jalali\Jalalian;
 
 class CodingController extends Controller
 {
-//    public function __construct()
-//    {
-//        $this->middleware('can:codings')->only(['index']);
-//        $this->middleware('can:create-coding')->only(['create', 'store']);
-//        $this->middleware('can:edit-coding')->only(['edit', 'update']);
-//        $this->middleware('can:delete-coding')->only(['destroy']);
-//        $this->middleware('can:copy-coding')->only(['replicate']);
-//        $this->middleware('can:export-coding')->only(['exportPage', 'export']);
-//    }
+    public function __construct()
+    {
+        $this->middleware('can:codings')->only(['index']);
+        $this->middleware('can:create-coding')->only(['create', 'store']);
+        $this->middleware('can:edit-coding')->only(['edit', 'update']);
+        $this->middleware('can:delete-coding')->only(['destroy']);
+        $this->middleware('can:copy-coding')->only(['replicate']);
+        $this->middleware('can:export-coding')->only(['exportPage', 'export']);
+    }
 
     public function index()
     {

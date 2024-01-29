@@ -8,13 +8,13 @@ use Illuminate\Http\Request;
 
 class SystemCategoryController extends Controller
 {
-//    public function __construct()
-//    {
-//        $this->middleware('can:categories')->only(['index', 'children']);
-//        $this->middleware('can:create-category')->only(['create', 'store']);
-//        $this->middleware('can:edit-category')->only(['edit', 'update']);
-//        $this->middleware('can:delete-category')->only(['destroy']);
-//    }
+    public function __construct()
+    {
+        $this->middleware('can:system-categories')->only(['index', 'children']);
+        $this->middleware('can:system-create-category')->only(['create', 'store']);
+        $this->middleware('can:system-edit-category')->only(['edit', 'update']);
+        $this->middleware('can:system-delete-category')->only(['destroy']);
+    }
 
     public function index()
     {

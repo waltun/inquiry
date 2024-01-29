@@ -1150,6 +1150,7 @@
 
             <div class="md:grid grid-cols-3 gap-4 space-y-4 md:space-y-0">
                 <!-- Phonebook -->
+                @can('phonebooks')
                     <a href="{{ route('phonebook.index') }}" class="dashboard-cards group">
                         <div class="flex items-center">
                             <div class="dashboard-card-icon bg-myBlue-300 dark:bg-slate-800">
@@ -1175,8 +1176,10 @@
                             </svg>
                         </div>
                     </a>
+                @endcan
 
                 <!-- Letters -->
+                @can('letters')
                     <a href="{{ route('letters.index') }}" class="dashboard-cards group">
                         <div class="flex items-center">
                             <div class="dashboard-card-icon bg-myRed-300 dark:bg-slate-800">
@@ -1202,8 +1205,10 @@
                             </svg>
                         </div>
                     </a>
+                @endcan
 
                 <!-- Serials -->
+                @can('serials')
                     <a href="{{ route('serials.index') }}" class="dashboard-cards group">
                         <div class="flex items-center">
                             <div class="dashboard-card-icon bg-gray-500 dark:bg-slate-800">
@@ -1232,8 +1237,10 @@
                             </svg>
                         </div>
                     </a>
+                @endcan
 
                 <!-- Codings -->
+                @can('codings')
                     <a href="{{ route('coding.index') }}" class="dashboard-cards group">
                         <div class="flex items-center">
                             <div class="dashboard-card-icon bg-pink-500 dark:bg-slate-800">
@@ -1259,8 +1266,10 @@
                             </svg>
                         </div>
                     </a>
+                @endcan
 
                 <!-- Stores -->
+                @can('stores')
                     <a href="{{ route('stores.index') }}" class="dashboard-cards group">
                         <div class="flex items-center">
                             <div class="dashboard-card-icon bg-blue-600 dark:bg-slate-800">
@@ -1288,8 +1297,10 @@
                             </svg>
                         </div>
                     </a>
+                @endcan
 
                 <!-- Categories -->
+                @can('system-categories')
                     <a href="{{ route('system-categories.index') }}" class="dashboard-cards group">
                         <div class="flex items-center">
                             <div class="dashboard-card-icon bg-green-500 dark:bg-slate-800">
@@ -1315,6 +1326,7 @@
                             </svg>
                         </div>
                     </a>
+                @endcan
             </div>
         </div>
     </div>

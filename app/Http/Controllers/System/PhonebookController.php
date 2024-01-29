@@ -8,13 +8,13 @@ use Illuminate\Http\Request;
 
 class PhonebookController extends Controller
 {
-//    public function __construct()
-//    {
-//        $this->middleware('can:phonebooks')->only(['index']);
-//        $this->middleware('can:create-phonebook')->only(['create', 'store']);
-//        $this->middleware('can:edit-phonebook')->only(['edit', 'update']);
-//        $this->middleware('can:delete-phonebook')->only(['destroy']);
-//    }
+    public function __construct()
+    {
+        $this->middleware('can:phonebooks')->only(['index']);
+        $this->middleware('can:create-phonebook')->only(['create', 'store']);
+        $this->middleware('can:edit-phonebook')->only(['edit', 'update']);
+        $this->middleware('can:delete-phonebook')->only(['destroy']);
+    }
 
     public function index()
     {

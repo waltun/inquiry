@@ -109,7 +109,7 @@
                 }
             @endphp
         @endforeach
-        @can('create-category')
+        @can('system-create-category')
             <div class="flex items-center space-x-4 space-x-reverse">
                 <a href="{{ route('system-categories.create') }}?parent={{ $system_category->id }}" class="page-warning-btn">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"

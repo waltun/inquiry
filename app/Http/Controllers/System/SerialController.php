@@ -9,14 +9,14 @@ use Morilog\Jalali\Jalalian;
 
 class SerialController extends Controller
 {
-//    public function __construct()
-//    {
-//        $this->middleware('can:serials')->only(['index']);
-//        $this->middleware('can:create-serial')->only(['create', 'store']);
-//        $this->middleware('can:edit-serial')->only(['edit', 'update']);
-//        $this->middleware('can:copy-serial')->only(['replicate']);
-//        $this->middleware('can:delete-serial')->only(['destroy']);
-//    }
+    public function __construct()
+    {
+        $this->middleware('can:serials')->only(['index']);
+        $this->middleware('can:create-serial')->only(['create', 'store']);
+        $this->middleware('can:edit-serial')->only(['edit', 'update']);
+        $this->middleware('can:copy-serial')->only(['replicate']);
+        $this->middleware('can:delete-serial')->only(['destroy']);
+    }
 
     public function index()
     {
