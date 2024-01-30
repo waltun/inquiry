@@ -141,21 +141,6 @@
                         </td>
                         <td class="table-tr-td border-t-0 border-r-0">
                             <div class="flex items-center justify-center">
-                                @if (!$invoice->products()->where('deleted_at', '=', null)->pluck('percent')->contains(0))
-                                    <form method="POST" action="{{ route('invoices.complete',$invoice->id) }}">
-                                        @csrf
-                                        @method('PATCH')
-                                        <button type="submit" class="table-success-btn"
-                                                onclick="return confirm('پیش فاکتور نهایی شود ؟')">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                 stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                      d="M4.5 12.75l6 6 9-13.5"/>
-                                            </svg>
-                                            اتمام
-                                        </button>
-                                    </form>
-                                @endif
                                 <div class="flex items-center justify-center space-x-4 space-x-reverse relative mr-2"
                                      x-data="{open:false}">
                                     <button @click="open = !open">

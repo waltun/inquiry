@@ -188,6 +188,6 @@ class InvoiceController extends Controller
 
         alert()->success('ثبت موفق', 'تنظیمات با موفقیت ثبت شد');
 
-        return redirect()->route('invoices.index');
+        return redirect()->route('invoices.products', $invoice->id);
     }
 }
