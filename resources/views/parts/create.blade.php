@@ -235,6 +235,11 @@
             <div class="mt-4" id="categorySection2">
 
             </div>
+            <div class="mt-4">
+                <label for="inputFactoryCode" class="form-label">کد کارخانه</label>
+                <input type="text" id="inputFactoryCode" name="factory_code" class="input-text"
+                       placeholder="کد 8 رقمی" value="{{ old('factory_code') }}">
+            </div>
         </div>
 
         <div class="card">

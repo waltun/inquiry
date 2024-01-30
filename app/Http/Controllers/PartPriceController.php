@@ -118,7 +118,8 @@ class PartPriceController extends Controller
                             'old_price' => $part->price,
                             'price_updated_at' => now(),
                             'percent_submit' => 0,
-                            'weight' => $request->weights[$index]
+                            'weight' => $request->weights[$index],
+                            'factory_code' => $request->factory_codes[$index]
                         ]);
 
                         foreach ($inquiryPrices as $inquiryPrice) {
@@ -144,7 +145,8 @@ class PartPriceController extends Controller
                         'old_price' => $part->price,
                         'price_updated_at' => now(),
                         'percent_submit' => 0,
-                        'weight' => $request->weights[$index]
+                        'weight' => $request->weights[$index],
+                        'factory_code' => $request->factory_codes[$index]
                     ]);
 
                     foreach ($inquiryPrices as $inquiryPrice) {
@@ -166,7 +168,8 @@ class PartPriceController extends Controller
                 }
             } else if ($part->weight !== (int)$request->weights[$index]) {
                 $part->update([
-                    'weight' => $request->weights[$index]
+                    'weight' => $request->weights[$index],
+                    'factory_code' => $request->factory_codes[$index]
                 ]);
 
                 foreach ($part->parents as $parent) {

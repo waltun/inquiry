@@ -191,6 +191,9 @@
                                 قیمت (تومان)
                             </th>
                             <th scope="col" class="p-4">
+                                کد کارخانه
+                            </th>
+                            <th scope="col" class="p-4">
                                 آخرین بروزرسانی
                             </th>
                             <th scope="col" class="p-4 rounded-tl-lg">
@@ -237,6 +240,11 @@
                                         </span>
                                         <input type="hidden" name="parts[]" value="{{ $part->id }}">
                                     </div>
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    <input type="text" class="input-text w-32 text-center"
+                                           id="inputFactoryCode{{ $part->id }}" placeholder="کد 8 رقمی"
+                                           name="factory_codes[]" value="{{ $part->factory_code ?? '' }}">
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     {{ jdate($part->price_updated_at)->format('%A, %d %B %Y') }}
@@ -315,6 +323,9 @@
                                 قیمت (تومان)
                             </th>
                             <th scope="col" class="p-4">
+                                کد کارخانه
+                            </th>
+                            <th scope="col" class="p-4">
                                 آخرین بروزرسانی
                             </th>
                             <th scope="col" class="p-4 rounded-tl-lg">
@@ -361,6 +372,11 @@
                                         </span>
                                         <input type="hidden" name="parts[]" value="{{ $part->id }}">
                                     </div>
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    <input type="text" class="input-text w-32 text-center"
+                                           id="inputFactoryCode{{ $part->id }}" placeholder="کد 8 رقمی"
+                                           name="factory_codes[]" value="{{ $part->factory_code ?? '' }}">
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     {{ jdate($part->price_updated_at)->format('%A, %d %B %Y') }}

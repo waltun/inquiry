@@ -12,6 +12,10 @@ class AuthController extends Controller
 {
     public function login()
     {
+        if (Auth::check()) {
+            return redirect()->route('dashboard');
+        }
+
         return view('auth.login');
     }
 
@@ -25,10 +29,10 @@ class AuthController extends Controller
 
         if (!is_null($user)) {
             $code = ActiveCode::generateCode($user);
-//            $api = new Melipayamak\MelipayamakApi('9022228553', '@2047507881Pp');
-//            $smsSoap = $api->sms('soap');
-//            $to = $request->phone;
-//            $smsSoap->sendByBaseNumber([$code], $to, '125970');
+            $api = new Melipayamak\MelipayamakApi('9022228553', '@2047507881Pp');
+            $smsSoap = $api->sms('soap');
+            $to = $request->phone;
+            $smsSoap->sendByBaseNumber([$code], $to, '125970');
             $request->session()->flash('phone', $user->phone);
             $request->session()->flash('success-login', 'کد تایید با موفقیت به شماره وارد شده ارسال شد.');
             $activeCode = ActiveCode::where('user_id', $user->id)->orderBy('expired_at', 'desc')->first();

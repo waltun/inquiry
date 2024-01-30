@@ -242,6 +242,12 @@
                     @endforeach
                 </select>
             </div>
+
+            <div class="mt-4">
+                <label for="inputFactoryCode" class="form-label">کد کارخانه</label>
+                <input type="text" id="inputFactoryCode" name="factory_code" class="input-text"
+                       placeholder="کد 8 رقمی" value="{{ $part->factory_code }}">
+            </div>
         </div>
 
         <div class="card">

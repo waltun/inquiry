@@ -298,6 +298,9 @@
                         وزن (کیلوگرم)
                     </th>
                     <th scope="col" class="p-4">
+                        کد کارخانه
+                    </th>
+                    <th scope="col" class="p-4">
                         آخرین بروزرسانی
                     </th>
                     <th scope="col" class="p-4 rounded-tl-lg">
@@ -376,6 +379,11 @@
                             <input type="text" class="input-text w-16 text-center"
                                    id="inputWeight{{ $part->id }}"
                                    name="weights[]" value="{{ $part->weight }}">
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            <input type="text" class="input-text w-32 text-center"
+                                   id="inputFactoryCode{{ $part->id }}" placeholder="کد 8 رقمی"
+                                   name="factory_codes[]" value="{{ $part->factory_code }}">
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             @if(!is_null($part->price_updated_at))

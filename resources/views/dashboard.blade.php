@@ -1269,7 +1269,7 @@
                 @endcan
 
                 <!-- Stores -->
-                @can('stores')
+                @can('all-stores')
                     <a href="{{ route('stores.index') }}" class="dashboard-cards group">
                         <div class="flex items-center">
                             <div class="dashboard-card-icon bg-blue-600 dark:bg-slate-800">

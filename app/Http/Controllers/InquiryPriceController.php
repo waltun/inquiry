@@ -97,6 +97,7 @@ class InquiryPriceController extends Controller
                             'old_price' => $updatedPart->price,
                             'price_updated_at' => now(),
                             'percent_submit' => 0,
+                            'factory_code' => $request->factory_codes[$index]
                         ]);
 
                         if (!$updatedPart->parents->isEmpty()) {
@@ -109,7 +110,8 @@ class InquiryPriceController extends Controller
                                     'price' => $price,
                                     'old_price' => $parent->price,
                                     'price_updated_at' => now(),
-                                    'updated_at' => now()
+                                    'updated_at' => now(),
+                                    'factory_code' => $request->factory_codes[$index]
                                 ]);
                             }
                         }
@@ -145,6 +147,7 @@ class InquiryPriceController extends Controller
                             'old_price' => $updatedPart->price,
                             'price_updated_at' => now(),
                             'percent_submit' => 0,
+                            'factory_code' => $request->factory_codes[$index]
                         ]);
 
                         if (!$updatedPart->parents->isEmpty()) {
@@ -157,7 +160,8 @@ class InquiryPriceController extends Controller
                                     'price' => $price,
                                     'old_price' => $parent->price,
                                     'price_updated_at' => now(),
-                                    'updated_at' => now()
+                                    'updated_at' => now(),
+                                    'factory_code' => $request->factory_codes[$index]
                                 ]);
                             }
                         }

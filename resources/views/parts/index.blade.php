@@ -228,6 +228,9 @@
                     <th scope="col" class="p-4">
                         قیمت (تومان)
                     </th>
+                    <th scope="col" class="p-4">
+                        کد کارخانه
+                    </th>
                     <th scope="col" class="p-4 rounded-tl-lg">
                         <span class="sr-only">اقدامات</span>
                     </th>
@@ -251,6 +254,9 @@
                             @else
                                 منتظر قیمت گذاری
                             @endif
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            {{ $part->factory_code ?? '-' }}
                         </td>
                         <td class="table-tr-td border-t-0 border-r-0 whitespace-nowrap">
                             <div class="flex items-center justify-center space-x-4 space-x-reverse relative"
