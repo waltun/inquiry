@@ -222,7 +222,7 @@ class FinalInvoiceController extends Controller
             }
         }
 
-        alert()->success('ثبت موفق', 'تبدیل پیش فاکتور به قطعه با موفقیت انجام شد');
+        alert()->success('ثبت موفق', 'پیش فاکتور با موفقیت به قرارداد اضافه شد');
 
         return redirect()->route('contracts.index');
     }

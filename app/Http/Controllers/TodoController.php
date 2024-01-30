@@ -14,6 +14,7 @@ class TodoController extends Controller
         $this->middleware('can:create-todo')->only(['create', 'store']);
         $this->middleware('can:edit-todo')->only(['edit', 'update']);
         $this->middleware('can:delete-todo')->only(['destroy']);
+        $this->middleware('can:done-todo')->only(['markAsDone']);
     }
 
     public function index()

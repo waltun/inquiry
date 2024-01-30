@@ -37,8 +37,8 @@ class CodingController extends Controller
         }
 
         if ($keyword = request('search')) {
-            $codings->where('name', 'LIKE', "%{$keyword}%")
-                ->orWhere('code', 'LIKE', "%{$keyword}%");
+            $codings->where('name', 'LIKE', "%$keyword%")
+                ->orWhere('code', 'LIKE', "%$keyword%");
         }
 
         if (!is_null(request('category3'))) {

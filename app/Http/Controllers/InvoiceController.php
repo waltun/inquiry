@@ -139,7 +139,7 @@ class InvoiceController extends Controller
             ]);
 
             alert()->success('ثبت موفق', 'پیش فاکتور با موفقیت نهایی سازی شد');
-            return back();
+            return redirect()->route('invoices.final.index');
         }
 
         alert()->error('خطا', 'ضریب برای همه محصولات ثبت نشده');

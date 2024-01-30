@@ -248,7 +248,7 @@ class ContractController extends Controller
         $invoice->contract_id = $contract->id;
         $invoice->save();
 
-        alert()->success('ثبت موفق', 'پیش قلکتور با موفقیت برای قرارداد ثبت شد');
+        alert()->success('ثبت موفق', 'پیش فاکتور با موفقیت برای قرارداد ثبت شد');
 
         return redirect()->route('contracts.products', $contract->id);
     }

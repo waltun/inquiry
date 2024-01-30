@@ -18,8 +18,8 @@ class Coding extends Model
         return $this->belongsToMany(SystemCategory::class, 'coding_system_category', 'category_id', 'coding_id');
     }
 
-//    public function stores()
-//    {
-//        return $this->hasMany(Store::class);
-//    }
+    public function stores()
+    {
+        return $this->hasMany(Store::class);
+    }
 }

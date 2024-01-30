@@ -9,6 +9,15 @@ use Morilog\Jalali\Jalalian;
 
 class TaskController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:tasks')->only(['index']);
+        $this->middleware('can:create-task')->only(['create', 'store']);
+        $this->middleware('can:edit-task')->only(['edit', 'update']);
+        $this->middleware('can:delete-task')->only(['destroy']);
+        $this->middleware('can:done-task')->only(['markAsDone']);
+    }
+
     public function index()
     {
         $receivedTasks = Task::where('receiver_id', auth()->user()->id)->latest()->get();
