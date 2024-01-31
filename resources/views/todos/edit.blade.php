@@ -73,43 +73,35 @@
     </div>
 
     <!-- Form -->
-    <form method="POST" action="{{ route('todos.update', $todo->id) }}" class="md:grid grid-cols-2 gap-4 mt-4">
+    <form method="POST" action="{{ route('todos.update', $todo->id) }}" class="max-w-2xl mx-auto mt-4">
         @csrf
         @method('PATCH')
 
-        <div class="card">
+        <div class="card bg-pink-200">
             <div class="card-header">
-                <p class="card-title">مشخصات کلی</p>
+                <p class="card-title bg-pink-200">مشخصات کلی</p>
             </div>
 
             <div class="mt-4">
                 <label for="inputTitle" class="form-label">موضوع کاری که باید انجام بشه</label>
-                <input type="text" id="inputTitle" name="title" class="input-text"
+                <input type="text" id="inputTitle" name="title" class="input-text bg-yellow-100"
                        placeholder="مثال : تکمیل دیتاشیت پروژه ها" value="{{ old('title', $todo->title) }}">
             </div>
-
-            <div class="mt-4">
-                <label for="inputDate" class="form-label">تاریخی که این کار باید انجام بشه</label>
-                <input type="text" id="inputDate" name="date" class="input-text"
-                       placeholder="برای انتخاب تاریخ کلیک کنید" value="{{ old('date', $date) }}">
-            </div>
-
-        </div>
-
-        <div class="card">
-            <div class="card-header">
-                <p class="card-title">توضیحات</p>
-            </div>
-
             <div class="mt-4">
                 <label for="inputDescription" class="form-label">توضیحات مربوط به این کار</label>
-                <textarea name="description" id="inputDescription" class="input-text resize-none h-32">{{ old('description', $todo->description) }}</textarea>
+                <textarea name="description" id="inputDescription"
+                          class="input-text resize-none h-32 bg-yellow-100">{{ old('description', $todo->description) }}</textarea>
+            </div>
+            <div class="mt-4">
+                <label for="inputDate" class="form-label">تاریخی که این کار باید انجام بشه</label>
+                <input type="text" id="inputDate" name="date" class="input-text bg-sky-100"
+                       placeholder="برای انتخاب تاریخ کلیک کنید" value="{{ old('date', $date) }}">
             </div>
         </div>
 
         <div class="flex items-center space-x-4 space-x-reverse">
             <button type="submit" class="form-edit-btn" id="submit-button">
-                بروزرسانی کار
+                بروزرسانی
             </button>
             <a href="{{ route('todos.index') }}" class="form-cancel-btn">
                 انصراف

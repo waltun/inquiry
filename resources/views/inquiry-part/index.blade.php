@@ -52,7 +52,7 @@
 
                         let operator2 = part.operator1;
                         let formula2 = part.formula1;
-                        let result = 0;
+                        let result;
 
                         result = eval(value + operator2 + formula2);
                         let formatResult = Intl.NumberFormat().format(result);
@@ -86,7 +86,7 @@
                         let inputValue = document.getElementById('inputUnitValue' + cid);
                         let operator1 = part.operator2;
                         let formula1 = part.formula2;
-                        let result = 0;
+                        let result;
 
                         result = eval(value + operator1 + formula1);
                         let formatResult = Intl.NumberFormat().format(result);
@@ -118,7 +118,7 @@
                         let inputValue = document.getElementById('inputUnitValue' + cid);
                         let operator2 = part.operator1;
                         let formula2 = part.formula1;
-                        let result = 0;
+                        let result;
 
                         result = eval(value + operator2 + formula2);
                         let formatResult = Intl.NumberFormat().format(result);
@@ -177,6 +177,50 @@
                         }
                     });
                 }
+            }
+        </script>
+        <script>
+            function showPrice(event, id, totalPrice) {
+                let value = totalPrice * event.target.value;
+                let input = document.getElementById('inputFinalPrice' + id);
+                let priceSection = document.getElementById('finalPrice' + id);
+                priceSection.innerText = Intl.NumberFormat().format(value) + ' ' + 'تومان';
+                input.value = parseInt(value);
+            }
+
+            function calculatePercent(event, id, totalPrice) {
+                let value = event.target.value;
+                let percent = value / totalPrice;
+                let input = document.getElementById('inputPercent' + id);
+                input.value = (Math.round(percent * 100) / 100).toFixed(2);
+
+                let priceSection = document.getElementById('finalPrice' + id);
+                priceSection.innerText = Intl.NumberFormat().format(value) + ' ' + 'تومان';
+            }
+        </script>
+        <script>
+            function submitPartPercent(id) {
+                let percent = document.getElementById('inputPercent' + id).value;
+                let finalPrice = document.getElementById('inputFinalPrice' + id).value;
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    url: '{{ route('inquiries.part-percent.ajax') }}',
+                    type: 'POST',
+                    data: {
+                        percent: percent,
+                        final_price: finalPrice,
+                        product_id: id
+                    },
+                    success: function () {
+                        location.reload();
+                    }
+                });
             }
         </script>
     </x-slot>
@@ -950,16 +994,144 @@
                                             <div class="flex items-center space-x-2 space-x-reverse">
                                                 @can('inquiry-product-percent')
                                                     @if($inquiry->submit)
-                                                        <a href="{{ route('inquiries.product.percent',$product->id) }}"
-                                                           class="table-info-btn">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                 viewBox="0 0 24 24" stroke-width="1.5"
-                                                                 stroke="currentColor" class="w-4 h-4 ml-1">
-                                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                                      d="M9 14.25l6-6m4.5-3.493V21.75l-3.75-1.5-3.75 1.5-3.75-1.5-3.75 1.5V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0c1.1.128 1.907 1.077 1.907 2.185zM9.75 9h.008v.008H9.75V9zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm4.125 4.5h.008v.008h-.008V13.5zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/>
-                                                            </svg>
-                                                            ثبت ضریب
-                                                        </a>
+                                                        <div x-data="{open: false}">
+                                                            <button type="button" @click="open = !open"
+                                                                    class="table-info-btn">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                     viewBox="0 0 24 24"
+                                                                     stroke-width="1.5" stroke="currentColor"
+                                                                     class="w-4 h-4 ml-1">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                          d="M9 14.25l6-6m4.5-3.493V21.75l-3.75-1.5-3.75 1.5-3.75-1.5-3.75 1.5V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0c1.1.128 1.907 1.077 1.907 2.185zM9.75 9h.008v.008H9.75V9zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm4.125 4.5h.008v.008h-.008V13.5zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/>
+                                                                </svg>
+                                                                ثبت ضریب
+                                                            </button>
+
+                                                            <!-- Percent Modal -->
+                                                            <div class="relative z-10" x-show="open" x-cloak>
+                                                                <div class="modal-backdrop"></div>
+                                                                <div class="fixed z-10 inset-0 overflow-y-auto">
+                                                                    <div class="modal">
+                                                                        <div class="modal-body">
+                                                                            <div class="bg-white dark:bg-slate-800 p-4">
+                                                                                <div
+                                                                                    class="mb-4 flex justify-between items-center">
+                                                                                    <h3 class="text-lg font-bold text-gray-900 dark:text-white">
+                                                                                        ثبت ضریب برای {{ $part->name }}
+                                                                                    </h3>
+                                                                                    <button type="button"
+                                                                                            @click="open = false">
+                                                                                        <span class="modal-close">
+                                                                                            <svg
+                                                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                                                fill="none"
+                                                                                                viewBox="0 0 24 24"
+                                                                                                stroke-width="1.5"
+                                                                                                stroke="currentColor"
+                                                                                                class="w-5 h-5 dark:text-white">
+                                                                                                <path
+                                                                                                    stroke-linecap="round"
+                                                                                                    stroke-linejoin="round"
+                                                                                                    d="M6 18L18 6M6 6l12 12"/>
+                                                                                            </svg>
+                                                                                        </span>
+                                                                                    </button>
+                                                                                </div>
+                                                                                @php
+                                                                                    $group = \App\Models\Group::find($product->group_id);
+                                                                                    $modell = \App\Models\Modell::find($product->model_id);
+                                                                                    $inquiryPart = \App\Models\Part::find($product->part_id);
+                                                                                    $totalPrice = 0;
+                                                                                    if (!is_null($group) && !is_null($modell)) {
+                                                                                        foreach ($product->amounts as $amount) {
+                                                                                            $part2 = \App\Models\Part::find($amount->part_id);
+                                                                                            $totalPrice += ($part2->price * $amount->value);
+                                                                                        }
+                                                                                    }
+                                                                                    if (!is_null($inquiryPart)) {
+                                                                                        $totalPrice = $product->price == 0 ? $inquiryPart->price : $product->price;
+                                                                                    }
+                                                                                @endphp
+                                                                                <div class="mt-6 space-y-4">
+                                                                                    <div class="grid grid-cols-3 gap-4">
+                                                                                        <div class="card">
+                                                                                            <div class="card-header">
+                                                                                                <p class="card-title">
+                                                                                                    جمع قیمت
+                                                                                                    متریال</p>
+                                                                                            </div>
+                                                                                            <div
+                                                                                                class="mt-4 bg-myBlue-300 p-2 rounded-lg">
+                                                                                                <p class="text-center text-lg font-bold text-white">
+                                                                                                    {{ number_format($totalPrice) }}
+                                                                                                    تومان
+                                                                                                </p>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div class="card">
+                                                                                            <div class="card-header">
+                                                                                                <p class="card-title">
+                                                                                                    ضریب دستمزد و سود
+                                                                                                </p>
+                                                                                            </div>
+                                                                                            <div class="mt-4">
+                                                                                                <input type="text"
+                                                                                                       id="inputPercent{{ $product->id }}"
+                                                                                                       name="percent"
+                                                                                                       class="input-text"
+                                                                                                       placeholder="مثال : 1.6"
+                                                                                                       value="{{ $product->percent ?? old('percent') }}"
+                                                                                                       onkeyup="showPrice(event, {{ $product->id }}, {{ $totalPrice }})">
+                                                                                            </div>
+                                                                                            @if($product->old_percent > 0)
+                                                                                                <div class="mt-4">
+                                                                                                    <p class="text-center text-indigo-500 font-medium">
+                                                                                                        ضریب قبلی ثبت
+                                                                                                        شده
+                                                                                                        : {{ $product->old_percent }}
+                                                                                                    </p>
+                                                                                                </div>
+                                                                                            @endif
+                                                                                        </div>
+
+                                                                                        <div class="card">
+                                                                                            <div class="card-header">
+                                                                                                <p class="card-title">
+                                                                                                    قیمت فروش شرکت</p>
+                                                                                            </div>
+                                                                                            <div class="mt-4">
+                                                                                                <input type="text"
+                                                                                                       class="input-text"
+                                                                                                       name="final_price"
+                                                                                                       onkeyup="calculatePercent(event, {{ $product->id }}, {{ $totalPrice }})"
+                                                                                                       value="{{ $product->price ? $product->price : $totalPrice * $product->percent }}"
+                                                                                                       id="inputFinalPrice{{ $product->id }}">
+                                                                                            </div>
+                                                                                            <div
+                                                                                                class="mt-4">
+                                                                                                <p class="text-center text-lg font-bold text-black"
+                                                                                                   id="finalPrice{{ $product->id }}">
+                                                                                                    {{ number_format($totalPrice * $product->percent) }}
+                                                                                                    تومان
+                                                                                                </p>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="col-span-3">
+                                                                                            <button type="button"
+                                                                                                    class="form-submit-btn"
+                                                                                                    onclick="submitPartPercent({{ $product->id }})">
+                                                                                                ثبت ضریب
+                                                                                            </button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     @endif
                                                 @endcan
                                                 <button type="button"

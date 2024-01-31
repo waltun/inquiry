@@ -1515,101 +1515,235 @@
                 </p>
             </div>
             <div class="overflow-x-auto rounded-lg hidden md:block">
-                @if(!$receivedTasks->isEmpty())
-                    <table class="md:w-full border-collapse">
-                        <thead>
-                        <tr class="table-th-tr">
-                            <th scope="col" class="p-2">
-                                تاریخ
-                            </th>
-                            <th scope="col" class="p-2">
-                                عنوان
-                            </th>
-                            <th scope="col" class="p-2">
-                                از طرف
-                            </th>
-                            <th scope="col" class="p-2">
-                                سطح اهمیت
-                            </th>
-                            <th scope="col" class="p-2">
-                                توضیحات
-                            </th>
-                            <th scope="col" class="p-2">
-                                <span class="sr-only">
-                                    اقدامات
-                                </span>
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($receivedTasks as $receivedTask)
-                            <tr class="table-tb-tr group hover:font-bold hover:text-red-600 {{ $loop->even ? 'bg-sky-100' : '' }}">
-                                <td class="table-tr-td border-t-0 border-l-0">
-                                    {{ jdate($receivedTask->date)->format('Y/m/d') }}
-                                </td>
-                                <td class="table-tr-td border-t-0 border-x-0 {{ $receivedTask->done ? 'line-through opacity-50' : '' }}">
-                                    {{ $receivedTask->title }}
-                                </td>
-                                <td class="table-tr-td border-t-0 border-x-0 {{ $receivedTask->done ? 'line-through opacity-50' : '' }}">
-                                    {{ $receivedTask->user->name }}
-                                </td>
-                                <td class="table-tr-td border-t-0 border-x-0 {{ $receivedTask->done ? 'line-through opacity-50' : '' }}">
-                                    @switch($receivedTask->level)
-                                        @case('high')
-                                            <div class="bg-red-500 text-white px-2 inline rounded-md shadow">
-                                                اهمیت بالا
-                                            </div>
-                                            @break
-                                        @case('medium')
-                                            <div class="bg-yellow-500 text-white px-2 inline rounded-md shadow">
-                                                اهمیت متوسط
-                                            </div>
-                                            @break
-                                        @case('low')
-                                            <div class="bg-gray-500 text-white px-2 inline rounded-md shadow">
-                                                اهمیت پایین
-                                            </div>
-                                            @break
-                                    @endswitch
-                                </td>
-                                <td class="table-tr-td border-t-0 border-x-0 {{ $receivedTask->done ? 'line-through opacity-50' : '' }}">
-                                    {{ $receivedTask->description ?? '-' }}
-                                </td>
-                                <td class="table-tr-td border-t-0 border-r-0 whitespace-nowrap">
-                                    <div class="flex items-center space-x-4 space-x-reverse justify-center">
-                                        @if(!$receivedTask->done)
-                                            <form action="{{ route('tasks.mark-as-done', $receivedTask->id) }}"
-                                                  method="POST"
-                                                  class="table-success-btn">
-                                                @csrf
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                     viewBox="0 0 24 24"
-                                                     stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                          d="m4.5 12.75 6 6 9-13.5"/>
-                                                </svg>
-                                                <button onclick="return confirm('تسک تمام شود ؟')">
-                                                    اتمام کار
-                                                </button>
-                                            </form>
-                                        @else
-                                            <span class="bg-green-500 px-2 rounded-md text-white">
-                                                    انجام شده
-                                                </span>
-                                        @endif
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                @else
-                    <div class="bg-yellow-500 py-2 rounded-md shadow">
-                        <p class="text-center text-black text-xs font-medium">
-                            شما تسک جدیدی ندارید
-                        </p>
+                <div x-data="{tab : 'sent-tasks'}" class="mb-8">
+                    <div class="border-b border-indigo-400 dark:border-black">
+                        <ul class="flex md:flex-wrap -mb-px text-sm font-medium text-center text-gray-600 whitespace-nowrap overflow-x-auto">
+                            <li class="ml-2">
+                                <button x-on:click="tab = 'sent-tasks'" type="button"
+                                        class="inline-flex p-4 text-myBlue-100 group rounded-t-lg dark:text-white"
+                                        :class="{ 'text-myBlue-100 border border-indigo-400 bg-gray-100 dark:bg-slate-900': tab === 'sent-tasks' }"
+                                        aria-current="page">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         stroke-width="1.5"
+                                         stroke="currentColor" class="w-5 h-5 ml-2 text-blue-600"
+                                         :class="{ 'text-blue-700': tab === 'sent-tasks' }">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                              d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"/>
+                                    </svg>
+
+                                    وظیفه هایی که شما برای بقیه ارسال کردید
+                                </button>
+                            </li>
+                            <li class="ml-2">
+                                <button x-on:click="tab = 'received-tasks'" type="button"
+                                        class="inline-flex p-4 text-myBlue-100 group rounded-t-lg dark:text-white"
+                                        :class="{ 'text-myBlue-100 border border-indigo-400 bg-gray-100 dark:bg-slate-900': tab === 'received-tasks' }"
+                                        aria-current="page">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         stroke-width="1.5"
+                                         stroke="currentColor" class="w-5 h-5 ml-2 text-blue-600"
+                                         :class="{ 'text-blue-700': tab === 'received-tasks' }">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                              d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/>
+                                    </svg>
+
+                                    وظیفه های ارسال شده برای شما
+                                </button>
+                            </li>
+                        </ul>
                     </div>
-                @endif
+
+                    <div x-show="tab === 'received-tasks'"
+                         class="rounded-b-lg px-4 py-6" x-cloak>
+                        <div class="overflow-x-auto rounded-lg hidden md:block">
+                            @if(!$receivedTasks->isEmpty())
+                                <table class="md:w-full border-collapse">
+                                    <thead>
+                                    <tr class="table-th-tr">
+                                        <th scope="col" class="p-2">
+                                            تاریخ
+                                        </th>
+                                        <th scope="col" class="p-2">
+                                            عنوان
+                                        </th>
+                                        <th scope="col" class="p-2">
+                                            از طرف
+                                        </th>
+                                        <th scope="col" class="p-2">
+                                            سطح اهمیت
+                                        </th>
+                                        <th scope="col" class="p-2">
+                                            توضیحات
+                                        </th>
+                                        <th scope="col" class="p-2">
+                                            <span class="sr-only">اقدامات</span>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($receivedTasks as $receivedTask)
+                                        <tr class="table-tb-tr group hover:font-bold hover:text-red-600 {{ $loop->even ? 'bg-sky-100' : '' }}">
+                                            <td class="table-tr-td border-t-0 border-l-0">
+                                                {{ jdate($receivedTask->date)->format('Y/m/d') }}
+                                            </td>
+                                            <td class="table-tr-td border-t-0 border-x-0 {{ $receivedTask->done ? 'line-through opacity-50' : '' }}">
+                                                {{ $receivedTask->title }}
+                                            </td>
+                                            <td class="table-tr-td border-t-0 border-x-0 {{ $receivedTask->done ? 'line-through opacity-50' : '' }}">
+                                                {{ $receivedTask->user->name }}
+                                            </td>
+                                            <td class="table-tr-td border-t-0 border-x-0 {{ $receivedTask->done ? 'line-through opacity-50' : '' }}">
+                                                @switch($receivedTask->level)
+                                                    @case('high')
+                                                        <div
+                                                            class="bg-red-500 text-white px-2 inline rounded-md shadow">
+                                                            اهمیت بالا
+                                                        </div>
+                                                        @break
+                                                    @case('medium')
+                                                        <div
+                                                            class="bg-yellow-500 text-white px-2 inline rounded-md shadow">
+                                                            اهمیت متوسط
+                                                        </div>
+                                                        @break
+                                                    @case('low')
+                                                        <div
+                                                            class="bg-gray-500 text-white px-2 inline rounded-md shadow">
+                                                            اهمیت پایین
+                                                        </div>
+                                                        @break
+                                                @endswitch
+                                            </td>
+                                            <td class="table-tr-td border-t-0 border-x-0 {{ $receivedTask->done ? 'line-through opacity-50' : '' }}">
+                                                {{ $receivedTask->description ?? '-' }}
+                                            </td>
+                                            <td class="table-tr-td border-t-0 border-r-0 whitespace-nowrap">
+                                                <div class="flex items-center space-x-4 space-x-reverse justify-center">
+                                                    @if(!$receivedTask->done)
+                                                        <form
+                                                            action="{{ route('tasks.mark-as-done', $receivedTask->id) }}"
+                                                            method="POST"
+                                                            class="table-success-btn">
+                                                            @csrf
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                 viewBox="0 0 24 24"
+                                                                 stroke-width="1.5" stroke="currentColor"
+                                                                 class="w-4 h-4 ml-1">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                      d="m4.5 12.75 6 6 9-13.5"/>
+                                                            </svg>
+                                                            <button onclick="return confirm('وظیفه تمام شود ؟')">
+                                                                اتمام کار
+                                                            </button>
+                                                        </form>
+                                                    @else
+                                                        <span class="bg-green-500 px-2 rounded-md text-white">
+                                                                انجام شده
+                                                            </span>
+                                                    @endif
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            @else
+                                <div class="bg-yellow-500 py-2 rounded-md shadow">
+                                    <p class="text-center text-black text-xs font-medium">
+                                        شما وظیفه جدیدی ندارید
+                                    </p>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div x-show="tab === 'sent-tasks'"
+                         class="rounded-b-lg px-4 py-6" x-cloak>
+                        <div class="overflow-x-auto rounded-lg">
+                            @if(!$sentTasks->isEmpty())
+                                <table class="md:w-full border-collapse">
+                                    <thead>
+                                    <tr class="table-th-tr">
+                                        <th scope="col" class="p-2">
+                                            تاریخ
+                                        </th>
+                                        <th scope="col" class="p-2">
+                                            عنوان
+                                        </th>
+                                        <th scope="col" class="p-2">
+                                            ارسال شده برای
+                                        </th>
+                                        <th scope="col" class="p-2">
+                                            سطح اهمیت
+                                        </th>
+                                        <th scope="col" class="p-2">
+                                            توضیحات
+                                        </th>
+                                        <th scope="col" class="p-2">
+                                            <span class="sr-only">اقدامات</span>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($sentTasks as $sentTask)
+                                        <tr class="table-tb-tr group hover:font-bold hover:text-red-600 {{ $loop->even ? 'bg-sky-100' : '' }}">
+                                            <td class="table-tr-td border-t-0 border-l-0">
+                                                {{ jdate($sentTask->date)->format('Y/m/d') }}
+                                            </td>
+                                            <td class="table-tr-td border-t-0 border-x-0 {{ $sentTask->done ? 'line-through opacity-50' : '' }}">
+                                                {{ $sentTask->title }}
+                                            </td>
+                                            <td class="table-tr-td border-t-0 border-x-0 {{ $sentTask->done ? 'line-through opacity-50' : '' }}">
+                                                {{ $sentTask->receiver->name }}
+                                            </td>
+                                            <td class="table-tr-td border-t-0 border-x-0 {{ $sentTask->done ? 'line-through opacity-50' : '' }}">
+                                                @switch($sentTask->level)
+                                                    @case('high')
+                                                        <div
+                                                            class="bg-red-500 text-white px-2 inline rounded-md shadow">
+                                                            اهمیت بالا
+                                                        </div>
+                                                        @break
+                                                    @case('medium')
+                                                        <div
+                                                            class="bg-yellow-500 text-white px-2 inline rounded-md shadow">
+                                                            اهمیت متوسط
+                                                        </div>
+                                                        @break
+                                                    @case('low')
+                                                        <div
+                                                            class="bg-gray-500 text-white px-2 inline rounded-md shadow">
+                                                            اهمیت پایین
+                                                        </div>
+                                                        @break
+                                                @endswitch
+                                            </td>
+                                            <td class="table-tr-td border-t-0 border-x-0 {{ $sentTask->done ? 'line-through opacity-50' : '' }}">
+                                                {{ $sentTask->description ?? '-' }}
+                                            </td>
+                                            <td class="table-tr-td border-t-0 border-r-0 whitespace-nowrap">
+                                                <div class="flex items-center space-x-4 space-x-reverse justify-center">
+                                                    @if($sentTask->done)
+                                                        <span class="bg-green-500 px-2 rounded-md text-white">
+                                                                انجام شده
+                                                            </span>
+                                                    @endif
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            @else
+                                <div class="bg-yellow-500 py-2 rounded-md shadow">
+                                    <p class="text-center text-black text-xs font-medium">
+                                        شما وظیفه جدیدی برای کسی ایجاد نکردید
+                                    </p>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

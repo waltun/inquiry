@@ -91,7 +91,7 @@
     </div>
 
     <!-- Search -->
-    <div class="bg-white p-4 rounded-lg shadow border border-gray-200 mt-4">
+    <div class="mt-4">
         <form method="GET" action="" class="grid grid-cols-4 gap-4" id="search-form">
             <input type="text" id="inputSearch" class="input-text" name="search"
                    placeholder="جستجو نام و شماره و بازاریاب و... + اینتر" value="{{ request('search') }}">
@@ -108,7 +108,7 @@
 
     <!-- Content -->
     <div class="mt-4 space-y-4">
-        <div class="mt-8 overflow-x-auto rounded-lg hidden md:block">
+        <div class="overflow-x-auto rounded-lg hidden md:block">
             <table class="w-full border-collapse">
                 <thead>
                 <tr class="table-th-tr">

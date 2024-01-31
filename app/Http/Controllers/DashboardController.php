@@ -17,14 +17,15 @@ class DashboardController extends Controller
         $allTodos = auth()->user()->todos()->whereBetween('date', [now()->addDays(1)->startOfDay(), now()->endOfDay()->addDays(8)])->latest()->get();
         $todayTodos = auth()->user()->todos()->whereBetween('date', [now()->startOfDay(), now()->endOfDay()])->where('done', false)->get();
 
-        $unCompleteTodos = auth()->user()->todos()->where('done', false)->where('date', '<=', now()->subDays(1))->get();
+        $unCompleteTodos = auth()->user()->todos()->where('done', false)->where('date', '<=', now())->get();
         foreach ($unCompleteTodos as $unCompleteTodo) {
             $unCompleteTodo->date = now();
             $unCompleteTodo->save();
         }
 
-        $receivedTasks = Task::where('receiver_id', auth()->user()->id)->whereBetween('date', [now()->startOfDay()->subDays(8), now()->endOfDay()->addDays(8)])->latest()->get();
+        $receivedTasks = Task::where('receiver_id', auth()->user()->id)->latest()->get();
+        $sentTasks = auth()->user()->tasks()->latest()->get();
 
-        return view('dashboard', compact('inquiries', 'submitInquiries', 'todayTodos', 'allTodos', 'receivedTasks'));
+        return view('dashboard', compact('inquiries', 'submitInquiries', 'todayTodos', 'allTodos', 'receivedTasks', 'sentTasks'));
     }
 }

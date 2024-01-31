@@ -13,6 +13,7 @@ use App\Http\Controllers\ClientInvoiceController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CollectionCoilController;
 use App\Http\Controllers\CollectionPartController;
+use App\Http\Controllers\CombineCodeController;
 use App\Http\Controllers\Contract\AnalyzePartController;
 use App\Http\Controllers\Contract\FinalContractController;
 use App\Http\Controllers\Contract\GuaranteeController;
@@ -204,6 +205,7 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::post('/inquiries/product-percent/multi-part-percent', [InquiryPartController::class, 'multiPercent'])->name('inquiries.parts.multiPercent');
         Route::post('/inquiries/{inquiry}/part-amounts', [InquiryPartController::class, 'storeAmounts'])->name('inquiries.parts.storeAmounts');
         Route::delete('/inquiries/{inquiry}/{part}/destroy-part', [InquiryPartController::class, 'destroy'])->name('inquiries.parts.destory');
+        Route::post('/inquiries/part-percent/ajax', [InquiryProductController::class, 'storePercentAjax'])->name('inquiries.part-percent.ajax');
 
         //New Part Inquiry routes
         Route::get('/inquiries/{product}/new-part-inquiry', [NewPartInquiryController::class, 'create'])->name('inquiries.newPart.create');
@@ -670,6 +672,8 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::patch('/stores/edit/change-status', [StoreController::class, 'changeStatus'])->name('stores.changeStatus');
         Route::post('/stores/search/category', [StoreController::class, 'searchCategory'])->name('stores.searchCategory');
         Route::post('/stores/search/text', [StoreController::class, 'searchText'])->name('stores.searchText');
+
+        Route::get('/combine-codes', [CombineCodeController::class, 'index'])->name('combine-codes.index');
     });
 
     Route::middleware('client')->group(function () {

@@ -29,7 +29,7 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p-active">
-                    مدیریت تسک ها
+                    مدیریت وظیفه ها
                 </p>
             </div>
         </div>
@@ -45,7 +45,7 @@
             </svg>
             <div class="mr-2 flex items-center">
                 <p class="font-bold text-2xl text-black dark:text-white">
-                    لیست تسک ها
+                    لیست وظیفه ها
                 </p>
             </div>
         </div>
@@ -55,7 +55,7 @@
                      stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
                 </svg>
-                <span class="mr-2">ایجاد تسک جدید</span>
+                <span class="mr-2">ایجاد وظیفه جدید</span>
             </a>
         </div>
     </div>
@@ -76,7 +76,7 @@
                                       d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/>
                             </svg>
 
-                            تسک های ارسال شده برای شما
+                            وظیفه های ارسال شده برای شما
                         </button>
                     </li>
                     <li class="ml-2">
@@ -91,7 +91,7 @@
                                       d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"/>
                             </svg>
 
-                            تسک هایی که شما برای بقیه ارسال کردید
+                            وظیفه هایی که شما برای بقیه ارسال کردید
                         </button>
                     </li>
                 </ul>
@@ -171,7 +171,7 @@
                                                         <path stroke-linecap="round" stroke-linejoin="round"
                                                               d="m4.5 12.75 6 6 9-13.5"/>
                                                     </svg>
-                                                    <button onclick="return confirm('تسک تمام شود ؟')">
+                                                    <button onclick="return confirm('وظیفه تمام شود ؟')">
                                                         اتمام کار
                                                     </button>
                                                 </form>
@@ -220,7 +220,7 @@
                                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                                       d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
                                                             </svg>
-                                                            <button onclick="return confirm('تسک حذف شود ؟')">
+                                                            <button onclick="return confirm('وظیفه حذف شود ؟')">
                                                                 حذف
                                                             </button>
                                                         </form>
@@ -236,7 +236,7 @@
                     @else
                         <div class="bg-yellow-500 py-2 rounded-md shadow">
                             <p class="text-center text-black text-xs font-medium">
-                                شما تسک جدیدی ندارید
+                                شما وظیفه جدیدی ندارید
                             </p>
                         </div>
                     @endif
@@ -351,7 +351,7 @@
                                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                                       d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
                                                             </svg>
-                                                            <button onclick="return confirm('تسک حذف شود ؟')">
+                                                            <button onclick="return confirm('وظیفه حذف شود ؟')">
                                                                 حذف
                                                             </button>
                                                         </form>
@@ -367,7 +367,7 @@
                     @else
                         <div class="bg-yellow-500 py-2 rounded-md shadow">
                             <p class="text-center text-black text-xs font-medium">
-                                شما تسک جدیدی برای کسی ایجاد نکردید
+                                شما وظیفه جدیدی برای کسی ایجاد نکردید
                             </p>
                         </div>
                     @endif

@@ -413,6 +413,66 @@ class InquiryProductController extends Controller
         return redirect()->route('inquiries.parts.index', $inquiry->id);
     }
 
+    public function storePercentAjax(Request $request)
+    {
+        $request->validate([
+            'percent' => 'required|numeric|between:1,3',
+            'final_price' => 'nullable|numeric',
+            'product_id' => 'required|integer'
+        ]);
+
+        $product = Product::find($request->product_id);
+
+        $group = Group::find($product->group_id);
+        $modell = Modell::find($product->model_id);
+        $inquiryPart = Part::find($product->part_id);
+        $inquiry = Inquiry::find($product->inquiry_id);
+
+        $totalWeight = 0;
+
+        if (!is_null($group) && !is_null($modell)) {
+            foreach ($product->amounts as $amount) {
+                $part = Part::find($amount->part_id);
+                $totalWeight += $part->weight * $amount->value;
+            }
+            $finalWeight = $totalWeight * $product->quantity;
+
+            $product->update([
+                'price' => $request->final_price,
+                'percent' => $request['percent'],
+                'weight' => $finalWeight,
+                'percent_by' => $request->user()->id,
+            ]);
+        }
+
+        if (!is_null($inquiryPart)) {
+            if ($product->price == 0) {
+                $finalPrice = $inquiryPart->price * $request['percent'];
+            } else {
+                $finalPrice = $product->price * $request['percent'];
+            }
+            $finalWeight = $inquiryPart->weight * $product->quantity;
+
+            $product->update([
+                'price' => $request->final_price,
+                'percent' => $request->percent,
+                'weight' => $finalWeight,
+                'percent_by' => $request->user()->id,
+                'part_price' => $inquiryPart->price
+            ]);
+        }
+
+        foreach ($product->amounts as $amount) {
+            $amountPrice = Part::find($amount->part_id)->price;
+            $amountWeight = Part::find($amount->part_id)->weight;
+            $amount->price = $amountPrice;
+            $amount->weight = $amountWeight;
+            $amount->save();
+        }
+
+        alert()->success('ثبت ضریب موفق', 'ثبت ضریب با موفقیت انجام شد');
+    }
+
 
     public function destroy(Product $product)
     {

@@ -83,7 +83,7 @@
     </div>
 
     <!-- Search -->
-    <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200 mt-4">
+    <div class="mt-4">
         <form class="grid grid-cols-4 gap-4" id="searchForm">
             <div>
                 <input type="text" name="search" value="{{ request('search') }}" class="input-text"

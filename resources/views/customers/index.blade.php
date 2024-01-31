@@ -76,7 +76,7 @@
     </div>
 
     <!-- Search -->
-    <div class="p-4 bg-white rounded-lg shadow mt-4">
+    <div class="mt-4">
         <form action="" method="get" class="grid grid-cols-3 gap-4" id="search-form">
             <div>
                 <input type="text" name="search" value="{{ request('search') }}" class="input-text"
@@ -98,7 +98,7 @@
 
     <!-- Content -->
     <div class="mt-4 space-y-4">
-        <div class="mt-8 overflow-x-auto rounded-lg">
+        <div class="overflow-x-auto rounded-lg">
             <table class="w-full border-collapse">
                 <thead>
                 <tr class="table-th-tr">

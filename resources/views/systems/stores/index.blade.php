@@ -707,10 +707,7 @@
 
         <table class="w-full border-collapse">
             <thead>
-            <tr class="table-th-tr">
-                <th scope="col" class="p-2 rounded-tr-lg">
-                    <span class="sr-only">select</span>
-                </th>
+            <tr class="table-th-tr whitespace-normal">
                 <th scope="col" class="p-2">
                     #
                 </th>
@@ -780,10 +777,7 @@
                         $color = 'bg-red-200';
                     }
                 @endphp
-                <tr class="table-tb-tr group {{ $color }}">
-                    <td class="table-tr-td border-t-0">
-
-                    </td>
+                <tr class="table-tb-tr whitespace-normal group {{ $color }}">
                     <td class="table-tr-td border-t-0">
                         {{ $loop->index + 1 }}
                     </td>
