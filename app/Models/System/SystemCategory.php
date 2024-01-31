@@ -25,6 +25,6 @@ class SystemCategory extends Model
 
     public function codings()
     {
-        return $this->belongsToMany(Coding::class, 'coding_system_category', 'coding_id', 'category_id');
+        return $this->belongsToMany(Coding::class, 'coding_system_category', 'category_id', 'coding_id');
     }
 }

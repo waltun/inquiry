@@ -10,7 +10,14 @@ class ClientInvoiceController extends Controller
 {
     public function index()
     {
-        $users = User::where('role', 'client')->latest()->paginate(20);
+        $users = User::query();
+
+        if ($keyword = request('search')) {
+            $users->where('name', 'LIKE', "%{$keyword}%")
+                ->orWhere('phone', 'LIKE', "%{$keyword}%");
+        }
+
+        $users = $users->where('role', 'client')->latest()->paginate(20)->withQueryString();
         return view('client-invoices.index', compact('users'));
     }
 }

@@ -43,7 +43,7 @@ class CodingController extends Controller
 
         if (!is_null(request('category3'))) {
             if (request()->has('category3')) {
-                $codings = $codings->whereHas('categories', function ($q) {
+                $codings = $codings->whereHas('systemCategories', function ($q) {
                     $q->where('category_id', request('category3'));
                 });
             }
@@ -51,7 +51,7 @@ class CodingController extends Controller
 
         if (is_null(request('category3'))) {
             if (request()->has('category2')) {
-                $codings = $codings->whereHas('categories', function ($q) {
+                $codings = $codings->whereHas('systemCategories', function ($q) {
                     $q->where('category_id', request('category2'));
                 });
             }
@@ -86,13 +86,13 @@ class CodingController extends Controller
 
         if (count($request['categories']) == 3 && $request['categories'][2] != "") {
             $coding = Coding::create($data);
-            $coding->categories()->sync($data['categories']);
+            $coding->systemCategories()->sync($data['categories']);
             if (!isset($request->code)) {
                 $code = $this->getCode($coding);
                 $coding->code = $code;
             } else {
                 $categoryCode = '';
-                foreach ($coding->categories as $category) {
+                foreach ($coding->systemCategories as $category) {
                     $categoryCode .= $category->code;
                 }
                 $coding->code = $categoryCode . $request->code;
@@ -150,8 +150,8 @@ class CodingController extends Controller
         $newCoding->copy = '1';
         $newCoding->save();
 
-        foreach ($coding->categories as $category) {
-            $newCoding->categories()->attach($category->id);
+        foreach ($coding->systemCategories as $category) {
+            $newCoding->systemCategories()->attach($category->id);
         }
 
         alert()->success('کپی موفق', 'کدینگ مورد نظر با موفقیت کپی شد');
@@ -173,14 +173,14 @@ class CodingController extends Controller
     public function getCode($coding): string
     {
         $categoryCode = "";
-        foreach ($coding->categories as $category) {
+        foreach ($coding->systemCategories as $category) {
             $categoryCode .= $category->code;
         }
 
         $codings = Coding::select(['code'])->get();
         $code = "";
         if (!$codings->isEmpty()) {
-            $category = $coding->categories()->latest()->first();
+            $category = $coding->systemCategories()->latest()->first();
             $categoryCoding = $category->codings->toArray();
 
             if (count($categoryCoding) == 1) {

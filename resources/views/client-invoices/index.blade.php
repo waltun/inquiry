@@ -67,6 +67,13 @@
         </div>
     </div>
 
+    <div class="grid grid-cols-4 gap-4 mt-4">
+        <form class="col-span-1">
+            <input type="text" id="inputSearch" name="search" class="input-text" placeholder="جستجو کلمه + اینتر"
+                   value="{{ request('search') }}">
+        </form>
+    </div>
+
     <!-- Content -->
     <div class="mt-4 space-y-4">
         <div class="mt-8 overflow-x-auto rounded-lg hidden md:block">

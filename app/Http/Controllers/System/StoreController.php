@@ -60,14 +60,14 @@ class StoreController extends Controller
         $codings = Coding::query();
         if (!is_null(request('category3'))) {
             if (request()->has('category3')) {
-                $codings = $codings->whereHas('categories', function ($q) {
+                $codings = $codings->whereHas('systemCategories', function ($q) {
                     $q->where('category_id', request('category3'));
                 });
             }
         }
         if (is_null(request('category3'))) {
             if (request()->has('category2')) {
-                $codings = $codings->whereHas('categories', function ($q) {
+                $codings = $codings->whereHas('systemCategories', function ($q) {
                     $q->where('category_id', request('category2'));
                 });
             }
@@ -125,14 +125,14 @@ class StoreController extends Controller
         $codings = Coding::query();
         if (!is_null(request('category3'))) {
             if (request()->has('category3')) {
-                $codings = $codings->whereHas('categories', function ($q) {
+                $codings = $codings->whereHas('systemCategories', function ($q) {
                     $q->where('category_id', request('category3'));
                 });
             }
         }
         if (is_null(request('category3'))) {
             if (request()->has('category2')) {
-                $codings = $codings->whereHas('categories', function ($q) {
+                $codings = $codings->whereHas('systemCategories', function ($q) {
                     $q->where('category_id', request('category2'));
                 });
             }

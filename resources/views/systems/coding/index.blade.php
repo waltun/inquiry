@@ -260,7 +260,7 @@
             <div id="categorySection1">
                 @if(request()->has('category2'))
                     @php
-                        $category2 = \App\Models\Category::find(request('category1'))->children;
+                        $category2 = \App\Models\System\SystemCategory::find(request('category1'))->children;
                     @endphp
                     <select name="category2" id="inputCategory2" class="input-text" onchange="getCategory2()">
                         <option value="">انتخاب کنید</option>
@@ -276,7 +276,7 @@
             <div id="categorySection2">
                 @if(request()->has('category3'))
                     @php
-                        $category3 = \App\Models\Category::find(request('category2'))->children;
+                        $category3 = \App\Models\System\SystemCategory::find(request('category2'))->children;
                     @endphp
                     <select name="category3" id="inputCategory3" class="input-text" onchange="submitCategoryForm()">
                         <option value="">انتخاب کنید</option>
@@ -511,7 +511,7 @@
                             @endcan
 
                             @canany(['copy-coding','delete-coding'])
-                                <div class="table-parent-dropdown" x-data="{open:false}">
+                                <div class="flex items-center justify-center space-x-4 space-x-reverse relative mr-2" x-data="{open:false}">
                                     <button @click="open = !open">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                              stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -690,7 +690,7 @@
                                                             <div class="col-span-2">
                                                                 <label for="inputStore2" class="form-label">
                                                                     <span class="font-bold text-red-600">* </span>انبار
-                                                                    مربوطه :
+                                                                    مربوط :
                                                                 </label>
                                                             </div>
                                                             <div class="col-span-10">

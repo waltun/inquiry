@@ -646,18 +646,10 @@
     </div>
 
     <!-- Search -->
-    <form class="grid grid-cols-4 gap-8 my-4 bg-white p-2 rounded-lg shadow" id="search-form">
+    <form class="grid grid-cols-4 gap-8 my-4" id="search-form">
         <div class="flex rounded-md shadow-sm">
-            <input type="text" name="search2" id="inputSearch" class="input-text rounded-l-none py-2.5"
-                   placeholder="جستجو..." value="{{ request('search2') }}">
-            <button type="submit"
-                    class="inline-flex items-center rounded-l-lg border border-gray-200 border-r-0 bg-white px-3 text-sm text-gray-500">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                     stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                          d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"></path>
-                </svg>
-            </button>
+            <input type="text" name="search2" id="inputSearch" class="input-text"
+                   placeholder="جستجو + اینتر" value="{{ request('search2') }}">
         </div>
         <div>
             <select name="status" id="inputStatus" class="input-text" onchange="submitForm()">

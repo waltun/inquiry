@@ -13,9 +13,9 @@ class Coding extends Model
         'name', 'unit', 'code', 'store', 'copy'
     ];
 
-    public function categories()
+    public function systemCategories()
     {
-        return $this->belongsToMany(SystemCategory::class, 'coding_system_category', 'category_id', 'coding_id');
+        return $this->belongsToMany(SystemCategory::class, 'coding_system_category', 'coding_id', 'category_id');
     }
 
     public function stores()
