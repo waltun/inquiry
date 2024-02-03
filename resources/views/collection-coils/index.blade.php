@@ -349,9 +349,9 @@
 
                 @foreach($parts as $part)
                     @php
-                            if(!is_null($part->inquiry_id)) {
-                            $inquiry = \App\Models\Inquiry::find($part->inquiry_id);
-                        }
+                        if(!is_null($part->inquiry_id)) {
+                        $inquiry = \App\Models\Inquiry::find($part->inquiry_id);
+                    }
                     @endphp
                     <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
                         <td class="table-tr-td border-t-0 border-l-0">
@@ -422,26 +422,26 @@
                                         </form>
                                     @endif
                                     <div x-data="{open:false}">
-                                        <button class="table-success-btn" @click="open = !open">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                 stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                      d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/>
-                                            </svg>
-                                            استاندارد سازی
-                                        </button>
-
-                                        <div class="relative z-10" x-show="open" x-cloak>
-                                            <div class="modal-backdrop"></div>
-                                            <div class="fixed z-10 inset-0 overflow-y-auto">
-                                                <div class="modal">
-                                                    <div class="modal-body">
-                                                        <div class="bg-white dark:bg-slate-800 p-4">
-                                                            <div class="mb-4 flex justify-between items-center">
-                                                                <h3 class="text-lg font-bold text-gray-900 dark:text-white">
-                                                                    استاندارد سازی قطعه مجموعه ای
-                                                                </h3>
-                                                                <button type="button" @click="open = false">
+                                        @if(!$part->standard)
+                                            <button class="table-success-btn" @click="open = !open">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                     stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/>
+                                                </svg>
+                                                استاندارد سازی
+                                            </button>
+                                            <div class="relative z-10" x-show="open" x-cloak>
+                                                <div class="modal-backdrop"></div>
+                                                <div class="fixed z-10 inset-0 overflow-y-auto">
+                                                    <div class="modal">
+                                                        <div class="modal-body">
+                                                            <div class="bg-white dark:bg-slate-800 p-4">
+                                                                <div class="mb-4 flex justify-between items-center">
+                                                                    <h3 class="text-lg font-bold text-gray-900 dark:text-white">
+                                                                        استاندارد سازی قطعه مجموعه ای
+                                                                    </h3>
+                                                                    <button type="button" @click="open = false">
                                                                     <span class="modal-close">
                                                                         <svg xmlns="http://www.w3.org/2000/svg"
                                                                              fill="none"
@@ -454,30 +454,41 @@
                                                                                   d="M6 18L18 6M6 6l12 12"/>
                                                                         </svg>
                                                                     </span>
-                                                                </button>
-                                                            </div>
-                                                            <form class="mt-6" method="POST"
-                                                                  action="{{ route('collectionCoil.standard',$part->id) }}">
-                                                                @csrf
-                                                                <div class="mb-4">
-                                                                    <label for="inputName" class="form-label">
-                                                                        نام قطعه
-                                                                    </label>
-                                                                    <input type="text" class="input-text" name="name"
-                                                                           value="{{ $part->name }}">
-                                                                </div>
-                                                                <div
-                                                                    class="flex justify-end items-center space-x-4 space-x-reverse">
-                                                                    <button type="submit" class="form-submit-btn">
-                                                                        ثبت
                                                                     </button>
                                                                 </div>
-                                                            </form>
+                                                                <form class="mt-6" method="POST"
+                                                                      action="{{ route('collectionCoil.standard',$part->id) }}">
+                                                                    @csrf
+                                                                    <div class="mb-4">
+                                                                        <label for="inputName" class="form-label">
+                                                                            نام قطعه
+                                                                        </label>
+                                                                        <input type="text" class="input-text"
+                                                                               name="name"
+                                                                               value="{{ $part->name }}">
+                                                                    </div>
+                                                                    <div
+                                                                        class="flex justify-end items-center space-x-4 space-x-reverse">
+                                                                        <button type="submit" class="form-submit-btn">
+                                                                            ثبت
+                                                                        </button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        @else
+                                            <button class="table-info-btn">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                     stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/>
+                                                </svg>
+                                                استاندارد شده
+                                            </button>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

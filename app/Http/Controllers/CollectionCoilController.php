@@ -55,4 +55,17 @@ class CollectionCoilController extends Controller
 
         return response('success', '200');
     }
+
+    public function standard(Request $request, Part $part)
+    {
+        if ($part->coil && $part->collection) {
+            $part->standard = true;
+            $part->name = $request['name'];
+            $part->save();
+        }
+
+        alert()->success('ثبت موفق', 'قطعه با موفقیت استاندارد سازی شد');
+
+        return back();
+    }
 }
