@@ -77,54 +77,47 @@
     </div>
 
     <!-- Search -->
-    <div class="grid grid-cols-4 gap-8 my-4 bg-sky-100 p-2 rounded-lg shadow dark:bg-slate-900">
-        <form class="col-span-1">
-            <div class="flex rounded-md shadow-sm">
-                <input type="text" name="search" id="inputSearch" class="input-text rounded-l-none py-2.5"
-                       placeholder="جستجو..." value="{{ request('search') }}">
-                <button type="submit" class="search-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                         stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"></path>
-                    </svg>
-                </button>
-            </div>
-        </form>
-        <form class="col-span-3 grid grid-cols-3 gap-4" id="category-search">
-            <div>
-                <select name="category" id="inputCategory" class="input-text" onchange="changeCategory()">
-                    <option value="">انتخاب کنید</option>
-                    <option value="مشتریان" {{ request('category') == 'مشتریان' ? 'selected' : '' }}>
-                        مشتریان
-                    </option>
-                    <option value="تامین کنندگان" {{ request('category') == 'تامین کنندگان' ? 'selected' : '' }}>
-                        تامین کنندگان
-                    </option>
-                    <option value="مهندسین مشاور" {{ request('category') == 'مهندسین مشاور' ? 'selected' : '' }}>
-                        مهندسین مشاور
-                    </option>
-                    <option value="تبلیغات" {{ request('category') == 'تبلیغات' ? 'selected' : '' }}>
-                        تبلیغات
-                    </option>
-                    <option value="همکاران" {{ request('category') == 'همکاران' ? 'selected' : '' }}>
-                        همکاران
-                    </option>
-                    <option value="بانک" {{ request('category') == 'بانک' ? 'selected' : '' }}>
-                        بانک
-                    </option>
-                    <option value="بیمه" {{ request('category') == 'بیمه' ? 'selected' : '' }}>
-                        بیمه
-                    </option>
-                    <option value="ادارات دولتی" {{ request('category') == 'ادارات دولتی' ? 'selected' : '' }}>
-                        ادارات دولتی
-                    </option>
-                    <option value="سایر" {{ request('category') == 'سایر' ? 'selected' : '' }}>
-                        سایر
-                    </option>
-                </select>
-            </div>
-        </form>
+    <div class="mt-4">
+        <div class="grid grid-cols-4 gap-8">
+            <form class="col-span-1">
+                <input type="text" name="search" id="inputSearch" class="input-text"
+                       placeholder="جستجو + اینتر" value="{{ request('search') }}">
+            </form>
+            <form class="col-span-3 grid grid-cols-3 gap-4" id="category-search">
+                <div>
+                    <select name="category" id="inputCategory" class="input-text" onchange="changeCategory()">
+                        <option value="">انتخاب کنید</option>
+                        <option value="مشتریان" {{ request('category') == 'مشتریان' ? 'selected' : '' }}>
+                            مشتریان
+                        </option>
+                        <option value="تامین کنندگان" {{ request('category') == 'تامین کنندگان' ? 'selected' : '' }}>
+                            تامین کنندگان
+                        </option>
+                        <option value="مهندسین مشاور" {{ request('category') == 'مهندسین مشاور' ? 'selected' : '' }}>
+                            مهندسین مشاور
+                        </option>
+                        <option value="تبلیغات" {{ request('category') == 'تبلیغات' ? 'selected' : '' }}>
+                            تبلیغات
+                        </option>
+                        <option value="همکاران" {{ request('category') == 'همکاران' ? 'selected' : '' }}>
+                            همکاران
+                        </option>
+                        <option value="بانک" {{ request('category') == 'بانک' ? 'selected' : '' }}>
+                            بانک
+                        </option>
+                        <option value="بیمه" {{ request('category') == 'بیمه' ? 'selected' : '' }}>
+                            بیمه
+                        </option>
+                        <option value="ادارات دولتی" {{ request('category') == 'ادارات دولتی' ? 'selected' : '' }}>
+                            ادارات دولتی
+                        </option>
+                        <option value="سایر" {{ request('category') == 'سایر' ? 'selected' : '' }}>
+                            سایر
+                        </option>
+                    </select>
+                </div>
+            </form>
+        </div>
     </div>
 
     <!-- Table -->

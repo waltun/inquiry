@@ -157,7 +157,7 @@
     </div>
 
     <!-- Search -->
-    <div class="bg-white shadow rounded-lg border border-gray-200 p-4 mt-4">
+    <div class="mt-4">
         <div class="grid grid-cols-4 gap-4">
             <form class="col-span-1" id="search-form">
                 <input type="text" id="inputSearch" name="search" class="input-text" placeholder="جستجو + اینتر"
@@ -214,7 +214,7 @@
 
     <!-- Content -->
     <div class="mt-4 space-y-4">
-        <div class="mt-8 overflow-x-auto rounded-lg">
+        <div class="overflow-x-auto rounded-lg">
             <table class="w-full border-collapse">
                 <thead>
                 <tr class="table-th-tr">

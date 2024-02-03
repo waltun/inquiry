@@ -22,13 +22,13 @@ class LetterController extends Controller
     {
         $letters = Letter::query();
 
-        if ($keyword = request()->has('search')) {
+        if ($keyword = request('search')) {
             $letters->where('title', 'LIKE', "%{$keyword}%")
                 ->orWhere('number', 'LIKE', "%{$keyword}%")
                 ->orWhere('method', 'LIKE', "%{$keyword}%");
         }
 
-        if ($category = request()->has('category')) {
+        if ($category = request('category')) {
             $letters->where('category', $category);
         }
 

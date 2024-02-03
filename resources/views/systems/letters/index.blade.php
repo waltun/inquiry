@@ -1,4 +1,13 @@
 <x-layout>
+    <x-slot name="js">
+        <script>
+            function searchLetter() {
+                let form = document.getElementById('search-letter-form');
+                form.submit();
+            }
+        </script>
+    </x-slot>
+
     <!-- Breadcrumb -->
     <div class="breadcrumb">
         <a href="{{ route('dashboard') }}" class="flex items-center">
@@ -43,10 +52,16 @@
                 <path stroke-linecap="round" stroke-linejoin="round"
                       d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/>
             </svg>
-            <div class="mr-2">
+            <div class="mr-2 flex items-center space-x-4 space-x-reverse">
                 <p class="font-bold text-2xl text-black dark:text-white">
                     لیست ارسال مراسلات
                 </p>
+
+                @if(request()->has('search') || request()->has('category'))
+                    <a href="{{ route('letters.index') }}" class="text-sm font-bold text-indigo-500 underline">
+                        پاکسازی فیلتر
+                    </a>
+                @endif
             </div>
         </div>
         @can('create-letter')
@@ -63,80 +78,49 @@
     </div>
 
     <!-- Search -->
-    <div
-        class="card-search" {{ request()->has('search') || request()->has('category') ? 'x-data={open:true}' : 'x-data={open:false}' }}>
-        <div class="card-header-search" @click="open = !open">
-            <p class="card-title">
-                جستجو
-            </p>
-            <div class="card-title-search">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                     stroke="currentColor" class="w-6 h-6 transition" :class="{'rotate-180' : open}">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
-                </svg>
-            </div>
-        </div>
-        <div class="grid grid-cols-4 gap-4 pb-7" x-show="open" x-cloak>
-            <form class="col-span-2 card">
+    <div class="mt-4">
+        <div class="grid grid-cols-4 gap-4">
+            <form class="col-span-1">
                 <div class="mb-4">
-                    <label for="inputSearch2" class="form-label">
-                        جستجو براساس عنوان، شماره و حامل نامه
-                    </label>
                     <input type="text" id="inputSearch2" name="search" class="input-text"
-                           placeholder="مثال : ورق گالوانیزه"
-                           value="{{ request('search') }}">
-                </div>
-                <div class="flex justify-end">
-                    <button class="form-submit-btn" type="submit">
-                        جستجو
-                    </button>
+                           placeholder="مثال : جستجو + اینتر" value="{{ request('search') }}">
                 </div>
             </form>
-            <form class="col-span-2 card">
+            <form class="col-span-1" id="search-letter-form">
                 <div class="mb-4">
-                    <label for="inputCategory" class="form-label">
-                        جستجو براساس دسته بندی نامه
-                    </label>
-                    <select name="category" id="inputCategory" class="input-text">
-                        <option value="پیش فاکتور">
+                    <select name="category" id="inputCategory" class="input-text" onchange="searchLetter()">
+                        <option value="">
+                            انتخاب نوع نامه
+                        </option>
+                        <option value="پیش فاکتور" {{ request('category') == 'پیش فاکتور' ? 'selected' : '' }}>
                             پیش فاکتور
                         </option>
-                        <option value="معرفی نامه">
+                        <option value="معرفی نامه" {{ request('category') == 'معرفی نامه' ? 'selected' : '' }}>
                             معرفی نامه
                         </option>
-                        <option value="مکاتبات اداری">
+                        <option value="مکاتبات اداری" {{ request('category') == 'مکاتبات اداری' ? 'selected' : '' }}>
                             مکاتبات اداری
                         </option>
-                        <option value="مکاتبات با مشتریان">
+                        <option
+                            value="مکاتبات با مشتریان" {{ request('category') == 'مکاتبات با مشتریان' ? 'selected' : '' }}>
                             مکاتبات با مشتریان
                         </option>
-                        <option value="اعلام پایان ساخت">
+                        <option
+                            value="اعلام پایان ساخت" {{ request('category') == 'اعلام پایان ساخت' ? 'selected' : '' }}>
                             اعلام پایان ساخت
                         </option>
-                        <option value="سایر">
+                        <option value="سایر" {{ request('category') == 'سایر' ? 'selected' : '' }}>
                             سایر
                         </option>
                     </select>
                 </div>
-                <div class="flex justify-end">
-                    <button class="form-submit-btn" type="submit">
-                        جستجو
-                    </button>
-                </div>
             </form>
-
-            @if(request()->has('search') || request()->has('category'))
-                <div>
-                    <a href="{{ route('letters.index') }}" class="form-detail-btn text-xs">
-                        پاکسازی جستجو
-                    </a>
-                </div>
-            @endif
         </div>
     </div>
 
+
     <!-- Table -->
-    <div class="mt-8 overflow-x-auto rounded-lg">
+    <div class="overflow-x-auto rounded-lg">
         <table class="w-full border-collapse">
             <thead>
             <tr class="table-th-tr">
@@ -200,7 +184,8 @@
                         {{ $letter->category }}
                     </td>
                     <td class="table-tr-td border-t-0 border-r-0">
-                        <div class="flex items-center justify-center space-x-4 space-x-reverse relative mr-2" x-data="{open:false}">
+                        <div class="flex items-center justify-center space-x-4 space-x-reverse relative mr-2"
+                             x-data="{open:false}">
                             <button @click="open = !open">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                      stroke-width="1.5" stroke="currentColor" class="w-6 h-6">

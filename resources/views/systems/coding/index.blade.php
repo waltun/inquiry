@@ -231,65 +231,58 @@
     </div>
 
     <!-- Search -->
-    <div class="grid grid-cols-4 gap-8 my-4 bg-white p-2 rounded-lg shadow dark:bg-slate-900">
-        <form class="col-span-1">
-            <div class="flex rounded-md shadow-sm">
-                <input type="text" name="search" id="inputSearch" class="input-text rounded-l-none py-2.5"
-                       placeholder="جستجو..." value="{{ request('search') }}">
-                <button type="submit" class="search-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                         stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"></path>
-                    </svg>
-                </button>
-            </div>
-        </form>
-        <form class="col-span-3 grid grid-cols-3 gap-4" id="category-search">
-            <div>
-                <select name="category1" id="inputCategory1" class="input-text" onchange="getCategory1()">
-                    <option value="">انتخاب کنید</option>
-                    @foreach($categories as $category)
-                        <option
-                            value="{{ $category->id }}" {{ request('category1') == $category->id ? 'selected' : '' }}>
-                            {{ $category->code }} - {{ $category->name }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-            <div id="categorySection1">
-                @if(request()->has('category2'))
-                    @php
-                        $category2 = \App\Models\System\SystemCategory::find(request('category1'))->children;
-                    @endphp
-                    <select name="category2" id="inputCategory2" class="input-text" onchange="getCategory2()">
+    <div class="mt-4">
+        <div class="grid grid-cols-4 gap-8">
+            <form class="col-span-1">
+                    <input type="text" name="search" id="inputSearch" class="input-text"
+                           placeholder="جستجو + اینتر" value="{{ request('search') }}">
+            </form>
+            <form class="col-span-3 grid grid-cols-3 gap-4" id="category-search">
+                <div>
+                    <select name="category1" id="inputCategory1" class="input-text" onchange="getCategory1()">
                         <option value="">انتخاب کنید</option>
-                        @foreach($category2 as $category)
+                        @foreach($categories as $category)
                             <option
-                                value="{{ $category->id }}" {{ request('category2') == $category->id ? 'selected' : '' }}>
+                                value="{{ $category->id }}" {{ request('category1') == $category->id ? 'selected' : '' }}>
                                 {{ $category->code }} - {{ $category->name }}
                             </option>
                         @endforeach
                     </select>
-                @endif
-            </div>
-            <div id="categorySection2">
-                @if(request()->has('category3'))
-                    @php
-                        $category3 = \App\Models\System\SystemCategory::find(request('category2'))->children;
-                    @endphp
-                    <select name="category3" id="inputCategory3" class="input-text" onchange="submitCategoryForm()">
-                        <option value="">انتخاب کنید</option>
-                        @foreach($category3 as $category)
-                            <option
-                                value="{{ $category->id }}" {{ request('category3') == $category->id ? 'selected' : '' }}>
-                                {{ $category->code }} - {{ $category->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                @endif
-            </div>
-        </form>
+                </div>
+                <div id="categorySection1">
+                    @if(request()->has('category2'))
+                        @php
+                            $category2 = \App\Models\System\SystemCategory::find(request('category1'))->children;
+                        @endphp
+                        <select name="category2" id="inputCategory2" class="input-text" onchange="getCategory2()">
+                            <option value="">انتخاب کنید</option>
+                            @foreach($category2 as $category)
+                                <option
+                                    value="{{ $category->id }}" {{ request('category2') == $category->id ? 'selected' : '' }}>
+                                    {{ $category->code }} - {{ $category->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    @endif
+                </div>
+                <div id="categorySection2">
+                    @if(request()->has('category3'))
+                        @php
+                            $category3 = \App\Models\System\SystemCategory::find(request('category2'))->children;
+                        @endphp
+                        <select name="category3" id="inputCategory3" class="input-text" onchange="submitCategoryForm()">
+                            <option value="">انتخاب کنید</option>
+                            @foreach($category3 as $category)
+                                <option
+                                    value="{{ $category->id }}" {{ request('category3') == $category->id ? 'selected' : '' }}>
+                                    {{ $category->code }} - {{ $category->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    @endif
+                </div>
+            </form>
+        </div>
     </div>
 
     <!-- Errors -->
