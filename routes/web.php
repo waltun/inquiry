@@ -646,6 +646,7 @@ Route::middleware(['auth', 'web'])->group(function () {
 
         Route::resource('tasks', TaskController::class)->except('show');
         Route::post('tasks/{task}/mark-as-done', [TaskController::class, 'markAsDone'])->name('tasks.mark-as-done');
+        Route::post('tasks/{task}/review', [TaskController::class, 'review'])->name('tasks.review');
 
         //System Routes
         Route::resource('phonebook', PhonebookController::class)->except(['show']);

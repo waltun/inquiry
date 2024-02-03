@@ -100,4 +100,14 @@ class TaskController extends Controller
 
         return back();
     }
+
+    public function review(Task $task)
+    {
+        $task->done = false;
+        $task->save();
+
+        alert()->success('بازنگری موفق', 'بازنگری تسک با موفقیت انجام شد');
+
+        return back();
+    }
 }
