@@ -12,7 +12,7 @@
             </div>
             <div>
                 <span class="text-xs font-medium rounded-3xl bg-myRed-200 text-white p-2 shadow-yellow">
-                    استعلام قیمت
+                    سامانه جامع
                 </span>
             </div>
         </div>

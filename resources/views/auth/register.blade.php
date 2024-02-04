@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>ثبت نام در بخش استعلام قیمت</title>
+    <title>ثبت نام در سامانه جامع شرکت تهویه آذرباد</title>
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
@@ -22,7 +22,7 @@
                       d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"/>
             </svg>
             <h2 class="mt-6 text-center md:text-2xl md:font-extrabold text-lg font-bold text-gray-900">
-                ثبت نام در بخش استعلام قیمت
+                ثبت نام در سامانه جامع شرکت تهویه آذرباد
             </h2>
         </div>
         <form class="mt-8 space-y-6" action="{{ route('register.sore') }}" method="POST">

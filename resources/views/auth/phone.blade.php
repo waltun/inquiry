@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>ورود به تهویه آذرباد</title>
+    <title>ورود به سامانه جامع شرکت تهویه آذرباد</title>
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
@@ -17,7 +17,7 @@
             <img src="{{ asset('images/azarbad.png') }}" alt="" class="mx-auto w-64">
             <div class="mt-4">
                 <p class="text-xl font-bold text-black text-center">
-                    ورود به سامانه استعلام قیمت شرکت تهویه آذرباد
+                    ورود به سامانه جامع شرکت تهویه آذرباد
                 </p>
             </div>
         </div>

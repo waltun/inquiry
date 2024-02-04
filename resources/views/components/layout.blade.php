@@ -8,7 +8,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @stack('meta')
 
-    <title>پنل استعلام قیمت تهویه آذرباد</title>
+    <title>سامانه جامع شرکت تهویه آذرباد</title>
 
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     {{ $css ?? '' }}
