@@ -22,6 +22,7 @@ use App\Http\Controllers\Contract\PackingController;
 use App\Http\Controllers\Contract\RecipeController;
 use App\Http\Controllers\Contract\ProductController as ContractProduct;
 use App\Http\Controllers\InformationController;
+use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\MarketingController as AllMarketings;
 use App\Http\Controllers\Contract\MarketPaymentController;
 use App\Http\Controllers\Contract\PaymentController;
@@ -647,6 +648,8 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::resource('tasks', TaskController::class)->except('show');
         Route::post('tasks/{task}/mark-as-done', [TaskController::class, 'markAsDone'])->name('tasks.mark-as-done');
         Route::post('tasks/{task}/review', [TaskController::class, 'review'])->name('tasks.review');
+
+        Route::resource('leaves', LeaveController::class)->except(['show']);
 
         //System Routes
         Route::resource('phonebook', PhonebookController::class)->except(['show']);

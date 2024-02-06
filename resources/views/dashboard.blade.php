@@ -456,7 +456,7 @@
 
         <div x-show="tab === 'tasks'"
              class="border border-indigo-400 dark:border-black border-t-0 rounded-b-lg px-4 py-6" x-cloak>
-            <div class="md:grid grid-cols-2 gap-4 space-y-4 md:space-y-0">
+            <div class="md:grid grid-cols-3 gap-4 space-y-4 md:space-y-0">
                 @can('todos')
                     <a href="{{ route('todos.index') }}" class="dashboard-cards group">
                         <div class="flex items-center">
@@ -513,6 +513,31 @@
                         </div>
                     </a>
                 @endcan
+
+                <a href="{{ route('leaves.index') }}" class="dashboard-cards group">
+                    <div class="flex items-center">
+                        <div class="dashboard-card-icon bg-pink-500 dark:bg-slate-800">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                 stroke="currentColor" class="w-6 h-6 text-white group-hover:text-myBlue-100">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M10.125 2.25h-4.5c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-9M10.125 2.25h.375a9 9 0 0 1 9 9v.375M10.125 2.25A3.375 3.375 0 0 1 13.5 5.625v1.5c0 .621.504 1.125 1.125 1.125h1.5a3.375 3.375 0 0 1 3.375 3.375M9 15l2.25 2.25L15 12"/>
+                            </svg>
+                        </div>
+                        <div class="mr-4">
+                            <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
+                                درخواست های مرخصی
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                            <path fill-rule="evenodd"
+                                  d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                  clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                </a>
             </div>
         </div>
 
