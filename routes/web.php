@@ -233,6 +233,7 @@ Route::middleware(['auth', 'web'])->group(function () {
 
         //Category routes
         Route::get('/categories/{category}/children', [CategoryController::class, 'children'])->name('categories.children');
+        Route::post('categories/{category}/replicate', [CategoryController::class, 'replicate'])->name('categories.replicate');
         Route::resource('categories', CategoryController::class);
 
         //Calculate coil routes
