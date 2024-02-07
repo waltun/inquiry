@@ -57,6 +57,7 @@ use App\Http\Controllers\PartPriceController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductAttributeController;
 use App\Http\Controllers\ProductCurrentPriceController;
+use App\Http\Controllers\RecievedLeaveController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SeparateCalculateCoilController;
 use App\Http\Controllers\SeparateCalculateConverter;
@@ -650,6 +651,9 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::post('tasks/{task}/review', [TaskController::class, 'review'])->name('tasks.review');
 
         Route::resource('leaves', LeaveController::class)->except(['show']);
+
+        Route::get('/recieved-leaves', [RecievedLeaveController::class, 'index'])->name('recieved-leave.index');
+        Route::patch('/recieved-leaves/{leaf}', [RecievedLeaveController::class, 'update'])->name('recieved-leave.update');
 
         //System Routes
         Route::resource('phonebook', PhonebookController::class)->except(['show']);

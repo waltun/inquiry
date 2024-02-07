@@ -34,7 +34,7 @@
                       clip-rule="evenodd"/>
             </svg>
         </div>
-        <a href="{{ route('inquiries.index') }}" class="flex items-center">
+        <a href="{{ route('tasks.index') }}" class="flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" class="breadcrumb-svg" fill="none"
                  viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -42,7 +42,7 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p">
-                    مدیریت کارهای روزانه
+                    مدیریت وظایف
                 </p>
             </div>
         </a>
@@ -61,7 +61,7 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p-active">
-                    ویرایش کار {{ $todo->title }}
+                    ایجاد وظیفه جدید
                 </p>
             </div>
         </div>
@@ -73,7 +73,7 @@
     </div>
 
     <!-- Form -->
-    <form method="POST" action="{{ route('todos.update', $todo->id) }}" class="md:grid grid-cols-2 gap-4 mt-4">
+    <form method="POST" action="{{ route('tasks.update', $task->id) }}" class="md:grid grid-cols-2 gap-4 mt-4">
         @csrf
         @method('PATCH')
 
@@ -83,15 +83,44 @@
             </div>
 
             <div class="mt-4">
-                <label for="inputTitle" class="form-label">موضوع کاری که باید انجام بشه</label>
+                <label for="inputTitle" class="form-label">موضوع تسکی که باید انجام بشه</label>
                 <input type="text" id="inputTitle" name="title" class="input-text"
-                       placeholder="مثال : تکمیل دیتاشیت پروژه ها" value="{{ old('title', $todo->title) }}">
+                       placeholder="مثال : تکمیل دیتاشیت پروژه ها" value="{{ old('title', $task->title) }}">
             </div>
 
             <div class="mt-4">
-                <label for="inputDate" class="form-label">تاریخی که این کار باید انجام بشه</label>
+                <label for="inputDate" class="form-label">تاریخی که این تسک باید انجام بشه</label>
                 <input type="text" id="inputDate" name="date" class="input-text"
                        placeholder="برای انتخاب تاریخ کلیک کنید" value="{{ old('date', $date) }}">
+            </div>
+
+            <div class="mt-4">
+                <label for="inputLevel" class="form-label">سطح اهمیت این تسک</label>
+                <select name="level" id="inputLevel" class="input-text">
+                    <option value="">انتخاب کنید</option>
+                    <option value="high" {{ old('level', $task->level) == 'high' ? 'selected' : '' }}>
+                        اهمیت بالا
+                    </option>
+                    <option value="medium" {{ old('level', $task->level) == 'medium' ? 'selected' : '' }}>
+                        اهمیت متوسط
+                    </option>
+                    <option value="low" {{ old('level', $task->level) == 'low' ? 'selected' : '' }}>
+                        اهمیت کم
+                    </option>
+                </select>
+            </div>
+
+            <div class="mt-4">
+                <label for="inputReceiver" class="form-label">کاربر دریافت کننده</label>
+                <select name="receiver_id" id="inputReceiver" class="input-text">
+                    <option value="">انتخاب کنید</option>
+                    @foreach($receivers as $receiver)
+                        <option
+                            value="{{ $receiver->id }}" {{ old('receiver_id', $task->receiver_id) == $receiver->id ? 'selected' : '' }}>
+                            {{ $receiver->name }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
 
         </div>
@@ -102,16 +131,17 @@
             </div>
 
             <div class="mt-4">
-                <label for="inputDescription" class="form-label">توضیحات مربوط به این کار</label>
-                <textarea name="description" id="inputDescription" class="input-text resize-none h-32">{{ old('description', $todo->description) }}</textarea>
+                <label for="inputDescription" class="form-label">توضیحات مربوط به این تسک برای کاربر</label>
+                <textarea name="description" id="inputDescription"
+                          class="input-text resize-none h-64">{{ old('description', $task->description) }}</textarea>
             </div>
         </div>
 
         <div class="flex items-center space-x-4 space-x-reverse">
             <button type="submit" class="form-edit-btn" id="submit-button">
-                بروزرسانی کار
+                بروزرسانی تسک
             </button>
-            <a href="{{ route('todos.index') }}" class="form-cancel-btn">
+            <a href="{{ route('tasks.index') }}" class="form-cancel-btn">
                 انصراف
             </a>
         </div>

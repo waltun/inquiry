@@ -57,7 +57,13 @@ class TaskController extends Controller
     public function edit(Task $task)
     {
         $receivers = User::where('role', 'staff')->orWhere('role', 'admin')->get()->except(auth()->user()->id);
-        return view('tasks.edit', compact('receivers', 'task'));
+
+        $day = jdate($task->date)->getDay();
+        $month = jdate($task->date)->getMonth();
+        $year = jdate($task->date)->getYear();
+        $date = $year . '/' . $month . '/' . $day;
+
+        return view('tasks.edit', compact('receivers', 'task', 'date'));
     }
 
     public function update(Request $request, Task $task)
