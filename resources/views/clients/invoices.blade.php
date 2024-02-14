@@ -61,7 +61,7 @@
                             {{ $invoice->inquiry->name }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ auth()->user()->id }}
+                            {{ $invoice->user->name }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             {{ jdate($invoice->created_at)->format('%A, %d %B %Y') }}

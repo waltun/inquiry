@@ -151,6 +151,8 @@ class CategoryController extends Controller
         ]);
         $newCategory->save();
 
+        $categories = [$category->parent->parent->id, $category->parent->id, $newCategory->id];
+
         if (!$category->parts->isEmpty()) {
             foreach ($category->parts as $part) {
                 $newPart = $part->replicate()->fill([
@@ -159,7 +161,7 @@ class CategoryController extends Controller
                 ]);
                 $newPart->save();
 
-                $newPart->categories()->attach($newCategory->id);
+                $newPart->categories()->sync($categories);
 
                 $code = $this->getPartLastCode($newPart);
                 $newPart->code = $code;

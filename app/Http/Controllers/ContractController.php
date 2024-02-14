@@ -255,6 +255,12 @@ class ContractController extends Controller
 
     public function deleteAll(Contract $contract)
     {
+        $invoices = Invoice::where('contract_id', $contract->id)->get();
+        foreach ($invoices as $invoice) {
+            $invoice->contract_id = null;
+            $invoice->save();
+        }
+
         foreach ($contract->products as $product) {
             if (!$product->spareAmounts->isEmpty()) {
                 foreach ($product->spareAmounts as $spareAmount) {

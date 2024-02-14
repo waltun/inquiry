@@ -67,6 +67,7 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\System\CodingController;
 use App\Http\Controllers\System\LetterController;
 use App\Http\Controllers\System\PhonebookController;
+use App\Http\Controllers\System\PurchaseController;
 use App\Http\Controllers\System\SerialController;
 use App\Http\Controllers\System\StoreController;
 use App\Http\Controllers\System\SystemCategoryController;
@@ -681,6 +682,15 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::patch('/stores/edit/change-status', [StoreController::class, 'changeStatus'])->name('stores.changeStatus');
         Route::post('/stores/search/category', [StoreController::class, 'searchCategory'])->name('stores.searchCategory');
         Route::post('/stores/search/text', [StoreController::class, 'searchText'])->name('stores.searchText');
+
+        Route::get('/purchase', [PurchaseController::class, 'index'])->name('purchase.index');
+        Route::get('/purchase/{purchase}/edit', [PurchaseController::class, 'edit'])->name('purchase.edit');
+        Route::post('/purchase', [PurchaseController::class, 'store'])->name('purchase.store');
+        Route::patch('/purchase/{purchase}', [PurchaseController::class, 'update'])->name('purchase.update');
+        Route::delete('/purchase/delete-purchase', [PurchaseController::class, 'destroy'])->name('purchase.destroy');
+        Route::patch('/purchase/edit/change-status', [PurchaseController::class, 'changeStatus'])->name('purchase.changeStatus');
+        Route::post('/purchase/search/category', [PurchaseController::class, 'searchCategory'])->name('purchase.searchCategory');
+        Route::post('/purchase/search/text', [PurchaseController::class, 'searchText'])->name('purchase.searchText');
 
         Route::get('/combine-codes', [CombineCodeController::class, 'index'])->name('combine-codes.index');
     });
