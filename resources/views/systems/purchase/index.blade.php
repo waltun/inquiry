@@ -9,6 +9,10 @@
     <x-slot name="js">
         <script src="{{ asset('plugins/jquery.min.js') }}"></script>
         <script src="{{ asset('plugins/date-picker/persianDatepicker.min.js') }}"></script>
+        <script src="{{ asset('plugins/select2/select2.min.js') }}"></script>
+        <script>
+            $("#inputDocumentNumber").select2();
+        </script>
         <script>
             $("#inputDate").persianDatepicker({
                 formatDate: "YYYY-MM-DD",
@@ -171,6 +175,7 @@
     </x-slot>
     <x-slot name="css">
         <link rel="stylesheet" href="{{ asset('plugins/date-picker/persianDatepicker-default.css') }}">
+        <link rel="stylesheet" href="{{ asset('plugins/select2/select2.min.css') }}">
     </x-slot>
 
     <!-- Breadcrumb -->
@@ -608,10 +613,21 @@
                                                             <option value="office">دفتر مرکزی</option>
                                                         </select>
                                                     </td>
-                                                    <td class="p-1 border border-gray-400" colspan="2">
-                                                        <input type="text" name="document_number"
-                                                               id="inputDocumentNumber"
-                                                               class="input-text" placeholder="شماره پروژه">
+                                                    <td class="p-1 border border-gray-400">
+                                                        <input type="text" name="applicant"
+                                                               id="inputApplicant"
+                                                               class="input-text" placeholder="درخواست کننده">
+                                                    </td>
+                                                    <td class="p-1 border border-gray-400">
+                                                        <select name="document_number" id="inputDocumentNumber"
+                                                                class="input-text" style="width: 100%!important;">
+                                                            <option value="">انتخاب قرارداد</option>
+                                                            @foreach($contracts as $contract)
+                                                                <option value="{{ $contract->number }}">
+                                                                    {{ $contract->number }} - {{ $contract->name }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
                                                     </td>
                                                 </tr>
                                                 <tr class="text-xs text-center">
@@ -706,6 +722,9 @@
                     #
                 </th>
                 <th scope="col" class="p-2">
+                    فوری
+                </th>
+                <th scope="col" class="p-2">
                     شماره پرونده
                 </th>
                 <th scope="col" class="p-2">
@@ -769,6 +788,16 @@
                     <td class="table-tr-td border-t-0">
                         {{ $loop->index + 1 }}
                     </td>
+                    <td class="table-tr-td border-t-0">
+                        <select name="important[]" id="inputImportant{{ $purchas->id }}" class="input-text w-24">
+                            <option value="0" {{ !$purchas->important ? 'selected' : '' }}>
+                                معمولی
+                            </option>
+                            <option value="1" {{ $purchas->important ? 'selected' : '' }}>
+                                فوری
+                            </option>
+                        </select>
+                    </td>
                     <td class="table-tr-td border-t-0 border-x-0">
                         {{ $purchas->document_number ?? '-' }}
                     </td>
@@ -808,7 +837,7 @@
                         {{ !is_null($purchas->coding_id) ? $coding->unit : $purchas->unit }}
                     </td>
                     <td class="table-tr-td border-t-0 border-x-0">
-                        {{ $purchas->user->name }}
+                        {{ $purchas->applicant }}
                     </td>
                     <td class="table-tr-td border-t-0 border-x-0">
                         @if($purchas->buy_location == 'factory')
@@ -822,7 +851,7 @@
                     </td>
                     <td class="table-tr-td border-t-0 border-r-0">
                         <div class="flex items-center justify-center space-x-2 space-x-reverse">
-                            @can('delete-purchase')
+                            @can('edit-purchase')
                                 <a href="{{ route('purchase.edit',$purchas->id) }}" class="table-dropdown-edit">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                          stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
@@ -856,6 +885,11 @@
                         ثبت
                     </button>
                 </div>
+            @endcan
+            @can('complete-purchase')
+                <a href="{{ route('purchase.complete') }}" class="page-warning-btn">
+                    لیست اقلام خریداری شده
+                </a>
             @endcan
         </div>
     </form>

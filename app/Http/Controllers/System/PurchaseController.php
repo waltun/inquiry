@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\System;
 
 use App\Http\Controllers\Controller;
+use App\Models\Contract;
 use App\Models\System\Coding;
 use App\Models\System\Purchase;
 use App\Models\System\SystemCategory;
@@ -17,6 +18,8 @@ class PurchaseController extends Controller
         $this->middleware('can:edit-purchase')->only(['edit', 'update']);
         $this->middleware('can:delete-purchase')->only(['destroy']);
         $this->middleware('can:change-status-purchase')->only(['changeStatus']);
+        $this->middleware('can:complete-purchase')->only(['complete']);
+        $this->middleware('can:add-to-store-purchase')->only(['addToStore']);
     }
 
     public function index()
@@ -26,12 +29,12 @@ class PurchaseController extends Controller
         if (request()->has('search2') && !is_null($keyword = request('search2'))) {
             $purchase = $purchase->where(function ($query) use ($keyword) {
                 $query->where(function ($query) use ($keyword) {
-                    $query->where('name', 'LIKE', "%{$keyword}%")
+                    $query->where('title', 'LIKE', "%{$keyword}%")
                         ->orWhere('unit', 'LIKE', "%{$keyword}%")
                         ->whereNull('coding_id');
                 })->orWhere(function ($query) use ($keyword) {
                     $query->whereNotNull('coding_id')->whereHas('coding', function ($query) use ($keyword) {
-                        $query->where('name', 'LIKE', "%{$keyword}%")
+                        $query->where('title', 'LIKE', "%{$keyword}%")
                             ->orWhere('unit', 'LIKE', "%{$keyword}%")
                             ->orWhere('code', 'LIKE', "%{$keyword}%");
                     });
@@ -80,9 +83,11 @@ class PurchaseController extends Controller
         $categories = SystemCategory::where('parent_id', 0)->with(['children'])->get();
         $date = Jalalian::now();
         $today = $date->getYear() . "-" . $date->getMonth() . "-" . $date->getDay();
-        $purchase = $purchase->orderBy('date', 'DESC')->paginate(50);
+        $purchase = $purchase->orderBy('important', 'DESC')->where('status', '!=', 'purchased')->paginate(50);
 
-        return view('systems.purchase.index', compact('purchase', 'categories', 'today', 'codings'));
+        $contracts = Contract::all();
+
+        return view('systems.purchase.index', compact('purchase', 'categories', 'today', 'codings', 'contracts'));
     }
 
     public function store(Request $request)
@@ -96,6 +101,7 @@ class PurchaseController extends Controller
             'description' => 'nullable',
             'document_number' => 'nullable',
             'buy_location' => 'required|string|max:255',
+            'applicant' => 'required|string|max:255',
         ]);
 
         $data['status'] = 'pending';
@@ -110,7 +116,7 @@ class PurchaseController extends Controller
             $data['date'] = (new Jalalian($explodeDate[0], $explodeDate[1], $explodeDate[2]))->toCarbon()->toDateTimeString();
         }
 
-        auth()->user()->purchases()->create($data);
+        Purchase::create($data);
 
         alert()->success('ثبت موفق', 'درخواست خرید با موفقیت ثبت شد');
 
@@ -195,14 +201,66 @@ class PurchaseController extends Controller
             $purchase = Purchase::find($id);
 
             $purchase->update([
-                'status' => $request->status[$index],
                 'accepted_quantity' => $request->accepted_quantity[$index],
+                'important' => $request->important[$index],
             ]);
+
+            if ($purchase->accepted_quantity > 0) {
+                $purchase->status = $request->status[$index];
+                $purchase->save();
+            }
         }
 
         alert()->success('ثبت موفق', 'وضعیت و تعداد با موفقیت تغییر کردند');
 
         return back();
+    }
+
+    public function complete()
+    {
+        $purchase = Purchase::query();
+
+        if (request()->has('search2') && !is_null($keyword = request('search2'))) {
+            $purchase = $purchase->where(function ($query) use ($keyword) {
+                $query->where(function ($query) use ($keyword) {
+                    $query->where('title', 'LIKE', "%{$keyword}%")
+                        ->orWhere('unit', 'LIKE', "%{$keyword}%")
+                        ->whereNull('coding_id');
+                })->orWhere(function ($query) use ($keyword) {
+                    $query->whereNotNull('coding_id')->whereHas('coding', function ($query) use ($keyword) {
+                        $query->where('title', 'LIKE', "%{$keyword}%")
+                            ->orWhere('unit', 'LIKE', "%{$keyword}%")
+                            ->orWhere('code', 'LIKE', "%{$keyword}%");
+                    });
+                });
+            });
+        }
+
+        if (request()->has('status') && !is_null(request('status'))) {
+            $purchase = $purchase->where('status', request('status'));
+        }
+
+        if (request()->has('buy_location') && !is_null(request('buy_location'))) {
+            $purchase = $purchase->where('buy_location', request('buy_location'));
+        }
+
+        if (request()->has('code') && !is_null(request('code'))) {
+            if (request('code') == '0') {
+                $purchase = $purchase->where('coding_id', '=', null);
+            }
+            if (request('code') == '1') {
+                $purchase = $purchase->where('coding_id', '!=', null);
+            }
+        }
+
+        $purchase = $purchase->orderBy('important', 'DESC')->where('status', '=', 'purchased')->paginate(50);
+
+        return view('systems.purchase.complete', compact('purchase'));
+    }
+
+    public function addToStore()
+    {
+        //
     }
 
     public function searchCategory(Request $request)

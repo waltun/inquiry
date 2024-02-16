@@ -22,4 +22,9 @@ class Coding extends Model
     {
         return $this->hasMany(Store::class);
     }
+
+    public function purchase()
+    {
+        return $this->hasMany(Purchase::class);
+    }
 }

@@ -12,11 +12,11 @@ class Purchase extends Model
 
     protected $fillable = [
         'important', 'document_number', 'date', 'title', 'request_quantity', 'status', 'accepted_quantity', 'unit',
-        'buy_location', 'description', 'coding_id', 'user_id'
+        'buy_location', 'description', 'coding_id', 'applicant'
     ];
 
-    public function user()
+    public function coding()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Coding::class);
     }
 }

@@ -27,7 +27,7 @@ return new class extends Migration {
             $table->string('description')->nullable();
 
             $table->unsignedBigInteger('coding_id')->nullable();
-            $table->unsignedBigInteger('user_id');
+            $table->string('applicant');
 
             $table->timestamps();
         });

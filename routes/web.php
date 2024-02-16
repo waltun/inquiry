@@ -691,6 +691,7 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::patch('/purchase/edit/change-status', [PurchaseController::class, 'changeStatus'])->name('purchase.changeStatus');
         Route::post('/purchase/search/category', [PurchaseController::class, 'searchCategory'])->name('purchase.searchCategory');
         Route::post('/purchase/search/text', [PurchaseController::class, 'searchText'])->name('purchase.searchText');
+        Route::get('/purchase/complete', [PurchaseController::class, 'complete'])->name('purchase.complete');
 
         Route::get('/combine-codes', [CombineCodeController::class, 'index'])->name('combine-codes.index');
     });
