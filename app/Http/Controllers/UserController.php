@@ -53,7 +53,8 @@ class UserController extends Controller
             'gender' => ['required', 'in:male,female'],
             'role' => ['required', 'in:admin,staff,user,client'],
             'active' => ['required', 'integer', 'in:0,1'],
-            'internal_number' => ['nullable', 'numeric']
+            'internal_number' => ['nullable', 'numeric'],
+            'company' => ['nullable', 'string', 'max:255']
         ]);
 
         User::create($data);
@@ -83,7 +84,8 @@ class UserController extends Controller
             'gender' => ['required', 'in:male,female'],
             'role' => ['required', 'in:admin,staff,user,client'],
             'active' => ['required', 'integer', 'in:0,1'],
-            'internal_number' => ['nullable', 'numeric']
+            'internal_number' => ['nullable', 'numeric'],
+            'company' => ['nullable', 'string', 'max:255']
         ]);
 
         $user->update($data);

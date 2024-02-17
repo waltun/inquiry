@@ -114,6 +114,12 @@
                        placeholder="مثال : 1" value="{{ old('internal_number') }}">
             </div>
 
+            <div class="mt-4">
+                <label for="inputCompany" class="form-label">نام شرکت</label>
+                <input type="text" id="inputCompany" name="company" class="input-text"
+                       placeholder="مثال : شرکت پامیدکو" value="{{ old('company') }}">
+            </div>
+
         </div>
 
         <div class="card">

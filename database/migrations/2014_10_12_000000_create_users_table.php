@@ -24,6 +24,7 @@ return new class extends Migration {
             $table->enum('role', ['admin', 'staff', 'user', 'client']);
             $table->integer('active')->default(0);
             $table->string('sign')->nullable();
+            $table->string('company')->nullable();
 
             $table->softDeletes();
             $table->rememberToken();
