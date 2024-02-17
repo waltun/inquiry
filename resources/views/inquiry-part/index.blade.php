@@ -673,354 +673,353 @@
             $types = ['setup','years','control','power_cable','control_cable','pipe','install_setup_price','setup_price','supervision','transport','other','setup_one','install','cable','canal','copper_piping','carbon_piping', 'coil',null];
             $finalPrice = 0;
         @endphp
-        <div class="hidden md:block">
-            @foreach($types as $type)
-                @php
-                    $products = $inquiry->products()->where('part_id','!=',0)->where('type',$type)->orderBy('sort','ASC')->get();
-                @endphp
-                @if(!$products->isEmpty())
-                    <form action="{{ route('inquiries.parts.storeAmounts',$inquiry->id) }}" method="POST"
-                          class="border border-indigo-400 p-4 rounded-md mb-4">
-                        @csrf
-                        <input type="hidden" name="submitType" value="{{ $type }}">
-                        <div class="mb-4">
-                            <p class="text-sm font-bold text-black">
-                                @switch($type)
-                                    @case('setup')
-                                        قطعات یدکی راه اندازی
-                                        @break
-                                    @case('years')
-                                        قطعات یدکی دوسالانه
-                                        @break
-                                    @case('control')
-                                        قطعات کنترلی
-                                        @break
-                                    @case('power_cable')
-                                        قطعات کابل قدرت
-                                        @break
-                                    @case('control_cable')
-                                        قطعات کابل کنترلی
-                                        @break
-                                    @case('pipe')
-                                        قطعات لوله و اتصالات
-                                        @break
-                                    @case('install_setup_price')
-                                        دستمزد نصب و راه اندازی
-                                        @break
-                                    @case('setup_price')
-                                        دستمزد راه اندازی
-                                        @break
-                                    @case('supervision')
-                                        دستمزد نظارت
-                                        @break
-                                    @case('transport')
-                                        هزینه حمل
-                                        @break
-                                    @case('other')
-                                        سایر تجهیزات
-                                        @break
-                                    @case('setup_one')
-                                        قطعات راه اندازی
-                                        @break
-                                    @case('install')
-                                        قطعات نصب
-                                        @break
-                                    @case('cable')
-                                        اقلام کابل کشی
-                                        @break
-                                    @case('canal')
-                                        اقلام کانال کشی
-                                        @break
-                                    @case('copper_piping')
-                                        دستمزد لوله کشی مسی
-                                        @break
-                                    @case('carbon_piping')
-                                        دستمزد لوله کشی کربن استیل
-                                        @break
-                                    @case('coil')
-                                        انواع کویل
-                                        @break
-                                    @case('')
-                                        سایر تجهیزات (قطعات قبلی)
-                                        @break
-                                @endswitch
-                            </p>
-                        </div>
-                        <div class="mt-8 overflow-x-auto rounded-lg">
-                            <table class="w-full border-collapse">
-                                <thead>
-                                <tr class="table-th-tr">
-                                    @if($inquiry->submit)
-                                        <th scope="col" class="p-4 rounded-tr-lg">
-                                            #
-                                        </th>
-                                    @endif
-                                    <th scope="col" class="p-4">
-                                        Sort
+        @foreach($types as $type)
+            @php
+                $products = $inquiry->products()->where('part_id','!=',0)->where('type',$type)->orderBy('sort','ASC')->get();
+            @endphp
+            @if(!$products->isEmpty())
+                <form action="{{ route('inquiries.parts.storeAmounts',$inquiry->id) }}" method="POST"
+                      class="border border-indigo-400 p-4 rounded-md mb-4">
+                    @csrf
+                    <input type="hidden" name="submitType" value="{{ $type }}">
+                    <div class="mb-4">
+                        <p class="text-sm font-bold text-black">
+                            @switch($type)
+                                @case('setup')
+                                    قطعات یدکی راه اندازی
+                                    @break
+                                @case('years')
+                                    قطعات یدکی دوسالانه
+                                    @break
+                                @case('control')
+                                    قطعات کنترلی
+                                    @break
+                                @case('power_cable')
+                                    قطعات کابل قدرت
+                                    @break
+                                @case('control_cable')
+                                    قطعات کابل کنترلی
+                                    @break
+                                @case('pipe')
+                                    قطعات لوله و اتصالات
+                                    @break
+                                @case('install_setup_price')
+                                    دستمزد نصب و راه اندازی
+                                    @break
+                                @case('setup_price')
+                                    دستمزد راه اندازی
+                                    @break
+                                @case('supervision')
+                                    دستمزد نظارت
+                                    @break
+                                @case('transport')
+                                    هزینه حمل
+                                    @break
+                                @case('other')
+                                    سایر تجهیزات
+                                    @break
+                                @case('setup_one')
+                                    قطعات راه اندازی
+                                    @break
+                                @case('install')
+                                    قطعات نصب
+                                    @break
+                                @case('cable')
+                                    اقلام کابل کشی
+                                    @break
+                                @case('canal')
+                                    اقلام کانال کشی
+                                    @break
+                                @case('copper_piping')
+                                    دستمزد لوله کشی مسی
+                                    @break
+                                @case('carbon_piping')
+                                    دستمزد لوله کشی کربن استیل
+                                    @break
+                                @case('coil')
+                                    انواع کویل
+                                    @break
+                                @case('')
+                                    سایر تجهیزات (قطعات قبلی)
+                                    @break
+                            @endswitch
+                        </p>
+                    </div>
+                    <div class="mt-8 overflow-x-auto rounded-lg">
+                        <table class="w-full border-collapse">
+                            <thead>
+                            <tr class="table-th-tr">
+                                @if($inquiry->submit)
+                                    <th scope="col" class="p-4 rounded-tr-lg">
+                                        #
                                     </th>
-                                    <th scope="col" class="p-4">
-                                        دسته بندی
-                                    </th>
-                                    <th scope="col" class="p-4">
-                                        نام قطعه
-                                    </th>
-                                    <th scope="col" class="p-4">
-                                        نوع قطعه
-                                    </th>
-                                    <th scope="col" class="p-4">
-                                        تگ
-                                    </th>
-                                    <th scope="col" class="p-4">
-                                        واحد
-                                    </th>
-                                    <th scope="col" class="p-4">
-                                        قیمت نت واحد (تومان)
-                                    </th>
-                                    <th scope="col" class="p-4">
-                                        قیمت با ضریب (تومان)
-                                    </th>
-                                    <th scope="col" class="p-4">
-                                        تعداد
-                                    </th>
-                                    <th scope="col" class="p-4">
-                                        قیمت کل (تومان)
-                                    </th>
-                                    <th scope="col" class="p-4 rounded-tl-lg">
-                                        <span class="sr-only">اقدامات</span>
-                                    </th>
-                                </tr>
-                                </thead>
-                                <tbody>
+                                @endif
+                                <th scope="col" class="p-4">
+                                    Sort
+                                </th>
+                                <th scope="col" class="p-4">
+                                    دسته بندی
+                                </th>
+                                <th scope="col" class="p-4">
+                                    نام قطعه
+                                </th>
+                                <th scope="col" class="p-4">
+                                    نوع قطعه
+                                </th>
+                                <th scope="col" class="p-4">
+                                    تگ
+                                </th>
+                                <th scope="col" class="p-4">
+                                    واحد
+                                </th>
+                                <th scope="col" class="p-4">
+                                    قیمت نت واحد (تومان)
+                                </th>
+                                <th scope="col" class="p-4">
+                                    قیمت با ضریب (تومان)
+                                </th>
+                                <th scope="col" class="p-4">
+                                    تعداد
+                                </th>
+                                <th scope="col" class="p-4">
+                                    قیمت کل (تومان)
+                                </th>
+                                <th scope="col" class="p-4 rounded-tl-lg">
+                                    <span class="sr-only">اقدامات</span>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @php
+                                $color = '';
+                                $totalPrice = 0;
+                            @endphp
+                            @foreach($products as $product)
                                 @php
-                                    $color = '';
-                                    $totalPrice = 0;
+                                    $part = \App\Models\Part::find($product->part_id);
+                                    if ($product->price) {
+                                        $totalPrice += $product->price * $product->quantity;
+                                    } else {
+                                        $totalPrice += $part->price * $product->quantity;
+                                    }
+                                    $category = $part->categories[1];
+                                    $selectedCategory = $part->categories[2];
                                 @endphp
-                                @foreach($products as $product)
-                                    @php
-                                        $part = \App\Models\Part::find($product->part_id);
-                                        if ($product->price) {
-                                            $totalPrice += $product->price * $product->quantity;
-                                        } else {
-                                            $totalPrice += $part->price * $product->quantity;
-                                        }
-                                        $category = $part->categories[1];
-                                        $selectedCategory = $part->categories[2];
-                                    @endphp
-                                    <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
-                                        @if($inquiry->submit == '1')
-                                            <td class="table-tr-td border-t-0 border-l-0">
-                                                <input type="checkbox" value="{{ $product->id }}"
-                                                       class="checkboxes w-4 h-4 accent-blue-600 bg-gray-200 rounded border border-gray-300 focus:ring-blue-500 focus:ring-2 focus:ring-offset-1 mx-auto block">
-                                            </td>
-                                        @endif
+                                <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
+                                    @if($inquiry->submit == '1')
                                         <td class="table-tr-td border-t-0 border-l-0">
-                                            {{ $loop->index + 1 }}
+                                            <input type="checkbox" value="{{ $product->id }}"
+                                                   class="checkboxes w-4 h-4 accent-blue-600 bg-gray-200 rounded border border-gray-300 focus:ring-blue-500 focus:ring-2 focus:ring-offset-1 mx-auto block">
                                         </td>
-                                        <td class="table-tr-td border-t-0 border-x-0">
-                                            <select id="inputCategory{{ $part->id }}" class="input-text w-20"
-                                                    onchange="changePart(event,{{ $part->id }})">
-                                                @foreach($category->children as $child)
+                                    @endif
+                                    <td class="table-tr-td border-t-0 border-l-0">
+                                        {{ $loop->index + 1 }}
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-x-0">
+                                        <select id="inputCategory{{ $part->id }}" class="input-text w-20"
+                                                onchange="changePart(event,{{ $part->id }})">
+                                            @foreach($category->children as $child)
+                                                <option
+                                                    value="{{ $child->id }}" {{ $child->id == $selectedCategory->id ? 'selected' : '' }}>
+                                                    {{ $child->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-x-0">
+                                        @php
+                                            $selectedPart = \App\Models\Part::find($part->id);
+                                            $lastCategory = $selectedPart->categories()->latest()->first();
+                                            if ((in_array($part->id, $specials, true) && !$part->standard) || ($part->coil && !$part->standard)) {
+                                                $categoryParts = $lastCategory->parts()->where('inquiry_id',$inquiry->id)->get();
+                                                if ($categoryParts->isEmpty()) {
+                                                    $categoryParts[] = $lastCategory->parts()->first();
+                                                }
+                                            } else {
+                                                $categoryParts = $lastCategory->parts;
+                                            }
+                                        @endphp
+                                        <div class="flex items-center space-x-2 space-x-reverse">
+                                            <select name="part_ids[]" class="input-text"
+                                                    id="groupPartList{{ $part->id }}"
+                                                    onchange="changeFormula(event,{{ $part->id }});">
+                                                @foreach($categoryParts as $part2)
                                                     <option
-                                                        value="{{ $child->id }}" {{ $child->id == $selectedCategory->id ? 'selected' : '' }}>
-                                                        {{ $child->name }}
+                                                        value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
+                                                        {{ $part2->name }}
                                                     </option>
                                                 @endforeach
                                             </select>
-                                        </td>
-                                        <td class="table-tr-td border-t-0 border-x-0">
-                                            @php
-                                                $selectedPart = \App\Models\Part::find($part->id);
-                                                $lastCategory = $selectedPart->categories()->latest()->first();
-                                                if ((in_array($part->id,$specials) && !$part->standard) || ($part->coil && !$part->standard)) {
-                                                    $categoryParts = $lastCategory->parts()->where('inquiry_id',$inquiry->id)->get();
-                                                    if ($categoryParts->isEmpty()) {
-                                                        $categoryParts[] = $lastCategory->parts()->first();
-                                                    }
-                                                } else {
-                                                    $categoryParts = $lastCategory->parts;
-                                                }
-                                            @endphp
-                                            <div class="flex items-center space-x-2 space-x-reverse">
-                                                <select name="part_ids[]" class="input-text"
-                                                        id="groupPartList{{ $part->id }}"
-                                                        onchange="changeFormula(event,{{ $part->id }});">
-                                                    @foreach($categoryParts as $part2)
-                                                        <option
-                                                            value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
-                                                            {{ $part2->name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                                @if($part->coil == '1' && !$part->standard && !in_array($part->id,$specials))
-                                                    <a href="{{ route('collections.amounts',$part->id) }}"
-                                                       target="_blank"
-                                                       class="text-xs mr-1 text-indigo-500 underline underline-offset-4 whitespace-nowrap">
-                                                        جزئیات
-                                                    </a>
-                                                @endif
+                                            @if($part->coil == '1' && !$part->standard && !in_array($part->id, $specials, true))
+                                                <a href="{{ route('collections.amounts',$part->id) }}"
+                                                   target="_blank"
+                                                   class="text-xs mr-1 text-indigo-500 underline underline-offset-4 whitespace-nowrap">
+                                                    جزئیات
+                                                </a>
+                                            @endif
+                                        </div>
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-x-0">
+                                        <select name="types[]" id="inputType{{ $product->id }}" class="input-text">
+                                            <option value="setup" {{ $product->type == 'setup' ? 'selected' : '' }}>
+                                                قطعات یدکی راه اندازی
+                                            </option>
+                                            <option value="years" {{ $product->type == 'years' ? 'selected' : '' }}>
+                                                قطعات یدکی دو سالانه
+                                            </option>
+                                            <option
+                                                value="control" {{ $product->type == 'control' ? 'selected' : '' }}>
+                                                قطعات کنترلی
+                                            </option>
+                                            <option
+                                                value="power_cable" {{ $product->type == 'power_cable' ? 'selected' : '' }}>
+                                                لیست کابل قدرت
+                                            </option>
+                                            <option
+                                                value="control_cable" {{ $product->type == 'control_cable' ? 'selected' : '' }}>
+                                                لیست کابل کنترلی
+                                            </option>
+                                            <option value="pipe" {{ $product->type == 'pipe' ? 'selected' : '' }}>
+                                                لیست لوله و اتصالات
+                                            </option>
+                                            <option
+                                                value="install_setup_price" {{ $product->type == 'install_setup_price' ? 'selected' : '' }}>
+                                                دستمزد نصب و راه اندازی
+                                            </option>
+                                            <option
+                                                value="setup_price" {{ $product->type == 'setup_price' ? 'selected' : '' }}>
+                                                دستمزد راه‌اندازی
+                                            </option>
+                                            <option
+                                                value="supervision" {{ $product->type == 'supervision' ? 'selected' : '' }}>
+                                                دستمزد نظارت
+                                            </option>
+                                            <option
+                                                value="transport" {{ $product->type == 'transport' ? 'selected' : '' }}>
+                                                هزینه حمل
+                                            </option>
+                                            <option
+                                                value="setup_one" {{ $product->type == 'setup_one' ? 'selected' : '' }}>
+                                                قطعات راه اندازی
+                                            </option>
+                                            <option
+                                                value="install" {{ $product->type == 'install' ? 'selected' : '' }}>
+                                                قطعات نصب
+                                            </option>
+                                            <option
+                                                value="cable" {{ $product->type == 'cable' ? 'selected' : '' }}>
+                                                اقلام کابل کشی
+                                            </option>
+                                            <option
+                                                value="canal" {{ $product->type == 'canal' ? 'selected' : '' }}>
+                                                اقلام کانال کشی
+                                            </option>
+                                            <option
+                                                value="copper_piping" {{ $product->type == 'copper_piping' ? 'selected' : '' }}>
+                                                دستمزد لوله کشی مسی
+                                            </option>
+                                            <option
+                                                value="carbon_piping" {{ $product->type == 'carbon_piping' ? 'selected' : '' }}>
+                                                دستمزد لوله کشی کربن استیل
+                                            </option>
+                                            <option
+                                                value="coil" {{ $product->type == 'coil' ? 'selected' : '' }}>
+                                                انواع کویل
+                                            </option>
+                                            <option value="other" {{ $product->type == 'other' ? 'selected' : '' }}>
+                                                سایر تجهیزات
+                                            </option>
+                                        </select>
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-x-0">
+                                        <input type="text" name="tags[]" class="input-text"
+                                               value="{{ $product->description }}"
+                                               placeholder="تگ قطعه">
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-x-0">
+                                        {{ $part->unit }}
+                                        @if(!is_null($part->unit2))
+                                            / {{ $part->unit2 }}
+                                        @endif
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-x-0">
+                                        @if($type == 'transport' || $type  == 'supervision' || $type == 'setup_price' || $type == 'install_setup_price')
+                                            <div class="flex justify-center">
+                                                <input type="text" name="prices[]"
+                                                       class="input-text w-28 text-center"
+                                                       value="{{ $product->price == 0 ? $part->price : $product->price }}"
+                                                       placeholder="قیمت">
                                             </div>
-                                        </td>
-                                        <td class="table-tr-td border-t-0 border-x-0">
-                                            <select name="types[]" id="inputType{{ $product->id }}" class="input-text">
-                                                <option value="setup" {{ $product->type == 'setup' ? 'selected' : '' }}>
-                                                    قطعات یدکی راه اندازی
-                                                </option>
-                                                <option value="years" {{ $product->type == 'years' ? 'selected' : '' }}>
-                                                    قطعات یدکی دو سالانه
-                                                </option>
-                                                <option
-                                                    value="control" {{ $product->type == 'control' ? 'selected' : '' }}>
-                                                    قطعات کنترلی
-                                                </option>
-                                                <option
-                                                    value="power_cable" {{ $product->type == 'power_cable' ? 'selected' : '' }}>
-                                                    لیست کابل قدرت
-                                                </option>
-                                                <option
-                                                    value="control_cable" {{ $product->type == 'control_cable' ? 'selected' : '' }}>
-                                                    لیست کابل کنترلی
-                                                </option>
-                                                <option value="pipe" {{ $product->type == 'pipe' ? 'selected' : '' }}>
-                                                    لیست لوله و اتصالات
-                                                </option>
-                                                <option
-                                                    value="install_setup_price" {{ $product->type == 'install_setup_price' ? 'selected' : '' }}>
-                                                    دستمزد نصب و راه اندازی
-                                                </option>
-                                                <option
-                                                    value="setup_price" {{ $product->type == 'setup_price' ? 'selected' : '' }}>
-                                                    دستمزد راه‌اندازی
-                                                </option>
-                                                <option
-                                                    value="supervision" {{ $product->type == 'supervision' ? 'selected' : '' }}>
-                                                    دستمزد نظارت
-                                                </option>
-                                                <option
-                                                    value="transport" {{ $product->type == 'transport' ? 'selected' : '' }}>
-                                                    هزینه حمل
-                                                </option>
-                                                <option
-                                                    value="setup_one" {{ $product->type == 'setup_one' ? 'selected' : '' }}>
-                                                    قطعات راه اندازی
-                                                </option>
-                                                <option
-                                                    value="install" {{ $product->type == 'install' ? 'selected' : '' }}>
-                                                    قطعات نصب
-                                                </option>
-                                                <option
-                                                    value="cable" {{ $product->type == 'cable' ? 'selected' : '' }}>
-                                                    اقلام کابل کشی
-                                                </option>
-                                                <option
-                                                    value="canal" {{ $product->type == 'canal' ? 'selected' : '' }}>
-                                                    اقلام کانال کشی
-                                                </option>
-                                                <option
-                                                    value="copper_piping" {{ $product->type == 'copper_piping' ? 'selected' : '' }}>
-                                                    دستمزد لوله کشی مسی
-                                                </option>
-                                                <option
-                                                    value="carbon_piping" {{ $product->type == 'carbon_piping' ? 'selected' : '' }}>
-                                                    دستمزد لوله کشی کربن استیل
-                                                </option>
-                                                <option
-                                                    value="coil" {{ $product->type == 'coil' ? 'selected' : '' }}>
-                                                    انواع کویل
-                                                </option>
-                                                <option value="other" {{ $product->type == 'other' ? 'selected' : '' }}>
-                                                    سایر تجهیزات
-                                                </option>
-                                            </select>
-                                        </td>
-                                        <td class="table-tr-td border-t-0 border-x-0">
-                                            <input type="text" name="tags[]" class="input-text"
-                                                   value="{{ $product->description }}"
-                                                   placeholder="تگ قطعه">
-                                        </td>
-                                        <td class="table-tr-td border-t-0 border-x-0">
-                                            {{ $part->unit }}
-                                            @if(!is_null($part->unit2))
-                                                / {{ $part->unit2 }}
-                                            @endif
-                                        </td>
-                                        <td class="table-tr-td border-t-0 border-x-0">
-                                            @if($type == 'transport' || $type  == 'supervision' || $type == 'setup_price' || $type == 'install_setup_price')
-                                                <div class="flex justify-center">
-                                                    <input type="text" name="prices[]"
-                                                           class="input-text w-28 text-center"
-                                                           value="{{ $product->price == 0 ? $part->price : $product->price }}"
-                                                           placeholder="قیمت">
-                                                </div>
-                                            @else
-                                                {{ number_format($part->price) }}
-                                            @endif
-                                        </td>
-                                        <td class="table-tr-td border-t-0 border-x-0">
-                                            @if($product->price)
-                                                {{ number_format($product->price) }}
-                                            @else
-                                                {{ number_format($part->price) }}
-                                            @endif
-                                        </td>
-                                        <td class="table-tr-td border-t-0 border-x-0">
+                                        @else
+                                            {{ number_format($part->price) }}
+                                        @endif
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-x-0">
+                                        @if($product->price)
+                                            {{ number_format($product->price) }}
+                                        @else
+                                            {{ number_format($part->price) }}
+                                        @endif
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-x-0">
+                                        <input type="text" class="input-text w-20 text-center"
+                                               value="{{ $product->quantity }}"
+                                               name="quantities[]"
+                                               id="inputQuantity{{ $part->id }}"
+                                               onkeyup="changeUnit1(event,'{{ $part->id }}')">
+                                        @if(!is_null($part->unit2))
                                             <input type="text" class="input-text w-20 text-center"
-                                                   value="{{ $product->quantity }}"
-                                                   name="quantities[]"
-                                                   id="inputQuantity{{ $part->id }}"
-                                                   onkeyup="changeUnit1(event,'{{ $part->id }}')">
-                                            @if(!is_null($part->unit2))
-                                                <input type="text" class="input-text w-20 text-center"
-                                                       placeholder="{{ $part->unit2 }}"
-                                                       id="inputUnit{{ $part->id }}"
-                                                       onkeyup="changeUnit2(event,'{{ $part->id }}')"
-                                                       value="{{ $product->quantity2 }}">
-                                            @endif
-                                            <input type="hidden" id="inputUnitValue{{ $part->id }}"
-                                                   value="{{ $product->quantity2 }}"
-                                                   name="quantities2[]">
-                                        </td>
-                                        <td class="table-tr-td border-t-0 border-x-0">
-                                            @if($product->price)
-                                                <p class="{{ $color }}">
-                                                    {{ number_format($product->price * $product->quantity) }}
-                                                </p>
-                                            @else
-                                                <p class="{{ $color }}">
-                                                    {{ number_format($part->price * $product->quantity) }}
-                                                </p>
-                                            @endif
-                                        </td>
-                                        <td class="table-tr-td border-t-0 border-r-0">
-                                            <div class="flex items-center space-x-2 space-x-reverse">
-                                                @can('inquiry-product-percent')
-                                                    @if($inquiry->submit)
-                                                        <div x-data="{open: false}">
-                                                            <button type="button" @click="open = !open"
-                                                                    class="table-info-btn">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                     viewBox="0 0 24 24"
-                                                                     stroke-width="1.5" stroke="currentColor"
-                                                                     class="w-4 h-4 ml-1">
-                                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                                          d="M9 14.25l6-6m4.5-3.493V21.75l-3.75-1.5-3.75 1.5-3.75-1.5-3.75 1.5V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0c1.1.128 1.907 1.077 1.907 2.185zM9.75 9h.008v.008H9.75V9zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm4.125 4.5h.008v.008h-.008V13.5zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/>
-                                                                </svg>
-                                                                ثبت ضریب
-                                                            </button>
+                                                   placeholder="{{ $part->unit2 }}"
+                                                   id="inputUnit{{ $part->id }}"
+                                                   onkeyup="changeUnit2(event,'{{ $part->id }}')"
+                                                   value="{{ $product->quantity2 }}">
+                                        @endif
+                                        <input type="hidden" id="inputUnitValue{{ $part->id }}"
+                                               value="{{ $product->quantity2 }}"
+                                               name="quantities2[]">
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-x-0">
+                                        @if($product->price)
+                                            <p class="{{ $color }}">
+                                                {{ number_format($product->price * $product->quantity) }}
+                                            </p>
+                                        @else
+                                            <p class="{{ $color }}">
+                                                {{ number_format($part->price * $product->quantity) }}
+                                            </p>
+                                        @endif
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-r-0">
+                                        <div class="flex items-center space-x-2 space-x-reverse">
+                                            @can('inquiry-product-percent')
+                                                @if($inquiry->submit)
+                                                    <div x-data="{open: false}">
+                                                        <button type="button" @click="open = !open"
+                                                                class="table-info-btn">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                 viewBox="0 0 24 24"
+                                                                 stroke-width="1.5" stroke="currentColor"
+                                                                 class="w-4 h-4 ml-1">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                      d="M9 14.25l6-6m4.5-3.493V21.75l-3.75-1.5-3.75 1.5-3.75-1.5-3.75 1.5V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0c1.1.128 1.907 1.077 1.907 2.185zM9.75 9h.008v.008H9.75V9zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm4.125 4.5h.008v.008h-.008V13.5zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/>
+                                                            </svg>
+                                                            ثبت ضریب
+                                                        </button>
 
-                                                            <!-- Percent Modal -->
-                                                            <div class="relative z-10" x-show="open" x-cloak>
-                                                                <div class="modal-backdrop"></div>
-                                                                <div class="fixed z-10 inset-0 overflow-y-auto">
-                                                                    <div class="modal">
-                                                                        <div class="modal-body">
-                                                                            <div class="bg-white dark:bg-slate-800 p-4">
-                                                                                <div
-                                                                                    class="mb-4 flex justify-between items-center">
-                                                                                    <h3 class="text-lg font-bold text-gray-900 dark:text-white">
-                                                                                        ثبت ضریب برای {{ $part->name }}
-                                                                                    </h3>
-                                                                                    <button type="button"
-                                                                                            @click="open = false">
+                                                        <!-- Percent Modal -->
+                                                        <div class="relative z-10" x-show="open" x-cloak>
+                                                            <div class="modal-backdrop"></div>
+                                                            <div class="fixed z-10 inset-0 overflow-y-auto">
+                                                                <div class="modal">
+                                                                    <div class="modal-body">
+                                                                        <div class="bg-white dark:bg-slate-800 p-4">
+                                                                            <div
+                                                                                class="mb-4 flex justify-between items-center">
+                                                                                <h3 class="text-lg font-bold text-gray-900 dark:text-white">
+                                                                                    ثبت ضریب برای {{ $part->name }}
+                                                                                </h3>
+                                                                                <button type="button"
+                                                                                        @click="open = false">
                                                                                         <span class="modal-close">
                                                                                             <svg
                                                                                                 xmlns="http://www.w3.org/2000/svg"
@@ -1035,95 +1034,94 @@
                                                                                                     d="M6 18L18 6M6 6l12 12"/>
                                                                                             </svg>
                                                                                         </span>
-                                                                                    </button>
-                                                                                </div>
-                                                                                @php
-                                                                                    $group = \App\Models\Group::find($product->group_id);
-                                                                                    $modell = \App\Models\Modell::find($product->model_id);
-                                                                                    $inquiryPart = \App\Models\Part::find($product->part_id);
-                                                                                    $totalPrice = 0;
-                                                                                    if (!is_null($group) && !is_null($modell)) {
-                                                                                        foreach ($product->amounts as $amount) {
-                                                                                            $part2 = \App\Models\Part::find($amount->part_id);
-                                                                                            $totalPrice += ($part2->price * $amount->value);
-                                                                                        }
+                                                                                </button>
+                                                                            </div>
+                                                                            @php
+                                                                                $group = \App\Models\Group::find($product->group_id);
+                                                                                $modell = \App\Models\Modell::find($product->model_id);
+                                                                                $inquiryPart = \App\Models\Part::find($product->part_id);
+                                                                                $totalPercentPrice = 0;
+                                                                                if (!is_null($group) && !is_null($modell)) {
+                                                                                    foreach ($product->amounts as $amount) {
+                                                                                        $part2 = \App\Models\Part::find($amount->part_id);
+                                                                                        $totalPercentPrice += ($part2->price * $amount->value);
                                                                                     }
-                                                                                    if (!is_null($inquiryPart)) {
-                                                                                        $totalPrice = $product->price == 0 ? $inquiryPart->price : $product->price;
-                                                                                    }
-                                                                                @endphp
-                                                                                <div class="mt-6 space-y-4">
-                                                                                    <div class="grid grid-cols-3 gap-4">
-                                                                                        <div class="card">
-                                                                                            <div class="card-header">
-                                                                                                <p class="card-title">
-                                                                                                    جمع قیمت
-                                                                                                    متریال</p>
-                                                                                            </div>
-                                                                                            <div
-                                                                                                class="mt-4 bg-myBlue-300 p-2 rounded-lg">
-                                                                                                <p class="text-center text-lg font-bold text-white">
-                                                                                                    {{ number_format($totalPrice) }}
-                                                                                                    تومان
-                                                                                                </p>
-                                                                                            </div>
+                                                                                }
+                                                                                if (!is_null($inquiryPart)) {
+                                                                                    $totalPercentPrice = $product->price == 0 ? $inquiryPart->price : $product->price;
+                                                                                }
+                                                                            @endphp
+                                                                            <div class="mt-6 space-y-4">
+                                                                                <div class="grid grid-cols-3 gap-4">
+                                                                                    <div class="card">
+                                                                                        <div class="card-header">
+                                                                                            <p class="card-title">
+                                                                                                جمع قیمت
+                                                                                                متریال</p>
                                                                                         </div>
+                                                                                        <div
+                                                                                            class="mt-4 bg-myBlue-300 p-2 rounded-lg">
+                                                                                            <p class="text-center text-lg font-bold text-white">
+                                                                                                {{ number_format($totalPercentPrice) }}
+                                                                                                تومان
+                                                                                            </p>
+                                                                                        </div>
+                                                                                    </div>
 
-                                                                                        <div class="card">
-                                                                                            <div class="card-header">
-                                                                                                <p class="card-title">
-                                                                                                    ضریب دستمزد و سود
+                                                                                    <div class="card">
+                                                                                        <div class="card-header">
+                                                                                            <p class="card-title">
+                                                                                                ضریب دستمزد و سود
+                                                                                            </p>
+                                                                                        </div>
+                                                                                        <div class="mt-4">
+                                                                                            <input type="text"
+                                                                                                   id="inputPercent{{ $product->id }}"
+                                                                                                   name="percent"
+                                                                                                   class="input-text"
+                                                                                                   placeholder="مثال : 1.6"
+                                                                                                   value="{{ $product->percent ?? old('percent') }}"
+                                                                                                   onkeyup="showPrice(event, {{ $product->id }}, {{ $totalPercentPrice }})">
+                                                                                        </div>
+                                                                                        @if($product->old_percent > 0)
+                                                                                            <div class="mt-4">
+                                                                                                <p class="text-center text-indigo-500 font-medium">
+                                                                                                    ضریب قبلی ثبت
+                                                                                                    شده
+                                                                                                    : {{ $product->old_percent }}
                                                                                                 </p>
                                                                                             </div>
-                                                                                            <div class="mt-4">
-                                                                                                <input type="text"
-                                                                                                       id="inputPercent{{ $product->id }}"
-                                                                                                       name="percent"
-                                                                                                       class="input-text"
-                                                                                                       placeholder="مثال : 1.6"
-                                                                                                       value="{{ $product->percent ?? old('percent') }}"
-                                                                                                       onkeyup="showPrice(event, {{ $product->id }}, {{ $totalPrice }})">
-                                                                                            </div>
-                                                                                            @if($product->old_percent > 0)
-                                                                                                <div class="mt-4">
-                                                                                                    <p class="text-center text-indigo-500 font-medium">
-                                                                                                        ضریب قبلی ثبت
-                                                                                                        شده
-                                                                                                        : {{ $product->old_percent }}
-                                                                                                    </p>
-                                                                                                </div>
-                                                                                            @endif
-                                                                                        </div>
+                                                                                        @endif
+                                                                                    </div>
 
-                                                                                        <div class="card">
-                                                                                            <div class="card-header">
-                                                                                                <p class="card-title">
-                                                                                                    قیمت فروش شرکت</p>
-                                                                                            </div>
-                                                                                            <div class="mt-4">
-                                                                                                <input type="text"
-                                                                                                       class="input-text"
-                                                                                                       name="final_price"
-                                                                                                       onkeyup="calculatePercent(event, {{ $product->id }}, {{ $totalPrice }})"
-                                                                                                       value="{{ $product->price ? $product->price : $totalPrice * $product->percent }}"
-                                                                                                       id="inputFinalPrice{{ $product->id }}">
-                                                                                            </div>
-                                                                                            <div
-                                                                                                class="mt-4">
-                                                                                                <p class="text-center text-lg font-bold text-black"
-                                                                                                   id="finalPrice{{ $product->id }}">
-                                                                                                    {{ number_format($totalPrice * $product->percent) }}
-                                                                                                    تومان
-                                                                                                </p>
-                                                                                            </div>
+                                                                                    <div class="card">
+                                                                                        <div class="card-header">
+                                                                                            <p class="card-title">
+                                                                                                قیمت فروش شرکت</p>
                                                                                         </div>
-                                                                                        <div class="col-span-3">
-                                                                                            <button type="button"
-                                                                                                    class="form-submit-btn"
-                                                                                                    onclick="submitPartPercent({{ $product->id }})">
-                                                                                                ثبت ضریب
-                                                                                            </button>
+                                                                                        <div class="mt-4">
+                                                                                            <input type="text"
+                                                                                                   class="input-text"
+                                                                                                   name="final_price"
+                                                                                                   onkeyup="calculatePercent(event, {{ $product->id }}, {{ $totalPercentPrice }})"
+                                                                                                   value="{{ $product->price ?: $totalPercentPrice * $product->percent }}"
+                                                                                                   id="inputFinalPrice{{ $product->id }}">
                                                                                         </div>
+                                                                                        <div
+                                                                                            class="mt-4">
+                                                                                            <p class="text-center text-lg font-bold text-black"
+                                                                                               id="finalPrice{{ $product->id }}">
+                                                                                                {{ number_format($totalPercentPrice * $product->percent) }}
+                                                                                                تومان
+                                                                                            </p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-span-3">
+                                                                                        <button type="button"
+                                                                                                class="form-submit-btn"
+                                                                                                onclick="submitPartPercent({{ $product->id }})">
+                                                                                            ثبت ضریب
+                                                                                        </button>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -1132,64 +1130,64 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    @endif
-                                                @endcan
-                                                <button type="button"
-                                                        onclick="deletePartFromInquiry('{{ $inquiry->id }}','{{ $part->id }}')">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                         viewBox="0 0 24 24"
-                                                         stroke-width="1.5" stroke="currentColor"
-                                                         class="w-5 h-5 text-red-500">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                              d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
-                                                    </svg>
-                                                </button>
-                                                @if($product->percent > 0)
-                                                    <p class="p-1 bg-green-400 text-white text-xs rounded-lg group-hover:bg-myGreen-100">
-                                                        ضریب ثبت شده
-                                                    </p>
+                                                    </div>
                                                 @endif
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                <tr class="table-tb-tr group">
-                                    <td class="table-tr-td border-t-0"
-                                        colspan="{{ $inquiry->submit ? '12' : '11' }}">
-                                        <div class="flex justify-between items-center">
-                                            <a href="{{ route('inquiries.parts.create',$inquiry->id) }}"
-                                               class="w-8 h-8 rounded-full bg-green-500 grid place-content-center mr-6"
-                                               title="افزودن قطعه جدید">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                     stroke-width="2"
-                                                     stroke="currentColor" class="w-6 h-6 text-white">
+                                            @endcan
+                                            <button type="button"
+                                                    onclick="deletePartFromInquiry('{{ $inquiry->id }}','{{ $part->id }}')">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                     viewBox="0 0 24 24"
+                                                     stroke-width="1.5" stroke="currentColor"
+                                                     class="w-5 h-5 text-red-500">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
-                                                          d="M12 4.5v15m7.5-7.5h-15"></path>
+                                                          d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
                                                 </svg>
-                                            </a>
-                                            @php
-                                                $finalPrice = $finalPrice + $totalPrice;
-                                            @endphp
-                                            <div class="flex items-center space-x-4 space-x-reverse">
-                                                <p class="table-price-label">
-                                                    قیمت کل : {{ number_format($totalPrice) }} تومان
+                                            </button>
+                                            @if($product->percent > 0)
+                                                <p class="p-1 bg-green-400 text-white text-xs rounded-lg group-hover:bg-myGreen-100">
+                                                    ضریب ثبت شده
                                                 </p>
-                                            </div>
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="mt-4">
-                            <button type="submit" class="form-submit-btn">
-                                ثبت مقادیر
-                            </button>
-                        </div>
-                    </form>
-                @endif
-            @endforeach
-        </div>
+                            @endforeach
+                            <tr class="table-tb-tr group">
+                                <td class="table-tr-td border-t-0"
+                                    colspan="{{ $inquiry->submit ? '12' : '11' }}">
+                                    <div class="flex justify-between items-center">
+                                        <a href="{{ route('inquiries.parts.create',$inquiry->id) }}"
+                                           class="w-8 h-8 rounded-full bg-green-500 grid place-content-center mr-6"
+                                           title="افزودن قطعه جدید">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                 stroke-width="2"
+                                                 stroke="currentColor" class="w-6 h-6 text-white">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                      d="M12 4.5v15m7.5-7.5h-15"></path>
+                                            </svg>
+                                        </a>
+                                        @php
+                                            $finalPrice += $totalPrice;
+                                        @endphp
+                                        <div class="flex items-center space-x-4 space-x-reverse">
+                                            <p class="table-price-label">
+                                                قیمت کل : {{ number_format($totalPrice) }} تومان
+                                            </p>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-4">
+                        <button type="submit" class="form-submit-btn">
+                            ثبت مقادیر
+                        </button>
+                    </div>
+                </form>
+            @endif
+        @endforeach
 
         <div class="flex items-center justify-end space-x-4 space-x-reverse">
             <a href="{{ route('inquiries.product.index', $inquiry->id) }}" class="page-info-btn">

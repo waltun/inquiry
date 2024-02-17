@@ -29,14 +29,14 @@ class PurchaseController extends Controller
         if (request()->has('search2') && !is_null($keyword = request('search2'))) {
             $purchase = $purchase->where(function ($query) use ($keyword) {
                 $query->where(function ($query) use ($keyword) {
-                    $query->where('title', 'LIKE', "%{$keyword}%")
-                        ->orWhere('unit', 'LIKE', "%{$keyword}%")
+                    $query->where('title', 'LIKE', "%$keyword%")
+                        ->orWhere('unit', 'LIKE', "%$keyword%")
                         ->whereNull('coding_id');
                 })->orWhere(function ($query) use ($keyword) {
                     $query->whereNotNull('coding_id')->whereHas('coding', function ($query) use ($keyword) {
-                        $query->where('title', 'LIKE', "%{$keyword}%")
-                            ->orWhere('unit', 'LIKE', "%{$keyword}%")
-                            ->orWhere('code', 'LIKE', "%{$keyword}%");
+                        $query->where('title', 'LIKE', "%$keyword%")
+                            ->orWhere('unit', 'LIKE', "%$keyword%")
+                            ->orWhere('code', 'LIKE', "%$keyword%");
                     });
                 });
             });
@@ -75,8 +75,8 @@ class PurchaseController extends Controller
             }
         }
         if ($keyword = request('search')) {
-            $codings->where('name', 'LIKE', "%{$keyword}%")
-                ->orWhere('code', 'LIKE', "%{$keyword}%");
+            $codings->where('name', 'LIKE', "%$keyword%")
+                ->orWhere('code', 'LIKE', "%$keyword%");
         }
         $codings = $codings->orderBy('code', 'ASC')->paginate(20)->withQueryString();
 
@@ -141,8 +141,8 @@ class PurchaseController extends Controller
             }
         }
         if ($keyword = request('search')) {
-            $codings->where('name', 'LIKE', "%{$keyword}%")
-                ->orWhere('code', 'LIKE', "%{$keyword}%");
+            $codings->where('name', 'LIKE', "%$keyword%")
+                ->orWhere('code', 'LIKE', "%$keyword%");
         }
         $codings = $codings->orderBy('code', 'ASC')->paginate(20)->withQueryString();
 
@@ -153,7 +153,9 @@ class PurchaseController extends Controller
         $day = jdate($purchase->date)->getDay();
         $date = $year . '-' . $month . '-' . $day;
 
-        return view('systems.purchase.edit', compact('purchase', 'codings', 'categories', 'date'));
+        $contracts = Contract::all();
+
+        return view('systems.purchase.edit', compact('purchase', 'codings', 'categories', 'date', 'contracts'));
     }
 
     public function update(Request $request, Purchase $purchase)
@@ -167,6 +169,7 @@ class PurchaseController extends Controller
             'description' => 'nullable',
             'document_number' => 'nullable',
             'buy_location' => 'required|string|max:255',
+            'applicant' => 'required|string|max:255',
         ]);
 
         if (!is_null($data['coding_id'])) {
@@ -223,14 +226,14 @@ class PurchaseController extends Controller
         if (request()->has('search2') && !is_null($keyword = request('search2'))) {
             $purchase = $purchase->where(function ($query) use ($keyword) {
                 $query->where(function ($query) use ($keyword) {
-                    $query->where('title', 'LIKE', "%{$keyword}%")
-                        ->orWhere('unit', 'LIKE', "%{$keyword}%")
+                    $query->where('title', 'LIKE', "%$keyword%")
+                        ->orWhere('unit', 'LIKE', "%$keyword%")
                         ->whereNull('coding_id');
                 })->orWhere(function ($query) use ($keyword) {
                     $query->whereNotNull('coding_id')->whereHas('coding', function ($query) use ($keyword) {
-                        $query->where('title', 'LIKE', "%{$keyword}%")
-                            ->orWhere('unit', 'LIKE', "%{$keyword}%")
-                            ->orWhere('code', 'LIKE', "%{$keyword}%");
+                        $query->where('title', 'LIKE', "%$keyword%")
+                            ->orWhere('unit', 'LIKE', "%$keyword%")
+                            ->orWhere('code', 'LIKE', "%$keyword%");
                     });
                 });
             });

@@ -33,7 +33,7 @@
                                 data: {
                                     id: id,
                                 },
-                                success: function (res) {
+                                success: function () {
                                     location.reload();
                                 }
                             });
@@ -333,6 +333,11 @@
             </thead>
             <tbody>
             @foreach($purchase as $purchas)
+                @php
+                    if (!is_null($purchas->coding_id)) {
+                        $coding = \App\Models\System\Coding::find($purchas->coding_id);
+                    }
+                @endphp
                 <tr class="table-tb-tr whitespace-normal group bg-sky-200">
                     <td class="table-tr-td border-t-0">
                         {{ $loop->index + 1 }}
@@ -390,16 +395,18 @@
                     <td class="table-tr-td border-t-0 border-r-0">
                         <div class="flex items-center justify-center space-x-2 space-x-reverse">
                             @can('add-to-store-purchase')
-                                <button class="table-dropdown-copy" type="button">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                         stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                              d="M12 4.5v15m7.5-7.5h-15"/>
-                                    </svg>
-                                    <p class="text-xs mr-2">
-                                        افزودن به اقلام ورودی
-                                    </p>
-                                </button>
+                                <div x-data="{open:false}">
+                                    <button class="table-dropdown-copy" type="button" @click="open = !open">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                             stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                  d="M12 4.5v15m7.5-7.5h-15"/>
+                                        </svg>
+                                        <p class="text-xs mr-2">
+                                            افزودن به اقلام ورودی
+                                        </p>
+                                    </button>
+                                </div>
                             @endcan
                             @can('delete-purchase')
                                 <button class="table-dropdown-delete" type="button"

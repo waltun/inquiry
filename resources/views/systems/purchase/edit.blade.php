@@ -9,6 +9,10 @@
     <x-slot name="js">
         <script src="{{ asset('plugins/jquery.min.js') }}"></script>
         <script src="{{ asset('plugins/date-picker/persianDatepicker.min.js') }}"></script>
+        <script src="{{ asset('plugins/select2/select2.min.js') }}"></script>
+        <script>
+            $("#inputDocumentNumber").select2();
+        </script>
         <script>
             $("#inputDate").persianDatepicker({
                 formatDate: "YYYY-MM-DD",
@@ -140,6 +144,7 @@
     </x-slot>
     <x-slot name="css">
         <link rel="stylesheet" href="{{ asset('plugins/date-picker/persianDatepicker-default.css') }}">
+        <link rel="stylesheet" href="{{ asset('plugins/select2/select2.min.css') }}">
     </x-slot>
 
     <!-- Breadcrumb -->
@@ -232,10 +237,10 @@
             </div>
             <table class="w-full">
                 <thead>
-                <tr class="text-xs border border-gray-400 text-center bg-sky-200">
+                <tr class="text-xs border border-gray-400 text-center">
                     <th class="p-1">کدینگ</th>
                     <th class="p-1 border-r border-gray-400">شرح</th>
-                    <th class="p-1 border-r border-gray-400">تعداد</th>
+                    <th class="p-1 border-r border-gray-400">تعداد درخواستی</th>
                     <th class="p-1 border-r border-gray-400">واحد</th>
                 </tr>
                 </thead>
@@ -244,7 +249,7 @@
                     <td class="p-1">
                         <!-- Select Coding -->
                         <div
-                            class="flex justify-center items-center" {{ request()->has('page') || request()->has('category1') || request()->has('search') ? 'x-data={open:true}' : 'x-data={open:false}' }}>
+                                class="flex justify-center items-center" {{ request()->has('page') || request()->has('category1') || request()->has('search') ? 'x-data={open:true}' : 'x-data={open:false}' }}>
                             <button type="button"
                                     class="flex items-center text-xs font-bold text-indigo-500"
                                     @click="open = !open">
@@ -261,66 +266,76 @@
                             </button>
 
                             <!-- Select Coding Modal -->
-                            <div class="relative z-20" x-show="open" x-cloak>
+                            <div class="relative z-10" x-show="open" x-cloak>
                                 <div class="modal-backdrop"></div>
                                 <div class="fixed z-50 inset-0 overflow-y-auto">
                                     <div class="modal">
                                         <div class="modal-body">
-                                            <div class="bg-white dark:bg-slate-800 p-4">
-                                                <div class="mb-4 flex justify-between items-center">
+                                            <div
+                                                    class="bg-white dark:bg-slate-800 p-4">
+                                                <div
+                                                        class="mb-4 flex justify-between items-center">
                                                     <h3 class="text-lg font-bold text-gray-900 dark:text-white">
                                                         انتخاب محصول/قطعه از کدینگ
                                                     </h3>
-                                                    <button type="button" @click="open = false">
+                                                    <button type="button"
+                                                            @click="open = false">
                                                         <span class="modal-close">
-                                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                                 fill="none"
-                                                                 viewBox="0 0 24 24"
-                                                                 stroke-width="1.5"
-                                                                 stroke="currentColor"
-                                                                 class="w-5 h-5 dark:text-white">
-                                                                <path stroke-linecap="round"
-                                                                      stroke-linejoin="round"
-                                                                      d="M6 18L18 6M6 6l12 12"/>
+                                                            <svg
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    fill="none"
+                                                                    viewBox="0 0 24 24"
+                                                                    stroke-width="1.5"
+                                                                    stroke="currentColor"
+                                                                    class="w-5 h-5 dark:text-white">
+                                                                <path
+                                                                        stroke-linecap="round"
+                                                                        stroke-linejoin="round"
+                                                                        d="M6 18L18 6M6 6l12 12"/>
                                                             </svg>
                                                         </span>
                                                     </button>
                                                 </div>
                                                 <div class="grid grid-cols-4 gap-4">
-                                                    <form>
-                                                        <div class="flex rounded-md shadow-sm">
-                                                            <input type="text" name="search"
-                                                                   id="inputSearch2"
-                                                                   class="input-text rounded-l-none"
-                                                                   placeholder="جستجو..."
-                                                                   value="{{ request('search') }}">
-                                                            <button type="button" onclick="searchText()"
-                                                                    class="inline-flex items-center rounded-l-lg border border-gray-200 border-r-0 bg-white px-3 text-sm text-gray-500">
-                                                                <svg
+                                                    <div
+                                                            class="flex rounded-md shadow-sm">
+                                                        <input type="text"
+                                                               name="search"
+                                                               id="inputSearch2"
+                                                               class="input-text rounded-l-none py-2.5"
+                                                               placeholder="جستجو..."
+                                                               value="{{ request('search') }}">
+                                                        <button type="button"
+                                                                onclick="searchText()"
+                                                                class="inline-flex items-center rounded-l-lg border border-gray-200 border-r-0 bg-white px-3 text-sm text-gray-500">
+                                                            <svg
                                                                     xmlns="http://www.w3.org/2000/svg"
-                                                                    fill="none" viewBox="0 0 24 24"
+                                                                    fill="none"
+                                                                    viewBox="0 0 24 24"
                                                                     stroke-width="1.5"
                                                                     stroke="currentColor"
                                                                     class="w-6 h-6">
-                                                                    <path stroke-linecap="round"
-                                                                          stroke-linejoin="round"
-                                                                          d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"></path>
-                                                                </svg>
-                                                            </button>
-                                                        </div>
-                                                    </form>
-                                                    <form class="col-span-3 grid grid-cols-3 gap-4"
-                                                          id="category-search">
+                                                                <path
+                                                                        stroke-linecap="round"
+                                                                        stroke-linejoin="round"
+                                                                        d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"></path>
+                                                            </svg>
+                                                        </button>
+                                                    </div>
+                                                    <div
+                                                            class="col-span-3 grid grid-cols-3 gap-4">
                                                         <div>
                                                             <select name="category1"
                                                                     id="inputCategory1"
                                                                     class="input-text"
                                                                     onchange="getCategory1()">
-                                                                <option value="">انتخاب کنید
+                                                                <option value="">
+                                                                    انتخاب
+                                                                    کنید
                                                                 </option>
                                                                 @foreach($categories as $category)
                                                                     <option
-                                                                        value="{{ $category->id }}" {{ request('category1') == $category->id ? 'selected' : '' }}>
+                                                                            value="{{ $category->id }}" {{ request('category1') == $category->id ? 'selected' : '' }}>
                                                                         {{ $category->code }}
                                                                         - {{ $category->name }}
                                                                     </option>
@@ -332,15 +347,18 @@
                                                                 @php
                                                                     $category2 = \App\Models\System\SystemCategory::find(request('category1'))->children;
                                                                 @endphp
-                                                                <select name="category2"
+                                                                <select
+                                                                        name="category2"
                                                                         id="inputCategory2"
                                                                         class="input-text"
                                                                         onchange="getCategory2()">
-                                                                    <option value="">انتخاب کنید
+                                                                    <option
+                                                                            value="">
+                                                                        انتخاب کنید
                                                                     </option>
                                                                     @foreach($category2 as $category)
                                                                         <option
-                                                                            value="{{ $category->id }}" {{ request('category2') == $category->id ? 'selected' : '' }}>
+                                                                                value="{{ $category->id }}" {{ request('category2') == $category->id ? 'selected' : '' }}>
                                                                             {{ $category->code }}
                                                                             - {{ $category->name }}
                                                                         </option>
@@ -353,15 +371,18 @@
                                                                 @php
                                                                     $category3 = \App\Models\System\SystemCategory::find(request('category2'))->children;
                                                                 @endphp
-                                                                <select name="category3"
+                                                                <select
+                                                                        name="category3"
                                                                         id="inputCategory3"
                                                                         class="input-text"
                                                                         onchange="submitCategoryForm()">
-                                                                    <option value="">انتخاب کنید
+                                                                    <option
+                                                                            value="">
+                                                                        انتخاب کنید
                                                                     </option>
                                                                     @foreach($category3 as $category)
                                                                         <option
-                                                                            value="{{ $category->id }}" {{ request('category3') == $category->id ? 'selected' : '' }}>
+                                                                                value="{{ $category->id }}" {{ request('category3') == $category->id ? 'selected' : '' }}>
                                                                             {{ $category->code }}
                                                                             - {{ $category->name }}
                                                                         </option>
@@ -369,63 +390,70 @@
                                                                 </select>
                                                             @endif
                                                         </div>
-                                                    </form>
+                                                    </div>
                                                 </div>
                                                 <div class="mt-6 space-y-4">
                                                     <!-- Table -->
-                                                    <div class="overflow-x-auto rounded-lg">
-                                                        <table class="w-full border-collapse">
+                                                    <div
+                                                            class="overflow-x-auto rounded-lg">
+                                                        <table
+                                                                class="w-full border-collapse">
                                                             <thead>
                                                             <tr class="table-th-tr">
                                                                 <th scope="col"
                                                                     class="p-2 rounded-tr-lg">
                                                                     #
                                                                 </th>
-                                                                <th scope="col" class="p-2">
+                                                                <th scope="col"
+                                                                    class="p-2">
                                                                     کد
                                                                 </th>
-                                                                <th scope="col" class="p-2">
+                                                                <th scope="col"
+                                                                    class="p-2">
                                                                     نام
                                                                 </th>
-                                                                <th scope="col" class="p-2">
+                                                                <th scope="col"
+                                                                    class="p-2">
                                                                     واحد
                                                                 </th>
-                                                                <th scope="col" class="p-2">
-                                                                    <span class="sr-only"></span>
+                                                                <th scope="col"
+                                                                    class="p-2">
+                                                                                            <span
+                                                                                                    class="sr-only"></span>
                                                                 </th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>
-                                                            @foreach($codings as $coding2)
+                                                            @foreach($codings as $coding)
                                                                 <tr class="table-tb-tr group">
                                                                     <td class="table-tr-td border-t-0">
                                                                         {{ $loop->index + 1 }}
                                                                     </td>
                                                                     <td class="table-tr-td border-t-0 border-x-0 text-red-600 text-right">
-                                                                        {{ $coding2->code }}
+                                                                        {{ $coding->code }}
                                                                     </td>
                                                                     <td class="table-tr-td border-t-0 border-x-0 text-right">
-                                                                        {{ $coding2->name }}
+                                                                        {{ $coding->name }}
                                                                     </td>
                                                                     <td class="table-tr-td border-t-0 border-r-0">
-                                                                        {{ $coding2->unit }}
+                                                                        {{ $coding->unit }}
                                                                     </td>
                                                                     <td class="table-tr-td border-t-0 border-r-0">
                                                                         <div
-                                                                            class="flex justify-center">
-                                                                            <a href="{{ route('purchase.edit',$purchase->id) }}?coding={{ $coding2->id }}"
+                                                                                class="flex justify-center">
+                                                                            <a href="{{ route('purchase.edit', $purchase->id) }}?coding={{ $coding->id }}"
                                                                                class="table-dropdown-copy">
                                                                                 <svg
-                                                                                    xmlns="http://www.w3.org/2000/svg"
-                                                                                    fill="none"
-                                                                                    viewBox="0 0 24 24"
-                                                                                    stroke-width="1.5"
-                                                                                    stroke="currentColor"
-                                                                                    class="w-4 h-4 ml-1">
+                                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                                        fill="none"
+                                                                                        viewBox="0 0 24 24"
+                                                                                        stroke-width="1.5"
+                                                                                        stroke="currentColor"
+                                                                                        class="w-4 h-4 ml-1">
                                                                                     <path
-                                                                                        stroke-linecap="round"
-                                                                                        stroke-linejoin="round"
-                                                                                        d="M12 4.5v15m7.5-7.5h-15"/>
+                                                                                            stroke-linecap="round"
+                                                                                            stroke-linejoin="round"
+                                                                                            d="M12 4.5v15m7.5-7.5h-15"/>
                                                                                 </svg>
                                                                                 انتخاب
                                                                             </a>
@@ -450,7 +478,7 @@
                     </td>
                     <td class="p-1 border-r border-gray-400">
                         @if(is_null($purchase->coding_id) || request()->has('coding'))
-                            <input type="text" name="name" id="inputName"
+                            <input type="text" name="title" id="inputTitle"
                                    value="{{ $selectedCoding->name ?? $purchase->title }}"
                                    class="input-text" placeholder="نام قطعه / کالا">
                         @else
@@ -463,67 +491,70 @@
                         @endif
                     </td>
                     <td class="p-1 border-r border-gray-400">
-                        <input type="text" name="request_quantity" id="inputRequestQuantity" class="input-text w-20 text-center"
-                               placeholder="تعداد" value="{{ $purchase->request_quantity }}">
+                        <input type="text" name="request_quantity"
+                               id="inputRequestQuantity"
+                               value="{{ old('request_quantity', $purchase->request_quantity) }}"
+                               class="input-text w-32 text-center"
+                               placeholder="تعداد درخواستی">
                     </td>
                     <td class="p-1 border-r border-gray-400">
                         @if(is_null($purchase->coding_id) || request()->has('coding'))
                             <select name="unit" id="inputUnit"
-                                    class="input-text py-1.5 w-20">
+                                    class="input-text py-1.5 w-32">
                                 <option
-                                    value="عدد" {{ $selectedCoding ? ($selectedCoding->unit == 'عدد' ? 'selected' : '') : '' }}>
+                                        value="عدد" {{ $selectedCoding ? ($selectedCoding->unit == 'عدد' ? 'selected' : '') : '' }}>
                                     عدد
                                 </option>
                                 <option
-                                    value="دستگاه" {{ $selectedCoding ? ($selectedCoding->unit == 'دستگاه' ? 'selected' : '') : '' }}>
+                                        value="دستگاه" {{ $selectedCoding ? ($selectedCoding->unit == 'دستگاه' ? 'selected' : '') : '' }}>
                                     دستگاه
                                 </option>
                                 <option
-                                    value="متر" {{ $selectedCoding ? ($selectedCoding->unit == 'متر' ? 'selected' : '') : '' }}>
+                                        value="متر" {{ $selectedCoding ? ($selectedCoding->unit == 'متر' ? 'selected' : '') : '' }}>
                                     متر
                                 </option>
                                 <option
-                                    value="کیلوگرم" {{ $selectedCoding ? ($selectedCoding->unit == 'کیلوگرم' ? 'selected' : '') : '' }}>
+                                        value="کیلوگرم" {{ $selectedCoding ? ($selectedCoding->unit == 'کیلوگرم' ? 'selected' : '') : '' }}>
                                     کیلوگرم
                                 </option>
                                 <option
-                                    value="شاخه" {{ $selectedCoding ? ($selectedCoding->unit == 'شاخه' ? 'selected' : '') : '' }}>
+                                        value="شاخه" {{ $selectedCoding ? ($selectedCoding->unit == 'شاخه' ? 'selected' : '') : '' }}>
                                     شاخه
                                 </option>
                                 <option
-                                    value="برگ" {{ $selectedCoding ? ($selectedCoding->unit == 'برگ' ? 'selected' : '') : '' }}>
+                                        value="برگ" {{ $selectedCoding ? ($selectedCoding->unit == 'برگ' ? 'selected' : '') : '' }}>
                                     برگ
                                 </option>
                                 <option
-                                    value="بسته" {{ $selectedCoding ? ($selectedCoding->unit == 'بسته' ? 'selected' : '') : '' }}>
+                                        value="بسته" {{ $selectedCoding ? ($selectedCoding->unit == 'بسته' ? 'selected' : '') : '' }}>
                                     بسته
                                 </option>
                                 <option
-                                    value="لیتر" {{ $selectedCoding ? ($selectedCoding->unit == 'لیتر' ? 'selected' : '') : '' }}>
+                                        value="لیتر" {{ $selectedCoding ? ($selectedCoding->unit == 'لیتر' ? 'selected' : '') : '' }}>
                                     لیتر
                                 </option>
                                 <option
-                                    value="کپسول" {{ $selectedCoding ? ($selectedCoding->unit == 'کپسول' ? 'selected' : '') : '' }}>
+                                        value="کپسول" {{ $selectedCoding ? ($selectedCoding->unit == 'کپسول' ? 'selected' : '') : '' }}>
                                     کپسول
                                 </option>
                                 <option
-                                    value="مترمربع" {{ $selectedCoding ? ($selectedCoding->unit == 'مترمربع' ? 'selected' : '') : '' }}>
+                                        value="مترمربع" {{ $selectedCoding ? ($selectedCoding->unit == 'مترمربع' ? 'selected' : '') : '' }}>
                                     مترمربع
                                 </option>
                                 <option
-                                    value="حلقه" {{ $selectedCoding ? ($selectedCoding->unit == 'حلقه' ? 'selected' : '') : '' }}>
+                                        value="حلقه" {{ $selectedCoding ? ($selectedCoding->unit == 'حلقه' ? 'selected' : '') : '' }}>
                                     حلقه
                                 </option>
                                 <option
-                                    value="جفت" {{ $selectedCoding ? ($selectedCoding->unit == 'جفت' ? 'selected' : '') : '' }}>
+                                        value="جفت" {{ $selectedCoding ? ($selectedCoding->unit == 'جفت' ? 'selected' : '') : '' }}>
                                     جفت
                                 </option>
                                 <option
-                                    value="دست" {{ $selectedCoding ? ($selectedCoding->unit == 'دست' ? 'selected' : '') : '' }}>
+                                        value="دست" {{ $selectedCoding ? ($selectedCoding->unit == 'دست' ? 'selected' : '') : '' }}>
                                     دست
                                 </option>
                                 <option
-                                    value="سری" {{ $selectedCoding ? ($selectedCoding->unit == 'سری' ? 'selected' : '') : '' }}>
+                                        value="سری" {{ $selectedCoding ? ($selectedCoding->unit == 'سری' ? 'selected' : '') : '' }}>
                                     سری
                                 </option>
                             </select>
@@ -532,80 +563,108 @@
                                 $currentCoding = \App\Models\System\Coding::find($purchase->coding_id);
                             @endphp
                             <select name="unit" id="inputUnit"
-                                    class="input-text py-1.5 w-20">
+                                    class="input-text py-1.5 w-32">
                                 <option
-                                    value="عدد" {{  $currentCoding->unit == 'عدد' ? 'selected' : '' }}>
+                                        value="عدد" {{  $currentCoding->unit == 'عدد' ? 'selected' : '' }}>
                                     عدد
                                 </option>
                                 <option
-                                    value="دستگاه" {{ $currentCoding->unit == 'دستگاه' ? 'selected' : '' }}>
+                                        value="دستگاه" {{ $currentCoding->unit == 'دستگاه' ? 'selected' : '' }}>
                                     دستگاه
                                 </option>
                                 <option
-                                    value="متر" {{ $currentCoding->unit == 'متر' ? 'selected' : '' }}>
+                                        value="متر" {{ $currentCoding->unit == 'متر' ? 'selected' : '' }}>
                                     متر
                                 </option>
                                 <option
-                                    value="کیلوگرم" {{ $currentCoding->unit == 'کیلوگرم' ? 'selected' : '' }}>
+                                        value="کیلوگرم" {{ $currentCoding->unit == 'کیلوگرم' ? 'selected' : '' }}>
                                     کیلوگرم
                                 </option>
                                 <option
-                                    value="شاخه" {{ $currentCoding->unit == 'شاخه' ? 'selected' : '' }}>
+                                        value="شاخه" {{ $currentCoding->unit == 'شاخه' ? 'selected' : '' }}>
                                     شاخه
                                 </option>
                                 <option
-                                    value="برگ" {{ $currentCoding->unit == 'برگ' ? 'selected' : '' }}>
+                                        value="برگ" {{ $currentCoding->unit == 'برگ' ? 'selected' : '' }}>
                                     برگ
                                 </option>
                                 <option
-                                    value="بسته" {{ $currentCoding->unit == 'بسته' ? 'selected' : '' }}>
+                                        value="بسته" {{ $currentCoding->unit == 'بسته' ? 'selected' : '' }}>
                                     بسته
                                 </option>
                                 <option
-                                    value="لیتر" {{ $currentCoding->unit == 'لیتر' ? 'selected' : '' }}>
+                                        value="لیتر" {{ $currentCoding->unit == 'لیتر' ? 'selected' : '' }}>
                                     لیتر
                                 </option>
                                 <option
-                                    value="کپسول" {{ $currentCoding->unit == 'کپسول' ? 'selected' : '' }}>
+                                        value="کپسول" {{ $currentCoding->unit == 'کپسول' ? 'selected' : '' }}>
                                     کپسول
                                 </option>
                                 <option
-                                    value="مترمربع" {{ $currentCoding->unit == 'مترمربع' ? 'selected' : '' }}>
+                                        value="مترمربع" {{ $currentCoding->unit == 'مترمربع' ? 'selected' : '' }}>
                                     مترمربع
                                 </option>
                                 <option
-                                    value="حلقه" {{ $currentCoding->unit == 'حلقه' ? 'selected' : '' }}>
+                                        value="حلقه" {{ $currentCoding->unit == 'حلقه' ? 'selected' : '' }}>
                                     حلقه
                                 </option>
                                 <option
-                                    value="جفت" {{ $currentCoding->unit == 'جفت' ? 'selected' : '' }}>
+                                        value="جفت" {{ $currentCoding->unit == 'جفت' ? 'selected' : '' }}>
                                     جفت
                                 </option>
                                 <option
-                                    value="دست" {{ $currentCoding->unit == 'دست' ? 'selected' : '' }}>
+                                        value="دست" {{ $currentCoding->unit == 'دست' ? 'selected' : '' }}>
                                     دست
                                 </option>
                                 <option
-                                    value="سری" {{ $currentCoding->unit == 'سری' ? 'selected' : '' }}>
+                                        value="سری" {{ $currentCoding->unit == 'سری' ? 'selected' : '' }}>
                                     سری
                                 </option>
                             </select>
                         @endif
-
                     </td>
                 </tr>
                 <tr class="text-xs text-center">
-                    <td></td>
+                    <td class="p-1 border border-gray-400">
+
+                    </td>
+                    <td class="p-1 border border-gray-400">
+                        <select name="buy_location" id="inputBuyLocation"
+                                class="input-text">
+                            <option value="">انتخاب محل خرید</option>
+                            <option value="factory" {{ $purchase->buy_location == 'factory' ? 'selected' : '' }}>
+                                کارخانه
+                            </option>
+                            <option value="office" {{ $purchase->buy_location == 'office' ? 'selected' : '' }}>
+                                دفتر مرکزی
+                            </option>
+                        </select>
+                    </td>
+                    <td class="p-1 border border-gray-400">
+                        <input type="text" name="applicant"
+                               id="inputApplicant" value="{{ old('applicant', $purchase->applicant) }}"
+                               class="input-text" placeholder="درخواست کننده">
+                    </td>
+                    <td class="p-1 border border-gray-400">
+                        <select name="document_number" id="inputDocumentNumber"
+                                class="input-text w-1/2">
+                            <option value="">انتخاب قرارداد</option>
+                            @foreach($contracts as $contract)
+                                <option value="{{ $contract->number }}">
+                                    {{ $contract->number }} - {{ $contract->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </td>
                 </tr>
                 <tr class="text-xs text-center">
-                    <td></td>
-                    <td></td>
                     <td class="p-1 border border-gray-400">
-                        <div class="flex items-center">
-                            <label for="inputDescription" class="form-label whitespace-nowrap mb-0 ml-2">توضیحات</label>
-                            <input type="text" name="description" id="inputDescription" class="input-text"
-                                   placeholder="توضیحات" value="{{ $purchase->description }}">
-                        </div>
+
+                    </td>
+                    <td colspan="3" class="p-1 border border-gray-400">
+                        <input type="text" name="description" id="inputDescription"
+                               class="input-text" placeholder="توضیحات"
+                               value="{{ old('description', $purchase->description) }}">
                     </td>
                 </tr>
                 </tbody>

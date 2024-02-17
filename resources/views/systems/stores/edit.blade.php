@@ -591,7 +591,6 @@
                                 </option>
                             </select>
                         @endif
-
                     </td>
                 </tr>
                 <tr class="text-xs text-center">
