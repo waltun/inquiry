@@ -337,8 +337,14 @@
                     if (!is_null($purchas->coding_id)) {
                         $coding = \App\Models\System\Coding::find($purchas->coding_id);
                     }
+
+                    if ($purchas->store) {
+                        $color = 'bg-gray-300';
+                    } else {
+                        $color = 'bg-sky-200';
+                    }
                 @endphp
-                <tr class="table-tb-tr whitespace-normal group bg-sky-200">
+                <tr class="table-tb-tr whitespace-normal group {{ $color }}">
                     <td class="table-tr-td border-t-0">
                         {{ $loop->index + 1 }}
                     </td>
@@ -394,20 +400,124 @@
                     </td>
                     <td class="table-tr-td border-t-0 border-r-0">
                         <div class="flex items-center justify-center space-x-2 space-x-reverse">
-                            @can('add-to-store-purchase')
-                                <div x-data="{open:false}">
-                                    <button class="table-dropdown-copy" type="button" @click="open = !open">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                             stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                  d="M12 4.5v15m7.5-7.5h-15"/>
-                                        </svg>
-                                        <p class="text-xs mr-2">
-                                            افزودن به اقلام ورودی
-                                        </p>
-                                    </button>
-                                </div>
-                            @endcan
+                            @if(!$purchas->store)
+                                @can('add-to-store-purchase')
+                                    <div x-data="{open:false}">
+                                        <button class="table-dropdown-copy" type="button" @click="open = !open">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                 stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                      d="M12 4.5v15m7.5-7.5h-15"/>
+                                            </svg>
+                                            <p class="text-xs mr-2">
+                                                افزودن به اقلام ورودی
+                                            </p>
+                                        </button>
+
+                                        <!-- Add To Store Modal -->
+                                        <div class="relative z-10" x-show="open" x-cloak>
+                                            <div class="modal-backdrop"></div>
+                                            <div class="fixed z-50 inset-0 overflow-y-auto">
+                                                <div class="modal">
+                                                    <div class="modal-body bg-sky-200">
+                                                        <div class="bg-sky-100 dark:bg-slate-800 p-4">
+                                                            <div class="mb-4 flex justify-between items-center">
+                                                                <div
+                                                                    class="flex items-center space-x-4 space-x-reverse">
+                                                                    <h3 class="text-lg font-bold text-gray-900 dark:text-white">
+                                                                        اضافه کردن جنس خریداری شده به اقلام ورودی
+                                                                    </h3>
+                                                                </div>
+                                                                <button type="button" @click="open = false">
+                                                                <span class="modal-close">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                         viewBox="0 0 24 24"
+                                                                         stroke-width="1.5" stroke="currentColor"
+                                                                         class="w-5 h-5 dark:text-white">
+                                                                        <path stroke-linecap="round"
+                                                                              stroke-linejoin="round"
+                                                                              d="M6 18L18 6M6 6l12 12"/>
+                                                                    </svg>
+                                                                </span>
+                                                                </button>
+                                                            </div>
+                                                            <form method="POST" class="mt-6 space-y-4"
+                                                                  action="{{ route('purchase.add-to-store', $purchas->id) }}">
+                                                                @csrf
+                                                                <div class="mb-4">
+                                                                    <div class="flex items-center justify-end">
+                                                                        <label for="inputDate"
+                                                                               class="form-label whitespace-nowrap ml-2 mt-2">
+                                                                            تاریخ ورود به کارخانه
+                                                                        </label>
+                                                                        <input type="text" name="date"
+                                                                               id="inputDate{{ $purchas->id }}"
+                                                                               class="input-text date"
+                                                                               value="{{ $today }}"
+                                                                               placeholder="تاریخ ثبت">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="grid grid-cols-3 gap-4">
+                                                                    <div>
+                                                                        <label for="inputStore{{ $purchas->id }}"
+                                                                               class="form-label">
+                                                                            انتخاب انبار
+                                                                        </label>
+                                                                        <select name="store"
+                                                                                id="inputStore{{ $purchas->id }}"
+                                                                                class="input-text">
+                                                                            <option value="10">انبار مواد اولیه | 10
+                                                                            </option>
+                                                                            <option value="12">انبار ملزومات | 12
+                                                                            </option>
+                                                                            <option value="14">انبار محصولات | 14
+                                                                            </option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div>
+                                                                        <label for="inputDelivery{{ $purchas->id }}"
+                                                                               class="form-label">
+                                                                            تحویل دهنده
+                                                                        </label>
+                                                                        <input type="text" class="input-text"
+                                                                               name="delivery"
+                                                                               id="inputDelivery{{ $purchas->id }}">
+                                                                    </div>
+                                                                    <div>
+                                                                        <label for="inputSeller{{ $purchas->id }}"
+                                                                               class="form-label">
+                                                                            فروشنده
+                                                                        </label>
+                                                                        <input type="text" class="input-text"
+                                                                               name="seller"
+                                                                               id="inputSeller{{ $purchas->id }}">
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="flex justify-end">
+                                                                    <button type="submit" class="form-submit-btn">
+                                                                        ثبت اقلام
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endcan
+                            @else
+                                <button class="table-success-btn" type="button">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                                    </svg>
+                                    <p class="text-xs mr-2">
+                                        اضافه شده
+                                    </p>
+                                </button>
+                            @endif
                             @can('delete-purchase')
                                 <button class="table-dropdown-delete" type="button"
                                         onclick="deleteStore({{ $purchas->id }})">

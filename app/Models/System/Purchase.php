@@ -12,7 +12,7 @@ class Purchase extends Model
 
     protected $fillable = [
         'important', 'document_number', 'date', 'title', 'request_quantity', 'status', 'accepted_quantity', 'unit',
-        'buy_location', 'description', 'coding_id', 'applicant'
+        'buy_location', 'description', 'coding_id', 'applicant', 'store'
     ];
 
     public function coding()

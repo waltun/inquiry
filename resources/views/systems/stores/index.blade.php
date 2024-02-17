@@ -769,6 +769,8 @@
                         $color = 'bg-green-200';
                     }else if ($store->status == 'registering') {
                         $color = 'bg-yellow-200';
+                    } else if ($store->status == 'purchase') {
+                        $color = 'bg-sky-200';
                     } else {
                         $color = 'bg-white';
                     }
@@ -831,6 +833,9 @@
                             </option>
                             <option value="registering" {{ $store->status == 'registering' ? 'selected' : '' }}>
                                 در حال ثبت
+                            </option>
+                            <option value="purchase" {{ $store->status == 'purchase' ? 'selected' : '' }}>
+                                خریداری شده (بخش خرید اقلام)
                             </option>
                         </select>
                     </td>

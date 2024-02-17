@@ -1,5 +1,89 @@
 <x-layout>
-    <!-- Breadcrumb -->
+    <x-slot name="js">
+        <script src="{{ asset('plugins/jquery.min.js') }}"></script>
+        <script src="{{ asset('plugins/select2/select2.min.js') }}"></script>
+        <script>
+            function selectModelByGroup(event) {
+                let group_id = event.target.value;
+                let modelSection1 = document.getElementById('modellSection1');
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('inquiries.create.selectModelByGroup') }}',
+                    data: {
+                        group_id: group_id,
+                    },
+                    success: function (res) {
+                        let modells = res.data;
+                        modelSection1.innerHTML = `
+                            <label for="inputModel1" class="form-label">
+                                انتخاب زیردسته
+                            </label>
+                            <select class="input-text" id="inputModel1" onchange="selectModelByModel(event)">
+                                <option value="">انتخاب کنید</option>
+                                ${modells.map(
+                            function (item) {
+                                return `
+                                            <option value="${item['id']}">${item['name']}</option>
+                                        `
+                            }
+                        )}
+                            </select>
+                        `
+                    }
+                });
+            }
+
+            function selectModelByModel(event) {
+                let model_id = event.target.value;
+                let modelSection2 = document.getElementById('modellSection2');
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('inquiries.create.selectModelByModel') }}',
+                    data: {
+                        model_id: model_id,
+                    },
+                    success: function (res) {
+                        let modells = res.data;
+                        modelSection2.innerHTML = `
+                            <label for="inputModel2" class="form-label">
+                                انتخاب مدل
+                            </label>
+                            <select class="input-text" id="inputModel2" name="model_id">
+                                <option value="">انتخاب کنید</option>
+                                ${modells.map(
+                            function (item) {
+                                return `
+                                            <option value="${item['id']}">${item['name']}</option>
+                                        `
+                            }
+                        )}
+                            </select>
+                        `
+                    }
+                });
+            }
+        </script>
+    </x-slot>
+
+    @php
+        $modell = \App\Models\Modell::find($product->model_id);
+    @endphp
+
+            <!-- Breadcrumb -->
     <div class="flex items-center space-x-2 space-x-reverse">
         <a href="{{ route('dashboard') }}" class="flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -84,7 +168,7 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p-active">
-                    ویرایش محصول
+                    ویرایش محصول {{ $modell->parent->name }} - {{ $product->model_custom_name ?? $modell->name }}
                 </p>
             </div>
         </div>
@@ -97,7 +181,7 @@
 
     <!-- Form -->
     <form method="POST" action="{{ route('inquiries.product.update',$product->id) }}"
-          class="md:grid grid-cols-2 gap-4 mt-4">
+          class="md:grid grid-cols-3 gap-4 mt-4">
         @csrf
         @method('PATCH')
 
@@ -145,6 +229,29 @@
                        placeholder="مثلا : TA-ACH-Al-R22"
                        value="{{ old('property') ?? $product->property }}">
             </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <p class="card-title">گروه</p>
+            </div>
+
+            <div class="mt-4">
+                <label for="inputGroup" class="form-label">
+                    انتخاب دسته اصلی محصول
+                </label>
+                <select name="group_id" id="inputGroup" class="input-text" onchange="selectModelByGroup(event)">
+                    <option value="">انتخاب کنید</option>
+                    @foreach($groups as $group)
+                        <option value="{{ $group->id }}">{{ $group->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div id="modellSection1" class="mt-4">
+            </div>
+            <div id="modellSection2" class="mt-4">
+            </div>
+
         </div>
 
         <div class="flex items-center space-x-4 space-x-reverse">

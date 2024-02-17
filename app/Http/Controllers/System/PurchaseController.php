@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Contract;
 use App\Models\System\Coding;
 use App\Models\System\Purchase;
+use App\Models\System\Store;
 use App\Models\System\SystemCategory;
 use Illuminate\Http\Request;
 use Morilog\Jalali\Jalalian;
@@ -256,14 +257,53 @@ class PurchaseController extends Controller
             }
         }
 
-        $purchase = $purchase->orderBy('important', 'DESC')->where('status', '=', 'purchased')->paginate(50);
+        $date = Jalalian::now();
+        $today = $date->getYear() . "-" . $date->getMonth() . "-" . $date->getDay();
 
-        return view('systems.purchase.complete', compact('purchase'));
+        $purchase = $purchase->orderBy('store', 'ASC')->where('status', '=', 'purchased')->paginate(50);
+
+        return view('systems.purchase.complete', compact('purchase', 'today'));
     }
 
-    public function addToStore()
+    public function addToStore(Request $request, Purchase $purchase)
     {
-        //
+        $data = $request->validate([
+            'date' => 'required|string|max:255',
+            'store' => 'required|integer',
+            'delivery' => 'nullable|string|max:255',
+            'seller' => 'nullable|string|max:255',
+        ]);
+
+        if (!is_null($data['date'])) {
+            $explodeDate = explode('-', $data['date']);
+            $data['date'] = (new Jalalian($explodeDate[0], $explodeDate[1], $explodeDate[2]))->toCarbon()->toDateTimeString();
+        }
+
+        if (!is_null($purchase->coding_id)) {
+            $coding = Coding::find($purchase->coding_id);
+        }
+
+        Store::create([
+            'name' => $purchase->title,
+            'quantity' => $purchase->accepted_quantity,
+            'seller' => $data['seller'],
+            'delivery' => $data['delivery'],
+            'unit' => $purchase->unit,
+            'status' => 'purchase',
+            'qc' => 'pending',
+            'description' => $purchase->description,
+            'store' => $data['store'],
+            'date' => $data['date'],
+            'coding_id' => $purchase->coding_id,
+            'code' => !is_null($purchase->coding_id) ? $coding->code : null
+        ]);
+
+        $purchase->store = true;
+        $purchase->save();
+
+        alert()->success('ثبت موفق', 'اقلام با موفقیت به اقلام ورودی اضافه شدند');
+
+        return back();
     }
 
     public function searchCategory(Request $request)

@@ -82,8 +82,9 @@ class InquiryProductController extends Controller
     public function edit(Product $product)
     {
         $inquiry = Inquiry::find($product->inquiry_id);
+        $groups = Group::all();
 
-        return view('inquiry-product.edit', compact('product', 'inquiry'));
+        return view('inquiry-product.edit', compact('product', 'inquiry', 'groups'));
     }
 
     public function update(Request $request, Product $product)
@@ -93,7 +94,7 @@ class InquiryProductController extends Controller
             'description' => 'nullable|string|max:255',
             'model_custom_name' => 'string|max:255|nullable',
             'property' => 'string|max:255|nullable',
-            'sort' => 'required|numeric'
+            'sort' => 'required|numeric',
         ]);
 
         $product->update([
@@ -101,7 +102,9 @@ class InquiryProductController extends Controller
             'description' => $request['description'],
             'model_custom_name' => $request['model_custom_name'],
             'property' => $request['property'],
-            'sort' => $request['sort']
+            'sort' => $request['sort'],
+            'group_id' => $request['group_id'],
+            'model_id' => $request['model_id'],
         ]);
 
         alert()->success('ویرایش موفق', 'ویرایش محصول با موفقیت انجام شد');

@@ -692,6 +692,7 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::post('/purchase/search/category', [PurchaseController::class, 'searchCategory'])->name('purchase.searchCategory');
         Route::post('/purchase/search/text', [PurchaseController::class, 'searchText'])->name('purchase.searchText');
         Route::get('/purchase/complete', [PurchaseController::class, 'complete'])->name('purchase.complete');
+        Route::post('/purchase/{purchase}/add-to-store', [PurchaseController::class, 'addToStore'])->name('purchase.add-to-store');
 
         Route::get('/combine-codes', [CombineCodeController::class, 'index'])->name('combine-codes.index');
     });
