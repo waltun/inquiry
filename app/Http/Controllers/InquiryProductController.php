@@ -14,8 +14,6 @@ use App\Models\Part;
 use App\Models\Product;
 use App\Models\Setting;
 use App\Models\Special;
-use App\Models\User;
-use App\Notifications\PercentInquiryNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -95,7 +93,17 @@ class InquiryProductController extends Controller
             'model_custom_name' => 'string|max:255|nullable',
             'property' => 'string|max:255|nullable',
             'sort' => 'required|numeric',
+            'group_id' => 'nullable',
+            'model_id' => 'nullable'
         ]);
+
+        if (is_null($request['group_id']) && is_null($request['model_id'])) {
+            $group_id = $product->group_id;
+            $model_id = $product->model_id;
+        } else {
+            $group_id = $request['group_id'];
+            $model_id = $request['model_id'];
+        }
 
         $product->update([
             'quantity' => $request['quantity'],
@@ -103,17 +111,17 @@ class InquiryProductController extends Controller
             'model_custom_name' => $request['model_custom_name'],
             'property' => $request['property'],
             'sort' => $request['sort'],
-            'group_id' => $request['group_id'],
-            'model_id' => $request['model_id'],
+            'group_id' => $group_id,
+            'model_id' => $model_id,
         ]);
 
         alert()->success('ویرایش موفق', 'ویرایش محصول با موفقیت انجام شد');
 
         if ($product->part_id == 0) {
             return redirect()->route('inquiries.product.index', $product->inquiry_id);
-        } else {
-            return redirect()->route('inquiries.parts.index', $product->inquiry_id);
         }
+
+        return redirect()->route('inquiries.parts.index', $product->inquiry_id);
     }
 
     public function show(Product $product)
@@ -432,7 +440,6 @@ class InquiryProductController extends Controller
         $group = Group::find($product->group_id);
         $modell = Modell::find($product->model_id);
         $inquiryPart = Part::find($product->part_id);
-        $inquiry = Inquiry::find($product->inquiry_id);
 
         $totalWeight = 0;
 
@@ -452,11 +459,6 @@ class InquiryProductController extends Controller
         }
 
         if (!is_null($inquiryPart)) {
-            if ($product->price == 0) {
-                $finalPrice = $inquiryPart->price * $request['percent'];
-            } else {
-                $finalPrice = $product->price * $request['percent'];
-            }
             $finalWeight = $inquiryPart->weight * $product->quantity;
 
             $product->update([
@@ -552,7 +554,8 @@ class InquiryProductController extends Controller
                 'inquiry_id' => $inquiry->id,
                 'price' => 0,
                 'quantity' => $request->quantity,
-                'model_custom_name' => $request->model_custom_name
+                'model_custom_name' => $request->model_custom_name,
+                'sort' => $sort
             ]);
             $newProduct->save();
 
@@ -732,7 +735,8 @@ class InquiryProductController extends Controller
                     'price' => 0,
                     'part_id' => $newPart->id,
                     'quantity' => $request->quantity,
-                    'model_custom_name' => $request->model_custom_name
+                    'model_custom_name' => $request->model_custom_name,
+                    'sort' => $sort
                 ]);
 
             } else {
@@ -743,7 +747,8 @@ class InquiryProductController extends Controller
                     'price' => 0,
                     'part_id' => $part->id,
                     'quantity' => $request->quantity,
-                    'model_custom_name' => $request->model_custom_name
+                    'model_custom_name' => $request->model_custom_name,
+                    'sort' => $sort
                 ]);
 
             }

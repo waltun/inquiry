@@ -249,14 +249,32 @@
                         تگ
                     </th>
                     <th scope="col" class="p-4">
+                        جمع متریال (تومان)
+                    </th>
+                    <th scope="col" class="p-4">
+                        قیمت با ضریب (تومان)
+                    </th>
+                    <th scope="col" class="p-4">
+                        قیمت کل (تومان)
+                    </th>
+                    <th scope="col" class="p-4">
                         <span class="sr-only">اقدامات</span>
                     </th>
                 </tr>
                 </thead>
                 <tbody>
+                @php
+                    $finalPrice = 0;
+                @endphp
                 @foreach($products as $product)
                     @php
                         $modell = \App\Models\Modell::find($product->model_id);
+
+                        $netPrice = 0;
+                        foreach ($product->amounts as $amount) {
+                            $part = \App\Models\Part::find($amount->part_id);
+                            $netPrice += $part->price * $amount->value;
+                        }
                     @endphp
                     <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
                         @if($inquiry->submit == '1')
@@ -280,6 +298,26 @@
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             {{ $product->description ?? '-' }}
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            {{ number_format($netPrice) }}
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            @if($product->percent > 0)
+                                {{ number_format($product->price) }}
+                            @else
+                                منتظر ثبت ضریب
+                            @endif
+                        </td>
+                        @php
+                            $finalPrice += $netPrice * $product->quantity
+                        @endphp
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            @if($product->percent > 0)
+                                {{ number_format($product->price * $product->quantity) }}
+                            @else
+                                {{ number_format($netPrice * $product->quantity) }}
+                            @endif
                         </td>
                         <td class="table-tr-td border-t-0 border-r-0 whitespace-nowrap">
                             <div class="flex items-center justify-center space-x-4 space-x-reverse">
@@ -572,10 +610,10 @@
                     </tr>
                 @endforeach
                 <tr class="table-tb-tr group">
-                    <td class="table-tr-td border-t-0 border-t-0" colspan="7">
+                    <td class="table-tr-td border-t-0" colspan="10">
                         <div class="flex justify-between items-center">
                             <a href="{{ route('inquiries.product.create',$inquiry->id) }}"
-                               class="w-8 h-8 rounded-full bg-green-500 block grid place-content-center mr-6"
+                               class="w-8 h-8 rounded-full bg-green-500 grid place-content-center mr-6"
                                title="ایجاد محصول جدید">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
                                      stroke="currentColor" class="w-6 h-6 text-white">
@@ -583,6 +621,12 @@
                                           d="M12 4.5v15m7.5-7.5h-15"></path>
                                 </svg>
                             </a>
+
+                            <div>
+                                <p class="table-price-label">
+                                    قیمت کل : {{ number_format($finalPrice) }} تومان
+                                </p>
+                            </div>
                         </div>
                     </td>
                 </tr>
