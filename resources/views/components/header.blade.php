@@ -15,7 +15,7 @@
         </div>
 
         <!-- Notifications -->
-        <a href="{{ route('notifications.index') }}" class="header-notification">
+        <a href="{{ route('notifications.index') }}" class="header-notification hidden md:block">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                  stroke="currentColor" class="w-5 h-5 text-white dark:text-gray-200">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -26,7 +26,7 @@
         </a>
 
         <!-- Toggle Dark -->
-        <div id="toggleDarkBtn" class="header-dark-mode">
+        <div id="toggleDarkBtn" class="header-dark-mode hidden md:block">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                  stroke="currentColor" class="w-5 h-5 text-white hidden" id="dark-icon">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -59,7 +59,7 @@
             </p>
         </div>
 
-        <div class="mr-5 border border-white px-4 py-1 rounded-md relative">
+        <div class="mr-5 border border-white px-4 py-1 rounded-md relative hidden md:block">
             <a href="{{ route('inquiryPrice.index') }}" class="text-sm font-bold text-white"
                target="_blank">
                 درخواست های بروزرسانی قیمت
@@ -71,7 +71,7 @@
             @endif
         </div>
 
-        <div class="mr-5 border border-white px-4 py-1 rounded-md relative">
+        <div class="mr-5 border border-white px-4 py-1 rounded-md relative hidden md:block">
             <a href="https://cp117.netafraz.com/roundcube/" class="text-sm font-bold text-white" target="_blank">
                 دسترسی به Webmail
             </a>

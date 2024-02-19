@@ -196,7 +196,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($invoice->products()->where('group_id','!=',0)->where('model_id','!=',0)->where('deleted_at',null)->get() as $product)
+                        @foreach($invoice->products()->where('group_id','!=',0)->where('model_id','!=',0)->where('deleted_at',null)->orderBy('sort', 'ASC')->get() as $product)
                             @php
                                 $modell = \App\Models\Modell::find($product->model_id);
 
@@ -211,7 +211,8 @@
                             @endphp
                             <tr class="table-tb-tr group whitespace-normal {{ $loop->even ? 'bg-sky-100' : '' }}">
                                 <td class="table-tr-td border-t-0 border-l-0">
-                                    {{ $loop->index + 1 }}
+                                    <input type="text" class="input-text text-center w-20" value="{{ $product->sort }}"
+                                           name="sorts[]">
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     {{ $modell->parent->name }}
@@ -292,7 +293,7 @@
         @endphp
         @foreach($types as $type)
             @php
-                $products = $invoice->products()->where('part_id','!=',0)->where('type',$type)->where('deleted_at',null)->get();
+                $products = $invoice->products()->where('part_id','!=',0)->where('type',$type)->where('deleted_at',null)->orderBy('sort', 'ASC')->get();
             @endphp
             @if(!$products->isEmpty())
                 <form method="POST" action="{{ route('invoices.parts.store') }}" class="card">
@@ -405,7 +406,8 @@
                             @endphp
                             <tr class="table-tb-tr group whitespace-normal {{ $loop->even ? 'bg-sky-100' : '' }}">
                                 <td class="table-tr-td border-t-0 border-l-0">
-                                    {{ $loop->index + 1 }}
+                                    <input type="text" class="input-text text-center w-20" value="{{ $product->sort }}"
+                                           name="sorts[]">
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     {{ $part->name }}

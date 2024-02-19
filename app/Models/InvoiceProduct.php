@@ -11,7 +11,7 @@ class InvoiceProduct extends Model
 
     protected $fillable = [
         'percent', 'quantity', 'quantity2', 'price', 'model_custom_name', 'description', 'type', 'invoice_id',
-        'group_id', 'model_id', 'part_id', 'product_id', 'show_price', 'show_datasheet'
+        'group_id', 'model_id', 'part_id', 'product_id', 'show_price', 'show_datasheet', 'sort'
     ];
 
     public function invoice()

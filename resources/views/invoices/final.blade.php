@@ -140,7 +140,7 @@
                     <tr class="table-tb-tr group hover:font-bold hover:text-red-600 {{ $loop->even ? 'bg-sky-100' : '' }}">
                         <td class="table-tr-td border-t-0 border-l-0">
                             <a href="{{ route('invoices.final.print',$invoice->id) }}">
-                                INV-{{ $invoice->invoice_number ? $invoice->invoice_number : $invoice->inquiry->inquiry_number }}
+                                INV-{{ $invoice->invoice_number ?: $invoice->inquiry->inquiry_number }}
                             </a>
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">

@@ -53,6 +53,8 @@ class InvoiceController extends Controller
             'prices' => 'required|array',
             'percents.*' => 'required|numeric|between:0,1',
             'percents' => 'required|array',
+            'sorts.*' => 'required|numeric',
+            'sorts' => 'required|array',
         ]);
 
         foreach ($request->products as $index => $id) {
@@ -61,6 +63,7 @@ class InvoiceController extends Controller
             $product->quantity = $request->quantities[$index];
             $product->price = $request->prices[$index];
             $product->percent = $request->percents[$index];
+            $product->sort = $request->sorts[$index];
             $product->show_price = true;
 
             $product->save();
@@ -80,6 +83,8 @@ class InvoiceController extends Controller
             'prices' => 'required|array',
             'percents.*' => 'required|numeric',
             'percents' => 'required|array',
+            'sorts.*' => 'required|numeric',
+            'sorts' => 'required|array',
         ]);
 
         foreach ($request->parts as $index => $id) {
@@ -88,6 +93,7 @@ class InvoiceController extends Controller
             $product->quantity = $request->quantities[$index];
             $product->price = $request->prices[$index];
             $product->percent = $request->percents[$index];
+            $product->sort = $request->sorts[$index];
             $product->show_price = true;
 
             $product->save();

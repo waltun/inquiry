@@ -162,7 +162,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($invoice->products()->where('group_id','!=',0)->where('model_id','!=',0)->where('deleted_at',null)->get() as $product)
+                        @foreach($invoice->products()->where('group_id','!=',0)->where('model_id','!=',0)->where('deleted_at',null)->orderBy('sort', 'ASC')->get() as $product)
                             @php
                                 $modell = \App\Models\Modell::find($product->model_id);
 
@@ -256,7 +256,7 @@
         @endphp
         @foreach($types as $type)
             @php
-                $products = $invoice->products()->where('part_id','!=',0)->where('type',$type)->where('deleted_at',null)->get();
+                $products = $invoice->products()->where('part_id','!=',0)->where('type',$type)->where('deleted_at',null)->orderBy('sort', 'ASC')->get();
             @endphp
             @if(!$products->isEmpty())
                 <form method="POST" action="{{ route('invoices.final.showPrice') }}" class="card">

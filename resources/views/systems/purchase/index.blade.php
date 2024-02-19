@@ -798,19 +798,19 @@
                             </option>
                         </select>
                     </td>
-                    <td class="table-tr-td border-t-0 border-x-0">
+                    <td class="table-tr-td border-t-0 border-x-0 {{ $purchas->important ? 'font-bold' : '' }}">
                         {{ $purchas->document_number ?? '-' }}
                     </td>
-                    <td class="table-tr-td border-t-0 border-x-0">
+                    <td class="table-tr-td border-t-0 border-x-0 {{ $purchas->important ? 'font-bold' : '' }}">
                         {{ jdate($purchas->date)->format('Y/m/d') }}
                     </td>
-                    <td class="table-tr-td border-t-0 border-x-0">
+                    <td class="table-tr-td border-t-0 border-x-0 {{ $purchas->important ? 'font-bold' : '' }}">
                         {{ !is_null($purchas->coding_id) ? $coding->code : '-' }}
                     </td>
-                    <td class="table-tr-td border-t-0 border-x-0">
+                    <td class="table-tr-td border-t-0 border-x-0 {{ $purchas->important ? 'font-bold' : '' }}">
                         {{ !is_null($purchas->coding_id) ? $coding->name : $purchas->title }}
                     </td>
-                    <td class="table-tr-td border-t-0 border-x-0">
+                    <td class="table-tr-td border-t-0 border-x-0 {{ $purchas->important ? 'font-bold' : '' }}">
                         {{ $purchas->request_quantity }}
                     </td>
                     <td class="table-tr-td border-t-0 border-x-0">
@@ -833,20 +833,20 @@
                         <input type="text" value="{{ $purchas->accepted_quantity }}" class="input-text w-32 text-center"
                                name="accepted_quantity[]">
                     </td>
-                    <td class="table-tr-td border-t-0 border-x-0">
+                    <td class="table-tr-td border-t-0 border-x-0 {{ $purchas->important ? 'font-bold' : '' }}">
                         {{ !is_null($purchas->coding_id) ? $coding->unit : $purchas->unit }}
                     </td>
-                    <td class="table-tr-td border-t-0 border-x-0">
+                    <td class="table-tr-td border-t-0 border-x-0 {{ $purchas->important ? 'font-bold' : '' }}">
                         {{ $purchas->applicant }}
                     </td>
-                    <td class="table-tr-td border-t-0 border-x-0">
+                    <td class="table-tr-td border-t-0 border-x-0 {{ $purchas->important ? 'font-bold' : '' }}">
                         @if($purchas->buy_location == 'factory')
                             کارخانه
                         @else
                             دفتر مرکزی
                         @endif
                     </td>
-                    <td class="table-tr-td border-t-0 border-x-0">
+                    <td class="table-tr-td border-t-0 border-x-0 {{ $purchas->important ? 'font-bold' : '' }}">
                         {{ $purchas->description }}
                     </td>
                     <td class="table-tr-td border-t-0 border-r-0">

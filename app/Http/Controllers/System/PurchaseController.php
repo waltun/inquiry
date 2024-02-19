@@ -306,6 +306,71 @@ class PurchaseController extends Controller
         return back();
     }
 
+    public function view()
+    {
+        $purchase = Purchase::query();
+
+        if (request()->has('search2') && !is_null($keyword = request('search2'))) {
+            $purchase = $purchase->where(function ($query) use ($keyword) {
+                $query->where(function ($query) use ($keyword) {
+                    $query->where('title', 'LIKE', "%$keyword%")
+                        ->orWhere('unit', 'LIKE', "%$keyword%")
+                        ->whereNull('coding_id');
+                })->orWhere(function ($query) use ($keyword) {
+                    $query->whereNotNull('coding_id')->whereHas('coding', function ($query) use ($keyword) {
+                        $query->where('title', 'LIKE', "%$keyword%")
+                            ->orWhere('unit', 'LIKE', "%$keyword%")
+                            ->orWhere('code', 'LIKE', "%$keyword%");
+                    });
+                });
+            });
+        }
+
+        if (request()->has('status') && !is_null(request('status'))) {
+            $purchase = $purchase->where('status', request('status'));
+        }
+
+        if (request()->has('buy_location') && !is_null(request('buy_location'))) {
+            $purchase = $purchase->where('buy_location', request('buy_location'));
+        }
+
+        if (request()->has('code') && !is_null(request('code'))) {
+            if (request('code') == '0') {
+                $purchase = $purchase->where('coding_id', '=', null);
+            }
+            if (request('code') == '1') {
+                $purchase = $purchase->where('coding_id', '!=', null);
+            }
+        }
+
+        $date = Jalalian::now();
+        $today = $date->getYear() . "-" . $date->getMonth() . "-" . $date->getDay();
+
+        $purchase = $purchase->orderBy('important', 'DESC')->orderBy('store', 'ASC')->where('status', '=', 'accepted')->paginate(50);
+
+        return view('systems.purchase.view', compact('purchase', 'today'));
+    }
+
+    public function purchased(Purchase $purchase)
+    {
+        $purchase->status = 'purchased';
+        $purchase->save();
+
+        alert()->success('ثبت موفق', 'اقلام با موفقیت خریداری شدند');
+
+        return back();
+    }
+
+    public function restorePurchased(Purchase $purchase)
+    {
+        $purchase->status = 'accepted';
+        $purchase->save();
+
+        alert()->success('بازگردانی موفق', 'اقلام با موفقیت به لیست خرید اضافه بازگردانی شدند');
+
+        return back();
+    }
+
     public function searchCategory(Request $request)
     {
         return response([

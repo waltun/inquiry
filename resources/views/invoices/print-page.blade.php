@@ -183,7 +183,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($invoice->products()->where('group_id','!=',0)->where('model_id','!=',0)->where('deleted_at',null)->get() as $product)
+                                    @foreach($invoice->products()->where('group_id','!=',0)->where('model_id','!=',0)->where('deleted_at',null)->orderBy('sort', 'ASC')->get() as $product)
                                         @php
                                             $modell = \App\Models\Modell::find($product->model_id);
 

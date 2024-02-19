@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->integer('quantity2')->default(0);
             $table->bigInteger('price')->default(0);
             $table->boolean('show_price')->nullable();
+            $table->integer('sort')->default(0);
 
             $table->unsignedBigInteger('invoice_id');
             $table->unsignedBigInteger('product_id');

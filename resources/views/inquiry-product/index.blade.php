@@ -310,7 +310,11 @@
                             @endif
                         </td>
                         @php
-                            $finalPrice += $netPrice * $product->quantity
+                            if ($product->percent > 0) {
+                                $finalPrice += $product->price * $product->quantity;
+                            } else {
+                                $finalPrice += $netPrice * $product->quantity;
+                            }
                         @endphp
                         <td class="table-tr-td border-t-0 border-x-0">
                             @if($product->percent > 0)
@@ -402,7 +406,7 @@
                                                                                    placeholder="نام جدید مدل، می تواند خالی باشد">
                                                                         </div>
                                                                         <div
-                                                                            class="flex justify-end items-center space-x-4 space-x-reverse">
+                                                                                class="flex justify-end items-center space-x-4 space-x-reverse">
                                                                             <button type="submit"
                                                                                     class="form-submit-btn">
                                                                                 ثبت
@@ -516,7 +520,7 @@
                                                                                     متریال</p>
                                                                             </div>
                                                                             <div
-                                                                                class="mt-4 bg-myBlue-300 p-2 rounded-lg">
+                                                                                    class="mt-4 bg-myBlue-300 p-2 rounded-lg">
                                                                                 <p class="text-center text-lg font-bold text-white">
                                                                                     {{ number_format($totalPrice) }}
                                                                                     تومان
@@ -560,7 +564,7 @@
                                                                                        id="inputFinalPrice{{ $product->id }}">
                                                                             </div>
                                                                             <div
-                                                                                class="mt-4">
+                                                                                    class="mt-4">
                                                                                 <p class="text-center text-lg font-bold text-black"
                                                                                    id="finalPrice{{ $product->id }}">
                                                                                     {{ number_format($totalPrice * $product->percent) }}
@@ -690,14 +694,14 @@
                                                     متن اصلاحیه
                                                 </p>
                                                 <div
-                                                    class="mt-2 border border-gray-200 rounded-lg p-4 dark:border-black">
+                                                        class="mt-2 border border-gray-200 rounded-lg p-4 dark:border-black">
                                                     <p class="text-sm font-medium">
                                                         {{ $inquiry->message }}
                                                     </p>
                                                 </div>
                                             </div>
                                             <div
-                                                class="flex justify-end items-center space-x-4 space-x-reverse">
+                                                    class="flex justify-end items-center space-x-4 space-x-reverse">
                                                 <button type="button" class="form-cancel-btn"
                                                         @click="open = false">
                                                     انصراف!
@@ -748,9 +752,9 @@
                         <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
                         <div class="fixed z-10 inset-0 overflow-y-auto">
                             <div
-                                class="flex items-center justify-center min-h-full p-4 text-center">
+                                    class="flex items-center justify-center min-h-full p-4 text-center">
                                 <div
-                                    class="relative bg-white rounded-lg text-right overflow-hidden shadow-xl transform transition-all my-8 md:max-w-lg w-full">
+                                        class="relative bg-white rounded-lg text-right overflow-hidden shadow-xl transform transition-all my-8 md:max-w-lg w-full">
                                     <div class="bg-white p-4">
                                         <div class="mt-3 text-center sm:mt-0 sm:text-right">
                                             <h3 class="text-lg font-medium text-gray-900 border-b border-gray-300 pb-3">
