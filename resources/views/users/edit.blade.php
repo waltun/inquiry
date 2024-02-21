@@ -145,6 +145,9 @@
                     <option value="client" {{ $user->role == 'client' ? 'selected' : '' }}>
                         مشتری استعلام
                     </option>
+                    <option value="logistics" {{ $user->role == 'logistics' ? 'selected' : '' }}>
+                        تدارکات
+                    </option>
                 </select>
             </div>
 

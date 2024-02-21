@@ -56,6 +56,9 @@
                         @case('client')
                             مشتری استعلام
                             @break
+                        @case('client')
+                            تدارکات
+                            @break
                     @endswitch
                 </p>
             </div>
@@ -89,6 +92,11 @@
         <a href="{{ route('users.index') }}?role=client"
            class="text-xs font-medium {{ request('role') == 'client' ? 'text-indigo-600 underline' : 'text-indigo-400' }}">
             مشتری های استعلام ({{ \App\Models\User::where('role', 'client')->count() }})
+        </a>
+        <span> | </span>
+        <a href="{{ route('users.index') }}?role=logistics"
+           class="text-xs font-medium {{ request('role') == 'logistics' ? 'text-indigo-600 underline' : 'text-indigo-400' }}">
+            تدارکات ({{ \App\Models\User::where('role', 'logistics')->count() }})
         </a>
     </div>
 
@@ -172,6 +180,9 @@
                                     @break
                                 @case('client')
                                     مشتری استعلام
+                                    @break
+                                @case('logistics')
+                                    تدارکات
                                     @break
                             @endswitch
                         </td>

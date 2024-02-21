@@ -243,7 +243,7 @@
                          stroke="currentColor" class="w-5 h-5 ml-1">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
                     </svg>
-                    افزودن آیتم جدید به لیست خرید
+                    افزودن کالای جدید به لیست خرید
                 </button>
 
                 <!-- Create Store Modal -->
@@ -256,7 +256,7 @@
                                     <div class="mb-4 flex justify-between items-center">
                                         <div class="flex items-center space-x-4 space-x-reverse">
                                             <h3 class="text-lg font-bold text-gray-900 dark:text-white">
-                                                افزودن آیتم جدید
+                                                افزودن کالای جدید جهت خرید
                                             </h3>
                                         </div>
                                         <button type="button" @click="open = false">
@@ -290,10 +290,11 @@
                                             <table class="w-full">
                                                 <thead>
                                                 <tr class="text-xs border border-gray-400 text-center">
-                                                    <th class="p-1">کدینگ</th>
+                                                    <th class="p-1">کد کالا</th>
                                                     <th class="p-1 border-r border-gray-400">شرح</th>
                                                     <th class="p-1 border-r border-gray-400">تعداد درخواستی</th>
                                                     <th class="p-1 border-r border-gray-400">واحد</th>
+                                                    <th class="p-1 border-r border-gray-400">قرارداد</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -537,7 +538,8 @@
                                                         <input type="text" name="request_quantity"
                                                                id="inputRequestQuantity"
                                                                class="input-text w-20 text-center"
-                                                               placeholder="تعداد درخواستی">
+                                                               placeholder="تعداد"
+                                                               value="{{ old('request_quantity') }}">
                                                     </td>
                                                     <td class="p-1 border-r border-gray-400">
                                                         <select name="unit" id="inputUnit"
@@ -600,52 +602,53 @@
                                                             </option>
                                                         </select>
                                                     </td>
-                                                </tr>
-                                                <tr class="text-xs text-center">
-                                                    <td class="p-1 border border-gray-400">
-
-                                                    </td>
-                                                    <td class="p-1 border border-gray-400">
-                                                        <select name="buy_location" id="inputBuyLocation"
-                                                                class="input-text">
-                                                            <option value="">انتخاب محل خرید</option>
-                                                            <option value="factory">کارخانه</option>
-                                                            <option value="office">دفتر مرکزی</option>
-                                                        </select>
-                                                    </td>
-                                                    <td class="p-1 border border-gray-400">
-                                                        <input type="text" name="applicant"
-                                                               id="inputApplicant"
-                                                               class="input-text" placeholder="درخواست کننده">
-                                                    </td>
                                                     <td class="p-1 border border-gray-400">
                                                         <select name="document_number" id="inputDocumentNumber"
                                                                 class="input-text" style="width: 100%!important;">
                                                             <option value="">انتخاب قرارداد</option>
                                                             @foreach($contracts as $contract)
-                                                                <option value="{{ $contract->number }}">
+                                                                <option
+                                                                    value="{{ $contract->number }}" {{ old('document_number') == $contract->number ? 'selected' : '' }}>
                                                                     {{ $contract->number }} - {{ $contract->name }}
                                                                 </option>
                                                             @endforeach
                                                         </select>
                                                     </td>
                                                 </tr>
-                                                <tr class="text-xs text-center">
-                                                    <td class="p-1 border border-gray-400">
-
-                                                    </td>
-                                                    <td colspan="3" class="p-1 border border-gray-400">
-                                                        <input type="text" name="description" id="inputDescription"
-                                                               class="input-text" placeholder="توضیحات">
-                                                    </td>
-                                                </tr>
                                                 </tbody>
                                             </table>
+
+                                            <div class="mt-4 grid grid-cols-3 gap-4">
+                                                <div>
+                                                    <select name="buy_location" id="inputBuyLocation"
+                                                            class="input-text @error('buy_location') border-red-500 @enderror">
+                                                        <option value="">انتخاب محل خرید</option>
+                                                        <option
+                                                            value="factory" {{ old('buy_location') == 'factory' ? 'selected' : '' }}>
+                                                            کارخانه
+                                                        </option>
+                                                        <option
+                                                            value="office" {{ old('buy_location') == 'office' ? 'selected' : '' }}>
+                                                            دفتر مرکزی
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div>
+                                                    <input type="text" name="applicant"
+                                                           id="inputApplicant" value="{{ old('applicant') }}"
+                                                           class="input-text @error('applicant') border-red-500 @enderror" placeholder="درخواست کننده">
+                                                </div>
+                                                <div>
+                                                    <input type="text" name="description" id="inputDescription"
+                                                           class="input-text @error('description') border-red-500 @enderror" placeholder="توضیحات"
+                                                           value="{{ old('description') }}">
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <div class="flex justify-end">
                                             <button type="submit" class="form-submit-btn">
-                                                ثبت اقلام
+                                                ثبت
                                             </button>
                                         </div>
                                     </form>

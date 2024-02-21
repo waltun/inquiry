@@ -145,6 +145,9 @@
                     <option value="client" {{ old('role') == 'client' ? 'selected' : '' }}>
                         مشتری استعلام
                     </option>
+                    <option value="logistics" {{ old('role') == 'logistics' ? 'selected' : '' }}>
+                        تدارکات
+                    </option>
                 </select>
             </div>
 

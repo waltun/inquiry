@@ -51,7 +51,7 @@ class UserController extends Controller
             'phone' => ['required', 'digits:11', 'regex:/(09)[0-9]{9}/', 'numeric', 'unique:users'],
             'nation' => ['nullable', 'digits:10', 'numeric', 'unique:users'],
             'gender' => ['required', 'in:male,female'],
-            'role' => ['required', 'in:admin,staff,user,client'],
+            'role' => ['required', 'in:admin,staff,user,client,logistics'],
             'active' => ['required', 'integer', 'in:0,1'],
             'internal_number' => ['nullable', 'numeric'],
             'company' => ['nullable', 'string', 'max:255']
@@ -82,7 +82,7 @@ class UserController extends Controller
             'phone' => ['required', 'digits:11', 'regex:/(09)[0-9]{9}/', 'numeric', Rule::unique('users')->ignore($user->id)],
             'nation' => ['nullable', 'digits:10', 'numeric', Rule::unique('users')->ignore($user->id)],
             'gender' => ['required', 'in:male,female'],
-            'role' => ['required', 'in:admin,staff,user,client'],
+            'role' => ['required', 'in:admin,staff,user,client,logistics'],
             'active' => ['required', 'integer', 'in:0,1'],
             'internal_number' => ['nullable', 'numeric'],
             'company' => ['nullable', 'string', 'max:255']

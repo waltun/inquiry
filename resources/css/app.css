@@ -26,7 +26,7 @@
 }
 
 .header {
-    @apply flex justify-between items-center py-6 px-8 bg-blue-500 border-b border-gray-200 dark:border-black;
+    @apply flex justify-between items-center py-3 px-8 bg-blue-500 border-b border-gray-200 dark:border-black;
 }
 
 .header-notification {
@@ -34,8 +34,8 @@
 }
 
 .header-dark-mode {
-    @apply w-10 h-10 border-2 border-dashed border-white rounded-full flex items-center justify-center relative
-    mr-5 cursor-pointer;
+    @apply w-10 h-10 border-2 border-dashed border-white rounded-full md:flex items-center justify-center relative
+    mr-5 cursor-pointer hidden;
 }
 
 .header-toggle-menu {
