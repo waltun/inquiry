@@ -23,6 +23,7 @@ use App\Http\Controllers\Contract\RecipeController;
 use App\Http\Controllers\Contract\ProductController as ContractProduct;
 use App\Http\Controllers\InformationController;
 use App\Http\Controllers\LeaveController;
+use App\Http\Controllers\LetterTermController;
 use App\Http\Controllers\MarketingController as AllMarketings;
 use App\Http\Controllers\Contract\MarketPaymentController;
 use App\Http\Controllers\Contract\PaymentController;
@@ -356,6 +357,8 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::get('/settings/inquiry-terms/{inquiryTerm}/edit', [InquiryTermController::class, 'edit'])->name('settings.inquiryTerms.edit');
         Route::patch('/settings/inquiry-terms/{inquiryTerm}', [InquiryTermController::class, 'update'])->name('settings.inquiryTerms.update');
         Route::delete('/settings/inquiry-terms/{inquiryTerm}', [InquiryTermController::class, 'destroy'])->name('settings.inquiryTerms.destroy');
+
+        Route::resource('settings/letter-terms', LetterTermController::class)->except(['show']);
 
         //Separate Coil Routes
         Route::get('/separate-calculate-coil', [SeparateCalculateCoilController::class, 'index'])->name('separate.coil.index');
