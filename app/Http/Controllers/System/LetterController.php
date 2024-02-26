@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\System;
 
 use App\Http\Controllers\Controller;
+use App\Models\LetterTerm;
 use App\Models\System\Letter;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -41,7 +42,9 @@ class LetterController extends Controller
         $users = User::all();
         $date = Jalalian::now();
         $today = $date->getYear() . "-" . $date->getMonth() . "-" . $date->getDay();
-        return view('systems.letters.create', compact('users', 'today'));
+        $terms = LetterTerm::latest()->get();
+
+        return view('systems.letters.create', compact('users', 'today', 'terms'));
     }
 
     public function store(Request $request)
@@ -52,6 +55,7 @@ class LetterController extends Controller
             'category' => 'required|string|max:255',
             'date' => 'required|string|max:255',
             'registrar' => 'required|integer',
+            'description' => 'nullable'
         ]);
 
         $data = $this->getLetterNumber($data);
@@ -75,7 +79,9 @@ class LetterController extends Controller
         $day = jdate($letter->date)->getDay();
         $date = $year . "-" . $month . "-" . $day;
 
-        return view('systems.letters.edit', compact('letter', 'users', 'date'));
+        $terms = LetterTerm::latest()->get();
+
+        return view('systems.letters.edit', compact('letter', 'users', 'date', 'terms'));
     }
 
     public function update(Request $request, Letter $letter)
@@ -86,6 +92,7 @@ class LetterController extends Controller
             'category' => 'required|string|max:255',
             'date' => 'required|string|max:255',
             'registrar' => 'required|integer',
+            'description' => 'nullable'
         ]);
 
         $explodeDate = explode('-', $data['date']);

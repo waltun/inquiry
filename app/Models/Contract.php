@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\System\Letter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -57,5 +58,10 @@ class Contract extends Model
     public function invoices()
     {
         return $this->hasMany(Invoice::class);
+    }
+
+    public function letters()
+    {
+        return $this->hasMany(Letter::class);
     }
 }
