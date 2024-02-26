@@ -83,19 +83,19 @@
             </div>
 
             <div class="mt-4">
-                <label for="inputTitle" class="form-label">موضوع تسکی که باید انجام بشه</label>
+                <label for="inputTitle" class="form-label">موضوع وظیفه که باید انجام بشه</label>
                 <input type="text" id="inputTitle" name="title" class="input-text"
                        placeholder="مثال : تکمیل دیتاشیت پروژه ها" value="{{ old('title', $task->title) }}">
             </div>
 
             <div class="mt-4">
-                <label for="inputDate" class="form-label">تاریخی که این تسک باید انجام بشه</label>
+                <label for="inputDate" class="form-label">تاریخی که این وظیفه باید انجام بشه</label>
                 <input type="text" id="inputDate" name="date" class="input-text"
                        placeholder="برای انتخاب تاریخ کلیک کنید" value="{{ old('date', $date) }}">
             </div>
 
             <div class="mt-4">
-                <label for="inputLevel" class="form-label">سطح اهمیت این تسک</label>
+                <label for="inputLevel" class="form-label">سطح اهمیت این وظیفه</label>
                 <select name="level" id="inputLevel" class="input-text">
                     <option value="">انتخاب کنید</option>
                     <option value="high" {{ old('level', $task->level) == 'high' ? 'selected' : '' }}>
@@ -131,7 +131,7 @@
             </div>
 
             <div class="mt-4">
-                <label for="inputDescription" class="form-label">توضیحات مربوط به این تسک برای کاربر</label>
+                <label for="inputDescription" class="form-label">توضیحات مربوط به این وظیفه برای کاربر</label>
                 <textarea name="description" id="inputDescription"
                           class="input-text resize-none h-64">{{ old('description', $task->description) }}</textarea>
             </div>
@@ -139,7 +139,7 @@
 
         <div class="flex items-center space-x-4 space-x-reverse">
             <button type="submit" class="form-edit-btn" id="submit-button">
-                بروزرسانی تسک
+                بروزرسانی وظیفه
             </button>
             <a href="{{ route('tasks.index') }}" class="form-cancel-btn">
                 انصراف

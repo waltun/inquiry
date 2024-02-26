@@ -1171,7 +1171,7 @@
                                     </div>
                                     <div class="mr-4">
                                         <p class="font-bold text-black text-sm group-hover:text-white dark:text-white">
-                                            حساب ها
+                                            شماره حساب های شرکت
                                         </p>
                                     </div>
                                 </div>
