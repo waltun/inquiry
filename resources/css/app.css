@@ -285,4 +285,16 @@
     .sidebar::-webkit-scrollbar-thumb:hover {
         background: #9ca3af;
     }
+
+    .custom-letter-section table {
+        border: 1px solid #2f4f4fff;
+    }
+
+    .custom-letter-section table tr {
+        border: 1px solid #2f4f4fff;
+    }
+
+    .custom-letter-section table tr td {
+        border-left: 1px solid #2f4f4fff;
+    }
 }

@@ -127,12 +127,20 @@
         <tbody>
         <tr>
             <td>
-                <div class="relative" style="margin: 32px">
-                    {!! $letter->description !!}
-                </div>
-                <div class="flex justify-end items-center space-x-4 space-x-reverse">
-                    <img src="{{ asset('images/sign/mohr.jpg') }}" alt="" class="w-20">
-                    <img src="{{ asset('images/sign/hashemi.jpg') }}" alt="" class="w-20">
+                <div class="relative custom-letter-section"
+                     style="margin-right: 64px!important; margin-left: 64px!important;">
+                    <div>
+                        {!! $letter->description !!}
+                    </div>
+                    <div class="flex justify-end items-center space-x-4 space-x-reverse">
+                        <img src="{{ asset('images/sign/mohr.jpg') }}" alt="" class="w-20">
+                        <img src="{{ asset('images/sign/hashemi.jpg') }}" alt="" class="w-20">
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-sm font-bold">
+                            اقدام کننده : {{ $letter->user->name }}
+                        </p>
+                    </div>
                 </div>
             </td>
         </tr>
