@@ -16,8 +16,8 @@
                 quickbars_selection_toolbar: 'bold italic fontsizeselect | link h2 h3 blockquote | removeformat forecolor',
                 toolbar_mode: 'sliding',
                 contextmenu: 'link table',
-                content_style:
-                    "@import url('/fonts/font.css'); body { font-family: IRANSans; }",
+                content_style: "@import url('/fonts/font.css');",
+                font_formats: "IRANSans=IRANSans; Titr=Titr; Tahoma=tahoma,arial,helvetica,sans-serif;",
             })
         </script>
     </x-slot>

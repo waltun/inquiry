@@ -20,7 +20,9 @@ return new class extends Migration {
             $table->string('method');
             $table->string('category');
             $table->timestamp('date');
+            $table->text('description')->nullable();
 
+            $table->unsignedBigInteger('contract_id')->nullable();
             $table->unsignedBigInteger('registrar');
             $table->unsignedBigInteger('user_id');
 

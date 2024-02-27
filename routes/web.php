@@ -664,6 +664,7 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::resource('phonebook', PhonebookController::class)->except(['show']);
 
         Route::resource('letters', LetterController::class)->except(['show']);
+        Route::get('/letters/{letter}/print', [LetterController::class, 'print'])->name('letters.print');
 
         Route::resource('serials', SerialController::class)->except(['show']);
         Route::post('/serials/{serial}/replicate', [SerialController::class, 'replicate'])->name('serials.replicate');

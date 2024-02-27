@@ -6,6 +6,7 @@ use App\Models\Inquiry;
 use App\Models\Task;
 use App\Models\Todo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class DashboardController extends Controller
 {
@@ -26,6 +27,23 @@ class DashboardController extends Controller
         $receivedTasks = Task::where('receiver_id', auth()->user()->id)->latest()->get();
         $sentTasks = auth()->user()->tasks()->latest()->get();
 
-        return view('dashboard', compact('inquiries', 'submitInquiries', 'todayTodos', 'allTodos', 'receivedTasks', 'sentTasks'));
+        if (!Session::has('modal_shown') || !Session::has('last_modal_displayed')) {
+            Session::put('modal_shown', true);
+            Session::put('last_modal_displayed', now()->timestamp);
+
+            return view('dashboard', compact('inquiries', 'submitInquiries', 'todayTodos', 'allTodos', 'receivedTasks', 'sentTasks'))->with('showModal', true);
+        }
+
+        $lastDisplayedTimestamp = Session::get('last_modal_displayed');
+        $currentTimestamp = now()->timestamp;
+        $hoursInSeconds = 3 * 60 * 60;
+
+        if (($currentTimestamp - $lastDisplayedTimestamp) >= $hoursInSeconds) {
+            Session::put('last_modal_displayed', now()->timestamp);
+
+            return view('dashboard', compact('inquiries', 'submitInquiries', 'todayTodos', 'allTodos', 'receivedTasks', 'sentTasks'))->with('showModal', true);
+        }
+
+        return view('dashboard', compact('inquiries', 'submitInquiries', 'todayTodos', 'allTodos', 'receivedTasks', 'sentTasks'))->with('showModal', false);
     }
 }

@@ -114,6 +114,11 @@ class LetterController extends Controller
         return back();
     }
 
+    public function print(Letter $letter)
+    {
+        return view('systems.letters.print', compact('letter'));
+    }
+
     public function getLetterNumber(array $data)
     {
         $letters = Letter::select(['number'])->get();

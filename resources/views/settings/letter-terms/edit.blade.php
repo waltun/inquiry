@@ -16,8 +16,8 @@
                 quickbars_selection_toolbar: 'bold italic fontsizeselect | link h2 h3 blockquote | removeformat forecolor',
                 toolbar_mode: 'sliding',
                 contextmenu: 'link table',
-                content_style:
-                    "@import url('/fonts/font.css'); body { font-family: IRANSans; }",
+                content_style: "@import url('/fonts/font.css');",
+                font_formats: "IRANSans=IRANSans; Titr=Titr; Tahoma=tahoma,arial,helvetica,sans-serif;",
             })
         </script>
     </x-slot>
@@ -105,7 +105,7 @@
     </div>
 
     <!-- Form -->
-    <form method="POST" action="{{ route('letter-terms.index',$letter_term->id) }}" class="mt-4">
+    <form method="POST" action="{{ route('letter-terms.update',$letter_term->id) }}" class="mt-4">
         @csrf
         @method('PATCH')
 
