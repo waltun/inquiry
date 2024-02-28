@@ -11,7 +11,7 @@ class Invoice extends Model
 
     protected $fillable = [
         'price', 'description', 'complete', 'tax', 'user_id', 'inquiry_id', 'buyer_name', 'buyer_position', 'invoice_number', 'seen_at',
-        'contract_id'
+        'contract_id', 'show_invoice'
     ];
 
     public function user()

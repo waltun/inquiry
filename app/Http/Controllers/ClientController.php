@@ -15,7 +15,7 @@ class ClientController extends Controller
 
     public function invoice(User $user)
     {
-        $invoices = $user->invoices;
+        $invoices = $user->invoices()->where('show_invoice', true)->get();
         return view('clients.invoices', compact('user', 'invoices'));
     }
 

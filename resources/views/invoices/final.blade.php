@@ -244,7 +244,7 @@
                                         @if(auth()->user()->role == 'admin')
                                             @can('referral-inquiry')
                                                 <div x-data="{open:false}">
-                                                    <button class="table-dropdown-copy" @click="open = !open">
+                                                    <button class="table-dropdown-copy text-xs" @click="open = !open">
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                              viewBox="0 0 24 24"
                                                              stroke-width="1.5" stroke="currentColor"

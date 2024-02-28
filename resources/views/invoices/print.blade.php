@@ -538,5 +538,41 @@
             </div>
         @endif
 
+        <!-- Settings -->
+        <div class="card">
+            <div class="card-header">
+                <p class="card-title text-lg">
+                    تنظیمات پیش فاکتور
+                </p>
+            </div>
+
+            <div class="mt-8 overflow-x-auto rounded-lg hidden md:block">
+                <form action="{{ route('invoices.final.storeShowInvoice', $invoice->id) }}" method="POST">
+                    @csrf
+
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="mb-4">
+                            <label for="inputShowInvoice" class="form-label">
+                                نمایش پیش فاکتور به مشتری
+                            </label>
+                            <select name="show_invoice" id="inputShowInvoice" class="input-text">
+                                <option value="1" {{ $invoice->show_invoice ? 'selected' : '' }}>
+                                    نمایش به مشتری
+                                </option>
+                                <option value="0" {{ !$invoice->show_invoice ? 'selected' : '' }}>
+                                    عدم نمایش به مشتری
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="flex justify-end items-center">
+                        <button class="form-submit-btn">
+                            ثبت تنظیمات
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
     </div>
 </x-layout>

@@ -22,6 +22,7 @@ return new class extends Migration {
             $table->string('buyer_name')->nullable();
             $table->string('buyer_position')->nullable();
             $table->string('invoice_number')->nullable();
+            $table->boolean('show_invoice')->default(true);
             $table->timestamp('seen_at')->nullable();
 
             $table->unsignedBigInteger('user_id');

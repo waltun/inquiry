@@ -534,6 +534,7 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::post('/final-invoices/{invoice}/add-to-contract', [FinalInvoiceController::class, 'addToContract'])->name('invoices.final.addToContract');
         Route::post('/final-invoices/{invoice}/sms/{user}', [FinalInvoiceController::class, 'invoiceSMS'])->name('invoices.final.sms');
         Route::post('/final-invoices/{invoice}/referral', [FinalInvoiceController::class, 'referral'])->name('invoices.final.referral');
+        Route::post('/final-invoices/{invoice}/store-show-invoice', [FinalInvoiceController::class, 'storeShowInvoice'])->name('invoices.final.storeShowInvoice');
 
         Route::resource('attribute-groups', AttributeGroupController::class)->except(['create', 'edit', 'show']);
 

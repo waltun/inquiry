@@ -250,6 +250,20 @@ class FinalInvoiceController extends Controller
         return back();
     }
 
+    public function storeShowInvoice(Request $request, Invoice $invoice)
+    {
+        $request->validate([
+            'show_invoice' => 'required|integer|in:0,1'
+        ]);
+
+        $invoice->show_invoice = $request['show_invoice'];
+        $invoice->save();
+
+        alert()->success('ثبت موفق', 'تنظیمات پیش فاکتور با موفقیت ثبت شد');
+
+        return back();
+    }
+
     public function getOfficialCode(array $data)
     {
         $contracts = Contract::select('number')->where('number', '!=', null)->where('type', 'official')->get();
