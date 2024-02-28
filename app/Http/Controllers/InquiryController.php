@@ -1230,6 +1230,9 @@ class InquiryController extends Controller
 
         alert()->success('ثبت موفق', 'شرایط استعلام با موفقیت ثبت شد');
 
+        if ($inquiry->type == 'part') {
+            return redirect()->route('inquiries.parts.index', $inquiry->id);
+        }
         return redirect()->route('inquiries.product.index', $inquiry->id);
     }
 
