@@ -134,7 +134,7 @@
 
         @php
             $finalPrice = 0;
-            $products = $inquiry->products()->where('group_id','!=',0)->where('model_id','!=',0)->get();
+            $products = $inquiry->products()->where('group_id','!=',0)->where('model_id','!=',0)->orderBy('sort', 'ASC')->get();
         @endphp
 
             <!-- Product List -->

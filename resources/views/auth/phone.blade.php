@@ -12,11 +12,11 @@
 <body class="font-IRANSans bg-gray-50 h-full">
 
 <div class="flex min-h-full items-center justify-center">
-    <div class="border border-gray-400 rounded-lg p-8 w-full max-w-xl mx-auto shadow-lg">
+    <div class="border border-gray-400 rounded-lg p-8 w-full max-w-xl md:mx-auto mx-4 shadow-lg">
         <div class="mb-8">
             <img src="{{ asset('images/azarbad.png') }}" alt="" class="mx-auto w-64">
             <div class="mt-4">
-                <p class="text-xl font-bold text-black text-center">
+                <p class="md:text-xl text-lg font-bold text-black text-center">
                     ورود به سامانه جامع شرکت تهویه آذرباد
                 </p>
             </div>

@@ -201,6 +201,10 @@
     @apply px-4 py-2 bg-myBlue-300 text-white text-xs rounded-lg flex items-center hover:bg-blue-600;
 }
 
+.page-delete-btn {
+    @apply px-4 py-2 bg-red-500 text-white text-xs rounded-lg flex items-center hover:bg-red-600;
+}
+
 .card {
     @apply mb-4 bg-white rounded-lg border border-gray-200 p-5 dark:bg-slate-900 dark:border-black;
 }

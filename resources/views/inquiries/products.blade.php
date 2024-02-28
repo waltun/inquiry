@@ -204,7 +204,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($inquiry->products()->where('group_id','!=',0)->where('model_id','!=',0)->get() as $product)
+                    @foreach($inquiry->products()->where('group_id','!=',0)->where('model_id','!=',0)->orderBy('sort', 'ASC')->get() as $product)
                         @php
                             $group = \App\Models\Group::find($product->group_id);
                             $modell = \App\Models\Modell::find($product->model_id);

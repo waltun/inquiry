@@ -99,12 +99,16 @@ class AuthController extends Controller
 
                     if ($user->role == 'client') {
                         return redirect()->route('clients.invoices', $user->id);
-                    } else {
-                        return redirect()->route('dashboard');
                     }
-                } else {
-                    return back()->with('code-error', 'کد وارد شده صحیح نمی باشد!');
+
+                    if ($user->role == 'logistics') {
+                        return redirect()->route('purchase.view');
+                    }
+
+                    return redirect()->route('dashboard');
                 }
+
+                return back()->with('code-error', 'کد وارد شده صحیح نمی باشد!');
             }
         }
 
