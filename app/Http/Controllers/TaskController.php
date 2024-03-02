@@ -26,6 +26,13 @@ class TaskController extends Controller
         return view('tasks.index', compact('receivedTasks', 'sentTasks'));
     }
 
+    public function sent()
+    {
+        $sentTasks = auth()->user()->tasks()->latest()->get();
+
+        return view('tasks.sent', compact('sentTasks'));
+    }
+
     public function create()
     {
         $receivers = User::where('role', 'staff')->orWhere('role', 'admin')->get()->except(auth()->user()->id);

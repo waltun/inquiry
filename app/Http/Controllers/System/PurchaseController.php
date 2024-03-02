@@ -272,6 +272,7 @@ class PurchaseController extends Controller
             'store' => 'required|integer',
             'delivery' => 'nullable|string|max:255',
             'seller' => 'nullable|string|max:255',
+            'code' => 'required|numeric'
         ]);
 
         if (!is_null($data['date'])) {
@@ -294,8 +295,8 @@ class PurchaseController extends Controller
             'description' => $purchase->description,
             'store' => $data['store'],
             'date' => $data['date'],
-            'coding_id' => $purchase->coding_id,
-            'code' => !is_null($purchase->coding_id) ? $coding->code : null
+            'coding_id' => !is_null($purchase->coding_id) ? $coding->code : null,
+            'code' => $data['code']
         ]);
 
         $purchase->store = true;

@@ -470,7 +470,7 @@
                                                                                placeholder="تاریخ ثبت">
                                                                     </div>
                                                                 </div>
-                                                                <div class="grid grid-cols-3 gap-4">
+                                                                <div class="grid grid-cols-4 gap-4">
                                                                     <div>
                                                                         <label for="inputStore{{ $purchas->id }}"
                                                                                class="form-label">
@@ -504,6 +504,15 @@
                                                                         <input type="text" class="input-text"
                                                                                name="seller"
                                                                                id="inputSeller{{ $purchas->id }}">
+                                                                    </div>
+                                                                    <div>
+                                                                        <label for="inputFactor{{ $purchas->id }}"
+                                                                               class="form-label">
+                                                                            شماره فاکتور
+                                                                        </label>
+                                                                        <input type="text" class="input-text"
+                                                                               name="code"
+                                                                               id="inputFactor{{ $purchas->id }}">
                                                                     </div>
                                                                 </div>
 

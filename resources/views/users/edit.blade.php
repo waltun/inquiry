@@ -135,10 +135,10 @@
                         <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>
                             مدیر عامل
                         </option>
+                        <option value="staff" {{ $user->role == 'staff' ? 'selected' : '' }}>
+                            کارمند
+                        </option>
                     @endif
-                    <option value="staff" {{ $user->role == 'staff' ? 'selected' : '' }}>
-                        کارمند
-                    </option>
                     <option value="user" {{ $user->role == 'user' ? 'selected' : '' }}>
                         کاربر عادی
                     </option>
