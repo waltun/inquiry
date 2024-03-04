@@ -499,7 +499,7 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::get('/inquiry-price', [InquiryPriceController::class, 'index'])->name('inquiryPrice.index');
         Route::patch('/inquiry-price/{inquiry}/update', [InquiryPriceController::class, 'update'])->name('inquiryPrice.update');
         Route::patch('/inquiry-price/{modell}/updateProduct', [InquiryPriceController::class, 'updateProduct'])->name('inquiryPrice.updateProduct');
-        Route::patch('/inquiry-price/{part}/update-date', [InquiryPriceController::class, 'updateDate'])->name('inquiryPrice.updateDate');
+        Route::post('/inquiry-price/parts/update-date', [InquiryPriceController::class, 'updateDate'])->name('inquiryPrice.updateDate');
         Route::post('/inquiry-price/multi-update-date', [InquiryPriceController::class, 'multiUpdateDate'])->name('inquiryPrice.multiUpdateDate');
 
         //Product Current Price Rotues

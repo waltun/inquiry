@@ -106,7 +106,7 @@
                     </div>
                     <div>
                         <p class="text-xs font-medium text-black text-center">
-                            از طرف : {{ $sentTask->user->name }}
+                            ارسال شده برای : {{ $sentTask->receiver->name }}
                         </p>
                     </div>
                     @if($sentTask->description)

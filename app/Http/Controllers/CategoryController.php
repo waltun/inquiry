@@ -166,6 +166,12 @@ class CategoryController extends Controller
                 $code = $this->getPartLastCode($newPart);
                 $newPart->code = $code;
                 $newPart->save();
+
+                if (!$part->children->isEmpty()) {
+                    foreach ($part->children as $child) {
+                        $newPart->children()->attach($child->id);
+                    }
+                }
             }
         }
 

@@ -23,8 +23,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    method: 'PATCH',
-                    url: '/inquiry-price/' + id + '/update-date',
+                    url: '{{ route('inquiryPrice.updateDate') }}',
                     data: {
                         id: id,
                     },

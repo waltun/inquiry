@@ -542,65 +542,60 @@
                                                                value="{{ old('request_quantity') }}">
                                                     </td>
                                                     <td class="p-1 border-r border-gray-400">
-                                                        <select name="unit" id="inputUnit"
-                                                                class="input-text py-1.5 w-20">
-                                                            <option
-                                                                value="عدد" {{ $selectedCoding ? ($selectedCoding->unit == 'عدد' ? 'selected' : '') : '' }}>
-                                                                عدد
-                                                            </option>
-                                                            <option
-                                                                value="دستگاه" {{ $selectedCoding ? ($selectedCoding->unit == 'دستگاه' ? 'selected' : '') : '' }}>
-                                                                دستگاه
-                                                            </option>
-                                                            <option
-                                                                value="متر" {{ $selectedCoding ? ($selectedCoding->unit == 'متر' ? 'selected' : '') : '' }}>
-                                                                متر
-                                                            </option>
-                                                            <option
-                                                                value="کیلوگرم" {{ $selectedCoding ? ($selectedCoding->unit == 'کیلوگرم' ? 'selected' : '') : '' }}>
-                                                                کیلوگرم
-                                                            </option>
-                                                            <option
-                                                                value="شاخه" {{ $selectedCoding ? ($selectedCoding->unit == 'شاخه' ? 'selected' : '') : '' }}>
-                                                                شاخه
-                                                            </option>
-                                                            <option
-                                                                value="برگ" {{ $selectedCoding ? ($selectedCoding->unit == 'برگ' ? 'selected' : '') : '' }}>
-                                                                برگ
-                                                            </option>
-                                                            <option
-                                                                value="بسته" {{ $selectedCoding ? ($selectedCoding->unit == 'بسته' ? 'selected' : '') : '' }}>
-                                                                بسته
-                                                            </option>
-                                                            <option
-                                                                value="لیتر" {{ $selectedCoding ? ($selectedCoding->unit == 'لیتر' ? 'selected' : '') : '' }}>
-                                                                لیتر
-                                                            </option>
-                                                            <option
-                                                                value="کپسول" {{ $selectedCoding ? ($selectedCoding->unit == 'کپسول' ? 'selected' : '') : '' }}>
-                                                                کپسول
-                                                            </option>
-                                                            <option
-                                                                value="مترمربع" {{ $selectedCoding ? ($selectedCoding->unit == 'مترمربع' ? 'selected' : '') : '' }}>
-                                                                مترمربع
-                                                            </option>
-                                                            <option
-                                                                value="حلقه" {{ $selectedCoding ? ($selectedCoding->unit == 'حلقه' ? 'selected' : '') : '' }}>
-                                                                حلقه
-                                                            </option>
-                                                            <option
-                                                                value="جفت" {{ $selectedCoding ? ($selectedCoding->unit == 'جفت' ? 'selected' : '') : '' }}>
-                                                                جفت
-                                                            </option>
-                                                            <option
-                                                                value="دست" {{ $selectedCoding ? ($selectedCoding->unit == 'دست' ? 'selected' : '') : '' }}>
-                                                                دست
-                                                            </option>
-                                                            <option
-                                                                value="سری" {{ $selectedCoding ? ($selectedCoding->unit == 'سری' ? 'selected' : '') : '' }}>
-                                                                سری
-                                                            </option>
-                                                        </select>
+                                                        @if($selectedCoding)
+                                                            <p>
+                                                                {{ $selectedCoding->unit ?? '-' }}
+                                                            </p>
+                                                            <input type="hidden" name="unit"
+                                                                   value="{{ $selectedCoding->unit ?? '' }}"
+                                                                   id="inputUnit">
+                                                        @else
+                                                            <select name="unit" id="inputUnit"
+                                                                    class="input-text py-1.5 w-20">
+                                                                <option value="عدد">
+                                                                    عدد
+                                                                </option>
+                                                                <option value="دستگاه">
+                                                                    دستگاه
+                                                                </option>
+                                                                <option value="متر">
+                                                                    متر
+                                                                </option>
+                                                                <option value="کیلوگرم">
+                                                                    کیلوگرم
+                                                                </option>
+                                                                <option value="شاخه">
+                                                                    شاخه
+                                                                </option>
+                                                                <option value="برگ">
+                                                                    برگ
+                                                                </option>
+                                                                <option value="بسته">
+                                                                    بسته
+                                                                </option>
+                                                                <option value="لیتر">
+                                                                    لیتر
+                                                                </option>
+                                                                <option value="کپسول">
+                                                                    کپسول
+                                                                </option>
+                                                                <option value="مترمربع">
+                                                                    مترمربع
+                                                                </option>
+                                                                <option value="حلقه">
+                                                                    حلقه
+                                                                </option>
+                                                                <option value="جفت">
+                                                                    جفت
+                                                                </option>
+                                                                <option value="دست">
+                                                                    دست
+                                                                </option>
+                                                                <option value="سری">
+                                                                    سری
+                                                                </option>
+                                                            </select>
+                                                        @endif
                                                     </td>
                                                     <td class="p-1 border border-gray-400">
                                                         <select name="document_number" id="inputDocumentNumber"
@@ -636,11 +631,13 @@
                                                 <div>
                                                     <input type="text" name="applicant"
                                                            id="inputApplicant" value="{{ old('applicant') }}"
-                                                           class="input-text @error('applicant') border-red-500 @enderror" placeholder="درخواست کننده">
+                                                           class="input-text @error('applicant') border-red-500 @enderror"
+                                                           placeholder="درخواست کننده">
                                                 </div>
                                                 <div>
                                                     <input type="text" name="description" id="inputDescription"
-                                                           class="input-text @error('description') border-red-500 @enderror" placeholder="توضیحات"
+                                                           class="input-text @error('description') border-red-500 @enderror"
+                                                           placeholder="توضیحات"
                                                            value="{{ old('description') }}">
                                                 </div>
                                             </div>
