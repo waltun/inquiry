@@ -168,8 +168,11 @@ class CategoryController extends Controller
                 $newPart->save();
 
                 if (!$part->children->isEmpty()) {
-                    foreach ($part->children as $child) {
-                        $newPart->children()->attach($child->id);
+                    foreach ($part->children()->orderBy('sort', 'ASC')->get() as $child) {
+                        $newPart->children()->attach($child->id, [
+                            'value' => $child->pivot->value,
+                            'sort' => $child->pivot->sort
+                        ]);
                     }
                 }
             }
