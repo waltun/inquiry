@@ -21,6 +21,7 @@ class PurchaseController extends Controller
         $this->middleware('can:change-status-purchase')->only(['changeStatus']);
         $this->middleware('can:complete-purchase')->only(['complete']);
         $this->middleware('can:add-to-store-purchase')->only(['addToStore']);
+        $this->middleware('can:view-purchase')->only(['view', 'purchased']);
     }
 
     public function index()
@@ -295,7 +296,7 @@ class PurchaseController extends Controller
             'description' => $purchase->description,
             'store' => $data['store'],
             'date' => $data['date'],
-            'coding_id' => !is_null($purchase->coding_id) ? $coding->code : null,
+            'coding_id' => !is_null($purchase->coding_id) ? $coding->id : null,
             'code' => $data['code']
         ]);
 

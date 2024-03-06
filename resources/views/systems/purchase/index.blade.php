@@ -710,8 +710,9 @@
         <x-errors/>
     </div>
 
-    <!-- Table -->
-    <form method="POST" action="{{ route('purchase.changeStatus') }}" class="overflow-x-auto rounded-lg">
+    <!-- Desktop Table -->
+    <form method="POST" action="{{ route('purchase.changeStatus') }}"
+          class="overflow-x-auto rounded-lg hidden md:block">
         @csrf
         @method('PATCH')
 
@@ -891,6 +892,120 @@
                     لیست اقلام خریداری شده
                 </a>
             @endcan
+        </div>
+    </form>
+
+    <!-- Mobile -->
+    <form method="POST" action="{{ route('purchase.changeStatus') }}" class="mt-4 space-y-1 block md:hidden relative">
+        @csrf
+        @method('PATCH')
+
+        @foreach($purchase as $purchas)
+            @php
+                if (!is_null($purchas->coding_id)) {
+                    $coding = \App\Models\System\Coding::find($purchas->coding_id);
+                }
+
+                $color = '';
+                if ($purchas->status == 'accepted') {
+                    $color = 'bg-green-200';
+                } else if ($purchas->status == 'pending') {
+                    $color = 'bg-yellow-200';
+                } else if ($purchas->status == 'failed') {
+                    $color = 'bg-red-200';
+                } else if ($purchas->status == 'purchased') {
+                    $color = 'bg-sky-200';
+                } else {
+                    $color = 'bg-white';
+                }
+            @endphp
+            <div class="{{ $color }} rounded-lg shadow border border-myBlue-100 p-1 relative block md:hidden">
+                <div class="absolute w-6 h-6 rounded-full bg-sky-200 top-4 right-4 grid place-content-center">
+                    <p class="text-sm font-medium">
+                        {{ $loop->index + 1 }}
+                    </p>
+                </div>
+                <div class="space-y-1">
+                    <div class="flex items-center justify-between">
+                        <p class="text-xs font-medium text-center mr-10">
+                            {{ jdate($purchas->date)->format('Y/m/d') }}
+                        </p>
+                    </div>
+                    <p class="text-xs font-medium text-center">
+                        کالا : {{ !is_null($purchas->coding_id) ? $coding->name : $purchas->title }}
+                    </p>
+                    <div class="flex items-center space-x-4 space-x-reverse justify-center">
+                        <p class="text-xs font-medium text-center">
+                            کد کالا : {{ !is_null($purchas->coding_id) ? $coding->code : '-' }}
+                        </p>
+                        <p class="text-xs font-medium text-center">
+                            شماره پرونده : {{ $purchas->document_number ?? '-' }}
+                        </p>
+                    </div>
+                    <p class="text-xs font-medium text-center">
+                        تعداد درخواستی
+                        : {{ $purchas->request_quantity }} {{ !is_null($purchas->coding_id) ? $coding->unit : $purchas->unit }}
+                    </p>
+                    <div class="flex items-center justify-center space-x-4 space-x-reverse">
+                        <p class="text-xs font-medium text-center">
+                            تعداد تایید شده
+                        </p>
+                        <input type="number" class="input-text w-20 text-center py-0.5"
+                               value="{{ $purchas->accepted_quantity }}" name="accepted_quantity[]">
+                        <p class="text-xs font-medium text-center">
+                            وضعیت
+                        </p>
+                        <select name="status[]" id="inputStatus{{ $purchas->id }}"
+                                class="input-text py-0.5 status w-32">
+                            <option value="pending" {{ $purchas->status == 'pending' ? 'selected' : '' }}>
+                                در حال بررسی
+                            </option>
+                            <option value="accepted" {{ $purchas->status == 'accepted' ? 'selected' : '' }}>
+                                تایید شده
+                            </option>
+                            <option value="failed" {{ $purchas->status == 'failed' ? 'selected' : '' }}>
+                                رد شده
+                            </option>
+                            <option value="purchased" {{ $purchas->status == 'purchased' ? 'selected' : '' }}>
+                                خریداری شده
+                            </option>
+                        </select>
+                    </div>
+                    <div class="flex items-center space-x-4 space-x-reverse justify-center">
+                        <p class="text-xs font-medium text-center">
+                            درخواست کننده :
+                            {{ $purchas->applicant }}
+                        </p>
+                        <p class="text-xs font-medium text-center">
+                            محل خرید :
+                            @if($purchas->buy_location == 'factory')
+                                کارخانه
+                            @else
+                                دفتر مرکزی
+                            @endif
+                        </p>
+                    </div>
+                    @if($purchas->description)
+                        <p class="text-xs font-medium text-center">
+                            توضیحات : {{ $purchas->description }}
+                        </p>
+                    @endif
+                </div>
+            </div>
+
+            <input type="hidden" name="purchase_ids[]" value="{{ $purchas->id }}" class="store-ids">
+            <input type="hidden" name="important[]" value="{{ $purchas->important }}" class="store-ids">
+        @endforeach
+
+        <div class="flex justify-between items-center sticky bottom-4">
+            @can('complete-purchase')
+                <a href="{{ route('purchase.complete') }}" class="page-warning-btn shadow">
+                    لیست اقلام خریداری شده
+                </a>
+            @endcan
+            <button type="submit" class="page-success-btn shadow">
+                ثبت اطلاعات
+            </button>
         </div>
     </form>
 

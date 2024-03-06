@@ -8,6 +8,14 @@ use Morilog\Jalali\Jalalian;
 
 class LeaveController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:leaves')->only(['index']);
+        $this->middleware('can:create-leave')->only(['create', 'store']);
+        $this->middleware('can:edit-leave')->only(['edit', 'update']);
+        $this->middleware('can:delete-leave')->only(['destroy']);
+    }
+
     public function index()
     {
         $leaves = auth()->user()->leaves()->latest()->paginate(20);
