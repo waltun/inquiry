@@ -36,6 +36,34 @@
                     }
                 });
             }
+
+            function updateProductDate(id) {
+                let url = window.location.href;
+                let loadingSection = document.getElementById('loading-section');
+
+                loadingSection.classList.remove('hidden');
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('inquiryPrice.updateProductDate') }}',
+                    data: {
+                        id: id,
+                    },
+                    success: function (res) {
+                        if (res.data === 'error') {
+                            alert('قیمت برای این قطعه ثبت نشده است!')
+                        } else {
+                            location.href = url;
+                        }
+                    }
+                });
+            }
         </script>
         <script>
             function multiUpdateDate(id) {
@@ -402,7 +430,7 @@
                                 </td>
                                 <td class="table-tr-td border-t-0 border-r-0">
                                     <button type="button" class="table-warning-btn text-red-600"
-                                            onclick="updateDate({{ $part->id }})">
+                                            onclick="updateProductDate({{ $part->id }})">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                              stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
                                             <path stroke-linecap="round" stroke-linejoin="round"

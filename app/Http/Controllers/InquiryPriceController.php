@@ -175,6 +175,35 @@ class InquiryPriceController extends Controller
         return back();
     }
 
+    public function updateProductDate(Request $request)
+    {
+        $part = Part::find($request->id);
+        $inquiryPrices = InquiryPrice::where('part_id', $part->id)->get();
+
+        $partIds = collect();
+        foreach ($inquiryPrices as $inquiryPrice) {
+            if ($part->price != 0 && !is_null($part->price)) {
+                $part->price_updated_at = Carbon::now();
+                $part->save();
+
+                if ($partIds->contains($part->id)) {
+                    if (!$part->parents->isEmpty()) {
+                        foreach ($part->parents as $parent) {
+                            $parent->update([
+                                'price_updated_at' => now(),
+                                'updated_at' => now()
+                            ]);
+                        }
+                    }
+                }
+
+                $inquiryPrice->delete();
+            } else {
+                return response(['data' => 'error']);
+            }
+        }
+    }
+
     public function updateDate(Request $request)
     {
         $part = Part::find($request->id);
