@@ -81,7 +81,7 @@ class StoreController extends Controller
         $categories = SystemCategory::where('parent_id', 0)->with(['children'])->get();
         $date = Jalalian::now();
         $today = $date->getYear() . "-" . $date->getMonth() . "-" . $date->getDay();
-        $stores = $stores->orderBy('date', 'DESC')->paginate(50);
+        $stores = $stores->orderBy('date', 'DESC')->paginate(50)->withQueryString();
 
         return view('systems.stores.index', compact('stores', 'categories', 'today', 'codings'));
     }

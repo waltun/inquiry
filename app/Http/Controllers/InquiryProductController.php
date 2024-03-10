@@ -172,12 +172,25 @@ class InquiryProductController extends Controller
                         foreach ($part->children as $child) {
                             if (!$child->children->isEmpty()) {
                                 foreach ($child->children as $ch) {
-                                    if (!in_array($ch->id, $partIds)) {
-                                        if (($ch->price_updated_at < $lastTime && $ch->price > 0) || ($ch->price_updated_at < $lastTime && $ch->price == 0)) {
-                                            auth()->user()->inquiryPrices()->create([
-                                                'part_id' => $ch->id,
-                                                'inquiry_id' => $inquiry->id
-                                            ]);
+                                    if (!$ch->children->isEmpty()) {
+                                        foreach ($ch->children as $c) {
+                                            if (!in_array($c->id, $partIds)) {
+                                                if (($c->price_updated_at < $lastTime && $c->price > 0) || ($c->price_updated_at < $lastTime && $c->price == 0)) {
+                                                    auth()->user()->inquiryPrices()->create([
+                                                        'part_id' => $c->id,
+                                                        'inquiry_id' => $inquiry->id
+                                                    ]);
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        if (!in_array($ch->id, $partIds)) {
+                                            if (($ch->price_updated_at < $lastTime && $ch->price > 0) || ($ch->price_updated_at < $lastTime && $ch->price == 0)) {
+                                                auth()->user()->inquiryPrices()->create([
+                                                    'part_id' => $ch->id,
+                                                    'inquiry_id' => $inquiry->id
+                                                ]);
+                                            }
                                         }
                                     }
                                 }
@@ -211,8 +224,22 @@ class InquiryProductController extends Controller
                         $price = 0;
                         $weight = 0;
                         foreach ($part->children as $child) {
-                            $price += $child->price * $child->pivot->value;
-                            $weight += $child->weight * $child->pivot->value;
+                            if (!$child->children->isEmpty()) {
+                                foreach ($child->children()->where('head_part_id', $part->id)->orderBy('sort', 'ASC')->get() as $ch) {
+                                    if (!$ch->children->isEmpty()) {
+                                        foreach ($ch->children as $c) {
+                                            $price += $c->price * $c->pivot->value;
+                                            $weight += $c->weight * $c->pivot->value;
+                                        }
+                                    } else {
+                                        $price += $ch->price * $ch->pivot->value;
+                                        $weight += $ch->weight * $ch->pivot->value;
+                                    }
+                                }
+                            } else {
+                                $price += $child->price * $child->pivot->value;
+                                $weight += $child->weight * $child->pivot->value;
+                            }
                         }
                         $part->price = $price;
                         $part->weight = $weight;

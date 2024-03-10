@@ -163,8 +163,7 @@ class CollectionPartController extends Controller
         return back();
     }
 
-    public
-    function amounts(Part $parentPart)
+    public function amounts(Part $parentPart)
     {
         $setting = Setting::where('active', '1')->first();
 
@@ -268,11 +267,11 @@ class CollectionPartController extends Controller
                     $totalWeight += $ch->weight * $request->values[$index][$index2];
                 }
             } else {
-
                 DB::table('part_child')->where('parent_part_id', $child->id)->where('head_part_id', null)
                     ->where('child_part_id', $parentPart->id)->update([
                         'parent_part_id' => $request->part_ids[$index],
                         'value' => $request->values[$index],
+                        'value2' => $request->units[$index],
                         'sort' => $request->sorts[$index],
                         'datasheet' => $request->datasheets[$index],
                         'head_part_id' => null
