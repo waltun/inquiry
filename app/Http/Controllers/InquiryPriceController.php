@@ -85,6 +85,7 @@ class InquiryPriceController extends Controller
         foreach ($request->parts as $index => $part) {
             $updatedPart = Part::find($part);
             $inquiryPrices = InquiryPrice::where('part_id', $part)->get();
+
             foreach ($inquiryPrices as $inquiryPrice) {
                 if ($updatedPart->price !== (int)$request->prices[$index]) {
                     $percentPrice = $updatedPart->price + $updatedPart->price / 2;
@@ -99,22 +100,6 @@ class InquiryPriceController extends Controller
                             'percent_submit' => 0,
                             'factory_code' => $request->factory_codes[$index]
                         ]);
-
-                        if (!$updatedPart->parents->isEmpty()) {
-                            foreach ($updatedPart->parents as $parent) {
-                                $price = 0;
-                                foreach ($parent->children as $child) {
-                                    $price += $child->price * $child->pivot->value;
-                                }
-                                $parent->update([
-                                    'price' => $price,
-                                    'old_price' => $parent->price,
-                                    'price_updated_at' => now(),
-                                    'updated_at' => now(),
-                                    'factory_code' => $request->factory_codes[$index]
-                                ]);
-                            }
-                        }
                         $inquiryPrice->delete();
                     }
                 }
@@ -150,21 +135,6 @@ class InquiryPriceController extends Controller
                             'factory_code' => $request->factory_codes[$index]
                         ]);
 
-                        if (!$updatedPart->parents->isEmpty()) {
-                            foreach ($updatedPart->parents as $parent) {
-                                $price = 0;
-                                foreach ($parent->children as $child) {
-                                    $price += $child->price * $child->pivot->value;
-                                }
-                                $parent->update([
-                                    'price' => $price,
-                                    'old_price' => $parent->price,
-                                    'price_updated_at' => now(),
-                                    'updated_at' => now(),
-                                    'factory_code' => $request->factory_codes[$index]
-                                ]);
-                            }
-                        }
                         $inquiryPrice->delete();
                     }
                 }
@@ -180,22 +150,10 @@ class InquiryPriceController extends Controller
         $part = Part::find($request->id);
         $inquiryPrices = InquiryPrice::where('part_id', $part->id)->get();
 
-        $partIds = collect();
         foreach ($inquiryPrices as $inquiryPrice) {
             if ($part->price != 0 && !is_null($part->price)) {
                 $part->price_updated_at = Carbon::now();
                 $part->save();
-
-                if ($partIds->contains($part->id)) {
-                    if (!$part->parents->isEmpty()) {
-                        foreach ($part->parents as $parent) {
-                            $parent->update([
-                                'price_updated_at' => now(),
-                                'updated_at' => now()
-                            ]);
-                        }
-                    }
-                }
 
                 $inquiryPrice->delete();
             } else {
@@ -209,30 +167,10 @@ class InquiryPriceController extends Controller
         $part = Part::find($request->id);
         $inquiryPrices = InquiryPrice::where('part_id', $part->id)->get();
 
-        $partIds = collect();
         foreach ($inquiryPrices as $inquiryPrice) {
-            $inquiry = Inquiry::find($inquiryPrice->inquiry_id);
-
-            foreach ($inquiry->products as $product) {
-                foreach ($product->amounts as $amount) {
-                    $partIds->push($amount->part_id);
-                }
-            }
-
             if ($part->price != 0 && !is_null($part->price)) {
                 $part->price_updated_at = Carbon::now();
                 $part->save();
-
-                if ($partIds->contains($part->id)) {
-                    if (!$part->parents->isEmpty()) {
-                        foreach ($part->parents as $parent) {
-                            $parent->update([
-                                'price_updated_at' => now(),
-                                'updated_at' => now()
-                            ]);
-                        }
-                    }
-                }
 
                 $inquiryPrice->delete();
             } else {
@@ -247,30 +185,10 @@ class InquiryPriceController extends Controller
             $part = Part::find($id);
             $inquiryPrices = InquiryPrice::where('part_id', $part->id)->get();
 
-            $partIds = collect();
             foreach ($inquiryPrices as $inquiryPrice) {
-                $inquiry = Inquiry::find($inquiryPrice->inquiry_id);
-
-                foreach ($inquiry->products as $product) {
-                    foreach ($product->amounts as $amount) {
-                        $partIds->push($amount->part_id);
-                    }
-                }
-
                 if ($part->price != 0 && !is_null($part->price)) {
                     $part->price_updated_at = Carbon::now();
                     $part->save();
-
-                    if ($partIds->contains($part->id)) {
-                        if (!$part->parents->isEmpty()) {
-                            foreach ($part->parents as $parent) {
-                                $parent->update([
-                                    'price_updated_at' => now(),
-                                    'updated_at' => now()
-                                ]);
-                            }
-                        }
-                    }
 
                     $inquiryPrice->delete();
                 } else {

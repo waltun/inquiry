@@ -165,7 +165,6 @@ class InquiryProductController extends Controller
         }
 
         $partIds = InquiryPrice::select(['part_id'])->distinct()->pluck('part_id')->toArray();
-
         if ($inquiry->submit) {
             if ($product->amounts->isEmpty()) {
                 foreach ($modell->parts as $part) {
@@ -185,7 +184,6 @@ class InquiryProductController extends Controller
                             } else {
                                 if (!in_array($child->id, $partIds)) {
                                     if (($child->price_updated_at < $lastTime && $child->price > 0) || ($child->price_updated_at < $lastTime && $child->price == 0)) {
-
                                         auth()->user()->inquiryPrices()->create([
                                             'part_id' => $child->id,
                                             'inquiry_id' => $inquiry->id
@@ -209,6 +207,19 @@ class InquiryProductController extends Controller
                 foreach ($product->amounts as $amount) {
                     $part = Part::find($amount->part_id);
 
+                    if ($part->collection) {
+                        $price = 0;
+                        $weight = 0;
+                        foreach ($part->children as $child) {
+                            $price += $child->price * $child->pivot->value;
+                            $weight += $child->weight * $child->pivot->value;
+                        }
+                        $part->price = $price;
+                        $part->weight = $weight;
+                        $part->price_updated_at = now();
+                        $part->save();
+                    }
+
                     if ($amount->value > 0) {
                         if (!$part->children->isEmpty()) {
                             foreach ($part->children as $child) {
@@ -226,7 +237,6 @@ class InquiryProductController extends Controller
                                 } else {
                                     if (!in_array($child->id, $partIds)) {
                                         if (($child->price_updated_at < $lastTime && $child->price > 0) || ($child->price_updated_at < $lastTime && $child->price == 0)) {
-
                                             auth()->user()->inquiryPrices()->create([
                                                 'part_id' => $child->id,
                                                 'inquiry_id' => $inquiry->id
@@ -249,7 +259,6 @@ class InquiryProductController extends Controller
                 }
             }
         }
-
 
         return view('inquiry-product.amounts', compact('product', 'group', 'modell', 'inquiry', 'amounts', 'specials', 'setting'));
     }

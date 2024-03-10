@@ -86,29 +86,31 @@ class AuthController extends Controller
 
             if (!is_null($user)) {
                 $status = ActiveCode::verifyCode($code, $user);
-                if ($status) {
-                    $user->activeCode()->delete();
-                    if (!$user->active) {
-                        $user->update([
-                            'active' => true
-                        ]);
+                if ($user->active) {
+                    if ($status) {
+                        $user->activeCode()->delete();
+//                    if (!$user->active) {
+//                        $user->update([
+//                            'active' => true
+//                        ]);
+//                    }
+                        Auth::loginUsingId($user->id);
+
+                        alert()->success('ورود موفق', 'شما با موفقیت وارد سیستم شدید');
+
+                        if ($user->role == 'client') {
+                            return redirect()->route('clients.invoices', $user->id);
+                        }
+
+                        if ($user->role == 'logistics') {
+                            return redirect()->route('purchase.view');
+                        }
+
+                        return redirect()->route('dashboard');
                     }
-                    Auth::loginUsingId($user->id);
-
-                    alert()->success('ورود موفق', 'شما با موفقیت وارد سیستم شدید');
-
-                    if ($user->role == 'client') {
-                        return redirect()->route('clients.invoices', $user->id);
-                    }
-
-                    if ($user->role == 'logistics') {
-                        return redirect()->route('purchase.view');
-                    }
-
-                    return redirect()->route('dashboard');
+                    return back()->with('code-error', 'کد وارد شده صحیح نمی باشد!');
                 }
-
-                return back()->with('code-error', 'کد وارد شده صحیح نمی باشد!');
+                return back()->with('code-error', 'منتظر تایید مدیریت!');
             }
         }
 
