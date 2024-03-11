@@ -614,6 +614,8 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::get('/contracts/{contract}/add-part/{product}', [ContractPartController::class, 'addPart'])->name('contracts.parts.add-part');
         Route::post('/contracts/{contract}/add-part/{product}', [ContractPartController::class, 'storePart'])->name('contracts.parts.store-part');
         Route::post('/contracts/analyze/parts/delete', [ContractPartController::class, 'destroyPart'])->name('contracts.parts.destroy');
+        Route::get('/contracts/{contract}/add-single-part/{product}', [ContractPartController::class, 'addSinglePart'])->name('contracts.parts.add-single-part');
+        Route::post('/contracts/{contract}/add-single-part/{product}', [ContractPartController::class, 'storeSinglePart'])->name('contracts.parts.store-single-part');
 
         Route::post('/contracts/{contract}/products', [ContractPartController::class, 'storeProduct'])->name('contracts.products.store-product');
 

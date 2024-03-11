@@ -14,7 +14,7 @@ class PackingController extends Controller
 {
     public function index(Contract $contract)
     {
-        $packings = $contract->packings()->latest()->paginate(20);
+        $packings = $contract->packings()->paginate(20);
         return view('contracts.packings.index', compact('packings', 'contract'));
     }
 

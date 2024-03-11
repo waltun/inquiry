@@ -290,6 +290,63 @@ class PartController extends Controller
         return redirect()->route('contracts.parts.index', $contract->id);
     }
 
+    public function addSinglePart(Contract $contract, ContractProduct $product)
+    {
+        $parts = Part::query();
+        $categories = Category::where('parent_id', 0)->get();
+
+        if ($keyword = request('search')) {
+            $parts->where('name', 'LIKE', "%{$keyword}%");
+        }
+
+        if (!is_null(request('category3'))) {
+            if (request()->has('category3')) {
+                $parts = $parts->whereHas('categories', function ($q) {
+                    $q->where('category_id', request('category3'));
+                });
+            }
+        }
+
+        if (is_null(request('category3'))) {
+            if (request()->has('category2')) {
+                $parts = $parts->whereHas('categories', function ($q) {
+                    $q->where('category_id', request('category2'));
+                });
+            }
+        }
+
+        $parts = $parts->latest()->paginate(25);
+
+        return view('contracts.parts.add-single-part', compact('contract', 'product', 'categories', 'parts'));
+    }
+
+    public function storeSinglePart(Request $request, Contract $contract, ContractProduct $product)
+    {
+        $request->validate([
+            'quantity' => 'required|numeric',
+            'tag' => 'nullable|string|max:255',
+            'part_id' => 'required|integer',
+            'type' => 'required'
+        ]);
+
+        $part = Part::find($request->part_id);
+
+        $contract->products()->create([
+            'part_id' => $part->id,
+            'quantity' => $request['quantity'],
+            'tag' => $request['tag'],
+            'type' => $request['type'],
+            'price' => $part->price,
+            'product_id' => null,
+            'model_id' => 0,
+            'group_id' => 0
+        ]);
+
+        alert()->success('ثبت موفق', 'افزودن قطعه به قرارداد با موفقیت انجام شد');
+
+        return redirect()->route('contracts.parts.index', $contract->id);
+    }
+
     public function destroyPart(Request $request)
     {
         $product = ContractProduct::find($request->product_id);
@@ -309,6 +366,13 @@ class PartController extends Controller
     public function storeProduct(Request $request, Contract $contract)
     {
         $products = $contract->products()->where('part_id', '!=', 0)->get();
+
+        foreach ($contract->products()->where('part_id', '!=', 0)->where('type', $request->type)->get() as $index => $product) {
+            $product->update([
+                'part_id' => $request->part_ids[$index],
+                'quantity' => $request->quantities[$index],
+            ]);
+        }
 
         foreach ($products as $product) {
             if (!$product->spareAmounts->isEmpty()) {
@@ -363,9 +427,6 @@ class PartController extends Controller
                     }
                 }
             }
-
-            $product->quantity = $request->quantities[$index];
-            $product->save();
         }
 
         alert()->success('ثبت موفق', 'ثبت مقادیر با موفقیت انجام شد');

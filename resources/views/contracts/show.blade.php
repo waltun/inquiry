@@ -119,72 +119,87 @@
             </div>
             <div class="grid grid-cols-6 gap-4">
                 <a href="{{ route('contracts.invoices.index', $contract->id) }}"
-                   class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 bg-opacity-50 border-opacity-50">
+                   class="p-2 rounded-2xl shadow flex items-center justify-between border border-gray-300 {{ $contract->invoices->isEmpty() ? 'bg-opacity-50 border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
                     <div class="flex items-center">
                         <div class="mr-4">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white text-opacity-40">
+                            <p class="font-bold text-black text-xs {{ $contract->invoices->isEmpty() ? 'text-opacity-40' : '' }}">
                                 پیش فاکتور
                             </p>
                         </div>
                     </div>
                     <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white text-opacity-40">
-                            <path fill-rule="evenodd"
-                                  d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                                  clip-rule="evenodd"/>
-                        </svg>
+                        @if($contract->invoices->isEmpty())
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                 class="w-5 h-5 text-gray-600 text-opacity-40">
+                                <path fill-rule="evenodd"
+                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        @else
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                 stroke="currentColor" class="w-5 h-5 text-gray-600">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                            </svg>
+                        @endif
                     </div>
                 </a>
 
                 <a href="{{ route('contracts.invoices.index', $contract->id) }}"
-                   class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 bg-opacity-50 border-opacity-50">
+                   class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 border-opacity-50 bg-opacity-50">
                     <div class="flex items-center">
                         <div class="mr-4">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white text-opacity-40">
+                            <p class="font-bold text-black text-xs text-opacity-40">
                                 قرارداد
                             </p>
                         </div>
                     </div>
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                             stroke="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white text-opacity-40">
+                             stroke="currentColor" class="w-5 h-5 text-gray-600 text-opacity-40">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
                         </svg>
                     </div>
                 </a>
 
                 <a href="{{ route('contracts.invoices.index', $contract->id) }}"
-                   class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 bg-opacity-50 border-opacity-50">
+                   class="p-2 rounded-2xl shadow flex items-center justify-between border border-gray-300 {{ is_null($contract->customer_id) ? 'bg-opacity-50 border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
                     <div class="flex items-center">
                         <div class="mr-4">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white text-opacity-40">
+                            <p class="font-bold text-black text-xs {{ is_null($contract->customer_id) ? 'text-opacity-40' : '' }}">
                                 اطلاعات مشتری
                             </p>
                         </div>
                     </div>
                     <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
-                            <path fill-rule="evenodd"
-                                  d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                                  clip-rule="evenodd"/>
-                        </svg>
+                        @if(is_null($contract->customer_id))
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                 class="w-5 h-5 text-gray-600 text-opacity-40">
+                                <path fill-rule="evenodd"
+                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        @else
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                 stroke="currentColor" class="w-5 h-5 text-gray-600">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                            </svg>
+                        @endif
+
                     </div>
                 </a>
 
-                <a href="{{ route('contracts.invoices.index', $contract->id) }}" class="dashboard-cards group">
+                <a href="{{ route('contracts.invoices.index', $contract->id) }}"
+                   class="p-2 rounded-2xl shadow flex items-center justify-between border border-gray-300 bg-gray-300 bg-opacity-50 border-opacity-50">
                     <div class="flex items-center">
                         <div class="mr-4">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white">
+                            <p class="font-bold text-black text-xs text-opacity-40">
                                 اطلاعات نمایندگان خریدار
                             </p>
                         </div>
                     </div>
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                             class="w-5 h-5 text-gray-600 text-opacity-40">
                             <path fill-rule="evenodd"
                                   d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
                                   clip-rule="evenodd"/>
@@ -192,50 +207,78 @@
                     </div>
                 </a>
 
-                <a href="{{ route('contracts.products', $contract->id) }}" class="dashboard-cards group">
+                <a href="{{ route('contracts.products', $contract->id) }}"
+                   class="p-2 rounded-2xl shadow flex items-center justify-between border border-gray-300 {{ $contract->products->isEmpty() ? 'bg-opacity-50 border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
                     <div class="flex items-center">
                         <div class="mr-4">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white">
+                            <p class="font-bold text-black text-xs {{ $contract->products->isEmpty() ? 'text-opacity-40' : '' }}">
                                 لیست محصولات و اقلام
                             </p>
                         </div>
                     </div>
                     <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
-                            <path fill-rule="evenodd"
-                                  d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                                  clip-rule="evenodd"/>
-                        </svg>
+                        @if($contract->products->isEmpty())
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                 class="w-5 h-5 text-gray-600 text-opacity-40">
+                                <path fill-rule="evenodd"
+                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        @else
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                 stroke="currentColor" class="w-5 h-5 text-gray-600">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                            </svg>
+                        @endif
+
                     </div>
                 </a>
-
-                <a href="{{ route('contracts.parts.index', $contract->id) }}" class="dashboard-cards group">
+                @php
+                    $amountStatus = true;
+                    foreach ($contract->products as $product) {
+                        if (!$product->spareAmounts->isEmpty()) {
+                            $amountStatus = false;
+                        }
+                    }
+                @endphp
+                <a href="{{ route('contracts.parts.index', $contract->id) }}"
+                   class="p-2 rounded-2xl shadow flex items-center justify-between border border-gray-300 {{ $amountStatus ? 'bg-opacity-50 border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
                     <div class="flex items-center">
                         <div class="mr-4">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white">
+                            <p class="font-bold text-black text-xs {{ $amountStatus ? 'text-opacity-40' : '' }}">
                                 ریز آنالیز قطعات محصولات
                             </p>
                         </div>
                     </div>
                     <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
-                            <path fill-rule="evenodd"
-                                  d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                                  clip-rule="evenodd"/>
-                        </svg>
+                        @if($amountStatus)
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                 class="w-5 h-5 text-gray-600">
+                                <path fill-rule="evenodd"
+                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        @else
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                 stroke="currentColor" class="w-5 h-5 text-gray-600">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                            </svg>
+                        @endif
                     </div>
                 </a>
             </div>
 
+            @php
+                $saleCount = 6;
+                $salePeice = 100 / 6;
+            @endphp
             <div
                 class="flex items-center justify-between mt-4 space-x-4 space-x-reverse p-2 rounded-md border border-yellow-400">
                 <p class="text-xs font-bold text-black">وضعیت</p>
                 <div class="w-full bg-gray-200 rounded-full">
                     <div class="bg-blue-600 text-xs font-medium text-white text-center p-0.5 leading-none rounded-full"
-                         style="width: 65%">
-                        65%
+                         style="width: {{ $salePeice }}%">
+                        {{ number_format($salePeice) }}%
                     </div>
                 </div>
             </div>
@@ -248,17 +291,18 @@
                 </span>
             </div>
             <div class="grid grid-cols-6 gap-4">
-                <a href="{{ route('contracts.invoices.index', $contract->id) }}" class="dashboard-cards group">
+                <a href="{{ route('contracts.invoices.index', $contract->id) }}"
+                   class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 bg-opacity-50 border-opacity-50">
                     <div class="flex items-center">
                         <div class="mr-4">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white">
+                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white text-opacity-40">
                                 مبالغ قرارداد و آنالیز
                             </p>
                         </div>
                     </div>
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white text-opacity-40">
                             <path fill-rule="evenodd"
                                   d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
                                   clip-rule="evenodd"/>
@@ -266,17 +310,18 @@
                     </div>
                 </a>
 
-                <a href="{{ route('contracts.invoices.index', $contract->id) }}" class="dashboard-cards group">
+                <a href="{{ route('contracts.invoices.index', $contract->id) }}"
+                   class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 bg-opacity-50 border-opacity-50">
                     <div class="flex items-center">
                         <div class="mr-4">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white">
+                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white text-opacity-40">
                                 پرداخت ها
                             </p>
                         </div>
                     </div>
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white text-opacity-40">
                             <path fill-rule="evenodd"
                                   d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
                                   clip-rule="evenodd"/>
@@ -284,17 +329,18 @@
                     </div>
                 </a>
 
-                <a href="{{ route('contracts.invoices.index', $contract->id) }}" class="dashboard-cards group">
+                <a href="{{ route('contracts.invoices.index', $contract->id) }}"
+                   class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 bg-opacity-50 border-opacity-50">
                     <div class="flex items-center">
                         <div class="mr-4">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white">
+                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white text-opacity-40">
                                 تضامین
                             </p>
                         </div>
                     </div>
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white text-opacity-40">
                             <path fill-rule="evenodd"
                                   d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
                                   clip-rule="evenodd"/>
@@ -302,17 +348,18 @@
                     </div>
                 </a>
 
-                <a href="{{ route('contracts.invoices.index', $contract->id) }}" class="dashboard-cards group">
+                <a href="{{ route('contracts.invoices.index', $contract->id) }}"
+                   class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 bg-opacity-50 border-opacity-50">
                     <div class="flex items-center">
                         <div class="mr-4">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white">
+                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white text-opacity-40">
                                 بازاریابی
                             </p>
                         </div>
                     </div>
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white text-opacity-40">
                             <path fill-rule="evenodd"
                                   d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
                                   clip-rule="evenodd"/>
@@ -320,17 +367,18 @@
                     </div>
                 </a>
 
-                <a href="{{ route('contracts.invoices.index', $contract->id) }}" class="dashboard-cards group">
+                <a href="{{ route('contracts.invoices.index', $contract->id) }}"
+                   class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 bg-opacity-50 border-opacity-50">
                     <div class="flex items-center">
                         <div class="mr-4">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white">
+                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white text-opacity-40">
                                 اخذ کد اختصاصی
                             </p>
                         </div>
                     </div>
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white text-opacity-40">
                             <path fill-rule="evenodd"
                                   d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
                                   clip-rule="evenodd"/>
@@ -338,17 +386,18 @@
                     </div>
                 </a>
 
-                <a href="{{ route('contracts.invoices.index', $contract->id) }}" class="dashboard-cards group">
+                <a href="{{ route('contracts.invoices.index', $contract->id) }}"
+                   class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 bg-opacity-50 border-opacity-50">
                     <div class="flex items-center">
                         <div class="mr-4">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white">
+                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white text-opacity-40">
                                 فاکتور رسمی
                             </p>
                         </div>
                     </div>
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white text-opacity-40">
                             <path fill-rule="evenodd"
                                   d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
                                   clip-rule="evenodd"/>
@@ -356,17 +405,18 @@
                     </div>
                 </a>
 
-                <a href="{{ route('contracts.invoices.index', $contract->id) }}" class="dashboard-cards group">
+                <a href="{{ route('contracts.invoices.index', $contract->id) }}"
+                   class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 bg-opacity-50 border-opacity-50">
                     <div class="flex items-center">
                         <div class="mr-4">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white">
+                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white text-opacity-40">
                                 مفاصا حساب
                             </p>
                         </div>
                     </div>
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white text-opacity-40">
                             <path fill-rule="evenodd"
                                   d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
                                   clip-rule="evenodd"/>
@@ -394,17 +444,18 @@
                 </span>
             </div>
             <div class="grid grid-cols-6 gap-4">
-                <a href="{{ route('contracts.invoices.index', $contract->id) }}" class="dashboard-cards group">
+                <a href="{{ route('contracts.invoices.index', $contract->id) }}"
+                   class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 bg-opacity-50 border-opacity-50">
                     <div class="flex items-center">
                         <div class="mr-4">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white">
+                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white text-opacity-40">
                                 دستور ساخت
                             </p>
                         </div>
                     </div>
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white text-opacity-40">
                             <path fill-rule="evenodd"
                                   d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
                                   clip-rule="evenodd"/>
@@ -412,17 +463,18 @@
                     </div>
                 </a>
 
-                <a href="{{ route('contracts.invoices.index', $contract->id) }}" class="dashboard-cards group">
+                <a href="{{ route('contracts.invoices.index', $contract->id) }}"
+                   class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 bg-opacity-50 border-opacity-50">
                     <div class="flex items-center">
                         <div class="mr-4">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white">
+                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white text-opacity-40">
                                 زمان شروع و پایان ساخت
                             </p>
                         </div>
                     </div>
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white text-opacity-40">
                             <path fill-rule="evenodd"
                                   d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
                                   clip-rule="evenodd"/>
@@ -430,17 +482,18 @@
                     </div>
                 </a>
 
-                <a href="{{ route('contracts.invoices.index', $contract->id) }}" class="dashboard-cards group">
+                <a href="{{ route('contracts.invoices.index', $contract->id) }}"
+                   class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 bg-opacity-50 border-opacity-50">
                     <div class="flex items-center">
                         <div class="mr-4">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white">
+                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white text-opacity-40">
                                 تدارکات
                             </p>
                         </div>
                     </div>
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white text-opacity-40">
                             <path fill-rule="evenodd"
                                   d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
                                   clip-rule="evenodd"/>
@@ -448,17 +501,18 @@
                     </div>
                 </a>
 
-                <a href="{{ route('contracts.invoices.index', $contract->id) }}" class="dashboard-cards group">
+                <a href="{{ route('contracts.invoices.index', $contract->id) }}"
+                   class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 bg-opacity-50 border-opacity-50">
                     <div class="flex items-center">
                         <div class="mr-4">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white">
+                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white text-opacity-40">
                                 کنترل کیفیت
                             </p>
                         </div>
                     </div>
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white text-opacity-40">
                             <path fill-rule="evenodd"
                                   d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
                                   clip-rule="evenodd"/>
@@ -466,17 +520,18 @@
                     </div>
                 </a>
 
-                <a href="{{ route('contracts.invoices.index', $contract->id) }}" class="dashboard-cards group">
+                <a href="{{ route('contracts.invoices.index', $contract->id) }}"
+                   class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 bg-opacity-50 border-opacity-50">
                     <div class="flex items-center">
                         <div class="mr-4">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white">
+                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white text-opacity-40">
                                 مدارک تایید شده
                             </p>
                         </div>
                     </div>
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white text-opacity-40">
                             <path fill-rule="evenodd"
                                   d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
                                   clip-rule="evenodd"/>
@@ -484,17 +539,18 @@
                     </div>
                 </a>
 
-                <a href="{{ route('contracts.invoices.index', $contract->id) }}" class="dashboard-cards group">
+                <a href="{{ route('contracts.invoices.index', $contract->id) }}"
+                   class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 bg-opacity-50 border-opacity-50">
                     <div class="flex items-center">
                         <div class="mr-4">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white">
+                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white text-opacity-40">
                                 پایان ساخت
                             </p>
                         </div>
                     </div>
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white text-opacity-40">
                             <path fill-rule="evenodd"
                                   d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
                                   clip-rule="evenodd"/>
@@ -502,17 +558,18 @@
                     </div>
                 </a>
 
-                <a href="{{ route('contracts.invoices.index', $contract->id) }}" class="dashboard-cards group">
+                <a href="{{ route('contracts.invoices.index', $contract->id) }}"
+                   class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 bg-opacity-50 border-opacity-50">
                     <div class="flex items-center">
                         <div class="mr-4">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white">
+                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white text-opacity-40">
                                 صدور پلاک و شماره سریال
                             </p>
                         </div>
                     </div>
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white text-opacity-40">
                             <path fill-rule="evenodd"
                                   d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
                                   clip-rule="evenodd"/>
@@ -520,17 +577,18 @@
                     </div>
                 </a>
 
-                <a href="{{ route('contracts.invoices.index', $contract->id) }}" class="dashboard-cards group">
+                <a href="{{ route('contracts.invoices.index', $contract->id) }}"
+                   class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 bg-opacity-50 border-opacity-50">
                     <div class="flex items-center">
                         <div class="mr-4">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white">
+                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white text-opacity-40">
                                 پکینگ لیست
                             </p>
                         </div>
                     </div>
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white text-opacity-40">
                             <path fill-rule="evenodd"
                                   d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
                                   clip-rule="evenodd"/>
@@ -538,17 +596,18 @@
                     </div>
                 </a>
 
-                <a href="{{ route('contracts.invoices.index', $contract->id) }}" class="dashboard-cards group">
+                <a href="{{ route('contracts.invoices.index', $contract->id) }}"
+                   class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 bg-opacity-50 border-opacity-50">
                     <div class="flex items-center">
                         <div class="mr-4">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white">
+                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white text-opacity-40">
                                 مجوز خروج
                             </p>
                         </div>
                     </div>
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white text-opacity-40">
                             <path fill-rule="evenodd"
                                   d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
                                   clip-rule="evenodd"/>
@@ -556,17 +615,18 @@
                     </div>
                 </a>
 
-                <a href="{{ route('contracts.invoices.index', $contract->id) }}" class="dashboard-cards group">
+                <a href="{{ route('contracts.invoices.index', $contract->id) }}"
+                   class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 bg-opacity-50 border-opacity-50">
                     <div class="flex items-center">
                         <div class="mr-4">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white">
+                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white text-opacity-40">
                                 بارگیری و حمل
                             </p>
                         </div>
                     </div>
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white text-opacity-40">
                             <path fill-rule="evenodd"
                                   d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
                                   clip-rule="evenodd"/>
@@ -574,17 +634,18 @@
                     </div>
                 </a>
 
-                <a href="{{ route('contracts.invoices.index', $contract->id) }}" class="dashboard-cards group">
+                <a href="{{ route('contracts.invoices.index', $contract->id) }}"
+                   class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 bg-opacity-50 border-opacity-50">
                     <div class="flex items-center">
                         <div class="mr-4">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white">
+                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white text-opacity-40">
                                 آپلود تصاویر ساخت
                             </p>
                         </div>
                     </div>
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white text-opacity-40">
                             <path fill-rule="evenodd"
                                   d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
                                   clip-rule="evenodd"/>
@@ -612,17 +673,18 @@
                 </span>
             </div>
             <div class="grid grid-cols-6 gap-4">
-                <a href="{{ route('contracts.invoices.index', $contract->id) }}" class="dashboard-cards group">
+                <a href="{{ route('contracts.invoices.index', $contract->id) }}"
+                   class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 bg-opacity-50 border-opacity-50">
                     <div class="flex items-center">
                         <div class="mr-4">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white">
+                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white text-opacity-40">
                                 دیتاشیت نهایی
                             </p>
                         </div>
                     </div>
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white text-opacity-40">
                             <path fill-rule="evenodd"
                                   d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
                                   clip-rule="evenodd"/>
@@ -630,17 +692,18 @@
                     </div>
                 </a>
 
-                <a href="{{ route('contracts.invoices.index', $contract->id) }}" class="dashboard-cards group">
+                <a href="{{ route('contracts.invoices.index', $contract->id) }}"
+                   class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 bg-opacity-50 border-opacity-50">
                     <div class="flex items-center">
                         <div class="mr-4">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white">
+                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white text-opacity-40">
                                 زمان شروع و پایان گارانتی
                             </p>
                         </div>
                     </div>
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white text-opacity-40">
                             <path fill-rule="evenodd"
                                   d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
                                   clip-rule="evenodd"/>
@@ -648,17 +711,18 @@
                     </div>
                 </a>
 
-                <a href="{{ route('contracts.invoices.index', $contract->id) }}" class="dashboard-cards group">
+                <a href="{{ route('contracts.invoices.index', $contract->id) }}"
+                   class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 bg-opacity-50 border-opacity-50">
                     <div class="flex items-center">
                         <div class="mr-4">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white">
+                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white text-opacity-40">
                                 شرایط گارانتی
                             </p>
                         </div>
                     </div>
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white text-opacity-40">
                             <path fill-rule="evenodd"
                                   d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
                                   clip-rule="evenodd"/>
@@ -666,17 +730,18 @@
                     </div>
                 </a>
 
-                <a href="{{ route('contracts.invoices.index', $contract->id) }}" class="dashboard-cards group">
+                <a href="{{ route('contracts.invoices.index', $contract->id) }}"
+                   class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 bg-opacity-50 border-opacity-50">
                     <div class="flex items-center">
                         <div class="mr-4">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white">
+                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white text-opacity-40">
                                 چک لیست های نصب
                             </p>
                         </div>
                     </div>
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white text-opacity-40">
                             <path fill-rule="evenodd"
                                   d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
                                   clip-rule="evenodd"/>
@@ -684,17 +749,18 @@
                     </div>
                 </a>
 
-                <a href="{{ route('contracts.invoices.index', $contract->id) }}" class="dashboard-cards group">
+                <a href="{{ route('contracts.invoices.index', $contract->id) }}"
+                   class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 bg-opacity-50 border-opacity-50">
                     <div class="flex items-center">
                         <div class="mr-4">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white">
+                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white text-opacity-40">
                                 چک لیست های راه‌اندازی
                             </p>
                         </div>
                     </div>
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white text-opacity-40">
                             <path fill-rule="evenodd"
                                   d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
                                   clip-rule="evenodd"/>
@@ -702,17 +768,18 @@
                     </div>
                 </a>
 
-                <a href="{{ route('contracts.invoices.index', $contract->id) }}" class="dashboard-cards group">
+                <a href="{{ route('contracts.invoices.index', $contract->id) }}"
+                   class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 bg-opacity-50 border-opacity-50">
                     <div class="flex items-center">
                         <div class="mr-4">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white">
+                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white text-opacity-40">
                                 چک لیست های بهره‌برداری
                             </p>
                         </div>
                     </div>
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white text-opacity-40">
                             <path fill-rule="evenodd"
                                   d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
                                   clip-rule="evenodd"/>
@@ -720,17 +787,18 @@
                     </div>
                 </a>
 
-                <a href="{{ route('contracts.invoices.index', $contract->id) }}" class="dashboard-cards group">
+                <a href="{{ route('contracts.invoices.index', $contract->id) }}"
+                   class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 bg-opacity-50 border-opacity-50">
                     <div class="flex items-center">
                         <div class="mr-4">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white">
+                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white text-opacity-40">
                                 نامه های ارسال شده
                             </p>
                         </div>
                     </div>
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white text-opacity-40">
                             <path fill-rule="evenodd"
                                   d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
                                   clip-rule="evenodd"/>
@@ -738,17 +806,18 @@
                     </div>
                 </a>
 
-                <a href="{{ route('contracts.invoices.index', $contract->id) }}" class="dashboard-cards group">
+                <a href="{{ route('contracts.invoices.index', $contract->id) }}"
+                   class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 bg-opacity-50 border-opacity-50">
                     <div class="flex items-center">
                         <div class="mr-4">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white">
+                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white text-opacity-40">
                                 نامه ها دریافت شده
                             </p>
                         </div>
                     </div>
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white text-opacity-40">
                             <path fill-rule="evenodd"
                                   d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
                                   clip-rule="evenodd"/>
