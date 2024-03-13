@@ -210,7 +210,10 @@ class PurchaseController extends Controller
                 'important' => $request->important[$index],
             ]);
 
-            if ($purchase->accepted_quantity > 0) {
+            if ($request->status[$index] == 'accepted' && $purchase->accepted_quantity > 0) {
+                $purchase->status = $request->status[$index];
+                $purchase->save();
+            } else {
                 $purchase->status = $request->status[$index];
                 $purchase->save();
             }

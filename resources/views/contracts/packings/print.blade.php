@@ -30,12 +30,11 @@
                                 </p>
                             </th>
                             <th scope="col" class="p-1" style="border-left: 1px solid black">
-                                <p class="text-4xl">
+                                <p class="text-2xl">
                                     Packing List
                                 </p>
                             </th>
                             <th scope="col" class="p-1" style="border-left: 1px solid black">
-                                <img src="{{ asset('images/azarbad.png') }}" alt="" class="w-24 mx-auto mb-2">
                                 <p class="text-sm">
                                     خریدار : {{ $contract->customer->name }}
                                 </p>
@@ -77,6 +76,14 @@
                                 </p>
                             </th>
                         </tr>
+                        <tr class="text-black border-2 border-t border-black text-xs">
+                            <th scope="col" class="p-1 rounded-tr-lg" colspan="3"
+                                style="border-left: 1px solid black">
+                                <p class="text-sm">
+                                    نام پروژه : {{ $contract->name }}
+                                </p>
+                            </th>
+                        </tr>
                         </thead>
                     </table>
                 </header>
@@ -106,8 +113,7 @@
                                       clip-rule="evenodd"/>
                             </svg>
                             <p class="text-xs text-white font-medium mr-1 text-justify">
-                                تهران، پونک، خیابان سردار جنگل، بالاتر از میرزابابایی، نبش بن بست ده متری گلستان، پلاک
-                                4، واحد 4
+                                استان البرز، ماهدشت، خیابان سرداران، شهرک صنعتی خوارزمی، خیابان ششم شمالی، پلاک 39
                             </p>
                         </div>
                     </div>
@@ -274,35 +280,38 @@
                                                 </tbody>
                                             </table>
                                         @endif
-                                        <table class="table-fixed w-full border-collapse mb-4">
-                                            <thead>
-                                            <tr class="text-black border border-x-2 border-black border-t-0 text-xs">
-                                                <th scope="col" class="p-1 rounded-tr-lg"
-                                                    style="border-left: 1px solid black">
-                                                    ابعاد (CM)
-                                                </th>
-                                                <th scope="col" class="p-1" style="border-left: 1px solid black">
-                                                    وزن (KG)
-                                                </th>
-                                                <th scope="col" class="p-1" style="border-left: 1px solid black">
-                                                    حجم (M<sup>3</sup>)
-                                                </th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr class="text-black text-xs text-center">
-                                                <td class="border border-r-2 border-b-2 border-black border-t-0 border-l p-1 font-bold">
-                                                    {{ $packing->length }}x{{ $packing->width }}x{{ $packing->height }}
-                                                </td>
-                                                <td class="border border-b-2 border-black border-t-0 border-l p-1 font-bold">
-                                                    {{ $packing->weight }}
-                                                </td>
-                                                <td class="border border-b-2 border-black border-t-0 border-l-2 p-1 font-bold">
-                                                    {{ $packing->length * $packing->width * $packing->height / 1000000 }}
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
+                                        @if($packing->length && $packing->width && $packing->height)
+                                            <table class="table-fixed w-full border-collapse mb-4">
+                                                <thead>
+                                                <tr class="text-black border border-x-2 border-black border-t-0 text-xs">
+                                                    <th scope="col" class="p-1 rounded-tr-lg"
+                                                        style="border-left: 1px solid black">
+                                                        ابعاد (CM)
+                                                    </th>
+                                                    <th scope="col" class="p-1" style="border-left: 1px solid black">
+                                                        وزن (KG)
+                                                    </th>
+                                                    <th scope="col" class="p-1" style="border-left: 1px solid black">
+                                                        حجم (M<sup>3</sup>)
+                                                    </th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr class="text-black text-xs text-center">
+                                                    <td class="border border-r-2 border-b-2 border-black border-t-0 border-l p-1 font-bold">
+                                                        {{ $packing->length }}x{{ $packing->width }}
+                                                        x{{ $packing->height }}
+                                                    </td>
+                                                    <td class="border border-b-2 border-black border-t-0 border-l p-1 font-bold">
+                                                        {{ $packing->weight }}
+                                                    </td>
+                                                    <td class="border border-b-2 border-black border-t-0 border-l-2 p-1 font-bold">
+                                                        {{ $packing->length * $packing->width * $packing->height / 1000000 }}
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        @endif
                                     </div>
                                 @endforeach
                             </div>
@@ -319,11 +328,11 @@
                                             <thead>
                                             <tr class="text-black border border-black text-xs">
                                                 <th scope="col" class="p-1 rounded-tr-lg"
-                                                    style="border-left: 1px solid black" colspan="2">
+                                                    style="border-left: 1px solid black" colspan="3">
                                                     نمایندگان فروشنده
                                                 </th>
                                                 <th scope="col" class="p-1" style="border-left: 1px solid black"
-                                                    colspan="4">
+                                                    colspan="3">
                                                     نمایندگان خریدار
                                                 </th>
                                             </tr>
@@ -341,13 +350,13 @@
 
                                                 <th scope="col" class="p-1 rounded-tr-lg"
                                                     style="border-left: 1px solid black">
-                                                    بازرس شخص ثالث
+                                                    نماینده یک
                                                 </th>
                                                 <th scope="col" class="p-1" style="border-left: 1px solid black">
-                                                    نماینده خریدار
+                                                    نماینده دو
                                                 </th>
                                                 <th scope="col" class="p-1" style="border-left: 1px solid black">
-                                                    نماینده کارفرما
+                                                    نماینده سه
                                                 </th>
                                             </tr>
                                             </thead>
@@ -455,9 +464,9 @@
 </div>
 
 <script>
-    // window.onload = function () {
-    //     window.print();
-    // }
+    window.onload = function () {
+        window.print();
+    }
 </script>
 
 </body>

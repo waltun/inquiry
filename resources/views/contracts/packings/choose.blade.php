@@ -244,7 +244,8 @@
                                                                     @foreach($product->packings as $packing)
                                                                         <div class="p-2 rounded-md bg-sky-100">
                                                                             <p class="text-sm font-bold">
-                                                                                {{ $packing->name }} | تعداد : {{ $packing->pivot->quantity }}
+                                                                                {{ $packing->name }} | تعداد
+                                                                                : {{ $packing->pivot->quantity }}
                                                                             </p>
                                                                         </div>
                                                                     @endforeach
@@ -456,8 +457,7 @@
                                                             <div class="bg-white dark:bg-slate-800 p-4">
                                                                 <div class="mb-4 flex justify-between items-center">
                                                                     <h3 class="text-lg font-bold text-gray-900 dark:text-white">
-                                                                        مشاهده پکینگ های {{ $modell->parent->name }}
-                                                                        - {{ $product->model_custom_name ?? $modell->name }}
+                                                                        مشاهده پکینگ های {{ $part->name }}
                                                                     </h3>
                                                                     <button type="button" @click="open = false">
                                                                         <span class="modal-close">
@@ -475,10 +475,11 @@
                                                                     </button>
                                                                 </div>
                                                                 <div class="mt-6 space-y-2">
-                                                                    @foreach($product->packings as $packing)
+                                                                    @foreach($product->packings as $packing2)
                                                                         <div class="p-2 rounded-md bg-sky-100">
                                                                             <p class="text-sm font-bold">
-                                                                                {{ $packing->name }} | تعداد : {{ $packing->pivot->quantity }}
+                                                                                {{ $packing2->name }} | تعداد
+                                                                                : {{ $packing2->pivot->quantity }}
                                                                             </p>
                                                                         </div>
                                                                     @endforeach
@@ -514,9 +515,7 @@
 
                                                                 <div class="mb-4 flex justify-between items-center">
                                                                     <h3 class="text-lg font-bold text-gray-900 dark:text-white">
-                                                                        اضافه کردن محصول {{ $modell->parent->name }}
-                                                                        - {{ $product->model_custom_name ?? $modell->name }}
-                                                                        به پکینگ
+                                                                        اضافه کردن محصول {{ $part->name }}به پکینگ
                                                                     </h3>
                                                                     <button type="button" @click="open = false">
                                                                         <span class="modal-close">

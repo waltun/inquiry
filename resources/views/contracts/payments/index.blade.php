@@ -120,10 +120,18 @@
         <div class="flex items-center space-x-4 space-x-reverse">
             <a href="{{ route('contracts.payments.create', $contract->id) }}" class="page-success-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                     stroke="currentColor" class="w-6 h-6">
+                     stroke="currentColor" class="w-4 h-4 ml-1">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
                 </svg>
-                <span class="mr-2">ایجاد پرداخت جدید</span>
+                ایجاد پرداخت جدید
+            </a>
+            <a href="{{ route('contracts.show', $contract->id) }}" class="page-warning-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                     stroke="currentColor" class="w-4 h-4 ml-1">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"></path>
+                </svg>
+                بازگشت
             </a>
         </div>
     </div>
@@ -228,6 +236,8 @@
                                         عدم تایید
                                     </option>
                                 </select>
+                            @else
+                                {{ $payment->confirm ? 'تایید شده' : 'تایید نشده' }}
                             @endif
                         </td>
                         <td class="table-tr-td border-t-0 border-r-0 whitespace-nowrap">
@@ -258,16 +268,15 @@
                 </tbody>
             </table>
 
-            <div class="mt-4 flex justify-between items-center">
-                <a href="{{ route('payments.index') }}" class="page-warning-btn">
-                    همه پرداخت ها
-                </a>
-                @if(!$contract->payments->isEmpty() && auth()->user()->role == 'admin')
-                    <button type="submit" class="form-submit-btn">
-                        ثبت تاییدیه
-                    </button>
-                @endif
-            </div>
+            @if(auth()->user()->role == 'admin')
+                <div class="mt-4 flex justify-end items-center">
+                    @if(!$contract->payments->isEmpty() && auth()->user()->role == 'admin')
+                        <button type="submit" class="form-submit-btn">
+                            ثبت تاییدیه
+                        </button>
+                    @endif
+                </div>
+            @endif
         </form>
     </div>
 

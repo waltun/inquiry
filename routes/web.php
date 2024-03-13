@@ -21,6 +21,7 @@ use App\Http\Controllers\Contract\MarketingController;
 use App\Http\Controllers\Contract\PackingController;
 use App\Http\Controllers\Contract\RecipeController;
 use App\Http\Controllers\Contract\ProductController as ContractProduct;
+use App\Http\Controllers\Contract\CustomerController as ContractCustomerController;
 use App\Http\Controllers\InformationController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\LetterTermController;
@@ -640,17 +641,20 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::delete('/contracts/{contract}/destroy-product-amount', [ContractProduct::class, 'destroyAmounts'])->name('contracts.destroy-product-amount');
         Route::post('/contracts/{contract}/products/{contractProduct}/recipe', [ContractProduct::class, 'storeRecipe'])->name('contracts.products.recipe');
 
-        Route::resource('contracts/{contract}/packings', PackingController::class);
+        Route::resource('contracts/{contract}/packings', PackingController::class)->except(['show']);
         Route::get('/contracts/{contract}/packings/list/print', [PackingController::class, 'print'])->name('contracts.packings.print');
         Route::get('/contracts/{contract}/packings/{packing}/choose', [PackingController::class, 'choose'])->name('contracts.packings.choose');
         Route::post('/contracts/{contract}/packings/{packing}/choose', [PackingController::class, 'storeChoose'])->name('contracts.packings.store-choose');
         Route::delete('/contracts/{contract}/packings/{packing}/delete-product', [PackingController::class, 'deleteProduct'])->name('contracts.packings.delete-product');
+        Route::get('/contracts/{contract}/packings/{packing}/show', [PackingController::class, 'show'])->name('packings.show');
 
         Route::get('/client-invoices', [ClientInvoiceController::class, 'index'])->name('client-invoices.index');
 
         Route::resource('settings/information', InformationController::class)->except(['show']);
 
         Route::get('/contracts/{contract}/invoices', [ContractInvoiceController::class, 'index'])->name('contracts.invoices.index');
+
+        Route::get('/contracts/{contract}/customer', [ContractCustomerController::class, 'index'])->name('contracts.customer.index');
 
         Route::resource('todos', TodoController::class)->except('show');
         Route::post('todos/{todo}/mark-as-done', [TodoController::class, 'markAsDone'])->name('todos.mark-as-done');

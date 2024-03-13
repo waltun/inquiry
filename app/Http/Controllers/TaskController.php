@@ -35,7 +35,7 @@ class TaskController extends Controller
 
     public function create()
     {
-        $receivers = User::where('role', 'staff')->orWhere('role', 'admin')->get()->except(auth()->user()->id);
+        $receivers = User::where('role', 'staff')->orWhere('role', 'admin')->orWhere('role', 'logistics')->get()->except(auth()->user()->id);
         return view('tasks.create', compact('receivers'));
     }
 
@@ -63,7 +63,7 @@ class TaskController extends Controller
 
     public function edit(Task $task)
     {
-        $receivers = User::where('role', 'staff')->orWhere('role', 'admin')->get()->except(auth()->user()->id);
+        $receivers = User::where('role', 'staff')->orWhere('role', 'admin')->orWhere('role', 'logistics')->get()->except(auth()->user()->id);
 
         $day = jdate($task->date)->getDay();
         $month = jdate($task->date)->getMonth();

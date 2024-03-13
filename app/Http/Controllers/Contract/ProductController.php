@@ -109,7 +109,6 @@ class ProductController extends Controller
     {
         foreach ($contract->products as $product) {
             $amounts = Amount::where('product_id', $product->product_id)->get();
-
             foreach ($amounts as $amount) {
                 $part = Part::find($amount->part_id);
                 if ($part->extract && !$part->children->isEmpty()) {

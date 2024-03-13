@@ -183,6 +183,10 @@
                     <select name="type" id="inputType" class="input-text">
                         <option value="">انتخاب یا وارد کنید</option>
                         <option
+                            value="کاور نایلون حباب دار" {{ old('type') == 'کاور نایلون حباب دار' ? 'selected' : '' }}>
+                            کاور نایلون حباب دار
+                        </option>
+                        <option
                             value="کاور نایلون حباب دار با تسمه بندکشی" {{ old('type') == 'کاور نایلون حباب دار با تسمه بندکشی' ? 'selected' : '' }}>
                             کاور نایلون حباب دار با تسمه بندکشی
                         </option>
