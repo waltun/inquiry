@@ -12,7 +12,7 @@ class Contract extends Model
 
     protected $fillable = [
         'name', 'marketer', 'number', 'price', 'start_contract_date', 'send_date', 'user_id', 'customer_id',
-        'type', 'old_number', 'recipe', 'complete'
+        'type', 'old_number', 'recipe', 'complete', 'file'
     ];
 
     public function products()

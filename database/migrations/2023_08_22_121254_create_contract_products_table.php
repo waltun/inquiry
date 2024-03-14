@@ -22,6 +22,9 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('type')->nullable();
             $table->string('tag')->nullable();
+            $table->string('status')->nullable();
+            $table->boolean('recipe')->default(0);
+            $table->string('code')->nullable();
 
             $table->unsignedBigInteger('contract_id');
             $table->unsignedBigInteger('group_id')->nullable();

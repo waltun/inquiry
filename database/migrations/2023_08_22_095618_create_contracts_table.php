@@ -25,6 +25,7 @@ return new class extends Migration {
             $table->timestamp('send_date')->nullable();
             $table->string('type')->nullable();
             $table->boolean('complete')->default(0);
+            $table->string('file')->nullable();
 
             $table->unsignedBigInteger('invoice_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();

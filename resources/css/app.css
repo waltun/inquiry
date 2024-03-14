@@ -51,6 +51,15 @@
     placeholder-opacity-50 text-black dark:bg-slate-800 dark:border-black dark:text-white dark:placeholder-mySky-100;
 }
 
+.input-file {
+    @apply bg-white border border-gray-200 w-full rounded-r-lg flex-1 md:text-sm text-xs
+    py-1 px-4 text-black dark:bg-slate-800 dark:border-black dark:text-white dark:placeholder-mySky-100;
+}
+
+.input-file-btn {
+    @apply inline-flex items-center rounded-l-lg border border-r-0 border-gray-200 bg-gray-100 px-4 text-xs text-black;
+}
+
 .form-detail-btn {
     @apply px-6 py-3 bg-myYellow-100 text-white text-xs rounded-lg hover:bg-yellow-600;
 }

@@ -15,6 +15,8 @@ use App\Http\Controllers\CollectionCoilController;
 use App\Http\Controllers\CollectionPartController;
 use App\Http\Controllers\CombineCodeController;
 use App\Http\Controllers\Contract\AnalyzePartController;
+use App\Http\Controllers\Contract\ContractFileController;
+use App\Http\Controllers\Contract\ExclusiveCodeController;
 use App\Http\Controllers\Contract\FinalContractController;
 use App\Http\Controllers\Contract\GuaranteeController;
 use App\Http\Controllers\Contract\MarketingController;
@@ -31,6 +33,7 @@ use App\Http\Controllers\Contract\PaymentController;
 use App\Http\Controllers\MarketerAccountController;
 use App\Http\Controllers\MarketerController;
 use App\Http\Controllers\PaymentController as AllPayments;
+use App\Http\Controllers\GuaranteeController as AllGuarantees;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
@@ -572,6 +575,8 @@ Route::middleware(['auth', 'web'])->group(function () {
 
         Route::get('/payments', [AllPayments::class, 'index'])->name('payments.index');
 
+        Route::get('/guarantees', [AllGuarantees::class, 'index'])->name('guarantee.index');
+
         Route::resource('marketers', MarketerController::class)->except(['show']);
         Route::get('/marketers/{marketer}/accounts', [MarketerAccountController::class, 'index'])->name('marketers.accounts.index');
         Route::get('/marketers/{marketer}/create-accounts', [MarketerAccountController::class, 'create'])->name('marketers.accounts.create');
@@ -655,6 +660,12 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::get('/contracts/{contract}/invoices', [ContractInvoiceController::class, 'index'])->name('contracts.invoices.index');
 
         Route::get('/contracts/{contract}/customer', [ContractCustomerController::class, 'index'])->name('contracts.customer.index');
+
+        Route::get('/contracts/{contract}/contract', [ContractFileController::class, 'index'])->name('contracts.contract.index');
+        Route::patch('/contracts/{contract}/contract', [ContractFileController::class, 'store'])->name('contracts.contract.store');
+
+        Route::get('/contracts/{contract}/exclusive-code', [ExclusiveCodeController::class, 'index'])->name('contracts.exclusive-code.index');
+        Route::patch('/contracts/{contract}/exclusive-code', [ExclusiveCodeController::class, 'store'])->name('contracts.exclusive-code.store');
 
         Route::resource('todos', TodoController::class)->except('show');
         Route::post('todos/{todo}/mark-as-done', [TodoController::class, 'markAsDone'])->name('todos.mark-as-done');
