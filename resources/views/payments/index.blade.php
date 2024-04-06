@@ -110,7 +110,9 @@
                             }
                         }
 
-                        $tax = $contractPrice * 9 / 100;
+                        $taxItem = \App\Models\Tax::where('year', jdate($contract->created_at)->getYear())->first();
+
+                        $tax = $contractPrice * $taxItem->rate / 100;
                         $contractTaxPrice = $contractPrice + $tax;
 
                         $leftPrice = $contractPrice - $paymentPrice;

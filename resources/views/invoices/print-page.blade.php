@@ -407,8 +407,10 @@
                         $finalPrice = $productTotalPrice + $partsTotalPrice;
                         $taxPrice = 0;
 
+                        $tax = \App\Models\Tax::where('year', jdate($invoice->created_at)->getYear())->first();
+
                         if ($invoice->tax) {
-                            $taxPrice = $finalPrice * 9 / 100;
+                            $taxPrice = $finalPrice * $tax->rate / 100;
                         }
                     @endphp
                     <div class="grid grid-cols-3 gap-4 mx-5 mb-4">

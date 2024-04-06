@@ -77,6 +77,7 @@ use App\Http\Controllers\System\SerialController;
 use App\Http\Controllers\System\StoreController;
 use App\Http\Controllers\System\SystemCategoryController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\TaxController;
 use App\Http\Controllers\TodoController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -363,6 +364,8 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::delete('/settings/inquiry-terms/{inquiryTerm}', [InquiryTermController::class, 'destroy'])->name('settings.inquiryTerms.destroy');
 
         Route::resource('settings/letter-terms', LetterTermController::class)->except(['show']);
+
+        Route::resource('settings/taxes', TaxController::class)->except(['show']);
 
         //Separate Coil Routes
         Route::get('/separate-calculate-coil', [SeparateCalculateCoilController::class, 'index'])->name('separate.coil.index');

@@ -10,6 +10,25 @@
         </p>
     </div>
 
+    @php
+        $tax = \App\Models\Tax::where('year', jdate(now())->getYear())->first();
+    @endphp
+
+    @if(is_null($tax))
+        <div class="bg-red-500 p-4 rounded-md shadow">
+            <p class="text-center text-white font-medium text-sm">
+                برای سال جدید ({{ jdate(now())->getYear() }}) ارزش افزوده جدیدی ثبت نشده، لطفا برای ثبت ارزش افزوده به
+                لینک زیر مراجعه کنید.
+            </p>
+            <div class="flex justify-center mt-2">
+                <a href="{{ route('taxes.index') }}"
+                   class="text-sm font-medium text-indigo-500 underline underline-offset-4">
+                    ثبت ارزش افزوده
+                </a>
+            </div>
+        </div>
+    @endif
+
     <div x-data="{tab : 'admin'}" class="mb-4 hidden md:block">
         <div class="border-b border-indigo-400 dark:border-black mt-6">
             <ul class="flex md:flex-wrap -mb-px text-sm font-medium text-center text-gray-600 whitespace-nowrap overflow-x-auto">

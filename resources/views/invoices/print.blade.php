@@ -433,8 +433,10 @@
             $finalPrice = $productTotalPrice + $partsTotalPrice;
             $taxPrice = 0;
 
+            $tax = \App\Models\Tax::where('year', jdate($invoice->created_at)->getYear())->first();
+
             if ($invoice->tax) {
-                $taxPrice = $finalPrice * 9 / 100;
+                $taxPrice = $finalPrice * $tax->rate / 100;
             }
         @endphp
         <div class="flex justify-end items-center sticky bottom-4 space-x-4 space-x-reverse">
@@ -445,7 +447,7 @@
         @if($invoice->tax)
             <div class="flex justify-end items-center space-x-4 space-x-reverse">
                 <p class="table-weight-label text-sm">
-                    9% مالیات بر ارزش افزوده : {{ number_format($taxPrice) }} تومان
+                    {{ $tax->rate }}% مالیات بر ارزش افزوده : {{ number_format($taxPrice) }} تومان
                 </p>
             </div>
 

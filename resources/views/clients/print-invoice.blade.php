@@ -104,9 +104,9 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                      class="w-6 h-6 flex-shrink-0 text-white bg-gray-600 rounded-md p-1">
                                     <path
-                                        d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z"/>
+                                            d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z"/>
                                     <path
-                                        d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z"/>
+                                            d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z"/>
                                 </svg>
                             </div>
                             <div class="flex items-center justify-end">
@@ -411,8 +411,10 @@
                         $finalPrice = $productTotalPrice + $partsTotalPrice;
                         $taxPrice = 0;
 
+                        $tax = \App\Models\Tax::where('year', jdate($invoice->created_at)->getYear())->first();
+
                         if ($invoice->tax) {
-                            $taxPrice = $finalPrice * 9 / 100;
+                            $taxPrice = $finalPrice * $tax->rate / 100;
                         }
                     @endphp
                     <div class="grid grid-cols-3 gap-4 mx-5 mb-4">

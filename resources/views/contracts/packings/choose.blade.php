@@ -241,11 +241,11 @@
                                                                     </button>
                                                                 </div>
                                                                 <div class="mt-6 space-y-2">
-                                                                    @foreach($product->packings as $packing)
+                                                                    @foreach($product->packings as $packing2)
                                                                         <div class="p-2 rounded-md bg-sky-100">
                                                                             <p class="text-sm font-bold">
-                                                                                {{ $packing->name }} | تعداد
-                                                                                : {{ $packing->pivot->quantity }}
+                                                                                {{ $packing2->name }} | تعداد
+                                                                                : {{ $packing2->pivot->quantity }}
                                                                             </p>
                                                                         </div>
                                                                     @endforeach
