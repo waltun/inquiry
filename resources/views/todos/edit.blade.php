@@ -77,24 +77,24 @@
         @csrf
         @method('PATCH')
 
-        <div class="card bg-pink-200">
+        <div class="card">
             <div class="card-header">
-                <p class="card-title bg-pink-200">مشخصات کلی</p>
+                <p class="card-title">مشخصات کلی</p>
             </div>
 
             <div class="mt-4">
                 <label for="inputTitle" class="form-label">موضوع کاری که باید انجام بشه</label>
-                <input type="text" id="inputTitle" name="title" class="input-text bg-yellow-100"
+                <input type="text" id="inputTitle" name="title" class="input-text"
                        placeholder="مثال : تکمیل دیتاشیت پروژه ها" value="{{ old('title', $todo->title) }}">
             </div>
             <div class="mt-4">
                 <label for="inputDescription" class="form-label">توضیحات مربوط به این کار</label>
                 <textarea name="description" id="inputDescription"
-                          class="input-text resize-none h-32 bg-yellow-100">{{ old('description', $todo->description) }}</textarea>
+                          class="input-text resize-none h-32">{{ old('description', $todo->description) }}</textarea>
             </div>
             <div class="mt-4">
                 <label for="inputDate" class="form-label">تاریخی که این کار باید انجام بشه</label>
-                <input type="text" id="inputDate" name="date" class="input-text bg-sky-100"
+                <input type="text" id="inputDate" name="date" class="input-text"
                        placeholder="برای انتخاب تاریخ کلیک کنید" value="{{ old('date', $date) }}">
             </div>
         </div>

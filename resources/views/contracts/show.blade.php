@@ -315,36 +315,138 @@
                 </div>
             </div>
             <div class="grid grid-cols-6 gap-4">
+                @php
+                    $contractPrice = 0;
+                    $paymentPrice = 0;
+                    $leftPrice = 0;
+                    $collectionPrice = 0;
+
+                    foreach ($contract->products as $product) {
+                        $contractPrice += $product->price * $product->quantity;
+                    }
+
+                    foreach ($contract->payments()->where('confirm', 1)->get() as $payment2) {
+                        if ($payment2->type == 'return') {
+                            $paymentPrice -= $payment2->price;
+                        } else {
+                            $paymentPrice += $payment2->price;
+                        }
+
+                        if (is_null($payment2->account_id) && $payment2->cash_type == 'check') {
+                            $collectionPrice += $payment2->price;
+                        }
+                    }
+
+                    $taxItem = \App\Models\Tax::where('year', jdate($contract->created_at)->getYear())->first();
+
+                    $tax = $contractPrice * $taxItem->rate / 100;
+                    $contractTaxPrice = $contractPrice + $tax;
+
+                    $leftPricePayment = $contractPrice - $paymentPrice;
+                    $leftTaxPricePayment = $contractTaxPrice - $paymentPrice;
+                @endphp
                 <a href="{{ route('contracts.payments.index', $contract->id) }}"
-                   class="p-2 rounded-2xl shadow flex items-center justify-between border border-gray-300 {{ $contract->payments->isEmpty() ? 'bg-opacity-50 border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
-                    <div class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                             stroke="currentColor" class="w-4 h-4">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z"/>
-                        </svg>
-                        <div class="mr-2">
-                            <p class="font-bold text-black text-xs {{ $contract->payments->isEmpty() ? 'text-opacity-40' : '' }}">
-                                پرداخت ها
-                            </p>
+                   class="p-2 rounded-2xl shadow border border-gray-300 {{ $contract->payments->isEmpty() ? 'bg-opacity-50 border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
+                    <div class="flex items-center justify-between border-b border-white pb-2">
+                        <div class="flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                 stroke="currentColor" class="w-4 h-4">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z"/>
+                            </svg>
+                            <div class="mr-2">
+                                <p class="font-bold text-black text-xs {{ $contract->payments->isEmpty() ? 'text-opacity-40' : '' }}">
+                                    پرداخت ها
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            @if($contract->payments->isEmpty())
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                     class="w-5 h-5 text-gray-600 text-opacity-40">
+                                    <path fill-rule="evenodd"
+                                          d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                          clip-rule="evenodd"/>
+                                </svg>
+                            @else
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5"
+                                     stroke="currentColor" class="w-5 h-5 text-gray-600">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                                </svg>
+                            @endif
                         </div>
                     </div>
-                    <div>
-                        @if($contract->payments->isEmpty())
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                 class="w-5 h-5 text-gray-600 text-opacity-40">
-                                <path fill-rule="evenodd"
-                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                                      clip-rule="evenodd"/>
-                            </svg>
+                    <div class="mt-2 space-y-2">
+                        <p class="text-xs text-black">
+                            پرداخت شده : {{ number_format($paymentPrice) }} تومان
+                        </p>
+                        @if($contract->type == 'official')
+                            <p class="text-xs text-black">
+                                مانده : {{ number_format($leftTaxPricePayment) }} تومان
+                            </p>
                         @else
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                 stroke="currentColor" class="w-5 h-5 text-gray-600">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
-                            </svg>
+                            <p class="text-xs text-black">
+                                مانده : {{ number_format($leftPricePayment) }} تومان
+                            </p>
                         @endif
                     </div>
                 </a>
+
+                @if(!$contract->marketings->isEmpty())
+                    @php
+                        $price = 0;
+                        foreach ($contract->marketings as $marketing) {
+                            foreach ($marketing->payments()->where('confirm', 1)->where('date', '!=', null)->get() as $payment) {
+                                $price += $payment->price;
+                            }
+                        }
+
+                        $leftPriceMarketing = $contract->marketings->sum('price') - $price;
+                    @endphp
+                    <a href="{{ route('contracts.marketings.index', $contract->id) }}"
+                       class="p-2 rounded-2xl shadow border border-gray-300 {{ $contract->marketings->isEmpty() ? 'bg-opacity-50 border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
+                        <div class="flex items-center justify-between border-b border-white pb-2">
+                            <div class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                     stroke="currentColor" class="w-4 h-4">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M10.34 15.84c-.688-.06-1.386-.09-2.09-.09H7.5a4.5 4.5 0 1 1 0-9h.75c.704 0 1.402-.03 2.09-.09m0 9.18c.253.962.584 1.892.985 2.783.247.55.06 1.21-.463 1.511l-.657.38c-.551.318-1.26.117-1.527-.461a20.845 20.845 0 0 1-1.44-4.282m3.102.069a18.03 18.03 0 0 1-.59-4.59c0-1.586.205-3.124.59-4.59m0 9.18a23.848 23.848 0 0 1 8.835 2.535M10.34 6.66a23.847 23.847 0 0 0 8.835-2.535m0 0A23.74 23.74 0 0 0 18.795 3m.38 1.125a23.91 23.91 0 0 1 1.014 5.395m-1.014 8.855c-.118.38-.245.754-.38 1.125m.38-1.125a23.91 23.91 0 0 0 1.014-5.395m0-3.46c.495.413.811 1.035.811 1.73 0 .695-.316 1.317-.811 1.73m0-3.46a24.347 24.347 0 0 1 0 3.46"/>
+                                </svg>
+                                <div class="mr-2">
+                                    <p class="font-bold text-black text-xs {{ $contract->marketings->isEmpty() ? 'text-opacity-40' : '' }}">
+                                        بازاریابی
+                                    </p>
+                                </div>
+                            </div>
+                            <div>
+                                @if($contract->marketings->isEmpty())
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                         class="w-5 h-5 text-gray-600 text-opacity-40">
+                                        <path fill-rule="evenodd"
+                                              d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                              clip-rule="evenodd"/>
+                                    </svg>
+                                @else
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         stroke-width="1.5"
+                                         stroke="currentColor" class="w-5 h-5 text-gray-600">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                                    </svg>
+                                @endif
+
+                            </div>
+                        </div>
+                        <div class="mt-2 space-y-2">
+                            <p class="text-xs text-black">
+                                پرداخت شده : {{ number_format($price) }} تومان
+                            </p>
+                            <p class="text-xs text-black">
+                                مانده : {{ number_format($leftPriceMarketing) }} تومان
+                            </p>
+                        </div>
+                    </a>
+                @endif
 
                 @if(!$contract->guarantees->isEmpty())
                     <a href="{{ route('contracts.guarantees.index', $contract->id) }}"
@@ -363,41 +465,6 @@
                         </div>
                         <div>
                             @if($contract->guarantees->isEmpty())
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                     class="w-5 h-5 text-gray-600 text-opacity-40">
-                                    <path fill-rule="evenodd"
-                                          d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                                          clip-rule="evenodd"/>
-                                </svg>
-                            @else
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                     stroke-width="1.5"
-                                     stroke="currentColor" class="w-5 h-5 text-gray-600">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
-                                </svg>
-                            @endif
-
-                        </div>
-                    </a>
-                @endif
-
-                @if(!$contract->marketings->isEmpty())
-                    <a href="{{ route('contracts.marketings.index', $contract->id) }}"
-                       class="p-2 rounded-2xl shadow flex items-center justify-between border border-gray-300 {{ $contract->marketings->isEmpty() ? 'bg-opacity-50 border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
-                        <div class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                 stroke="currentColor" class="w-4 h-4">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="M10.34 15.84c-.688-.06-1.386-.09-2.09-.09H7.5a4.5 4.5 0 1 1 0-9h.75c.704 0 1.402-.03 2.09-.09m0 9.18c.253.962.584 1.892.985 2.783.247.55.06 1.21-.463 1.511l-.657.38c-.551.318-1.26.117-1.527-.461a20.845 20.845 0 0 1-1.44-4.282m3.102.069a18.03 18.03 0 0 1-.59-4.59c0-1.586.205-3.124.59-4.59m0 9.18a23.848 23.848 0 0 1 8.835 2.535M10.34 6.66a23.847 23.847 0 0 0 8.835-2.535m0 0A23.74 23.74 0 0 0 18.795 3m.38 1.125a23.91 23.91 0 0 1 1.014 5.395m-1.014 8.855c-.118.38-.245.754-.38 1.125m.38-1.125a23.91 23.91 0 0 0 1.014-5.395m0-3.46c.495.413.811 1.035.811 1.73 0 .695-.316 1.317-.811 1.73m0-3.46a24.347 24.347 0 0 1 0 3.46"/>
-                            </svg>
-                            <div class="mr-2">
-                                <p class="font-bold text-black text-xs {{ $contract->marketings->isEmpty() ? 'text-opacity-40' : '' }}">
-                                    بازاریابی
-                                </p>
-                            </div>
-                        </div>
-                        <div>
-                            @if($contract->marketings->isEmpty())
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                                      class="w-5 h-5 text-gray-600 text-opacity-40">
                                     <path fill-rule="evenodd"
