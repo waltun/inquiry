@@ -496,24 +496,6 @@
                                                                                name="delivery"
                                                                                id="inputDelivery{{ $purchas->id }}">
                                                                     </div>
-                                                                    <div>
-                                                                        <label for="inputSeller{{ $purchas->id }}"
-                                                                               class="form-label">
-                                                                            فروشنده
-                                                                        </label>
-                                                                        <input type="text" class="input-text"
-                                                                               name="seller"
-                                                                               id="inputSeller{{ $purchas->id }}">
-                                                                    </div>
-                                                                    <div>
-                                                                        <label for="inputFactor{{ $purchas->id }}"
-                                                                               class="form-label">
-                                                                            شماره فاکتور
-                                                                        </label>
-                                                                        <input type="text" class="input-text"
-                                                                               name="code"
-                                                                               id="inputFactor{{ $purchas->id }}">
-                                                                    </div>
                                                                 </div>
 
                                                                 <div class="flex justify-end">

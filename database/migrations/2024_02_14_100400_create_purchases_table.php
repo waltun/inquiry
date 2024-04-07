@@ -26,6 +26,8 @@ return new class extends Migration {
             $table->string('buy_location');
             $table->string('description')->nullable();
             $table->boolean('store')->default(0);
+            $table->string('store_code')->nullable();
+            $table->string('seller')->nullable();
 
             $table->unsignedBigInteger('coding_id')->nullable();
             $table->string('applicant');

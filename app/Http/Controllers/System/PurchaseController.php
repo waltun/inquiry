@@ -275,8 +275,6 @@ class PurchaseController extends Controller
             'date' => 'required|string|max:255',
             'store' => 'required|integer',
             'delivery' => 'nullable|string|max:255',
-            'seller' => 'nullable|string|max:255',
-            'code' => 'required|numeric'
         ]);
 
         if (!is_null($data['date'])) {
@@ -291,7 +289,7 @@ class PurchaseController extends Controller
         Store::create([
             'name' => $purchase->title,
             'quantity' => $purchase->accepted_quantity,
-            'seller' => $data['seller'],
+            'seller' => $purchase->seller,
             'delivery' => $data['delivery'],
             'unit' => $purchase->unit,
             'status' => 'purchase',
@@ -300,7 +298,7 @@ class PurchaseController extends Controller
             'store' => $data['store'],
             'date' => $data['date'],
             'coding_id' => !is_null($purchase->coding_id) ? $coding->id : null,
-            'code' => $data['code']
+            'code' => $purchase->store_code
         ]);
 
         $purchase->store = true;
@@ -356,9 +354,16 @@ class PurchaseController extends Controller
         return view('systems.purchase.view', compact('purchase', 'today'));
     }
 
-    public function purchased(Purchase $purchase)
+    public function purchased(Request $request, Purchase $purchase)
     {
+        $request->validate([
+            'seller' => 'required|string|max:255',
+            'store_code' => 'required|string|max:255',
+        ]);
+
         $purchase->status = 'purchased';
+        $purchase->seller = $request->seller;
+        $purchase->store_code = $request->store_code;
         $purchase->save();
 
         alert()->success('ثبت موفق', 'اقلام با موفقیت خریداری شدند');
