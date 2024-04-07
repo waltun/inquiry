@@ -187,7 +187,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($invoice->products()->where('group_id','!=',0)->where('model_id','!=',0)->where('deleted_at',null)->get() as $product)
+                                @foreach($invoice->products()->orderBy('sort', 'ASC')->where('group_id','!=',0)->where('model_id','!=',0)->where('deleted_at',null)->get() as $product)
                                     @php
                                         $modell = \App\Models\Modell::find($product->model_id);
 
@@ -445,7 +445,7 @@
                     @endif
                 </div>
 
-                @foreach($invoice->products()->where('group_id','!=',0)->where('model_id','!=',0)->get() as $invoiceProduct)
+                @foreach($invoice->products()->orderBy('sort', 'ASC')->where('group_id','!=',0)->where('model_id','!=',0)->get() as $invoiceProduct)
                     @php
                         $inquiry = $invoiceProduct->invoice->inquiry;
                         $product = $inquiry->products()->where('group_id', $invoiceProduct->group_id)->where('model_id', $invoiceProduct->model_id)->first();

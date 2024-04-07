@@ -1762,7 +1762,7 @@
                             </thead>
                             <tbody>
                             @foreach($todayTodos as $todo)
-                                <tr class="table-tb-tr group hover:font-bold hover:text-red-600 {{ $loop->even ? 'bg-sky-100' : '' }}">
+                                <tr class="table-tb-tr whitespace-normal group hover:font-bold hover:text-red-600 {{ $loop->even ? 'bg-sky-100' : '' }}">
                                     <td class="table-tr-td border-t-0 border-l-0">
                                         {{ jdate($todo->date)->format('Y/m/d') }}
                                     </td>
@@ -1833,7 +1833,7 @@
                         </thead>
                         <tbody>
                         @foreach($allTodos as $todo)
-                            <tr class="table-tb-tr group hover:font-bold hover:text-red-600 {{ $loop->even ? 'bg-sky-100' : '' }}">
+                            <tr class="table-tb-tr whitespace-normal group hover:font-bold hover:text-red-600 {{ $loop->even ? 'bg-sky-100' : '' }}">
                                 <td class="table-tr-td border-t-0 border-l-0">
                                     {{ jdate($todo->date)->format('Y/m/d') }}
                                 </td>
@@ -1942,7 +1942,7 @@
                             </thead>
                             <tbody>
                             @foreach($receivedTasks as $receivedTask)
-                                <tr class="table-tb-tr group hover:font-bold hover:text-red-600 {{ $loop->even ? 'bg-sky-100' : '' }}">
+                                <tr class="table-tb-tr whitespace-normal group hover:font-bold hover:text-red-600 {{ $loop->even ? 'bg-sky-100' : '' }}">
                                     <td class="table-tr-td border-t-0 border-l-0">
                                         {{ jdate($receivedTask->date)->format('Y/m/d') }}
                                     </td>
@@ -1957,19 +1957,19 @@
                                             @case('high')
                                                 <div
                                                     class="bg-red-500 text-white px-2 inline rounded-md shadow">
-                                                    اهمیت بالا
+                                                    بالا
                                                 </div>
                                                 @break
                                             @case('medium')
                                                 <div
                                                     class="bg-yellow-500 text-white px-2 inline rounded-md shadow">
-                                                    اهمیت متوسط
+                                                    متوسط
                                                 </div>
                                                 @break
                                             @case('low')
                                                 <div
                                                     class="bg-gray-500 text-white px-2 inline rounded-md shadow">
-                                                    اهمیت پایین
+                                                    پایین
                                                 </div>
                                                 @break
                                         @endswitch
@@ -2046,7 +2046,7 @@
                             </thead>
                             <tbody>
                             @foreach($sentTasks as $sentTask)
-                                <tr class="table-tb-tr group hover:font-bold hover:text-red-600 {{ $loop->even ? 'bg-sky-100' : '' }}">
+                                <tr class="table-tb-tr whitespace-normal group hover:font-bold hover:text-red-600 {{ $loop->even ? 'bg-sky-100' : '' }}">
                                     <td class="table-tr-td border-t-0 border-l-0">
                                         {{ jdate($sentTask->date)->format('Y/m/d') }}
                                     </td>
@@ -2061,19 +2061,19 @@
                                             @case('high')
                                                 <div
                                                     class="bg-red-500 text-white px-2 inline rounded-md shadow">
-                                                    اهمیت بالا
+                                                    بالا
                                                 </div>
                                                 @break
                                             @case('medium')
                                                 <div
                                                     class="bg-yellow-500 text-white px-2 inline rounded-md shadow">
-                                                    اهمیت متوسط
+                                                    متوسط
                                                 </div>
                                                 @break
                                             @case('low')
                                                 <div
                                                     class="bg-gray-500 text-white px-2 inline rounded-md shadow">
-                                                    اهمیت پایین
+                                                    پایین
                                                 </div>
                                                 @break
                                         @endswitch

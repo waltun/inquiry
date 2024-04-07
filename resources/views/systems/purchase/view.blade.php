@@ -423,18 +423,80 @@
                         <p class="text-xs font-medium text-center mr-10">
                             {{ jdate($purchas->date)->format('Y/m/d') }}
                         </p>
-                        <form action="{{ route('purchase.purchased', $purchas->id) }}" method="POST">
-                            @csrf
-                            @method('PATCH')
-
-                            <button type="submit" class="page-info-btn p-1">
+                        <div x-data="{open:false}">
+                            <button class="page-info-btn p-1" type="button" @click="open = !open">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                     stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                     stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
                                 </svg>
-                                خریده شد
+                                خریداری شد
                             </button>
-                        </form>
+
+                            <!-- Purchased Modal -->
+                            <div class="relative z-10" x-show="open" x-cloak>
+                                <div class="modal-backdrop"></div>
+                                <div class="fixed z-50 inset-0 overflow-y-auto">
+                                    <div class="modal">
+                                        <div class="modal-body bg-sky-200">
+                                            <div class="bg-sky-100 dark:bg-slate-800 p-4">
+                                                <div class="mb-4 flex justify-between items-center">
+                                                    <div
+                                                        class="flex items-center space-x-4 space-x-reverse">
+                                                        <h3 class="text-lg font-bold text-gray-900 dark:text-white">
+                                                            انتخاب فروشنده و شماره فاکتور
+                                                        </h3>
+                                                    </div>
+                                                    <button type="button" @click="open = false">
+                                                            <span class="modal-close">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                     viewBox="0 0 24 24"
+                                                                     stroke-width="1.5" stroke="currentColor"
+                                                                     class="w-5 h-5 dark:text-white">
+                                                                    <path stroke-linecap="round"
+                                                                          stroke-linejoin="round"
+                                                                          d="M6 18L18 6M6 6l12 12"/>
+                                                                </svg>
+                                                            </span>
+                                                    </button>
+                                                </div>
+                                                <form method="POST" class="mt-6 space-y-4"
+                                                      action="{{ route('purchase.purchased', $purchas->id) }}">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <div class="space-y-4">
+                                                        <div>
+                                                            <label for="inputSeller{{ $purchas->id }}"
+                                                                   class="form-label">
+                                                                فروشنده
+                                                            </label>
+                                                            <input type="text" class="input-text"
+                                                                   name="seller" placeholder="نام فروشنده / فروشگاه"
+                                                                   id="inputSeller{{ $purchas->id }}">
+                                                        </div>
+                                                        <div>
+                                                            <label for="inputFactor{{ $purchas->id }}"
+                                                                   class="form-label">
+                                                                شماره فاکتور
+                                                            </label>
+                                                            <input type="text" class="input-text"
+                                                                   name="store_code"
+                                                                   placeholder="شماره فاکتور خرید جنس"
+                                                                   id="inputStoreCode{{ $purchas->id }}">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="flex justify-end">
+                                                        <button type="submit" class="form-submit-btn">
+                                                            تایید خریداری شده
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <p class="text-xs font-medium text-center">
                         کالا : {{ !is_null($purchas->coding_id) ? $coding->name : $purchas->title }}
