@@ -670,7 +670,7 @@
                                         </div>
                                     </td>
                                     <td class="table-tr-td border-t-0 border-r-0">
-                                        {{ number_format($amount->price) }}
+                                        {{ $amount->price ? number_format($amount->price) : number_format($part->price) }}
                                     </td>
                                 </tr>
                             @endforeach

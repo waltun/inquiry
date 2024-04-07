@@ -47,14 +47,14 @@ class GuaranteeController extends Controller
         $returnYear = jdate($guarantee->return_date)->getYear();
         $returnDate = $returnYear . '-' . $returnMonth . '-' . $returnDay;
 
-        $dueDay = jdate($guarantee->return_date)->getDay();
-        $dueMonth = jdate($guarantee->return_date)->getMonth();
-        $dueYear = jdate($guarantee->return_date)->getYear();
+        $dueDay = jdate($guarantee->due_date)->getDay();
+        $dueMonth = jdate($guarantee->due_date)->getMonth();
+        $dueYear = jdate($guarantee->due_date)->getYear();
         $dueDate = $dueYear . '-' . $dueMonth . '-' . $dueDay;
 
-        $finalReturnDay = jdate($guarantee->return_date)->getDay();
-        $finalReturnMonth = jdate($guarantee->return_date)->getMonth();
-        $finalReturnYear = jdate($guarantee->return_date)->getYear();
+        $finalReturnDay = jdate($guarantee->final_return_date)->getDay();
+        $finalReturnMonth = jdate($guarantee->final_return_date)->getMonth();
+        $finalReturnYear = jdate($guarantee->final_return_date)->getYear();
         $finalReturnDate = $finalReturnYear . '-' . $finalReturnMonth . '-' . $finalReturnDay;
 
         return view('contracts.guarantees.edit', compact('guarantee', 'accounts', 'date', 'returnDate', 'dueDate', 'finalReturnDate'));

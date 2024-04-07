@@ -242,7 +242,7 @@
                             @endif
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ jdate($guarantee->return_date)->format('Y/m/d') }}
+                            {{ jdate($guarantee->final_return_date)->format('Y/m/d') }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             <input type="hidden" value="{{ $guarantee->id }}" name="guarantees[]">

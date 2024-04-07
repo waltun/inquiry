@@ -275,7 +275,7 @@
                 $salePercent = $saleSuccessCount / 5 * 100;
             @endphp
             <div
-                class="flex items-center justify-between mt-4 space-x-4 space-x-reverse p-2 rounded-md border border-yellow-400">
+                    class="flex items-center justify-between mt-4 space-x-4 space-x-reverse p-2 rounded-md border border-yellow-400">
                 <p class="text-xs font-bold text-black">وضعیت</p>
                 <div class="w-full bg-gray-200 rounded-full">
                     <div class="bg-blue-600 text-xs font-medium text-white text-center p-0.5 leading-none rounded-full"
@@ -408,7 +408,8 @@
                        class="p-2 rounded-2xl shadow border border-gray-300 {{ $contract->marketings->isEmpty() ? 'bg-opacity-50 border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
                         <div class="flex items-center justify-between border-b border-white pb-2">
                             <div class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5"
                                      stroke="currentColor" class="w-4 h-4">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                           d="M10.34 15.84c-.688-.06-1.386-.09-2.09-.09H7.5a4.5 4.5 0 1 1 0-9h.75c.704 0 1.402-.03 2.09-.09m0 9.18c.253.962.584 1.892.985 2.783.247.55.06 1.21-.463 1.511l-.657.38c-.551.318-1.26.117-1.527-.461a20.845 20.845 0 0 1-1.44-4.282m3.102.069a18.03 18.03 0 0 1-.59-4.59c0-1.586.205-3.124.59-4.59m0 9.18a23.848 23.848 0 0 1 8.835 2.535M10.34 6.66a23.847 23.847 0 0 0 8.835-2.535m0 0A23.74 23.74 0 0 0 18.795 3m.38 1.125a23.91 23.91 0 0 1 1.014 5.395m-1.014 8.855c-.118.38-.245.754-.38 1.125m.38-1.125a23.91 23.91 0 0 0 1.014-5.395m0-3.46c.495.413.811 1.035.811 1.73 0 .695-.316 1.317-.811 1.73m0-3.46a24.347 24.347 0 0 1 0 3.46"/>
@@ -485,30 +486,40 @@
 
                 @if(!$contract->products()->where('group_id','!=',0)->where('model_id','!=',0)->get()->isEmpty())
                     <a href="{{ route('contracts.exclusive-code.index', $contract->id) }}"
-                       class="p-2 rounded-2xl shadow flex items-center justify-between border border-gray-300 {{ $contract->products()->where('group_id','!=',0)->where('model_id','!=',0)->get()->contains('code', null) ? 'bg-opacity-50 border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
-                        <div class="flex items-center">
-                            <div class="mr-4">
-                                <p class="font-bold text-black text-xs {{ $contract->products()->where('group_id','!=',0)->where('model_id','!=',0)->get()->contains('code', null) ? 'text-opacity-40' : '' }}">
-                                    اخذ کد اختصاصی
-                                </p>
+                       class="p-2 rounded-2xl shadow border border-gray-300 {{ $contract->products()->where('group_id','!=',0)->where('model_id','!=',0)->get()->contains('code', null) ? 'bg-opacity-50 border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
+                        <div class="flex items-center justify-between border-b border-white pb-2">
+                            <div class="flex items-center">
+                                <div class="mr-4">
+                                    <p class="font-bold text-black text-xs {{ $contract->products()->where('group_id','!=',0)->where('model_id','!=',0)->get()->contains('code', null) ? 'text-opacity-40' : '' }}">
+                                        اخذ کد اختصاصی
+                                    </p>
+                                </div>
+                            </div>
+                            <div>
+                                @if($contract->products()->where('group_id','!=',0)->where('model_id','!=',0)->get()->contains('code', null))
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                         class="w-5 h-5 text-gray-600 text-opacity-40">
+                                        <path fill-rule="evenodd"
+                                              d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                              clip-rule="evenodd"/>
+                                    </svg>
+                                @else
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         stroke-width="1.5"
+                                         stroke="currentColor" class="w-5 h-5 text-gray-600">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                                    </svg>
+                                @endif
+
                             </div>
                         </div>
-                        <div>
-                            @if($contract->products()->where('group_id','!=',0)->where('model_id','!=',0)->get()->contains('code', null))
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                     class="w-5 h-5 text-gray-600 text-opacity-40">
-                                    <path fill-rule="evenodd"
-                                          d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                                          clip-rule="evenodd"/>
-                                </svg>
-                            @else
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                     stroke-width="1.5"
-                                     stroke="currentColor" class="w-5 h-5 text-gray-600">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
-                                </svg>
-                            @endif
-
+                        <div class="mt-2 space-y-2">
+                            <p class="text-xs text-black">
+                                ثبت شده : {{ $contract->products()->where('code', '!=',null)->count() }}
+                            </p>
+                            <p class="text-xs text-black">
+                                ثبت نشده : {{ $contract->products()->where('code', null)->count() }}
+                            </p>
                         </div>
                     </a>
                 @endif
@@ -553,7 +564,7 @@
             </div>
 
             <div
-                class="flex items-center justify-between mt-4 space-x-4 space-x-reverse p-2 rounded-md border border-yellow-400">
+                    class="flex items-center justify-between mt-4 space-x-4 space-x-reverse p-2 rounded-md border border-yellow-400">
                 <p class="text-xs font-bold text-black">وضعیت</p>
                 <div class="w-full bg-gray-200 rounded-full">
                     <div class="bg-blue-600 text-xs font-medium text-white text-center p-0.5 leading-none rounded-full"
@@ -822,7 +833,7 @@
             </div>
 
             <div
-                class="flex items-center justify-between mt-4 space-x-4 space-x-reverse p-2 rounded-md border border-yellow-400">
+                    class="flex items-center justify-between mt-4 space-x-4 space-x-reverse p-2 rounded-md border border-yellow-400">
                 <p class="text-xs font-bold text-black">وضعیت</p>
                 <div class="w-full bg-gray-200 rounded-full">
                     <div class="bg-blue-600 text-xs font-medium text-white text-center p-0.5 leading-none rounded-full"
