@@ -17,6 +17,7 @@ use App\Http\Controllers\CombineCodeController;
 use App\Http\Controllers\Contract\AnalyzePartController;
 use App\Http\Controllers\Contract\ContractFileController;
 use App\Http\Controllers\Contract\ExclusiveCodeController;
+use App\Http\Controllers\Contract\FactorController;
 use App\Http\Controllers\Contract\FinalContractController;
 use App\Http\Controllers\Contract\GuaranteeController;
 use App\Http\Controllers\Contract\MarketingController;
@@ -669,6 +670,8 @@ Route::middleware(['auth', 'web'])->group(function () {
 
         Route::get('/contracts/{contract}/exclusive-code', [ExclusiveCodeController::class, 'index'])->name('contracts.exclusive-code.index');
         Route::patch('/contracts/{contract}/exclusive-code', [ExclusiveCodeController::class, 'store'])->name('contracts.exclusive-code.store');
+
+        Route::resource('/contracts/{contract}/factors', FactorController::class)->except(['show']);
 
         Route::resource('todos', TodoController::class)->except('show');
         Route::post('todos/{todo}/mark-as-done', [TodoController::class, 'markAsDone'])->name('todos.mark-as-done');

@@ -451,35 +451,45 @@
 
                 @if(!$contract->guarantees->isEmpty())
                     <a href="{{ route('contracts.guarantees.index', $contract->id) }}"
-                       class="p-2 rounded-2xl shadow flex items-center justify-between border border-gray-300 {{ $contract->guarantees->isEmpty() ? 'bg-opacity-50 border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
-                        <div class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                 stroke="currentColor" class="w-4 h-4">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/>
-                            </svg>
-                            <div class="mr-2">
-                                <p class="font-bold text-black text-xs {{ $contract->guarantees->isEmpty() ? 'text-opacity-40' : '' }}">
-                                    تضامین
-                                </p>
+                       class="p-2 rounded-2xl shadow border border-gray-300 {{ $contract->guarantees()->where('final_return_date', '>', now())->count() > 0 ? 'bg-opacity-50 border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
+                        <div class="flex items-center justify-between border-b border-white pb-2">
+                            <div class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                     stroke="currentColor" class="w-4 h-4">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/>
+                                </svg>
+                                <div class="mr-2">
+                                    <p class="font-bold text-black text-xs {{ $contract->guarantees()->where('final_return_date', '>', now())->count() > 0 ? 'text-opacity-40' : '' }}">
+                                        تضامین
+                                    </p>
+                                </div>
+                            </div>
+                            <div>
+                                @if($contract->guarantees()->where('final_return_date', '>', now())->count() > 0)
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                         class="w-5 h-5 text-gray-600 text-opacity-40">
+                                        <path fill-rule="evenodd"
+                                              d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                              clip-rule="evenodd"/>
+                                    </svg>
+                                @else
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         stroke-width="1.5"
+                                         stroke="currentColor" class="w-5 h-5 text-gray-600">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                                    </svg>
+                                @endif
+
                             </div>
                         </div>
-                        <div>
-                            @if($contract->guarantees->isEmpty())
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                     class="w-5 h-5 text-gray-600 text-opacity-40">
-                                    <path fill-rule="evenodd"
-                                          d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                                          clip-rule="evenodd"/>
-                                </svg>
-                            @else
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                     stroke-width="1.5"
-                                     stroke="currentColor" class="w-5 h-5 text-gray-600">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
-                                </svg>
-                            @endif
-
+                        <div class="mt-2 space-y-2">
+                            <p class="text-xs text-black">
+                                عودت شده ها : {{ $contract->guarantees()->where('final_return_date', '<', now())->count() }}
+                            </p>
+                            <p class="text-xs text-black">
+                                عودت نشده ها : {{ $contract->guarantees()->where('final_return_date', '>', now())->count() }}
+                            </p>
                         </div>
                     </a>
                 @endif
@@ -515,31 +525,38 @@
                         </div>
                         <div class="mt-2 space-y-2">
                             <p class="text-xs text-black">
-                                ثبت شده : {{ $contract->products()->where('code', '!=',null)->count() }}
+                                ثبت شده : {{ $contract->products()->where('group_id','!=',0)->where('model_id','!=',0)->where('code', '!=',null)->count() }}
                             </p>
                             <p class="text-xs text-black">
-                                ثبت نشده : {{ $contract->products()->where('code', null)->count() }}
+                                ثبت نشده : {{ $contract->products()->where('group_id','!=',0)->where('model_id','!=',0)->where('code', null)->count() }}
                             </p>
                         </div>
                     </a>
                 @endif
 
-                <a href="{{ route('contracts.invoices.index', $contract->id) }}"
-                   class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 bg-opacity-50 border-opacity-50">
-                    <div class="flex items-center">
-                        <div class="mr-4">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white text-opacity-40">
-                                فاکتور رسمی
-                            </p>
+                <a href="{{ route('factors.index', $contract->id) }}"
+                   class="p-2 rounded-2xl shadow border border-gray-300 {{ $contract->contractFactors->isEmpty() ? 'bg-opacity-50 border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
+                    <div class="flex items-center justify-between border-b border-white pb-2">
+                        <div class="flex items-center">
+                            <div class="mr-4">
+                                <p class="font-bold text-black text-xs group-hover:text-white dark:text-white {{ $contract->contractFactors->isEmpty() ? 'text-opacity-40' : '' }}">
+                                    فاکتور رسمی
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                 class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white {{ $contract->contractFactors->isEmpty() ? 'text-opacity-40' : '' }}">
+                                <path fill-rule="evenodd"
+                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                      clip-rule="evenodd"/>
+                            </svg>
                         </div>
                     </div>
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white text-opacity-40">
-                            <path fill-rule="evenodd"
-                                  d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                                  clip-rule="evenodd"/>
-                        </svg>
+                    <div class="mt-2 space-y-2">
+                        <p class="text-xs text-black">
+                            تعداد : {{ $contract->contractFactors()->count() }}
+                        </p>
                     </div>
                 </a>
 

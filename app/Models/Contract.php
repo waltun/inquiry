@@ -64,4 +64,9 @@ class Contract extends Model
     {
         return $this->hasMany(Letter::class);
     }
+
+    public function contractFactors()
+    {
+        return $this->hasMany(ContractFactor::class);
+    }
 }
