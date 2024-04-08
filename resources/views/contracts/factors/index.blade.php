@@ -122,6 +122,9 @@
                         تاریخ
                     </th>
                     <th scope="col" class="p-4">
+                        شماره
+                    </th>
+                    <th scope="col" class="p-4">
                         قیمت بدون ارزش افزوده (تومان)
                     </th>
                     <th scope="col" class="p-4">
@@ -142,7 +145,10 @@
                             {{ $loop->index + 1 }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ jdate($factor->created_at)->format('Y/m/d') }}
+                            {{ jdate($factor->date)->format('Y/m/d') }}
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            {{ $factor->number }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             {{ number_format($factor->price) }}

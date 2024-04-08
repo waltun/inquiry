@@ -25,6 +25,7 @@ use App\Http\Controllers\Contract\PackingController;
 use App\Http\Controllers\Contract\RecipeController;
 use App\Http\Controllers\Contract\ProductController as ContractProduct;
 use App\Http\Controllers\Contract\CustomerController as ContractCustomerController;
+use App\Http\Controllers\Contract\RecoupmentController;
 use App\Http\Controllers\InformationController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\LetterTermController;
@@ -672,6 +673,9 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::patch('/contracts/{contract}/exclusive-code', [ExclusiveCodeController::class, 'store'])->name('contracts.exclusive-code.store');
 
         Route::resource('/contracts/{contract}/factors', FactorController::class)->except(['show']);
+
+        Route::get('/contracts/{contract}/recoupment', [RecoupmentController::class, 'index'])->name('contracts.recoupment.index');
+        Route::patch('/contracts/{contract}/recoupment', [RecoupmentController::class, 'store'])->name('contracts.recoupment.store');
 
         Route::resource('todos', TodoController::class)->except('show');
         Route::post('todos/{todo}/mark-as-done', [TodoController::class, 'markAsDone'])->name('todos.mark-as-done');

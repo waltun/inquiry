@@ -26,6 +26,7 @@ return new class extends Migration {
             $table->string('type')->nullable();
             $table->boolean('complete')->default(0);
             $table->string('file')->nullable();
+            $table->string('recoupment')->nullable();
 
             $table->unsignedBigInteger('invoice_id')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();

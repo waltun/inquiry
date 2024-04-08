@@ -275,7 +275,7 @@
                 $salePercent = $saleSuccessCount / 5 * 100;
             @endphp
             <div
-                    class="flex items-center justify-between mt-4 space-x-4 space-x-reverse p-2 rounded-md border border-yellow-400">
+                class="flex items-center justify-between mt-4 space-x-4 space-x-reverse p-2 rounded-md border border-yellow-400">
                 <p class="text-xs font-bold text-black">وضعیت</p>
                 <div class="w-full bg-gray-200 rounded-full">
                     <div class="bg-blue-600 text-xs font-medium text-white text-center p-0.5 leading-none rounded-full"
@@ -310,6 +310,16 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path>
                             </svg>
                             <span class="mr-2">ایجاد تضمین</span>
+                        </a>
+                    @endif
+
+                    @if(!$contract->recoupment)
+                        <a href="{{ route('contracts.recoupment.index', $contract->id) }}" class="page-info-btn py-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                 stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path>
+                            </svg>
+                            <span class="mr-2">ایجاد مفاصا حساب</span>
                         </a>
                     @endif
                 </div>
@@ -534,54 +544,65 @@
                     </a>
                 @endif
 
-                <a href="{{ route('factors.index', $contract->id) }}"
-                   class="p-2 rounded-2xl shadow border border-gray-300 {{ $contract->contractFactors->isEmpty() ? 'bg-opacity-50 border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
-                    <div class="flex items-center justify-between border-b border-white pb-2">
-                        <div class="flex items-center">
-                            <div class="mr-4">
-                                <p class="font-bold text-black text-xs group-hover:text-white dark:text-white {{ $contract->contractFactors->isEmpty() ? 'text-opacity-40' : '' }}">
-                                    فاکتور رسمی
-                                </p>
+                @if($contract->type == 'official')
+                    <a href="{{ route('factors.index', $contract->id) }}"
+                       class="p-2 rounded-2xl shadow border border-gray-300 {{ $contract->contractFactors->isEmpty() ? 'bg-opacity-50 border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
+                        <div class="flex items-center justify-between border-b border-white pb-2">
+                            <div class="flex items-center">
+                                <div class="mr-4">
+                                    <p class="font-bold text-black text-xs group-hover:text-white dark:text-white {{ $contract->contractFactors->isEmpty() ? 'text-opacity-40' : '' }}">
+                                        فاکتور رسمی
+                                    </p>
+                                </div>
+                            </div>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                     class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white {{ $contract->contractFactors->isEmpty() ? 'text-opacity-40' : '' }}">
+                                    <path fill-rule="evenodd"
+                                          d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                          clip-rule="evenodd"/>
+                                </svg>
                             </div>
                         </div>
-                        <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                 class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white {{ $contract->contractFactors->isEmpty() ? 'text-opacity-40' : '' }}">
-                                <path fill-rule="evenodd"
-                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                                      clip-rule="evenodd"/>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="mt-2 space-y-2">
-                        <p class="text-xs text-black">
-                            تعداد : {{ $contract->contractFactors()->count() }}
-                        </p>
-                    </div>
-                </a>
-
-                <a href="{{ route('contracts.invoices.index', $contract->id) }}"
-                   class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 bg-opacity-50 border-opacity-50">
-                    <div class="flex items-center">
-                        <div class="mr-4">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white text-opacity-40">
-                                مفاصا حساب
+                        <div class="mt-2 space-y-2">
+                            <p class="text-xs text-black">
+                                تعداد : {{ $contract->contractFactors()->count() }}
                             </p>
                         </div>
-                    </div>
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white text-opacity-40">
-                            <path fill-rule="evenodd"
-                                  d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                                  clip-rule="evenodd"/>
-                        </svg>
-                    </div>
-                </a>
+                    </a>
+                @endif
+
+                @if($contract->recoupment)
+                    <a href="{{ route('contracts.invoices.index', $contract->id) }}"
+                       class="p-2 rounded-2xl bg-green-400 shadow border border-gray-300">
+                        <div class="flex items-center justify-between border-b border-white pb-2">
+                            <div class="flex items-center">
+                                <div class="mr-4">
+                                    <p class="font-bold text-black text-xs group-hover:text-white dark:text-white">
+                                        مفاصا حساب
+                                    </p>
+                                </div>
+                            </div>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                     class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                                    <path fill-rule="evenodd"
+                                          d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                          clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="mt-2 space-y-2">
+                            <p class="text-xs text-black">
+                                تعداد : 1
+                            </p>
+                        </div>
+                    </a>
+                @endif
             </div>
 
             <div
-                    class="flex items-center justify-between mt-4 space-x-4 space-x-reverse p-2 rounded-md border border-yellow-400">
+                class="flex items-center justify-between mt-4 space-x-4 space-x-reverse p-2 rounded-md border border-yellow-400">
                 <p class="text-xs font-bold text-black">وضعیت</p>
                 <div class="w-full bg-gray-200 rounded-full">
                     <div class="bg-blue-600 text-xs font-medium text-white text-center p-0.5 leading-none rounded-full"
@@ -850,7 +871,7 @@
             </div>
 
             <div
-                    class="flex items-center justify-between mt-4 space-x-4 space-x-reverse p-2 rounded-md border border-yellow-400">
+                class="flex items-center justify-between mt-4 space-x-4 space-x-reverse p-2 rounded-md border border-yellow-400">
                 <p class="text-xs font-bold text-black">وضعیت</p>
                 <div class="w-full bg-gray-200 rounded-full">
                     <div class="bg-blue-600 text-xs font-medium text-white text-center p-0.5 leading-none rounded-full"

@@ -58,8 +58,8 @@ return [
 
         'files' => [
             'driver' => 'local',
-            'root' => public_path('images'),
-            'url' => '/images',
+            'root' => public_path('files'),
+            'url' => '/files',
         ],
 
     ],

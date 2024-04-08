@@ -1,6 +1,7 @@
 <x-layout>
     <x-slot name="js">
         <script src="{{ asset('plugins/jquery.min.js') }}"></script>
+        <script src="{{ asset('plugins/date-picker/persianDatepicker.min.js') }}"></script>
         <script>
             document.addEventListener("DOMContentLoaded", function () {
 
@@ -29,6 +30,14 @@
                 taxPriceSection.innerText = Intl.NumberFormat('fa-IR').format(value) + ' تومان ';
             }
         </script>
+        <script>
+            $("#inputDate").persianDatepicker({
+                formatDate: "YYYY-MM-DD",
+            });
+        </script>
+    </x-slot>
+    <x-slot name="css">
+        <link rel="stylesheet" href="{{ asset('plugins/date-picker/persianDatepicker-default.css') }}">
     </x-slot>
 
     <!-- Breadcrumb -->
@@ -141,6 +150,22 @@
                 <p class="card-title">
                     مشخصات کلی
                 </p>
+            </div>
+
+            <div class="mb-4">
+                <label for="inputDate" class="form-label">
+                    تاریخ فاکتور
+                </label>
+                <input type="text" id="inputDate" name="date" class="input-text" value="{{ old('date') }}"
+                       placeholder="برای انتخاب تاریخ کلیک کیند">
+            </div>
+
+            <div class="mb-4">
+                <label for="inputNumber" class="form-label">
+                    شماره فاکتور
+                </label>
+                <input type="text" id="inputNumber" name="number" class="input-text" value="{{ old('number') }}"
+                       placeholder="مثلا : 14020202">
             </div>
 
             <div class="mb-4">

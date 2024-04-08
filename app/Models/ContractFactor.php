@@ -10,7 +10,7 @@ class ContractFactor extends Model
     use HasFactory;
 
     protected $fillable = [
-        'file', 'price', 'tax_price'
+        'file', 'price', 'tax_price', 'number', 'date'
     ];
 
     public function contract()
