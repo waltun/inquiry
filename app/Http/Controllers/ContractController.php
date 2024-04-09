@@ -9,6 +9,7 @@ use App\Models\Invoice;
 use App\Models\Special;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Morilog\Jalali\Jalalian;
 
 class ContractController extends Controller
@@ -73,7 +74,9 @@ class ContractController extends Controller
 
         $data["number"] = $number;
 
-        auth()->user()->contracts()->create($data);
+        $contract = auth()->user()->contracts()->create($data);
+
+        $this->createFolders($contract);
 
         alert()->success('ثبت موفق', 'تبدیل پیش فاکتور به قطعه با موفقیت انجام شد');
 
@@ -348,5 +351,59 @@ class ContractController extends Controller
             $contractNumber = '1000';
         }
         return $year . '-2-' . $contractNumber;
+    }
+
+    /**
+     * @param Contract|\Illuminate\Database\Eloquent\Model $contract
+     * @return void
+     */
+    public function createFolders(Contract|\Illuminate\Database\Eloquent\Model $contract): void
+    {
+        $year = jdate($contract->created_at)->getYear();
+
+        $firstPath = 'files/contracts/' . $year . '/';
+        if (!File::exists('files/contracts/' . $year)) {
+            File::makeDirectory($firstPath, 0755, true);
+        }
+
+        $secondPath = $firstPath . 'CNT-' . $contract->number . '/';
+        if (!File::exists($secondPath)) {
+            File::makeDirectory($secondPath, 0755, true);
+        }
+
+        $financialPath = $secondPath . 'Financial/';
+        if (!File::exists($financialPath)) {
+            File::makeDirectory($financialPath, 0755, true);
+        }
+
+        $financialInvoicePath = $financialPath . 'Invoice/';
+        if (!File::exists($financialInvoicePath)) {
+            File::makeDirectory($financialInvoicePath, 0755, true);
+        }
+
+        $financialRecoupmentPath = $financialPath . 'Recoupment/';
+        if (!File::exists($financialRecoupmentPath)) {
+            File::makeDirectory($financialRecoupmentPath, 0755, true);
+        }
+
+        $factoryPath = $secondPath . 'Factory/';
+        if (!File::exists($factoryPath)) {
+            File::makeDirectory($factoryPath, 0755, true);
+        }
+
+        $factoryTechnicalPath = $factoryPath . 'Technical-Documents/';
+        if (!File::exists($factoryTechnicalPath)) {
+            File::makeDirectory($factoryTechnicalPath, 0755, true);
+        }
+
+        $factoryShippingPath = $factoryPath . 'Shipping-Documents/';
+        if (!File::exists($factoryShippingPath)) {
+            File::makeDirectory($factoryShippingPath, 0755, true);
+        }
+
+        $factoryImagePath = $factoryPath . 'Images/';
+        if (!File::exists($factoryImagePath)) {
+            File::makeDirectory($factoryImagePath, 0755, true);
+        }
     }
 }

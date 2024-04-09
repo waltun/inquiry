@@ -711,8 +711,7 @@
     </div>
 
     <!-- Desktop Table -->
-    <form method="POST" action="{{ route('purchase.changeStatus') }}"
-          class="overflow-x-auto rounded-lg hidden md:block">
+    <form method="POST" action="{{ route('purchase.changeStatus') }}" class="overflow-x-auto rounded-lg hidden md:block">
         @csrf
         @method('PATCH')
 
@@ -997,7 +996,7 @@
             <input type="hidden" name="important[]" value="{{ $purchas->important }}" class="store-ids">
         @endforeach
 
-        <div class="flex justify-between items-center sticky bottom-4">
+        <div class="flex justify-between items-center">
             @can('complete-purchase')
                 <a href="{{ route('purchase.complete') }}" class="page-warning-btn shadow">
                     لیست اقلام خریداری شده

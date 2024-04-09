@@ -573,7 +573,7 @@
                 @endif
 
                 @if($contract->recoupment)
-                    <a href="{{ route('contracts.invoices.index', $contract->id) }}"
+                    <a href="{{ route('contracts.recoupment.index', $contract->id) }}"
                        class="p-2 rounded-2xl bg-green-400 shadow border border-gray-300">
                         <div class="flex items-center justify-between border-b border-white pb-2">
                             <div class="flex items-center">

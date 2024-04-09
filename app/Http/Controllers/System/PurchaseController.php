@@ -85,7 +85,7 @@ class PurchaseController extends Controller
         $categories = SystemCategory::where('parent_id', 0)->with(['children'])->get();
         $date = Jalalian::now();
         $today = $date->getYear() . "-" . $date->getMonth() . "-" . $date->getDay();
-        $purchase = $purchase->orderBy('important', 'DESC')->where('status', '!=', 'purchased')->paginate(50);
+        $purchase = $purchase->orderBy('important', 'DESC')->where('status', '!=', 'purchased')->paginate(50)->withQueryString();
 
         $contracts = Contract::all();
 
