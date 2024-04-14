@@ -144,7 +144,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($contract->products()->where('group_id','!=',0)->where('model_id','!=',0)->where('recipe', 1)->get() as $product)
+                        @foreach($contract->products()->orderBy('sort', 'ASC')->where('group_id','!=',0)->where('model_id','!=',0)->where('recipe', 1)->get() as $product)
                             <input type="hidden" name="products[]" value="{{ $product->id }}">
                             @php
                                 $modell = \App\Models\Modell::find($product->model_id);
@@ -162,7 +162,7 @@
                                     {{ $product->model_custom_name ?? $modell->name }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
-                                    {{ $product->description ?? '-' }}
+                                    {{ $product->tag ?? '-' }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     {{ $product->quantity }}
@@ -699,7 +699,7 @@
         @endforeach
 
         <!-- Detail Parts -->
-        @foreach($contract->products()->where('group_id','!=',0)->where('model_id','!=',0)->get() as $product)
+        @foreach($contract->products()->where('group_id','!=',0)->where('model_id','!=',0)->orderBy('sort', 'ASC')->get() as $product)
             @php
                 $modell = \App\Models\Modell::find($product->model_id);
             @endphp

@@ -249,6 +249,7 @@ class ContractController extends Controller
                 'part_id' => $product->part_id,
                 'product_id' => $product->product_id,
                 'invoice_id' => $invoice->id,
+                'sort' => $product->sort
             ]);
         }
 

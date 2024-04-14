@@ -150,6 +150,7 @@ class InquiryProductController extends Controller
         $inquiry = Inquiry::find($product->inquiry_id);
         $amounts = Amount::where('product_id', $product->id)->orderBy('sort', 'ASC')->get();
         $specials = Special::all()->pluck('part_id')->toArray();
+        $ids = ['6052', '6053', '6054', '6055', '6057', '6058', '6059', '6060', '6062', '6063', '6064'];
 
         $setting = Setting::where('active', '1')->first();
         if ($setting) {
@@ -168,6 +169,33 @@ class InquiryProductController extends Controller
         if ($inquiry->submit) {
             if ($product->amounts->isEmpty()) {
                 foreach ($modell->parts as $part) {
+                    if ($part->collection) {
+                        $price = 0;
+                        $weight = 0;
+                        foreach ($part->children as $child) {
+                            if (!$child->children->isEmpty()) {
+                                foreach ($child->children()->wherePivot('head_part_id', $part->id)->orderBy('sort', 'ASC')->get() as $ch) {
+                                    if (!$ch->children->isEmpty()) {
+                                        foreach ($ch->children as $c) {
+                                            $price += $c->price * $c->pivot->value;
+                                            $weight += $c->weight * $c->pivot->value;
+                                        }
+                                    } else {
+                                        $price += $ch->price * $ch->pivot->value;
+                                        $weight += $ch->weight * $ch->pivot->value;
+                                    }
+                                }
+                            } else {
+                                $price += $child->price * $child->pivot->value;
+                                $weight += $child->weight * $child->pivot->value;
+                            }
+                        }
+                        $part->price = $price;
+                        $part->weight = $weight;
+                        $part->price_updated_at = now();
+                        $part->save();
+                    }
+
                     if (!$part->children->isEmpty()) {
                         foreach ($part->children as $child) {
                             if (!$child->children->isEmpty()) {
@@ -217,23 +245,39 @@ class InquiryProductController extends Controller
                     }
                 }
             } else {
-                foreach ($product->amounts as $amount) {
+                foreach ($product->amounts()->orderBy('sort', 'ASC')->get() as $amount) {
                     $part = Part::find($amount->part_id);
 
                     if ($part->collection) {
                         $price = 0;
                         $weight = 0;
-                        foreach ($part->children as $child) {
+                        foreach ($part->children()->orderBy('sort', 'ASC')->get() as $child) {
                             if (!$child->children->isEmpty()) {
-                                foreach ($child->children()->where('head_part_id', $part->id)->orderBy('sort', 'ASC')->get() as $ch) {
-                                    if (!$ch->children->isEmpty()) {
-                                        foreach ($ch->children as $c) {
-                                            $price += $c->price * $c->pivot->value;
-                                            $weight += $c->weight * $c->pivot->value;
+                                if (!in_array($child->id, $ids)) {
+                                    foreach ($child->children()->orderBy('sort', 'ASC')->get() as $ch) {
+                                        if (!$ch->children->isEmpty()) {
+                                            foreach ($ch->children as $c) {
+                                                $price += $c->price * $c->pivot->value;
+                                                $weight += $c->weight * $c->pivot->value;
+                                            }
+                                        } else {
+                                            $price += $ch->price * $ch->pivot->value;
+                                            $weight += $ch->weight * $ch->pivot->value;
                                         }
-                                    } else {
-                                        $price += $ch->price * $ch->pivot->value;
-                                        $weight += $ch->weight * $ch->pivot->value;
+                                    }
+                                }
+
+                                if (in_array($child->id, $ids)) {
+                                    foreach ($child->children()->orderBy('sort', 'ASC')->wherePivot('head_part_id', $part->id)->get() as $ch) {
+                                        if (!$ch->children->isEmpty()) {
+                                            foreach ($ch->children()->orderBy('sort', 'ASC')->get() as $c) {
+                                                $price += $c->price * $c->pivot->value;
+                                                $weight += $c->weight * $c->pivot->value;
+                                            }
+                                        } else {
+                                            $price += $ch->price * $ch->pivot->value;
+                                            $weight += $ch->weight * $ch->pivot->value;
+                                        }
                                     }
                                 }
                             } else {

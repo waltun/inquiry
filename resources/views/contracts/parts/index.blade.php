@@ -319,7 +319,7 @@
     <div class="mt-4">
         @if(!$contract->products->isEmpty())
             @php
-                $products = $contract->products()->where('group_id','!=',0)->where('model_id','!=',0)->get();
+                $products = $contract->products()->orderBy('sort', 'ASC')->where('group_id','!=',0)->where('model_id','!=',0)->get();
                 $specials = \App\Models\Special::all()->pluck('part_id')->toArray();
             @endphp
 
