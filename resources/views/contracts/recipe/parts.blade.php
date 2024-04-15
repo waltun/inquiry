@@ -251,7 +251,8 @@
     <!-- Content -->
     <div class="mt-4">
         @php
-            $products = $contract->products()->where('group_id','!=',0)->where('model_id','!=',0)->where('recipe', 1)->get();
+            $products = $contract->products()->orderBy('sort', 'ASC')->where('group_id','!=',0)->where('model_id','!=',0)->where('recipe', 1)->get();
+            $specials = \App\Models\Special::all()->pluck('part_id')->toArray();
         @endphp
 
             <!-- Product List -->
@@ -267,9 +268,12 @@
                     <input type="hidden" name="product_id" value="{{ $product->id }}">
                     <div class="card-header">
                         <p class="card-title text-lg">
-                            لیست قطعات محصول
+                            {{ $loop->index + 1 }} -
+                            لیست قطعات
                             <span class="text-red-600">{{ $modell->parent->name }}</span> -
-                            <span class="text-red-600">{{ $product->model_custom_name ?? $modell->name }}</span>
+                            <span class="text-red-600">{{ $product->tag }}</span> -
+                            <span class="text-red-600">{{ $product->model_custom_name ?? $modell->name }}</span> -
+                            <span class="text-red-600">تعداد :  {{ $product->quantity }} دستگاه</span>
                         </p>
                     </div>
                     <table class="w-full border-collapse">
@@ -300,7 +304,7 @@
                                 $category = $part->categories[1];
                                 $selectedCategory = $part->categories[2];
                             @endphp
-                            <tr class="table-tb-tr group whitespace-nowrap">
+                            <tr class="table-tb-tr group whitespace-nowrap {{ $loop->even ? 'bg-sky-100' : '' }}">
                                 <td class="table-tr-td border-t-0 border-l-0">
                                     <input type="number" class="input-text text-center w-14" name="sorts[]"
                                            value="{{ $amount->sort }}">
@@ -322,12 +326,18 @@
                                 @endphp
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     <select name="part_ids[]" class="input-text" id="partList{{ $part->id }}">
-                                        @foreach($categoryParts as $part2)
-                                            <option
-                                                value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
-                                                {{ $part2->name }}
+                                        @if($part->coil && !$part->standard && !in_array($part->id, $specials))
+                                            <option value="{{ $part->id }}" selected>
+                                                {{ $part->name }}
                                             </option>
-                                        @endforeach
+                                        @else
+                                            @foreach($categoryParts as $part2)
+                                                <option
+                                                    value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
+                                                    {{ $part2->name }}
+                                                </option>
+                                            @endforeach
+                                        @endif
                                     </select>
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">

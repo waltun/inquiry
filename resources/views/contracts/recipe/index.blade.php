@@ -159,7 +159,9 @@
                                     </a>
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
-                                    {{ $product->model_custom_name ?? $modell->name }}
+                                    <a href="#product{{ $product->id }}">
+                                        {{ $product->model_custom_name ?? $modell->name }}
+                                    </a>
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     {{ $product->tag ?? '-' }}
@@ -208,7 +210,7 @@
                                                                 <div class="mt-6 space-y-2">
                                                                     @foreach($product->histories as $history)
                                                                         <div
-                                                                                class="p-2 border border-gray-200 rounded-lg">
+                                                                            class="p-2 border border-gray-200 rounded-lg">
                                                                             <div class="grid grid-cols-5 gap-4">
                                                                                 <div>
                                                                                     <p class="text-xs font-medium text-black">
@@ -233,9 +235,9 @@
                                                                                         @switch($history->type)
                                                                                             @case('change')
                                                                                                 قطعه <span
-                                                                                                        class="text-indigo-600">{{ $oldPart->name }}</span>
+                                                                                                    class="text-indigo-600">{{ $oldPart->name }}</span>
                                                                                                 به <span
-                                                                                                        class="text-indigo-600">{{ $newPart->name }}</span>
+                                                                                                    class="text-indigo-600">{{ $newPart->name }}</span>
                                                                                                 تغییر یافت
                                                                                                 @break
                                                                                         @endswitch
@@ -571,7 +573,7 @@
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     @if($product->status == 'end')
                                         <div
-                                                class="flex items-center justify-center bg-green-500 text-white rounded-lg">
+                                            class="flex items-center justify-center bg-green-500 text-white rounded-lg">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                  stroke-width="2" stroke="currentColor" class="w-4 h-4 ml-1">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -706,9 +708,12 @@
             <div class="card" id="product{{ $product->id }}">
                 <div class="card-header">
                     <p class="card-title text-lg">
-                        لیست قطعات محصول
+                        {{ $loop->index + 1 }} -
+                        لیست قطعات
                         <span class="text-red-600">{{ $modell->parent->name }}</span> -
-                        <span class="text-red-600">{{ $product->model_custom_name ?? $modell->name }}</span>
+                        <span class="text-red-600">{{ $product->tag }}</span> -
+                        <span class="text-red-600">{{ $product->model_custom_name ?? $modell->name }}</span> -
+                        <span class="text-red-600">تعداد :  {{ $product->quantity }} دستگاه</span>
                     </p>
                 </div>
                 <div class="mb-4 flex justify-end" x-data="{open:false}">
@@ -767,9 +772,9 @@
                                                                 @switch($history->type)
                                                                     @case('change')
                                                                         قطعه <span
-                                                                                class="text-indigo-600">{{ $oldPart->name }}</span>
+                                                                            class="text-indigo-600">{{ $oldPart->name }}</span>
                                                                         به <span
-                                                                                class="text-indigo-600">{{ $newPart->name }}</span>
+                                                                            class="text-indigo-600">{{ $newPart->name }}</span>
                                                                         تغییر یافت
                                                                         @break
                                                                 @endswitch
@@ -800,7 +805,7 @@
                         @php
                             $part = \App\Models\Part::find($amount->part_id);
                         @endphp
-                        <tr class="table-tb-tr group whitespace-nowrap">
+                        <tr class="table-tb-tr group whitespace-nowrap {{ $loop->even ? 'bg-sky-100' : '' }}">
                             <td class="table-tr-td border-t-0 border-l-0">
                                 {{ $amount->sort }}
                             </td>

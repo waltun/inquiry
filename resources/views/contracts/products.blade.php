@@ -204,10 +204,14 @@
                                         @endif
                                     </td>
                                     <td class="table-tr-td border-t-0 border-x-0">
-                                        {{ $modell->parent->name }}
+                                        <a href="#product{{ $product->id }}">
+                                            {{ $modell->parent->name }}
+                                        </a>
                                     </td>
                                     <td class="table-tr-td border-t-0 border-x-0">
-                                        {{ $product->model_custom_name ?? $modell->name }}
+                                        <a href="#product{{ $product->id }}">
+                                            {{ $product->model_custom_name ?? $modell->name }}
+                                        </a>
                                     </td>
                                     <td class="table-tr-td border-t-0 border-x-0">
                                         {{ $product->tag ?? '-' }}
@@ -620,12 +624,15 @@
                     $weight = 0;
                 @endphp
                 @if(!$product->spareAmounts->isEmpty())
-                    <div class="card">
+                    <div class="card" id="product{{ $product->id }}">
                         <div class="card-header">
                             <p class="card-title text-lg">
-                                لیست قطعات محصول
+                                {{ $loop->index + 1 }} -
+                                لیست قطعات
                                 <span class="text-red-600">{{ $modell->parent->name }}</span> -
-                                <span class="text-red-600">{{ $product->model_custom_name ?? $modell->name }}</span>
+                                <span class="text-red-600">{{ $product->tag }}</span> -
+                                <span class="text-red-600">{{ $product->model_custom_name ?? $modell->name }}</span> -
+                                <span class="text-red-600">تعداد :  {{ $product->quantity }} دستگاه</span>
                             </p>
                         </div>
                         <table class="w-full border-collapse">

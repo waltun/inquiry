@@ -206,10 +206,14 @@
                                             {{ $loop->index + 1 }}
                                         </td>
                                         <td class="table-tr-td border-t-0 border-x-0">
-                                            {{ $modell->parent->name }}
+                                            <a href="#product{{ $product->id }}">
+                                                {{ $modell->parent->name }}
+                                            </a>
                                         </td>
                                         <td class="table-tr-td border-t-0 border-x-0">
-                                            {{ $product->model_custom_name ?? $modell->name }}
+                                            <a href="#product{{ $product->id }}">
+                                                {{ $product->model_custom_name ?? $modell->name }}
+                                            </a>
                                         </td>
                                         <td class="table-tr-td border-t-0 border-x-0">
                                             {{ $product->description ?? '-' }}
@@ -448,17 +452,20 @@
                 @foreach($invoice->products()->orderBy('sort', 'ASC')->where('group_id','!=',0)->where('model_id','!=',0)->get() as $invoiceProduct)
                     @php
                         $inquiry = $invoiceProduct->invoice->inquiry;
-                        $product = $inquiry->products()->where('group_id', $invoiceProduct->group_id)->where('model_id', $invoiceProduct->model_id)->first();
+                        $product = $inquiry->products()->orderBy('sort', 'ASC')->where('group_id', $invoiceProduct->group_id)->where('model_id', $invoiceProduct->model_id)->first();
                         $modell = \App\Models\Modell::find($product->model_id);
                         $weight = 0;
                     @endphp
                     @if(!$product->amounts->isEmpty())
-                        <div class="card">
+                        <div class="card" id="product{{ $invoiceProduct->id }}">
                             <div class="card-header">
                                 <p class="card-title text-lg">
+                                    {{ $loop->index + 1 }} -
                                     لیست قطعات محصول
                                     <span class="text-red-600">{{ $modell->parent->name }}</span> -
-                                    <span class="text-red-600">{{ $product->model_custom_name ?? $modell->name }}</span>
+                                    <span class="text-red-600">{{ $product->description }}</span> -
+                                    <span class="text-red-600">{{ $product->model_custom_name ?? $modell->name }}</span> -
+                                    <span class="text-red-600">تعداد :  {{ number_format($product->quantity) }} دستگاه</span>
                                 </p>
                             </div>
                             <table class="w-full border-collapse">

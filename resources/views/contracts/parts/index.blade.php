@@ -304,40 +304,127 @@
                 @endif
             @endif
 
-                <a href="{{ route('contracts.show', $contract->id) }}" class="page-warning-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                         stroke="currentColor" class="w-4 h-4 ml-1">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"></path>
-                    </svg>
-                    بازگشت
-                </a>
+            <a href="{{ route('contracts.show', $contract->id) }}" class="page-warning-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                     stroke="currentColor" class="w-4 h-4 ml-1">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"></path>
+                </svg>
+                بازگشت
+            </a>
         </div>
     </div>
 
     <!-- Content -->
     <div class="mt-4">
+        @if(!$contract->products()->where('group_id','!=',0)->where('model_id','!=',0)->get()->isEmpty())
+            <div class="card">
+                <div class="card-header">
+                    <p class="card-title text-lg">لیست محصولات</p>
+                </div>
+
+                <div class="mt-8 overflow-x-auto rounded-lg">
+                    <table class="w-full border-collapse">
+                        <thead>
+                        <tr class="table-th-tr">
+                            <th scope="col" class="p-4 rounded-tr-lg">
+                                ردیف
+                            </th>
+                            <th scope="col" class="p-4">
+                                پیش فاکتور
+                            </th>
+                            <th scope="col" class="p-4">
+                                دسته محصول
+                            </th>
+                            <th scope="col" class="p-4">
+                                مدل محصول
+                            </th>
+                            <th scope="col" class="p-4">
+                                تگ
+                            </th>
+                            <th scope="col" class="p-4">
+                                تعداد
+                            </th>
+                            <th scope="col" class="p-4">
+                                قیمت واحد (تومان)
+                            </th>
+                            <th scope="col" class="p-4">
+                                قیمت کل (تومان)
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($contract->products()->orderBy('sort', 'ASC')->where('group_id','!=',0)->where('model_id','!=',0)->get() as $product)
+                            <input type="hidden" name="products[]" value="{{ $product->id }}">
+                            @php
+                                $modell = \App\Models\Modell::find($product->model_id);
+                            @endphp
+                            <tr class="table-tb-tr group whitespace-normal {{ $loop->even ? 'bg-sky-100' : '' }}">
+                                <td class="table-tr-td border-t-0 border-l-0">
+                                    {{ $loop->index + 1 }}
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    @if($product->invoice_id)
+                                        <a href="{{ route('invoices.final.print', $product->invoice->id) }}"
+                                           target="_blank" class="text-indigo-500">
+                                            INV-{{ $product->invoice->inquiry->inquiry_number }}
+                                        </a>
+                                    @endif
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    <a href="#product{{ $product->id }}">
+                                        {{ $modell->parent->name }}
+                                    </a>
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    <a href="#product{{ $product->id }}">
+                                        {{ $product->model_custom_name ?? $modell->name }}
+                                    </a>
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    {{ $product->tag ?? '-' }}
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    {{ $product->quantity }}
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    {{ number_format($product->price) }}
+                                </td>
+                                <td class="table-tr-td border-t-0 border-r-0">
+                                    {{ number_format($product->price * $product->quantity) }}
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        @endif
+
         @if(!$contract->products->isEmpty())
             @php
                 $products = $contract->products()->orderBy('sort', 'ASC')->where('group_id','!=',0)->where('model_id','!=',0)->get();
                 $specials = \App\Models\Special::all()->pluck('part_id')->toArray();
             @endphp
 
-                <!-- Product List -->
+                    <!-- Product Part List -->
             @if(!$products->isEmpty())
                 @foreach($products as $product)
                     @php
                         $modell = \App\Models\Modell::find($product->model_id);
                         $weight = 0;
                     @endphp
-                    <form method="POST" action="{{ route('contracts.parts.store-amounts', $contract->id) }}" class="card">
+                    <form method="POST" action="{{ route('contracts.parts.store-amounts', $contract->id) }}" class="card" id="product{{ $product->id }}">
                         @csrf
                         <input type="hidden" name="product_id" value="{{ $product->id }}">
                         <div class="card-header">
                             <p class="card-title text-lg">
-                                لیست قطعات محصول
+                                {{ $loop->index + 1 }} -
+                                لیست قطعات
                                 <span class="text-red-600">{{ $modell->parent->name }}</span> -
-                                <span class="text-red-600">{{ $product->model_custom_name ?? $modell->name }}</span>
+                                <span class="text-red-600">{{ $product->tag }}</span> -
+                                <span class="text-red-600">{{ $product->model_custom_name ?? $modell->name }}</span> -
+                                <span class="text-red-600">تعداد :  {{ $product->quantity }} دستگاه</span>
                             </p>
                         </div>
                         <table class="w-full border-collapse">
@@ -370,10 +457,10 @@
                                     </td>
                                     <td class="table-tr-td border-t-0 border-x-0">
                                         <select id="inputCategory{{ $part->id }}" class="input-text w-32"
-                                                onchange="changePart(event,{{ $part->id, $product->id }})">
+                                                onchange="changePart(event,{{ $part->id }}, {{ $product->id }})">
                                             @foreach($category->children as $child)
                                                 <option
-                                                    value="{{ $child->id }}" {{ $child->id == $selectedCategory->id ? 'selected' : '' }}>
+                                                        value="{{ $child->id }}" {{ $child->id == $selectedCategory->id ? 'selected' : '' }}>
                                                     {{ $child->name }}
                                                 </option>
                                             @endforeach
@@ -386,12 +473,18 @@
                                     <td class="table-tr-td border-t-0 border-x-0">
                                         <div class="flex items-center justify-center space-x-2 space-x-reverse">
                                             <select name="part_ids[]" class="input-text" id="partList{{ $part->id }}">
-                                                @foreach($categoryParts as $part2)
-                                                    <option
-                                                        value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
-                                                        {{ $part2->name }}
+                                                @if($part->coil && !$part->standard && !in_array($part->id, $specials))
+                                                    <option value="{{ $part->id }}" selected>
+                                                        {{ $part->name }}
                                                     </option>
-                                                @endforeach
+                                                @else
+                                                    @foreach($categoryParts as $part2)
+                                                        <option
+                                                                value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
+                                                            {{ $part2->name }}
+                                                        </option>
+                                                    @endforeach
+                                                @endif
                                             </select>
                                             @if($part->coil == '1' && !$part->standard && !in_array($part->id,$specials))
                                                 <a href="{{ route('collections.amounts',$part->id) }}" target="_blank"
@@ -574,10 +667,10 @@
                                     </td>
                                     <td class="table-tr-td border-t-0 border-x-0">
                                         <select id="inputCategory{{ $product->id }}" class="input-text w-32"
-                                                onchange="changePart(event,{{ $part->id, $product->id }})">
+                                                onchange="changePart(event,{{ $part->id }}, {{ $product->id }})">
                                             @foreach($category->children as $child)
                                                 <option
-                                                    value="{{ $child->id }}" {{ $child->id == $selectedCategory->id ? 'selected' : '' }}>
+                                                        value="{{ $child->id }}" {{ $child->id == $selectedCategory->id ? 'selected' : '' }}>
                                                     {{ $child->name }}
                                                 </option>
                                             @endforeach
@@ -591,7 +684,7 @@
                                         <select name="part_ids[]" class="input-text" id="partList{{ $part->id }}">
                                             @foreach($categoryParts as $part2)
                                                 <option
-                                                    value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
+                                                        value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
                                                     {{ $part2->name }}
                                                 </option>
                                             @endforeach
