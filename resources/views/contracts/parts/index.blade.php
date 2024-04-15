@@ -442,9 +442,10 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($product->spareAmounts()->orderBy('sort', 'ASC')->get() as $amount)
+                            @foreach($product->spareAmounts()->orderByRaw('CONVERT(sort, SIGNED) asc')->get() as $amount)
                                 @php
                                     $part = \App\Models\Part::find($amount->part_id);
+
                                     $weight += $amount->weight * $amount->value;
 
                                     $category = $part->categories[1];
@@ -452,7 +453,7 @@
                                 @endphp
                                 <tr class="table-tb-tr group whitespace-nowrap {{ $loop->even ? 'bg-sky-100' : '' }}">
                                     <td class="table-tr-td border-t-0 border-l-0">
-                                        <input type="number" class="input-text text-center w-14" name="sorts[]"
+                                        <input type="text" class="input-text text-center w-14" name="sorts[]"
                                                value="{{ $amount->sort }}">
                                     </td>
                                     <td class="table-tr-td border-t-0 border-x-0">

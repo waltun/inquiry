@@ -108,7 +108,7 @@ class ProductController extends Controller
     public function storeAmounts(Contract $contract)
     {
         foreach ($contract->products as $product) {
-            $amounts = Amount::where('product_id', $product->product_id)->get();
+            $amounts = Amount::where('product_id', $product->product_id)->orderBy('sort', 'ASC')->get();
             foreach ($amounts as $amount) {
                 $part = Part::find($amount->part_id);
                 if ($part->extract && !$part->children->isEmpty()) {
@@ -120,7 +120,7 @@ class ProductController extends Controller
                                     'value2' => $ch->pivot->value2,
                                     'part_id' => $ch->id,
                                     'price' => $ch->price,
-                                    'sort' => $ch->pivot->sort,
+                                    'sort' => $child->pivot->sort . '-' . $ch->pivot->sort,
                                     'weight' => $ch->weight ?? 0
                                 ]);
                             }
@@ -130,7 +130,7 @@ class ProductController extends Controller
                                 'value2' => $child->pivot->value2,
                                 'part_id' => $child->id,
                                 'price' => $child->price,
-                                'sort' => $child->pivot->sort,
+                                'sort' => $amount->sort . '-' . $child->pivot->sort,
                                 'weight' => $child->weight ?? 0
                             ]);
                         }
