@@ -150,7 +150,6 @@ class InquiryProductController extends Controller
         $inquiry = Inquiry::find($product->inquiry_id);
         $amounts = Amount::where('product_id', $product->id)->orderBy('sort', 'ASC')->get();
         $specials = Special::all()->pluck('part_id')->toArray();
-        $ids = ['6052', '6053', '6054', '6055', '6057', '6058', '6059', '6060', '6062', '6063', '6064'];
 
         $setting = Setting::where('active', '1')->first();
         if ($setting) {
@@ -165,173 +164,70 @@ class InquiryProductController extends Controller
             }
         }
 
-        $partIds = InquiryPrice::select(['part_id'])->distinct()->pluck('part_id')->toArray();
         if ($inquiry->submit) {
             if ($product->amounts->isEmpty()) {
                 foreach ($modell->parts as $part) {
                     if ($part->collection) {
-                        $price = 0;
-                        $weight = 0;
-                        foreach ($part->children as $child) {
-                            if (!$child->children->isEmpty()) {
-                                foreach ($child->children()->wherePivot('head_part_id', $part->id)->orderBy('sort', 'ASC')->get() as $ch) {
-                                    if (!$ch->children->isEmpty()) {
-                                        foreach ($ch->children as $c) {
-                                            $price += $c->price * $c->pivot->value;
-                                            $weight += $c->weight * $c->pivot->value;
-                                        }
-                                    } else {
-                                        $price += $ch->price * $ch->pivot->value;
-                                        $weight += $ch->weight * $ch->pivot->value;
-                                    }
-                                }
-                            } else {
-                                $price += $child->price * $child->pivot->value;
-                                $weight += $child->weight * $child->pivot->value;
-                            }
-                        }
+                        $price = $this->calculatePrice($part);
                         $part->price = $price;
-                        $part->weight = $weight;
                         $part->price_updated_at = now();
                         $part->save();
                     }
 
-                    if (!$part->children->isEmpty()) {
-                        foreach ($part->children as $child) {
-                            if (!$child->children->isEmpty()) {
-                                foreach ($child->children as $ch) {
-                                    if (!$ch->children->isEmpty()) {
-                                        foreach ($ch->children as $c) {
-                                            if (!in_array($c->id, $partIds)) {
-                                                if (($c->price_updated_at < $lastTime && $c->price > 0) || ($c->price_updated_at < $lastTime && $c->price == 0)) {
-                                                    auth()->user()->inquiryPrices()->create([
-                                                        'part_id' => $c->id,
-                                                        'inquiry_id' => $inquiry->id
-                                                    ]);
-                                                }
-                                            }
-                                        }
-                                    } else {
-                                        if (!in_array($ch->id, $partIds)) {
-                                            if (($ch->price_updated_at < $lastTime && $ch->price > 0) || ($ch->price_updated_at < $lastTime && $ch->price == 0)) {
-                                                auth()->user()->inquiryPrices()->create([
-                                                    'part_id' => $ch->id,
-                                                    'inquiry_id' => $inquiry->id
-                                                ]);
-                                            }
-                                        }
-                                    }
-                                }
-                            } else {
-                                if (!in_array($child->id, $partIds)) {
-                                    if (($child->price_updated_at < $lastTime && $child->price > 0) || ($child->price_updated_at < $lastTime && $child->price == 0)) {
-                                        auth()->user()->inquiryPrices()->create([
-                                            'part_id' => $child->id,
-                                            'inquiry_id' => $inquiry->id
-                                        ]);
-                                    }
-                                }
-                            }
-                        }
-                    } else {
-                        if (!in_array($part->id, $partIds)) {
-                            if (($part->price_updated_at < $lastTime && $part->price > 0) || ($part->price_updated_at < $lastTime && $part->price == 0)) {
-                                auth()->user()->inquiryPrices()->create([
-                                    'part_id' => $part->id,
-                                    'inquiry_id' => $inquiry->id
-                                ]);
-                            }
-                        }
-                    }
+                    $this->processInquiryParts($part, $lastTime, $inquiry);
                 }
             } else {
                 foreach ($product->amounts()->orderBy('sort', 'ASC')->get() as $amount) {
                     $part = Part::find($amount->part_id);
-
                     if ($part->collection) {
-                        $price = 0;
-                        $weight = 0;
-                        foreach ($part->children()->orderBy('sort', 'ASC')->get() as $child) {
-                            if (!$child->children->isEmpty()) {
-                                if (!in_array($child->id, $ids)) {
-                                    foreach ($child->children()->orderBy('sort', 'ASC')->get() as $ch) {
-                                        if (!$ch->children->isEmpty()) {
-                                            foreach ($ch->children as $c) {
-                                                $price += $c->price * $c->pivot->value;
-                                                $weight += $c->weight * $c->pivot->value;
-                                            }
-                                        } else {
-                                            $price += $ch->price * $ch->pivot->value;
-                                            $weight += $ch->weight * $ch->pivot->value;
-                                        }
-                                    }
-                                }
-
-                                if (in_array($child->id, $ids)) {
-                                    foreach ($child->children()->orderBy('sort', 'ASC')->wherePivot('head_part_id', $part->id)->get() as $ch) {
-                                        if (!$ch->children->isEmpty()) {
-                                            foreach ($ch->children()->orderBy('sort', 'ASC')->get() as $c) {
-                                                $price += $c->price * $c->pivot->value;
-                                                $weight += $c->weight * $c->pivot->value;
-                                            }
-                                        } else {
-                                            $price += $ch->price * $ch->pivot->value;
-                                            $weight += $ch->weight * $ch->pivot->value;
-                                        }
-                                    }
-                                }
-                            } else {
-                                $price += $child->price * $child->pivot->value;
-                                $weight += $child->weight * $child->pivot->value;
-                            }
-                        }
+                        $price = $this->calculatePrice($part);
                         $part->price = $price;
-                        $part->weight = $weight;
                         $part->price_updated_at = now();
                         $part->save();
                     }
 
                     if ($amount->value > 0) {
-                        if (!$part->children->isEmpty()) {
-                            foreach ($part->children as $child) {
-                                if (!$child->children->isEmpty()) {
-                                    foreach ($child->children as $ch) {
-                                        if (!in_array($ch->id, $partIds)) {
-                                            if (($ch->price_updated_at < $lastTime && $ch->price > 0) || ($ch->price_updated_at < $lastTime && $ch->price == 0)) {
-                                                auth()->user()->inquiryPrices()->create([
-                                                    'part_id' => $ch->id,
-                                                    'inquiry_id' => $inquiry->id
-                                                ]);
-                                            }
-                                        }
-                                    }
-                                } else {
-                                    if (!in_array($child->id, $partIds)) {
-                                        if (($child->price_updated_at < $lastTime && $child->price > 0) || ($child->price_updated_at < $lastTime && $child->price == 0)) {
-                                            auth()->user()->inquiryPrices()->create([
-                                                'part_id' => $child->id,
-                                                'inquiry_id' => $inquiry->id
-                                            ]);
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            if (!in_array($part->id, $partIds)) {
-                                if (($part->price_updated_at < $lastTime && $part->price > 0) || ($part->price_updated_at < $lastTime && $part->price == 0)) {
-                                    auth()->user()->inquiryPrices()->create([
-                                        'part_id' => $part->id,
-                                        'inquiry_id' => $inquiry->id
-                                    ]);
-                                }
-                            }
-                        }
+                        $this->processInquiryParts($part, $lastTime, $inquiry);
                     }
                 }
             }
         }
 
         return view('inquiry-product.amounts', compact('product', 'group', 'modell', 'inquiry', 'amounts', 'specials', 'setting'));
+    }
+
+    function processInquiryParts($part, $lastTime, $inquiry)
+    {
+        if (!$part->children->isEmpty()) {
+            foreach ($part->children as $child) {
+                $this->processInquiryParts($child, $lastTime, $inquiry);
+            }
+        } else {
+            if (
+                !auth()->user()->inquiryPrices()->where('part_id', $part->id)->where('inquiry_id', $inquiry->id)->exists() &&
+                (($part->price_updated_at < $lastTime && $part->price > 0) || ($part->price_updated_at < $lastTime && $part->price == 0))
+            ) {
+                auth()->user()->inquiryPrices()->create([
+                    'part_id' => $part->id,
+                    'inquiry_id' => $inquiry->id
+                ]);
+            }
+        }
+    }
+
+    function calculatePrice($part)
+    {
+        $price = 0;
+
+        foreach ($part->children()->wherePivot('head_part_id', $part->parent->id ?? null)->orderBy('sort', 'ASC')->get() as $child) {
+            if (!$child->children->isEmpty()) {
+                $price += $this->calculatePrice($child);
+            } else {
+                $price += $child->price * $child->pivot->value;
+            }
+        }
+
+        return $price;
     }
 
     public function storeAmounts(Request $request, Product $product)
