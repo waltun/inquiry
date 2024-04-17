@@ -248,15 +248,17 @@
                     <th scope="col" class="p-4">
                         تگ
                     </th>
-                    <th scope="col" class="p-4">
-                        جمع متریال (تومان)
-                    </th>
-                    <th scope="col" class="p-4">
-                        قیمت با ضریب (تومان)
-                    </th>
-                    <th scope="col" class="p-4">
-                        قیمت کل (تومان)
-                    </th>
+                    @if(auth()->user()->role == 'admin')
+                        <th scope="col" class="p-4">
+                            جمع متریال (تومان)
+                        </th>
+                        <th scope="col" class="p-4">
+                            قیمت با ضریب (تومان)
+                        </th>
+                        <th scope="col" class="p-4">
+                            قیمت کل (تومان)
+                        </th>
+                    @endif
                     <th scope="col" class="p-4">
                         <span class="sr-only">اقدامات</span>
                     </th>
@@ -299,30 +301,32 @@
                         <td class="table-tr-td border-t-0 border-x-0">
                             {{ $product->description ?? '-' }}
                         </td>
-                        <td class="table-tr-td border-t-0 border-x-0">
-                            {{ number_format($netPrice) }}
-                        </td>
-                        <td class="table-tr-td border-t-0 border-x-0">
-                            @if($product->percent > 0)
-                                {{ number_format($product->price) }}
-                            @else
-                                منتظر ثبت ضریب
-                            @endif
-                        </td>
-                        @php
-                            if ($product->percent > 0) {
-                                $finalPrice += $product->price * $product->quantity;
-                            } else {
-                                $finalPrice += $netPrice * $product->quantity;
-                            }
-                        @endphp
-                        <td class="table-tr-td border-t-0 border-x-0">
-                            @if($product->percent > 0)
-                                {{ number_format($product->price * $product->quantity) }}
-                            @else
-                                {{ number_format($netPrice * $product->quantity) }}
-                            @endif
-                        </td>
+                        @if(auth()->user()->role == 'admin')
+                            <td class="table-tr-td border-t-0 border-x-0">
+                                {{ number_format($netPrice) }}
+                            </td>
+                            <td class="table-tr-td border-t-0 border-x-0">
+                                @if($product->percent > 0)
+                                    {{ number_format($product->price) }}
+                                @else
+                                    منتظر ثبت ضریب
+                                @endif
+                            </td>
+                            @php
+                                if ($product->percent > 0) {
+                                    $finalPrice += $product->price * $product->quantity;
+                                } else {
+                                    $finalPrice += $netPrice * $product->quantity;
+                                }
+                            @endphp
+                            <td class="table-tr-td border-t-0 border-x-0">
+                                @if($product->percent > 0)
+                                    {{ number_format($product->price * $product->quantity) }}
+                                @else
+                                    {{ number_format($netPrice * $product->quantity) }}
+                                @endif
+                            </td>
+                        @endif
                         <td class="table-tr-td border-t-0 border-r-0 whitespace-nowrap">
                             <div class="flex items-center justify-center space-x-4 space-x-reverse">
                                 <div x-data="{open:false}" class="mt-1 relative">

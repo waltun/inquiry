@@ -98,6 +98,12 @@
                 </svg>
                 ویرایش دستورساخت
             </a>
+            <a href="{{ route('contracts.show', $contract->id) }}" class="page-warning-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m15 15 6-6m0 0-6-6m6 6H9a6 6 0 0 0 0 12h3"/>
+                </svg>
+                بازگشت
+            </a>
         </div>
     </div>
 
@@ -133,9 +139,6 @@
                                 تغییرات
                             </th>
                             <th scope="col" class="p-4">
-                                پایان ساخت
-                            </th>
-                            <th scope="col" class="p-4">
                                 پکینگ
                             </th>
                             <th scope="col" class="p-4">
@@ -149,7 +152,7 @@
                             @php
                                 $modell = \App\Models\Modell::find($product->model_id);
                             @endphp
-                            <tr class="table-tb-tr group whitespace-normal {{ $loop->even ? 'bg-sky-100' : '' }} {{ $product->status == 'end' ? 'text-green-600 font-bold' : '' }}">
+                            <tr class="table-tb-tr group whitespace-normal {{ $loop->even ? 'bg-sky-100' : '' }}">
                                 <td class="table-tr-td border-t-0 border-l-0">
                                     {{ $loop->index + 1 }}
                                 </td>
@@ -255,34 +258,6 @@
                                         </div>
                                     @else
                                         -
-                                    @endif
-                                </td>
-                                <td class="table-tr-td border-t-0 border-x-0">
-                                    @if($product->status == 'end')
-                                        <div class="flex items-center justify-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                 stroke-width="2" stroke="currentColor" class="w-4 h-4 ml-1">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                      d="M4.5 12.75l6 6 9-13.5"/>
-                                            </svg>
-                                            صادر شده ( {{ jdate($product->end_at)->format('Y/m/d') }} )
-                                        </div>
-                                    @else
-                                        <form method="POST" class="flex justify-center"
-                                              action="{{ route('contracts.recipe.end-of-production', [$contract->id, $product->id]) }}">
-                                            @csrf
-                                            @method('PATCH')
-
-                                            <button type="submit" class="table-success-btn"
-                                                    onclick="return confirm('پایان ساخت صادر شود ؟')">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                     stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                          d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/>
-                                                </svg>
-                                                صدور
-                                            </button>
-                                        </form>
                                     @endif
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
@@ -547,9 +522,7 @@
                             <th class="p-4 rounded-tr-lg">ردیف</th>
                             <th class="p-4">نام قطعه</th>
                             <th class="p-4">واحد</th>
-                            <th class="p-4">تعداد</th>
-                            <th class="p-4">پایان ساخت</th>
-                            <th class="p-4">پکینگ</th>
+                            <th class="p-4 rounded-tl-lg">تعداد</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -567,130 +540,8 @@
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     {{ $part->unit }}
                                 </td>
-                                <td class="table-tr-td border-t-0 border-x-0">
-                                    {{ $product->quantity }}
-                                </td>
-                                <td class="table-tr-td border-t-0 border-x-0">
-                                    @if($product->status == 'end')
-                                        <div
-                                            class="flex items-center justify-center bg-green-500 text-white rounded-lg">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                 stroke-width="2" stroke="currentColor" class="w-4 h-4 ml-1">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                      d="M4.5 12.75l6 6 9-13.5"/>
-                                            </svg>
-                                            صادر شده
-                                        </div>
-                                    @else
-                                        <form method="POST" class="flex justify-center"
-                                              action="{{ route('contracts.recipe.end-of-production', [$contract->id, $product->id]) }}">
-                                            @csrf
-                                            @method('PATCH')
-
-                                            <button type="submit" class="table-success-btn"
-                                                    onclick="return confirm('پایان ساخت صادر شود ؟')">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                     stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                          d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25"/>
-                                                </svg>
-                                                صدور
-                                            </button>
-                                        </form>
-                                    @endif
-                                </td>
                                 <td class="table-tr-td border-t-0 border-r-0">
-                                    @if(!is_null($product->packing_id))
-                                        {{ $product->packing->name }}
-                                    @else
-                                        <div class="flex items-center justify-center" x-data="{open:false}">
-                                            <button class="table-warning-btn" @click="open = !open" type="button">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                     stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                          d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/>
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                                </svg>
-                                                انتخاب پکینگ ({{ $product->packings->count() }})
-                                            </button>
-                                            <div class="relative z-10" x-show="open" x-cloak>
-                                                <div class="modal-backdrop"></div>
-                                                <div class="fixed z-10 inset-0 overflow-y-auto">
-                                                    <div class="modal">
-                                                        <div class="modal-body">
-                                                            <form method="POST"
-                                                                  action="{{ route('contracts.recipe.add-to-packing', [$contract->id, $product->id]) }}"
-                                                                  class="bg-white dark:bg-slate-800 p-4">
-                                                                @csrf
-                                                                @method('PATCH')
-
-                                                                <div class="mb-4 flex justify-between items-center">
-                                                                    <h3 class="text-lg font-bold text-gray-900 dark:text-white">
-                                                                        اضافه کردن محصول به پکینگ
-                                                                    </h3>
-                                                                    <button type="button" @click="open = false">
-                                                                    <span class="modal-close">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                             fill="none"
-                                                                             viewBox="0 0 24 24"
-                                                                             stroke-width="1.5" stroke="currentColor"
-                                                                             class="w-5 h-5 dark:text-white">
-                                                                            <path stroke-linecap="round"
-                                                                                  stroke-linejoin="round"
-                                                                                  d="M6 18L18 6M6 6l12 12"/>
-                                                                        </svg>
-                                                                    </span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="mt-6 space-y-2">
-                                                                    <div class="mb-4">
-                                                                        <label for="inputPacking" class="form-label">
-                                                                            انتخاب پکینگ
-                                                                        </label>
-                                                                        <select name="packing_id" id="inputPacking"
-                                                                                class="input-text">
-                                                                            <option value="">انتخاب کنید</option>
-                                                                            @foreach($contract->packings as $packing)
-                                                                                <option value="{{ $packing->id }}">
-                                                                                    {{ $packing->name }}
-                                                                                </option>
-                                                                            @endforeach
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="mb-6">
-                                                                        <label for="inputQuantity{{ $product->id }}"
-                                                                               class="form-label">
-                                                                            تعداد اضافه شدن محصول
-                                                                        </label>
-                                                                        <input type="number" name="quantity"
-                                                                               id="inputQuantity{{ $product->id }}"
-                                                                               class="input-text"
-                                                                               value="{{ $product->quantity }}">
-                                                                    </div>
-                                                                    <div class="mt-4 border-t border-gray-400 pt-4">
-                                                                        @foreach($product->packings as $packing)
-                                                                            <div class="p-2 rounded-md bg-sky-100 mb-2">
-                                                                                <p class="text-sm font-bold">
-                                                                                    {{ $packing->name }} | تعداد
-                                                                                    : {{ $packing->pivot->quantity }}
-                                                                                </p>
-                                                                            </div>
-                                                                        @endforeach
-                                                                    </div>
-                                                                    <div class="flex justify-end">
-                                                                        <button type="submit" class="form-submit-btn">
-                                                                            افزودن
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
-                                                            </form>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endif
+                                    {{ $product->quantity }}
                                 </td>
                             </tr>
                         @endforeach
@@ -801,7 +652,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($product->spareAmounts()->orderBy('sort', 'ASC')->get() as $amount)
+                    @foreach($product->spareAmounts()->orderByRaw('CONVERT(sort, SIGNED) asc')->get() as $amount)
                         @php
                             $part = \App\Models\Part::find($amount->part_id);
                         @endphp

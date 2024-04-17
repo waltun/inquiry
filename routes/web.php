@@ -15,6 +15,7 @@ use App\Http\Controllers\CollectionCoilController;
 use App\Http\Controllers\CollectionPartController;
 use App\Http\Controllers\CombineCodeController;
 use App\Http\Controllers\Contract\AnalyzePartController;
+use App\Http\Controllers\Contract\ConstructionController;
 use App\Http\Controllers\Contract\ContractFileController;
 use App\Http\Controllers\Contract\ExclusiveCodeController;
 use App\Http\Controllers\Contract\FactorController;
@@ -59,6 +60,7 @@ use App\Http\Controllers\PartAttributeController;
 use App\Http\Controllers\PartController;
 use App\Http\Controllers\Contract\PartController as ContractPartController;
 use App\Http\Controllers\Contract\InvoiceController as ContractInvoiceController;
+use App\Http\Controllers\Contract\SerialController as ContractSerialController;
 use App\Http\Controllers\PartOfModellController;
 use App\Http\Controllers\PartPriceController;
 use App\Http\Controllers\PermissionController;
@@ -640,7 +642,6 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::get('/contracts/{contract}/recipe', [RecipeController::class, 'index'])->name('contracts.recipe.index');
         Route::get('/contracts/{contract}/recipe/parts', [RecipeController::class, 'parts'])->name('contracts.recipe.parts');
         Route::post('/contracts/{contract}/recipe/parts', [RecipeController::class, 'storeParts'])->name('contracts.recipe.store-parts');
-        Route::patch('/contracts/{contract}/recipe/{product}/end-of-production', [RecipeController::class, 'endProduction'])->name('contracts.recipe.end-of-production');
         Route::patch('/contracts/{contract}/recipe/{product}/add-to-packing', [RecipeController::class, 'addToPacking'])->name('contracts.recipe.add-to-packing');
         Route::patch('/contracts/{contract}/recipe/{product}/add-factory-text', [RecipeController::class, 'addFactoryText'])->name('contracts.recipe.add-factory-text');
 
@@ -676,6 +677,11 @@ Route::middleware(['auth', 'web'])->group(function () {
 
         Route::get('/contracts/{contract}/recoupment', [RecoupmentController::class, 'index'])->name('contracts.recoupment.index');
         Route::patch('/contracts/{contract}/recoupment', [RecoupmentController::class, 'store'])->name('contracts.recoupment.store');
+
+        Route::get('/contracts/{contract}/construction', [ConstructionController::class, 'index'])->name('contracts.construction.index');
+        Route::patch('/contracts/{contract}/construction/{product}/update', [ConstructionController::class, 'update'])->name('contracts.construction.update');
+
+        Route::get('/contracts/{contract}/serials', [ContractSerialController::class, 'index'])->name('contracts.serials.index');
 
         Route::resource('todos', TodoController::class)->except('show');
         Route::post('todos/{todo}/mark-as-done', [TodoController::class, 'markAsDone'])->name('todos.mark-as-done');

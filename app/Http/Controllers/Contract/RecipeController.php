@@ -97,18 +97,6 @@ class RecipeController extends Controller
         return back();
     }
 
-    public function endProduction(Contract $contract, ContractProduct $product)
-    {
-        $product->update([
-            'status' => 'end',
-            'end_at' => now()
-        ]);
-
-        alert()->success('ثبت موفق', 'صدور پایان ساخت با موفقیت انجام شد');
-
-        return back();
-    }
-
     public function addToPacking(Request $request, Contract $contract, ContractProduct $product)
     {
         $data = $request->validate([

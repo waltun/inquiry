@@ -449,10 +449,10 @@
                     @endif
                 </div>
 
-                @foreach($invoice->products()->orderBy('sort', 'ASC')->where('group_id','!=',0)->where('model_id','!=',0)->get() as $invoiceProduct)
+                @foreach($invoice->products()->orderBy('sort', 'ASC')->where('group_id','!=',0)->where('model_id','!=',0)->where('deleted_at',null)->get() as $invoiceProduct)
                     @php
                         $inquiry = $invoiceProduct->invoice->inquiry;
-                        $product = $inquiry->products()->orderBy('sort', 'ASC')->where('group_id', $invoiceProduct->group_id)->where('model_id', $invoiceProduct->model_id)->first();
+                        $product = \App\Models\Product::find($invoiceProduct->product_id);
                         $modell = \App\Models\Modell::find($product->model_id);
                         $weight = 0;
                     @endphp
