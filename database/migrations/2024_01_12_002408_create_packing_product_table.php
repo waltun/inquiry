@@ -12,15 +12,15 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('contract_product_packing', function (Blueprint $table) {
+        Schema::create('contract_product_pack', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedInteger('packing_id');
+            $table->unsignedInteger('pack_id');
             $table->unsignedInteger('product_id');
 
             $table->integer('quantity')->default(0);
 
-            $table->foreign('packing_id')->references('id')->on('packings')->onDelete('cascade');
+            $table->foreign('pack_id')->references('id')->on('packs')->onDelete('cascade');
             $table->foreign('contract_product_id')->references('id')->on('contract_products')->onDelete('cascade');
 
             $table->timestamps();
@@ -34,6 +34,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('packing_product');
+        Schema::dropIfExists('contract_product_pack');
     }
 };

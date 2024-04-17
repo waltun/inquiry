@@ -16,9 +16,7 @@ return new class extends Migration
         Schema::create('packings', function (Blueprint $table) {
             $table->id();
 
-            $table->string('name');
-            $table->string('unit');
-            $table->decimal('weight');
+            $table->timestamp('date')->nullable();
 
             $table->unsignedBigInteger('contract_id');
 

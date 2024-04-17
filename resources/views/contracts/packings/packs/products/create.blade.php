@@ -1,6 +1,6 @@
 <x-layout>
     <!-- Breadcrumb -->
-    <div class="flex items-center space-x-2 space-x-reverse whitespace-nowrap">
+    <div class="flex items-center space-x-2 space-x-reverse whitespace-nowrap overflow-x-auto custom_nav pb-2" style="overflow-y: hidden;">
         <a href="{{ route('dashboard') }}" class="flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                  stroke="currentColor" class="breadcrumb-svg">
@@ -66,11 +66,12 @@
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                  stroke="currentColor" class="breadcrumb-svg">
                 <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M5.25 14.25h13.5m-13.5 0a3 3 0 01-3-3m3 3a3 3 0 100 6h13.5a3 3 0 100-6m-16.5-3a3 3 0 013-3h13.5a3 3 0 013 3m-19.5 0a4.5 4.5 0 01.9-2.7L5.737 5.1a3.375 3.375 0 012.7-1.35h7.126c1.062 0 2.062.5 2.7 1.35l2.587 3.45a4.5 4.5 0 01.9 2.7m0 0a3 3 0 01-3 3m0 3h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008zm-3 6h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008z"/>
+                      d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p">
-                    مدیریت پکینگ‌های قرارداد
+                    مدیریت پکینگ‌های قرارداد {{ $contract->name }}
                 </p>
             </div>
         </a>
@@ -82,16 +83,16 @@
                       clip-rule="evenodd"/>
             </svg>
         </div>
-
-        <a href="{{ route('packings.show', [$contract->id, $packing->id]) }}" class="flex items-center">
+        <a href="{{ route('packs.index', [$contract->id, $pack->packing->id]) }}" class="flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                  stroke="currentColor" class="breadcrumb-svg">
                 <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M5.25 14.25h13.5m-13.5 0a3 3 0 01-3-3m3 3a3 3 0 100 6h13.5a3 3 0 100-6m-16.5-3a3 3 0 013-3h13.5a3 3 0 013 3m-19.5 0a4.5 4.5 0 01.9-2.7L5.737 5.1a3.375 3.375 0 012.7-1.35h7.126c1.062 0 2.062.5 2.7 1.35l2.587 3.45a4.5 4.5 0 01.9 2.7m0 0a3 3 0 01-3 3m0 3h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008zm-3 6h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008z"/>
+                      d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p">
-                    مشاهده محصولات پکینگ
+                    مدیریت پک ها {{ $contract->name }}
                 </p>
             </div>
         </a>
@@ -103,7 +104,27 @@
                       clip-rule="evenodd"/>
             </svg>
         </div>
-
+        <a href="{{ route('contracts.packs.products.index', [$contract->id, $pack->id]) }}" class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" class="breadcrumb-svg">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            <div class="mr-2">
+                <p class="breadcrumb-p">
+                    مدیریت محصولات پک {{ $pack->name }}
+                </p>
+            </div>
+        </a>
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                 class="breadcrumb-svg-arrow">
+                <path fill-rule="evenodd"
+                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                      clip-rule="evenodd"/>
+            </svg>
+        </div>
         <div class="flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                  stroke="currentColor" class="breadcrumb-svg-active">
@@ -112,7 +133,7 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p-active">
-                    افزودن محصول به پکینگ
+                    افزودن محصول به پک
                 </p>
             </div>
         </div>
@@ -128,12 +149,12 @@
             </svg>
             <div class="mr-2">
                 <p class="font-bold text-2xl text-black dark:text-white">
-                    افزودن محصول به پکینگ {{ $packing->name }}
+                    افزودن محصول به پک {{ $pack->name }}
                 </p>
             </div>
         </div>
         <div class="flex items-center space-x-4 space-x-reverse">
-            <a href="{{ route('packings.show', [$contract->id, $packing->id]) }}" class="page-warning-btn">
+            <a href="{{ route('contracts.packs.products.index', [$contract->id, $pack->id]) }}" class="page-warning-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                      stroke="currentColor" class="w-5 h-5">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"/>
@@ -172,7 +193,7 @@
                                 تعداد
                             </th>
                             <th scope="col" class="p-4">
-                                پکینگ ها
+                                پک ها
                             </th>
                             <th scope="col" class="p-4">
                                 اقدامات
@@ -185,7 +206,7 @@
                             @php
                                 $modell = \App\Models\Modell::find($product->model_id);
                             @endphp
-                            <tr class="table-tb-tr group whitespace-normal {{ $loop->even ? 'bg-sky-100' : '' }} {{ $product->status == 'end' ? 'text-green-600 font-bold' : '' }}">
+                            <tr class="table-tb-tr group whitespace-normal {{ $loop->even ? 'bg-sky-100' : '' }}">
                                 <td class="table-tr-td border-t-0 border-l-0">
                                     {{ $loop->index + 1 }}
                                 </td>
@@ -196,7 +217,7 @@
                                     {{ $product->model_custom_name ?? $modell->name }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
-                                    {{ $product->description ?? '-' }}
+                                    {{ $product->tag ?? '-' }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     {{ $product->quantity }}
@@ -212,7 +233,7 @@
                                                     <path stroke-linecap="round" stroke-linejoin="round"
                                                           d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
                                                 </svg>
-                                                مشاهده ({{ count($product->packings) }})
+                                                مشاهده ({{ count($product->packs) }})
                                             </button>
                                             <div class="relative z-10" x-show="open" x-cloak>
                                                 <div class="modal-backdrop"></div>
@@ -222,7 +243,7 @@
                                                             <div class="bg-white dark:bg-slate-800 p-4">
                                                                 <div class="mb-4 flex justify-between items-center">
                                                                     <h3 class="text-lg font-bold text-gray-900 dark:text-white">
-                                                                        مشاهده پکینگ های {{ $modell->parent->name }}
+                                                                        مشاهده پک های {{ $modell->parent->name }}
                                                                         - {{ $product->model_custom_name ?? $modell->name }}
                                                                     </h3>
                                                                     <button type="button" @click="open = false">
@@ -241,11 +262,11 @@
                                                                     </button>
                                                                 </div>
                                                                 <div class="mt-6 space-y-2">
-                                                                    @foreach($product->packings as $packing2)
+                                                                    @foreach($product->packs as $pack2)
                                                                         <div class="p-2 rounded-md bg-sky-100">
                                                                             <p class="text-sm font-bold">
-                                                                                {{ $packing2->name }} | تعداد
-                                                                                : {{ $packing2->pivot->quantity }}
+                                                                                {{ $pack2->name }} | تعداد
+                                                                                : {{ $pack2->pivot->quantity }}
                                                                             </p>
                                                                         </div>
                                                                     @endforeach
@@ -275,7 +296,7 @@
                                                     <div class="modal">
                                                         <div class="modal-body">
                                                             <form class="bg-white dark:bg-slate-800 p-4"
-                                                                  action="{{ route('contracts.packings.store-choose', [$contract->id, $packing->id]) }}"
+                                                                  action="{{ route('contracts.packs.products.store', [$contract->id, $pack->id]) }}"
                                                                   method="POST">
                                                                 @csrf
 
@@ -283,7 +304,7 @@
                                                                     <h3 class="text-lg font-bold text-gray-900 dark:text-white">
                                                                         اضافه کردن محصول {{ $modell->parent->name }}
                                                                         - {{ $product->model_custom_name ?? $modell->name }}
-                                                                        به پکینگ
+                                                                        به پک {{ $pack->name }}
                                                                     </h3>
                                                                     <button type="button" @click="open = false">
                                                                         <span class="modal-close">
@@ -447,7 +468,7 @@
                                                     <path stroke-linecap="round" stroke-linejoin="round"
                                                           d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
                                                 </svg>
-                                                مشاهده ({{ count($product->packings) }})
+                                                مشاهده ({{ count($product->packs) }})
                                             </button>
                                             <div class="relative z-10" x-show="open" x-cloak>
                                                 <div class="modal-backdrop"></div>
@@ -457,7 +478,7 @@
                                                             <div class="bg-white dark:bg-slate-800 p-4">
                                                                 <div class="mb-4 flex justify-between items-center">
                                                                     <h3 class="text-lg font-bold text-gray-900 dark:text-white">
-                                                                        مشاهده پکینگ های {{ $part->name }}
+                                                                        مشاهده پک های {{ $part->name }}
                                                                     </h3>
                                                                     <button type="button" @click="open = false">
                                                                         <span class="modal-close">
@@ -475,11 +496,11 @@
                                                                     </button>
                                                                 </div>
                                                                 <div class="mt-6 space-y-2">
-                                                                    @foreach($product->packings as $packing2)
+                                                                    @foreach($product->packs as $pack2)
                                                                         <div class="p-2 rounded-md bg-sky-100">
                                                                             <p class="text-sm font-bold">
-                                                                                {{ $packing2->name }} | تعداد
-                                                                                : {{ $packing2->pivot->quantity }}
+                                                                                {{ $pack2->name }} | تعداد
+                                                                                : {{ $pack2->pivot->quantity }}
                                                                             </p>
                                                                         </div>
                                                                     @endforeach
@@ -509,13 +530,13 @@
                                                     <div class="modal">
                                                         <div class="modal-body">
                                                             <form class="bg-white dark:bg-slate-800 p-4"
-                                                                  action="{{ route('contracts.packings.store-choose', [$contract->id, $packing->id]) }}"
+                                                                  action="{{ route('contracts.packs.products.store', [$contract->id, $pack->id]) }}"
                                                                   method="POST">
                                                                 @csrf
 
                                                                 <div class="mb-4 flex justify-between items-center">
                                                                     <h3 class="text-lg font-bold text-gray-900 dark:text-white">
-                                                                        اضافه کردن محصول {{ $part->name }}به پکینگ
+                                                                        اضافه کردن محصول {{ $part->name }}به پک
                                                                     </h3>
                                                                     <button type="button" @click="open = false">
                                                                         <span class="modal-close">

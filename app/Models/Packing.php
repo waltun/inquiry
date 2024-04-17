@@ -10,7 +10,7 @@ class Packing extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'unit', 'weight', 'contract_id', 'code', 'length', 'width', 'height', 'type'
+        'date', 'contract_id'
     ];
 
     public function contract()
@@ -18,8 +18,8 @@ class Packing extends Model
         return $this->belongsTo(Contract::class);
     }
 
-    public function products()
+    public function packs()
     {
-        return $this->belongsToMany(ContractProduct::class)->withPivot(['quantity']);
+        return $this->hasMany(Pack::class);
     }
 }

@@ -22,7 +22,9 @@ use App\Http\Controllers\Contract\FactorController;
 use App\Http\Controllers\Contract\FinalContractController;
 use App\Http\Controllers\Contract\GuaranteeController;
 use App\Http\Controllers\Contract\MarketingController;
+use App\Http\Controllers\Contract\PackController;
 use App\Http\Controllers\Contract\PackingController;
+use App\Http\Controllers\Contract\PackProductController;
 use App\Http\Controllers\Contract\RecipeController;
 use App\Http\Controllers\Contract\ProductController as ContractProduct;
 use App\Http\Controllers\Contract\CustomerController as ContractCustomerController;
@@ -652,12 +654,19 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::delete('/contracts/{contract}/destroy-product-amount', [ContractProduct::class, 'destroyAmounts'])->name('contracts.destroy-product-amount');
         Route::post('/contracts/{contract}/products/{contractProduct}/recipe', [ContractProduct::class, 'storeRecipe'])->name('contracts.products.recipe');
 
-        Route::resource('contracts/{contract}/packings', PackingController::class)->except(['show']);
-        Route::get('/contracts/{contract}/packings/list/print', [PackingController::class, 'print'])->name('contracts.packings.print');
-        Route::get('/contracts/{contract}/packings/{packing}/choose', [PackingController::class, 'choose'])->name('contracts.packings.choose');
-        Route::post('/contracts/{contract}/packings/{packing}/choose', [PackingController::class, 'storeChoose'])->name('contracts.packings.store-choose');
-        Route::delete('/contracts/{contract}/packings/{packing}/delete-product', [PackingController::class, 'deleteProduct'])->name('contracts.packings.delete-product');
-        Route::get('/contracts/{contract}/packings/{packing}/show', [PackingController::class, 'show'])->name('packings.show');
+        Route::resource('contracts/{contract}/packings', PackingController::class)->except(['show', 'create', 'edit']);
+
+        Route::resource('contracts/{contract}/packings/{packing}/packs', PackController::class);
+
+        Route::resource('contracts/{contract}/packings/packs/{pack}/products', PackProductController::class)->names([
+            'index' => 'contracts.packs.products.index',
+            'create' => 'contracts.packs.products.create',
+            'store' => 'contracts.packs.products.store',
+            'edit' => 'contracts.packs.products.edit',
+            'update' => 'contracts.packs.products.update',
+            'destroy' => 'contracts.packs.products.destroy',
+            'show' => 'contracts.packs.products.show',
+        ]);
 
         Route::get('/client-invoices', [ClientInvoiceController::class, 'index'])->name('client-invoices.index');
 

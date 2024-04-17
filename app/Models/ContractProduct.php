@@ -35,9 +35,9 @@ class ContractProduct extends Model
         return $this->hasMany(ContractPartHistory::class);
     }
 
-    public function packings()
+    public function packs()
     {
-        return $this->belongsToMany(Packing::class)->withPivot(['quantity']);
+        return $this->belongsToMany(Pack::class)->withPivot(['quantity']);
     }
 
     public function invoice()

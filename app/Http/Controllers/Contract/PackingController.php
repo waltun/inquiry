@@ -9,6 +9,7 @@ use App\Models\Group;
 use App\Models\Modell;
 use App\Models\Packing;
 use Illuminate\Http\Request;
+use Morilog\Jalali\Jalalian;
 
 class PackingController extends Controller
 {
@@ -18,149 +19,48 @@ class PackingController extends Controller
         return view('contracts.packings.index', compact('packings', 'contract'));
     }
 
-    public function create(Contract $contract)
-    {
-        $groups = Group::all();
-        $names = $groups->flatMap(function ($group) {
-            return $group->modells()->where('parent_id', 0)->pluck('name');
-        });
-
-        return view('contracts.packings.create', compact('contract', 'names'));
-    }
-
     public function store(Request $request, Contract $contract)
     {
         $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'weight' => 'required|numeric',
-            'length' => 'nullable|numeric',
-            'width' => 'nullable|numeric',
-            'height' => 'nullable|numeric',
-            'type' => 'required|string|max:255',
-            'code' => 'nullable'
+            'date' => 'required|string|max:255',
         ]);
 
-        $finalCode = $this->getFinalCode($contract);
-
-        $data['code'] = $finalCode;
+        if (!is_null($data['date'])) {
+            $explodeDate = explode('/', $data['date']);
+            $data['date'] = (new Jalalian($explodeDate[0], $explodeDate[1], $explodeDate[2]))->toCarbon()->toDateTimeString();
+        }
 
         $contract->packings()->create($data);
 
         alert()->success('ثبت موفق', 'پکینگ جدید با موفقیت ثبت شد');
 
-        return redirect()->route('packings.index', $contract->id);
-    }
-
-    public function show(Contract $contract, Packing $packing)
-    {
-        return view('contracts.packings.show', compact('contract', 'packing'));
-    }
-
-    public function edit(Contract $contract, Packing $packing)
-    {
-        $groups = Group::all();
-        $names = $groups->flatMap(function ($group) {
-            return $group->modells()->where('parent_id', 0)->pluck('name');
-        });
-
-        return view('contracts.packings.edit', compact('contract', 'packing', 'names'));
+        return back();
     }
 
     public function update(Request $request, Contract $contract, Packing $packing)
     {
         $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'weight' => 'required|numeric',
-            'length' => 'nullable|numeric',
-            'width' => 'nullable|numeric',
-            'height' => 'nullable|numeric',
-            'type' => 'required|string|max:255',
+            'date' => 'required|string|max:255',
         ]);
+
+        if (!is_null($data['date'])) {
+            $explodeDate = explode('/', $data['date']);
+            $data['date'] = (new Jalalian($explodeDate[0], $explodeDate[1], $explodeDate[2]))->toCarbon()->toDateTimeString();
+        }
 
         alert()->success('بروزرسانی موفق', 'پکینگ با موفقیت بروزرسانی شد');
 
         $packing->update($data);
 
-        return redirect()->route('packings.index', $contract->id);
+        return back();
     }
 
     public function destroy(Contract $contract, Packing $packing)
     {
-        foreach ($packing->products as $product) {
-            $product->packing_id = null;
-            $product->save();
-        }
-
         $packing->delete();
 
         alert()->success('حذف موفق', 'پکینگ با موفقیت حذف شد');
 
         return back();
-    }
-
-    public function print(Contract $contract)
-    {
-        return view('contracts.packings.print', compact('contract'));
-    }
-
-    public function choose(Contract $contract, Packing $packing)
-    {
-        return view('contracts.packings.choose', compact('contract', 'packing'));
-    }
-
-    public function storeChoose(Request $request, Contract $contract, Packing $packing)
-    {
-        $data = $request->validate([
-            'product_id' => 'required|integer',
-            'quantity' => 'required|numeric'
-        ]);
-
-        $product = ContractProduct::find($data['product_id']);
-
-        if ($data['quantity'] > $product->quantity) {
-            alert()->error('خطا', 'تعداد نباید بیشتر از تعداد محصول باشد');
-            return back();
-        }
-
-        $packing->products()->attach($product->id, [
-            'quantity' => $data['quantity']
-        ]);
-
-        alert()->success('ثبت موفق', 'محصول با موفقیت به پکینگ اضافه شد');
-
-        return back();
-    }
-
-    public function deleteProduct(Request $request, Contract $contract, Packing $packing)
-    {
-        $request->validate([
-            'product_id' => 'required|integer'
-        ]);
-
-        $packing->products()->detach($request->product_id);
-
-        alert()->success('حذف موفق', 'محصول با موفقیت از پکینگ حذف شد');
-
-        return back();
-    }
-
-    /**
-     * @param Contract $contract
-     * @return string
-     */
-    public function getFinalCode(Contract $contract): string
-    {
-        $lastContractCode = explode('-', $contract->number)[2];
-        $currentYear = jdate(now())->getYear();
-        $lastPackingCode = $contract->packings()->max('code');
-
-        if (is_null($lastPackingCode)) {
-            $lastPackingCode = '01';
-        } else {
-            $explodeLastPackingCode = explode('-', $lastPackingCode)[2];
-            $lastPackingCode = str_pad($explodeLastPackingCode + 1, 2, "0", STR_PAD_LEFT);
-        }
-
-        return $currentYear . "-" . $lastContractCode . "-" . $lastPackingCode;
     }
 }

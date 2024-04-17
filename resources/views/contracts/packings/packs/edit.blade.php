@@ -82,11 +82,33 @@
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                  stroke="currentColor" class="breadcrumb-svg">
                 <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z"/>
+                      d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p">
-                    مدیریت پکینگ لیست‌ها
+                    مدیریت پکینگ‌های قرارداد {{ $contract->name }}
+                </p>
+            </div>
+        </a>
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                 class="breadcrumb-svg-arrow">
+                <path fill-rule="evenodd"
+                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                      clip-rule="evenodd"/>
+            </svg>
+        </div>
+        <a href="{{ route('packs.index', [$contract->id, $packing->id]) }}" class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" class="breadcrumb-svg">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            <div class="mr-2">
+                <p class="breadcrumb-p">
+                    مدیریت پک ها {{ $contract->name }}
                 </p>
             </div>
         </a>
@@ -101,11 +123,12 @@
         <div class="flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                  stroke="currentColor" class="breadcrumb-svg-active">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M5.25 14.25h13.5m-13.5 0a3 3 0 01-3-3m3 3a3 3 0 100 6h13.5a3 3 0 100-6m-16.5-3a3 3 0 013-3h13.5a3 3 0 013 3m-19.5 0a4.5 4.5 0 01.9-2.7L5.737 5.1a3.375 3.375 0 012.7-1.35h7.126c1.062 0 2.062.5 2.7 1.35l2.587 3.45a4.5 4.5 0 01.9 2.7m0 0a3 3 0 01-3 3m0 3h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008zm-3 6h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008z"/>
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p-active">
-                    ویرایش پکینگ {{ $packing->name }}
+                    ویرایش پک
                 </p>
             </div>
         </div>
@@ -117,7 +140,7 @@
     </div>
 
     <!-- Form -->
-    <form method="POST" action="{{ route('packings.update', [$contract->id, $packing->id]) }}" class="mt-4">
+    <form method="POST" action="{{ route('packs.update', [$contract->id, $packing->id, $pack->id]) }}" class="mt-4">
         @csrf
         @method('PATCH')
 
@@ -136,18 +159,18 @@
                     <select name="name" id="inputName" class="input-text">
                         <option value="">انتخاب یا وارد کنید</option>
                         @foreach($names as $name)
-                            <option value="{{ $name }}" {{ old('name', $packing->name) == $name ? 'selected' : '' }}>
+                            <option value="{{ $name }}" {{ old('name', $pack->name) == $name ? 'selected' : '' }}>
                                 {{ $name }}
                             </option>
                         @endforeach
-                        @if(!in_array($packing->name, $names->toArray()))
+                        @if(!in_array($pack->name, $names->toArray()))
                             <option
-                                value="{{ $packing->name }}" {{ old('name', $packing->name) == $packing->name ? 'selected' : '' }}>
-                                {{ $packing->name }}
+                                    value="{{ $pack->name }}" {{ old('name', $pack->name) == $pack->name ? 'selected' : '' }}>
+                                {{ $pack->name }}
                             </option>
                         @endif
                         <option
-                            value="قطعات یدکی راه اندازی" {{ old('name') == 'قطعات یدکی راه اندازی' ? 'selected' : '' }}>
+                                value="قطعات یدکی راه اندازی" {{ old('name') == 'قطعات یدکی راه اندازی' ? 'selected' : '' }}>
                             قطعات یدکی راه اندازی
                         </option>
                         <option value="قطعات راه اندازی" {{ old('name') == 'قطعات راه اندازی' ? 'selected' : '' }}>
@@ -157,7 +180,7 @@
                             قطعات نصب
                         </option>
                         <option
-                            value="قطعات یدکی دو سالانه" {{ old('name') == 'قطعات یدکی دو سالانه' ? 'selected' : '' }}>
+                                value="قطعات یدکی دو سالانه" {{ old('name') == 'قطعات یدکی دو سالانه' ? 'selected' : '' }}>
                             قطعات یدکی دو سالانه
                         </option>
                         <option value="قطعات کنترلی" {{ old('name') == 'قطعات کنترلی' ? 'selected' : '' }}>
@@ -189,7 +212,7 @@
                             'کاور نایلون حباب دار با تسمه بندکشی',
                             'پالت چوبی با روکش نایلون حباب دار و تسمه بندکشی',
                             'کارتن',
-                            'باکس چوبی'
+                            'باکس چوبی',
                         ];
                     @endphp
                     <label for="inputType" class="form-label">
@@ -198,23 +221,23 @@
                     <select name="type" id="inputType" class="input-text">
                         <option value="">انتخاب یا وارد کنید</option>
                         <option
-                            value="کاور نایلون حباب دار با تسمه بندکشی" {{ old('type', $packing->type) == 'کاور نایلون حباب دار با تسمه بندکشی' ? 'selected' : '' }}>
+                                value="کاور نایلون حباب دار با تسمه بندکشی" {{ old('type', $pack->type) == 'کاور نایلون حباب دار با تسمه بندکشی' ? 'selected' : '' }}>
                             کاور نایلون حباب دار با تسمه بندکشی
                         </option>
                         <option
-                            value="پالت چوبی با روکش نایلون حباب دار و تسمه بندکشی" {{ old('type', $packing->type) == 'پالت چوبی با روکش نایلون حباب دار و تسمه بندکشی' ? 'selected' : '' }}>
+                                value="پالت چوبی با روکش نایلون حباب دار و تسمه بندکشی" {{ old('type', $pack->type) == 'پالت چوبی با روکش نایلون حباب دار و تسمه بندکشی' ? 'selected' : '' }}>
                             پالت چوبی با روکش نایلون حباب دار و تسمه بندکشی
                         </option>
-                        <option value="کارتن" {{ old('type', $packing->type) == 'کارتن' ? 'selected' : '' }}>
+                        <option value="کارتن" {{ old('type', $pack->type) == 'کارتن' ? 'selected' : '' }}>
                             کارتن
                         </option>
-                        <option value="باکس چوبی" {{ old('type', $packing->type) == 'باکس چوبی' ? 'selected' : '' }}>
+                        <option value="باکس چوبی" {{ old('type', $pack->type) == 'باکس چوبی' ? 'selected' : '' }}>
                             باکس چوبی
                         </option>
-                        @if(!in_array($packing->type, $types))
+                        @if(!in_array($pack->type, $types))
                             <option
-                                value="$packing->type" {{ old('type', $packing->type) == $packing->type ? 'selected' : '' }}>
-                                {{ $packing->type }}
+                                    value="{{ $pack->type }}" {{ old('type', $pack->type) == $pack->type ? 'selected' : '' }}>
+                                {{ $pack->type }}
                             </option>
                         @endif
                     </select>
@@ -222,7 +245,7 @@
                 <div>
                     <label for="inputWeight" class="form-label">وزن (کیلوگرم)</label>
                     <input type="text" id="inputWeight" name="weight" class="input-text"
-                           value="{{ old('weight', $packing->weight) }}"
+                           value="{{ old('weight', $pack->weight) }}"
                            placeholder="1452">
                 </div>
             </div>
@@ -231,19 +254,19 @@
                 <div>
                     <label for="inputLength" class="form-label">طول</label>
                     <input type="text" id="inputLength" name="length" class="input-text"
-                           value="{{ old('length', $packing->length) }}"
+                           value="{{ old('length', $pack->length) }}"
                            placeholder="77">
                 </div>
                 <div>
                     <label for="inputWidth" class="form-label">عرض</label>
                     <input type="text" id="inputWidth" name="width" class="input-text"
-                           value="{{ old('width', $packing->width) }}"
+                           value="{{ old('width', $pack->width) }}"
                            placeholder="82">
                 </div>
                 <div>
                     <label for="inputHeight" class="form-label">ارتفاع</label>
                     <input type="text" id="inputHeight" name="height" class="input-text"
-                           value="{{ old('height', $packing->height) }}"
+                           value="{{ old('height', $pack->height) }}"
                            placeholder="53">
                 </div>
             </div>
@@ -252,9 +275,9 @@
 
         <div class="flex items-center space-x-4 space-x-reverse">
             <button type="submit" class="form-edit-btn">
-                بروزرسانی پکینگ
+                بروزرسانی پک
             </button>
-            <a href="{{ route('packings.index', $contract->id) }}" class="form-cancel-btn">
+            <a href="{{ route('packs.index', [$contract->id, $packing->id]) }}" class="form-cancel-btn">
                 انصراف
             </a>
         </div>
