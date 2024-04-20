@@ -37,95 +37,13 @@ class ProductCurrentPriceController extends Controller
 
         foreach ($modells as $modell) {
             foreach ($modell->parts as $part) {
-                $productPriceIds = InquiryPrice::where('part_id', $part->id)->pluck('part_id')->toArray();
-                $parentIds = Part::whereIn('id', InquiryPrice::all()->pluck('part_id'))->whereHas('parents')->pluck('id')->flatten()->toArray();
+                $this->processInquiryParts($part, $lastTime, $modell);
 
-                if (!$part->children->isEmpty()) {
-                    foreach ($part->children as $child) {
-                        if (!$child->children->isEmpty()) {
-                            foreach ($child->children as $ch) {
-                                if (!$ch->children->isEmpty()) {
-                                    foreach ($ch->children as $c) {
-                                        if (!in_array($c->id, $productPriceIds) && !in_array($c->id, $parentIds)) {
-                                            if ($c->price_updated_at < $lastTime && $c->price > 0) {
-                                                InquiryPrice::create([
-                                                    'user_id' => auth()->user()->id,
-                                                    'part_id' => $c->id,
-                                                    'inquiry_id' => null,
-                                                    'product_id' => $modell->id
-                                                ]);
-                                            }
-                                            if ($c->price_updated_at < $lastTime && $c->price == 0) {
-                                                InquiryPrice::create([
-                                                    'user_id' => auth()->user()->id,
-                                                    'part_id' => $c->id,
-                                                    'inquiry_id' => null,
-                                                    'product_id' => $modell->id
-                                                ]);
-                                            }
-                                        }
-                                    }
-                                } else {
-                                    if (!in_array($ch->id, $productPriceIds) && !in_array($ch->id, $parentIds)) {
-                                        if ($ch->price_updated_at < $lastTime && $ch->price > 0) {
-                                            InquiryPrice::create([
-                                                'user_id' => auth()->user()->id,
-                                                'part_id' => $ch->id,
-                                                'inquiry_id' => null,
-                                                'product_id' => $modell->id
-                                            ]);
-                                        }
-                                        if ($ch->price_updated_at < $lastTime && $ch->price == 0) {
-                                            InquiryPrice::create([
-                                                'user_id' => auth()->user()->id,
-                                                'part_id' => $ch->id,
-                                                'inquiry_id' => null,
-                                                'product_id' => $modell->id
-                                            ]);
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            if (!in_array($child->id, $productPriceIds) && !in_array($child->id, $parentIds)) {
-                                if ($child->price_updated_at < $lastTime && $child->price > 0) {
-                                    InquiryPrice::create([
-                                        'user_id' => auth()->user()->id,
-                                        'part_id' => $child->id,
-                                        'inquiry_id' => null,
-                                        'product_id' => $modell->id
-                                    ]);
-                                }
-                                if ($child->price_updated_at < $lastTime && $child->price == 0) {
-                                    InquiryPrice::create([
-                                        'user_id' => auth()->user()->id,
-                                        'part_id' => $child->id,
-                                        'inquiry_id' => null,
-                                        'product_id' => $modell->id
-                                    ]);
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    if (!in_array($part->id, $productPriceIds) && !in_array($part->id, $parentIds)) {
-                        if ($part->price_updated_at < $lastTime && $part->price > 0) {
-                            InquiryPrice::create([
-                                'user_id' => auth()->user()->id,
-                                'part_id' => $part->id,
-                                'inquiry_id' => null,
-                                'product_id' => $modell->id
-                            ]);
-                        }
-                        if ($part->price_updated_at < $lastTime && $part->price == 0) {
-                            InquiryPrice::create([
-                                'user_id' => auth()->user()->id,
-                                'part_id' => $part->id,
-                                'inquiry_id' => null,
-                                'product_id' => $modell->id
-                            ]);
-                        }
-                    }
+                if ($part->collection) {
+                    $price = $this->calculatePrice($part);
+                    $part->price = $price;
+                    $part->price_updated_at = now();
+                    $part->save();
                 }
             }
         }
@@ -133,14 +51,39 @@ class ProductCurrentPriceController extends Controller
         return view('product-current-price.index', compact('modells'));
     }
 
-    private function calculateLastTime($setting)
+    function processInquiryParts($part, $lastTime, $modell)
     {
-        return match ($setting->price_color_type) {
-            'month' => now()->subMonths($setting->price_color_last_time),
-            'day' => now()->subDays($setting->price_color_last_time),
-            'hour' => now()->subHours($setting->price_color_last_time),
-            default => now(),
-        };
+        if (!$part->children->isEmpty()) {
+            foreach ($part->children as $child) {
+                $this->processInquiryParts($child, $lastTime, $modell);
+            }
+        } else {
+            if (
+                !auth()->user()->inquiryPrices()->where('part_id', $part->id)->exists() &&
+                (($part->price_updated_at < $lastTime && $part->price > 0) || ($part->price_updated_at < $lastTime && $part->price == 0))
+            ) {
+                auth()->user()->inquiryPrices()->create([
+                    'part_id' => $part->id,
+                    'inquiry_id' => null,
+                    'product_id' => $modell->id
+                ]);
+            }
+        }
+    }
+
+    function calculatePrice($part)
+    {
+        $price = 0;
+
+        foreach ($part->children()->wherePivot('head_part_id', $part->parent->id ?? null)->orderBy('sort', 'ASC')->get() as $child) {
+            if (!$child->children->isEmpty()) {
+                $price += $this->calculatePrice($child);
+            } else {
+                $price += $child->price * $child->pivot->value;
+            }
+        }
+
+        return $price;
     }
 
     public function store(Request $request)

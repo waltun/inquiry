@@ -100,6 +100,9 @@
                             </th>
                             @if(auth()->user()->role == 'admin')
                                 <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
+                                    قیمت بدون ضریب (تومان)
+                                </th>
+                                <th scope="col" class="px-4 py-3 text-sm font-bold text-gray-800 text-center">
                                     ضریب
                                 </th>
                             @endif
@@ -131,6 +134,11 @@
                                     <input type="hidden" name="modells[]" value="{{ $model->id }}">
                                 </td>
                                 @if(auth()->user()->role == 'admin')
+                                    <td class="px-4 py-3 whitespace-nowrap">
+                                        <p class="text-sm text-black text-center font-medium">
+                                            {{ number_format($price) }} تومان
+                                        </p>
+                                    </td>
                                     <td class="px-4 py-3 whitespace-nowrap">
                                         <div class="flex justify-center">
                                             <input type="text" name="percents[]" id="inputPercent{{ $model->id }}"
