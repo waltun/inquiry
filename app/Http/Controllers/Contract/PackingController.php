@@ -37,6 +37,11 @@ class PackingController extends Controller
         return back();
     }
 
+    public function show(Contract $contract, Packing $packing)
+    {
+        return view('contracts.packings.print', compact('contract', 'packing'));
+    }
+
     public function update(Request $request, Contract $contract, Packing $packing)
     {
         $data = $request->validate([

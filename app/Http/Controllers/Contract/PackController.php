@@ -101,7 +101,10 @@ class PackController extends Controller
     {
         $lastContractCode = explode('-', $contract->number)[2];
         $currentYear = jdate(now())->getYear();
-        $lastPackingCode = $packing->packs()->max('code');
+
+        $lastPackingCode = Pack::whereHas('packing', function ($query) use ($contract) {
+            $query->where('contract_id', $contract->id);
+        })->max('code');
 
         if (is_null($lastPackingCode)) {
             $lastPackingCode = '01';

@@ -169,11 +169,11 @@
                     <div class="card border-0 mb-0">
                         <div class="mt-2">
                             <div class="grid grid-cols-12">
-                                @foreach($contract->packings as $packing)
+                                @foreach($packing->packs as $pack)
                                     <div
                                         class="col-span-1 border-2 border-l-0 border-black mb-4 grid items-center justify-center bg-sky-100">
                                         <p class="text-center -rotate-90 whitespace-nowrap text-sm font-medium">
-                                            {{ $packing->code }}
+                                            {{ $pack->code }}
                                         </p>
                                     </div>
                                     <div class="col-span-11">
@@ -182,13 +182,13 @@
                                             <tr class="bg-sky-100 text-black border-2 border-black border-b-0 text-xs">
                                                 <th scope="col" class="p-1" style="border-left: 1px solid black">
                                                     <p class="text-sm">
-                                                        شرح : {{ $packing->name }}
+                                                        شرح : {{ $pack->name }}
                                                     </p>
                                                 </th>
                                             </tr>
                                             </thead>
                                         </table>
-                                        @if(!$packing->products->isEmpty())
+                                        @if(!$pack->products->isEmpty())
                                             <table class="table-auto w-full border-collapse">
                                                 <thead>
                                                 <tr class="text-black border border-x-2 border-black text-xs">
@@ -217,7 +217,7 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                @foreach($packing->products()->where('group_id','!=',0)->where('model_id','!=',0)->get() as $product)
+                                                @foreach($pack->products()->where('group_id','!=',0)->where('model_id','!=',0)->get() as $product)
                                                     @php
                                                         $modell = \App\Models\Modell::find($product->model_id);
                                                     @endphp
@@ -247,7 +247,7 @@
                                                         </td>
                                                     </tr>
                                                 @endforeach
-                                                @foreach($packing->products()->where('part_id','!=',0)->get() as $product)
+                                                @foreach($pack->products()->where('part_id','!=',0)->get() as $product)
                                                     @php
                                                         $part = \App\Models\Part::find($product->part_id);
                                                     @endphp
@@ -280,7 +280,7 @@
                                                 </tbody>
                                             </table>
                                         @endif
-                                        @if($packing->length && $packing->width && $packing->height)
+                                        @if($pack->length && $pack->width && $pack->height)
                                             <table class="table-fixed w-full border-collapse mb-4">
                                                 <thead>
                                                 <tr class="text-black border border-x-2 border-black border-t-0 text-xs">
@@ -299,14 +299,13 @@
                                                 <tbody>
                                                 <tr class="text-black text-xs text-center">
                                                     <td class="border border-r-2 border-b-2 border-black border-t-0 border-l p-1 font-bold">
-                                                        {{ $packing->length }}x{{ $packing->width }}
-                                                        x{{ $packing->height }}
+                                                        {{ $pack->length }}x{{ $pack->width }}x{{ $pack->height }}
                                                     </td>
                                                     <td class="border border-b-2 border-black border-t-0 border-l p-1 font-bold">
-                                                        {{ $packing->weight }}
+                                                        {{ $pack->weight }}
                                                     </td>
                                                     <td class="border border-b-2 border-black border-t-0 border-l-2 p-1 font-bold">
-                                                        {{ $packing->length * $packing->width * $packing->height / 1000000 }}
+                                                        {{ $pack->length * $pack->width * $pack->height / 1000000 }}
                                                     </td>
                                                 </tr>
                                                 </tbody>
