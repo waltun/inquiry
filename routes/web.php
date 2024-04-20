@@ -656,6 +656,7 @@ Route::middleware(['auth', 'web'])->group(function () {
 
         Route::resource('contracts/{contract}/packings', PackingController::class)->except(['create', 'edit']);
 
+        Route::get('/contracts/{contract}/packings/{packing}/packs/{pack}/marking', [PackController::class, 'marking'])->name('packs.marking');
         Route::resource('contracts/{contract}/packings/{packing}/packs', PackController::class)->except(['show']);
 
         Route::resource('contracts/{contract}/packings/packs/{pack}/products', PackProductController::class)->names([

@@ -31,7 +31,7 @@ class PackController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
-            'weight' => 'required|numeric',
+            'weight' => 'nullable|numeric',
             'length' => 'nullable|numeric',
             'width' => 'nullable|numeric',
             'height' => 'nullable|numeric',
@@ -90,6 +90,11 @@ class PackController extends Controller
         alert()->success('حذف موفق', 'پک با موفقیت حذف شد');
 
         return back();
+    }
+
+    public function marking(Contract $contract, Packing $packing, Pack $pack)
+    {
+        return view('contracts.packings.packs.marking', compact('contract', 'packing', 'pack'));
     }
 
     /**

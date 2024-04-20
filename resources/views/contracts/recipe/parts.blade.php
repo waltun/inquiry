@@ -313,8 +313,7 @@
                                     <select id="inputCategory{{ $part->id }}" class="input-text w-32"
                                             onchange="changePart(event,{{ $part->id, $product->id }})">
                                         @foreach($category->children as $child)
-                                            <option
-                                                value="{{ $child->id }}" {{ $child->id == $selectedCategory->id ? 'selected' : '' }}>
+                                            <option value="{{ $child->id }}" {{ $child->id == $selectedCategory->id ? 'selected' : '' }}>
                                                 {{ $child->name }}
                                             </option>
                                         @endforeach
@@ -332,8 +331,7 @@
                                             </option>
                                         @else
                                             @foreach($categoryParts as $part2)
-                                                <option
-                                                    value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
+                                                <option value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
                                                     {{ $part2->name }}
                                                 </option>
                                             @endforeach

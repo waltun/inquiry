@@ -72,7 +72,7 @@
                             </th>
                             <th scope="col" class="p-1" style="border-left: 1px solid black">
                                 <p class="text-sm">
-                                    {{ jdate($contract->updated_at)->format('Y/m/d') }}
+                                    {{ jdate($packing->date)->format('Y/m/d') }}
                                 </p>
                             </th>
                         </tr>
@@ -171,7 +171,7 @@
                             <div class="grid grid-cols-12">
                                 @foreach($packing->packs as $pack)
                                     <div
-                                        class="col-span-1 border-2 border-l-0 border-black mb-4 grid items-center justify-center bg-sky-100">
+                                        class="col-span-1 border-2 border-l-0 border-black mb-4 grid items-center justify-center bg-sky-100 h-full">
                                         <p class="text-center -rotate-90 whitespace-nowrap text-sm font-medium">
                                             {{ $pack->code }}
                                         </p>

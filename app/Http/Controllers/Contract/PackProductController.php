@@ -29,7 +29,12 @@ class PackProductController extends Controller
 
         $product = ContractProduct::find($data['product_id']);
 
-        if ($data['quantity'] > $product->quantity) {
+        $quantity = 0;
+        foreach ($product->packs as $pack2) {
+            $quantity += $pack2->pivot->quantity;
+        }
+
+        if ($data['quantity'] > $product->quantity - $quantity) {
             alert()->error('خطا', 'تعداد نباید بیشتر از تعداد محصول باشد');
             return back();
         }
