@@ -150,6 +150,15 @@ class InquiryProductController extends Controller
         $inquiry = Inquiry::find($product->inquiry_id);
         $amounts = Amount::where('product_id', $product->id)->orderBy('sort', 'ASC')->get();
         $specials = Special::all()->pluck('part_id')->toArray();
+        $setting = Setting::where('active', '1')->first();
+
+        return view('inquiry-product.amounts', compact('product', 'group', 'modell', 'inquiry', 'amounts', 'specials', 'setting'));
+    }
+
+    public function storeAmounts(Request $request, Product $product)
+    {
+        $modell = Modell::find($product->model_id);
+        $amounts = Amount::where('product_id', $product->id)->get();
 
         $setting = Setting::where('active', '1')->first();
         if ($setting) {
@@ -164,30 +173,107 @@ class InquiryProductController extends Controller
             }
         }
 
-        if ($inquiry->submit) {
-            if ($product->amounts->isEmpty()) {
-                foreach ($modell->parts as $part) {
-                    if ($part->collection) {
-                        $this->calculatePrice($part);
+        if ($amounts->isEmpty() && !$modell->parts->isEmpty()) {
+            $request->validate([
+                'modellAmounts' => 'required|array',
+                'modellAmounts.*' => 'nullable|numeric',
+                'sorts' => 'required|array',
+                'sorts.*' => 'nullable|numeric'
+            ]);
+
+            if (!$amounts->isEmpty()) {
+                foreach ($amounts as $amount) {
+                    $amount->delete();
+                }
+            }
+
+            foreach ($request['part_ids'] as $index => $id) {
+                $part = Part::find($id);
+                $createdAmount = Amount::create([
+                    'value' => $request->modellAmounts[$index] ?? 0,
+                    'value2' => $request->units[$index] ?? null,
+                    'product_id' => $product->id,
+                    'part_id' => $id,
+                    'sort' => $request->sorts[$index] ?? 0,
+                    'weight' => $part->weight
+                ]);
+
+                $special = Special::where('part_id', $id)->first();
+
+                if ($product->inquiry->submit) {
+                    if ($request->modellAmounts[$index] > 0) {
+                        $this->processInquiryParts($part, $lastTime, $product->inquiry);
                     }
 
-                    $this->processInquiryParts($part, $lastTime, $inquiry);
-                }
-            } else {
-                foreach ($product->amounts()->orderBy('sort', 'ASC')->get() as $amount) {
-                    $part = Part::find($amount->part_id);
                     if ($part->collection) {
                         $this->calculatePrice($part); //, $depth = 0);
                     }
+                }
 
-                    if ($amount->value > 0) {
-                        $this->processInquiryParts($part, $lastTime, $inquiry);
+                if (!is_null($special)) {
+                    $createdAmount->price = session('price' . $part) ?? 0;
+                    $createdAmount->save();
+                    session()->forget('price' . $part);
+                }
+
+                if (session()->has('selectedPart' . $part)) {
+                    session()->forget('selectedPart' . $part);
+                }
+            }
+        } else {
+            $request->validate([
+                'amounts' => 'required|array',
+                'amounts.*' => 'nullable|numeric',
+                'sorts' => 'required|array',
+                'sorts.*' => 'nullable|numeric'
+            ]);
+
+            if (!$amounts->isEmpty()) {
+                foreach ($amounts as $amount) {
+                    $amount->delete();
+                }
+            }
+
+            foreach ($request['part_ids'] as $index => $id) {
+                $part = Part::find($id);
+                $createdAmount = Amount::create([
+                    'value' => $request->amounts[$index] ?? 0,
+                    'value2' => $request->units[$index] ?? null,
+                    'product_id' => $product->id,
+                    'part_id' => $id,
+                    'sort' => $request->sorts[$index] ?? 0,
+                    'weight' => $part->weight
+                ]);
+
+                if ($product->inquiry->submit) {
+                    if ($request->amounts[$index] > 0) {
+                        $this->processInquiryParts($part, $lastTime, $product->inquiry);
                     }
+
+                    if ($part->collection) {
+                        $this->calculatePrice($part); //, $depth = 0);
+                    }
+                }
+
+                $special = Special::where('part_id', $id)->first();
+
+                if (!is_null($special)) {
+                    $createdAmount->price = session('price' . $part) ?? 0;
+                    $createdAmount->save();
+                    session()->forget('price' . $part);
+                }
+                if (session()->has('selectedPart' . $part)) {
+                    session()->forget('selectedPart' . $part);
                 }
             }
         }
 
-        return view('inquiry-product.amounts', compact('product', 'group', 'modell', 'inquiry', 'amounts', 'specials', 'setting'));
+        $product->updated_at = now();
+        $product->save();
+
+        alert()->success('ثبت موفق', 'ثبت مقادیر با موفقیت انجام شد');
+
+        return back();
     }
 
     function processInquiryParts($part, $lastTime, $inquiry)
@@ -234,94 +320,6 @@ class InquiryProductController extends Controller
         $part->save();
 
         return $price;
-    }
-
-    public function storeAmounts(Request $request, Product $product)
-    {
-        $modell = Modell::find($product->model_id);
-        $amounts = Amount::where('product_id', $product->id)->get();
-
-        if ($amounts->isEmpty() && !$modell->parts->isEmpty()) {
-            $request->validate([
-                'modellAmounts' => 'required|array',
-                'modellAmounts.*' => 'nullable|numeric',
-                'sorts' => 'required|array',
-                'sorts.*' => 'nullable|numeric'
-            ]);
-
-            if (!$amounts->isEmpty()) {
-                foreach ($amounts as $amount) {
-                    $amount->delete();
-                }
-            }
-
-            foreach ($request['part_ids'] as $index => $id) {
-                $part = Part::find($id);
-                $createdAmount = Amount::create([
-                    'value' => $request->modellAmounts[$index] ?? 0,
-                    'value2' => $request->units[$index] ?? null,
-                    'product_id' => $product->id,
-                    'part_id' => $id,
-                    'sort' => $request->sorts[$index] ?? 0,
-                    'weight' => $part->weight
-                ]);
-
-                $special = Special::where('part_id', $id)->first();
-
-                if (!is_null($special)) {
-                    $createdAmount->price = session('price' . $part) ?? 0;
-                    $createdAmount->save();
-                    session()->forget('price' . $part);
-                }
-
-                if (session()->has('selectedPart' . $part)) {
-                    session()->forget('selectedPart' . $part);
-                }
-            }
-        } else {
-            $request->validate([
-                'amounts' => 'required|array',
-                'amounts.*' => 'nullable|numeric',
-                'sorts' => 'required|array',
-                'sorts.*' => 'nullable|numeric'
-            ]);
-
-            if (!$amounts->isEmpty()) {
-                foreach ($amounts as $amount) {
-                    $amount->delete();
-                }
-            }
-
-            foreach ($request['part_ids'] as $index => $id) {
-                $part = Part::find($id);
-                $createdAmount = Amount::create([
-                    'value' => $request->amounts[$index] ?? 0,
-                    'value2' => $request->units[$index] ?? null,
-                    'product_id' => $product->id,
-                    'part_id' => $id,
-                    'sort' => $request->sorts[$index] ?? 0,
-                    'weight' => $part->weight
-                ]);
-
-                $special = Special::where('part_id', $id)->first();
-
-                if (!is_null($special)) {
-                    $createdAmount->price = session('price' . $part) ?? 0;
-                    $createdAmount->save();
-                    session()->forget('price' . $part);
-                }
-                if (session()->has('selectedPart' . $part)) {
-                    session()->forget('selectedPart' . $part);
-                }
-            }
-        }
-
-        $product->updated_at = now();
-        $product->save();
-
-        alert()->success('ثبت موفق', 'ثبت مقادیر با موفقیت انجام شد');
-
-        return back();
     }
 
     public function percent(Product $product)

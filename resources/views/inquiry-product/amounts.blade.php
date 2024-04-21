@@ -195,6 +195,12 @@
                 }
             }
         </script>
+        <script>
+            function showLoading() {
+                let loadingSection = document.getElementById('loading-section');
+                loadingSection.classList.remove('hidden');
+            }
+        </script>
     </x-slot>
 
     <!-- Breadcrumb -->
@@ -365,7 +371,20 @@
 
     <form method="POST" action="{{ route('inquiries.product.storeAmounts',$product->id) }}" class="mt-4 space-y-4">
         @csrf
-        <div class="mt-8 overflow-x-auto rounded-lg">
+        <div class="mt-8 overflow-x-auto rounded-lg relative">
+            <div id="loading-section"
+                 class="hidden absolute top-0 right-0 bottom-0 left-0 z-50 inset-0 bg-gray-700 bg-opacity-50 backdrop-blur-sm rounded-md cursor-not-allowed">
+                <div class="flex w-full h-full justify-center items-center">
+                    <div class="w-16 h-16 rounded-full bg-white shadow-2xl grid place-content-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" class="w-12 h-12 animate-spin">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
             <table class="w-full border-collapse">
                 <thead class="bg-indigo-300">
                 <tr class="table-th-tr">
@@ -1113,7 +1132,7 @@
         </div>
         <div class="sticky bottom-4 flex items-center justify-between">
             <div class="flex items-center space-x-2 space-x-reverse">
-                <button type="submit" class="form-submit-btn">
+                <button type="submit" class="form-submit-btn" onclick="showLoading()">
                     ثبت مقادیر
                 </button>
                 <a href="{{ route('inquiries.product.index',$inquiry->id) }}" class="form-cancel-btn">

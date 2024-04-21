@@ -217,7 +217,7 @@
                                             onchange="changePart(event,{{ $child->id }})">
                                         @foreach($category->children as $child2)
                                             <option
-                                                value="{{ $child2->id }}" {{ $child2->id == $selectedCategory->id ? 'selected' : '' }}>
+                                                    value="{{ $child2->id }}" {{ $child2->id == $selectedCategory->id ? 'selected' : '' }}>
                                                 {{ $child2->name }}
                                             </option>
                                         @endforeach
@@ -233,7 +233,7 @@
                                             id="groupPartList{{ $child->id }}">
                                         @foreach($categoryParts as $part2)
                                             <option
-                                                value="{{ $part2->id }}" {{ $part2->id == $child->id ? 'selected' : '' }}>
+                                                    value="{{ $part2->id }}" {{ $part2->id == $child->id ? 'selected' : '' }}>
                                                 {{ $part2->name }}
                                             </option>
                                         @endforeach
@@ -294,7 +294,7 @@
                                         onchange="changePart(event,{{ $childPart->id }})">
                                     @foreach($category->children as $child2)
                                         <option
-                                            value="{{ $child2->id }}" {{ $child2->id == $selectedCategory->id ? 'selected' : '' }}>
+                                                value="{{ $child2->id }}" {{ $child2->id == $selectedCategory->id ? 'selected' : '' }}>
                                             {{ $child2->name }}
                                         </option>
                                     @endforeach
@@ -309,7 +309,7 @@
                                 <select name="part_ids[]" class="input-text" id="groupPartList{{ $childPart->id }}">
                                     @foreach($categoryParts as $part2)
                                         <option
-                                            value="{{ $part2->id }}" {{ $part2->id == $childPart->id ? 'selected' : '' }}>
+                                                value="{{ $part2->id }}" {{ $part2->id == $childPart->id ? 'selected' : '' }}>
                                             {{ $part2->name }}
                                         </option>
                                     @endforeach
@@ -380,9 +380,16 @@
                 <button type="submit" class="form-submit-btn">
                     ثبت مقادیر
                 </button>
-                <a href="{{ route('collectionCoil.index') }}" class="form-cancel-btn">
-                    انصراف
-                </a>
+                @if(!is_null($parentPart->product_id))
+                    <a href="{{ route('inquiries.product.amounts', $parentPart->product_id) }}" class="form-cancel-btn">
+                        انصراف
+                    </a>
+                @else
+                    <a href="{{ route('collectionCoil.index') }}" class="form-cancel-btn">
+                        انصراف
+                    </a>
+                @endif
+
             </div>
             <a href="{{ route('collections.print',$parentPart->id) }}"
                class="form-percent-btn inline-flex items-center"
