@@ -41,7 +41,7 @@
                 let inputValue = document.getElementById('inputUnitValue' + part.id);
                 let operator2 = part.operator1;
                 let formula2 = part.formula1;
-                let result = 0;
+                let result;
 
                 result = eval(value + operator2 + formula2);
                 let formatResult = Intl.NumberFormat().format(result);

@@ -58,7 +58,7 @@
                         let inputValue = document.getElementById('inputUnitValue' + cid);
                         let operator1 = part.operator2;
                         let formula1 = part.formula2;
-                        let result = 0;
+                        let result;
 
                         result = eval(value + operator1 + formula1);
                         let formatResult = Intl.NumberFormat().format(result);
@@ -91,7 +91,7 @@
                         let inputValue = document.getElementById('inputUnitValue' + cid);
                         let operator2 = part.operator1;
                         let formula2 = part.formula1;
-                        let result = 0;
+                        let result;
 
                         result = eval(value + operator2 + formula2);
                         let formatResult = Intl.NumberFormat().format(result);
@@ -117,7 +117,7 @@
                             part_id: part_id,
                             product_id: product_id,
                         },
-                        success: function (res) {
+                        success: function () {
                             location.reload();
                         }
                     });

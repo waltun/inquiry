@@ -168,10 +168,7 @@ class InquiryProductController extends Controller
             if ($product->amounts->isEmpty()) {
                 foreach ($modell->parts as $part) {
                     if ($part->collection) {
-                        $price = $this->calculatePrice($part);
-                        $part->price = $price;
-                        $part->price_updated_at = now();
-                        $part->save();
+                        $this->calculatePrice($part);
                     }
 
                     $this->processInquiryParts($part, $lastTime, $inquiry);
@@ -180,10 +177,7 @@ class InquiryProductController extends Controller
                 foreach ($product->amounts()->orderBy('sort', 'ASC')->get() as $amount) {
                     $part = Part::find($amount->part_id);
                     if ($part->collection) {
-                        $price = $this->calculatePrice($part);
-                        $part->price = $price;
-                        $part->price_updated_at = now();
-                        $part->save();
+                        $this->calculatePrice($part); //, $depth = 0);
                     }
 
                     if ($amount->value > 0) {
@@ -219,13 +213,25 @@ class InquiryProductController extends Controller
     {
         $price = 0;
 
-        foreach ($part->children()->wherePivot('head_part_id', $part->parent->id ?? null)->orderBy('sort', 'ASC')->get() as $child) {
-            if (!$child->children->isEmpty()) {
-                $price += $this->calculatePrice($child);
+        foreach ($part->children as $child) {
+            if ($child->collection && !$child->children()->where('head_part_id', $part->id)->get()->isEmpty()) {
+                foreach ($child->children()->where('head_part_id', $part->id)->get() as $sefid) {
+                    if (!$sefid->children->isEmpty()) {
+                        $price += $this->calculatePrice($sefid) * $sefid->pivot->value;
+                    } else {
+                        $price += $sefid->price * $sefid->pivot->value;
+                    }
+                }
+            } elseif (!$child->children->isEmpty()) {
+                $price += $this->calculatePrice($child) * $child->pivot->value;
             } else {
                 $price += $child->price * $child->pivot->value;
             }
         }
+
+        $part->price = $price;
+        $part->price_updated_at = now();
+        $part->save();
 
         return $price;
     }

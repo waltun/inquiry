@@ -523,7 +523,7 @@ class InquiryController extends Controller
 
                         $newPart->categories()->syncWithoutDetaching($part->categories);
 
-                        foreach ($part->children()->where('head_part_id', null)->orderByPivot('sort', 'ASC')->get() as $child) {
+                        foreach ($part->children()->wherePivot('head_part_id', null)->orderByPivot('sort', 'ASC')->get() as $child) {
                             $newPart->children()->syncWithoutDetaching([
                                 $child->id => [
                                     'value' => $child->pivot->value
@@ -531,7 +531,7 @@ class InquiryController extends Controller
                             ]);
 
                             if (!$child->children->isEmpty()) {
-                                foreach ($child->children()->where('head_part_id', $part->id)->orderBy('sort', 'ASC')->get() as $ch) {
+                                foreach ($child->children()->wherePivot('head_part_id', $part->id)->orderByPivot('sort', 'ASC')->get() as $ch) {
                                     DB::table('part_child')->insert([
                                         'parent_part_id' => $ch->id,
                                         'child_part_id' => $child->id,
@@ -612,7 +612,7 @@ class InquiryController extends Controller
 
                     $newPart->categories()->syncWithoutDetaching($part->categories);
 
-                    foreach ($part->children()->where('head_part_id', null)->orderByPivot('sort', 'ASC')->get() as $child) {
+                    foreach ($part->children()->wherePivot('head_part_id', null)->orderByPivot('sort', 'ASC')->get() as $child) {
                         $newPart->children()->syncWithoutDetaching([
                             $child->id => [
                                 'value' => $child->pivot->value
@@ -620,7 +620,7 @@ class InquiryController extends Controller
                         ]);
 
                         if (!$child->children->isEmpty()) {
-                            foreach ($child->children()->where('head_part_id', $part->id)->orderBy('sort', 'ASC')->get() as $ch) {
+                            foreach ($child->children()->wherePivot('head_part_id', $part->id)->orderByPivot('sort', 'ASC')->get() as $ch) {
                                 DB::table('part_child')->insert([
                                     'parent_part_id' => $ch->id,
                                     'child_part_id' => $child->id,
@@ -749,7 +749,7 @@ class InquiryController extends Controller
 
                         $newPart->categories()->syncWithoutDetaching($part->categories);
 
-                        foreach ($part->children()->where('head_part_id', null)->orderByPivot('sort', 'ASC')->get() as $child) {
+                        foreach ($part->children()->wherePivot('head_part_id', null)->orderByPivot('sort', 'ASC')->get() as $child) {
                             $newPart->children()->syncWithoutDetaching([
                                 $child->id => [
                                     'value' => $child->pivot->value
@@ -757,7 +757,7 @@ class InquiryController extends Controller
                             ]);
 
                             if (!$child->children->isEmpty()) {
-                                foreach ($child->children()->where('head_part_id', $part->id)->orderBy('sort', 'ASC')->get() as $ch) {
+                                foreach ($child->children()->wherePivot('head_part_id', $part->id)->orderByPivot('sort', 'ASC')->get() as $ch) {
                                     DB::table('part_child')->insert([
                                         'parent_part_id' => $ch->id,
                                         'child_part_id' => $child->id,
@@ -838,7 +838,7 @@ class InquiryController extends Controller
 
                     $newPart->categories()->syncWithoutDetaching($part->categories);
 
-                    foreach ($part->children()->where('head_part_id', null)->orderByPivot('sort', 'ASC')->get() as $child) {
+                    foreach ($part->children()->wherePivot('head_part_id', null)->orderByPivot('sort', 'ASC')->get() as $child) {
                         $newPart->children()->syncWithoutDetaching([
                             $child->id => [
                                 'value' => $child->pivot->value
@@ -846,7 +846,7 @@ class InquiryController extends Controller
                         ]);
 
                         if (!$child->children->isEmpty()) {
-                            foreach ($child->children()->where('head_part_id', $part->id)->orderBy('sort', 'ASC')->get() as $ch) {
+                            foreach ($child->children()->wherePivot('head_part_id', $part->id)->orderBy('sort', 'ASC')->get() as $ch) {
                                 DB::table('part_child')->insert([
                                     'parent_part_id' => $ch->id,
                                     'child_part_id' => $child->id,

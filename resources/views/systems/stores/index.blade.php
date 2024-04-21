@@ -36,7 +36,7 @@
                                 data: {
                                     id: id,
                                 },
-                                success: function (res) {
+                                success: function () {
                                     location.reload();
                                 }
                             });
