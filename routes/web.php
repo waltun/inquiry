@@ -691,7 +691,16 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::get('/contracts/{contract}/construction', [ConstructionController::class, 'index'])->name('contracts.construction.index');
         Route::patch('/contracts/{contract}/construction/{product}/update', [ConstructionController::class, 'update'])->name('contracts.construction.update');
 
-        Route::get('/contracts/{contract}/serials', [ContractSerialController::class, 'index'])->name('contracts.serials.index');
+        Route::resource('contracts/{contract}/serials', ContractSerialController::class)
+            ->names([
+                'index' => 'contracts.serials.index',
+                'create' => 'contracts.serials.create',
+                'store' => 'contracts.serials.store',
+                'edit' => 'contracts.serials.edit',
+                'update' => 'contracts.serials.update',
+                'destroy' => 'contracts.serials.destroy',
+                'show' => 'contracts.serials.show',
+            ]);
 
         Route::resource('todos', TodoController::class)->except('show');
         Route::post('todos/{todo}/mark-as-done', [TodoController::class, 'markAsDone'])->name('todos.mark-as-done');

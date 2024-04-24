@@ -114,60 +114,203 @@
 
     <!-- Content -->
     <div class="mt-4 space-y-6">
-        @php $serialNumber = 100; @endphp
+        @if(!$contract->serials->isEmpty())
+            <!-- Product List -->
+            <div class="card">
+                <div class="card-header">
+                    <p class="card-title">
+                        لیست محصولات
+                    </p>
+                </div>
 
-        <div class="card">
-            <div class="card-header">
-                <p class="card-title">
-                    لیست محصولات
-                </p>
+                @foreach($contract->products()->orderBy('sort', 'ASC')->where('group_id','!=',0)->where('model_id','!=',0)->where('recipe', 1)->get() as $product)
+                    @php
+                        $modell = \App\Models\Modell::find($product->model_id);
+                    @endphp
+                    @if(!$product->serials->isEmpty())
+                        <div class="bg-white p-4 rounded-lg border border-myBlue-100 mb-4" x-data="{open:false}" :class="{ 'shadow-lg': open }">
+                            <div class="flex items-center justify-between border-gray-300 cursor-pointer" @click="open = !open"
+                                 :class="{ 'border-b pb-4': open }">
+                                <div class="flex items-center space-x-4 space-x-reverse">
+                                    <p class="text-sm font-medium text-black">
+                                        {{ $loop->index + 1 }} -
+                                    </p>
+                                    <p class="text-sm font-medium text-black">
+                                        {{ $modell->parent->name }}
+                                    </p>
+                                    <p class="text-sm font-medium text-black">
+                                        {{ $product->model_custom_name ?? $modell->name }}
+                                    </p>
+                                    @if($product->tag)
+                                        <p class="text-sm font-medium text-black">
+                                            تگ : {{ $product->tag }}
+                                        </p>
+                                    @endif
+                                    <p class="text-sm font-medium text-black">
+                                        تعداد : {{ $product->quantity}}
+                                    </p>
+                                </div>
+                                <div class="flex items-center space-x-2 space-x-reverse">
+                                    <p class="text-xs text-black">
+                                        مشاهده شماره سریال ها
+                                    </p>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                         class="w-5 h-5 transition-transform transform"
+                                         :class="{ 'rotate-180': open }">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="mt-4 grid grid-cols-7 gap-4" x-show="open">
+                                @foreach($product->serials as $serial)
+                                    <div class="px-4 py-2 rounded-md border border-gray-400 shadow inline">
+                                        <p class="text-xs font-medium text-black text-center">
+                                            CNT-{{ $serial->serial_number }}
+                                        </p>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
             </div>
 
-            @foreach($contract->products()->orderBy('sort', 'ASC')->where('group_id','!=',0)->where('model_id','!=',0)->where('recipe', 1)->get() as $product)
+            <!-- Part List -->
+            @php
+                $types = ['setup','years','control','power_cable','control_cable','pipe','install_setup_price','setup_price','supervision','transport','other','setup_one','install','cable','canal','copper_piping','carbon_piping', 'coil',null];
+            @endphp
+            @foreach($types as $type)
                 @php
-                    $modell = \App\Models\Modell::find($product->model_id);
+                    $products = $contract->products()->where('part_id','!=',0)->where('type',$type)->where('recipe', 1)->get();
                 @endphp
-                <div class="bg-white p-4 rounded-lg border border-myBlue-100 mb-4" x-data="{open:false}" :class="{ 'shadow-lg': open }">
-                    <div class="flex items-center justify-between border-gray-300 cursor-pointer" @click="open = !open"
-                         :class="{ 'border-b pb-4': open }">
-                        <div class="flex items-center space-x-4 space-x-reverse">
-                            <p class="text-sm font-medium text-black">
-                                {{ $loop->index + 1 }} -
-                            </p>
-                            <p class="text-sm font-medium text-black">
-                                {{ $modell->parent->name }}
-                            </p>
-                            <p class="text-sm font-medium text-black">
-                                {{ $product->model_custom_name ?? $modell->name }}
-                            </p>
-                            <p class="text-sm font-medium text-black">
-                                تگ : {{ $product->tag }}
-                            </p>
-                            <p class="text-sm font-medium text-black">
-                                تعداد : {{ $product->quantity}}
+                @if(!$products->isEmpty())
+                    <div class="card">
+                        <div class="card-header">
+                            <p class="card-title text-lg">
+                                @switch($type)
+                                    @case('setup')
+                                        قطعات یدکی راه اندازی
+                                        @break
+                                    @case('years')
+                                        قطعات یدکی دوسالانه
+                                        @break
+                                    @case('control')
+                                        قطعات کنترلی
+                                        @break
+                                    @case('power_cable')
+                                        قطعات کابل قدرت
+                                        @break
+                                    @case('control_cable')
+                                        قطعات کابل کنترلی
+                                        @break
+                                    @case('pipe')
+                                        قطعات لوله و اتصالات
+                                        @break
+                                    @case('install_setup_price')
+                                        دستمزد نصب و راه اندازی
+                                        @break
+                                    @case('setup_price')
+                                        دستمزد راه اندازی
+                                        @break
+                                    @case('supervision')
+                                        دستمزد نظارت
+                                        @break
+                                    @case('transport')
+                                        هزینه حمل
+                                        @break
+                                    @case('other')
+                                        سایر تجهیزات
+                                        @break
+                                    @case('setup_one')
+                                        قطعات راه اندازی
+                                        @break
+                                    @case('install')
+                                        قطعات نصب
+                                        @break
+                                    @case('cable')
+                                        اقلام کابل کشی
+                                        @break
+                                    @case('canal')
+                                        اقلام کانال کشی
+                                        @break
+                                    @case('copper_piping')
+                                        دستمزد لوله کشی مسی
+                                        @break
+                                    @case('carbon_piping')
+                                        دستمزد لوله کشی کربن استیل
+                                        @break
+                                    @case('coil')
+                                        انواع کویل
+                                        @break
+                                    @case('')
+                                        سایر تجهیزات (قطعات قبلی)
+                                        @break
+                                @endswitch
                             </p>
                         </div>
-                        <div class="flex items-center space-x-2 space-x-reverse">
-                            <p class="text-xs text-black">
-                                مشاهده شماره سریال ها
-                            </p>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 transition-transform transform"
-                                 :class="{ 'rotate-180': open }">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="mt-4 grid grid-cols-7 gap-4" x-show="open">
-                        @foreach(range(1, $product->quantity) as $unit)
-                            <div class="px-4 py-2 rounded-md border border-gray-400 shadow inline">
-                                <p class="text-xs font-medium text-black text-center">
-                                    CNT-{{ $contract->number }}-{{ ++$serialNumber }}
-                                </p>
-                            </div>
+                        @foreach($products as $product)
+                            @php
+                                $part = \App\Models\Part::find($product->part_id);
+                            @endphp
+
+                            @if(!$product->serials->isEmpty())
+                                <div class="bg-white p-4 rounded-lg border border-myBlue-100 mb-4" x-data="{open:false}" :class="{ 'shadow-lg': open }">
+                                    <div class="flex items-center justify-between border-gray-300 cursor-pointer" @click="open = !open"
+                                         :class="{ 'border-b pb-4': open }">
+                                        <div class="flex items-center space-x-4 space-x-reverse">
+                                            <p class="text-sm font-medium text-black">
+                                                {{ $loop->index + 1 }} -
+                                            </p>
+                                            <p class="text-sm font-medium text-black">
+                                                {{ $part->name }}
+                                            </p>
+                                            @if($product->tag)
+                                                <p class="text-sm font-medium text-black">
+                                                    تگ : {{ $product->tag }}
+                                                </p>
+                                            @endif
+                                            <p class="text-sm font-medium text-black">
+                                                تعداد : {{ $product->quantity}}
+                                            </p>
+                                        </div>
+                                        <div class="flex items-center space-x-2 space-x-reverse">
+                                            <p class="text-xs text-black">
+                                                مشاهده شماره سریال ها
+                                            </p>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                 class="w-5 h-5 transition-transform transform"
+                                                 :class="{ 'rotate-180': open }">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div class="mt-4 grid grid-cols-7 gap-4" x-show="open">
+                                        @foreach($product->serials as $serial)
+                                            <div class="px-4 py-2 rounded-md border border-gray-400 shadow inline">
+                                                <p class="text-xs font-medium text-black text-center">
+                                                    CNT-{{ $serial->serial_number }}
+                                                </p>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endif
                         @endforeach
                     </div>
-                </div>
+                @endif
             @endforeach
-        </div>
+        @else
+            <div class="p-4 rounded-md shadow bg-yellow-500">
+                <div class="flex items-center justify-center space-x-4 space-x-reverse">
+                    <p class="text-center text-black font-medium text-sm">
+                        منتظر صدور پایان ساخت ها
+                    </p>
+                    <span> | </span>
+                    <a href="{{ route('contracts.construction.index', $contract->id) }}" class="text-indigo-500 text-sm font-medium underline underline-offset-4">
+                        صفحه پایان ساخت ها
+                    </a>
+                </div>
+            </div>
+        @endif
     </div>
 </x-layout>

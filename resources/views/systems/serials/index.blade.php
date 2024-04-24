@@ -53,17 +53,6 @@
                 </p>
             </div>
         </div>
-        @can('create-serial')
-            <div>
-                <a href="{{ route('serials.create') }}" class="page-success-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                         stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
-                    </svg>
-                    <span class="mr-2">ایجاد شماره سریال جدید</span>
-                </a>
-            </div>
-        @endcan
     </div>
 
     <!-- Table -->
@@ -127,7 +116,7 @@
                     <td class="table-tr-td border-t-0 border-x-0">
                         @if(is_null($serial->send_date))
                             <div class="flex justify-center">
-                                <span class="table-delete">
+                                <span class="table-dropdown-restore text-xs">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                          stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -141,7 +130,7 @@
                         @endif
                     </td>
                     <td class="table-tr-td border-t-0 border-r-0">
-                        <div class="table-parent-dropdown" x-data="{open:false}">
+                        <div class="relative" x-data="{open:false}">
                             <button @click="open = !open">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                      stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -150,7 +139,7 @@
                                 </svg>
                             </button>
                             <div x-show="open" @click.away="open = false" x-cloak
-                                 class="table-dropdown -top-16 -right-24">
+                                 class="table-dropdown -right-16 -top-2">
                                 <form action="{{ route('serials.replicate',$serial->id) }}" method="POST"
                                       class="table-dropdown-copy">
                                     @csrf
@@ -192,5 +181,9 @@
             </tbody>
             @endforeach
         </table>
+    </div>
+
+    <div class="mt-4">
+        {{ $serials->links() }}
     </div>
 </x-layout>

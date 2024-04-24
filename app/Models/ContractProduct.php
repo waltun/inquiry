@@ -44,4 +44,9 @@ class ContractProduct extends Model
     {
         return $this->belongsTo(Invoice::class);
     }
+
+    public function serials()
+    {
+        return $this->hasMany(Serial::class);
+    }
 }

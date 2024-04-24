@@ -348,23 +348,17 @@
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     @if($product->status == 'end')
-                                        <div
-                                            class="flex items-center justify-center bg-green-500 text-white rounded-lg">
+                                        <div class="flex items-center justify-center {{ $product->status == 'end' ? 'text-green-600 font-bold' : '' }}">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                  stroke-width="2" stroke="currentColor" class="w-4 h-4 ml-1">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                       d="M4.5 12.75l6 6 9-13.5"/>
                                             </svg>
-                                            صادر شده
+                                            صادر شده ( {{ jdate($product->end_at)->format('Y/m/d') }} )
                                         </div>
                                     @else
-                                        <form method="POST" class="flex justify-center"
-                                              action="{{ route('contracts.recipe.end-of-production', [$contract->id, $product->id]) }}">
-                                            @csrf
-                                            @method('PATCH')
-
-                                            <button type="submit" class="table-success-btn"
-                                                    onclick="return confirm('پایان ساخت صادر شود ؟')">
+                                        <div x-data="{open:false}" class="flex justify-center items-center">
+                                            <button type="button" class="table-success-btn" @click="open = !open">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                      stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -372,7 +366,54 @@
                                                 </svg>
                                                 صدور
                                             </button>
-                                        </form>
+                                            <div class="relative z-10" x-show="open" x-cloak>
+                                                <div class="modal-backdrop"></div>
+                                                <div class="fixed z-10 inset-0 overflow-y-auto">
+                                                    <div class="modal">
+                                                        <div class="modal-body">
+                                                            <div class="bg-white dark:bg-slate-800 p-4">
+                                                                <div class="mb-4 flex justify-between items-center">
+                                                                    <h3 class="text-lg font-bold text-gray-900 dark:text-white">
+                                                                        صدور پایان ساخت
+                                                                    </h3>
+                                                                    <button type="button" @click="open = false">
+                                                                        <span class="modal-close">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                 fill="none"
+                                                                                 viewBox="0 0 24 24"
+                                                                                 stroke-width="1.5"
+                                                                                 stroke="currentColor"
+                                                                                 class="w-5 h-5 dark:text-white">
+                                                                                <path stroke-linecap="round"
+                                                                                      stroke-linejoin="round"
+                                                                                      d="M6 18L18 6M6 6l12 12"/>
+                                                                            </svg>
+                                                                        </span>
+                                                                    </button>
+                                                                </div>
+                                                                <form method="POST" action="{{ route('contracts.construction.update', [$contract->id, $product->id]) }}">
+                                                                    @csrf
+                                                                    @method('PATCH')
+
+                                                                    <div class="mb-4">
+                                                                        <label for="inputEndDate{{ $product->id }}" class="form-label">
+                                                                            تاریخ صدور
+                                                                        </label>
+                                                                        <input type="text" class="input-text date" name="end_at" id="inputEndDate{{ $product->id }}"
+                                                                               placeholder="برای انتخاب تاریخ کلیک کنید">
+                                                                    </div>
+                                                                    <div class="flex justify-end items-center space-x-4 space-x-reverse">
+                                                                        <button type="submit" class="form-submit-btn">
+                                                                            صدور
+                                                                        </button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     @endif
                                 </td>
                             </tr>

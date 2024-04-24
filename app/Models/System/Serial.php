@@ -12,4 +12,6 @@ class Serial extends Model
     protected $fillable = [
         'year', 'serial', 'type', 'number', 'buyer', 'model', 'send_date'
     ];
+
+    protected $table = 'old_serials';
 }
