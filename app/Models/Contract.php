@@ -74,4 +74,9 @@ class Contract extends Model
     {
         return $this->hasMany(Serial::class);
     }
+
+    public function contractDocuments()
+    {
+        return $this->hasMany(ContractDocument::class);
+    }
 }

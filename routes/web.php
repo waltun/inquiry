@@ -17,6 +17,7 @@ use App\Http\Controllers\CombineCodeController;
 use App\Http\Controllers\Contract\AnalyzePartController;
 use App\Http\Controllers\Contract\ConstructionController;
 use App\Http\Controllers\Contract\ContractFileController;
+use App\Http\Controllers\Contract\DocumentController;
 use App\Http\Controllers\Contract\ExclusiveCodeController;
 use App\Http\Controllers\Contract\FactorController;
 use App\Http\Controllers\Contract\FinalContractController;
@@ -701,6 +702,8 @@ Route::middleware(['auth', 'web'])->group(function () {
                 'destroy' => 'contracts.serials.destroy',
                 'show' => 'contracts.serials.show',
             ]);
+
+        Route::resource('contracts/{contract}/documents', DocumentController::class)->except(['show']);
 
         Route::resource('todos', TodoController::class)->except('show');
         Route::post('todos/{todo}/mark-as-done', [TodoController::class, 'markAsDone'])->name('todos.mark-as-done');

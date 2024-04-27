@@ -8,6 +8,7 @@ use App\Models\Customer;
 use App\Models\Invoice;
 use App\Models\Special;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Morilog\Jalali\Jalalian;
@@ -26,9 +27,9 @@ class ContractController extends Controller
         $contracts = Contract::query();
 
         if ($keyword = request('search')) {
-            $contracts->where('name', 'LIKE', "%{$keyword}%")
-                ->orWhere('number', 'LIKE', "%{$keyword}%")
-                ->orWhere('marketer', 'LIKE', "%{$keyword}%");
+            $contracts->where('name', 'LIKE', "%$keyword%")
+                ->orWhere('number', 'LIKE', "%$keyword%")
+                ->orWhere('marketer', 'LIKE', "%$keyword%");
         }
 
         if (request()->has('type') && !is_null(request('type'))) {
@@ -153,9 +154,9 @@ class ContractController extends Controller
 
         if ($keyword = request('search')) {
             $invoices->whereHas('inquiry', function ($query) use ($keyword) {
-                $query->where('name', 'LIKE', "%{$keyword}%")
-                    ->orWhere('marketer', 'LIKE', "%{$keyword}%")
-                    ->orWhere('inquiry_number', 'LIKE', "%{$keyword}%");
+                $query->where('name', 'LIKE', "%$keyword%")
+                    ->orWhere('marketer', 'LIKE', "%$keyword%")
+                    ->orWhere('inquiry_number', 'LIKE', "%$keyword%");
             });
         }
 
@@ -319,7 +320,7 @@ class ContractController extends Controller
             if ($year > $explodeNumber[0]) {
                 $contractNumber = '1000';
             } else {
-                $contractNumber = str_pad($number + 1, 4, "0", STR_PAD_RIGHT);
+                $contractNumber = str_pad($number + 1, 4, "0");
             }
         } else {
             $contractNumber = '1000';
@@ -346,7 +347,7 @@ class ContractController extends Controller
             if ($year > $explodeNumber[0]) {
                 $contractNumber = '1000';
             } else {
-                $contractNumber = str_pad($number + 1, 4, "0", STR_PAD_RIGHT);
+                $contractNumber = str_pad($number + 1, 4, "0");
             }
         } else {
             $contractNumber = '1000';
@@ -355,10 +356,10 @@ class ContractController extends Controller
     }
 
     /**
-     * @param Contract|\Illuminate\Database\Eloquent\Model $contract
+     * @param Contract|Model $contract
      * @return void
      */
-    public function createFolders(Contract|\Illuminate\Database\Eloquent\Model $contract): void
+    public function createFolders(Contract|Model $contract): void
     {
         $year = jdate($contract->created_at)->getYear();
 
@@ -372,6 +373,26 @@ class ContractController extends Controller
             File::makeDirectory($secondPath, 0755, true);
         }
 
+        $salePath = $secondPath . 'Sales/';
+        if (!File::exists($salePath)) {
+            File::makeDirectory($salePath, 0755, true);
+        }
+
+        $financialLetterPath = $salePath . 'Letters/';
+        if (!File::exists($financialLetterPath)) {
+            File::makeDirectory($financialLetterPath, 0755, true);
+        }
+
+        $financialLetterSendPath = $financialLetterPath . 'Send/';
+        if (!File::exists($financialLetterSendPath)) {
+            File::makeDirectory($financialLetterSendPath, 0755, true);
+        }
+
+        $financialLetterReceivePath = $financialLetterPath . 'Receive/';
+        if (!File::exists($financialLetterReceivePath)) {
+            File::makeDirectory($financialLetterReceivePath, 0755, true);
+        }
+
         $financialPath = $secondPath . 'Financial/';
         if (!File::exists($financialPath)) {
             File::makeDirectory($financialPath, 0755, true);
@@ -383,6 +404,11 @@ class ContractController extends Controller
         }
 
         $financialRecoupmentPath = $financialPath . 'Recoupment/';
+        if (!File::exists($financialRecoupmentPath)) {
+            File::makeDirectory($financialRecoupmentPath, 0755, true);
+        }
+
+        $financialRecoupmentPath = $financialPath . 'Contract(PO)/';
         if (!File::exists($financialRecoupmentPath)) {
             File::makeDirectory($financialRecoupmentPath, 0755, true);
         }
@@ -403,6 +429,11 @@ class ContractController extends Controller
         }
 
         $factoryImagePath = $factoryPath . 'Images/';
+        if (!File::exists($factoryImagePath)) {
+            File::makeDirectory($factoryImagePath, 0755, true);
+        }
+
+        $factoryImagePath = $factoryPath . 'MOM/';
         if (!File::exists($factoryImagePath)) {
             File::makeDirectory($factoryImagePath, 0755, true);
         }
