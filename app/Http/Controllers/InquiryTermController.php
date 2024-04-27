@@ -7,6 +7,13 @@ use Illuminate\Http\Request;
 
 class InquiryTermController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:settings')->only([
+            'index', 'create', 'store', 'edit', 'update', 'destroy'
+        ]);
+    }
+
     public function index()
     {
         $terms = InquiryTerm::latest()->paginate(20);

@@ -3,7 +3,7 @@
         <script src="{{ asset('plugins/jquery.min.js') }}"></script>
         <script src="{{ asset('plugins/select2/select2.min.js') }}"></script>
         <script>
-            //$("#inputPermissions").select2()
+            $("#inputPermissions").select2()
         </script>
     </x-slot>
     <x-slot name="css">

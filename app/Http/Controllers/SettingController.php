@@ -9,6 +9,15 @@ use Illuminate\Http\Request;
 
 class SettingController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:settings')->only([
+            'index', 'priceColorIndex', 'priceColorCreate', 'priceColorStore', 'priceColorEdit', 'priceColorUpdate', 'priceColorDestroy',
+            'deleteButtonIndex', 'deleteButtonCreate', 'deleteButtonEdit', 'deleteButtonUpdate', 'deleteButtonStore', 'deleteButtonDestroy',
+            'create', 'store'
+        ]);
+    }
+
     public function index()
     {
         return view('settings.index');

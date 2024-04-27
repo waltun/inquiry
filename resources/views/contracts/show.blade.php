@@ -296,7 +296,9 @@
                 <span class="px-6 py-1 rounded-md text-center bg-yellow-400 text-xs font-bold text-black">
                     مالی
                 </span>
-
+                @php
+                    $financialSuccessCount = 0;
+                @endphp
                 <div class="flex items-center space-x-4 space-x-reverse">
                     @if($contract->marketings->isEmpty())
                         <a href="{{ route('contracts.marketings.create', $contract->id) }}" class="page-info-btn py-1">
@@ -384,6 +386,9 @@
                                           clip-rule="evenodd"/>
                                 </svg>
                             @else
+                                @php
+                                    $financialSuccessCount++;
+                                @endphp
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                      stroke-width="1.5"
                                      stroke="currentColor" class="w-5 h-5 text-gray-600">
@@ -444,6 +449,9 @@
                                               clip-rule="evenodd"/>
                                     </svg>
                                 @else
+                                    @php
+                                        $financialSuccessCount++;
+                                    @endphp
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                          stroke-width="1.5"
                                          stroke="currentColor" class="w-5 h-5 text-gray-600">
@@ -490,6 +498,9 @@
                                               clip-rule="evenodd"/>
                                     </svg>
                                 @else
+                                    @php
+                                        $financialSuccessCount++;
+                                    @endphp
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                          stroke-width="1.5"
                                          stroke="currentColor" class="w-5 h-5 text-gray-600">
@@ -537,6 +548,9 @@
                                               clip-rule="evenodd"/>
                                     </svg>
                                 @else
+                                    @php
+                                        $financialSuccessCount++;
+                                    @endphp
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                          stroke-width="1.5"
                                          stroke="currentColor" class="w-5 h-5 text-gray-600">
@@ -576,12 +590,24 @@
                                 </div>
                             </div>
                             <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                     class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white {{ $contract->contractFactors->isEmpty() ? 'text-opacity-40' : '' }}">
-                                    <path fill-rule="evenodd"
-                                          d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                                          clip-rule="evenodd"/>
-                                </svg>
+                                @if($contract->contractFactors->isEmpty())
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                         class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white text-opacity-40">
+                                        <path fill-rule="evenodd"
+                                              d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                              clip-rule="evenodd"/>
+                                    </svg>
+                                @else
+                                    @php
+                                        $financialSuccessCount++;
+                                    @endphp
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         stroke-width="1.5"
+                                         stroke="currentColor" class="w-5 h-5 text-gray-600">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                                    </svg>
+                                @endif
+
                             </div>
                         </div>
                         <div class="mt-2 space-y-2">
@@ -593,6 +619,9 @@
                 @endif
 
                 @if($contract->recoupment)
+                    @php
+                        $financialSuccessCount++;
+                    @endphp
                     <a href="{{ route('contracts.recoupment.index', $contract->id) }}"
                        class="p-2 rounded-2xl bg-green-400 shadow border border-gray-300">
                         <div class="flex items-center justify-between border-b border-white pb-2">
@@ -626,13 +655,16 @@
                 @endif
             </div>
 
+            @php
+                $financialPercent = $financialSuccessCount / 5 * 100;
+            @endphp
             <div
                 class="flex items-center justify-between mt-4 space-x-4 space-x-reverse p-2 rounded-md border border-yellow-400">
                 <p class="text-xs font-bold text-black">وضعیت</p>
                 <div class="w-full bg-gray-200 rounded-full">
                     <div class="bg-blue-600 text-xs font-medium text-white text-center p-0.5 leading-none rounded-full"
-                         style="width: 40%">
-                        40%
+                         style="width: {{ $financialPercent }}%">
+                        {{ $financialPercent }}%
                     </div>
                 </div>
             </div>

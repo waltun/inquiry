@@ -8,6 +8,13 @@ use Morilog\Jalali\Jalalian;
 
 class TaxController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:settings')->only([
+            'index', 'create', 'store', 'edit', 'update', 'destroy'
+        ]);
+    }
+
     public function index()
     {
         $taxes = Tax::latest()->paginate(20);
