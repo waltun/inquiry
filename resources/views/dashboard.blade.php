@@ -1,4 +1,13 @@
 <x-layout>
+    <x-slot name="js">
+        <script>
+            function filterTask() {
+                let form = document.getElementById('taskForm');
+                form.submit();
+            }
+        </script>
+    </x-slot>
+
     <div class="flex items-center mb-4">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
              stroke="currentColor" class="w-7 h-7 dark:text-white">
@@ -2017,8 +2026,43 @@
                 </div>
             </div>
 
-            <div x-show="tab === 'sent-tasks'"
-                 class="rounded-b-lg px-4 py-6 border border-indigo-400 border-t-0" x-cloak>
+            <div x-show="tab === 'sent-tasks'" class="rounded-b-lg px-4 py-6 border border-indigo-400 border-t-0"
+                 x-cloak>
+                <form method="get" action="" class="flex justify-end mb-4" id="taskForm">
+                    <div class="grid grid-cols-3 gap-4">
+                        <div>
+                            <select name="receiver_id" id="inputReciever" class="input-text" onchange="filterTask()">
+                                <option value="">انتخاب کاربر</option>
+                                @foreach($users as $user)
+                                    <option value="{{ $user->id }}" {{ request('receiver_id') == $user->id ? 'selected' : '' }}>
+                                        {{ $user->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div>
+                            <select name="level" id="inputLevel" class="input-text" onchange="filterTask()">
+                                <option value="">انتخاب سطح اهمیت</option>
+                                <option value="high" {{ request('level') == 'high' ? 'selected' : '' }}>
+                                    اهمیت بالا
+                                </option>
+                                <option value="medium" {{ request('level') == 'medium' ? 'selected' : '' }}>
+                                    اهمیت متوسط
+                                </option>
+                                <option value="low" {{ request('level') == 'low' ? 'selected' : '' }}>
+                                    اهمیت کم
+                                </option>
+                            </select>
+                        </div>
+                        @if(request()->has('receiver_id') || request()->has('level'))
+                            <div>
+                                <a href="{{ route('dashboard') }}" class="text-indigo-500 underline underline-offset-4 text-xs">
+                                    پاکسازی فیلتر
+                                </a>
+                            </div>
+                        @endif
+                    </div>
+                </form>
                 <div class="overflow-x-auto rounded-lg">
                     @if(!$sentTasks->isEmpty())
                         <table class="md:w-full border-collapse">

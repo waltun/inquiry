@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Inquiry;
 use App\Models\Task;
 use App\Models\Todo;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -25,7 +26,18 @@ class DashboardController extends Controller
         }
 
         $receivedTasks = Task::where('receiver_id', auth()->user()->id)->latest()->get();
-        $sentTasks = auth()->user()->tasks()->latest()->get();
+
+        $sentTasks = Task::query();
+
+        if (!is_null(request('level')) && request()->has('level')) {
+            $sentTasks->where('level', request('level'));
+        }
+
+        if (!is_null(request('receiver_id')) && request()->has('receiver_id')) {
+            $sentTasks->where('receiver_id', request('receiver_id'));
+        }
+
+        $sentTasks = $sentTasks->where('user_id', auth()->user()->id)->get();
 
         if (!Session::has('modal_shown') || !Session::has('last_modal_displayed')) {
             Session::put('modal_shown', true);
@@ -38,12 +50,14 @@ class DashboardController extends Controller
         $currentTimestamp = now()->timestamp;
         $hoursInSeconds = 3 * 60 * 60;
 
+        $users = User::where('role', 'staff')->orWhere('role', 'admin')->get()->except(auth()->user()->id);
+
         if (($currentTimestamp - $lastDisplayedTimestamp) >= $hoursInSeconds) {
             Session::put('last_modal_displayed', now()->timestamp);
 
-            return view('dashboard', compact('inquiries', 'submitInquiries', 'todayTodos', 'allTodos', 'receivedTasks', 'sentTasks'))->with('showModal', true);
+            return view('dashboard', compact('inquiries', 'submitInquiries', 'todayTodos', 'allTodos', 'receivedTasks', 'sentTasks', 'users'))->with('showModal', true);
         }
 
-        return view('dashboard', compact('inquiries', 'submitInquiries', 'todayTodos', 'allTodos', 'receivedTasks', 'sentTasks'))->with('showModal', false);
+        return view('dashboard', compact('inquiries', 'submitInquiries', 'todayTodos', 'allTodos', 'receivedTasks', 'sentTasks', 'users'))->with('showModal', false);
     }
 }
