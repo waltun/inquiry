@@ -36,7 +36,7 @@ class PurchaseController extends Controller
                         ->whereNull('coding_id');
                 })->orWhere(function ($query) use ($keyword) {
                     $query->whereNotNull('coding_id')->whereHas('coding', function ($query) use ($keyword) {
-                        $query->where('title', 'LIKE', "%$keyword%")
+                        $query->where('name', 'LIKE', "%$keyword%")
                             ->orWhere('unit', 'LIKE', "%$keyword%")
                             ->orWhere('code', 'LIKE', "%$keyword%");
                     });

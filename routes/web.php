@@ -19,6 +19,7 @@ use App\Http\Controllers\Contract\ConstructionController;
 use App\Http\Controllers\Contract\ContractFileController;
 use App\Http\Controllers\Contract\DocumentController;
 use App\Http\Controllers\Contract\ExclusiveCodeController;
+use App\Http\Controllers\Contract\ExitController;
 use App\Http\Controllers\Contract\FactorController;
 use App\Http\Controllers\Contract\FinalContractController;
 use App\Http\Controllers\Contract\GuaranteeController;
@@ -704,6 +705,10 @@ Route::middleware(['auth', 'web'])->group(function () {
             ]);
 
         Route::resource('contracts/{contract}/documents', DocumentController::class)->except(['show']);
+
+        Route::get('/contracts/{contract}/exits', [ExitController::class, 'index'])->name('contracts.exits.index');
+        Route::patch('/contracts/{contract}/exits/{packing}', [ExitController::class, 'update'])->name('contracts.exits.update');
+        Route::get('/contracts/{contract}/exits/{packing}', [ExitController::class, 'print'])->name('contracts.exits.print');
 
         Route::resource('todos', TodoController::class)->except('show');
         Route::post('todos/{todo}/mark-as-done', [TodoController::class, 'markAsDone'])->name('todos.mark-as-done');

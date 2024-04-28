@@ -10,7 +10,7 @@ class Packing extends Model
     use HasFactory;
 
     protected $fillable = [
-        'date', 'contract_id'
+        'date', 'contract_id', 'address', 'receiver', 'exit_at'
     ];
 
     public function contract()

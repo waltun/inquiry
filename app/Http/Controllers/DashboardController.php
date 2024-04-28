@@ -13,6 +13,8 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        $users = User::where('role', 'staff')->orWhere('role', 'admin')->get()->except(auth()->user()->id);
+
         $inquiries = Inquiry::where('submit', 0)->where('user_id', auth()->user()->id)->latest()->take(3)->get();
         $submitInquiries = Inquiry::where('submit', 1)->where('archive_at', null)->where('user_id', auth()->user()->id)->latest()->take(3)->get();
 
@@ -43,14 +45,12 @@ class DashboardController extends Controller
             Session::put('modal_shown', true);
             Session::put('last_modal_displayed', now()->timestamp);
 
-            return view('dashboard', compact('inquiries', 'submitInquiries', 'todayTodos', 'allTodos', 'receivedTasks', 'sentTasks'))->with('showModal', true);
+            return view('dashboard', compact('inquiries', 'submitInquiries', 'todayTodos', 'allTodos', 'receivedTasks', 'sentTasks', 'users'))->with('showModal', true);
         }
 
         $lastDisplayedTimestamp = Session::get('last_modal_displayed');
         $currentTimestamp = now()->timestamp;
         $hoursInSeconds = 3 * 60 * 60;
-
-        $users = User::where('role', 'staff')->orWhere('role', 'admin')->get()->except(auth()->user()->id);
 
         if (($currentTimestamp - $lastDisplayedTimestamp) >= $hoursInSeconds) {
             Session::put('last_modal_displayed', now()->timestamp);
