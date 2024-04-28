@@ -808,6 +808,38 @@
                     </a>
                 @endif
 
+                <a href="{{ route('contracts.exits.index', $contract->id) }}"
+                   class="p-2 rounded-2xl shadow flex items-center justify-between border border-gray-300 {{ $contract->packings->contains('exit_at', null) ? 'bg-opacity-50 border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
+                    <div class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"/>
+                        </svg>
+                        <div class="mr-2">
+                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white {{ $contract->packings->contains('exit_at', null) ? 'text-opacity-40' : '' }}">
+                                مجوز خروج
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        @if($contract->packings->contains('exit_at', null))
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                 class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white text-opacity-40">
+                                <path fill-rule="evenodd"
+                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        @else
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                 stroke-width="1.5"
+                                 stroke="currentColor" class="w-5 h-5 text-gray-600">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                            </svg>
+                        @endif
+
+                    </div>
+                </a>
+
                 <a href="{{ route('documents.index', $contract->id) }}"
                    class="p-2 rounded-2xl shadow flex items-center justify-between border border-gray-300 {{ $contract->contractDocuments->isEmpty() ? 'bg-opacity-50 border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
                     <div class="flex items-center">
@@ -865,25 +897,6 @@
                         <div class="mr-4">
                             <p class="font-bold text-black text-xs group-hover:text-white dark:text-white text-opacity-40">
                                 کنترل کیفیت
-                            </p>
-                        </div>
-                    </div>
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white text-opacity-40">
-                            <path fill-rule="evenodd"
-                                  d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                                  clip-rule="evenodd"/>
-                        </svg>
-                    </div>
-                </a>
-
-                <a href="{{ route('contracts.invoices.index', $contract->id) }}"
-                   class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 bg-opacity-50 border-opacity-50">
-                    <div class="flex items-center">
-                        <div class="mr-4">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white text-opacity-40">
-                                مجوز خروج
                             </p>
                         </div>
                     </div>
