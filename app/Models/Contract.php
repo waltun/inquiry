@@ -79,4 +79,9 @@ class Contract extends Model
     {
         return $this->hasMany(ContractDocument::class);
     }
+
+    public function contractContracts()
+    {
+        return $this->hasMany(ContractContract::class);
+    }
 }

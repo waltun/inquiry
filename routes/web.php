@@ -679,9 +679,6 @@ Route::middleware(['auth', 'web'])->group(function () {
 
         Route::get('/contracts/{contract}/customer', [ContractCustomerController::class, 'index'])->name('contracts.customer.index');
 
-        Route::get('/contracts/{contract}/contract', [ContractFileController::class, 'index'])->name('contracts.contract.index');
-        Route::patch('/contracts/{contract}/contract', [ContractFileController::class, 'store'])->name('contracts.contract.store');
-
         Route::get('/contracts/{contract}/exclusive-code', [ExclusiveCodeController::class, 'index'])->name('contracts.exclusive-code.index');
         Route::patch('/contracts/{contract}/exclusive-code', [ExclusiveCodeController::class, 'store'])->name('contracts.exclusive-code.store');
 
@@ -705,6 +702,8 @@ Route::middleware(['auth', 'web'])->group(function () {
             ]);
 
         Route::resource('contracts/{contract}/documents', DocumentController::class)->except(['show']);
+
+        Route::resource('contracts/{contract}/contract-files', ContractFileController::class)->except(['show']);
 
         Route::get('/contracts/{contract}/exits', [ExitController::class, 'index'])->name('contracts.exits.index');
         Route::patch('/contracts/{contract}/exits/{packing}', [ExitController::class, 'update'])->name('contracts.exits.update');

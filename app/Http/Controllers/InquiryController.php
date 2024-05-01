@@ -153,6 +153,10 @@ class InquiryController extends Controller
 
         alert()->success('ویرایش موفق', 'ویرایش استعلام با موفقیت انجام شد');
 
+        if ($inquiry->submit) {
+            return redirect()->route('inquiries.submitted');
+        }
+
         return redirect()->route('inquiries.index');
     }
 

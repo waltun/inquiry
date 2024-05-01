@@ -4,27 +4,53 @@ namespace App\Http\Controllers\Contract;
 
 use App\Http\Controllers\Controller;
 use App\Models\Contract;
+use App\Models\ContractContract;
 use Illuminate\Http\Request;
+use Morilog\Jalali\Jalalian;
 
 class ContractFileController extends Controller
 {
     public function index(Contract $contract)
     {
-        return view('contracts.contract.index', compact('contract'));
+        $files = ContractContract::latest()->paginate(20);
+        return view('contracts.contract.index', compact('contract', 'files'));
+    }
+
+    public function create(Contract $contract)
+    {
+        return view('contracts.contract.create', compact('contract'));
     }
 
     public function store(Request $request, Contract $contract)
     {
         $data = $request->validate([
-            'file' => 'required|string|max:255'
+            'file' => 'required|file|max:255',
+            'number' => 'nullable|string|max:255',
+            'date' => 'required|string|max:255'
         ]);
 
-        $contract->update([
-            'file' => $data['file']
-        ]);
+        $date = $data['date'];
+
+        if (!is_null($data['date'])) {
+            $explodeDate = explode('-', $data['date']);
+            $data['date'] = (new Jalalian($explodeDate[0], $explodeDate[1], $explodeDate[2]))->toCarbon()->toDateTimeString();
+        }
+
+        $year = jdate($contract->created_at)->getYear();
+        $folder = 'CNT-' . $contract->number;
+        $path = '/files/contracts/' . $year . '/' . $folder . '/Financial/Contract(PO)/';
+
+        $fileNewName = 'CNT-' . $contract->number . '-Contract-' . $date . '-(' . rand(1, 99) . ')' . '.' . $request->file->extension();
+        $request->file->move(public_path($path), $fileNewName);
+
+        $finalFile = $path . $fileNewName;
+
+        $data['file'] = $finalFile;
+
+        $contract->contractContracts()->create($data);
 
         alert()->success('ثبت موفق', 'فایل قرارداد با موفقیت بارگذاری شد');
 
-        return back();
+        return redirect()->route('contract-files.index', $contract->id);
     }
 }
