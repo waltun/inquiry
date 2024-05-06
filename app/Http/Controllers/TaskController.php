@@ -46,12 +46,26 @@ class TaskController extends Controller
             'date' => 'required|string|max:255',
             'level' => 'required|in:high,medium,low',
             'receiver_id' => 'required|integer',
-            'description' => 'nullable'
+            'description' => 'nullable',
+            'file' => 'nullable|file'
         ]);
+
+        $receiver = User::findOrFail($data['receiver_id']);
 
         if (!is_null($data['date'])) {
             $explodeDate = explode('/', $data['date']);
             $data['date'] = (new Jalalian($explodeDate[0], $explodeDate[1], $explodeDate[2]))->toCarbon()->toDateTimeString();
+        }
+
+        if (!is_null($data['file'])) {
+            $path = '/files/tasks/';
+
+            $fileNewName = 'Task-' . $receiver->phone . '-(' . rand(1, 99) . ')' . '.' . $request->file->extension();
+            $request->file->move(public_path($path), $fileNewName);
+
+            $finalFile = $path . $fileNewName;
+
+            $data['file'] = $finalFile;
         }
 
         auth()->user()->tasks()->create($data);

@@ -1945,6 +1945,9 @@
                                     توضیحات
                                 </th>
                                 <th scope="col" class="p-2">
+                                    فایل
+                                </th>
+                                <th scope="col" class="p-2">
                                     <span class="sr-only">اقدامات</span>
                                 </th>
                             </tr>
@@ -1985,6 +1988,14 @@
                                     </td>
                                     <td class="table-tr-td border-t-0 border-x-0 {{ $receivedTask->done ? 'line-through opacity-50' : '' }}">
                                         {{ $receivedTask->description ?? '-' }}
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-x-0">
+                                        @if(!is_null($receivedTask->file))
+                                            <img src="{{ $receivedTask->file }}" alt="" class="w-10 h-10 rounded-md mx-auto border border-gray-200 cursor-pointer"
+                                                 onclick="this.requestFullscreen()">
+                                        @else
+                                            -
+                                        @endif
                                     </td>
                                     <td class="table-tr-td border-t-0 border-r-0 whitespace-nowrap">
                                         <div class="flex items-center space-x-4 space-x-reverse justify-center">
@@ -2084,6 +2095,9 @@
                                     توضیحات
                                 </th>
                                 <th scope="col" class="p-2">
+                                    فایل
+                                </th>
+                                <th scope="col" class="p-2">
                                     <span class="sr-only">اقدامات</span>
                                 </th>
                             </tr>
@@ -2124,6 +2138,14 @@
                                     </td>
                                     <td class="table-tr-td border-t-0 border-x-0 {{ $sentTask->done ? 'line-through opacity-50' : '' }}">
                                         {{ $sentTask->description ?? '-' }}
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-x-0">
+                                        @if(!is_null($sentTask->file))
+                                            <img src="{{ $sentTask->file }}" alt="" class="w-10 h-10 rounded-md mx-auto border border-gray-200 cursor-pointer"
+                                                 onclick="this.requestFullscreen()">
+                                        @else
+                                            -
+                                        @endif
                                     </td>
                                     <td class="table-tr-td border-t-0 border-r-0 whitespace-nowrap">
                                         <div class="flex items-center space-x-4 space-x-reverse justify-center">

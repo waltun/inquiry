@@ -73,7 +73,7 @@
     </div>
 
     <!-- Form -->
-    <form method="POST" action="{{ route('tasks.store') }}" class="md:grid grid-cols-2 gap-4 mt-4">
+    <form method="POST" action="{{ route('tasks.store') }}" class="md:grid grid-cols-2 gap-4 mt-4" enctype="multipart/form-data">
         @csrf
 
         <div class="card">
@@ -132,6 +132,11 @@
                 <label for="inputDescription" class="form-label">توضیحات مربوط به این وظیفه برای کاربر</label>
                 <textarea name="description" id="inputDescription"
                           class="input-text resize-none h-64">{{ old('description') }}</textarea>
+            </div>
+
+            <div class="mb-4">
+                <label for="inputFile" class="form-label">انتخاب فایل</label>
+                <input type="file" class="input-file" id="inputFile" name="file" value="{{ old('file') }}">
             </div>
         </div>
 

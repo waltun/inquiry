@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->timestamp('date');
             $table->boolean('done')->default(0);
             $table->enum('level', ['high', 'medium', 'low']);
+            $table->string('file')->nullable();
 
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
