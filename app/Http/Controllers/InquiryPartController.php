@@ -210,7 +210,7 @@ class InquiryPartController extends Controller
                         'quantity2' => $request->quantities2[$index] ?? null,
                         'description' => $request->tags[$index],
                         'type' => $request->types[$index],
-                        'price' => $request->prices[$index] ?? 0,
+                        'price' => $request->prices[$index] ?? $product->price,
                     ]);
                 }
             }

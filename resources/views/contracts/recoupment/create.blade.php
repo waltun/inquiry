@@ -83,7 +83,7 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p">
-                    مدیریت مدارک تایید شده {{ $contract->name }}
+                    مدیریت مفاصا حساب های قرارداد {{ $contract->name }}
                 </p>
             </div>
         </a>
@@ -102,7 +102,7 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p-active">
-                    ایجاد مدرک تایید شده جدید
+                    ایجاد مفاصا حساب جدید
                 </p>
             </div>
         </div>
@@ -122,7 +122,7 @@
     </div>
 
     <!-- Form -->
-    <form method="POST" action="{{ route('documents.store', $contract->id) }}" class="mt-4 grid grid-cols-2 gap-4" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('recoupments.store', $contract->id) }}" class="mt-4 grid grid-cols-2 gap-4" enctype="multipart/form-data">
         @csrf
 
         <div class="card">
@@ -139,11 +139,11 @@
                        placeholder="برای انتخاب تاریخ کلیک کیند">
             </div>
             <div class="mb-4">
-                <label for="inputName" class="form-label">
-                    نام / نوع فایل
+                <label for="inputNumber" class="form-label">
+                    شماره مفاصا حساب
                 </label>
-                <input type="text" id="inputName" name="name" class="input-text" value="{{ old('name') }}"
-                       placeholder="نام یا نوع فایل را وارد کنید">
+                <input type="text" id="inputNumber" name="number" class="input-text" value="{{ old('number') }}"
+                       placeholder="شماره مفاصا دلخواه را در صورت لزوم وارد کنید">
             </div>
         </div>
 
@@ -163,9 +163,9 @@
 
         <div class="flex items-center space-x-4 space-x-reverse">
             <button type="submit" class="form-submit-btn" id="submit-button">
-                ثبت مدرک تایید شده
+                ثبت مفاصا حساب
             </button>
-            <a href="{{ route('documents.index', $contract->id) }}" class="form-cancel-btn">
+            <a href="{{ route('recoupments.index', $contract->id) }}" class="form-cancel-btn">
                 انصراف
             </a>
         </div>

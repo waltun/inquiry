@@ -36,6 +36,10 @@ class ContractController extends Controller
             $contracts->where('type', request('type'));
         }
 
+        if (request()->has('user_id') && !is_null(request('user_id'))) {
+            $contracts->where('user_id', request('user_id'));
+        }
+
         if (request()->has('customer') && !is_null(request('customer'))) {
             $contracts->where('customer_id', request('customer'));
         }
@@ -297,6 +301,20 @@ class ContractController extends Controller
         $contract->save();
 
         alert()->success('ثبت موفق', 'وضعیت قرارداد با موفقیت به اتمام شده تغییر کرد');
+
+        return back();
+    }
+
+    public function changeUser(Request $request, Contract $contract)
+    {
+        $request->validate([
+            'user_id' => 'required|integer',
+        ]);
+
+        $contract->user_id = $request->user_id;
+        $contract->save();
+
+        alert()->success('ثبت موفق', 'مسئول پرونده با موفقیت تغییر کرد');
 
         return back();
     }

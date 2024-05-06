@@ -12,6 +12,11 @@ class RecipeController extends Controller
 {
     public function index(Contract $contract)
     {
+        if (auth()->user()->id == 4) {
+            $contract->seen_at = now();
+            $contract->save();
+        }
+
         if ($contract->recipe || $contract->products->contains('recipe', 1)) {
             return view('contracts.recipe.index', compact('contract'));
         }

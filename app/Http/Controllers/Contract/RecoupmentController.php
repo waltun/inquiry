@@ -5,26 +5,51 @@ namespace App\Http\Controllers\Contract;
 use App\Http\Controllers\Controller;
 use App\Models\Contract;
 use Illuminate\Http\Request;
+use Morilog\Jalali\Jalalian;
 
 class RecoupmentController extends Controller
 {
     public function index(Contract $contract)
     {
-        return view('contracts.recoupment.index', compact('contract'));
+        $recoupments = $contract->contractRecoupments()->latest()->paginate(20);
+        return view('contracts.recoupment.index', compact('contract', 'recoupments'));
+    }
+
+    public function create(Contract $contract)
+    {
+        return view('contracts.recoupment.create', compact('contract'));
     }
 
     public function store(Request $request, Contract $contract)
     {
         $data = $request->validate([
-            'recoupment' => 'required|string'
+            'file' => 'required|file|max:255',
+            'number' => 'nullable|string|max:255',
+            'date' => 'required|string|max:255'
         ]);
 
-        $contract->update([
-            'recoupment' => $data['recoupment']
-        ]);
+        $date = $data['date'];
 
-        alert()->success('ثبت موفق', 'فایل مفاصا حساب با موفقیت بارگذاری شد');
+        if (!is_null($data['date'])) {
+            $explodeDate = explode('-', $data['date']);
+            $data['date'] = (new Jalalian($explodeDate[0], $explodeDate[1], $explodeDate[2]))->toCarbon()->toDateTimeString();
+        }
 
-        return back();
+        $year = jdate($contract->created_at)->getYear();
+        $folder = 'CNT-' . $contract->number;
+        $path = '/files/contracts/' . $year . '/' . $folder . '/Financial/Recoupment/';
+
+        $fileNewName = 'CNT-' . $contract->number . '-Recoupment-' . $date . '-(' . rand(1, 99) . ')' . '.' . $request->file->extension();
+        $request->file->move(public_path($path), $fileNewName);
+
+        $finalFile = $path . $fileNewName;
+
+        $data['file'] = $finalFile;
+
+        $contract->contractRecoupments()->create($data);
+
+        alert()->success('ثبت موفق', 'مفاصا حساب با موفقیت بارگذاری شد');
+
+        return redirect()->route('recoupments.index', $contract->id);
     }
 }

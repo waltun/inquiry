@@ -31,10 +31,23 @@ class FactorController extends Controller
             'date' => 'nullable|string|max:255',
         ]);
 
+        $date = $data['date'];
+
         if (!is_null($data['date'])) {
             $explodeDate = explode('-', $data['date']);
             $data['date'] = (new Jalalian($explodeDate[0], $explodeDate[1], $explodeDate[2]))->toCarbon()->toDateTimeString();
         }
+
+        $year = jdate($contract->created_at)->getYear();
+        $folder = 'CNT-' . $contract->number;
+        $path = '/files/contracts/' . $year . '/' . $folder . '/Financial/Invoice/';
+
+        $fileNewName = 'CNT-' . $contract->number . '-Invoice-' . $date . '-(' . rand(1, 99) . ')' . '.' . $request->file->extension();
+        $request->file->move(public_path($path), $fileNewName);
+
+        $finalFile = $path . $fileNewName;
+
+        $data['file'] = $finalFile;
 
         $contract->contractFactors()->create($data);
 

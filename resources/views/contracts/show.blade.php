@@ -130,8 +130,8 @@
                     </div>
                 </a>
 
-                <a href="{{ route('contracts.contract.index', $contract->id) }}"
-                   class="p-2 rounded-2xl shadow flex items-center justify-between border border-gray-300 {{ is_null($contract->file) ? 'border-opacity-50 bg-opacity-50 bg-gray-300' : 'bg-green-400' }}">
+                <a href="{{ route('contract-files.index', $contract->id) }}"
+                   class="p-2 rounded-2xl shadow flex items-center justify-between border border-gray-300 {{ $contract->contractContracts->isEmpty() ? 'border-opacity-50 bg-opacity-50 bg-gray-300' : 'bg-green-400' }}">
                     <div class="flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                              stroke="currentColor" class="w-4 h-4">
@@ -139,13 +139,13 @@
                                   d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m5.231 13.481L15 17.25m-4.5-15H5.625c-.621 0-1.125.504-1.125 1.125v16.5c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Zm3.75 11.625a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"/>
                         </svg>
                         <div class="mr-2">
-                            <p class="font-bold text-black text-xs {{ is_null($contract->file) ? 'text-opacity-40' : '' }}">
+                            <p class="font-bold text-black text-xs {{ $contract->contractContracts->isEmpty() ? 'text-opacity-40' : '' }}">
                                 قرارداد
                             </p>
                         </div>
                     </div>
                     <div>
-                        @if(is_null($contract->file))
+                        @if($contract->contractContracts->isEmpty())
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                                  class="w-5 h-5 text-gray-600 text-opacity-40">
                                 <path fill-rule="evenodd"
@@ -320,8 +320,8 @@
                         </a>
                     @endif
 
-                    @if(!$contract->recoupment)
-                        <a href="{{ route('contracts.recoupment.index', $contract->id) }}" class="page-info-btn py-1">
+                    @if($contract->contractRecoupments->isEmpty())
+                        <a href="{{ route('recoupments.create', $contract->id) }}" class="page-info-btn py-1">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                  stroke="currentColor" class="w-6 h-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path>
@@ -618,11 +618,11 @@
                     </a>
                 @endif
 
-                @if($contract->recoupment)
+                @if(!$contract->contractRecoupments->isEmpty())
                     @php
                         $financialSuccessCount++;
                     @endphp
-                    <a href="{{ route('contracts.recoupment.index', $contract->id) }}"
+                    <a href="{{ route('recoupments.index', $contract->id) }}"
                        class="p-2 rounded-2xl bg-green-400 shadow border border-gray-300">
                         <div class="flex items-center justify-between border-b border-white pb-2">
                             <div class="flex items-center">
@@ -648,7 +648,7 @@
                         </div>
                         <div class="mt-2 space-y-2">
                             <p class="text-xs text-black">
-                                تعداد : 1
+                                تعداد : {{ count($contract->contractRecoupments) }}
                             </p>
                         </div>
                     </a>

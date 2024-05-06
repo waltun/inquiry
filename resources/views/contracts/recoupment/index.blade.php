@@ -1,23 +1,4 @@
 <x-layout>
-    <x-slot name="js">
-        <script src="{{ asset('plugins/jquery.min.js') }}"></script>
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-
-                document.getElementById('button-file').addEventListener('click', (event) => {
-                    event.preventDefault();
-
-                    window.open('/file-manager/fm-button', 'fm', 'width=1200,height=700');
-                });
-            });
-
-            // set file link
-            function fmSetLink($url) {
-                document.getElementById('inputRecoupment').value = $url;
-            }
-        </script>
-    </x-slot>
-
     <!-- Breadcrumb -->
     <div class="flex items-center space-x-2 space-x-reverse whitespace-nowrap">
         <a href="{{ route('dashboard') }}" class="flex items-center">
@@ -85,11 +66,11 @@
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                  stroke="currentColor" class="breadcrumb-svg-active">
                 <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 0 0-1.883 2.542l.857 6a2.25 2.25 0 0 0 2.227 1.932H19.05a2.25 2.25 0 0 0 2.227-1.932l.857-6a2.25 2.25 0 0 0-1.883-2.542m-16.5 0V6A2.25 2.25 0 0 1 6 3.75h3.879a1.5 1.5 0 0 1 1.06.44l2.122 2.12a1.5 1.5 0 0 0 1.06.44H18A2.25 2.25 0 0 1 20.25 9v.776"/>
+                      d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z"/>
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p-active">
-                    مفاصا حساب
+                    مدیریت مفاصا حساب های {{ $contract->name }}
                 </p>
             </div>
         </div>
@@ -101,15 +82,22 @@
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                  stroke="currentColor" class="w-8 h-8 dark:text-white">
                 <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 0 0-1.883 2.542l.857 6a2.25 2.25 0 0 0 2.227 1.932H19.05a2.25 2.25 0 0 0 2.227-1.932l.857-6a2.25 2.25 0 0 0-1.883-2.542m-16.5 0V6A2.25 2.25 0 0 1 6 3.75h3.879a1.5 1.5 0 0 1 1.06.44l2.122 2.12a1.5 1.5 0 0 0 1.06.44H18A2.25 2.25 0 0 1 20.25 9v.776"/>
+                      d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z"/>
             </svg>
             <div class="mr-2">
                 <p class="font-bold text-2xl text-black dark:text-white">
-                    مفاصا حساب
+                    لیست مفاصا حساب های قرارداد {{ $contract->name }}
                 </p>
             </div>
         </div>
         <div class="flex items-center space-x-4 space-x-reverse">
+            <a href="{{ route('recoupments.create', $contract->id) }}" class="page-success-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                     stroke="currentColor" class="w-4 h-4 ml-1">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+                </svg>
+                ایجاد مفاصا حساب جدید
+            </a>
             <a href="{{ route('contracts.show', $contract->id) }}" class="page-warning-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                      stroke="currentColor" class="w-4 h-4 ml-1">
@@ -121,58 +109,87 @@
         </div>
     </div>
 
-    <!-- Errors -->
-    <div class="mt-4">
-        <x-errors/>
-    </div>
+    <!-- Content -->
+    <div class="mt-4 space-y-4">
+        <div class="mt-8 overflow-x-auto rounded-lg">
+            <table class="w-full border-collapse">
+                <thead>
+                <tr class="table-th-tr">
+                    <th scope="col" class="p-4 rounded-tr-lg">
+                        #
+                    </th>
+                    <th scope="col" class="p-4">
+                        تاریخ
+                    </th>
+                    <th scope="col" class="p-4">
+                        شماره
+                    </th>
+                    <th scope="col" class="p-4">
+                        فایل
+                    </th>
+                    <th scope="col" class="p-4 rounded-tl-lg">
+                        <span class="sr-only">اقدامات</span>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($recoupments as $recoupment)
+                    <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
+                        <td class="table-tr-td border-t-0 border-l-0">
+                            {{ $loop->index + 1 }}
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            {{ jdate($recoupment->date)->format('Y/m/d') }}
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            {{ $recoupment->number }}
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            <div class="flex items-center justify-center">
+                                <a href="{{ $recoupment->file }}" class="table-dropdown-copy" download>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                              d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/>
+                                    </svg>
+                                    دانلود فایل
+                                </a>
+                            </div>
+                        </td>
+                        <td class="table-tr-td border-t-0 border-r-0 whitespace-nowrap">
+                            <div class="flex items-center justify-center space-x-4 space-x-reverse">
+                                <a href="{{ route('recoupments.edit',[$contract->id, $recoupment->id]) }}"
+                                   class="table-dropdown-edit">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                              d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"/>
+                                    </svg>
+                                    ویرایش
+                                </a>
 
-    <!-- Form -->
-    @if(is_null($contract->recoupment))
-        <form method="POST" action="{{ route('contracts.recoupment.store', $contract->id) }}" class="mt-4">
-            @csrf
-            @method('PATCH')
-
-            <div class="card">
-                <div class="card-header">
-                    <p class="card-title">
-                        آپلود فایل
-                    </p>
-                </div>
-
-                <div class="mb-4">
-                    <label for="inputRecoupment" class="form-label">انتخاب فایل</label>
-                    <div class="flex rounded-md">
-                        <input type="text" class="input-file" id="inputRecoupment" name="recoupment" value="{{ old('recoupment') }}"
-                               placeholder="برای انتخاب فایل روی دکمه رو به رو کلیک کنید">
-                        <button type="button" class="input-file-btn" id="button-file">
-                            انتخاب فایل
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="flex items-center space-x-4 space-x-reverse">
-                <button type="submit" class="form-submit-btn" id="submit-button">
-                    ثبت مفاصا حساب
-                </button>
-                <a href="{{ route('contracts.show', $contract->id) }}" class="form-cancel-btn">
-                    انصراف
-                </a>
-            </div>
-        </form>
-    @else
-        <div class="mt-4 bg-green-500 p-4 rounded-md shadow">
-            <div class="mb-4">
-                <p class="text-sm font-bold text-white text-center">
-                    فایل مفاصا حساب با موفقیت بارگذاری شده است، برای دانلود روی لینک زیر کلیک کنید.
-                </p>
-            </div>
-            <div class="flex items-center justify-center">
-                <a href="{{ $contract->recoupment }}" class="text-sm font-bold text-indigo-500 underline underline-offset-4"
-                   download>
-                    دانلود فایل مفاصا حساب
-                </a>
-            </div>
+                                <form action="{{ route('recoupments.destroy',[$contract->id, $recoupment->id]) }}" method="POST" class="table-dropdown-delete">
+                                    @csrf
+                                    @method('DELETE')
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                              d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
+                                    </svg>
+                                    <button onclick="return confirm('فایل قرارداد حذف شود ؟')">
+                                        حذف
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
         </div>
-    @endif
+
+        <div class="mt-4">
+            {{ $recoupments->links() }}
+        </div>
+
+    </div>
 </x-layout>

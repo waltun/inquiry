@@ -1062,7 +1062,7 @@
                                                                                         <div
                                                                                             class="mt-4 bg-myBlue-300 p-2 rounded-lg">
                                                                                             <p class="text-center text-lg font-bold text-white">
-                                                                                                {{ number_format($totalPercentPrice) }}
+                                                                                                {{ number_format($part->price) }}
                                                                                                 تومان
                                                                                             </p>
                                                                                         </div>
@@ -1081,7 +1081,7 @@
                                                                                                    class="input-text"
                                                                                                    placeholder="مثال : 1.6"
                                                                                                    value="{{ $product->percent ?? old('percent') }}"
-                                                                                                   onkeyup="showPrice(event, {{ $product->id }}, {{ $totalPercentPrice }})">
+                                                                                                   onkeyup="showPrice(event, {{ $product->id }}, {{ $part->price }})">
                                                                                         </div>
                                                                                         @if($product->old_percent > 0)
                                                                                             <div class="mt-4">
@@ -1103,15 +1103,15 @@
                                                                                             <input type="text"
                                                                                                    class="input-text"
                                                                                                    name="final_price"
-                                                                                                   onkeyup="calculatePercent(event, {{ $product->id }}, {{ $totalPercentPrice }})"
-                                                                                                   value="{{ $product->price ?: $totalPercentPrice * $product->percent }}"
+                                                                                                   onkeyup="calculatePercent(event, {{ $product->id }}, {{ $part->price }})"
+                                                                                                   value="{{ $product->price ?: $part->price * $product->percent }}"
                                                                                                    id="inputFinalPrice{{ $product->id }}">
                                                                                         </div>
                                                                                         <div
                                                                                             class="mt-4">
                                                                                             <p class="text-center text-lg font-bold text-black"
                                                                                                id="finalPrice{{ $product->id }}">
-                                                                                                {{ number_format($totalPercentPrice * $product->percent) }}
+                                                                                                {{ number_format($part->price * $product->percent) }}
                                                                                                 تومان
                                                                                             </p>
                                                                                         </div>

@@ -561,6 +561,7 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::get('/contracts/{contract}', [ContractController::class, 'show'])->name('contracts.show');
         Route::delete('/contracts/{contract}/products/delete-all', [ContractController::class, 'deleteAll'])->name('contracts.products.delete-all');
         Route::post('contracts/{contract}/complete', [ContractController::class, 'complete'])->name('contracts.complete');
+        Route::post('contracts/{contract}/change-user', [ContractController::class, 'changeUser'])->name('contracts.change-user');
 
         Route::get('final-contracts', [FinalContractController::class, 'index'])->name('final-contracts.index');
 
@@ -684,8 +685,7 @@ Route::middleware(['auth', 'web'])->group(function () {
 
         Route::resource('/contracts/{contract}/factors', FactorController::class)->except(['show']);
 
-        Route::get('/contracts/{contract}/recoupment', [RecoupmentController::class, 'index'])->name('contracts.recoupment.index');
-        Route::patch('/contracts/{contract}/recoupment', [RecoupmentController::class, 'store'])->name('contracts.recoupment.store');
+        Route::resource('/contracts/{contract}/recoupments', RecoupmentController::class)->except(['show']);
 
         Route::get('/contracts/{contract}/construction', [ConstructionController::class, 'index'])->name('contracts.construction.index');
         Route::patch('/contracts/{contract}/construction/{product}/update', [ConstructionController::class, 'update'])->name('contracts.construction.update');

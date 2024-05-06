@@ -24,7 +24,7 @@ class ContractFileController extends Controller
     public function store(Request $request, Contract $contract)
     {
         $data = $request->validate([
-            'file' => 'required|file|max:255',
+            'file' => 'required|file',
             'number' => 'nullable|string|max:255',
             'date' => 'required|string|max:255'
         ]);

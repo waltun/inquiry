@@ -12,7 +12,7 @@ class Contract extends Model
 
     protected $fillable = [
         'name', 'marketer', 'number', 'price', 'start_contract_date', 'send_date', 'user_id', 'customer_id',
-        'type', 'old_number', 'recipe', 'complete', 'file', 'recoupment'
+        'type', 'old_number', 'recipe', 'complete', 'seen_at'
     ];
 
     public function products()
@@ -83,5 +83,10 @@ class Contract extends Model
     public function contractContracts()
     {
         return $this->hasMany(ContractContract::class);
+    }
+
+    public function contractRecoupments()
+    {
+        return $this->hasMany(ContractRecoupment::class);
     }
 }

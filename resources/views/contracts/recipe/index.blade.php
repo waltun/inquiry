@@ -107,6 +107,14 @@
         </div>
     </div>
 
+    @if(!is_null($contract->seen_at))
+        <div class="mt-4 flex justify-center p-4 rounded-md bg-sky-100 shadow">
+            <p class="text-sm font-medium text-indigo-600 text-center">
+                دستور ساخت در تاریخ {{ jdate($contract->seen_at)->format('Y/m/d H:i') }} توسط مهندس کشوری دیده شد
+            </p>
+        </div>
+    @endif
+
     <!-- Content -->
     <div class="mt-4 space-y-4">
         <!-- Product List -->

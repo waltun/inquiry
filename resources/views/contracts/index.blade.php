@@ -93,7 +93,7 @@
     <div class="mt-4">
 
         <!-- Search -->
-        <form action="" method="get" class="grid grid-cols-3 gap-4" id="search-form">
+        <form action="" method="get" class="grid grid-cols-4 gap-4" id="search-form">
             <div>
                 <input type="text" name="search" value="{{ request('search') }}" class="input-text"
                        placeholder="جستجوی نام و شماره قرارداد + اینتر ">
@@ -110,11 +110,21 @@
                 </select>
             </div>
             <div>
+                <select name="user_id" class="input-text" onchange="searchForm()">
+                    <option value="">مسئول پرونده</option>
+                    @foreach(\App\Models\User::where('role', 'staff')->orWhere('role', 'admin')->orWhere('role', 'logistics')->get() as $user)
+                        <option value="{{ $user->id }}" {{ request('user_id') == $user->id ? 'selected' : '' }}>
+                            {{ $user->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div>
                 <select name="customer" class="input-text" onchange="searchForm()" id="inputCustomer">
                     <option value="">انتخاب مشتری</option>
                     @foreach($customers as $customer)
                         <option
-                            value="{{ $customer->id }}" {{ request('customer') == $customer->id ? 'selected' : '' }}>
+                                value="{{ $customer->id }}" {{ request('customer') == $customer->id ? 'selected' : '' }}>
                             {{ $customer->name }}
                         </option>
                     @endforeach
@@ -195,7 +205,7 @@
                             $leftPrice = $contractPrice - $paymentPrice;
                             $leftTaxPrice = $contractTaxPrice - $paymentPrice;
                         @endphp
-                        <tr class="table-tb-tr group hover:font-bold hover:text-red-600 {{ $loop->even ? 'bg-sky-100' : '' }}">
+                        <tr class="table-tb-tr group hover:font-bold hover:text-red-600 {{ is_null($contract->seen_at) ? 'bg-red-200' : 'bg-sky-100'   }}">
                             <td class="table-tr-td border-t-0 border-l-0 group-hover:scale-110">
                                 <a href="{{ route('contracts.show', $contract->id) }}">
                                     {{ "CNT-" . $contract->number }}
@@ -302,7 +312,7 @@
                                                                     @endphp
                                                                     <div class="p-2 rounded-lg border border-gray-200">
                                                                         <div
-                                                                            class="space-x-4 space-x-reverse flex items-center">
+                                                                                class="space-x-4 space-x-reverse flex items-center">
                                                                             <p class="text-sm font-medium">
                                                                                 {{ $modell->parent->name }}
                                                                                 - {{ $product->model_custom_name ?? $modell->name }}
@@ -323,7 +333,7 @@
                                                                     @endphp
                                                                     @if(!$products->isEmpty())
                                                                         <div
-                                                                            class="p-2 rounded-lg border border-gray-200">
+                                                                                class="p-2 rounded-lg border border-gray-200">
                                                                             <div class="mb-2">
                                                                                 @switch($type)
                                                                                     @case('setup')
@@ -390,7 +400,7 @@
                                                                                     $part = \App\Models\Part::find($product->part_id);
                                                                                 @endphp
                                                                                 <div
-                                                                                    class="mb-2 flex items-center space-x-4 space-x-reverse">
+                                                                                        class="mb-2 flex items-center space-x-4 space-x-reverse">
                                                                                     <p class="text-sm font-medium">
                                                                                         {{ $part->name  }}
                                                                                     </p>
@@ -441,6 +451,73 @@
                                                     اتمام
                                                 </button>
                                             </form>
+
+                                            @if(auth()->user()->role == 'admin')
+                                                <div x-data="{open:false}">
+                                                    <button class="table-dropdown-copy" @click="open = !open">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                             viewBox="0 0 24 24"
+                                                             stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                  d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/>
+                                                        </svg>
+                                                        تغییر مسئول پرونده
+                                                    </button>
+                                                    <div class="relative z-10" x-show="open" x-cloak>
+                                                        <div class="modal-backdrop"></div>
+                                                        <div class="fixed z-10 inset-0 overflow-y-auto">
+                                                            <div class="modal">
+                                                                <div class="modal-body">
+                                                                    <form method="POST"
+                                                                          class="bg-white dark:bg-slate-800 p-4"
+                                                                          action="{{ route('contracts.change-user', $contract->id) }}">
+                                                                        @csrf
+                                                                        <div class="mb-4 flex justify-between items-center">
+                                                                            <h3 class="text-lg font-bold text-gray-900 dark:text-white">
+                                                                                تغییر مسئول پرونده و انتخاب فرد دیگر
+                                                                            </h3>
+                                                                            <button type="button" @click="open = false">
+                                                                    <span class="modal-close">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                             fill="none"
+                                                                             viewBox="0 0 24 24"
+                                                                             stroke-width="1.5" stroke="currentColor"
+                                                                             class="w-5 h-5 dark:text-white">
+                                                                            <path stroke-linecap="round"
+                                                                                  stroke-linejoin="round"
+                                                                                  d="M6 18L18 6M6 6l12 12"/>
+                                                                        </svg>
+                                                                    </span>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="mt-6">
+                                                                            <div class="mb-4">
+                                                                                <label for="inputUser" class="form-label">
+                                                                                    انتخاب کاربر
+                                                                                </label>
+                                                                                <select name="user_id" id="inputUser"
+                                                                                        class="input-text">
+                                                                                    @foreach(\App\Models\User::where('role', 'staff')->orWhere('role', 'admin')->get() as $user2)
+                                                                                        <option
+                                                                                            value="{{ $user2->id }}">{{ $user2->name }}</option>
+                                                                                    @endforeach
+                                                                                </select>
+                                                                            </div>
+                                                                            <div
+                                                                                class="flex justify-end items-center space-x-4 space-x-reverse">
+                                                                                <button type="submit"
+                                                                                        class="form-submit-btn">
+                                                                                    ثبت
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endif
 
                                             <a href="{{ route('contracts.edit', $contract->id) }}"
                                                class="table-dropdown-edit text-xs">
