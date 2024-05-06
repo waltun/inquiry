@@ -1,4 +1,13 @@
 <x-layout>
+    <x-slot name="js">
+        <script>
+            function filterTask() {
+                let form = document.getElementById('taskForm');
+                form.submit();
+            }
+        </script>
+    </x-slot>
+
     <!-- Breadcrumb -->
     <div class="flex items-center space-x-2 space-x-reverse overflow-x-auto md:overflow-hidden">
         <a href="{{ route('dashboard') }}" class="flex items-center">
@@ -99,6 +108,41 @@
 
             <div x-show="tab === 'sent-tasks'"
                  class="rounded-b-lg px-4 py-6" x-cloak>
+                <form method="get" action="" class="flex justify-end mb-4" id="taskForm">
+                    <div class="grid grid-cols-3 gap-4">
+                        <div>
+                            <select name="receiver_id" id="inputReciever" class="input-text" onchange="filterTask()">
+                                <option value="">انتخاب کاربر</option>
+                                @foreach($users as $user)
+                                    <option value="{{ $user->id }}" {{ request('receiver_id') == $user->id ? 'selected' : '' }}>
+                                        {{ $user->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div>
+                            <select name="level" id="inputLevel" class="input-text" onchange="filterTask()">
+                                <option value="">انتخاب سطح اهمیت</option>
+                                <option value="high" {{ request('level') == 'high' ? 'selected' : '' }}>
+                                    اهمیت بالا
+                                </option>
+                                <option value="medium" {{ request('level') == 'medium' ? 'selected' : '' }}>
+                                    اهمیت متوسط
+                                </option>
+                                <option value="low" {{ request('level') == 'low' ? 'selected' : '' }}>
+                                    اهمیت کم
+                                </option>
+                            </select>
+                        </div>
+                        @if(request()->has('receiver_id') || request()->has('level'))
+                            <div>
+                                <a href="{{ route('tasks.index') }}" class="text-indigo-500 underline underline-offset-4 text-xs">
+                                    پاکسازی فیلتر
+                                </a>
+                            </div>
+                        @endif
+                    </div>
+                </form>
                 <div class="overflow-x-auto rounded-lg">
                     @if(!$sentTasks->isEmpty())
                         <table class="md:w-full border-collapse">
@@ -164,7 +208,7 @@
                                     <td class="table-tr-td border-t-0 border-x-0">
                                         @if(!is_null($sentTask->file))
                                             <img src="{{ $sentTask->file }}" alt="" class="w-10 h-10 rounded-md mx-auto border border-gray-200 cursor-pointer"
-                                                onclick="this.requestFullscreen()">
+                                                 onclick="this.requestFullscreen()">
                                         @else
                                             -
                                         @endif
@@ -177,8 +221,8 @@
                                             </span>
                                             @endif
                                             <div
-                                                class="flex items-center justify-center space-x-4 space-x-reverse relative"
-                                                x-data="{open:false}">
+                                                    class="flex items-center justify-center space-x-4 space-x-reverse relative"
+                                                    x-data="{open:false}">
                                                 <button @click="open = !open">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                          viewBox="0 0 24 24"
@@ -348,8 +392,8 @@
                                                 </span>
                                             @endif
                                             <div
-                                                class="flex items-center justify-center space-x-4 space-x-reverse relative"
-                                                x-data="{open:false}">
+                                                    class="flex items-center justify-center space-x-4 space-x-reverse relative"
+                                                    x-data="{open:false}">
                                                 <button @click="open = !open">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                          viewBox="0 0 24 24"

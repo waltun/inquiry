@@ -40,12 +40,13 @@ class FactorController extends Controller
 
         $year = jdate($contract->created_at)->getYear();
         $folder = 'CNT-' . $contract->number;
-        $path = '/files/contracts/' . $year . '/' . $folder . '/Financial/Invoice/';
+        $path = '../public_html/files/contracts/' . $year . '/' . $folder . '/Financial/Invoice/';
+        $savePath = '/files/contracts/' . $year . '/' . $folder . '/Financial/Invoice/';
 
         $fileNewName = 'CNT-' . $contract->number . '-Invoice-' . $date . '-(' . rand(1, 99) . ')' . '.' . $request->file->extension();
-        $request->file->move(public_path($path), $fileNewName);
+        $request->file->move($path, $fileNewName);
 
-        $finalFile = $path . $fileNewName;
+        $finalFile = $savePath . $fileNewName;
 
         $data['file'] = $finalFile;
 

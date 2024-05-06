@@ -38,12 +38,13 @@ class DocumentController extends Controller
 
         $year = jdate($contract->created_at)->getYear();
         $folder = 'CNT-' . $contract->number;
-        $path = '/files/contracts/' . $year . '/' . $folder . '/Factory/Technical-Documents/';
+        $path = '../public_html/files/contracts/' . $year . '/' . $folder . '/Factory/Technical-Documents/';
+        $savePath = '/files/contracts/' . $year . '/' . $folder . '/Factory/Technical-Documents/';
 
         $fileNewName = 'CNT-' . $contract->number . '-' . $data['name'] . '-' . $date . '-(' . rand(1, 99) . ')' . '.' . $request->file->extension();
-        $request->file->move(public_path($path), $fileNewName);
+        $request->file->move($path, $fileNewName);
 
-        $finalFile = $path . $fileNewName;
+        $finalFile = $savePath . $fileNewName;
 
         $data['file'] = $finalFile;
 

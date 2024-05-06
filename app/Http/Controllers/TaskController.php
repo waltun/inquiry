@@ -21,9 +21,22 @@ class TaskController extends Controller
     public function index()
     {
         $receivedTasks = Task::where('receiver_id', auth()->user()->id)->latest()->get();
-        $sentTasks = auth()->user()->tasks()->latest()->get();
 
-        return view('tasks.index', compact('receivedTasks', 'sentTasks'));
+        $sentTasks = Task::query();
+
+        if (!is_null(request('level')) && request()->has('level')) {
+            $sentTasks->where('level', request('level'));
+        }
+
+        if (!is_null(request('receiver_id')) && request()->has('receiver_id')) {
+            $sentTasks->where('receiver_id', request('receiver_id'));
+        }
+
+        $sentTasks = $sentTasks->where('user_id', auth()->user()->id)->get();
+
+        $users = User::where('role', 'staff')->orWhere('role', 'admin')->get()->except(auth()->user()->id);
+
+        return view('tasks.index', compact('receivedTasks', 'sentTasks', 'users'));
     }
 
     public function sent()

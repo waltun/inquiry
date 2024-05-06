@@ -37,12 +37,13 @@ class RecoupmentController extends Controller
 
         $year = jdate($contract->created_at)->getYear();
         $folder = 'CNT-' . $contract->number;
-        $path = '/files/contracts/' . $year . '/' . $folder . '/Financial/Recoupment/';
+        $path = '../public_html/files/contracts/' . $year . '/' . $folder . '/Financial/Recoupment/';
+        $savePath = '/files/contracts/' . $year . '/' . $folder . '/Financial/Recoupment/';
 
         $fileNewName = 'CNT-' . $contract->number . '-Recoupment-' . $date . '-(' . rand(1, 99) . ')' . '.' . $request->file->extension();
-        $request->file->move(public_path($path), $fileNewName);
+        $request->file->move($path, $fileNewName);
 
-        $finalFile = $path . $fileNewName;
+        $finalFile = $savePath . $fileNewName;
 
         $data['file'] = $finalFile;
 
