@@ -70,13 +70,14 @@ class TaskController extends Controller
             $data['date'] = (new Jalalian($explodeDate[0], $explodeDate[1], $explodeDate[2]))->toCarbon()->toDateTimeString();
         }
 
-        if (!is_null($data['file'])) {
-            $path = '/files/tasks/';
+        if ($data['file']) {
+            $path = '../public_html/files/tasks/';
+            $savePath = '/files/tasks/';
 
             $fileNewName = 'Task-' . $receiver->phone . '-(' . rand(1, 99) . ')' . '.' . $request->file->extension();
-            $request->file->move(public_path($path), $fileNewName);
+            $request->file->move($path, $fileNewName);
 
-            $finalFile = $path . $fileNewName;
+            $finalFile = $savePath . $fileNewName;
 
             $data['file'] = $finalFile;
         }

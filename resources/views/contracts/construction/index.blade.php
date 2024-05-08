@@ -168,7 +168,7 @@
                                     {{ $product->quantity }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-r-0">
-                                    @if($product->status == 'end')
+                                    @if(!is_null($product->end_at))
                                         <div class="flex items-center justify-center {{ $product->status == 'end' ? 'text-green-600 font-bold' : '' }}">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                  stroke-width="2" stroke="currentColor" class="w-4 h-4 ml-1">
@@ -347,7 +347,7 @@
                                     {{ $product->quantity }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
-                                    @if($product->status == 'end')
+                                    @if(!is_null($product->end_at))
                                         <div class="flex items-center justify-center {{ $product->status == 'end' ? 'text-green-600 font-bold' : '' }}">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                  stroke-width="2" stroke="currentColor" class="w-4 h-4 ml-1">

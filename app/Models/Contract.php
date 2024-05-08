@@ -89,4 +89,9 @@ class Contract extends Model
     {
         return $this->hasMany(ContractRecoupment::class);
     }
+
+    public function contractLoadings()
+    {
+        return $this->hasMany(ContractLoading::class);
+    }
 }

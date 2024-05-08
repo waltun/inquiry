@@ -23,6 +23,7 @@ use App\Http\Controllers\Contract\ExitController;
 use App\Http\Controllers\Contract\FactorController;
 use App\Http\Controllers\Contract\FinalContractController;
 use App\Http\Controllers\Contract\GuaranteeController;
+use App\Http\Controllers\Contract\LoadingController;
 use App\Http\Controllers\Contract\MarketingController;
 use App\Http\Controllers\Contract\PackController;
 use App\Http\Controllers\Contract\PackingController;
@@ -671,6 +672,8 @@ Route::middleware(['auth', 'web'])->group(function () {
             'destroy' => 'contracts.packs.products.destroy',
             'show' => 'contracts.packs.products.show',
         ]);
+
+        Route::resource('contracts/{contract}/loadings', LoadingController::class)->except(['show']);
 
         Route::get('/client-invoices', [ClientInvoiceController::class, 'index'])->name('client-invoices.index');
 
