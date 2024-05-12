@@ -3,19 +3,6 @@
         <script src="{{ asset('plugins/jquery.min.js') }}"></script>
         <script src="{{ asset('plugins/date-picker/persianDatepicker.min.js') }}"></script>
         <script>
-            function showPrice(event) {
-                let value = event.target.value;
-                let priceSection = document.getElementById('priceSection');
-                priceSection.innerText = Intl.NumberFormat('fa-IR').format(value) + ' تومان ';
-            }
-
-            function showTaxPrice(event) {
-                let value = event.target.value;
-                let taxPriceSection = document.getElementById('taxPriceSection');
-                taxPriceSection.innerText = Intl.NumberFormat('fa-IR').format(value) + ' تومان ';
-            }
-        </script>
-        <script>
             $("#inputDate").persianDatepicker({
                 formatDate: "YYYY-MM-DD",
             });
@@ -96,7 +83,7 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p">
-                    مدیریت فاکتور های رسمی {{ $contract->name }}
+                    مدیریت مفاصا حساب های قرارداد {{ $contract->name }}
                 </p>
             </div>
         </a>
@@ -115,7 +102,7 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p-active">
-                    ایجاد فاکتور رسمی جدید
+                    ایجاد مفاصا حساب جدید
                 </p>
             </div>
         </div>
@@ -126,8 +113,16 @@
         <x-errors/>
     </div>
 
+    <div class="flex items-center justify-center mt-4">
+        <div class="bg-yellow-300 p-4 rounded-md shadow">
+            <p class="text-sm font-medium text-black">
+                شماره قرارداد : CNT-{{ $contract->number }}
+            </p>
+        </div>
+    </div>
+
     <!-- Form -->
-    <form method="POST" action="{{ route('factors.update', [$contract->id, $factor->id]) }}" class="mt-4 grid grid-cols-2 gap-4" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('recoupments.update', [$contract->id, $recoupment->id]) }}" class="mt-4 grid grid-cols-2 gap-4" enctype="multipart/form-data">
         @csrf
         @method('PATCH')
 
@@ -137,43 +132,19 @@
                     مشخصات کلی
                 </p>
             </div>
-
             <div class="mb-4">
                 <label for="inputDate" class="form-label">
-                    تاریخ فاکتور
+                    تاریخ
                 </label>
                 <input type="text" id="inputDate" name="date" class="input-text" value="{{ old('date', $date) }}"
                        placeholder="برای انتخاب تاریخ کلیک کیند">
             </div>
-
             <div class="mb-4">
                 <label for="inputNumber" class="form-label">
-                    شماره فاکتور
+                    شماره مفاصا حساب
                 </label>
-                <input type="text" id="inputNumber" name="number" class="input-text" value="{{ old('number', $factor->number) }}"
-                       placeholder="مثلا : 14020202">
-            </div>
-
-            <div class="mb-4">
-                <label for="inputPrice" class="form-label">
-                    مبلغ بدون ارزش افزوده (تومان)
-                    <span class="mr-4 text-sm font-medium" id="priceSection">
-                        {{ number_format($factor->price) }} تومان
-                    </span>
-                </label>
-                <input type="text" id="inputPrice" name="price" class="input-text" value="{{ old('price', $factor->price) }}"
-                       placeholder="مثلا : 10000000" onkeyup="showPrice(event)">
-            </div>
-
-            <div class="mb-4">
-                <label for="inputTaxPrice" class="form-label">
-                    مبلغ با ارزش افزوده (تومان)
-                    <span class="mr-4 text-sm font-medium" id="taxPriceSection">
-                        {{ number_format($factor->tax_price) }} تومان
-                    </span>
-                </label>
-                <input type="text" id="inputTaxPrice" name="tax_price" class="input-text" value="{{ old('tax_price', $factor->tax_price) }}"
-                       placeholder="مثلا : 10000000" onkeyup="showTaxPrice(event)">
+                <input type="text" id="inputNumber" name="number" class="input-text" value="{{ old('number', $recoupment->number) }}"
+                       placeholder="شماره مفاصا دلخواه را در صورت لزوم وارد کنید">
             </div>
         </div>
 
@@ -186,15 +157,16 @@
 
             <div class="mb-4">
                 <label for="inputFile" class="form-label">انتخاب فایل</label>
-                <input type="file" class="input-file" id="inputFile" name="file" value="{{ old('file', $factor->file) }}">
+                <input type="file" class="input-file" id="inputFile" name="file" value="{{ old('file', $recoupment->file) }}">
             </div>
+
         </div>
 
         <div class="flex items-center space-x-4 space-x-reverse">
             <button type="submit" class="form-edit-btn" id="submit-button">
-                بروزرسانی فاکتور رسمی
+                بروزرسانی مفاصا حساب
             </button>
-            <a href="{{ route('factors.index', $contract->id) }}" class="form-cancel-btn">
+            <a href="{{ route('recoupments.index', $contract->id) }}" class="form-cancel-btn">
                 انصراف
             </a>
         </div>

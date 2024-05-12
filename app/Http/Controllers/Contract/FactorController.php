@@ -38,17 +38,7 @@ class FactorController extends Controller
             $data['date'] = (new Jalalian($explodeDate[0], $explodeDate[1], $explodeDate[2]))->toCarbon()->toDateTimeString();
         }
 
-        $year = jdate($contract->created_at)->getYear();
-        $folder = 'CNT-' . $contract->number;
-        $path = '../public_html/files/contracts/' . $year . '/' . $folder . '/Financial/Invoice/';
-        $savePath = '/files/contracts/' . $year . '/' . $folder . '/Financial/Invoice/';
-
-        $fileNewName = 'CNT-' . $contract->number . '-Invoice-' . $date . '-(' . rand(1, 99) . ')' . '.' . $request->file->extension();
-        $request->file->move($path, $fileNewName);
-
-        $finalFile = $savePath . $fileNewName;
-
-        $data['file'] = $finalFile;
+        $data = $this->uploadFile($contract, $date, $request, $data);
 
         $contract->contractFactors()->create($data);
 
@@ -72,14 +62,23 @@ class FactorController extends Controller
         $data = $request->validate([
             'price' => 'required|numeric',
             'tax_price' => 'required|numeric',
-            'file' => 'required',
+            'file' => 'nullable|file',
             'number' => 'nullable|numeric',
             'date' => 'nullable|string|max:255',
         ]);
 
+        $date = $data['date'];
+
         if (!is_null($data['date'])) {
             $explodeDate = explode('-', $data['date']);
             $data['date'] = (new Jalalian($explodeDate[0], $explodeDate[1], $explodeDate[2]))->toCarbon()->toDateTimeString();
+        }
+
+        if (isset($data['file']) && !is_null($data['file'])) {
+            $file = '../public_html' . $factor->file;
+            unlink($file);
+
+            $data = $this->uploadFile($contract, $date, $request, $data);
         }
 
         $factor->update($data);
@@ -91,10 +90,39 @@ class FactorController extends Controller
 
     public function destroy(Contract $contract, ContractFactor $factor)
     {
+        $file = '../public_html' . $factor->file;
+
+        if (is_file($file)) {
+            unlink($file);
+        }
+
         $factor->delete();
 
         alert()->success('حذف موفق', 'فاکتور رسمی با موفقیت حذف شد شد');
 
         return back();
+    }
+
+    /**
+     * @param Contract $contract
+     * @param mixed $date
+     * @param Request $request
+     * @param array $data
+     * @return array
+     */
+    public function uploadFile(Contract $contract, mixed $date, Request $request, array $data): array
+    {
+        $year = jdate($contract->created_at)->getYear();
+        $folder = 'CNT-' . $contract->number;
+        $path = '../public_html/files/contracts/' . $year . '/' . $folder . '/Financial/Invoice/';
+        $savePath = '/files/contracts/' . $year . '/' . $folder . '/Financial/Invoice/';
+
+        $fileNewName = 'CNT-' . $contract->number . '-Invoice-' . $date . '-(' . rand(1, 99) . ')' . '.' . $request->file->extension();
+        $request->file->move($path, $fileNewName);
+
+        $finalFile = $savePath . $fileNewName;
+
+        $data['file'] = $finalFile;
+        return $data;
     }
 }

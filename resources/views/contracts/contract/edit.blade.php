@@ -3,21 +3,6 @@
         <script src="{{ asset('plugins/jquery.min.js') }}"></script>
         <script src="{{ asset('plugins/date-picker/persianDatepicker.min.js') }}"></script>
         <script>
-            document.addEventListener("DOMContentLoaded", function () {
-
-                document.getElementById('button-file').addEventListener('click', (event) => {
-                    event.preventDefault();
-
-                    window.open('/file-manager/fm-button', 'fm', 'width=1200,height=700');
-                });
-            });
-
-            // set file link
-            function fmSetLink($url) {
-                document.getElementById('inputFile').value = $url;
-            }
-        </script>
-        <script>
             $("#inputDate").persianDatepicker({
                 formatDate: "YYYY-MM-DD",
             });
@@ -98,7 +83,7 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p">
-                    مدیریت مدارک تایید شده {{ $contract->name }}
+                    مدیریت فایل های قرارداد {{ $contract->name }}
                 </p>
             </div>
         </a>
@@ -117,7 +102,7 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p-active">
-                    ویرایش مدرک تایید شده {{ $document->name }}
+                    ویرایش فایل قرارداد
                 </p>
             </div>
         </div>
@@ -137,7 +122,7 @@
     </div>
 
     <!-- Form -->
-    <form method="POST" action="{{ route('documents.update', [$contract->id, $document->id]) }}" class="mt-4 grid grid-cols-2 gap-4">
+    <form method="POST" action="{{ route('contract-files.update', [$contract->id, $contract_file->id]) }}" class="mt-4 grid grid-cols-2 gap-4" enctype="multipart/form-data">
         @csrf
         @method('PATCH')
 
@@ -155,11 +140,11 @@
                        placeholder="برای انتخاب تاریخ کلیک کیند">
             </div>
             <div class="mb-4">
-                <label for="inputName" class="form-label">
-                    نام / نوع فایل
+                <label for="inputNumber" class="form-label">
+                    شماره قرارداد
                 </label>
-                <input type="text" id="inputName" name="name" class="input-text" value="{{ old('name', $document->name) }}"
-                       placeholder="نام یا نوع فایل را وارد کنید">
+                <input type="text" id="inputNumber" name="number" class="input-text" value="{{ old('number', $contract_file->number) }}"
+                       placeholder="شماره قرارداد دلخواه را در صورت لزوم وارد کنید">
             </div>
         </div>
 
@@ -172,22 +157,16 @@
 
             <div class="mb-4">
                 <label for="inputFile" class="form-label">انتخاب فایل</label>
-                <div class="flex rounded-md">
-                    <input type="text" class="input-file" id="inputFile" name="file" value="{{ old('file', $document->file) }}"
-                           placeholder="برای انتخاب فایل روی دکمه رو به رو کلیک کنید">
-                    <button type="button" class="input-file-btn" id="button-file">
-                        انتخاب فایل
-                    </button>
-                </div>
+                <input type="file" class="input-file" id="inputFile" name="file" value="{{ old('file', $contract_file->file) }}">
             </div>
 
         </div>
 
         <div class="flex items-center space-x-4 space-x-reverse">
             <button type="submit" class="form-edit-btn" id="submit-button">
-                بروزرسانی مدرک تایید شده
+                بروزرسانی فایل قرارداد
             </button>
-            <a href="{{ route('documents.index', $contract->id) }}" class="form-cancel-btn">
+            <a href="{{ route('contract-files.index', $contract->id) }}" class="form-cancel-btn">
                 انصراف
             </a>
         </div>

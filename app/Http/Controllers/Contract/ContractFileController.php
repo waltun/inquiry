@@ -36,6 +36,75 @@ class ContractFileController extends Controller
             $data['date'] = (new Jalalian($explodeDate[0], $explodeDate[1], $explodeDate[2]))->toCarbon()->toDateTimeString();
         }
 
+        $data = $this->uploadFile($contract, $date, $request, $data);
+
+        $contract->contractContracts()->create($data);
+
+        alert()->success('ثبت موفق', 'فایل قرارداد با موفقیت بارگذاری شد');
+
+        return redirect()->route('contract-files.index', $contract->id);
+    }
+
+    public function edit(Contract $contract, ContractContract $contract_file)
+    {
+        $day = jdate($contract_file->date)->getDay();
+        $month = jdate($contract_file->date)->getMonth();
+        $year = jdate($contract_file->date)->getYear();
+        $date = $year . '-' . $month . '-' . $day;
+
+        return view('contracts.contract.edit', compact('contract', 'contract_file', 'date'));
+    }
+
+    public function update(Request $request, Contract $contract, ContractContract $contract_file)
+    {
+        $data = $request->validate([
+            'file' => 'nullable|file',
+            'number' => 'nullable|string|max:255',
+            'date' => 'required|string|max:255'
+        ]);
+
+        $date = $data['date'];
+
+        if (!is_null($data['date'])) {
+            $explodeDate = explode('-', $data['date']);
+            $data['date'] = (new Jalalian($explodeDate[0], $explodeDate[1], $explodeDate[2]))->toCarbon()->toDateTimeString();
+        }
+
+        if (isset($data['file']) && !is_null($data['file'])) {
+            $file = '../public_html' . $contract_file->file;
+            unlink($file);
+
+            $data = $this->uploadFile($contract, $date, $request, $data);
+        }
+
+        $contract_file->update($data);
+
+        alert()->success('بروزرسانی موفق', 'فایل قرارداد با موفقیت بروزرسانی شد');
+
+        return redirect()->route('contract-files.index', $contract->id);
+    }
+
+    public function destroy(Contract $contract, ContractContract $contract_file)
+    {
+        $file = '../public_html' . $contract_file->file;
+        unlink($file);
+
+        $contract_file->delete();
+
+        alert()->success('حذف موفق', 'فایل قرارداد با موفقیت حذف شد');
+
+        return back();
+    }
+
+    /**
+     * @param Contract $contract
+     * @param mixed $date
+     * @param Request $request
+     * @param array $data
+     * @return array
+     */
+    public function uploadFile(Contract $contract, mixed $date, Request $request, array $data): array
+    {
         $year = jdate($contract->created_at)->getYear();
         $folder = 'CNT-' . $contract->number;
         $path = '../public_html/files/contracts/' . $year . '/' . $folder . '/Financial/Contract(PO)/';
@@ -47,11 +116,6 @@ class ContractFileController extends Controller
         $finalFile = $savePath . $fileNewName;
 
         $data['file'] = $finalFile;
-
-        $contract->contractContracts()->create($data);
-
-        alert()->success('ثبت موفق', 'فایل قرارداد با موفقیت بارگذاری شد');
-
-        return redirect()->route('contract-files.index', $contract->id);
+        return $data;
     }
 }

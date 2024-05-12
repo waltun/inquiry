@@ -3,21 +3,6 @@
         <script src="{{ asset('plugins/jquery.min.js') }}"></script>
         <script src="{{ asset('plugins/date-picker/persianDatepicker.min.js') }}"></script>
         <script>
-            document.addEventListener("DOMContentLoaded", function () {
-
-                document.getElementById('button-file').addEventListener('click', (event) => {
-                    event.preventDefault();
-
-                    window.open('/file-manager/fm-button', 'fm', 'width=1200,height=700');
-                });
-            });
-
-            // set file link
-            function fmSetLink($url) {
-                document.getElementById('inputFile').value = $url;
-            }
-        </script>
-        <script>
             $("#inputDate").persianDatepicker({
                 formatDate: "YYYY-MM-DD",
             });
@@ -117,7 +102,7 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p-active">
-                    ویرایش مدرک تایید شده {{ $document->name }}
+                    ایجاد مدرک تایید شده جدید
                 </p>
             </div>
         </div>
@@ -137,7 +122,7 @@
     </div>
 
     <!-- Form -->
-    <form method="POST" action="{{ route('documents.update', [$contract->id, $document->id]) }}" class="mt-4 grid grid-cols-2 gap-4">
+    <form method="POST" action="{{ route('documents.update', [$contract->id, $document->id]) }}" class="mt-4 grid grid-cols-2 gap-4" enctype="multipart/form-data">
         @csrf
         @method('PATCH')
 
@@ -172,13 +157,7 @@
 
             <div class="mb-4">
                 <label for="inputFile" class="form-label">انتخاب فایل</label>
-                <div class="flex rounded-md">
-                    <input type="text" class="input-file" id="inputFile" name="file" value="{{ old('file', $document->file) }}"
-                           placeholder="برای انتخاب فایل روی دکمه رو به رو کلیک کنید">
-                    <button type="button" class="input-file-btn" id="button-file">
-                        انتخاب فایل
-                    </button>
-                </div>
+                <input type="file" class="input-file" id="inputFile" name="file" value="{{ old('file', $document->file) }}">
             </div>
 
         </div>
