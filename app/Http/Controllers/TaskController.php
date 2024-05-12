@@ -70,7 +70,7 @@ class TaskController extends Controller
             $data['date'] = (new Jalalian($explodeDate[0], $explodeDate[1], $explodeDate[2]))->toCarbon()->toDateTimeString();
         }
 
-        if ($data['file']) {
+        if (isset($request['file'])) {
             $path = '../public_html/files/tasks/';
             $savePath = '/files/tasks/';
 

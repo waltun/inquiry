@@ -295,7 +295,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($product->spareAmounts()->orderBy('sort', 'ASC')->get() as $amount)
+                        @foreach($product->spareAmounts()->orderByRaw('CONVERT(sort, SIGNED) asc')->get() as $amount)
                             @php
                                 $part = \App\Models\Part::find($amount->part_id);
                                 $totalPrice += ($amount->price * $amount->value);

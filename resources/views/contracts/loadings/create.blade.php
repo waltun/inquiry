@@ -170,7 +170,7 @@
 
         <div class="flex items-center space-x-4 space-x-reverse">
             <button type="submit" class="form-submit-btn" id="submit-button">
-                ثبت مفاصا حساب
+                ثبت
             </button>
             <a href="{{ route('loadings.index', $contract->id) }}" class="form-cancel-btn">
                 انصراف

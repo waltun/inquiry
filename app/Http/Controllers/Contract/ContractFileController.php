@@ -12,7 +12,7 @@ class ContractFileController extends Controller
 {
     public function index(Contract $contract)
     {
-        $files = ContractContract::latest()->paginate(20);
+        $files = $contract->contractContracts()->latest()->paginate(20);
         return view('contracts.contract.index', compact('contract', 'files'));
     }
 

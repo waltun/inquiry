@@ -12,7 +12,7 @@ class LoadingController extends Controller
 {
     public function index(Contract $contract)
     {
-        $loadings = ContractLoading::latest()->paginate(20);
+        $loadings = $contract->contractLoadings()->latest()->paginate(20);
         return view('contracts.loadings.index', compact('loadings', 'contract'));
     }
 
