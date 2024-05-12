@@ -28,6 +28,7 @@ use App\Http\Controllers\Contract\MarketingController;
 use App\Http\Controllers\Contract\PackController;
 use App\Http\Controllers\Contract\PackingController;
 use App\Http\Controllers\Contract\PackProductController;
+use App\Http\Controllers\Contract\PictureController;
 use App\Http\Controllers\Contract\RecipeController;
 use App\Http\Controllers\Contract\ProductController as ContractProduct;
 use App\Http\Controllers\Contract\CustomerController as ContractCustomerController;
@@ -674,6 +675,8 @@ Route::middleware(['auth', 'web'])->group(function () {
         ]);
 
         Route::resource('contracts/{contract}/loadings', LoadingController::class)->except(['show']);
+
+        Route::resource('contracts/{contract}/pictures', PictureController::class)->except(['show']);
 
         Route::get('/client-invoices', [ClientInvoiceController::class, 'index'])->name('client-invoices.index');
 

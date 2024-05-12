@@ -183,6 +183,18 @@
                     <option value="return" {{ old('type') == 'return' ? 'selected' : '' }}>
                         عودت
                     </option>
+                    <option value="return" {{ old('type') == 'discount' ? 'selected' : '' }}>
+                        تخفیف (اضافه مانده)
+                    </option>
+                    <option value="return" {{ old('type') == 'recoupment' ? 'selected' : '' }}>
+                        مفاصا حساب
+                    </option>
+                    <option value="return" {{ old('type') == 'tax' ? 'selected' : '' }}>
+                        مالیات
+                    </option>
+                    <option value="return" {{ old('type') == 'work' ? 'selected' : '' }}>
+                        حسن انجام کار
+                    </option>
                 </select>
             </div>
 

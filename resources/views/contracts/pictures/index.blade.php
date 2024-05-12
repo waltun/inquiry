@@ -1,30 +1,4 @@
 <x-layout>
-    <x-slot name="js">
-        <script src="{{ asset('plugins/jquery.min.js') }}"></script>
-        <script>
-            function destroyPayment(id) {
-                if (confirm('پرداختی حذف شود ؟')) {
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
-
-                    $.ajax({
-                        type: 'POST',
-                        url: '{{ route('contracts.payments.destroy') }}',
-                        data: {
-                            id: id
-                        },
-                        success: function () {
-                            location.reload();
-                        }
-                    });
-                }
-            }
-        </script>
-    </x-slot>
-
     <!-- Breadcrumb -->
     <div class="flex items-center space-x-2 space-x-reverse whitespace-nowrap">
         <a href="{{ route('dashboard') }}" class="flex items-center">
@@ -96,7 +70,7 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p-active">
-                    مدیریت پرداخت های قرارداد {{ $contract->name }}
+                    مدیریت تصاویر ساخت {{ $contract->name }}
                 </p>
             </div>
         </div>
@@ -112,18 +86,17 @@
             </svg>
             <div class="mr-2">
                 <p class="font-bold text-2xl text-black dark:text-white">
-                    لیست پرداخت های قرارداد {{ $contract->name }} - {{ $contract->customer->name }} -
-                    CNT-{{ $contract->number }}
+                    لیست تصاویر ساخت {{ $contract->name }}
                 </p>
             </div>
         </div>
         <div class="flex items-center space-x-4 space-x-reverse">
-            <a href="{{ route('contracts.payments.create', $contract->id) }}" class="page-success-btn">
+            <a href="{{ route('pictures.create', $contract->id) }}" class="page-success-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                      stroke="currentColor" class="w-4 h-4 ml-1">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
                 </svg>
-                ایجاد پرداخت جدید
+                ایجاد تصویر ساخت جدید
             </a>
             <a href="{{ route('contracts.show', $contract->id) }}" class="page-warning-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -138,9 +111,7 @@
 
     <!-- Content -->
     <div class="mt-4 space-y-4">
-        <form method="POST" action="{{ route('contracts.payments.confirm', $contract->id) }}"
-              class="mt-8 overflow-x-auto rounded-lg">
-            @csrf
+        <div class="mt-8 overflow-x-auto rounded-lg">
             <table class="w-full border-collapse">
                 <thead>
                 <tr class="table-th-tr">
@@ -148,22 +119,13 @@
                         #
                     </th>
                     <th scope="col" class="p-4">
-                        تاریخ وصول
+                        تاریخ
                     </th>
                     <th scope="col" class="p-4">
-                        شرح
+                        عنوان
                     </th>
                     <th scope="col" class="p-4">
-                        مبلغ (تومان)
-                    </th>
-                    <th scope="col" class="p-4">
-                        بابت
-                    </th>
-                    <th scope="col" class="p-4">
-                        حساب واریزی
-                    </th>
-                    <th scope="col" class="p-4">
-                        تاییدیه
+                        فایل
                     </th>
                     <th scope="col" class="p-4 rounded-tl-lg">
                         <span class="sr-only">اقدامات</span>
@@ -171,90 +133,31 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($contract->payments as $payment)
-                    <tr class="table-tb-tr group whitespace-normal {{ $loop->even ? 'bg-sky-100' : '' }}">
+                @foreach($pictures as $picture)
+                    <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
                         <td class="table-tr-td border-t-0 border-l-0">
                             {{ $loop->index + 1 }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            @if(!is_null($payment->date))
-                                {{ jdate($payment->date)->format('Y/m/d') }}
-                            @else
-                                -
-                            @endif
+                            {{ jdate($picture->date)->format('Y/m/d') }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $payment->text }}
+                            {{ $picture->title ?? '-' }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             <div class="flex items-center justify-center">
-                                {{ number_format($payment->price) }}
-                                @if($payment->type == 'return')
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                         stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-red-500">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6"/>
+                                <a href="{{ $picture->file }}" class="table-dropdown-copy" download>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                              d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/>
                                     </svg>
-                                @endif
+                                    دانلود فایل
+                                </a>
                             </div>
-                        </td>
-                        <td class="table-tr-td border-t-0 border-x-0">
-                            @switch($payment->type)
-                                @case('prepayment')
-                                    پیش پرداخت
-                                    @break
-                                @case('interim_payment')
-                                    میان پرداخت
-                                    @break
-                                @case('clearing')
-                                    تسویه
-                                    @break
-                                @case('discount')
-                                    تخفیف (اضافه مانده)
-                                    @break
-                                @case('recoupment')
-                                    مفاصا حساب
-                                    @break
-                                @case('tax')
-                                    مالیات
-                                    @break
-                                @case('work')
-                                    حسن انجام کار
-                                    @break
-                                @case('return')
-                                    <span class="bg-red-500 text-white rounded-lg py-1 px-4">
-                                        عودت
-                                    </span>
-                                    @break
-                            @endswitch
-                        </td>
-                        <td class="table-tr-td border-t-0 border-x-0">
-                            @if(!is_null($payment->account_id) && $payment->account_id != '0')
-                                {{ $payment->account->bank }} | {{ $payment->account->branch }}
-                                | {{ $payment->account->account_number }}
-                            @elseif($payment->account_id == '0')
-                                سایر
-                            @else
-                                -
-                            @endif
-                        </td>
-                        <td class="table-tr-td border-t-0 border-x-0">
-                            @if(auth()->user()->role == 'admin')
-                                <input type="hidden" value="{{ $payment->id }}" name="payments[]">
-                                <select name="confirms[]" id="inputConfirm{{ $payment->id }}" class="input-text">
-                                    <option value="1" {{ $payment->confirm ? 'selected' : '' }}>
-                                        تایید
-                                    </option>
-                                    <option value="0" {{ !$payment->confirm ? 'selected' : '' }}>
-                                        عدم تایید
-                                    </option>
-                                </select>
-                            @else
-                                {{ $payment->confirm ? 'تایید شده' : 'تایید نشده' }}
-                            @endif
                         </td>
                         <td class="table-tr-td border-t-0 border-r-0 whitespace-nowrap">
                             <div class="flex items-center justify-center space-x-4 space-x-reverse">
-                                <a href="{{ route('contracts.payments.edit',$payment->id) }}"
+                                <a href="{{ route('pictures.edit',[$contract->id, $picture->id]) }}"
                                    class="table-dropdown-edit">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                          stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
@@ -264,111 +167,29 @@
                                     ویرایش
                                 </a>
 
-                                <button type="button" onclick="destroyPayment({{ $payment->id }})"
-                                        class="table-delete-btn">
+                                <form action="{{ route('pictures.destroy',[$contract->id, $picture->id]) }}" method="POST" class="table-dropdown-delete">
+                                    @csrf
+                                    @method('DELETE')
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                          stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                               d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
                                     </svg>
-                                    حذف
-                                </button>
+                                    <button onclick="return confirm('تصویر ساخت حذف شود ؟')">
+                                        حذف
+                                    </button>
+                                </form>
                             </div>
                         </td>
                     </tr>
                 @endforeach
                 </tbody>
             </table>
-
-            @if(auth()->user()->role == 'admin')
-                <div class="mt-4 flex justify-end items-center">
-                    @if(!$contract->payments->isEmpty() && auth()->user()->role == 'admin')
-                        <button type="submit" class="form-submit-btn">
-                            ثبت تاییدیه
-                        </button>
-                    @endif
-                </div>
-            @endif
-        </form>
-    </div>
-
-    @php
-        $contractPrice = 0;
-        $paymentPrice = 0;
-        $leftPrice = 0;
-        $collectionPrice = 0;
-
-        foreach ($contract->products as $product) {
-            $contractPrice += $product->price * $product->quantity;
-        }
-
-        foreach ($contract->payments()->where('confirm', 1)->get() as $payment2) {
-            if ($payment2->type == 'return') {
-                $paymentPrice -= $payment2->price;
-            } else {
-                $paymentPrice += $payment2->price;
-            }
-
-            if (is_null($payment2->account_id) && $payment2->cash_type == 'check') {
-                $collectionPrice += $payment2->price;
-            }
-        }
-
-        $taxItem = \App\Models\Tax::where('year', jdate($contract->created_at)->getYear())->first();
-
-        $tax = $contractPrice * $taxItem->rate / 100;
-        $contractTaxPrice = $contractPrice + $tax;
-
-        $leftPrice = $contractPrice - $paymentPrice;
-        $leftTaxPrice = $contractTaxPrice - $paymentPrice;
-    @endphp
-
-    <div class="mt-8 grid grid-cols-4 gap-4">
-        <div class="p-4 rounded-lg shadow bg-indigo-500">
-            @if($contract->type == 'official')
-                <p class="text-base text-white text-center font-bold">
-                    مبلغ کل قرارداد با ارزش افزوده : {{ number_format($contractTaxPrice) }} تومان
-                </p>
-            @else
-                <p class="text-base text-white text-center font-bold">
-                    مبلغ کل قرارداد : {{ number_format($contractPrice) }} تومان
-                </p>
-            @endif
         </div>
 
-        <div class="p-4 rounded-lg shadow bg-green-500">
-            <p class="text-base text-white text-center font-bold">
-                مجموع پرداخت‌ها : {{ number_format($paymentPrice) }} تومان
-            </p>
+        <div class="mt-4">
+            {{ $pictures->links() }}
         </div>
 
-        <div class="p-4 rounded-lg shadow bg-red-500">
-            @if($contract->type == 'official')
-                <p class="text-base text-white text-center font-bold">
-                    بدهی مشتری : {{ number_format($leftTaxPrice) }} تومان
-                </p>
-            @else
-                <p class="text-base text-white text-center font-bold">
-                    بدهی مشتری : {{ number_format($leftPrice) }} تومان
-                </p>
-            @endif
-        </div>
-
-        <div class="p-4 rounded-lg shadow bg-yellow-500">
-            <p class="text-base text-white text-center font-bold">
-                وصول نشده‌ها : {{ number_format($collectionPrice) }} تومان
-            </p>
-        </div>
-
-        @if($contract->type == 'official')
-            <div class="space-y-4">
-                <p class="text-center text-sm underline underline-offset-4 text-gray-600">
-                    مبلغ کل قرارداد بدون ارزش افزوده : {{ number_format($contractPrice) }} تومان
-                </p>
-                <p class="text-center text-sm underline underline-offset-4 text-gray-600">
-                    مبلغ ارزش افزوده : {{ number_format($tax) }} تومان
-                </p>
-            </div>
-        @endif
     </div>
 </x-layout>

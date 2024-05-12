@@ -94,4 +94,9 @@ class Contract extends Model
     {
         return $this->hasMany(ContractLoading::class);
     }
+
+    public function contractPictures()
+    {
+        return $this->hasMany(ContractPicture::class);
+    }
 }
