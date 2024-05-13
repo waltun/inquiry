@@ -28,6 +28,8 @@ return new class extends Migration {
             $table->unsignedBigInteger('receiver_id');
             $table->foreign('receiver_id')->references('id')->on('users')->onDelete('cascade');
 
+            $table->timestamp('done_at')->nullable();
+
             $table->timestamps();
         });
     }

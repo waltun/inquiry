@@ -135,6 +135,7 @@ class TaskController extends Controller
     public function markAsDone(Task $task)
     {
         $task->done = true;
+        $task->done_at = now();
         $task->save();
 
         alert()->success('اتمام موفق', 'اتمام تسک با موفقیت انجام شد');
@@ -145,6 +146,7 @@ class TaskController extends Controller
     public function review(Task $task)
     {
         $task->done = false;
+        $task->done_at = null;
         $task->save();
 
         alert()->success('بازنگری موفق', 'بازنگری تسک با موفقیت انجام شد');

@@ -1948,6 +1948,9 @@
                                     فایل
                                 </th>
                                 <th scope="col" class="p-2">
+                                    تاریخ انجام شده
+                                </th>
+                                <th scope="col" class="p-2">
                                     <span class="sr-only">اقدامات</span>
                                 </th>
                             </tr>
@@ -1997,6 +2000,13 @@
                                             -
                                         @endif
                                     </td>
+                                    <td class="table-tr-td border-t-0 border-x-0 {{ $receivedTask->done ? 'opacity-50' : '' }}">
+                                        @if($receivedTask->done_at)
+                                            {{ jdate($receivedTask->done_at)->format('Y/m/d H:i') }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
                                     <td class="table-tr-td border-t-0 border-r-0 whitespace-nowrap">
                                         <div class="flex items-center space-x-4 space-x-reverse justify-center">
                                             @if(!$receivedTask->done)
@@ -2018,8 +2028,8 @@
                                                 </form>
                                             @else
                                                 <span class="bg-green-500 px-2 rounded-md text-white">
-                                                                انجام شده
-                                                            </span>
+                                                    انجام شده
+                                                </span>
                                             @endif
                                         </div>
                                     </td>
@@ -2098,6 +2108,9 @@
                                     فایل
                                 </th>
                                 <th scope="col" class="p-2">
+                                    تاریخ انجام شده
+                                </th>
+                                <th scope="col" class="p-2">
                                     <span class="sr-only">اقدامات</span>
                                 </th>
                             </tr>
@@ -2147,12 +2160,19 @@
                                             -
                                         @endif
                                     </td>
+                                    <td class="table-tr-td border-t-0 border-x-0 {{ $sentTask->done ? 'opacity-50' : '' }}">
+                                        @if($sentTask->done_at)
+                                            {{ jdate($sentTask->done_at)->format('Y/m/d H:i') }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
                                     <td class="table-tr-td border-t-0 border-r-0 whitespace-nowrap">
                                         <div class="flex items-center space-x-4 space-x-reverse justify-center">
                                             @if($sentTask->done)
                                                 <span class="bg-green-500 px-2 rounded-md text-white">
-                                                            انجام شده
-                                                        </span>
+                                                    انجام شده
+                                                </span>
                                                 @if(auth()->user()->id == $sentTask->user_id)
                                                     <form action="{{ route('tasks.destroy', $sentTask->id) }}"
                                                           method="POST">
