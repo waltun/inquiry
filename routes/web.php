@@ -722,6 +722,8 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::post('tasks/{task}/mark-as-done', [TaskController::class, 'markAsDone'])->name('tasks.mark-as-done');
         Route::post('tasks/{task}/review', [TaskController::class, 'review'])->name('tasks.review');
         Route::get('/tasks/sent', [TaskController::class, 'sent'])->name('tasks.sent');
+        Route::get('/tasks/{task}/reply', [TaskController::class, 'reply'])->name('tasks.reply');
+        Route::patch('/tasks/{task}/reply', [TaskController::class, 'storeReply'])->name('tasks.storeReply');
 
         Route::resource('leaves', LeaveController::class)->except(['show']);
 

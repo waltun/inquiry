@@ -2010,6 +2010,14 @@
                                     <td class="table-tr-td border-t-0 border-r-0 whitespace-nowrap">
                                         <div class="flex items-center space-x-4 space-x-reverse justify-center">
                                             @if(!$receivedTask->done)
+                                                <a href="{{ route('tasks.reply', $receivedTask->id) }}" class="table-dropdown-restore text-xs">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                              d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 0 1-.825-.242m9.345-8.334a2.126 2.126 0 0 0-.476-.095 48.64 48.64 0 0 0-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0 0 11.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155"/>
+                                                    </svg>
+                                                    پاسخ
+                                                </a>
+
                                                 <form
                                                     action="{{ route('tasks.mark-as-done', $receivedTask->id) }}"
                                                     method="POST"
@@ -2169,6 +2177,58 @@
                                     </td>
                                     <td class="table-tr-td border-t-0 border-r-0 whitespace-nowrap">
                                         <div class="flex items-center space-x-4 space-x-reverse justify-center">
+                                            @if($sentTask->reply)
+                                                <div x-data="{open: false}">
+                                                    <button type="button" @click="open = !open"
+                                                            class="table-info-btn">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                  d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/>
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                                                        </svg>
+                                                        مشاهده پاسخ
+                                                    </button>
+
+                                                    <!-- Reply Modal -->
+                                                    <div class="relative z-10" x-show="open" x-cloak>
+                                                        <div class="modal-backdrop"></div>
+                                                        <div class="fixed z-10 inset-0 overflow-y-auto">
+                                                            <div class="modal">
+                                                                <div class="modal-body">
+                                                                    <div class="bg-white dark:bg-slate-800 p-4">
+                                                                        <div class="mb-4 flex justify-between items-center">
+                                                                            <h3 class="text-lg font-bold text-gray-900 dark:text-white">
+                                                                                مشاهده پاسخ وظیفه
+                                                                            </h3>
+                                                                            <button type="button" @click="open = false">
+                                                                                <span class="modal-close">
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                         fill="none"
+                                                                                         viewBox="0 0 24 24"
+                                                                                         stroke-width="1.5"
+                                                                                         stroke="currentColor"
+                                                                                         class="w-5 h-5 dark:text-white">
+                                                                                        <path stroke-linecap="round"
+                                                                                              stroke-linejoin="round"
+                                                                                              d="M6 18L18 6M6 6l12 12"/>
+                                                                                    </svg>
+                                                                                </span>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="mt-6">
+                                                                            <div class="mt-4 bg-myBlue-300 p-2 rounded-lg">
+                                                                                <p class="text-sm font-medium text-white">
+                                                                                    {{ $sentTask->reply }}
+                                                                                </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endif
                                             @if($sentTask->done)
                                                 <span class="bg-green-500 px-2 rounded-md text-white">
                                                     انجام شده

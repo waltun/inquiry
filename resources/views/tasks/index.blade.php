@@ -69,6 +69,7 @@
         </div>
     </div>
 
+    <!-- Desktop -->
     <div class="mt-4 hidden md:block">
         <div x-data="{tab : 'sent-tasks'}" class="mb-8">
             <div class="border-b border-indigo-400 dark:border-black">
@@ -167,6 +168,9 @@
                                     فایل
                                 </th>
                                 <th scope="col" class="p-2">
+                                    تاریخ انجام شده
+                                </th>
+                                <th scope="col" class="p-2">
                                     <span class="sr-only">اقدامات</span>
                                 </th>
                             </tr>
@@ -213,16 +217,75 @@
                                             -
                                         @endif
                                     </td>
+                                    <td class="table-tr-td border-t-0 border-x-0 {{ $sentTask->done ? 'opacity-50' : '' }}">
+                                        @if($sentTask->done_at)
+                                            {{ jdate($sentTask->done_at)->format('Y/m/d H:i') }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
                                     <td class="table-tr-td border-t-0 border-r-0 whitespace-nowrap">
                                         <div class="flex items-center space-x-4 space-x-reverse justify-center">
+                                            @if($sentTask->reply)
+                                                <div x-data="{open: false}">
+                                                    <button type="button" @click="open = !open"
+                                                            class="table-info-btn">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                  d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/>
+                                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                                                        </svg>
+                                                        مشاهده پاسخ
+                                                    </button>
+
+                                                    <!-- Reply Modal -->
+                                                    <div class="relative z-10" x-show="open" x-cloak>
+                                                        <div class="modal-backdrop"></div>
+                                                        <div class="fixed z-10 inset-0 overflow-y-auto">
+                                                            <div class="modal">
+                                                                <div class="modal-body">
+                                                                    <div class="bg-white dark:bg-slate-800 p-4">
+                                                                        <div class="mb-4 flex justify-between items-center">
+                                                                            <h3 class="text-lg font-bold text-gray-900 dark:text-white">
+                                                                                مشاهده پاسخ وظیفه
+                                                                            </h3>
+                                                                            <button type="button" @click="open = false">
+                                                                                <span class="modal-close">
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                         fill="none"
+                                                                                         viewBox="0 0 24 24"
+                                                                                         stroke-width="1.5"
+                                                                                         stroke="currentColor"
+                                                                                         class="w-5 h-5 dark:text-white">
+                                                                                        <path stroke-linecap="round"
+                                                                                              stroke-linejoin="round"
+                                                                                              d="M6 18L18 6M6 6l12 12"/>
+                                                                                    </svg>
+                                                                                </span>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="mt-6">
+                                                                            <div class="mt-4 bg-myBlue-300 p-2 rounded-lg">
+                                                                                <p class="text-sm font-medium text-white">
+                                                                                    {{ $sentTask->reply }}
+                                                                                </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endif
                                             @if($sentTask->done)
                                                 <span class="bg-green-500 px-2 rounded-md text-white">
-                                                انجام شده
-                                            </span>
+                                                    انجام شده
+                                                </span>
                                             @endif
                                             <div
-                                                    class="flex items-center justify-center space-x-4 space-x-reverse relative"
-                                                    x-data="{open:false}">
+                                                class="flex items-center justify-center space-x-4 space-x-reverse relative"
+                                                x-data="{open:false}">
                                                 <button @click="open = !open">
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                          viewBox="0 0 24 24"
@@ -323,6 +386,9 @@
                                     فایل
                                 </th>
                                 <th scope="col" class="p-2">
+                                    تاریخ انجام شده
+                                </th>
+                                <th scope="col" class="p-2">
                                     <span class="sr-only">اقدامات</span>
                                 </th>
                             </tr>
@@ -369,9 +435,24 @@
                                             -
                                         @endif
                                     </td>
+                                    <td class="table-tr-td border-t-0 border-x-0 {{ $receivedTask->done ? 'opacity-50' : '' }}">
+                                        @if($receivedTask->done_at)
+                                            {{ jdate($receivedTask->done_at)->format('Y/m/d H:i') }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
                                     <td class="table-tr-td border-t-0 border-r-0 whitespace-nowrap">
                                         <div class="flex items-center space-x-4 space-x-reverse justify-center">
                                             @if(!$receivedTask->done)
+                                                <a href="{{ route('tasks.reply', $receivedTask->id) }}" class="table-dropdown-restore text-xs">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                              d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 0 1-.825-.242m9.345-8.334a2.126 2.126 0 0 0-.476-.095 48.64 48.64 0 0 0-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0 0 11.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155"/>
+                                                    </svg>
+                                                    پاسخ
+                                                </a>
+
                                                 <form action="{{ route('tasks.mark-as-done', $receivedTask->id) }}"
                                                       method="POST"
                                                       class="table-success-btn">
@@ -391,53 +472,6 @@
                                                     انجام شده
                                                 </span>
                                             @endif
-                                            <div
-                                                    class="flex items-center justify-center space-x-4 space-x-reverse relative"
-                                                    x-data="{open:false}">
-                                                <button @click="open = !open">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                         viewBox="0 0 24 24"
-                                                         stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                              d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"/>
-                                                    </svg>
-                                                </button>
-                                                <div x-show="open" @click.away="open = false"
-                                                     class="table-dropdown -top-4 -right-9"
-                                                     x-cloak>
-                                                    @can('edit-task')
-                                                        <a href="{{ route('tasks.edit',$receivedTask->id) }}"
-                                                           class="table-dropdown-edit">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                 viewBox="0 0 24 24"
-                                                                 stroke-width="1.5" stroke="currentColor"
-                                                                 class="w-4 h-4 ml-1">
-                                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                                      d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"/>
-                                                            </svg>
-                                                            ویرایش
-                                                        </a>
-                                                    @endcan
-                                                    @can('delete-task')
-                                                        <form action="{{ route('tasks.destroy',$receivedTask->id) }}"
-                                                              method="POST"
-                                                              class="table-dropdown-delete">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                 viewBox="0 0 24 24"
-                                                                 stroke-width="1.5" stroke="currentColor"
-                                                                 class="w-4 h-4 ml-1">
-                                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                                      d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
-                                                            </svg>
-                                                            <button onclick="return confirm('وظیفه حذف شود ؟')">
-                                                                حذف
-                                                            </button>
-                                                        </form>
-                                                    @endcan
-                                                </div>
-                                            </div>
                                         </div>
                                     </td>
                                 </tr>
@@ -456,6 +490,7 @@
         </div>
     </div>
 
+    <!-- Mobile -->
     <div class="mt-4 space-y-4 block md:hidden">
         @foreach($receivedTasks as $receivedTask)
             <div class="bg-white rounded-md shadow border border-indigo-500 relative">
@@ -505,42 +540,31 @@
                             از طرف : {{ $receivedTask->user->name }}
                         </p>
                     </div>
-                    <div>
-                        <p class="text-xs font-medium text-black text-center">
-                            توضیحات : {{ $receivedTask->description }}
-                        </p>
-                    </div>
+                    @if($receivedTask->description)
+                        <div>
+                            <p class="text-xs font-medium text-black text-center">
+                                توضیحات : {{ $receivedTask->description }}
+                            </p>
+                        </div>
+                    @endif
+                    @if($receivedTask->done_at)
+                        <div>
+                            <p class="text-xs font-medium text-black text-center">
+                                تاریخ انجام شدن :
+                                {{ jdate($receivedTask->done_at)->format('Y/m/d H:i') }}
+                            </p>
+                        </div>
+                    @endif
                     <div class="flex items-center justify-between p-2 bg-gray-200 rounded-b-md border-t border-gray-400">
                         <div>
-                            <a href="{{ route('tasks.edit',$receivedTask->id) }}"
+                            <a href="{{ route('tasks.reply',$receivedTask->id) }}"
                                class="page-info-btn">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                     viewBox="0 0 24 24"
-                                     stroke-width="1.5" stroke="currentColor"
-                                     class="w-4 h-4 ml-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
                                     <path stroke-linecap="round" stroke-linejoin="round"
-                                          d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"/>
+                                          d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 0 1-.825-.242m9.345-8.334a2.126 2.126 0 0 0-.476-.095 48.64 48.64 0 0 0-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0 0 11.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155"/>
                                 </svg>
-                                ویرایش
+                                پاسخ
                             </a>
-                        </div>
-                        <div>
-                            <form action="{{ route('tasks.destroy',$receivedTask->id) }}"
-                                  method="POST"
-                                  class="page-delete-btn">
-                                @csrf
-                                @method('DELETE')
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
-                                     viewBox="0 0 24 24"
-                                     stroke-width="1.5" stroke="currentColor"
-                                     class="w-4 h-4 ml-1">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                          d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
-                                </svg>
-                                <button onclick="return confirm('وظیفه حذف شود ؟')">
-                                    حذف
-                                </button>
-                            </form>
                         </div>
                         <div>
                             @if(!$receivedTask->done)

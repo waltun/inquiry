@@ -21,6 +21,7 @@ return new class extends Migration {
             $table->boolean('done')->default(0);
             $table->enum('level', ['high', 'medium', 'low']);
             $table->string('file')->nullable();
+            $table->string('reply')->nullable();
 
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

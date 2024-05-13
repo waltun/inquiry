@@ -2,14 +2,18 @@
     <x-slot name="js">
         <script src="{{ asset('plugins/jquery.min.js') }}"></script>
         <script src="{{ asset('plugins/date-picker/persianDatepicker.min.js') }}"></script>
+        <script src="{{ asset('plugins/select2/select2.min.js') }}"></script>
         <script>
             $("#inputDate").persianDatepicker({
                 format: 'Y/m/d'
-            })
+            });
+
+            $("#inputReceiver").select2();
         </script>
     </x-slot>
     <x-slot name="css">
         <link rel="stylesheet" href="{{ asset('plugins/date-picker/persianDatepicker-default.css') }}">
+        <link rel="stylesheet" href="{{ asset('plugins/select2/select2.min.css') }}">
     </x-slot>
 
     <!-- Breadcrumb -->
@@ -111,7 +115,7 @@
 
             <div class="mt-4">
                 <label for="inputReceiver" class="form-label">کاربر دریافت کننده</label>
-                <select name="receiver_id" id="inputReceiver" class="input-text">
+                <select name="receivers[]" id="inputReceiver" class="input-text" multiple>
                     <option value="">انتخاب کنید</option>
                     @foreach($receivers as $receiver)
                         <option value="{{ $receiver->id }}" {{ old('receiver_id') == $receiver->id ? 'selected' : '' }}>

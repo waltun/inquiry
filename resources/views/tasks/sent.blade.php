@@ -116,6 +116,14 @@
                             </p>
                         </div>
                     @endif
+                    @if($sentTask->done_at)
+                        <div>
+                            <p class="text-xs font-medium text-black text-center">
+                                تاریخ انجام شدن :
+                                {{ jdate($sentTask->done_at)->format('Y/m/d H:i') }}
+                            </p>
+                        </div>
+                    @endif
                     <div
                         class="flex items-center justify-between p-2 bg-gray-200 rounded-b-md border-t border-gray-400">
                         <div>

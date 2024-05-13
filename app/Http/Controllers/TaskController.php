@@ -58,33 +58,45 @@ class TaskController extends Controller
             'title' => 'required|string|max:255',
             'date' => 'required|string|max:255',
             'level' => 'required|in:high,medium,low',
-            'receiver_id' => 'required|integer',
+            'receivers' => 'required|array',
             'description' => 'nullable',
             'file' => 'nullable|file'
         ]);
-
-        $receiver = User::findOrFail($data['receiver_id']);
 
         if (!is_null($data['date'])) {
             $explodeDate = explode('/', $data['date']);
             $data['date'] = (new Jalalian($explodeDate[0], $explodeDate[1], $explodeDate[2]))->toCarbon()->toDateTimeString();
         }
 
-        if (isset($request['file'])) {
-            $path = '../public_html/files/tasks/';
-            $savePath = '/files/tasks/';
+        foreach ($data['receivers'] as $receiverId) {
+            $receiver = User::findOrFail($receiverId);
 
-            $fileNewName = 'Task-' . $receiver->phone . '-(' . rand(1, 99) . ')' . '.' . $request->file->extension();
-            $request->file->move($path, $fileNewName);
+            if (isset($request['file'])) {
+                $path = '../public_html/files/tasks/';
+                $savePath = '/files/tasks/';
 
-            $finalFile = $savePath . $fileNewName;
+                $fileNewName = 'Task-' . $receiver->phone . '-(' . rand(1, 99) . ')' . '.' . $request->file->extension();
+                $request->file->move($path, $fileNewName);
 
-            $data['file'] = $finalFile;
+                $finalFile = $savePath . $fileNewName;
+
+                $data['file'] = $finalFile;
+            }
+
+            Task::create([
+                'title' => $data['title'],
+                'date' => $data['date'],
+                'level' => $data['level'],
+                'receiver_id' => $receiverId,
+                'description' => $data['description'],
+                'file' => $data['file'] ?? null,
+                'user_id' => auth()->user()->id,
+                'done' => false,
+                'done_at' => null
+            ]);
         }
 
-        auth()->user()->tasks()->create($data);
-
-        alert()->success('ثبت موفق', 'ثبت تسک جدید با موفقیت انجام شد');
+        alert()->success('ثبت موفق', 'ثبت وظیفه جدید با موفقیت انجام شد');
 
         return redirect()->route('tasks.index');
     }
@@ -118,7 +130,7 @@ class TaskController extends Controller
 
         $task->update($data);
 
-        alert()->success('بروزرسانی موفق', 'بروزرسانی تسک با موفقیت انجام شد');
+        alert()->success('بروزرسانی موفق', 'بروزرسانی وظیفه با موفقیت انجام شد');
 
         return redirect()->route('tasks.index');
     }
@@ -127,7 +139,7 @@ class TaskController extends Controller
     {
         $task->delete();
 
-        alert()->success('حذف موفق', 'حذف تسک با موفقیت انجام شد');
+        alert()->success('حذف موفق', 'حذف وظیفه با موفقیت انجام شد');
 
         return back();
     }
@@ -138,7 +150,7 @@ class TaskController extends Controller
         $task->done_at = now();
         $task->save();
 
-        alert()->success('اتمام موفق', 'اتمام تسک با موفقیت انجام شد');
+        alert()->success('اتمام موفق', 'اتمام وظیفه با موفقیت انجام شد');
 
         return back();
     }
@@ -149,8 +161,28 @@ class TaskController extends Controller
         $task->done_at = null;
         $task->save();
 
-        alert()->success('بازنگری موفق', 'بازنگری تسک با موفقیت انجام شد');
+        alert()->success('بازنگری موفق', 'بازنگری وظیفه با موفقیت انجام شد');
 
         return back();
+    }
+
+    public function reply(Task $task)
+    {
+        return view('tasks.reply', compact('task'));
+    }
+
+    public function storeReply(Request $request, Task $task)
+    {
+        $request->validate([
+            'reply' => 'required|string|max:255',
+        ]);
+
+        $task->update([
+            'reply' => $request->reply,
+        ]);
+
+        alert()->success('ثبت موفق', 'ثبت پاسخ وظیفه با موفقیت انجام شد');
+
+        return redirect()->route('tasks.index');
     }
 }
