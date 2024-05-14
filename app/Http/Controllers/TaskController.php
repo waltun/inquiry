@@ -174,7 +174,7 @@ class TaskController extends Controller
     public function storeReply(Request $request, Task $task)
     {
         $request->validate([
-            'reply' => 'required|string|max:255',
+            'reply' => 'required',
         ]);
 
         $task->update([

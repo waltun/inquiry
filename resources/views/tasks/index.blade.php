@@ -177,7 +177,7 @@
                             </thead>
                             <tbody>
                             @foreach($sentTasks as $sentTask)
-                                <tr class="table-tb-tr group hover:font-bold hover:text-red-600 {{ $loop->even ? 'bg-sky-100' : '' }}">
+                                <tr class="table-tb-tr group hover:font-bold hover:text-red-600 {{ $loop->even ? 'bg-sky-100' : '' }} whitespace-normal">
                                     <td class="table-tr-td border-t-0 border-l-0">
                                         {{ jdate($sentTask->date)->format('Y/m/d') }}
                                     </td>
@@ -191,17 +191,17 @@
                                         @switch($sentTask->level)
                                             @case('high')
                                                 <div class="bg-red-500 text-white px-2 inline rounded-md shadow">
-                                                    اهمیت بالا
+                                                    بالا
                                                 </div>
                                                 @break
                                             @case('medium')
                                                 <div class="bg-yellow-500 text-white px-2 inline rounded-md shadow">
-                                                    اهمیت متوسط
+                                                    متوسط
                                                 </div>
                                                 @break
                                             @case('low')
                                                 <div class="bg-gray-500 text-white px-2 inline rounded-md shadow">
-                                                    اهمیت پایین
+                                                    پایین
                                                 </div>
                                                 @break
                                         @endswitch
@@ -210,9 +210,34 @@
                                         {{ $sentTask->description ?? '-' }}
                                     </td>
                                     <td class="table-tr-td border-t-0 border-x-0">
+                                        @php
+                                            $extension = explode('.',$sentTask->file);
+                                        @endphp
                                         @if(!is_null($sentTask->file))
-                                            <img src="{{ $sentTask->file }}" alt="" class="w-10 h-10 rounded-md mx-auto border border-gray-200 cursor-pointer"
-                                                 onclick="this.requestFullscreen()">
+                                            @if($extension[1] == 'pdf' || $extension[1] == 'docx' || $extension[1] == 'doc')
+                                                <div class="flex justify-center items-center">
+                                                    <a href="{{ $sentTask->file }}" class="table-dropdown-copy" download>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                  d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/>
+                                                        </svg>
+                                                        دانلود فایل
+                                                    </a>
+                                                </div>
+                                            @elseif($extension[1] == 'jpg' || $extension[1] == 'png' || $extension[1] == 'jpeg')
+                                                <img src="{{ $sentTask->file }}" alt="" class="w-10 h-10 rounded-md mx-auto border border-gray-200 cursor-pointer"
+                                                     onclick="this.requestFullscreen()">
+                                            @else
+                                                <div class="flex justify-center items-center">
+                                                    <a href="{{ $sentTask->file }}" class="table-dropdown-copy" download>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                  d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/>
+                                                        </svg>
+                                                        دانلود فایل
+                                                    </a>
+                                                </div>
+                                            @endif
                                         @else
                                             -
                                         @endif
@@ -264,9 +289,9 @@
                                                                                 </span>
                                                                             </button>
                                                                         </div>
-                                                                        <div class="mt-6">
-                                                                            <div class="mt-4 bg-myBlue-300 p-2 rounded-lg">
-                                                                                <p class="text-sm font-medium text-white">
+                                                                        <div class="mt-6 whitespace-normal">
+                                                                            <div class="mt-4 p-4 border border-gray-200 rounded-lg">
+                                                                                <p class="text-sm font-medium text-black leading-6">
                                                                                     {{ $sentTask->reply }}
                                                                                 </p>
                                                                             </div>
@@ -395,7 +420,7 @@
                             </thead>
                             <tbody>
                             @foreach($receivedTasks as $receivedTask)
-                                <tr class="table-tb-tr group hover:font-bold hover:text-red-600 {{ $loop->even ? 'bg-sky-100' : '' }}">
+                                <tr class="table-tb-tr group hover:font-bold hover:text-red-600 {{ $loop->even ? 'bg-sky-100' : '' }} whitespace-normal">
                                     <td class="table-tr-td border-t-0 border-l-0">
                                         {{ jdate($receivedTask->date)->format('Y/m/d') }}
                                     </td>
@@ -409,17 +434,17 @@
                                         @switch($receivedTask->level)
                                             @case('high')
                                                 <div class="bg-red-500 text-white px-2 inline rounded-md shadow">
-                                                    اهمیت بالا
+                                                    بالا
                                                 </div>
                                                 @break
                                             @case('medium')
                                                 <div class="bg-yellow-500 text-white px-2 inline rounded-md shadow">
-                                                    اهمیت متوسط
+                                                    متوسط
                                                 </div>
                                                 @break
                                             @case('low')
                                                 <div class="bg-gray-500 text-white px-2 inline rounded-md shadow">
-                                                    اهمیت پایین
+                                                    پایین
                                                 </div>
                                                 @break
                                         @endswitch
@@ -428,9 +453,34 @@
                                         {{ $receivedTask->description ?? '-' }}
                                     </td>
                                     <td class="table-tr-td border-t-0 border-x-0">
+                                        @php
+                                            $extension = explode('.',$receivedTask->file);
+                                        @endphp
                                         @if(!is_null($receivedTask->file))
-                                            <img src="{{ $receivedTask->file }}" alt="" class="w-10 h-10 rounded-md mx-auto border border-gray-200 cursor-pointer"
-                                                 onclick="this.requestFullscreen()">
+                                            @if($extension[1] == 'pdf' || $extension[1] == 'docx' || $extension[1] == 'doc')
+                                                <div class="flex justify-center items-center">
+                                                    <a href="{{ $receivedTask->file }}" class="table-dropdown-copy" download>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                  d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/>
+                                                        </svg>
+                                                        دانلود فایل
+                                                    </a>
+                                                </div>
+                                            @elseif($extension[1] == 'jpg' || $extension[1] == 'png' || $extension[1] == 'jpeg')
+                                                <img src="{{ $receivedTask->file }}" alt="" class="w-10 h-10 rounded-md mx-auto border border-gray-200 cursor-pointer"
+                                                     onclick="this.requestFullscreen()">
+                                            @else
+                                                <div class="flex justify-center items-center">
+                                                    <a href="{{ $receivedTask->file }}" class="table-dropdown-copy" download>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                  d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/>
+                                                        </svg>
+                                                        دانلود فایل
+                                                    </a>
+                                                </div>
+                                            @endif
                                         @else
                                             -
                                         @endif
