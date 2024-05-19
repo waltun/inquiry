@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Contract;
 
 use App\Http\Controllers\Controller;
 use App\Models\Contract;
+use App\Models\ContractNotification;
 use App\Models\Packing;
 use Illuminate\Http\Request;
 use Morilog\Jalali\Jalalian;
@@ -30,6 +31,19 @@ class ExitController extends Controller
         }
 
         $packing->update($data);
+
+        if (!$contract->packings->contains('exit_at', null)) {
+            ContractNotification::create([
+                'message' => 'تمامی مجوز خروج های محصولات و قطعات این قرارداد صادر شد',
+                'current_url' => route('contracts.exits.index', $contract->id),
+                'next_url' => route('documents.index', $contract->id),
+                'next_message' => 'برای آپلود مدارک تایید شده این قرارداد به لینک ارجاع شده مراجعه کنید',
+                'read_at' => null,
+                'done_at' => null,
+                'contract_id' => $contract->id,
+                'user_id' => auth()->user()->id,
+            ]);
+        }
 
         alert()->success('صدور موفق', 'مجوز خروج با موفقیت صادر شد');
 

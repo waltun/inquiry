@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Contract;
 use App\Http\Controllers\Controller;
 use App\Models\Contract;
 use App\Models\ContractLoading;
+use App\Models\ContractNotification;
 use Illuminate\Http\Request;
 use Morilog\Jalali\Jalalian;
 
@@ -40,6 +41,17 @@ class LoadingController extends Controller
         $data = $this->uploadFile($contract, $date, $request, $data);
 
         $contract->contractLoadings()->create($data);
+
+        ContractNotification::create([
+            'message' => 'مدرک بارگیری و حمل آپلود شد',
+            'current_url' => route('loadings.index', $contract->id),
+            'next_url' => route('pictures.index', $contract->id),
+            'next_message' => 'برای آپلود تصاویر ساخت این قرارداد به لینک ارجاع شده مراجعه کنید',
+            'read_at' => null,
+            'done_at' => null,
+            'contract_id' => $contract->id,
+            'user_id' => auth()->user()->id,
+        ]);
 
         alert()->success('ثبت موفق', 'فایل بارگیری با موفقیت بارگذاری شد');
 

@@ -112,4 +112,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Leave::class);
     }
+
+    public function contractNotifications()
+    {
+        return $this->hasMany(ContractNotification::class);
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Contract;
 
 use App\Http\Controllers\Controller;
 use App\Models\Contract;
+use App\Models\ContractNotification;
 use App\Models\ContractPicture;
 use Illuminate\Http\Request;
 use Morilog\Jalali\Jalalian;
@@ -39,6 +40,17 @@ class PictureController extends Controller
         $data = $this->uploadFile($contract, $date, $request, $data);
 
         $contract->contractPictures()->create($data);
+
+        ContractNotification::create([
+            'message' => 'تصویر ساخت آپلود شد',
+            'current_url' => route('pictures.index', $contract->id),
+            'next_url' => null,
+            'next_message' => null,
+            'read_at' => null,
+            'done_at' => null,
+            'contract_id' => $contract->id,
+            'user_id' => auth()->user()->id,
+        ]);
 
         alert()->success('ثبت موفق', 'تصویر ساخت با موفقیت بارگذاری شد');
 

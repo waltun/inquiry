@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Contract;
 
 use App\Http\Controllers\Controller;
 use App\Models\Contract;
+use App\Models\ContractNotification;
 use App\Models\ContractProduct;
 use App\Models\Group;
 use App\Models\Modell;
@@ -31,6 +32,17 @@ class PackingController extends Controller
         }
 
         $contract->packings()->create($data);
+
+        ContractNotification::create([
+            'message' => 'پکینگ لیست جدید برای این قرارداد ساخته شد',
+            'current_url' => route('packings.index', $contract->id),
+            'next_url' => route('contracts.exits.index', $contract->id),
+            'next_message' => 'برای صدور مجوز خروج های این قرارداد به لینک ارجاع شده مراجعه کنید',
+            'read_at' => null,
+            'done_at' => null,
+            'contract_id' => $contract->id,
+            'user_id' => auth()->user()->id,
+        ]);
 
         alert()->success('ثبت موفق', 'پکینگ جدید با موفقیت ثبت شد');
 

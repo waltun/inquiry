@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Contract;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Contract;
+use App\Models\ContractNotification;
 use App\Models\ContractPartHistory;
 use App\Models\ContractProduct;
 use App\Models\Part;
@@ -171,6 +172,17 @@ class PartController extends Controller
                 }
             }
         }
+
+        ContractNotification::create([
+            'message' => 'دستور ساخت قرارداد با موفقیت صادر شد',
+            'current_url' => route('contracts.recipe.index', $contract->id),
+            'next_url' => route('contracts.construction.index', $contract->id),
+            'next_message' => 'برای صدور پایان ساخت دستگاه ها و قطعات به لینک ارجاع شده مراجعه کنید',
+            'read_at' => null,
+            'done_at' => null,
+            'contract_id' => $contract->id,
+            'user_id' => auth()->user()->id,
+        ]);
 
         alert()->success('ثبت موفق', 'دستور ساخت با موفقیت صادر شد');
 

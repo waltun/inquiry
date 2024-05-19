@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Contract;
 use App\Http\Controllers\Controller;
 use App\Models\Contract;
 use App\Models\ContractDocument;
+use App\Models\ContractNotification;
 use Illuminate\Http\Request;
 use Morilog\Jalali\Jalalian;
 
@@ -39,6 +40,17 @@ class DocumentController extends Controller
         $data = $this->uploadFile($contract, $date, $request, $data);
 
         $contract->contractDocuments()->create($data);
+
+        ContractNotification::create([
+            'message' => 'مدرک تایید شده آپلود شد',
+            'current_url' => route('documents.index', $contract->id),
+            'next_url' => route('loadings.index', $contract->id),
+            'next_message' => 'برای آپلود مدارک بارگیری و حمل این قرارداد به لینک ارجاع شده مراجعه کنید',
+            'read_at' => null,
+            'done_at' => null,
+            'contract_id' => $contract->id,
+            'user_id' => auth()->user()->id,
+        ]);
 
         alert()->success('ثبت موفق', 'مدرک تایید شده با موفقیت ثبت شد شد');
 

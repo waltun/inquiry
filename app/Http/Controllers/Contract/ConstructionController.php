@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Contract;
 
 use App\Http\Controllers\Controller;
 use App\Models\Contract;
+use App\Models\ContractNotification;
 use App\Models\ContractProduct;
 use App\Models\Serial;
 use Illuminate\Http\Request;
@@ -39,6 +40,19 @@ class ConstructionController extends Controller
             'status' => 'end',
             'end_at' => $data['end_at']
         ]);
+
+        if (!$contract->products->contains('end_at', null)) {
+            ContractNotification::create([
+                'message' => 'تمامی پایان ساخت های دستگاه ها و قطعات قرارداد ثبت شد',
+                'current_url' => route('contracts.serials.index', $contract->id),
+                'next_url' => route('packings.index', $contract->id),
+                'next_message' => 'برای ایجاد پکینگ لیست و ساخت پک های دستگاه ها و قطعات به لینک ارجاع شده مراجعه کنید',
+                'read_at' => null,
+                'done_at' => null,
+                'contract_id' => $contract->id,
+                'user_id' => auth()->user()->id,
+            ]);
+        }
 
         alert()->success('ثبت موفق', 'صدور پایان ساخت با موفقیت انجام شد');
 

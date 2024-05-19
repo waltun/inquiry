@@ -25,6 +25,7 @@ use App\Http\Controllers\Contract\FinalContractController;
 use App\Http\Controllers\Contract\GuaranteeController;
 use App\Http\Controllers\Contract\LoadingController;
 use App\Http\Controllers\Contract\MarketingController;
+use App\Http\Controllers\Contract\NotificationController;
 use App\Http\Controllers\Contract\PackController;
 use App\Http\Controllers\Contract\PackingController;
 use App\Http\Controllers\Contract\PackProductController;
@@ -61,7 +62,6 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ModellAttributeController;
 use App\Http\Controllers\ModellController;
 use App\Http\Controllers\NewPartInquiryController;
-use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PartAttributeController;
 use App\Http\Controllers\PartController;
 use App\Http\Controllers\Contract\PartController as ContractPartController;
@@ -339,12 +339,12 @@ Route::middleware(['auth', 'web'])->group(function () {
             ->name('calculateElectrical.storeMini');
 
         //Notification routes
-        Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
-        Route::post('/notifications/{notification}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
-        Route::get('/notifications/read', [NotificationController::class, 'read'])->name('notifications.read');
-        Route::delete('/notifications/{notification}/destroy', [NotificationController::class, 'destroy'])->name('notifications.destroy');
-        Route::post('/notifications/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
-        Route::delete('/notifications/destroy-all', [NotificationController::class, 'destroyAll'])->name('notifications.destroyAll');
+//        Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
+//        Route::post('/notifications/{notification}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+//        Route::get('/notifications/read', [NotificationController::class, 'read'])->name('notifications.read');
+//        Route::delete('/notifications/{notification}/destroy', [NotificationController::class, 'destroy'])->name('notifications.destroy');
+//        Route::post('/notifications/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
+//        Route::delete('/notifications/destroy-all', [NotificationController::class, 'destroyAll'])->name('notifications.destroyAll');
 
         //Setting routes
         Route::get('/settings', [SettingController::class, 'index'])->name('settings.index');
@@ -714,6 +714,8 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::get('/contracts/{contract}/exits', [ExitController::class, 'index'])->name('contracts.exits.index');
         Route::patch('/contracts/{contract}/exits/{packing}', [ExitController::class, 'update'])->name('contracts.exits.update');
         Route::get('/contracts/{contract}/exits/{packing}', [ExitController::class, 'print'])->name('contracts.exits.print');
+
+        Route::get('/contract-notifications', [NotificationController::class, 'index'])->name('contract-notifications.index');
 
         Route::resource('todos', TodoController::class)->except('show');
         Route::post('todos/{todo}/mark-as-done', [TodoController::class, 'markAsDone'])->name('todos.mark-as-done');

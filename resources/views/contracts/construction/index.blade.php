@@ -325,7 +325,7 @@
                             <th class="p-4">نام قطعه</th>
                             <th class="p-4">واحد</th>
                             <th class="p-4">تعداد</th>
-                            <th class="p-4">پایان ساخت</th>
+                            <th class="p-4 rounded-tl-lg">پایان ساخت</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -346,7 +346,7 @@
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     {{ $product->quantity }}
                                 </td>
-                                <td class="table-tr-td border-t-0 border-x-0">
+                                <td class="table-tr-td border-t-0 border-r-0">
                                     @if(!is_null($product->end_at))
                                         <div class="flex items-center justify-center {{ $product->status == 'end' ? 'text-green-600 font-bold' : '' }}">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

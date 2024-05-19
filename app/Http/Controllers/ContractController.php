@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contract;
+use App\Models\ContractNotification;
 use App\Models\ContractProduct;
 use App\Models\Customer;
 use App\Models\Invoice;
@@ -82,6 +83,17 @@ class ContractController extends Controller
         $contract = auth()->user()->contracts()->create($data);
 
         $this->createFolders($contract);
+
+        ContractNotification::create([
+            'message' => 'یک قرارداد جدید ایجاد شد',
+            'current_url' => route('contracts.show', $contract->id),
+            'next_url' => route('contracts.invoices.index', $contract->id),
+            'next_message' => 'برای انتخاب پیش فاکتور قرارداد به لینک ارجاع شده مراجعه کنید',
+            'read_at' => null,
+            'done_at' => null,
+            'contract_id' => $contract->id,
+            'user_id' => auth()->user()->id,
+        ]);
 
         alert()->success('ثبت موفق', 'تبدیل پیش فاکتور به قطعه با موفقیت انجام شد');
 
@@ -260,6 +272,17 @@ class ContractController extends Controller
 
         $invoice->contract_id = $contract->id;
         $invoice->save();
+
+        ContractNotification::create([
+            'message' => 'پیش فاکتور برای قرارداد انتخاب شد',
+            'current_url' => route('contracts.invoices.index', $contract->id),
+            'next_url' => route('contract-files.index', $contract->id),
+            'next_message' => 'برای آپلود فایل قرارداد به لینک ارجاع شده مراجعه کنید',
+            'read_at' => null,
+            'done_at' => null,
+            'contract_id' => $contract->id,
+            'user_id' => auth()->user()->id,
+        ]);
 
         alert()->success('ثبت موفق', 'پیش فاکتور با موفقیت برای قرارداد ثبت شد');
 

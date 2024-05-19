@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Contract;
 use App\Http\Controllers\Controller;
 use App\Models\Contract;
 use App\Models\ContractContract;
+use App\Models\ContractNotification;
 use Illuminate\Http\Request;
 use Morilog\Jalali\Jalalian;
 
@@ -39,6 +40,17 @@ class ContractFileController extends Controller
         $data = $this->uploadFile($contract, $date, $request, $data);
 
         $contract->contractContracts()->create($data);
+
+        ContractNotification::create([
+            'message' => 'فایل قرارداد با موفقیت بارگذاری شد',
+            'current_url' => route('contract-files.index', $contract->id),
+            'next_url' => route('contracts.products', $contract->id),
+            'next_message' => 'برای مشاهده، اضافه یا حذف محصولات و صدور مقادیر محصولات به لینک ارجاع شده مراجعه کنید',
+            'read_at' => null,
+            'done_at' => null,
+            'contract_id' => $contract->id,
+            'user_id' => auth()->user()->id,
+        ]);
 
         alert()->success('ثبت موفق', 'فایل قرارداد با موفقیت بارگذاری شد');
 

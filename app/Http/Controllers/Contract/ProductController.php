@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Contract;
 use App\Http\Controllers\Controller;
 use App\Models\Amount;
 use App\Models\Contract;
+use App\Models\ContractNotification;
 use App\Models\ContractProduct;
 use App\Models\Invoice;
 use App\Models\InvoiceProduct;
@@ -150,6 +151,17 @@ class ProductController extends Controller
             }
 
         }
+
+        ContractNotification::create([
+            'message' => 'مقادیر محصولات با موفقیت صادر شدند',
+            'current_url' => route('contracts.products', $contract->id),
+            'next_url' => route('contracts.parts.index', $contract->id),
+            'next_message' => 'برای مشاهده و تغییر ریز آنالیز قطعات محصولات و صدور دستور ساخت به لینک ارجاع شده مراجعه کنید',
+            'read_at' => null,
+            'done_at' => null,
+            'contract_id' => $contract->id,
+            'user_id' => auth()->user()->id,
+        ]);
 
         alert()->success('ثبت موفق', 'مقادیر محصولات با موفقیت صادر شدند');
 

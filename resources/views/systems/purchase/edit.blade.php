@@ -418,14 +418,13 @@
                                                                 </th>
                                                                 <th scope="col"
                                                                     class="p-2">
-                                                                                            <span
-                                                                                                class="sr-only"></span>
+                                                                    <span class="sr-only"></span>
                                                                 </th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>
                                                             @foreach($codings as $coding)
-                                                                <tr class="table-tb-tr group">
+                                                                <tr class="table-tb-tr group hover:bg-sky-100">
                                                                     <td class="table-tr-td border-t-0">
                                                                         {{ $loop->index + 1 }}
                                                                     </td>
