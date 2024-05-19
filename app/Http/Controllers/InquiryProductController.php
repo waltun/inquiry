@@ -160,6 +160,8 @@ class InquiryProductController extends Controller
         $modell = Modell::find($product->model_id);
         $amounts = Amount::where('product_id', $product->id)->get();
 
+        $electricalIds = [492, 493, 494, 495, 496];
+
         $setting = Setting::where('active', '1')->first();
         if ($setting) {
             if ($setting->price_color_type == 'month') {
@@ -202,11 +204,15 @@ class InquiryProductController extends Controller
 
                 if ($product->inquiry->submit) {
                     if ($request->modellAmounts[$index] > 0) {
-                        $this->processInquiryParts($part, $lastTime, $product->inquiry);
+                        if (!in_array($part->categories->last()->id, $electricalIds)) {
+                            $this->processInquiryParts($part, $lastTime, $product->inquiry);
+                        }
                     }
 
                     if ($part->collection) {
-                        $this->calculatePrice($part); //, $depth = 0);
+                        if (!in_array($part->categories->last()->id, $electricalIds)) {
+                            $this->calculatePrice($part);
+                        }
                     }
                 }
 
@@ -247,11 +253,15 @@ class InquiryProductController extends Controller
 
                 if ($product->inquiry->submit) {
                     if ($request->amounts[$index] > 0) {
-                        $this->processInquiryParts($part, $lastTime, $product->inquiry);
+                        if (!in_array($part->categories->last()->id, $electricalIds)) {
+                            $this->processInquiryParts($part, $lastTime, $product->inquiry);
+                        }
                     }
 
                     if ($part->collection) {
-                        $this->calculatePrice($part); //, $depth = 0);
+                        if (!in_array($part->categories->last()->id, $electricalIds)) {
+                            $this->calculatePrice($part);
+                        }
                     }
                 }
 
