@@ -157,15 +157,33 @@
                             {{ number_format($factor->tax_price) }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            <div class="flex items-center justify-center">
-                                <a href="{{ $factor->file }}" class="table-dropdown-copy" download>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                              d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/>
-                                    </svg>
-                                    دانلود فایل
-                                </a>
-                            </div>
+                            @php
+                                $extension = explode('.',$factor->file);
+                            @endphp
+                            @if($extension[1] == 'pdf' || $extension[1] == 'docx' || $extension[1] == 'doc')
+                                <div class="flex items-center justify-center">
+                                    <a href="{{ $factor->file }}" class="table-dropdown-copy" download>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                  d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/>
+                                        </svg>
+                                        دانلود فایل
+                                    </a>
+                                </div>
+                            @elseif($extension[1] == 'jpg' || $extension[1] == 'png' || $extension[1] == 'jpeg')
+                                <img src="{{ $factor->file }}" alt="" class="w-10 h-10 rounded-md mx-auto border border-gray-200 cursor-pointer"
+                                     onclick="this.requestFullscreen()">
+                            @else
+                                <div class="flex justify-center items-center">
+                                    <a href="{{ $factor->file }}" class="table-dropdown-copy" download>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                  d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/>
+                                        </svg>
+                                        دانلود فایل
+                                    </a>
+                                </div>
+                            @endif
                         </td>
                         <td class="table-tr-td border-t-0 border-r-0 whitespace-nowrap">
                             <div class="flex items-center justify-center space-x-4 space-x-reverse">

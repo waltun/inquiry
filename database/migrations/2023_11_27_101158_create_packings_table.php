@@ -20,6 +20,11 @@ return new class extends Migration {
             $table->unsignedBigInteger('contract_id');
 
             $table->string('address')->nullable();
+            $table->string('driver_name')->nullable();
+            $table->string('driver_nation')->nullable();
+            $table->string('driver_type')->nullable();
+            $table->string('driver_number')->nullable();
+
             $table->text('receiver')->nullable();
             $table->timestamp('exit_at')->nullable();
 

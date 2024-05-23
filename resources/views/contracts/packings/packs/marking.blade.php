@@ -31,7 +31,7 @@
                             </th>
                             <th scope="col" class="p-1" style="border-left: 1px solid black">
                                 <p class="text-2xl">
-                                    Packing List
+                                    Marking
                                 </p>
                             </th>
                             <th scope="col" class="p-1" style="border-left: 1px solid black">

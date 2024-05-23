@@ -22,7 +22,11 @@ class ExitController extends Controller
         $data = $request->validate([
             'exit_at' => 'required|string|max:255',
             'address' => 'required|string|max:255',
-            'receiver' => 'required'
+            'driver_name' => 'required|string|max:255',
+            'driver_nation' => 'required|string|max:255',
+            'driver_type' => 'required|string|max:255',
+            'driver_number' => 'required|string|max:255',
+            'receiver' => 'required',
         ]);
 
         if (!is_null($data['exit_at'])) {

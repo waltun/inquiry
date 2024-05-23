@@ -234,7 +234,35 @@
                                                                            placeholder="آدرس محل تحویل را وارد کنید">
                                                                 </div>
                                                                 <div class="mb-4">
-                                                                    <label for="inputAddress{{ $packing->id }}" class="form-label">
+                                                                    <label for="inputDriverName{{ $packing->id }}" class="form-label">
+                                                                        نام راننده
+                                                                    </label>
+                                                                    <input type="text" class="input-text" name="driver_name" id="inputDriverName{{ $packing->id }}"
+                                                                           placeholder="نام راننده را وارد کنید">
+                                                                </div>
+                                                                <div class="mb-4">
+                                                                    <label for="inputDriverNation{{ $packing->id }}" class="form-label">
+                                                                        کدملی راننده
+                                                                    </label>
+                                                                    <input type="text" class="input-text" name="driver_nation" id="inputDriverNation{{ $packing->id }}"
+                                                                           placeholder="کدملی راننده را وارد کنید">
+                                                                </div>
+                                                                <div class="mb-4">
+                                                                    <label for="inputDriverType{{ $packing->id }}" class="form-label">
+                                                                        نوع خودرو
+                                                                    </label>
+                                                                    <input type="text" class="input-text" name="driver_type" id="inputDriverType{{ $packing->id }}"
+                                                                           placeholder="نوع خودرو را وارد کنید">
+                                                                </div>
+                                                                <div class="mb-4">
+                                                                    <label for="inputDriverNumber{{ $packing->id }}" class="form-label">
+                                                                        شماره خودرو
+                                                                    </label>
+                                                                    <input type="text" class="input-text" name="driver_number" id="inputDriverNumber{{ $packing->id }}"
+                                                                           placeholder="شماره خودرو را وارد کنید">
+                                                                </div>
+                                                                <div class="mb-4">
+                                                                    <label for="inputReceiver{{ $packing->id }}" class="form-label">
                                                                         تحویل گیرندگان
                                                                     </label>
                                                                     <textarea name="receiver" id="inputReceiver{{ $packing->id }}" class="input-text h-32 resize-none"></textarea>

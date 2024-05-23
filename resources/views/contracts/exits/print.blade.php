@@ -31,7 +31,7 @@
                             </th>
                             <th scope="col" class="p-1" style="border-left: 1px solid black">
                                 <p class="text-2xl">
-                                    Packing List
+                                    تحویل بار به راننده
                                 </p>
                             </th>
                             <th scope="col" class="p-1" style="border-left: 1px solid black">
@@ -333,35 +333,14 @@
                                             <thead>
                                             <tr class="text-black border border-black text-xs">
                                                 <th scope="col" class="p-1 rounded-tr-lg"
-                                                    style="border-left: 1px solid black" colspan="3">
-                                                    نمایندگان فروشنده
-                                                </th>
-                                                <th scope="col" class="p-1" style="border-left: 1px solid black"
-                                                    colspan="3">
-                                                    نمایندگان خریدار
-                                                </th>
-                                            </tr>
-                                            <tr class="text-black border border-black text-xs">
-                                                <th scope="col" class="p-1 rounded-tr-lg"
                                                     style="border-left: 1px solid black">
-                                                    کنترل کیفی
+                                                    تنظیم کننده
                                                 </th>
                                                 <th scope="col" class="p-1" style="border-left: 1px solid black">
-                                                    انبار
+                                                    راننده
                                                 </th>
                                                 <th scope="col" class="p-1" style="border-left: 1px solid black">
-                                                    مدیر
-                                                </th>
-
-                                                <th scope="col" class="p-1 rounded-tr-lg"
-                                                    style="border-left: 1px solid black">
-                                                    نماینده یک
-                                                </th>
-                                                <th scope="col" class="p-1" style="border-left: 1px solid black">
-                                                    نماینده دو
-                                                </th>
-                                                <th scope="col" class="p-1" style="border-left: 1px solid black">
-                                                    نماینده سه
+                                                    مدیر کارخانه
                                                 </th>
                                             </tr>
                                             </thead>
@@ -388,71 +367,6 @@
                                                         </p>
                                                     </div>
                                                 </td>
-                                                <td class="p-8 border border-black">
-                                                    <div class="flex items-center justify-center">
-                                                        <p class="text-gray-200">
-                                                            نام و امضا
-                                                        </p>
-                                                    </div>
-                                                </td>
-                                                <td class="p-8 border border-black">
-                                                    <div class="flex items-center justify-center">
-                                                        <p class="text-gray-200">
-                                                            نام و امضا
-                                                        </p>
-                                                    </div>
-                                                </td>
-                                                <td class="p-8 border border-black">
-                                                    <div class="flex items-center justify-center">
-                                                        <p class="text-gray-200">
-                                                            نام و امضا
-                                                        </p>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr class="text-black text-xs text-center">
-                                                <td class="p-4 border border-black">
-                                                    <div class="flex items-center justify-center">
-                                                        <p class="text-gray-200">
-                                                            تاریخ
-                                                        </p>
-                                                    </div>
-                                                </td>
-                                                <td class="p-4 border border-black">
-                                                    <div class="flex items-center justify-center">
-                                                        <p class="text-gray-200">
-                                                            تاریخ
-                                                        </p>
-                                                    </div>
-                                                </td>
-                                                <td class="p-4 border border-black">
-                                                    <div class="flex items-center justify-center">
-                                                        <p class="text-gray-200">
-                                                            تاریخ
-                                                        </p>
-                                                    </div>
-                                                </td>
-                                                <td class="p-4 border border-black">
-                                                    <div class="flex items-center justify-center">
-                                                        <p class="text-gray-200">
-                                                            تاریخ
-                                                        </p>
-                                                    </div>
-                                                </td>
-                                                <td class="p-4 border border-black">
-                                                    <div class="flex items-center justify-center">
-                                                        <p class="text-gray-200">
-                                                            تاریخ
-                                                        </p>
-                                                    </div>
-                                                </td>
-                                                <td class="p-4 border border-black">
-                                                    <div class="flex items-center justify-center">
-                                                        <p class="text-gray-200">
-                                                            تاریخ
-                                                        </p>
-                                                    </div>
-                                                </td>
                                             </tr>
                                             </tbody>
                                         </table>
@@ -469,6 +383,38 @@
                                         </th>
                                         <th scope="col" class="p-4" style="border-left: 1px solid black" colspan="2">
                                             {{ $packing->address }}
+                                        </th>
+                                    </tr>
+                                    <tr class="text-black border border-black text-xs">
+                                        <th scope="col" class="p-4 rounded-tr-lg" style="border-left: 1px solid black" colspan="1">
+                                            راننده
+                                        </th>
+                                        <th scope="col" class="p-4" style="border-left: 1px solid black" colspan="2">
+                                            {{ $packing->driver_name }}
+                                        </th>
+                                    </tr>
+                                    <tr class="text-black border border-black text-xs">
+                                        <th scope="col" class="p-4 rounded-tr-lg" style="border-left: 1px solid black" colspan="1">
+                                            کدملی راننده
+                                        </th>
+                                        <th scope="col" class="p-4" style="border-left: 1px solid black" colspan="2">
+                                            {{ $packing->driver_nation }}
+                                        </th>
+                                    </tr>
+                                    <tr class="text-black border border-black text-xs">
+                                        <th scope="col" class="p-4 rounded-tr-lg" style="border-left: 1px solid black" colspan="1">
+                                            نوع خودرو
+                                        </th>
+                                        <th scope="col" class="p-4" style="border-left: 1px solid black" colspan="2">
+                                            {{ $packing->driver_type }}
+                                        </th>
+                                    </tr>
+                                    <tr class="text-black border border-black text-xs">
+                                        <th scope="col" class="p-4 rounded-tr-lg" style="border-left: 1px solid black" colspan="1">
+                                            شماره خودرو
+                                        </th>
+                                        <th scope="col" class="p-4" style="border-left: 1px solid black" colspan="2">
+                                            {{ $packing->driver_number }}
                                         </th>
                                     </tr>
                                     <tr class="text-black border border-black text-xs">
