@@ -45,10 +45,19 @@
             </svg>
             <div class="mr-2">
                 <p class="font-bold text-2xl text-black dark:text-white">
-                    لیست اعلان های قرارداد ها
+                    لیست اعلان های قرارداد {{ $contract->name }} | {{ $contract->number }}
                 </p>
             </div>
         </div>
+
+        <a href="{{ route('contracts.show', $contract->id) }}" class="page-warning-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" class="w-4 h-4 ml-1">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"></path>
+            </svg>
+            بازگشت
+        </a>
     </div>
 
     <!-- Content -->
@@ -72,16 +81,23 @@
                     <a href="{{ route('contracts.show', $notification->contract_id) }}" class="text-xs font-medium text-indigo-600" target="_blank">
                         {{ $notification->contract->number }} | {{ $notification->contract->name }}
                     </a>
-                    <form action="" method="">
-                        @csrf
 
-                        <button class="page-success-btn">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
-                            </svg>
-                            انجام شد
-                        </button>
-                    </form>
+                    @if(!$notification->done_at)
+                        <form action="{{ route('contract-notifications.mark-as-done', [$contract->id, $notification->id]) }}" method="POST">
+                            @csrf
+
+                            <button class="page-success-btn" onclick="return confirm('اطلاعیه انجام شده شود ؟')">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                                </svg>
+                                انجام شد
+                            </button>
+                        </form>
+                    @else
+                        <p class="text-xs font-medium text-black">
+                            انجام شده
+                        </p>
+                    @endif
                 </div>
                 <div class="p-4 pt-0 mt-4">
                     <p class="text-sm leading-6 text-black">

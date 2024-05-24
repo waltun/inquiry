@@ -715,7 +715,8 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::patch('/contracts/{contract}/exits/{packing}', [ExitController::class, 'update'])->name('contracts.exits.update');
         Route::get('/contracts/{contract}/exits/{packing}', [ExitController::class, 'print'])->name('contracts.exits.print');
 
-        Route::get('/contract-notifications', [NotificationController::class, 'index'])->name('contract-notifications.index');
+        Route::get('/contract-notifications/{contract}', [NotificationController::class, 'index'])->name('contract-notifications.index');
+        Route::post('/contract-notifications/{contract}/mark-as-done/{notification}', [NotificationController::class, 'markAsDone'])->name('contract-notifications.mark-as-done');
 
         Route::resource('todos', TodoController::class)->except('show');
         Route::post('todos/{todo}/mark-as-done', [TodoController::class, 'markAsDone'])->name('todos.mark-as-done');

@@ -55,8 +55,7 @@
             </a>
             @if(!\App\Models\InquiryPrice::all()->isEmpty())
                 <span class="w-3 h-3 rounded-full bg-myRed-200 absolute -right-0.5 -top-0.5"></span>
-                <span
-                        class="w-3 h-3 rounded-full bg-myRed-200 absolute -right-0.5 -top-0.5 animate-ping"></span>
+                <span class="w-3 h-3 rounded-full bg-myRed-200 absolute -right-0.5 -top-0.5 animate-ping"></span>
             @endif
         </div>
 
