@@ -712,7 +712,8 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::resource('contracts/{contract}/contract-files', ContractFileController::class)->except(['show']);
 
         Route::get('/contracts/{contract}/exits', [ExitController::class, 'index'])->name('contracts.exits.index');
-        Route::patch('/contracts/{contract}/exits/{packing}', [ExitController::class, 'update'])->name('contracts.exits.update');
+        Route::post('/contracts/{contract}/exits/{packing}/submit', [ExitController::class, 'update'])->name('contracts.exits.update');
+        Route::patch('/contracts/{contract}/exits/{packing}/driver', [ExitController::class, 'updateDriver'])->name('contracts.exits.update-driver');
         Route::get('/contracts/{contract}/exits/{packing}', [ExitController::class, 'print'])->name('contracts.exits.print');
 
         Route::get('/contract-notifications/{contract}', [NotificationController::class, 'index'])->name('contract-notifications.index');

@@ -131,6 +131,9 @@
                     <th scope="col" class="p-4">
                         پرینت
                     </th>
+                    <th scope="col" class="p-4">
+                        تایید شده توسط
+                    </th>
                     <th scope="col" class="p-4 rounded-tl-lg">
                         <span class="sr-only">اقدامات</span>
                     </th>
@@ -172,35 +175,29 @@
                                 </a>
                             </div>
                         </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            {{ $packing->user->name ?? 'منتظر صدور و تایید' }}
+                        </td>
                         <td class="table-tr-td border-t-0 border-r-0 whitespace-nowrap">
                             <div class="flex items-center justify-center space-x-4 space-x-reverse">
-                                @if($packing->exit_at)
-                                    <div class="flex items-center font-bold text-green-600">
+                                <div x-data="{open:false}" class="flex justify-center items-center">
+                                    <button type="button" class="table-dropdown-edit text-xs" @click="open = !open">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 ml-1">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"/>
                                         </svg>
-                                        مجوز خروج صادر شده
-                                    </div>
-                                @else
-                                    <div x-data="{open:false}" class="flex justify-center items-center">
-                                        <button type="button" class="table-dropdown-edit text-xs" @click="open = !open">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                      d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15m0-3-3-3m0 0-3 3m3-3V15"/>
-                                            </svg>
-                                            صدور مجوز خروج
-                                        </button>
-                                        <div class="relative z-10" x-show="open" x-cloak>
-                                            <div class="modal-backdrop"></div>
-                                            <div class="fixed z-10 inset-0 overflow-y-auto">
-                                                <div class="modal">
-                                                    <div class="modal-body">
-                                                        <div class="bg-white dark:bg-slate-800 p-4">
-                                                            <div class="mb-4 flex justify-between items-center">
-                                                                <h3 class="text-lg font-bold text-gray-900 dark:text-white">
-                                                                    صدور مجوز خروج
-                                                                </h3>
-                                                                <button type="button" @click="open = false">
+                                        اطلاعات ارسال
+                                    </button>
+                                    <div class="relative z-10" x-show="open" x-cloak>
+                                        <div class="modal-backdrop"></div>
+                                        <div class="fixed z-10 inset-0 overflow-y-auto">
+                                            <div class="modal">
+                                                <div class="modal-body">
+                                                    <div class="bg-white dark:bg-slate-800 p-4">
+                                                        <div class="mb-4 flex justify-between items-center">
+                                                            <h3 class="text-lg font-bold text-gray-900 dark:text-white">
+                                                                صدور مجوز خروج
+                                                            </h3>
+                                                            <button type="button" @click="open = false">
                                                                 <span class="modal-close">
                                                                     <svg xmlns="http://www.w3.org/2000/svg"
                                                                          fill="none"
@@ -213,72 +210,85 @@
                                                                               d="M6 18L18 6M6 6l12 12"/>
                                                                     </svg>
                                                                 </span>
+                                                            </button>
+                                                        </div>
+                                                        <form method="POST" action="{{ route('contracts.exits.update-driver', [$contract->id, $packing->id]) }}">
+                                                            @csrf
+                                                            @method('PATCH')
+
+                                                            <div class="mb-4">
+                                                                <label for="inputAddress{{ $packing->id }}" class="form-label">
+                                                                    آدرس محل تحویل
+                                                                </label>
+                                                                <input type="text" class="input-text" name="address" id="inputAddress{{ $packing->id }}"
+                                                                       placeholder="آدرس محل تحویل را وارد کنید" value="{{ $packing->address }}">
+                                                            </div>
+                                                            <div class="mb-4">
+                                                                <label for="inputDriverName{{ $packing->id }}" class="form-label">
+                                                                    نام راننده
+                                                                </label>
+                                                                <input type="text" class="input-text" name="driver_name" id="inputDriverName{{ $packing->id }}"
+                                                                       placeholder="نام راننده را وارد کنید" value="{{ $packing->driver_name }}">
+                                                            </div>
+                                                            <div class="mb-4">
+                                                                <label for="inputDriverNation{{ $packing->id }}" class="form-label">
+                                                                    کدملی راننده
+                                                                </label>
+                                                                <input type="text" class="input-text" name="driver_nation" id="inputDriverNation{{ $packing->id }}"
+                                                                       placeholder="کدملی راننده را وارد کنید" value="{{ $packing->driver_nation }}">
+                                                            </div>
+                                                            <div class="mb-4">
+                                                                <label for="inputDriverType{{ $packing->id }}" class="form-label">
+                                                                    نوع خودرو
+                                                                </label>
+                                                                <input type="text" class="input-text" name="driver_type" id="inputDriverType{{ $packing->id }}"
+                                                                       placeholder="نوع خودرو را وارد کنید" value="{{ $packing->driver_type }}">
+                                                            </div>
+                                                            <div class="mb-4">
+                                                                <label for="inputDriverNumber{{ $packing->id }}" class="form-label">
+                                                                    شماره خودرو
+                                                                </label>
+                                                                <input type="text" class="input-text" name="driver_number" id="inputDriverNumber{{ $packing->id }}"
+                                                                       placeholder="شماره خودرو را وارد کنید" value="{{ $packing->driver_number }}">
+                                                            </div>
+                                                            <div class="mb-4">
+                                                                <label for="inputReceiver{{ $packing->id }}" class="form-label">
+                                                                    تحویل گیرندگان
+                                                                </label>
+                                                                <textarea name="receiver" id="inputReceiver{{ $packing->id }}" class="input-text h-32 resize-none">{{ $packing->receiver }}</textarea>
+                                                            </div>
+                                                            <div class="flex justify-end items-center space-x-4 space-x-reverse">
+                                                                <button type="submit" class="form-submit-btn">
+                                                                    ثبت اطلاعات
                                                                 </button>
                                                             </div>
-                                                            <form method="POST" action="{{ route('contracts.exits.update', [$contract->id, $packing->id]) }}">
-                                                                @csrf
-                                                                @method('PATCH')
-
-                                                                <div class="mb-4">
-                                                                    <label for="inputExit{{ $packing->id }}" class="form-label">
-                                                                        تاریخ تحویل
-                                                                    </label>
-                                                                    <input type="text" class="input-text date" name="exit_at" id="inputExit{{ $packing->id }}"
-                                                                           placeholder="برای انتخاب تاریخ کلیک کنید">
-                                                                </div>
-                                                                <div class="mb-4">
-                                                                    <label for="inputAddress{{ $packing->id }}" class="form-label">
-                                                                        آدرس محل تحویل
-                                                                    </label>
-                                                                    <input type="text" class="input-text" name="address" id="inputAddress{{ $packing->id }}"
-                                                                           placeholder="آدرس محل تحویل را وارد کنید">
-                                                                </div>
-                                                                <div class="mb-4">
-                                                                    <label for="inputDriverName{{ $packing->id }}" class="form-label">
-                                                                        نام راننده
-                                                                    </label>
-                                                                    <input type="text" class="input-text" name="driver_name" id="inputDriverName{{ $packing->id }}"
-                                                                           placeholder="نام راننده را وارد کنید">
-                                                                </div>
-                                                                <div class="mb-4">
-                                                                    <label for="inputDriverNation{{ $packing->id }}" class="form-label">
-                                                                        کدملی راننده
-                                                                    </label>
-                                                                    <input type="text" class="input-text" name="driver_nation" id="inputDriverNation{{ $packing->id }}"
-                                                                           placeholder="کدملی راننده را وارد کنید">
-                                                                </div>
-                                                                <div class="mb-4">
-                                                                    <label for="inputDriverType{{ $packing->id }}" class="form-label">
-                                                                        نوع خودرو
-                                                                    </label>
-                                                                    <input type="text" class="input-text" name="driver_type" id="inputDriverType{{ $packing->id }}"
-                                                                           placeholder="نوع خودرو را وارد کنید">
-                                                                </div>
-                                                                <div class="mb-4">
-                                                                    <label for="inputDriverNumber{{ $packing->id }}" class="form-label">
-                                                                        شماره خودرو
-                                                                    </label>
-                                                                    <input type="text" class="input-text" name="driver_number" id="inputDriverNumber{{ $packing->id }}"
-                                                                           placeholder="شماره خودرو را وارد کنید">
-                                                                </div>
-                                                                <div class="mb-4">
-                                                                    <label for="inputReceiver{{ $packing->id }}" class="form-label">
-                                                                        تحویل گیرندگان
-                                                                    </label>
-                                                                    <textarea name="receiver" id="inputReceiver{{ $packing->id }}" class="input-text h-32 resize-none"></textarea>
-                                                                </div>
-                                                                <div class="flex justify-end items-center space-x-4 space-x-reverse">
-                                                                    <button type="submit" class="form-submit-btn">
-                                                                        صدور مجوز خروج
-                                                                    </button>
-                                                                </div>
-                                                            </form>
-                                                        </div>
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                                @if($packing->exit_at)
+                                    <div class="flex items-center font-bold text-green-600">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 ml-1">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                                        </svg>
+                                        مجوز خروج صادر شده
+                                    </div>
+                                @else
+                                    @if(auth()->user()->role == 'admin')
+                                        <form action="{{ route('contracts.exits.update', [$contract->id, $packing->id]) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="table-success-btn" onclick="return confirm('مجوز خروج صادر شود ؟')">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15m0-3-3-3m0 0-3 3m3-3V15"/>
+                                                </svg>
+                                                صدور مجوز خروج
+                                            </button>
+                                        </form>
+                                    @endif
                                 @endif
                             </div>
                         </td>

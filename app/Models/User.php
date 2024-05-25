@@ -117,4 +117,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(ContractNotification::class);
     }
+
+    public function packings()
+    {
+        return $this->hasMany(Packing::class);
+    }
 }

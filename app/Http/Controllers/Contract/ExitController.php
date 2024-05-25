@@ -17,10 +17,9 @@ class ExitController extends Controller
         return view('contracts.exits.index', compact('contract', 'packings'));
     }
 
-    public function update(Request $request, Contract $contract, Packing $packing)
+    public function updateDriver(Request $request, Contract $contract, Packing $packing)
     {
         $data = $request->validate([
-            'exit_at' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'driver_name' => 'required|string|max:255',
             'driver_nation' => 'required|string|max:255',
@@ -29,12 +28,18 @@ class ExitController extends Controller
             'receiver' => 'required',
         ]);
 
-        if (!is_null($data['exit_at'])) {
-            $explodeDate = explode('/', $data['exit_at']);
-            $data['exit_at'] = (new Jalalian($explodeDate[0], $explodeDate[1], $explodeDate[2]))->toCarbon()->toDateTimeString();
-        }
-
         $packing->update($data);
+
+        alert()->success('صدور موفق', 'مجوز خروج با موفقیت صادر شد');
+
+        return back();
+    }
+
+    public function update(Contract $contract, Packing $packing)
+    {
+        $packing->exit_at = now();
+        $packing->user_id = auth()->user()->id;
+        $packing->save();
 
         if (!$contract->packings->contains('exit_at', null)) {
             ContractNotification::create([

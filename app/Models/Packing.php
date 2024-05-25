@@ -10,7 +10,8 @@ class Packing extends Model
     use HasFactory;
 
     protected $fillable = [
-        'date', 'contract_id', 'address', 'receiver', 'exit_at', 'driver_name', 'driver_nation', 'driver_type', 'driver_number'
+        'date', 'contract_id', 'address', 'receiver', 'exit_at', 'driver_name', 'driver_nation', 'driver_type', 'driver_number',
+        'user_id'
     ];
 
     public function contract()
@@ -21,5 +22,10 @@ class Packing extends Model
     public function packs()
     {
         return $this->hasMany(Pack::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
