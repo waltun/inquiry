@@ -102,6 +102,7 @@ class MarketPaymentController extends Controller
             'date' => 'nullable|string|max:255',
             'text' => 'nullable|string|max:255',
             'marketer_account_id' => 'required|integer',
+            'type' => 'nullable|string|max:255'
         ]);
 
         if (!is_null($data['date'])) {

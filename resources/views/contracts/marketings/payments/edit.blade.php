@@ -80,6 +80,16 @@
                 </select>
             </div>
 
+            <div class="mb-4">
+                <label for="inputType" class="form-label">نوع پرداختی (اگر نیست خالی بگذارید)</label>
+                <select name="type" id="inputType" class="input-text">
+                    <option value="">انتخاب کنید</option>
+                    <option value="return" {{ old('type', $marketPayment->type) == 'return' ? 'selected' : '' }}>
+                        عودت
+                    </option>
+                </select>
+            </div>
+
         </div>
 
         <div class="flex items-center space-x-4 space-x-reverse">

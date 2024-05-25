@@ -10,7 +10,7 @@ class MarketPayment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'price', 'text', 'date', 'confirm', 'marketer_account_id', 'contract_id', 'marketing_id'
+        'price', 'text', 'date', 'confirm', 'marketer_account_id', 'contract_id', 'marketing_id', 'type'
     ];
 
     public function marketing()

@@ -263,7 +263,11 @@
         $price = 0;
         foreach ($contract->marketings as $marketing) {
             foreach ($marketing->payments()->where('confirm', 1)->where('date', '!=', null)->get() as $payment) {
-                $price += $payment->price;
+                if ($payment->type == 'return') {
+                    $price -= $payment->price;
+                } else {
+                    $price += $payment->price;
+                }
             }
         }
 

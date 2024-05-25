@@ -84,6 +84,9 @@
                         حساب واریزی بازاریاب
                     </th>
                     <th scope="col" class="p-4">
+                        نوع
+                    </th>
+                    <th scope="col" class="p-4">
                         تاییدیه
                     </th>
                     <th scope="col" class="p-4 rounded-tl-lg">
@@ -111,6 +114,16 @@
                         @endphp
                         <td class="table-tr-td border-t-0 border-x-0">
                             {{ $marketerAccount->bank_name }} | {{ $marketerAccount->shaba_number }}
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            @switch($payment->type)
+                                @case('return')
+                                    عودت
+                                    @break
+                                @default
+                                    -
+                                    @break
+                            @endswitch
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             @if(auth()->user()->role == 'admin')
@@ -178,6 +191,15 @@
 
     @php
         $leftPrice = $marketing->price - $marketing->payments()->where('confirm', 1)->where('date', '!=', null)->sum('price');
+        $sumPayment = 0;
+
+        foreach ($marketing->payments()->where('confirm', 1)->where('date', '!=', null)->get() as $marketPayment) {
+            if ($marketPayment->type == 'return') {
+                $sumPayment -= $marketPayment->price;
+            } else {
+                $sumPayment += $marketPayment->price;
+            }
+        }
     @endphp
 
     <div class="mt-8 grid grid-cols-3 gap-4">
@@ -189,7 +211,7 @@
         <div class="p-4 rounded-lg shadow bg-green-500">
             <p class="text-base text-white text-center font-bold">
                 مجموع پرداخت ها
-                : {{ number_format($marketing->payments()->where('confirm', 1)->where('date', '!=', null)->sum('price')) }}
+                : {{ number_format($sumPayment) }}
                 تومان
             </p>
         </div>
