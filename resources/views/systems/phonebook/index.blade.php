@@ -170,7 +170,7 @@
                         {{ $phonebook->mobile1 }}
                     </td>
                     <td class="table-tr-td border-t-0 border-r-0 flex items-center space-x-4 space-x-reverse">
-                        <div class="flex justify-center items-center w-full space-x-4 space-x-reverse">
+                        <div class="flex justify-center items-center w-full space-x-4 space-x-reverse relative">
                             <div class="table-parent-dropdown" x-data="{open:false}">
                                 <button @click="open = !open">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -180,7 +180,7 @@
                                     </svg>
                                 </button>
                                 <div x-show="open" @click.away="open = false" x-cloak
-                                     class="table-dropdown -top-10 -right-28">
+                                     class="table-dropdown -right-9">
                                     <a href="{{ route('phonebook.edit',$phonebook->id) }}"
                                        class="table-dropdown-edit">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -208,7 +208,7 @@
 
                             @can('show-phonebook')
                                 <div x-data="{open:false}">
-                                    <button type="button" class="table-questions" @click="open = !open">
+                                    <button type="button" class="table-info-btn" @click="open = !open">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                              stroke-width="1.5"
                                              stroke="currentColor" class="w-4 h-4 ml-1">

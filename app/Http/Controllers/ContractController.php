@@ -344,21 +344,26 @@ class ContractController extends Controller
 
     public function getOfficialCode()
     {
+        $startOfYear = jdate()->getFirstDayOfYear()->toCarbon();
+
         $contracts = Contract::select('number')->where('number', '!=', null)->where('type', 'official')->get();
+
+        $year = jdate(now())->getYear();
 
         $number = 0;
         $explodeNumber = '';
         foreach ($contracts as $contract) {
             $explodeNumber = explode('-', $contract->number);
-            if ((int)$explodeNumber[2] > $number) {
-                $number = (int)$explodeNumber[2];
+
+            if ((int)$explodeNumber[0] == $year) {
+                if ((int)$explodeNumber[2] > $number) {
+                    $number = (int)$explodeNumber[2];
+                }
             }
         }
 
-        $year = jdate(now())->getYear();
-
         if (!$contracts->isEmpty()) {
-            if ($year > $explodeNumber[0]) {
+            if ($year > (int)$explodeNumber[0]) {
                 $contractNumber = '1000';
             } else {
                 $contractNumber = str_pad($number + 1, 4, "0");
@@ -366,26 +371,31 @@ class ContractController extends Controller
         } else {
             $contractNumber = '1000';
         }
+
         return $year . '-1-' . $contractNumber;
     }
 
     public function getOperationalCode()
     {
+        $startOfYear = jdate()->getFirstDayOfYear()->toCarbon();
+
         $contracts = Contract::select('number')->where('number', '!=', null)->where('type', 'operational')->get();
+
+        $year = jdate(now())->getYear();
 
         $number = 0;
         $explodeNumber = '';
         foreach ($contracts as $contract) {
             $explodeNumber = explode('-', $contract->number);
-            if ((int)$explodeNumber[2] > $number) {
-                $number = (int)$explodeNumber[2];
+            if ((int)$explodeNumber[0] == $year) {
+                if ((int)$explodeNumber[2] > $number) {
+                    $number = (int)$explodeNumber[2];
+                }
             }
         }
 
-        $year = jdate(now())->getYear();
-
         if (!$contracts->isEmpty()) {
-            if ($year > $explodeNumber[0]) {
+            if ($year > (int)$explodeNumber[0]) {
                 $contractNumber = '1000';
             } else {
                 $contractNumber = str_pad($number + 1, 4, "0");

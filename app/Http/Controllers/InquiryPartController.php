@@ -113,7 +113,7 @@ class InquiryPartController extends Controller
             }
         }
 
-        $parts = $parts->latest()->paginate(25);
+        $parts = $parts->latest()->paginate(25)->withQueryString();
 
         return view('inquiry-part.create', compact('inquiry', 'categories', 'parts'));
     }
