@@ -58,6 +58,11 @@ class FinalInvoiceController extends Controller
         return view('invoices.print-page', compact('invoice', 'showPricePart', 'showPriceProduct'));
     }
 
+    public function printPagePrice(Invoice $invoice)
+    {
+        return view('invoices.print-page-price', compact('invoice'));
+    }
+
     public function restore(Invoice $invoice)
     {
         $invoice->update([
@@ -253,10 +258,12 @@ class FinalInvoiceController extends Controller
     public function storeShowInvoice(Request $request, Invoice $invoice)
     {
         $request->validate([
-            'show_invoice' => 'required|integer|in:0,1'
+            'show_invoice' => 'required|integer|in:0,1',
+            'show_description' => 'required|integer|in:0,1'
         ]);
 
         $invoice->show_invoice = $request['show_invoice'];
+        $invoice->show_description = $request['show_description'];
         $invoice->save();
 
         alert()->success('ثبت موفق', 'تنظیمات پیش فاکتور با موفقیت ثبت شد');
