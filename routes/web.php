@@ -235,6 +235,8 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::get('/inquiries/{inquiry}/datasheet', [InquiryController::class, 'datasheet'])->name('inquiries.datasheet');
         Route::get('/inquiries/{inquiry}/print-datasheet', [InquiryController::class, 'printDatasheet'])->name('inquiries.printDatasheet');
 
+        Route::get('/inquiries/{inquiry}/print-price', [InquiryController::class, 'printPrice'])->name('inquiries.print-price');
+
         //Add Inquiry to Invoice
         Route::post('/inquiries/{inquiry}/add-to-invoice', [InquiryController::class, 'addToInvoice'])->name('inquiries.addToInvoice');
 

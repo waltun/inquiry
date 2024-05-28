@@ -1434,4 +1434,9 @@ class InquiryController extends Controller
     {
         return view('inquiries.print-datasheet', compact('inquiry'));
     }
+
+    public function printPrice(Inquiry $inquiry)
+    {
+        return view('inquiries.print-price', compact('inquiry'));
+    }
 }
