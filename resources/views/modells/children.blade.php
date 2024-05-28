@@ -260,6 +260,13 @@
                                class="font-medium text-black text-xs group-hover:text-white dark:text-white">
                                 کد : {{ $child->code }}
                             </a>
+                            @if($child->exclusive_code)
+                                <span class="dark:text-white">|</span>
+                                <a href="{{ route('modells.children',$child->id) }}"
+                                   class="font-medium text-black text-xs group-hover:text-white dark:text-white">
+                                    کد اختصاصی : {{ $child->exclusive_code }}
+                                </a>
+                            @endif
                             <span class="dark:text-white">|</span>
                             <div x-data="{open:false}" class="flex relative">
                                 <button @click="open = !open">

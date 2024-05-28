@@ -76,7 +76,12 @@
             <div class="mt-4">
                 <label for="inputModel" class="form-label">مدل</label>
                 <input type="text" id="inputModel" name="model" class="input-text" value="{{ $modell->model }}"
-                    placeholder="مدل مربوطه را به صورت کامل وارد کنید">
+                       placeholder="مدل مربوطه را به صورت کامل وارد کنید">
+            </div>
+            <div class="mt-4">
+                <label for="inputExculsiveCode" class="form-label">کد اختصاصی</label>
+                <input type="text" id="inputExculsiveCode" name="exclusive_code" class="input-text" value="{{ old('exclusive_code', $modell->exclusive_code) }}"
+                       placeholder="کد اختصاصی را وارد کنید">
             </div>
         </div>
 
@@ -93,7 +98,7 @@
                     <select name="parent_id" id="inputParent" class="input-text">
                         @foreach(\App\Models\Modell::where('parent_id',0)->get() as $modell2)
                             <option
-                                value="{{ $modell2->id }}" {{ $modell2->id == $modell->parent_id ? 'selected' : '' }}>
+                                    value="{{ $modell2->id }}" {{ $modell2->id == $modell->parent_id ? 'selected' : '' }}>
                                 {{ $modell2->name }}
                             </option>
                         @endforeach
@@ -127,7 +132,7 @@
                     <select name="group_id" id="inputGroup" class="input-text">
                         @foreach(\App\Models\Group::all() as $group2)
                             <option
-                                value="{{ $group2->id }}" {{ $group2->id == $modell->group_id ? 'selected' : '' }}>
+                                    value="{{ $group2->id }}" {{ $group2->id == $modell->group_id ? 'selected' : '' }}>
                                 {{ $group2->name }}
                             </option>
                         @endforeach

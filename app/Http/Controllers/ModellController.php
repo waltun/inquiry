@@ -42,7 +42,8 @@ class ModellController extends Controller
             'name' => 'required|string|max:255',
             'percent' => 'nullable|numeric',
             'standard' => 'required|integer',
-            'model' => 'nullable|string|max:255'
+            'model' => 'nullable|string|max:255',
+            'exclusive_code' => 'nullable|string|max:255'
         ]);
 
         if (is_null($request->percent)) {
@@ -74,6 +75,7 @@ class ModellController extends Controller
                 'parent_id' => 0,
                 'percent' => $percent,
                 'standard' => $request['standard'],
+                'exclusive_code' => $request['exclusive_code']
             ]);
         }
 
@@ -99,7 +101,8 @@ class ModellController extends Controller
             'name' => 'required|string|max:2550',
             'percent' => 'nullable|numeric',
             'standard' => 'required|integer',
-            'model' => 'nullable|string|max:255'
+            'model' => 'nullable|string|max:255',
+            'exclusive_code' => 'nullable|string|max:255'
         ]);
 
         if (is_null($request->percent)) {
@@ -118,7 +121,8 @@ class ModellController extends Controller
                 'parent_id' => $request['parent_id'],
                 'percent' => $percent,
                 'standard' => $request['standard'],
-                'model' => $request['model']
+                'model' => $request['model'],
+                'exclusive_code' => $request['exclusive_code']
             ]);
         }
 

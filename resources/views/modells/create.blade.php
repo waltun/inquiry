@@ -105,6 +105,11 @@
                 <input type="text" id="inputModel" name="model" class="input-text" value="{{ old('model') }}"
                        placeholder="مدل مربوطه را به صورت کامل وارد کنید">
             </div>
+            <div class="mt-4">
+                <label for="inputExculsiveCode" class="form-label">کد اختصاصی</label>
+                <input type="text" id="inputExculsiveCode" name="exclusive_code" class="input-text" value="{{ old('exclusive_code') }}"
+                       placeholder="کد اختصاصی را وارد کنید">
+            </div>
         </div>
 
         <div class="card">
