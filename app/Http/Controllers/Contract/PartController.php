@@ -246,12 +246,12 @@ class PartController extends Controller
 
         $part = Part::find($request->part_id);
 
-        if ($product->spareAmounts->isEmpty()) {
-            $sort = 1;
-        } else {
-            $max = $product->spareAmounts()->max('sort');
-            $sort = $max + 1;
-        }
+//        if ($product->spareAmounts->isEmpty()) {
+//            $sort = 1;
+//        } else {
+//            $max = $product->spareAmounts()->max('sort');
+//            $sort = $max + 1;
+//        }
 
         $product->spareAmounts()->create([
             'value' => $request->quantity,
@@ -259,7 +259,7 @@ class PartController extends Controller
             'price' => $part->price,
             'weight' => $part->weight ?? 0,
             'part_id' => $part->id,
-            'sort' => $sort
+//            'sort' => $sort
         ]);
 
         if ($part->collection && !$part->children->isEmpty()) {
@@ -365,12 +365,18 @@ class PartController extends Controller
 
         $amounts = $product->amounts()->where('part_id', $request->part_id)->get();
 
-        foreach ($amounts as $amount) {
-            $amount->delete();
+        if (!$amounts->isEmpty()) {
+            foreach ($amounts as $amount) {
+                $amount->delete();
+            }
         }
 
         $spareAmount = $product->spareAmounts()->where('part_id', $request->part_id)->first();
-        $spareAmount->delete();
+        if (!is_null($spareAmount)) {
+            $spareAmount->delete();
+        }
+
+        $product->delete();
 
         alert()->success('حذف موفق', 'حذف قطعه از قرارداد با موفقیت انجام شد');
     }
