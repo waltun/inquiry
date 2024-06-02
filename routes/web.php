@@ -30,10 +30,12 @@ use App\Http\Controllers\Contract\PackController;
 use App\Http\Controllers\Contract\PackingController;
 use App\Http\Controllers\Contract\PackProductController;
 use App\Http\Controllers\Contract\PictureController;
+use App\Http\Controllers\Contract\QcController;
 use App\Http\Controllers\Contract\RecipeController;
 use App\Http\Controllers\Contract\ProductController as ContractProduct;
 use App\Http\Controllers\Contract\CustomerController as ContractCustomerController;
 use App\Http\Controllers\Contract\RecoupmentController;
+use App\Http\Controllers\GroupChecklistController;
 use App\Http\Controllers\InformationController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\LetterTermController;
@@ -681,6 +683,8 @@ Route::middleware(['auth', 'web'])->group(function () {
 
         Route::resource('contracts/{contract}/pictures', PictureController::class)->except(['show']);
 
+        Route::get('contracts/{contract}/checklists', [QcController::class, 'index'])->name('contracts.checklists.index');
+
         Route::get('/client-invoices', [ClientInvoiceController::class, 'index'])->name('client-invoices.index');
 
         Route::resource('settings/information', InformationController::class)->except(['show']);
@@ -779,6 +783,11 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::patch('/purchase/{purchase}/restore', [PurchaseController::class, 'restorePurchased'])->name('purchase.restore-purchased');
 
         Route::get('/combine-codes', [CombineCodeController::class, 'index'])->name('combine-codes.index');
+
+        Route::get('/groups/{group}/checklist', [GroupChecklistController::class, 'index'])->name('groups.checklist.index');
+        Route::post('/groups/{group}/checklist', [GroupChecklistController::class, 'store'])->name('groups.checklist.store');
+        Route::post('/groups/{group}/checklist-sort', [GroupChecklistController::class, 'storeSort'])->name('groups.checklist.storeSort');
+        Route::post('/groups/qc-checklist/delete', [GroupChecklistController::class, 'destroy'])->name('groups.checklist.destroy');
     });
 
     Route::middleware('client')->group(function () {

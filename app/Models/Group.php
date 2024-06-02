@@ -23,4 +23,9 @@ class Group extends Model
     {
         return $this->belongsToMany(Part::class)->withPivot('value');
     }
+
+    public function checklists()
+    {
+        return $this->belongsToMany(Checklist::class)->withPivot(['completed', 'completed_at', 'sort']);
+    }
 }

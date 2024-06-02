@@ -91,7 +91,7 @@
 
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 ml-1">
                 <path
-                        d="M5.85 3.5a.75.75 0 0 0-1.117-1 9.719 9.719 0 0 0-2.348 4.876.75.75 0 0 0 1.479.248A8.219 8.219 0 0 1 5.85 3.5ZM19.267 2.5a.75.75 0 1 0-1.118 1 8.22 8.22 0 0 1 1.987 4.124.75.75 0 0 0 1.48-.248A9.72 9.72 0 0 0 19.266 2.5Z"/>
+                    d="M5.85 3.5a.75.75 0 0 0-1.117-1 9.719 9.719 0 0 0-2.348 4.876.75.75 0 0 0 1.479.248A8.219 8.219 0 0 1 5.85 3.5ZM19.267 2.5a.75.75 0 1 0-1.118 1 8.22 8.22 0 0 1 1.987 4.124.75.75 0 0 0 1.48-.248A9.72 9.72 0 0 0 19.266 2.5Z"/>
                 <path fill-rule="evenodd"
                       d="M12 2.25A6.75 6.75 0 0 0 5.25 9v.75a8.217 8.217 0 0 1-2.119 5.52.75.75 0 0 0 .298 1.206c1.544.57 3.16.99 4.831 1.243a3.75 3.75 0 1 0 7.48 0 24.583 24.583 0 0 0 4.83-1.244.75.75 0 0 0 .298-1.205 8.217 8.217 0 0 1-2.118-5.52V9A6.75 6.75 0 0 0 12 2.25ZM9.75 18c0-.034 0-.067.002-.1a25.05 25.05 0 0 0 4.496 0l.002.1a2.25 2.25 0 1 1-4.5 0Z"
                       clip-rule="evenodd"/>
@@ -296,7 +296,7 @@
                 $salePercent = $saleSuccessCount / 5 * 100;
             @endphp
             <div
-                    class="flex items-center justify-between mt-4 space-x-4 space-x-reverse p-2 rounded-md border border-yellow-400">
+                class="flex items-center justify-between mt-4 space-x-4 space-x-reverse p-2 rounded-md border border-yellow-400">
                 <p class="text-xs font-bold text-black">وضعیت</p>
                 <div class="w-full bg-gray-200 rounded-full">
                     <div class="bg-blue-600 text-xs font-medium text-white text-center p-0.5 leading-none rounded-full"
@@ -681,7 +681,7 @@
                 $financialPercent = $financialSuccessCount / 5 * 100;
             @endphp
             <div
-                    class="flex items-center justify-between mt-4 space-x-4 space-x-reverse p-2 rounded-md border border-yellow-400">
+                class="flex items-center justify-between mt-4 space-x-4 space-x-reverse p-2 rounded-md border border-yellow-400">
                 <p class="text-xs font-bold text-black">وضعیت</p>
                 <div class="w-full bg-gray-200 rounded-full">
                     <div class="bg-blue-600 text-xs font-medium text-white text-center p-0.5 leading-none rounded-full"
@@ -959,7 +959,7 @@
             </div>
 
             <div
-                    class="flex items-center justify-between mt-4 space-x-4 space-x-reverse p-2 rounded-md border border-yellow-400">
+                class="flex items-center justify-between mt-4 space-x-4 space-x-reverse p-2 rounded-md border border-yellow-400">
                 <p class="text-xs font-bold text-black">وضعیت</p>
                 <div class="w-full bg-gray-200 rounded-full">
                     <div class="bg-blue-600 text-xs font-medium text-white text-center p-0.5 leading-none rounded-full"
@@ -977,6 +977,37 @@
                 </span>
             </div>
             <div class="grid grid-cols-6 gap-4">
+                <a href="{{ route('contracts.qc-checklist.index', $contract->id) }}"
+                   class="p-2 rounded-2xl shadow flex items-center justify-between border border-gray-300 {{ !$contract->recipe ? 'bg-gray-300 bg-opacity-50 border-opacity-50' : 'bg-green-400' }}">
+                    <div class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 12h.007v.008H3.75V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm-.375 5.25h.007v.008H3.75v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"/>
+                        </svg>
+                        <div class="mr-2">
+                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white {{ !$contract->recipe ? 'text-opacity-40' : '' }}">
+                                چک لیست های کنترل کیفیت
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        @if(!$contract->recipe)
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                 class="w-5 h-5 text-gray-600 text-opacity-40">
+                                <path fill-rule="evenodd"
+                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        @else
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                 stroke-width="1.5"
+                                 stroke="currentColor" class="w-5 h-5 text-gray-600">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                            </svg>
+                        @endif
+                    </div>
+                </a>
+
                 <a href="{{ route('contracts.invoices.index', $contract->id) }}"
                    class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 bg-opacity-50 border-opacity-50">
                     <div class="flex items-center">
@@ -1021,25 +1052,6 @@
                         <div class="mr-4">
                             <p class="font-bold text-black text-xs group-hover:text-white dark:text-white text-opacity-40">
                                 شرایط گارانتی
-                            </p>
-                        </div>
-                    </div>
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white text-opacity-40">
-                            <path fill-rule="evenodd"
-                                  d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                                  clip-rule="evenodd"/>
-                        </svg>
-                    </div>
-                </a>
-
-                <a href="{{ route('contracts.invoices.index', $contract->id) }}"
-                   class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 bg-opacity-50 border-opacity-50">
-                    <div class="flex items-center">
-                        <div class="mr-4">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white text-opacity-40">
-                                چک لیست های نصب
                             </p>
                         </div>
                     </div>
