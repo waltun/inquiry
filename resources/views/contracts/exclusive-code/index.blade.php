@@ -224,6 +224,133 @@
                     </form>
                 </div>
             @endif
+
+            <!-- Part List -->
+            @php
+                $types = ['setup','years','control','power_cable','control_cable','pipe','install_setup_price','setup_price','supervision','transport','other','setup_one','install','cable','canal','copper_piping','carbon_piping', 'coil',null];
+            @endphp
+            @foreach($types as $type)
+                @php
+                    $products = $contract->products()->where('part_id','!=',0)->where('type',$type)->get();
+                @endphp
+                @if(!$products->isEmpty())
+                    <form method="POST" action="{{ route('contracts.exclusive-code.store', $contract->id) }}" class="card">
+                        @csrf
+                        @method('PATCH')
+                        <div class="card-header">
+                            <p class="card-title text-lg">
+                                @switch($type)
+                                    @case('setup')
+                                        قطعات یدکی راه اندازی
+                                        @break
+                                    @case('years')
+                                        قطعات یدکی دوسالانه
+                                        @break
+                                    @case('control')
+                                        قطعات کنترلی
+                                        @break
+                                    @case('power_cable')
+                                        قطعات کابل قدرت
+                                        @break
+                                    @case('control_cable')
+                                        قطعات کابل کنترلی
+                                        @break
+                                    @case('pipe')
+                                        قطعات لوله و اتصالات
+                                        @break
+                                    @case('install_setup_price')
+                                        دستمزد نصب و راه اندازی
+                                        @break
+                                    @case('setup_price')
+                                        دستمزد راه اندازی
+                                        @break
+                                    @case('supervision')
+                                        دستمزد نظارت
+                                        @break
+                                    @case('transport')
+                                        هزینه حمل
+                                        @break
+                                    @case('other')
+                                        سایر تجهیزات
+                                        @break
+                                    @case('setup_one')
+                                        قطعات راه اندازی
+                                        @break
+                                    @case('install')
+                                        قطعات نصب
+                                        @break
+                                    @case('cable')
+                                        اقلام کابل کشی
+                                        @break
+                                    @case('canal')
+                                        اقلام کانال کشی
+                                        @break
+                                    @case('copper_piping')
+                                        دستمزد لوله کشی مسی
+                                        @break
+                                    @case('carbon_piping')
+                                        دستمزد لوله کشی کربن استیل
+                                        @break
+                                    @case('coil')
+                                        انواع کویل
+                                        @break
+                                    @case('')
+                                        سایر تجهیزات (قطعات قبلی)
+                                        @break
+                                @endswitch
+                            </p>
+                        </div>
+                        <table class="w-full border-collapse">
+                            <thead>
+                            <tr class="table-th-tr">
+                                <th class="p-4 rounded-tr-lg">ردیف</th>
+                                <th class="p-4">نام قطعه</th>
+                                <th class="p-4">واحد</th>
+                                <th class="p-4">تعداد</th>
+                                <th class="p-4 rounded-tl-lg">کد اختصاصی</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @php
+                                $partTotalPrice = 0;
+                            @endphp
+                            @foreach($products as $product)
+                                @php
+                                    $part = \App\Models\Part::find($product->part_id);
+                                @endphp
+                                <input type="hidden" name="products[]" value="{{ $product->id }}">
+                                <tr class="table-tb-tr group whitespace-normal {{ $loop->even ? 'bg-sky-100' : '' }}">
+                                    <td class="table-tr-td border-t-0 border-l-0">
+                                        {{ $loop->index + 1 }}
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-x-0">
+                                        <div class="flex items-center justify-center">
+                                            {{ $part->name }}
+                                        </div>
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-x-0">
+                                        {{ $part->unit }}
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-x-0">
+                                        {{ $product->quantity }}
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-r-0">
+                                        <input type="text" name="codes[]" class="input-text w-36 text-center"
+                                               value="{{ $product->code ?? '' }}">
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+
+                        <div class="mt-4 flex justify-end">
+                            <button type="submit" class="page-success-btn">
+                                ثبت اطلاعات
+                            </button>
+                        </div>
+                    </div>
+                @endif
+            @endforeach
         @else
             <div class="mt-8">
                 <p class="text-base text-center text-red-600 font-bold">

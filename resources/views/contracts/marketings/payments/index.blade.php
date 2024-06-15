@@ -113,7 +113,7 @@
                             $marketerAccount = \App\Models\MarketerAccount::find($payment->marketer_account_id);
                         @endphp
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $marketerAccount->bank_name }} | {{ $marketerAccount->shaba_number }}
+                            {{ $marketerAccount->bank_name }} | {{ $marketerAccount->shaba_number }} - {{ $marketerAccount->account_name }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             @switch($payment->type)
