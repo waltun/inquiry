@@ -363,20 +363,10 @@ class PartController extends Controller
     {
         $product = ContractProduct::find($request->product_id);
 
-        $amounts = $product->amounts()->where('part_id', $request->part_id)->get();
-
-        if (!$amounts->isEmpty()) {
-            foreach ($amounts as $amount) {
-                $amount->delete();
-            }
-        }
-
         $spareAmount = $product->spareAmounts()->where('part_id', $request->part_id)->first();
         if (!is_null($spareAmount)) {
             $spareAmount->delete();
         }
-
-        $product->delete();
 
         alert()->success('حذف موفق', 'حذف قطعه از قرارداد با موفقیت انجام شد');
     }

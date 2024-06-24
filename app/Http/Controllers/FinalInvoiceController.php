@@ -33,6 +33,17 @@ class FinalInvoiceController extends Controller
             $invoices = $invoices->where('user_id', request('user_id'));
         }
 
+        if (request()->has('contract') && !is_null(request('contract'))) {
+            if (request('contract') == "1") {
+                $invoices = $invoices->where('contract_id', '!=', null);
+            }
+
+            if (request('contract') == "0") {
+                $invoices = $invoices->where('contract_id', null);
+            }
+
+        }
+
         if (auth()->user()->role == 'admin') {
             $invoices = $invoices->latest()->where('complete', true)->paginate(25)->withQueryString();
         } else {

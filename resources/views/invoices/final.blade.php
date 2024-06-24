@@ -95,6 +95,7 @@
         <form method="GET" action="" class="grid grid-cols-4 gap-4" id="search-form">
             <input type="text" id="inputSearch" class="input-text" name="search"
                    placeholder="جستجو نام و شماره و بازاریاب و... + اینتر" value="{{ request('search') }}">
+
             <select name="user_id" id="inputManager" class="input-text" onchange="searchForm()">
                 <option value="">انتخاب مسئول پروژه</option>
                 @foreach(\App\Models\User::all() as $user)
@@ -102,6 +103,12 @@
                         {{ $user->name }}
                     </option>
                 @endforeach
+            </select>
+
+            <select name="contract" id="inputContract" class="input-text" onchange="searchForm()">
+                <option value="">قرارداد صادر شده / نشده</option>
+                <option value="1" {{ request('contract') == "1" ? 'selected' : '' }}>صادر شده</option>
+                <option value="0" {{ request('contract') == "0" ? 'selected' : '' }}>صادر نشده</option>
             </select>
         </form>
     </div>
@@ -129,6 +136,9 @@
                     </th>
                     <th scope="col" class="p-4">
                         تاریخ مشاهده مشتری
+                    </th>
+                    <th scope="col" class="p-4">
+                        قرارداد
                     </th>
                     <th scope="col" class="p-4 rounded-tl-lg">
                         <span class="sr-only">اقدامات</span>
@@ -174,6 +184,23 @@
                                     -
                                 @endif
                             </a>
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            @if($invoice->contract)
+                                <div class="flex items-center justify-center space-x-2 space-x-reverse">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-green-600">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                                    </svg>
+                                    <p class="text-green-600">صادر شده</p>
+                                </div>
+                            @else
+                                <div class="flex items-center justify-center space-x-2 space-x-reverse">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-red-500">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
+                                    </svg>
+                                    <p class="text-red-500">صادر نشده</p>
+                                </div>
+                            @endif
                         </td>
                         <td class="table-tr-td border-t-0 border-r-0">
                             <div class="flex items-center justify-center">

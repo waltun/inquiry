@@ -254,13 +254,13 @@ class InquiryProductController extends Controller
                 if ($product->inquiry->submit) {
                     if ($request->amounts[$index] > 0) {
                         if (!in_array($part->categories->last()->id, $electricalIds)) {
-                            $this->processInquiryParts($part, $lastTime, $product->inquiry);
+                            $this->processInquiryParts($part, $lastTime, $product->inquiry, $electricalIds);
                         }
                     }
 
                     if ($part->collection) {
                         if (!in_array($part->categories->last()->id, $electricalIds)) {
-                            $this->calculatePrice($part);
+                            $this->calculatePrice($part, $electricalIds);
                         }
                     }
                 }
@@ -286,48 +286,52 @@ class InquiryProductController extends Controller
         return back();
     }
 
-    function processInquiryParts($part, $lastTime, $inquiry)
+    function processInquiryParts($part, $lastTime, $inquiry, $electricalIds)
     {
-        if (!$part->children->isEmpty()) {
-            foreach ($part->children as $child) {
-                $this->processInquiryParts($child, $lastTime, $inquiry);
-            }
-        } else {
-            if (
-                !auth()->user()->inquiryPrices()->where('part_id', $part->id)->where('inquiry_id', $inquiry->id)->exists() &&
-                (($part->price_updated_at < $lastTime && $part->price > 0) || ($part->price_updated_at < $lastTime && $part->price == 0))
-            ) {
-                auth()->user()->inquiryPrices()->create([
-                    'part_id' => $part->id,
-                    'inquiry_id' => $inquiry->id
-                ]);
+        if (!in_array($part->categories->last()->id, $electricalIds)) {
+            if (!$part->children->isEmpty()) {
+                foreach ($part->children as $child) {
+                    $this->processInquiryParts($child, $lastTime, $inquiry, $electricalIds);
+                }
+            } else {
+                if (
+                    !auth()->user()->inquiryPrices()->where('part_id', $part->id)->where('inquiry_id', $inquiry->id)->exists() &&
+                    (($part->price_updated_at < $lastTime && $part->price > 0) || ($part->price_updated_at < $lastTime && $part->price == 0))
+                ) {
+                    auth()->user()->inquiryPrices()->create([
+                        'part_id' => $part->id,
+                        'inquiry_id' => $inquiry->id
+                    ]);
+                }
             }
         }
     }
 
-    function calculatePrice($part)
+    function calculatePrice($part, $electricalIds)
     {
         $price = 0;
 
-        foreach ($part->children as $child) {
-            if ($child->collection && !$child->children()->where('head_part_id', $part->id)->get()->isEmpty()) {
-                foreach ($child->children()->where('head_part_id', $part->id)->get() as $sefid) {
-                    if (!$sefid->children->isEmpty()) {
-                        $price += $this->calculatePrice($sefid) * $sefid->pivot->value;
-                    } else {
-                        $price += $sefid->price * $sefid->pivot->value;
+        if (!in_array($part->categories->last()->id, $electricalIds)) {
+            foreach ($part->children as $child) {
+                if ($child->collection && !$child->children()->where('head_part_id', $part->id)->get()->isEmpty()) {
+                    foreach ($child->children()->where('head_part_id', $part->id)->get() as $sefid) {
+                        if (!$sefid->children->isEmpty()) {
+                            $price += $this->calculatePrice($sefid, $electricalIds) * $sefid->pivot->value;
+                        } else {
+                            $price += $sefid->price * $sefid->pivot->value;
+                        }
                     }
+                } elseif (!$child->children->isEmpty()) {
+                    $price += $this->calculatePrice($child, $electricalIds) * $child->pivot->value;
+                } else {
+                    $price += $child->price * $child->pivot->value;
                 }
-            } elseif (!$child->children->isEmpty()) {
-                $price += $this->calculatePrice($child) * $child->pivot->value;
-            } else {
-                $price += $child->price * $child->pivot->value;
             }
-        }
 
-        $part->price = $price;
-        $part->price_updated_at = now();
-        $part->save();
+            $part->price = $price;
+            $part->price_updated_at = now();
+            $part->save();
+        }
 
         return $price;
     }
