@@ -122,4 +122,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Packing::class);
     }
+
+    public function contractNotes()
+    {
+        return $this->hasMany(ContractNote::class);
+    }
 }

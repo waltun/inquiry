@@ -25,6 +25,7 @@ use App\Http\Controllers\Contract\FinalContractController;
 use App\Http\Controllers\Contract\GuaranteeController;
 use App\Http\Controllers\Contract\LoadingController;
 use App\Http\Controllers\Contract\MarketingController;
+use App\Http\Controllers\Contract\NoteController;
 use App\Http\Controllers\Contract\NotificationController;
 use App\Http\Controllers\Contract\PackController;
 use App\Http\Controllers\Contract\PackingController;
@@ -722,6 +723,8 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::post('/contracts/{contract}/exits/{packing}/submit', [ExitController::class, 'update'])->name('contracts.exits.update');
         Route::patch('/contracts/{contract}/exits/{packing}/driver', [ExitController::class, 'updateDriver'])->name('contracts.exits.update-driver');
         Route::get('/contracts/{contract}/exits/{packing}', [ExitController::class, 'print'])->name('contracts.exits.print');
+
+        Route::resource('contracts/{contract}/notes', NoteController::class)->except(['show']);
 
         Route::get('/contract-notifications/{contract}', [NotificationController::class, 'index'])->name('contract-notifications.index');
         Route::post('/contract-notifications/{contract}/mark-as-done/{notification}', [NotificationController::class, 'markAsDone'])->name('contract-notifications.mark-as-done');

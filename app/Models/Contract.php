@@ -104,4 +104,9 @@ class Contract extends Model
     {
         return $this->hasMany(ContractNotification::class);
     }
+
+    public function contractNotes()
+    {
+        return $this->hasMany(ContractNote::class);
+    }
 }
