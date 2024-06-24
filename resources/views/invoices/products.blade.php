@@ -221,7 +221,7 @@
                                     {{ $product->model_custom_name ?? $modell->name }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
-                                    {{ $product->description ?? '-' }}
+                                    <input type="text" class="input-text w-20 text-center" value="{{ $product->description }}" name="descriptions[]">
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     <input type="text" class="input-text w-20 text-center"

@@ -149,6 +149,7 @@
                 <div class="card">
                     <div class="card-header">
                         <p class="card-title text-lg">
+                            {{ $product->sort }} -
                             لیست قطعات و قیمت محصول
                             <span class="text-red-600">{{ $modell->parent->name }}</span> -
                             <span class="text-red-600">{{ $product->model_custom_name ?? $modell->name }}</span>
@@ -185,7 +186,12 @@
                         @foreach($product->amounts()->orderBy('sort','ASC')->get() as $amount)
                             @php
                                 $part = \App\Models\Part::find($amount->part_id);
-                                $totalPrice += ($amount->price * $amount->value);
+                                if ($amount->price) {
+                                    $totalPrice += ($amount->price * $amount->value);
+                                } else {
+                                    $totalPrice += ($part->price * $amount->value);
+                                }
+
                                 $weight += $amount->weight * $amount->value;
                             @endphp
                             <tr class="table-tb-tr group whitespace-normal">
@@ -206,7 +212,7 @@
                                 </td>
                                 @if(auth()->user()->role == 'admin')
                                     <td class="table-tr-td border-t-0 border-x-0 whitespace-nowrap">
-                                        {{ number_format($amount->price) }}
+                                        {{ $amount->price ? number_format($amount->price) : number_format($part->price) }}
                                     </td>
                                 @endif
                                 <td class="table-tr-td border-t-0 border-x-0">
@@ -217,7 +223,7 @@
                                 </td>
                                 @if(auth()->user()->role == 'admin')
                                     <td class="table-tr-td border-t-0 border-r-0">
-                                        {{ number_format($amount->price * $amount->value) }}
+                                        {{ $amount->price ? number_format($amount->price * $amount->value) : number_format($part->price * $amount->value) }}
                                     </td>
                                 @endif
                             </tr>
@@ -308,6 +314,7 @@
                 <div class="card">
                     <div class="card-header">
                         <p class="card-title text-lg">
+                            {{ $product->sort }} -
                             تک قطعه <span class="text-red-600">{{ $part->name }}</span>
                         </p>
                     </div>

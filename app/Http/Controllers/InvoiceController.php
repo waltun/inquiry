@@ -55,12 +55,15 @@ class InvoiceController extends Controller
             'percents' => 'required|array',
             'sorts.*' => 'required|numeric',
             'sorts' => 'required|array',
+            'descriptions.*' => 'nullable|string|max:255',
+            'descriptions' => 'nullable|array',
         ]);
 
         foreach ($request->products as $index => $id) {
             $product = InvoiceProduct::find($id);
 
             $product->quantity = $request->quantities[$index];
+            $product->description = $request->descriptions[$index];
             $product->price = $request->prices[$index];
             $product->percent = $request->percents[$index];
             $product->sort = $request->sorts[$index];
