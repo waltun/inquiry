@@ -185,12 +185,16 @@ class InvoiceController extends Controller
         $data = $request->validate([
             'tax' => 'required|in:0,1',
             'description' => 'required',
-            'user_ids' => 'required|array'
+            'user_ids' => 'required|array',
+            'buyer_position' => 'required|string|max:255',
+            'buyer_name' => 'required|string|max:255',
         ]);
 
         $invoice->update([
             'tax' => $request->tax,
             'description' => $request->description,
+            'buyer_name' => $request->buyer_name,
+            'buyer_position' => $request->buyer_position,
         ]);
 
         $invoice->users()->sync($data['user_ids']);

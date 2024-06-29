@@ -82,6 +82,12 @@
                         @endif
 
                         <div class="space-x-4 space-x-reverse flex items-center">
+                            @if(!is_null($category->image))
+                                <a href="{{ route('categories.children',$category->id) }}">
+                                    <img src="{{ $category->image }}" alt="" class="w-10 h-10 rounded-md">
+                                </a>
+                                <span class="dark:text-white">|</span>
+                            @endif
                             <a href="{{ route('categories.children',$category->id) }}"
                                class="font-bold text-black text-base group-hover:text-white dark:text-white">
                                 {{ $category->name }} | {{ $category->name_en }}

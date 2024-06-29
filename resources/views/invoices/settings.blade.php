@@ -112,6 +112,16 @@
             </div>
 
             <div class="mt-4">
+                <label for="inputBuyerPosition" class="form-label">قابل توجه</label>
+                <input type="text" class="input-text" name="buyer_position" id="inputBuyerPosition" value="{{ $invoice->buyer_position }}">
+            </div>
+
+            <div class="mt-4">
+                <label for="inputBuyerName" class="form-label">نام شخص</label>
+                <input type="text" class="input-text" name="buyer_name" id="inputBuyerName" value="{{ $invoice->buyer_name }}">
+            </div>
+
+            <div class="mt-4">
                 <label for="inputDescription" class="form-label">شرایط پیش فاکتور</label>
                 <textarea name="description" id="inputDescription"
                           class="input-text h-64">
@@ -127,7 +137,7 @@
                 <select name="user_ids[]" id="inputUser" class="input-text" multiple>
                     @foreach($users as $user)
                         <option
-                            value="{{ $user->id }}" {{ in_array($user->id, $userIds) ? 'selected' : '' }}>
+                                value="{{ $user->id }}" {{ in_array($user->id, $userIds) ? 'selected' : '' }}>
                             {{ $user->name }} | {{ $user->phone }}
                         </option>
                     @endforeach

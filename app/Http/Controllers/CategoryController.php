@@ -49,6 +49,7 @@ class CategoryController extends Controller
             'name' => 'required|string|max:255',
             'name_en' => 'nullable|string|max:255',
             'parent_id' => 'required',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:1024',
         ]);
 
         if ($request['parent_id'] == 0) {
@@ -61,11 +62,24 @@ class CategoryController extends Controller
             ]);
         }
 
+        if (isset($request['image']) && !is_null($request['image'])) {
+            $path = '../public_html/images/categories/';
+            $savePath = '/images/categories/';
+
+            $fileNewName = 'Category' . '-(' . rand(1, 99) . ')' . '.' . $request->image->extension();
+            $request->image->move($path, $fileNewName);
+
+            $finalFile = $savePath . $fileNewName;
+        } else {
+            $finalFile = '';
+        }
+
         Category::create([
             'name' => $request['name'],
             'name_en' => $request['name_en'],
             'code' => $request['code'],
-            'parent_id' => $request['parent_id']
+            'parent_id' => $request['parent_id'],
+            'image' => $finalFile,
         ]);
 
         alert()->success('ثبت موفق', 'ثبت دسته بندی با موفقیت انجام شد');
@@ -104,11 +118,29 @@ class CategoryController extends Controller
             ]);
         }
 
+        if (isset($request['image']) && !is_null($request['image'])) {
+            if (!is_null($category->image)) {
+                $file = '../public_html' . $category->image;
+                unlink($file);
+            }
+
+            $path = '../public_html/images/categories/';
+            $savePath = '/images/categories/';
+
+            $fileNewName = 'Category' . '-(' . rand(1, 99) . ')' . '.' . $request->image->extension();
+            $request->image->move($path, $fileNewName);
+
+            $finalFile = $savePath . $fileNewName;
+        } else {
+            $finalFile = $category->image;
+        }
+
         $category->update([
             'name' => $request['name'],
             'name_en' => $request['name_en'],
             'code' => $request['code'],
-            'parent_id' => $request['parent_id']
+            'parent_id' => $request['parent_id'],
+            'image' => $finalFile,
         ]);
 
         alert()->success('ویرایش موفق', 'ویرایش دسته بندی با موفقیت انجام شد');
@@ -123,6 +155,12 @@ class CategoryController extends Controller
 
         if (count($category->children) > 0) {
             $category->children()->delete();
+        }
+
+        $file = '../public_html' . $category->image;
+
+        if (is_file($file)) {
+            unlink($file);
         }
 
         $category->delete();

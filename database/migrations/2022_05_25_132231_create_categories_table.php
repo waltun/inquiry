@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->string('code');
             $table->string('name_en');
             $table->boolean('show_count')->nullable();
+            $table->string('image')->nullable();
 
             $table->unsignedBigInteger('parent_id')->default(0);
 

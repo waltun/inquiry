@@ -2,11 +2,12 @@
     <x-slot name="js">
         <script>
             let submitButton = document.getElementById('submit-button');
-            submitButton.addEventListener('click',function (){
+            submitButton.addEventListener('click', function () {
                 submitButton.classList.add('hidden')
             });
         </script>
     </x-slot>
+
     <!-- Breadcrumb -->
     <div class="flex items-center space-x-2 space-x-reverse">
         <a href="{{ route('dashboard') }}" class="flex items-center">
@@ -68,7 +69,7 @@
     </div>
 
     <!-- Form -->
-    <form method="POST" action="{{ route('categories.store') }}" class="md:grid grid-cols-2 gap-4 mt-4">
+    <form method="POST" action="{{ route('categories.store') }}" class="md:grid grid-cols-2 gap-4 mt-4" enctype="multipart/form-data">
         @csrf
 
         <div class="card">
@@ -115,13 +116,18 @@
         </div>
 
         <div class="card">
-           <div class="card-header">
-               <p class="card-title">کد</p>
-           </div>
+            <div class="card-header">
+                <p class="card-title">کد و تصویر</p>
+            </div>
             <div class="mt-4">
                 <label for="inputCode" class="form-label">کد دسته بندی</label>
                 <input type="text" id="inputCode" name="code" class="input-text" placeholder="مثال : 1010 (4 رقم)"
                        value="{{ $code }}">
+            </div>
+
+            <div class="mt-4">
+                <label for="inputImage" class="form-label">تصویر دسته بندی</label>
+                <input type="file" id="inputImage" name="image" class="input-text" value="{{ old('image') }}">
             </div>
         </div>
 

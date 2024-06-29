@@ -61,7 +61,7 @@
     </div>
 
     <!-- Form -->
-    <form method="POST" action="{{ route('categories.update',$category->id) }}" class="md:grid grid-cols-2 gap-4 mt-4">
+    <form method="POST" action="{{ route('categories.update',$category->id) }}" class="md:grid grid-cols-2 gap-4 mt-4" enctype="multipart/form-data">
         @csrf
         @method('PATCH')
 
@@ -94,12 +94,18 @@
 
         <div class="card">
             <div class="card-header">
-                <p class="card-title">کد</p>
+                <p class="card-title">کد و تصویر</p>
             </div>
+
             <div class="mt-4">
                 <label for="inputCode" class="form-label">کد دسته بندی</label>
                 <input type="text" id="inputCode" name="code" class="input-text" placeholder="مثال : 1010 (4 رقم)"
                        value="{{ $category->code }}">
+            </div>
+
+            <div class="mt-4">
+                <label for="inputImage" class="form-label">تصویر دسته بندی</label>
+                <input type="file" id="inputImage" name="image" class="input-text" value="{{ old('image', $category->image) }}">
             </div>
         </div>
 
