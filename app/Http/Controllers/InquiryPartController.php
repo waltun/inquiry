@@ -199,11 +199,28 @@ class InquiryPartController extends Controller
             'types' => 'required'
         ]);
 
+        $electricalIds = [492, 493, 494, 495, 496];
+
         $types = ['setup', 'years', 'control', 'power_cable', 'control_cable', 'pipe', 'install_setup_price', 'setup_price', 'supervision', 'transport', 'other', 'setup_one', 'install', 'cable', 'canal', 'copper_piping', 'carbon_piping', 'coil', null];
+
+        $setting = Setting::where('active', '1')->first();
+        if ($setting) {
+            if ($setting->price_color_type == 'month') {
+                $lastTime = \Carbon\Carbon::now()->subMonth($setting->price_color_last_time);
+            }
+            if ($setting->price_color_type == 'day') {
+                $lastTime = \Carbon\Carbon::now()->subDay($setting->price_color_last_time);
+            }
+            if ($setting->price_color_type == 'hour') {
+                $lastTime = \Carbon\Carbon::now()->subHour($setting->price_color_last_time);
+            }
+        }
 
         foreach ($types as $type) {
             if ($request['submitType'] == $type) {
                 foreach ($inquiry->products()->where('part_id', '!=', 0)->where('type', $type)->get() as $index => $product) {
+                    $part = Part::find($product->part_id);
+
                     $product->update([
                         'part_id' => $request->part_ids[$index],
                         'quantity' => $request->quantities[$index],
@@ -212,6 +229,20 @@ class InquiryPartController extends Controller
                         'type' => $request->types[$index],
                         'price' => $request->prices[$index] ?? $product->price,
                     ]);
+
+                    if ($product->inquiry->submit) {
+                        if ($request->quantities[$index] > 0) {
+                            if (!in_array($part->categories->last()->id, $electricalIds)) {
+                                $this->processInquiryParts($part, $lastTime, $product->inquiry, $electricalIds);
+                            }
+                        }
+
+                        if ($part->collection) {
+                            if (!in_array($part->categories->last()->id, $electricalIds)) {
+                                $this->calculatePrice($part, $electricalIds);
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -219,6 +250,56 @@ class InquiryPartController extends Controller
         alert()->success('ثبت موفق', 'ثبت مقادیر با موفقیت انجام شد');
 
         return back();
+    }
+
+    function processInquiryParts($part, $lastTime, $inquiry, $electricalIds)
+    {
+        if (!in_array($part->categories->last()->id, $electricalIds)) {
+            if (!$part->children->isEmpty()) {
+                foreach ($part->children as $child) {
+                    $this->processInquiryParts($child, $lastTime, $inquiry, $electricalIds);
+                }
+            } else {
+                if (
+                    !auth()->user()->inquiryPrices()->where('part_id', $part->id)->where('inquiry_id', $inquiry->id)->exists() &&
+                    (($part->price_updated_at < $lastTime && $part->price > 0) || ($part->price_updated_at < $lastTime && $part->price == 0))
+                ) {
+                    auth()->user()->inquiryPrices()->create([
+                        'part_id' => $part->id,
+                        'inquiry_id' => $inquiry->id
+                    ]);
+                }
+            }
+        }
+    }
+
+    function calculatePrice($part, $electricalIds)
+    {
+        $price = 0;
+
+        if (!in_array($part->categories->last()->id, $electricalIds)) {
+            foreach ($part->children as $child) {
+                if ($child->collection && !$child->children()->where('head_part_id', $part->id)->get()->isEmpty()) {
+                    foreach ($child->children()->where('head_part_id', $part->id)->get() as $sefid) {
+                        if (!$sefid->children->isEmpty()) {
+                            $price += $this->calculatePrice($sefid, $electricalIds) * $sefid->pivot->value;
+                        } else {
+                            $price += $sefid->price * $sefid->pivot->value;
+                        }
+                    }
+                } elseif (!$child->children->isEmpty()) {
+                    $price += $this->calculatePrice($child, $electricalIds) * $child->pivot->value;
+                } else {
+                    $price += $child->price * $child->pivot->value;
+                }
+            }
+
+            $part->price = $price;
+            $part->price_updated_at = now();
+            $part->save();
+        }
+
+        return $price;
     }
 
     public function getCode(array $data)

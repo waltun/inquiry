@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\CoreException;
 use App\Models\Inquiry;
 use App\Models\Task;
 use App\Models\Todo;
@@ -13,6 +14,8 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        //throw new CoreException('Laravel Can Not be Loaded!');
+
         $users = User::where('role', 'staff')->orWhere('role', 'admin')->get()->except(auth()->user()->id);
 
         $inquiries = Inquiry::where('submit', 0)->where('user_id', auth()->user()->id)->latest()->take(3)->get();

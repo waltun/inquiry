@@ -127,4 +127,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(ContractNote::class);
     }
+
+    public function factors()
+    {
+        return $this->hasMany(Factor::class);
+    }
 }

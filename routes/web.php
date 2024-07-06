@@ -24,6 +24,8 @@ use App\Http\Controllers\Contract\FactorController;
 use App\Http\Controllers\Contract\FinalContractController;
 use App\Http\Controllers\Contract\GuaranteeController;
 use App\Http\Controllers\Contract\LoadingController;
+use App\Http\Controllers\Contract\MainFactorController;
+use App\Http\Controllers\Contract\MainFactorProductController;
 use App\Http\Controllers\Contract\MarketingController;
 use App\Http\Controllers\Contract\NoteController;
 use App\Http\Controllers\Contract\NotificationController;
@@ -728,6 +730,17 @@ Route::middleware(['auth', 'web'])->group(function () {
 
         Route::get('/contract-notifications/{contract}', [NotificationController::class, 'index'])->name('contract-notifications.index');
         Route::post('/contract-notifications/{contract}/mark-as-done/{notification}', [NotificationController::class, 'markAsDone'])->name('contract-notifications.mark-as-done');
+
+        Route::resource('contracts/{contract}/main-factors', MainFactorController::class)->except(['show']);
+        Route::resource('contracts/{contract}/main-factors/{main_factor}/products', MainFactorProductController::class)->names([
+            'index' => 'contracts.main-factors.products.index',
+            'create' => 'contracts.main-factors.products.create',
+            'store' => 'contracts.main-factors.products.store',
+            'edit' => 'contracts.main-factors.products.edit',
+            'update' => 'contracts.main-factors.products.update',
+            'destroy' => 'contracts.main-factors.products.destroy',
+            'show' => 'contracts.main-factors.products.show',
+        ]);
 
         Route::resource('todos', TodoController::class)->except('show');
         Route::post('todos/{todo}/mark-as-done', [TodoController::class, 'markAsDone'])->name('todos.mark-as-done');

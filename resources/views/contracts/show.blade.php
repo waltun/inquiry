@@ -92,34 +92,61 @@
 
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 ml-1">
                     <path
-                        d="M5.85 3.5a.75.75 0 0 0-1.117-1 9.719 9.719 0 0 0-2.348 4.876.75.75 0 0 0 1.479.248A8.219 8.219 0 0 1 5.85 3.5ZM19.267 2.5a.75.75 0 1 0-1.118 1 8.22 8.22 0 0 1 1.987 4.124.75.75 0 0 0 1.48-.248A9.72 9.72 0 0 0 19.266 2.5Z"/>
+                            d="M5.85 3.5a.75.75 0 0 0-1.117-1 9.719 9.719 0 0 0-2.348 4.876.75.75 0 0 0 1.479.248A8.219 8.219 0 0 1 5.85 3.5ZM19.267 2.5a.75.75 0 1 0-1.118 1 8.22 8.22 0 0 1 1.987 4.124.75.75 0 0 0 1.48-.248A9.72 9.72 0 0 0 19.266 2.5Z"/>
                     <path fill-rule="evenodd"
                           d="M12 2.25A6.75 6.75 0 0 0 5.25 9v.75a8.217 8.217 0 0 1-2.119 5.52.75.75 0 0 0 .298 1.206c1.544.57 3.16.99 4.831 1.243a3.75 3.75 0 1 0 7.48 0 24.583 24.583 0 0 0 4.83-1.244.75.75 0 0 0 .298-1.205 8.217 8.217 0 0 1-2.118-5.52V9A6.75 6.75 0 0 0 12 2.25ZM9.75 18c0-.034 0-.067.002-.1a25.05 25.05 0 0 0 4.496 0l.002.1a2.25 2.25 0 1 1-4.5 0Z"
                           clip-rule="evenodd"/>
                 </svg>
                 اطلاعیه های قرارداد
             </a>
-            <a href="{{ route('notes.index', $contract->id) }}" class="page-info-btn">
+            <a href="{{ route('notes.index', $contract->id) }}" class="page-info-btn relative">
+                @if(!$contract->contractNotes->isEmpty())
+                    <span class="w-4 h-4 rounded-full bg-myRed-200 absolute -right-0.5 -top-0.5 text-center grid place-content-center">
+                        {{ $contract->contractNotes->count() }}
+                    </span>
+                    <span class="w-4 h-4 rounded-full bg-myRed-200 absolute -right-0.5 -top-0.5 animate-ping"></span>
+                @endif
+
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 ml-1">
                     <path stroke-linecap="round" stroke-linejoin="round"
                           d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"/>
                 </svg>
                 یادداشت ها
             </a>
+            @if($contract->factors->isEmpty())
+                <a href="{{ route('main-factors.index', $contract->id) }}" class="page-success-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 ml-1">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/>
+                    </svg>
+                    فاکتور قیمتی
+                </a>
+            @endif
         </div>
     </div>
 
     <!-- Content -->
     <div class="mt-4 space-y-4">
         <div class="p-4 rounded-md shadow border border-indigo-400 bg-white">
-            <div class="mb-4">
+            @php
+                $saleSuccessCount = 0;
+                $salePercent = $saleSuccessCount / 5 * 100;
+            @endphp
+            <div class="mb-4 flex items-center space-x-4 space-x-reverse">
                 <span class="px-6 py-1 rounded-md text-center bg-yellow-400 text-xs font-bold text-black">
                     فروش
                 </span>
+                <div class="flex items-center justify-between space-x-4 space-x-reverse px-2 py-1 rounded-md border border-yellow-400 w-full">
+                    <p class="text-xs font-bold text-black">وضعیت</p>
+                    <div class="w-full bg-gray-200 rounded-full">
+                        <div class="bg-blue-600 text-xs font-medium text-white text-center p-0.5 leading-none rounded-full"
+                             style="width: {{ $salePercent }}%">
+                            {{ number_format($salePercent) }}%
+                        </div>
+                    </div>
+                </div>
             </div>
-            @php
-                $saleSuccessCount = 0;
-            @endphp
+
             <div class="grid grid-cols-6 gap-4">
                 <a href="{{ route('contracts.invoices.index', $contract->id) }}"
                    class="p-2 rounded-2xl shadow flex items-center justify-between border border-gray-300 {{ $contract->invoices->isEmpty() ? 'bg-opacity-50 border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
@@ -137,6 +164,39 @@
                     </div>
                     <div>
                         @if($contract->invoices->isEmpty())
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                 class="w-5 h-5 text-gray-600 text-opacity-40">
+                                <path fill-rule="evenodd"
+                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        @else
+                            @php
+                                $saleSuccessCount++;
+                            @endphp
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                 stroke="currentColor" class="w-5 h-5 text-gray-600">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                            </svg>
+                        @endif
+                    </div>
+                </a>
+
+                <a href="{{ route('main-factors.index', $contract->id) }}"
+                   class="p-2 rounded-2xl shadow flex items-center justify-between border border-gray-300 {{ $contract->factors->isEmpty() ? 'bg-opacity-50 border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
+                    <div class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/>
+                        </svg>
+                        <div class="mr-2">
+                            <p class="font-bold text-black text-xs {{ $contract->factors->isEmpty() ? 'text-opacity-40' : '' }}">
+                                فاکتور های قیمتی
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        @if($contract->factors->isEmpty())
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                                  class="w-5 h-5 text-gray-600 text-opacity-40">
                                 <path fill-rule="evenodd"
@@ -299,20 +359,6 @@
                         @endif
                     </div>
                 </a>
-            </div>
-
-            @php
-                $salePercent = $saleSuccessCount / 5 * 100;
-            @endphp
-            <div
-                class="flex items-center justify-between mt-4 space-x-4 space-x-reverse p-2 rounded-md border border-yellow-400">
-                <p class="text-xs font-bold text-black">وضعیت</p>
-                <div class="w-full bg-gray-200 rounded-full">
-                    <div class="bg-blue-600 text-xs font-medium text-white text-center p-0.5 leading-none rounded-full"
-                         style="width: {{ $salePercent }}%">
-                        {{ number_format($salePercent) }}%
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -690,7 +736,7 @@
                 $financialPercent = $financialSuccessCount / 5 * 100;
             @endphp
             <div
-                class="flex items-center justify-between mt-4 space-x-4 space-x-reverse p-2 rounded-md border border-yellow-400">
+                    class="flex items-center justify-between mt-4 space-x-4 space-x-reverse p-2 rounded-md border border-yellow-400">
                 <p class="text-xs font-bold text-black">وضعیت</p>
                 <div class="w-full bg-gray-200 rounded-full">
                     <div class="bg-blue-600 text-xs font-medium text-white text-center p-0.5 leading-none rounded-full"
@@ -702,10 +748,20 @@
         </div>
 
         <div class="p-4 rounded-md shadow border border-indigo-400 bg-white">
-            <div class="mb-4 flex items-center justify-between">
+            <div class="mb-4 flex items-center space-x-4 space-x-reverse">
                 <span class="px-6 py-1 rounded-md text-center bg-yellow-400 text-xs font-bold text-black">
                     کارخانه
                 </span>
+
+                <div class="flex items-center justify-between space-x-4 space-x-reverse px-2 py-1 rounded-md border border-yellow-400 w-full">
+                    <p class="text-xs font-bold text-black">وضعیت</p>
+                    <div class="w-full bg-gray-200 rounded-full">
+                        <div class="bg-blue-600 text-xs font-medium text-white text-center p-0.5 leading-none rounded-full"
+                             style="width: 15%">
+                            15%
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="grid grid-cols-6 gap-4">
                 <a href="{{ route('contracts.recipe.index', $contract->id) }}"
@@ -966,24 +1022,23 @@
                     </div>
                 </a>
             </div>
-
-            <div
-                class="flex items-center justify-between mt-4 space-x-4 space-x-reverse p-2 rounded-md border border-yellow-400">
-                <p class="text-xs font-bold text-black">وضعیت</p>
-                <div class="w-full bg-gray-200 rounded-full">
-                    <div class="bg-blue-600 text-xs font-medium text-white text-center p-0.5 leading-none rounded-full"
-                         style="width: 15%">
-                        15%
-                    </div>
-                </div>
-            </div>
         </div>
 
         <div class="p-4 rounded-md shadow border border-indigo-400 bg-white">
-            <div class="mb-4">
+            <div class="mb-4 flex items-center space-x-4 space-x-reverse">
                 <span class="px-6 py-1 rounded-md text-center bg-yellow-400 text-xs font-bold text-black">
                     مشتری
                 </span>
+
+                <div class="flex items-center justify-between space-x-4 space-x-reverse px-2 py-1 rounded-md border border-yellow-400 w-full">
+                    <p class="text-xs font-bold text-black">وضعیت</p>
+                    <div class="w-full bg-gray-200 rounded-full">
+                        <div class="bg-blue-600 text-xs font-medium text-white text-center p-0.5 leading-none rounded-full"
+                             style="width: 90%">
+                            90%
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="grid grid-cols-6 gap-4">
                 <a href="#"
@@ -1149,17 +1204,6 @@
                         </svg>
                     </div>
                 </a>
-            </div>
-
-            <div
-                class="flex items-center justify-between mt-4 space-x-4 space-x-reverse p-2 rounded-md border border-yellow-400">
-                <p class="text-xs font-bold text-black">وضعیت</p>
-                <div class="w-full bg-gray-200 rounded-full">
-                    <div class="bg-blue-600 text-xs font-medium text-white text-center p-0.5 leading-none rounded-full"
-                         style="width: 90%">
-                        90%
-                    </div>
-                </div>
             </div>
         </div>
     </div>

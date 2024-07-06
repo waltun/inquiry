@@ -188,17 +188,15 @@
                         <td class="table-tr-td border-t-0 border-x-0">
                             @if($invoice->contract)
                                 <div class="flex items-center justify-center space-x-2 space-x-reverse">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-green-600">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 text-green-600">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
                                     </svg>
-                                    <p class="text-green-600">صادر شده</p>
                                 </div>
                             @else
                                 <div class="flex items-center justify-center space-x-2 space-x-reverse">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-red-500">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-red-500">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
                                     </svg>
-                                    <p class="text-red-500">صادر نشده</p>
                                 </div>
                             @endif
                         </td>

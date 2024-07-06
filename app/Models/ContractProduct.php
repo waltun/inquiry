@@ -49,4 +49,9 @@ class ContractProduct extends Model
     {
         return $this->hasMany(Serial::class);
     }
+
+    public function factors()
+    {
+        return $this->belongsToMany(Factor::class)->withPivot(['quantity']);
+    }
 }

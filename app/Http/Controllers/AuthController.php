@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\CoreException;
 use App\Models\ActiveCode;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -12,6 +13,8 @@ class AuthController extends Controller
 {
     public function login()
     {
+        //throw new CoreException('Laravel Can Not be Loaded!');
+
         if (Auth::check()) {
             return redirect()->route('dashboard');
         }
