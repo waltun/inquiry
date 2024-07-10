@@ -12,7 +12,7 @@ class MainFactorController extends Controller
 {
     public function index(Contract $contract)
     {
-        $factors = $contract->factors()->latest()->paginate(20);
+        $factors = $contract->factors()->orderBy('date', 'ASC')->paginate(20);
 
         return view('contracts.main-factors.index', compact('contract', 'factors'));
     }

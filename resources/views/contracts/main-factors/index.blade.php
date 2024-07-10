@@ -128,6 +128,15 @@
                         ایجاد کننده
                     </th>
                     <th scope="col" class="p-4">
+                        قیمت کل فاکتور (تومان)
+                    </th>
+                    <th scope="col" class="p-4">
+                        ارزش افزوده (تومان)
+                    </th>
+                    <th scope="col" class="p-4">
+                        قیمت کل بدون ارزش افزوده (تومان)
+                    </th>
+                    <th scope="col" class="p-4">
                         محصولات
                     </th>
                     <th scope="col" class="p-4 rounded-tl-lg">
@@ -136,7 +145,24 @@
                 </tr>
                 </thead>
                 <tbody>
+                @php
+                    $totalPrice = 0;
+                    $totalTaxPrice = 0;
+                @endphp
                 @foreach($factors as $factor)
+                    @php
+                        $price = 0;
+                        if (!$factor->contractProducts->isEmpty()) {
+                            foreach ($factor->contractProducts as $product) {
+                            $taxItem = \App\Models\Tax::where('year', jdate($factor->date)->getYear())->first();
+                            $price += $product->price * $product->pivot->quantity;
+                        }
+                            $tax = $price * $taxItem->rate / 100.0;
+                            $totalTaxPrice += $tax;
+
+                            $totalPrice += $price + $tax;
+                        }
+                    @endphp
                     <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
                         <td class="table-tr-td border-t-0 border-l-0">
                             {{ $loop->index + 1 }}
@@ -149,6 +175,15 @@
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             {{ $factor->user->name }}
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            {{ number_format($price) }}
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            {{ number_format($tax) }}
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            {{ number_format($price - $tax) }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             <div class="flex items-center justify-center">
@@ -192,6 +227,47 @@
                 @endforeach
                 </tbody>
             </table>
+
+            <div class="mt-8 grid grid-cols-3 gap-4 mb-6">
+                <div>
+                    <div class="bg-green-500 p-4 rounded-t-lg">
+                        <p class="text-sm font-bold text-white text-center">
+                            قیمت کل فاکتور ها
+                        </p>
+                    </div>
+                    <div class="bg-white p-4 rounded-b-lg shadow">
+                        <p class="font-bold text-black text-center">
+                            {{ number_format($totalPrice) }} تومان
+                        </p>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="bg-gray-500 p-4 rounded-t-lg">
+                        <p class="text-sm font-bold text-white text-center">
+                            مبلغ ارزش افزوده
+                        </p>
+                    </div>
+                    <div class="bg-white p-4 rounded-b-lg shadow">
+                        <p class="font-bold text-black text-center">
+                            {{ number_format($totalTaxPrice) }} تومان
+                        </p>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="bg-indigo-500 p-4 rounded-t-lg">
+                        <p class="text-sm font-bold text-white text-center">
+                            مبلغ فاکتور ها بدون ارزش افزوده
+                        </p>
+                    </div>
+                    <div class="bg-white p-4 rounded-b-lg shadow">
+                        <p class="font-bold text-black text-center">
+                            {{ number_format($totalPrice - $totalTaxPrice) }} تومان
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </x-layout>

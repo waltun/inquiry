@@ -172,7 +172,7 @@
                                 تعداد
                             </th>
                             <th scope="col" class="p-4">
-                                پک ها
+                                فاکتور ها
                             </th>
                             <th scope="col" class="p-4">
                                 اقدامات
@@ -228,7 +228,7 @@
                                                             <div class="bg-white dark:bg-slate-800 p-4">
                                                                 <div class="mb-4 flex justify-between items-center">
                                                                     <h3 class="text-lg font-bold text-gray-900 dark:text-white">
-                                                                        مشاهده پک های {{ $modell->parent->name }}
+                                                                        مشاهده فاکتور های {{ $modell->parent->name }}
                                                                         - {{ $product->model_custom_name ?? $modell->name }}
                                                                     </h3>
                                                                     <button type="button" @click="open = false">
@@ -429,7 +429,7 @@
                             <th class="p-4">نام قطعه</th>
                             <th class="p-4">واحد</th>
                             <th class="p-4">تعداد</th>
-                            <th class="p-4">پکینگ ها</th>
+                            <th class="p-4">فاکتور ها</th>
                             <th class="p-4 rounded-tl-lg">اقدامات</th>
                         </tr>
                         </thead>
