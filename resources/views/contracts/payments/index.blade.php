@@ -293,34 +293,72 @@
     </div>
 
     @php
-        $contractPrice = 0;
-        $paymentPrice = 0;
-        $leftPrice = 0;
-        $collectionPrice = 0;
+        if ($contract->factors->isEmpty()) {
+            $contractPrice = 0;
+            $paymentPrice = 0;
+            $leftPrice = 0;
+            $collectionPrice = 0;
 
-        foreach ($contract->products as $product) {
-            $contractPrice += $product->price * $product->quantity;
-        }
-
-        foreach ($contract->payments()->where('confirm', 1)->get() as $payment2) {
-            if ($payment2->type == 'return') {
-                $paymentPrice -= $payment2->price;
-            } else {
-                $paymentPrice += $payment2->price;
+            foreach ($contract->products as $product) {
+                $contractPrice += $product->price * $product->quantity;
             }
 
-            if (is_null($payment2->account_id) && $payment2->cash_type == 'check') {
-                $collectionPrice += $payment2->price;
+            foreach ($contract->payments()->where('confirm', 1)->get() as $payment2) {
+                if ($payment2->type == 'return') {
+                    $paymentPrice -= $payment2->price;
+                } else {
+                    $paymentPrice += $payment2->price;
+                }
+
+                if (is_null($payment2->account_id) && $payment2->cash_type == 'check') {
+                    $collectionPrice += $payment2->price;
+                }
+            }
+
+            $taxItem = \App\Models\Tax::where('year', jdate($contract->created_at)->getYear())->first();
+
+            $tax = $contractPrice * $taxItem->rate / 100;
+            $contractTaxPrice = $contractPrice + $tax;
+
+            $leftPrice = $contractPrice - $paymentPrice;
+            $leftTaxPrice = $contractTaxPrice - $paymentPrice;
+        } else {
+            $paymentPrice = 0;
+            $collectionPrice = 0;
+            foreach ($contract->payments()->where('confirm', 1)->get() as $payment2) {
+                if ($payment2->type == 'return') {
+                    $paymentPrice -= $payment2->price;
+                } else {
+                    $paymentPrice += $payment2->price;
+                }
+
+                if (is_null($payment2->account_id) && $payment2->cash_type == 'check') {
+                    $collectionPrice += $payment2->price;
+                }
+            }
+
+            $contractTaxPrice = 0;
+            $totalTaxPrice = 0;
+            $contractPrice = 0;
+            $tax = 0;
+            foreach($contract->factors as $factor) {
+                $price = 0;
+                $taxf = 0;
+                $taxItem = 0;
+
+                foreach ($factor->contractProducts as $product) {
+                    $taxItem = \App\Models\Tax::where('year', jdate($factor->date)->getYear())->first();
+                    $price += $product->price * $product->pivot->quantity;
+                }
+
+                $taxf = $price * $taxItem->rate / 100.0;
+                $tax += $taxf;
+
+                $contractTaxPrice += $price + $taxf;
+                $leftTaxPrice = $contractTaxPrice - $paymentPrice;
+                $contractPrice += $price;
             }
         }
-
-        $taxItem = \App\Models\Tax::where('year', jdate($contract->created_at)->getYear())->first();
-
-        $tax = $contractPrice * $taxItem->rate / 100;
-        $contractTaxPrice = $contractPrice + $tax;
-
-        $leftPrice = $contractPrice - $paymentPrice;
-        $leftTaxPrice = $contractTaxPrice - $paymentPrice;
     @endphp
 
     <div class="mt-8 grid grid-cols-4 gap-4">

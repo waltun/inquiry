@@ -154,9 +154,14 @@
                        value="{{ $part->name }}">
             </div>
             <div class="mt-4">
-                <label for="inputNameEng" class="form-label">نام انگلیسی قطعه</label>
+                <label for="inputNameEng" class="form-label">نام انگلیسی عنوان قطعه</label>
                 <input type="text" id="inputNameEng" name="name_en" class="input-text"
                        placeholder="مثال : Aluminium" value="{{ old('name_en', $part->name_en) }}">
+            </div>
+            <div class="mt-4">
+                <label for="inputNameTitle" class="form-label">نام انگلیسی قطعه (دیتاشیت)</label>
+                <input type="text" id="inputNameTitle" name="name_title" class="input-text"
+                       placeholder="مثال : Aluminium" value="{{ old('name_title', $part->name_title) }}">
             </div>
             <div class="mt-4">
                 <label for="inputWeight" class="form-label">وزن قطعه (کیلوگرم)</label>

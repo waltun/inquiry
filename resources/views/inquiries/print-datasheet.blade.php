@@ -1384,6 +1384,34 @@
                             @endif
                         @endforeach
                     </div>
+
+                    <div class="mt-4 space-y-4" dir="ltr">
+                        @php
+                            $products = $inquiry->products()->where('part_id','!=',0)->orderBy('sort','ASC')->get();
+                        @endphp
+                        @foreach($products as $product)
+                            @php
+                                $part = \App\Models\Part::find($product->part_id);
+                            @endphp
+                            @if(!is_null($part->name_title))
+                                <div class="rounded-xl mx-4 border border-myBlue-100" style="page-break-before: always">
+                                    <div class="p-4">
+                                        <div class="break-inside-avoid whitespace-nowrap flex items-center">
+                                            <div class="flex items-center space-x-2">
+                                                <p class="text-xs font-bold text-black">
+                                                    {{ $part->name_title ?? 'ندارد' }}
+                                                    :
+                                                </p>
+                                                <p class="text-xs font-bold text-black">
+                                                    {{ number_format($product->value) }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                        @endforeach
+                    </div>
                 </div>
             </td>
         </tr>

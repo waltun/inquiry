@@ -85,6 +85,7 @@ class PartController extends Controller
             'formula2' => 'nullable|numeric',
             'weight' => 'nullable|numeric',
             'name_en' => 'nullable|string|max:255',
+            'name_title' => 'nullable|string|max:255',
             'extract' => 'required|in:0,1',
             'analyzee' => 'required|in:0,1',
             'factory_code' => 'nullable|numeric'
@@ -141,6 +142,7 @@ class PartController extends Controller
             'formula2' => 'nullable|numeric',
             'weight' => 'nullable|numeric',
             'name_en' => 'nullable|string|max:255',
+            'name_title' => 'nullable|string|max:255',
             'extract' => 'required|in:0,1',
             'analyzee' => 'required|in:0,1',
             'factory_code' => 'nullable|numeric'
@@ -200,6 +202,8 @@ class PartController extends Controller
         $newPart = $part->replicate()->fill([
             'code' => $code,
             'name' => $part->name . " کپی شده ",
+            'name_en' => $part->name_en . " کپی شده ",
+            'name_title' => $part->name_title . " کپی شده ",
         ]);
         $newPart->save();
 

@@ -137,6 +137,9 @@
                         قیمت کل بدون ارزش افزوده (تومان)
                     </th>
                     <th scope="col" class="p-4">
+                        درصد ارزش افزوده
+                    </th>
+                    <th scope="col" class="p-4">
                         محصولات
                     </th>
                     <th scope="col" class="p-4 rounded-tl-lg">
@@ -152,6 +155,8 @@
                 @foreach($factors as $factor)
                     @php
                         $price = 0;
+                        $tax = 0;
+                        $taxItem = 0;
                         if (!$factor->contractProducts->isEmpty()) {
                             foreach ($factor->contractProducts as $product) {
                             $taxItem = \App\Models\Tax::where('year', jdate($factor->date)->getYear())->first();
@@ -177,13 +182,16 @@
                             {{ $factor->user->name }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ number_format($price) }}
+                            {{ number_format($price + $tax) }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             {{ number_format($tax) }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ number_format($price - $tax) }}
+                            {{ number_format($price) }}
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            {{ $taxItem ? $taxItem->rate : '0' }}%
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             <div class="flex items-center justify-center">
