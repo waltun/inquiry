@@ -170,7 +170,21 @@
                 </tr>
                 </thead>
                 <tbody>
+                @php
+                    $price = 0;
+                @endphp
                 @foreach($contract->marketings as $marketing)
+                    @php
+                        foreach ($marketing->payments()->where('confirm', 'done')->where('date', '!=', null)->get() as $payment) {
+                            if ($payment->type == 'return') {
+                                $price -= $payment->price;
+                            } else {
+                                $price += $payment->price;
+                            }
+                        }
+
+                        $leftPriceMarketing = $contract->marketings->sum('price') - $price;
+                    @endphp
                     <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
                         <td class="table-tr-td border-t-0 border-l-0">
                             {{ $loop->index + 1 }}
@@ -185,10 +199,10 @@
                             {{ number_format($marketing->price) }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ number_format($marketing->payments->sum('price')) }}
+                            {{ number_format($price) }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ number_format($marketing->price - $marketing->payments->sum('price')) }}
+                            {{ number_format($leftPriceMarketing) }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             @if(auth()->user()->role == 'admin')
@@ -262,7 +276,7 @@
     @php
         $price = 0;
         foreach ($contract->marketings as $marketing) {
-            foreach ($marketing->payments()->where('confirm', 1)->where('date', '!=', null)->get() as $payment) {
+            foreach ($marketing->payments()->where('confirm', 'done')->where('date', '!=', null)->get() as $payment) {
                 if ($payment->type == 'return') {
                     $price -= $payment->price;
                 } else {

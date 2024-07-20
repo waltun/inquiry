@@ -129,15 +129,28 @@
                             @if(auth()->user()->role == 'admin')
                                 <input type="hidden" value="{{ $payment->id }}" name="payments[]">
                                 <select name="confirms[]" id="inputConfirm{{ $payment->id }}" class="input-text">
-                                    <option value="1" {{ $payment->confirm ? 'selected' : '' }}>
-                                        تایید
+                                    <option value="accepted" {{ $payment->confirm == 'accepted' ? 'selected' : '' }}>
+                                        تایید شده از سمت مدیر
                                     </option>
-                                    <option value="0" {{ !$payment->confirm ? 'selected' : '' }}>
-                                        عدم تایید
+                                    <option value="pending" {{ $payment->confirm == 'pending' ? 'selected' : '' }}>
+                                        در انتظار تایید مدیر
+                                    </option>
+                                    <option value="done" {{ $payment->confirm == 'done' ? 'selected' : '' }}>
+                                        پرداخت شده
                                     </option>
                                 </select>
                             @else
-                                {{ $payment->confirm ? 'تایید شده' : 'تایید نشده' }}
+                                @switch($payment->confirm)
+                                    @case('pending')
+                                        در انتظار تایید مدیر
+                                        @break
+                                    @case('accepted')
+                                        تایید شده از سمت مدیر
+                                        @break
+                                    @case('done')
+                                        پرداخت شده
+                                        @break
+                                @endswitch
                             @endif
                         </td>
                         <td class="table-tr-td border-t-0 border-r-0 whitespace-nowrap">
@@ -152,8 +165,7 @@
                                     ویرایش
                                 </a>
 
-                                <button class="table-delete-btn" type="button"
-                                        onclick="deletePayment({{ $payment->id }})">
+                                <button class="table-delete-btn" type="button" onclick="deletePayment({{ $payment->id }})">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                          stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -190,19 +202,29 @@
     </div>
 
     @php
-        $leftPrice = $marketing->price - $marketing->payments()->where('confirm', 1)->where('date', '!=', null)->sum('price');
         $sumPayment = 0;
+        $acceptedPayment = 0;
 
-        foreach ($marketing->payments()->where('confirm', 1)->where('date', '!=', null)->get() as $marketPayment) {
+        foreach ($marketing->payments()->where('confirm', 'done')->where('date', '!=', null)->get() as $marketPayment) {
             if ($marketPayment->type == 'return') {
                 $sumPayment -= $marketPayment->price;
             } else {
                 $sumPayment += $marketPayment->price;
             }
         }
+
+        foreach ($marketing->payments()->where('confirm', 'accepted')->where('date', '!=', null)->get() as $marketPayment) {
+            if ($marketPayment->type == 'return') {
+                $acceptedPayment -= $marketPayment->price;
+            } else {
+                $acceptedPayment += $marketPayment->price;
+            }
+        }
+
+        $leftPrice = $marketing->price - $sumPayment;
     @endphp
 
-    <div class="mt-8 grid grid-cols-3 gap-4">
+    <div class="mt-8 grid grid-cols-4 gap-4">
         <div class="p-4 rounded-lg shadow bg-indigo-500">
             <p class="text-base text-white text-center font-bold">
                 مبلغ کل بازاریابی : {{ number_format($marketing->price) }} تومان
@@ -218,6 +240,13 @@
         <div class="p-4 rounded-lg shadow bg-red-500">
             <p class="text-base text-white text-center font-bold">
                 مانده حساب : {{ number_format($leftPrice) }} تومان
+            </p>
+        </div>
+        <div class="p-4 rounded-lg shadow bg-yellow-500">
+            <p class="text-base text-white text-center font-bold">
+                مجموع درخواست ها
+                : {{ number_format($acceptedPayment) }}
+                تومان
             </p>
         </div>
     </div>

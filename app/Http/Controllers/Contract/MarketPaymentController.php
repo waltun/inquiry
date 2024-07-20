@@ -74,7 +74,7 @@ class MarketPaymentController extends Controller
     public function confirm(Request $request, Marketing $marketing)
     {
         $request->validate([
-            'confirms.*' => 'required|integer',
+            'confirms.*' => 'required|string',
             'payments.*' => 'required|integer',
             'confirms' => 'array',
             'payments' => 'array',

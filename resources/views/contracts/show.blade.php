@@ -119,7 +119,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round"
                               d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/>
                     </svg>
-                    فاکتور قیمتی
+                    درخواست فاکتور
                 </a>
             @endif
         </div>
@@ -192,7 +192,7 @@
                             </svg>
                             <div class="mr-2">
                                 <p class="font-bold text-black text-xs {{ $contract->factors->isEmpty() ? 'text-opacity-40' : '' }}">
-                                    فاکتور های قیمتی
+                                    درخواست فاکتور ها
                                 </p>
                             </div>
                         </div>
@@ -406,39 +406,78 @@
             </div>
             <div class="grid grid-cols-6 gap-4">
                 @php
-                    $contractPrice = 0;
-                    $paymentPrice = 0;
-                    $leftPrice = 0;
-                    $collectionPrice = 0;
+                    if ($contract->factors->isEmpty()) {
+                        $contractPrice = 0;
+                        $paymentPrice = 0;
+                        $leftPrice = 0;
+                        $collectionPrice = 0;
 
-                    foreach ($contract->products as $product) {
-                        $contractPrice += $product->price * $product->quantity;
-                    }
+                        foreach ($contract->products as $product) {
+                            $contractPrice += $product->price * $product->quantity;
+                        }
 
-                    foreach ($contract->payments()->where('confirm', 1)->get() as $payment2) {
-                        if ($payment2->type == 'return') {
-                            $paymentPrice -= $payment2->price;
+                        foreach ($contract->payments()->where('confirm', 1)->get() as $payment2) {
+                            if ($payment2->type == 'return') {
+                                $paymentPrice -= $payment2->price;
+                            } else {
+                                $paymentPrice += $payment2->price;
+                            }
+
+                            if (is_null($payment2->account_id) && $payment2->cash_type == 'check') {
+                                $collectionPrice += $payment2->price;
+                            }
+                        }
+
+                        $taxItem = \App\Models\Tax::where('year', jdate($contract->created_at)->getYear())->first();
+
+                        $tax = $contractPrice * $taxItem->rate / 100;
+                        $contractTaxPrice = $contractPrice + $tax;
+
+                        $leftPricePayment = $contractPrice - $paymentPrice;
+                        $leftTaxPricePayment = $contractTaxPrice - $paymentPrice;
+
+                        if($contract->type == 'official') {
+                            $leftPricePayment = 0;
                         } else {
-                            $paymentPrice += $payment2->price;
+                            $leftTaxPricePayment = 0;
                         }
-
-                        if (is_null($payment2->account_id) && $payment2->cash_type == 'check') {
-                            $collectionPrice += $payment2->price;
-                        }
-                    }
-
-                    $taxItem = \App\Models\Tax::where('year', jdate($contract->created_at)->getYear())->first();
-
-                    $tax = $contractPrice * $taxItem->rate / 100;
-                    $contractTaxPrice = $contractPrice + $tax;
-
-                    $leftPricePayment = $contractPrice - $paymentPrice;
-                    $leftTaxPricePayment = $contractTaxPrice - $paymentPrice;
-
-                    if($contract->type == 'official') {
-                        $leftPricePayment = 0;
                     } else {
-                        $leftTaxPricePayment = 0;
+                        $paymentPrice = 0;
+                        $collectionPrice = 0;
+                        foreach ($contract->payments()->where('confirm', 1)->get() as $payment2) {
+                            if ($payment2->type == 'return') {
+                                $paymentPrice -= $payment2->price;
+                            } else {
+                                $paymentPrice += $payment2->price;
+                            }
+
+                            if (is_null($payment2->account_id) && $payment2->cash_type == 'check') {
+                                $collectionPrice += $payment2->price;
+                            }
+                        }
+
+                        $contractTaxPrice = 0;
+                        $totalTaxPrice = 0;
+                        $contractPrice = 0;
+                        $tax = 0;
+                        foreach($contract->factors as $factor) {
+                            $price = 0;
+                            $taxf = 0;
+                            $taxItem = 0;
+
+                            foreach ($factor->contractProducts as $product) {
+                                $taxItem = \App\Models\Tax::where('year', jdate($factor->date)->getYear())->first();
+                                $price += $product->price * $product->pivot->quantity;
+                            }
+
+                            $taxf = $price * $taxItem->rate / 100.0;
+                            $tax += $taxf;
+
+                            $contractTaxPrice += $price + $taxf;
+                            $leftPricePayment = $contractTaxPrice - $paymentPrice;
+                            $leftTaxPricePayment = $contractTaxPrice - $paymentPrice;
+                            $contractPrice += $price;
+                        }
                     }
                 @endphp
                 <a href="{{ route('contracts.payments.index', $contract->id) }}"
@@ -496,8 +535,12 @@
                     @php
                         $price = 0;
                         foreach ($contract->marketings as $marketing) {
-                            foreach ($marketing->payments()->where('confirm', 1)->where('date', '!=', null)->get() as $payment) {
-                                $price += $payment->price;
+                            foreach ($marketing->payments()->where('confirm', 'done')->where('date', '!=', null)->get() as $payment) {
+                                if ($payment->type == 'return') {
+                                    $price -= $payment->price;
+                                } else {
+                                    $price += $payment->price;
+                                }
                             }
                         }
 

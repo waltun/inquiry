@@ -124,7 +124,7 @@
                     <option value="">انتخاب مشتری</option>
                     @foreach($customers as $customer)
                         <option
-                                value="{{ $customer->id }}" {{ request('customer') == $customer->id ? 'selected' : '' }}>
+                            value="{{ $customer->id }}" {{ request('customer') == $customer->id ? 'selected' : '' }}>
                             {{ $customer->name }}
                         </option>
                     @endforeach
@@ -178,32 +178,70 @@
                     <tbody>
                     @foreach($contracts as $contract)
                         @php
-                            $contractPrice = 0;
-                            $paymentPrice = 0;
-                            $leftPrice = 0;
-                            $collectionPrice = 0;
+                            if ($contract->factors->isEmpty()) {
+                                $contractPrice = 0;
+                                $paymentPrice = 0;
+                                $leftPrice = 0;
+                                $collectionPrice = 0;
 
-                            foreach ($contract->products as $product) {
-                                $contractPrice += $product->price * $product->quantity;
-                            }
-
-                            foreach ($contract->payments()->where('confirm', 1)->get() as $payment2) {
-                                if ($payment2->type == 'return') {
-                                    $paymentPrice -= $payment2->price;
-                                } else {
-                                    $paymentPrice += $payment2->price;
+                                foreach ($contract->products as $product) {
+                                    $contractPrice += $product->price * $product->quantity;
                                 }
 
-                                if (is_null($payment2->account_id) && $payment2->cash_type == 'check') {
-                                    $collectionPrice += $payment2->price;
+                                foreach ($contract->payments()->where('confirm', 1)->get() as $payment2) {
+                                    if ($payment2->type == 'return') {
+                                        $paymentPrice -= $payment2->price;
+                                    } else {
+                                        $paymentPrice += $payment2->price;
+                                    }
+
+                                    if (is_null($payment2->account_id) && $payment2->cash_type == 'check') {
+                                        $collectionPrice += $payment2->price;
+                                    }
+                                }
+
+                                $tax = $contractPrice * 9 / 100;
+                                $contractTaxPrice = $contractPrice + $tax;
+
+                                $leftPrice = $contractPrice - $paymentPrice;
+                                $leftTaxPrice = $contractTaxPrice - $paymentPrice;
+                            } else {
+                                $paymentPrice = 0;
+                                $collectionPrice = 0;
+                                foreach ($contract->payments()->where('confirm', 1)->get() as $payment2) {
+                                    if ($payment2->type == 'return') {
+                                        $paymentPrice -= $payment2->price;
+                                    } else {
+                                        $paymentPrice += $payment2->price;
+                                    }
+
+                                    if (is_null($payment2->account_id) && $payment2->cash_type == 'check') {
+                                        $collectionPrice += $payment2->price;
+                                    }
+                                }
+
+                                $contractTaxPrice = 0;
+                                $totalTaxPrice = 0;
+                                $contractPrice = 0;
+                                $tax = 0;
+                                foreach($contract->factors as $factor) {
+                                    $price = 0;
+                                    $taxf = 0;
+                                    $taxItem = 0;
+
+                                    foreach ($factor->contractProducts as $product) {
+                                        $taxItem = \App\Models\Tax::where('year', jdate($factor->date)->getYear())->first();
+                                        $price += $product->price * $product->pivot->quantity;
+                                    }
+
+                                    $taxf = $price * $taxItem->rate / 100.0;
+                                    $tax += $taxf;
+
+                                    $contractTaxPrice += $price + $taxf;
+                                    $leftTaxPrice = $contractTaxPrice - $paymentPrice;
+                                    $contractPrice += $price;
                                 }
                             }
-
-                            $tax = $contractPrice * 9 / 100;
-                            $contractTaxPrice = $contractPrice + $tax;
-
-                            $leftPrice = $contractPrice - $paymentPrice;
-                            $leftTaxPrice = $contractTaxPrice - $paymentPrice;
                         @endphp
                         <tr class="table-tb-tr group hover:font-bold hover:text-red-600 {{ is_null($contract->seen_at) ? 'bg-red-200' : 'bg-sky-100'   }}">
                             <td class="table-tr-td border-t-0 border-l-0 group-hover:scale-110">
@@ -312,7 +350,7 @@
                                                                     @endphp
                                                                     <div class="p-2 rounded-lg border border-gray-200">
                                                                         <div
-                                                                                class="space-x-4 space-x-reverse flex items-center">
+                                                                            class="space-x-4 space-x-reverse flex items-center">
                                                                             <p class="text-sm font-medium">
                                                                                 {{ $modell->parent->name }}
                                                                                 - {{ $product->model_custom_name ?? $modell->name }}
@@ -333,7 +371,7 @@
                                                                     @endphp
                                                                     @if(!$products->isEmpty())
                                                                         <div
-                                                                                class="p-2 rounded-lg border border-gray-200">
+                                                                            class="p-2 rounded-lg border border-gray-200">
                                                                             <div class="mb-2">
                                                                                 @switch($type)
                                                                                     @case('setup')
@@ -400,7 +438,7 @@
                                                                                     $part = \App\Models\Part::find($product->part_id);
                                                                                 @endphp
                                                                                 <div
-                                                                                        class="mb-2 flex items-center space-x-4 space-x-reverse">
+                                                                                    class="mb-2 flex items-center space-x-4 space-x-reverse">
                                                                                     <p class="text-sm font-medium">
                                                                                         {{ $part->name  }}
                                                                                     </p>

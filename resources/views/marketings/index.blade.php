@@ -78,6 +78,9 @@
                     <th scope="col" class="p-4">
                         مانده حساب (تومان)
                     </th>
+                    <th scope="col" class="p-4">
+                        درخواست ها (تومان)
+                    </th>
                     <th scope="col" class="p-4 rounded-tl-lg">
                         <span class="sr-only">اقدامات</span>
                     </th>
@@ -89,7 +92,20 @@
                 @endphp
                 @foreach($marketings as $marketing)
                     @php
-                        $paymentPrice += $marketing->payments()->where('confirm', 1)->where('date', '!=', null)->sum('price');
+                        //$paymentPrice += $marketing->payments()->where('confirm', 'done')->where('date', '!=', null)->sum('price');
+
+                        $price = 0;
+                        foreach ($marketing->payments()->where('confirm', 'done')->where('date', '!=', null)->get() as $payment) {
+                            if ($payment->type == 'return') {
+                                $price -= $payment->price;
+                                $paymentPrice -= $payment->price;
+                            } else {
+                                $price += $payment->price;
+                                $paymentPrice += $payment->price;
+                            }
+                        }
+
+                        $leftPriceMarketing = $marketing->price - $price;
                     @endphp
                     <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
                         <td class="table-tr-td border-t-0 border-l-0">
@@ -111,12 +127,17 @@
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             <p class="text-green-600">
-                                {{ number_format($marketing->payments()->where('confirm', 1)->where('date', '!=', null)->sum('price')) }}
+                                {{ number_format($price) }}
                             </p>
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             <p class="text-red-600">
-                                {{ number_format($marketing->price - $marketing->payments()->where('confirm', 1)->where('date', '!=', null)->sum('price')) }}
+                                {{ number_format($leftPriceMarketing) }}
+                            </p>
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            <p class="text-green-600">
+                                {{ number_format($marketing->payments()->where('confirm', 'accepted')->where('date', '!=', null)->sum('price')) }}
                             </p>
                         </td>
                         <td class="table-tr-td border-t-0 border-r-0">
@@ -137,20 +158,22 @@
                                     <p class="p-1 rounded-lg bg-red-500 text-white shadow-sm">
                                         منتظر ثبت درخواست
                                     </p>
-                                @endif
-                                @if(count($marketing->payments()->where('confirm', 0)->get()) > 0)
+                                @elseif(count($marketing->payments()->where('confirm', 'pending')->get()) > 0)
                                     <p class="p-1 rounded-lg bg-red-500 text-white shadow-sm">
-                                        منتظر تایید پرداخت
+                                        در انتظار تایید مدیر
+                                    </p>
+                                @elseif(count($marketing->payments()->where('confirm', 'accepted')->get()) > 0)
+                                    <p class="p-1 rounded-lg bg-yellow-500 text-white shadow-sm">
+                                        تایید شده - منتظر پرداخت
+                                    </p>
+                                @elseif(count($marketing->payments()->where('confirm', 'done')->where('date', '!=', null)->get()) > 0)
+                                    <p class="py-1 px-2 rounded-lg bg-green-500 text-white shadow-sm">
+                                        پرداخت شده
                                     </p>
                                 @endif
                                 @if(count($marketing->payments()->where('confirm', 1)->where('date', null)->get()) > 0)
                                     <p class="p-1 rounded-lg bg-red-500 text-white shadow-sm">
                                         منتظر ثبت تاریخ
-                                    </p>
-                                @endif
-                                @if(count($marketing->payments()->where('confirm', 1)->where('date', '!=', null)->get()) > 0)
-                                    <p class="py-1 px-2 rounded-lg bg-green-500 text-white shadow-sm">
-                                        اتمام
                                     </p>
                                 @endif
                             </div>
