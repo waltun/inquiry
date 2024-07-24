@@ -34,10 +34,10 @@ class PackProductController extends Controller
             $quantity += $pack2->pivot->quantity;
         }
 
-        if ($data['quantity'] > $product->quantity - $quantity) {
-            alert()->error('خطا', 'تعداد نباید بیشتر از تعداد محصول باشد');
-            return back();
-        }
+//        if ($data['quantity'] > $product->quantity - $quantity) {
+//            alert()->error('خطا', 'تعداد نباید بیشتر از تعداد محصول باشد');
+//            return back();
+//        }
 
         $pack->products()->attach($product->id, [
             'quantity' => $data['quantity']

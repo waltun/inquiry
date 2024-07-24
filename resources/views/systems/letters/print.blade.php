@@ -129,7 +129,7 @@
             <td>
                 <div class="relative custom-letter-section"
                      style="margin-right: 64px!important; margin-left: 64px!important;">
-                    <div>
+                    <div class="letter-print">
                         {!! $letter->description !!}
                     </div>
                     <div class="flex justify-end items-center space-x-4 space-x-reverse">

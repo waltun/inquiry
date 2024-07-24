@@ -171,7 +171,8 @@
                             <div>
                                 @foreach($packing->packs as $pack)
                                     <div class="grid grid-cols-12 mb-4">
-                                        <div class="col-span-1 border-2 border-l-0 border-black mb-4 grid items-center justify-center bg-sky-100">
+                                        <div
+                                            class="col-span-1 border-2 border-l-0 border-black mb-4 grid items-center justify-center bg-sky-100 {{ $pack->length && $pack->width && $pack->height ? '' : 'h-full' }}">
                                             <p class="text-center -rotate-90 whitespace-nowrap text-sm font-medium">
                                                 {{ $pack->code }}
                                             </p>

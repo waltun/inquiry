@@ -226,7 +226,7 @@
                                     {{ $product->tag ?? '-' }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
-                                    {{ $product->quantity - $quantity }}
+                                    {{ $product->quantity }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     <div class="flex items-center justify-center" x-data="{open : false}">
@@ -286,34 +286,33 @@
                                     </div>
                                 </td>
                                 <td class="table-tr-td border-t-0 border-r-0">
-                                    @if($product->quantity - $quantity)
-                                        <div class="flex items-center justify-center" x-data="{open : false}">
-                                            <div class="flex items-center justify-center" x-data="{open:false}">
-                                                <button class="table-warning-btn" @click="open = !open" type="button">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                         stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                              d="M12 4.5v15m7.5-7.5h-15"/>
-                                                    </svg>
-                                                    افزودن
-                                                </button>
-                                                <div class="relative z-10" x-show="open" x-cloak>
-                                                    <div class="modal-backdrop"></div>
-                                                    <div class="fixed z-10 inset-0 overflow-y-auto">
-                                                        <div class="modal">
-                                                            <div class="modal-body">
-                                                                <form class="bg-white dark:bg-slate-800 p-4"
-                                                                      action="{{ route('contracts.packs.products.store', [$contract->id, $pack->id]) }}"
-                                                                      method="POST">
-                                                                    @csrf
+                                    <div class="flex items-center justify-center" x-data="{open : false}">
+                                        <div class="flex items-center justify-center" x-data="{open:false}">
+                                            <button class="table-warning-btn" @click="open = !open" type="button">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                     stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          d="M12 4.5v15m7.5-7.5h-15"/>
+                                                </svg>
+                                                افزودن
+                                            </button>
+                                            <div class="relative z-10" x-show="open" x-cloak>
+                                                <div class="modal-backdrop"></div>
+                                                <div class="fixed z-10 inset-0 overflow-y-auto">
+                                                    <div class="modal">
+                                                        <div class="modal-body">
+                                                            <form class="bg-white dark:bg-slate-800 p-4"
+                                                                  action="{{ route('contracts.packs.products.store', [$contract->id, $pack->id]) }}"
+                                                                  method="POST">
+                                                                @csrf
 
-                                                                    <div class="mb-4 flex justify-between items-center">
-                                                                        <h3 class="text-lg font-bold text-gray-900 dark:text-white">
-                                                                            اضافه کردن محصول {{ $modell->parent->name }}
-                                                                            - {{ $product->model_custom_name ?? $modell->name }}
-                                                                            به پک {{ $pack->name }}
-                                                                        </h3>
-                                                                        <button type="button" @click="open = false">
+                                                                <div class="mb-4 flex justify-between items-center">
+                                                                    <h3 class="text-lg font-bold text-gray-900 dark:text-white">
+                                                                        اضافه کردن محصول {{ $modell->parent->name }}
+                                                                        - {{ $product->model_custom_name ?? $modell->name }}
+                                                                        به پک {{ $pack->name }}
+                                                                    </h3>
+                                                                    <button type="button" @click="open = false">
                                                                         <span class="modal-close">
                                                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                                                  fill="none"
@@ -326,41 +325,33 @@
                                                                                       d="M6 18L18 6M6 6l12 12"/>
                                                                             </svg>
                                                                         </span>
-                                                                        </button>
-                                                                    </div>
-                                                                    <div class="mt-6 space-y-2">
-                                                                        <input type="hidden" name="product_id"
-                                                                               value="{{ $product->id }}">
-                                                                        <input type="number" class="input-text"
-                                                                               name="quantity"
-                                                                               value="{{ $product->quantity - $quantity }}"
-                                                                               placeholder="تعداد اضافه شدن این محصول">
-                                                                        <div class="mt-2">
+                                                                    </button>
+                                                                </div>
+                                                                <div class="mt-6 space-y-2">
+                                                                    <input type="hidden" name="product_id"
+                                                                           value="{{ $product->id }}">
+                                                                    <input type="number" class="input-text"
+                                                                           name="quantity"
+                                                                           value="{{ $product->quantity - $quantity }}"
+                                                                           placeholder="تعداد اضافه شدن این محصول">
+                                                                    <div class="mt-2">
                                                                         <span class="text-xs text-red-600">
-                                                                        * نباید بیشتر از تعداد محصول باشد | حداکثر :     {{ $product->quantity - $quantity }} تا
+                                                                        * نباید بیشتر از تعداد محصول باشد | حداکثر :     {{ $product->quantity }} تا
                                                                         </span>
-                                                                        </div>
                                                                     </div>
-                                                                    <div class="mt-4 flex justify-end">
-                                                                        <button type="submit" class="form-submit-btn">
-                                                                            افزودن
-                                                                        </button>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
+                                                                </div>
+                                                                <div class="mt-4 flex justify-end">
+                                                                    <button type="submit" class="form-submit-btn">
+                                                                        افزودن
+                                                                    </button>
+                                                                </div>
+                                                            </form>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    @else
-                                        <div class="flex items-center justify-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
-                                            </svg>
-                                            تکمیل شده
-                                        </div>
-                                    @endif
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
@@ -475,7 +466,7 @@
                                     {{ $part->unit }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
-                                    {{ $product->quantity - $partQuantity }}
+                                    {{ $product->quantity }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     <div class="flex items-center justify-center" x-data="{open : false}">
@@ -534,32 +525,31 @@
                                     </div>
                                 </td>
                                 <td class="table-tr-td border-t-0 border-r-0">
-                                    @if($product->quantity - $partQuantity)
-                                        <div class="flex items-center justify-center" x-data="{open : false}">
-                                            <div class="flex items-center justify-center" x-data="{open:false}">
-                                                <button class="table-warning-btn" @click="open = !open" type="button">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                         stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                              d="M12 4.5v15m7.5-7.5h-15"/>
-                                                    </svg>
-                                                    افزودن
-                                                </button>
-                                                <div class="relative z-10" x-show="open" x-cloak>
-                                                    <div class="modal-backdrop"></div>
-                                                    <div class="fixed z-10 inset-0 overflow-y-auto">
-                                                        <div class="modal">
-                                                            <div class="modal-body">
-                                                                <form class="bg-white dark:bg-slate-800 p-4"
-                                                                      action="{{ route('contracts.packs.products.store', [$contract->id, $pack->id]) }}"
-                                                                      method="POST">
-                                                                    @csrf
+                                    <div class="flex items-center justify-center" x-data="{open : false}">
+                                        <div class="flex items-center justify-center" x-data="{open:false}">
+                                            <button class="table-warning-btn" @click="open = !open" type="button">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                     stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          d="M12 4.5v15m7.5-7.5h-15"/>
+                                                </svg>
+                                                افزودن
+                                            </button>
+                                            <div class="relative z-10" x-show="open" x-cloak>
+                                                <div class="modal-backdrop"></div>
+                                                <div class="fixed z-10 inset-0 overflow-y-auto">
+                                                    <div class="modal">
+                                                        <div class="modal-body">
+                                                            <form class="bg-white dark:bg-slate-800 p-4"
+                                                                  action="{{ route('contracts.packs.products.store', [$contract->id, $pack->id]) }}"
+                                                                  method="POST">
+                                                                @csrf
 
-                                                                    <div class="mb-4 flex justify-between items-center">
-                                                                        <h3 class="text-lg font-bold text-gray-900 dark:text-white">
-                                                                            اضافه کردن محصول {{ $part->name }}به پک
-                                                                        </h3>
-                                                                        <button type="button" @click="open = false">
+                                                                <div class="mb-4 flex justify-between items-center">
+                                                                    <h3 class="text-lg font-bold text-gray-900 dark:text-white">
+                                                                        اضافه کردن محصول {{ $part->name }}به پک
+                                                                    </h3>
+                                                                    <button type="button" @click="open = false">
                                                                         <span class="modal-close">
                                                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                                                  fill="none"
@@ -572,41 +562,33 @@
                                                                                       d="M6 18L18 6M6 6l12 12"/>
                                                                             </svg>
                                                                         </span>
-                                                                        </button>
-                                                                    </div>
-                                                                    <div class="mt-6 space-y-2">
-                                                                        <input type="hidden" name="product_id"
-                                                                               value="{{ $product->id }}">
-                                                                        <input type="number" class="input-text"
-                                                                               name="quantity"
-                                                                               value="{{ $product->quantity - $partQuantity }}"
-                                                                               placeholder="تعداد اضافه شدن این محصول">
-                                                                        <div class="mt-2">
+                                                                    </button>
+                                                                </div>
+                                                                <div class="mt-6 space-y-2">
+                                                                    <input type="hidden" name="product_id"
+                                                                           value="{{ $product->id }}">
+                                                                    <input type="number" class="input-text"
+                                                                           name="quantity"
+                                                                           value="{{ $product->quantity - $partQuantity }}"
+                                                                           placeholder="تعداد اضافه شدن این محصول">
+                                                                    <div class="mt-2">
                                                                         <span class="text-xs text-red-600">
-                                                                        * نباید بیشتر از تعداد محصول باشد | حداکثر :     {{ $product->quantity - $partQuantity }} تا
+                                                                        * نباید بیشتر از تعداد محصول باشد | حداکثر :     {{ $product->quantity }} تا
                                                                         </span>
-                                                                        </div>
                                                                     </div>
-                                                                    <div class="mt-4 flex justify-end">
-                                                                        <button type="submit" class="form-submit-btn">
-                                                                            افزودن
-                                                                        </button>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
+                                                                </div>
+                                                                <div class="mt-4 flex justify-end">
+                                                                    <button type="submit" class="form-submit-btn">
+                                                                        افزودن
+                                                                    </button>
+                                                                </div>
+                                                            </form>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    @else
-                                        <div class="flex items-center justify-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
-                                            </svg>
-                                            تکمیل شده
-                                        </div>
-                                    @endif
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach

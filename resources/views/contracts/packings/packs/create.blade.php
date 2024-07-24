@@ -223,6 +223,9 @@
                         <option value="باکس چوبی" {{ old('type') == 'باکس چوبی' ? 'selected' : '' }}>
                             باکس چوبی
                         </option>
+                        <option value="بدون بسته بندی" {{ old('type') == 'بدون بسته بندی' ? 'selected' : '' }}>
+                            بدون بسته بندی
+                        </option>
                     </select>
                 </div>
                 <div>

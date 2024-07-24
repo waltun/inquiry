@@ -328,4 +328,8 @@
     .custom_nav::-webkit-scrollbar-thumb:hover {
         background: #555;
     }
+
+    .letter-print ul {
+        list-style: disc !important;
+    }
 }

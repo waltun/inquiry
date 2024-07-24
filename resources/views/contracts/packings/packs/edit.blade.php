@@ -213,6 +213,7 @@
                             'پالت چوبی با روکش نایلون حباب دار و تسمه بندکشی',
                             'کارتن',
                             'باکس چوبی',
+                            'بدون بسته بندی',
                         ];
                     @endphp
                     <label for="inputType" class="form-label">
@@ -234,6 +235,9 @@
                         <option value="باکس چوبی" {{ old('type', $pack->type) == 'باکس چوبی' ? 'selected' : '' }}>
                             باکس چوبی
                         </option>
+                        <option value="بدون بسته بندی" {{ old('type', $pack->type) == 'بدون بسته بندی' ? 'selected' : '' }}>
+                            بدون بسته بندی
+                        </option>
                         @if(!in_array($pack->type, $types))
                             <option
                                     value="{{ $pack->type }}" {{ old('type', $pack->type) == $pack->type ? 'selected' : '' }}>
@@ -252,19 +256,19 @@
 
             <div class="mb-4 grid grid-cols-3 gap-4">
                 <div>
-                    <label for="inputLength" class="form-label">طول</label>
+                    <label for="inputLength" class="form-label">طول (CM)</label>
                     <input type="text" id="inputLength" name="length" class="input-text"
                            value="{{ old('length', $pack->length) }}"
                            placeholder="77">
                 </div>
                 <div>
-                    <label for="inputWidth" class="form-label">عرض</label>
+                    <label for="inputWidth" class="form-label">عرض (CM)</label>
                     <input type="text" id="inputWidth" name="width" class="input-text"
                            value="{{ old('width', $pack->width) }}"
                            placeholder="82">
                 </div>
                 <div>
-                    <label for="inputHeight" class="form-label">ارتفاع</label>
+                    <label for="inputHeight" class="form-label">ارتفاع (CM)</label>
                     <input type="text" id="inputHeight" name="height" class="input-text"
                            value="{{ old('height', $pack->height) }}"
                            placeholder="53">
