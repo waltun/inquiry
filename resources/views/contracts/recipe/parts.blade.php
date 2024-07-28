@@ -417,7 +417,7 @@
         @endphp
         @foreach($types as $type)
             @php
-                $products = $contract->products()->where('part_id','!=',0)->where('type',$type)->where('recipe', 1)->get();
+                $products = $contract->products()->where('part_id','!=',0)->where('type',$type)->where('packing', false)->where('recipe', 1)->get();
             @endphp
             @if(!$products->isEmpty())
                 <div class="card">

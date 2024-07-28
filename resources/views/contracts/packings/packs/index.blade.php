@@ -91,7 +91,7 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p-active">
-                    مدیریت پک ها
+                    مدیریت بسته ها
                 </p>
             </div>
         </div>
@@ -107,7 +107,7 @@
             </svg>
             <div class="mr-2">
                 <p class="font-bold text-2xl text-black dark:text-white">
-                    لیست پک های قرارداد {{ $contract->name }}
+                    لیست بسته های قرارداد {{ $contract->name }}
                     CNT-{{ $contract->number }}
                 </p>
             </div>
@@ -118,7 +118,7 @@
                      stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
                 </svg>
-                <span class="mr-2">ایجاد پک جدید</span>
+                <span class="mr-2">ایجاد بسته جدید</span>
             </a>
         </div>
     </div>
@@ -133,25 +133,25 @@
                         #
                     </th>
                     <th scope="col" class="p-4">
-                        شماره
+                        شماره بسته
                     </th>
                     <th scope="col" class="p-4">
-                        نام
+                        نام بسته
                     </th>
                     <th scope="col" class="p-4">
-                        وزن
+                        وزن بسته (KG)
                     </th>
                     <th scope="col" class="p-4">
-                        بسته بندی
+                        نوع بسته بندی
                     </th>
                     <th scope="col" class="p-4">
-                        ابعاد (CM)
+                        ابعاد (LxWxH) CM
                     </th>
                     <th scope="col" class="p-4">
                         حجم (M<sup>3</sup>)
                     </th>
                     <th scope="col" class="p-4">
-                        محصولات
+                        محصولات / قطعات
                     </th>
                     <th scope="col" class="p-4 rounded-tl-lg">
                         <span class="sr-only">اقدامات</span>

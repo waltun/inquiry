@@ -465,23 +465,25 @@
                             $taxf = 0;
                             $taxItem = 0;
 
-                            foreach ($factor->contractProducts as $product) {
-                                $taxItem = \App\Models\Tax::where('year', jdate($factor->date)->getYear())->first();
-                                $price += $product->price * $product->pivot->quantity;
+                            if (!$factor->contractProducts->isEmpty()) {
+                                foreach ($factor->contractProducts as $product) {
+                                    $taxItem = \App\Models\Tax::where('year', jdate($factor->date)->getYear())->first();
+                                    $price += $product->price * $product->pivot->quantity;
+                                }
+
+                                $taxf = $price * $taxItem->rate / 100.0;
+                                $tax += $taxf;
+
+                                $contractTaxPrice += $price + $taxf;
+                                $leftPricePayment = $contractTaxPrice - $paymentPrice;
+                                $leftTaxPricePayment = $contractTaxPrice - $paymentPrice;
+                                $contractPrice += $price;
                             }
-
-                            $taxf = $price * $taxItem->rate / 100.0;
-                            $tax += $taxf;
-
-                            $contractTaxPrice += $price + $taxf;
-                            $leftPricePayment = $contractTaxPrice - $paymentPrice;
-                            $leftTaxPricePayment = $contractTaxPrice - $paymentPrice;
-                            $contractPrice += $price;
                         }
                     }
                 @endphp
                 <a href="{{ route('contracts.payments.index', $contract->id) }}"
-                   class="p-2 rounded-2xl shadow border border-gray-300 {{ (int)number_format($leftTaxPricePayment) > 0 || (int)number_format($leftPricePayment) > 0 ? 'bg-opacity-50 border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
+                   class="p-2 rounded-2xl shadow border border-gray-300 {{ (int)number_format($leftTaxPricePayment ?? 0) > 0 || (int)number_format($leftPricePayment ?? 0) > 0 ? 'bg-opacity-50 border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
                     <div class="flex items-center justify-between border-b border-white pb-2">
                         <div class="flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -490,13 +492,13 @@
                                       d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z"/>
                             </svg>
                             <div class="mr-2">
-                                <p class="font-bold text-black text-xs {{ (int)number_format($leftTaxPricePayment) > 0 || (int)number_format($leftPricePayment) > 0 ? 'text-opacity-40' : '' }}">
+                                <p class="font-bold text-black text-xs {{ (int)number_format($leftTaxPricePayment ?? 0) > 0 || (int)number_format($leftPricePayment ?? 0) > 0 ? 'text-opacity-40' : '' }}">
                                     پرداخت ها
                                 </p>
                             </div>
                         </div>
                         <div>
-                            @if((int)number_format($leftTaxPricePayment) > 0 || (int)number_format($leftPricePayment) > 0)
+                            @if((int)number_format($leftTaxPricePayment ?? 0) > 0 || (int)number_format($leftPricePayment ?? 0) > 0)
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                                      class="w-5 h-5 text-gray-600 text-opacity-40">
                                     <path fill-rule="evenodd"
@@ -521,11 +523,11 @@
                         </p>
                         @if($contract->type == 'official')
                             <p class="text-xs text-black">
-                                مانده : {{ number_format($leftTaxPricePayment) }} تومان
+                                مانده : {{ number_format($leftTaxPricePayment ?? 0) }} تومان
                             </p>
                         @else
                             <p class="text-xs text-black">
-                                مانده : {{ number_format($leftPricePayment) }} تومان
+                                مانده : {{ number_format($leftPricePayment ?? 0) }} تومان
                             </p>
                         @endif
                     </div>
@@ -685,11 +687,11 @@
                         <div class="mt-2 space-y-2">
                             <p class="text-xs text-black">
                                 ثبت شده
-                                : {{ $contract->products()->where('group_id','!=',0)->where('model_id','!=',0)->where('code', '!=',null)->count() }}
+                                : {{ $contract->products()->where('code', '!=', null)->count() }}
                             </p>
                             <p class="text-xs text-black">
                                 ثبت نشده
-                                : {{ $contract->products()->where('group_id','!=',0)->where('model_id','!=',0)->where('code', null)->count() }}
+                                : {{ $contract->products()->where('code', null)->count() }}
                             </p>
                         </div>
                     </a>

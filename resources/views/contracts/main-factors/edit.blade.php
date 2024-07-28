@@ -114,7 +114,7 @@
     </div>
 
     <!-- Form -->
-    <form method="POST" action="{{ route('main-factors.update', [$contract->id, $main_factor->id]) }}" class="mt-4">
+    <form method="POST" action="{{ route('main-factors.update', [$contract->id, $main_factor->id]) }}" class="mt-4" enctype="multipart/form-data">
         @csrf
         @method('PATCH')
 
@@ -135,6 +135,10 @@
                     شماره فاکتور
                 </label>
                 <input type="text" id="inputNumber" name="number" class="input-text" value="{{ old('number', $main_factor->number) }}" placeholder="مثلا : 14020202">
+            </div>
+            <div class="mb-4">
+                <label for="inputFile" class="form-label">انتخاب فایل</label>
+                <input type="file" class="input-file" id="inputFile" name="file" value="{{ old('file', $main_factor->file) }}">
             </div>
         </div>
 

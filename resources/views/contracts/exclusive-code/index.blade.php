@@ -231,7 +231,7 @@
             @endphp
             @foreach($types as $type)
                 @php
-                    $products = $contract->products()->where('part_id','!=',0)->where('type',$type)->get();
+                    $products = $contract->products()->where('part_id','!=',0)->where('type',$type)->where('packing', false)->get();
                 @endphp
                 @if(!$products->isEmpty())
                     <form method="POST" action="{{ route('contracts.exclusive-code.store', $contract->id) }}" class="card">
@@ -348,7 +348,7 @@
                                 ثبت اطلاعات
                             </button>
                         </div>
-                    </div>
+                    </form>
                 @endif
             @endforeach
         @else

@@ -332,7 +332,7 @@
                                                                            value="{{ $product->id }}">
                                                                     <input type="number" class="input-text"
                                                                            name="quantity"
-                                                                           value="{{ $product->quantity - $quantity }}"
+                                                                           value="{{ $product->quantity }}"
                                                                            placeholder="تعداد اضافه شدن این محصول">
                                                                     <div class="mt-2">
                                                                         <span class="text-xs text-red-600">
@@ -569,7 +569,7 @@
                                                                            value="{{ $product->id }}">
                                                                     <input type="number" class="input-text"
                                                                            name="quantity"
-                                                                           value="{{ $product->quantity - $partQuantity }}"
+                                                                           value="{{ $product->quantity }}"
                                                                            placeholder="تعداد اضافه شدن این محصول">
                                                                     <div class="mt-2">
                                                                         <span class="text-xs text-red-600">
@@ -597,5 +597,11 @@
                 </div>
             @endif
         @endforeach
+
+        <div class="mt-4">
+            <a href="{{ route('contracts.packings.packs.add-new-part', [$contract->id , $pack->id]) }}" class="form-submit-btn">
+                انتخاب قطعه جدید فقط برای پکینگ
+            </a>
+        </div>
     </div>
 </x-layout>

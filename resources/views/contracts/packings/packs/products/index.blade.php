@@ -145,77 +145,80 @@
 
     <!-- Content -->
     <div class="mt-4 space-y-4">
-        <div class="mt-8 overflow-x-auto rounded-lg">
-            <table class="w-full border-collapse">
-                <thead>
-                <tr class="table-th-tr">
-                    <th scope="col" class="p-4 rounded-tr-lg">
-                        ردیف
-                    </th>
-                    <th scope="col" class="p-4">
-                        دسته محصول
-                    </th>
-                    <th scope="col" class="p-4">
-                        مدل محصول
-                    </th>
-                    <th scope="col" class="p-4">
-                        تگ
-                    </th>
-                    <th scope="col" class="p-4">
-                        تعداد
-                    </th>
-                    <th scope="col" class="p-4">
+
+        @if(!$pack->products()->where('group_id','!=',0)->where('model_id','!=',0)->get()->isEmpty())
+            <div class="mt-8 overflow-x-auto rounded-lg">
+                <table class="w-full border-collapse">
+                    <thead>
+                    <tr class="table-th-tr">
+                        <th scope="col" class="p-4 rounded-tr-lg">
+                            ردیف
+                        </th>
+                        <th scope="col" class="p-4">
+                            دسته محصول
+                        </th>
+                        <th scope="col" class="p-4">
+                            مدل محصول
+                        </th>
+                        <th scope="col" class="p-4">
+                            تگ
+                        </th>
+                        <th scope="col" class="p-4">
+                            تعداد
+                        </th>
+                        <th scope="col" class="p-4">
                         <span class="sr-only">
                             اقدامات
                         </span>
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($pack->products()->where('group_id','!=',0)->where('model_id','!=',0)->get() as $product)
-                    <input type="hidden" name="products[]" value="{{ $product->id }}">
-                    @php
-                        $modell = \App\Models\Modell::find($product->model_id);
-                    @endphp
-                    <tr class="table-tb-tr group whitespace-normal {{ $loop->even ? 'bg-sky-100' : '' }}">
-                        <td class="table-tr-td border-t-0 border-l-0">
-                            {{ $loop->index + 1 }}
-                        </td>
-                        <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $modell->parent->name }}
-                        </td>
-                        <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $product->model_custom_name ?? $modell->name }}
-                        </td>
-                        <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $product->description ?? '-' }}
-                        </td>
-                        <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $product->pivot->quantity }}
-                        </td>
-                        <td class="table-tr-td border-t-0 border-r-0">
-                            <div class="flex items-center justify-center">
-                                <form action="{{ route('contracts.packs.products.destroy', [$contract->id, $pack->id, $product->id]) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-
-                                    <button class="table-delete-btn" type="submit"
-                                            onclick="return confirm('محصول از پک حذف شود ؟')">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                             stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                  d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"/>
-                                        </svg>
-                                        حذف
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
+                        </th>
                     </tr>
-                @endforeach
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody>
+                    @foreach($pack->products()->where('group_id','!=',0)->where('model_id','!=',0)->get() as $product)
+                        <input type="hidden" name="products[]" value="{{ $product->id }}">
+                        @php
+                            $modell = \App\Models\Modell::find($product->model_id);
+                        @endphp
+                        <tr class="table-tb-tr group whitespace-normal {{ $loop->even ? 'bg-sky-100' : '' }}">
+                            <td class="table-tr-td border-t-0 border-l-0">
+                                {{ $loop->index + 1 }}
+                            </td>
+                            <td class="table-tr-td border-t-0 border-x-0">
+                                {{ $modell->parent->name }}
+                            </td>
+                            <td class="table-tr-td border-t-0 border-x-0">
+                                {{ $product->model_custom_name ?? $modell->name }}
+                            </td>
+                            <td class="table-tr-td border-t-0 border-x-0">
+                                {{ $product->description ?? '-' }}
+                            </td>
+                            <td class="table-tr-td border-t-0 border-x-0">
+                                {{ $product->pivot->quantity }}
+                            </td>
+                            <td class="table-tr-td border-t-0 border-r-0">
+                                <div class="flex items-center justify-center">
+                                    <form action="{{ route('contracts.packs.products.destroy', [$contract->id, $pack->id, $product->id]) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button class="table-delete-btn" type="submit"
+                                                onclick="return confirm('محصول از پک حذف شود ؟')">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                 stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                      d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"/>
+                                            </svg>
+                                            حذف
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @endif
 
         <!-- Part List -->
         @php

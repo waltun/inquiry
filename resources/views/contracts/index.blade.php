@@ -124,7 +124,7 @@
                     <option value="">انتخاب مشتری</option>
                     @foreach($customers as $customer)
                         <option
-                            value="{{ $customer->id }}" {{ request('customer') == $customer->id ? 'selected' : '' }}>
+                                value="{{ $customer->id }}" {{ request('customer') == $customer->id ? 'selected' : '' }}>
                             {{ $customer->name }}
                         </option>
                     @endforeach
@@ -200,7 +200,8 @@
                                     }
                                 }
 
-                                $tax = $contractPrice * 9 / 100;
+                                $taxItem = \App\Models\Tax::where('year', jdate($contract->created_at)->getYear())->first();
+                                $tax = $contractPrice * $taxItem->rate / 100;
                                 $contractTaxPrice = $contractPrice + $tax;
 
                                 $leftPrice = $contractPrice - $paymentPrice;
@@ -234,12 +235,13 @@
                                         $price += $product->price * $product->pivot->quantity;
                                     }
 
-                                    $taxf = $price * $taxItem->rate / 100.0;
+                                    $taxf = $price * $taxItem->rate / 100;
                                     $tax += $taxf;
 
                                     $contractTaxPrice += $price + $taxf;
                                     $leftTaxPrice = $contractTaxPrice - $paymentPrice;
                                     $contractPrice += $price;
+                                    $leftPrice = $contractPrice - $paymentPrice;
                                 }
                             }
                         @endphp
@@ -350,7 +352,7 @@
                                                                     @endphp
                                                                     <div class="p-2 rounded-lg border border-gray-200">
                                                                         <div
-                                                                            class="space-x-4 space-x-reverse flex items-center">
+                                                                                class="space-x-4 space-x-reverse flex items-center">
                                                                             <p class="text-sm font-medium">
                                                                                 {{ $modell->parent->name }}
                                                                                 - {{ $product->model_custom_name ?? $modell->name }}
@@ -371,7 +373,7 @@
                                                                     @endphp
                                                                     @if(!$products->isEmpty())
                                                                         <div
-                                                                            class="p-2 rounded-lg border border-gray-200">
+                                                                                class="p-2 rounded-lg border border-gray-200">
                                                                             <div class="mb-2">
                                                                                 @switch($type)
                                                                                     @case('setup')
@@ -438,7 +440,7 @@
                                                                                     $part = \App\Models\Part::find($product->part_id);
                                                                                 @endphp
                                                                                 <div
-                                                                                    class="mb-2 flex items-center space-x-4 space-x-reverse">
+                                                                                        class="mb-2 flex items-center space-x-4 space-x-reverse">
                                                                                     <p class="text-sm font-medium">
                                                                                         {{ $part->name  }}
                                                                                     </p>
@@ -537,12 +539,12 @@
                                                                                         class="input-text">
                                                                                     @foreach(\App\Models\User::where('role', 'staff')->orWhere('role', 'admin')->get() as $user2)
                                                                                         <option
-                                                                                            value="{{ $user2->id }}">{{ $user2->name }}</option>
+                                                                                                value="{{ $user2->id }}">{{ $user2->name }}</option>
                                                                                     @endforeach
                                                                                 </select>
                                                                             </div>
                                                                             <div
-                                                                                class="flex justify-end items-center space-x-4 space-x-reverse">
+                                                                                    class="flex justify-end items-center space-x-4 space-x-reverse">
                                                                                 <button type="submit"
                                                                                         class="form-submit-btn">
                                                                                     ثبت

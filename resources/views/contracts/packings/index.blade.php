@@ -108,25 +108,26 @@
                 </p>
             </div>
         </div>
-        <div x-data="{open:false}" class="flex justify-center items-center">
-            <button type="button" class="page-success-btn" @click="open = !open">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                     stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
-                </svg>
-                ایجاد پکینگ جدید
-            </button>
-            <div class="relative z-10" x-show="open" x-cloak>
-                <div class="modal-backdrop"></div>
-                <div class="fixed z-10 inset-0 overflow-y-auto">
-                    <div class="modal">
-                        <div class="modal-body">
-                            <div class="bg-white dark:bg-slate-800 p-4">
-                                <div class="mb-4 flex justify-between items-center">
-                                    <h3 class="text-lg font-bold text-gray-900 dark:text-white">
-                                        ایجاد پکینگ جدید
-                                    </h3>
-                                    <button type="button" @click="open = false">
+        <div class="flex items-center space-x-4 space-x-reverse">
+            <div x-data="{open:false}" class="flex justify-center items-center">
+                <button type="button" class="page-success-btn" @click="open = !open">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                         stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+                    </svg>
+                    ایجاد پکینگ لیست جدید
+                </button>
+                <div class="relative z-10" x-show="open" x-cloak>
+                    <div class="modal-backdrop"></div>
+                    <div class="fixed z-10 inset-0 overflow-y-auto">
+                        <div class="modal">
+                            <div class="modal-body">
+                                <div class="bg-white dark:bg-slate-800 p-4">
+                                    <div class="mb-4 flex justify-between items-center">
+                                        <h3 class="text-lg font-bold text-gray-900 dark:text-white">
+                                            ایجاد پکینگ جدید
+                                        </h3>
+                                        <button type="button" @click="open = false">
                                         <span class="modal-close">
                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                  fill="none"
@@ -139,29 +140,38 @@
                                                       d="M6 18L18 6M6 6l12 12"/>
                                             </svg>
                                         </span>
-                                    </button>
-                                </div>
-                                <form method="POST" action="{{ route('packings.store', $contract->id) }}">
-                                    @csrf
-
-                                    <div class="mb-4">
-                                        <label for="inputDate" class="form-label">
-                                            تاریخ پکینگ
-                                        </label>
-                                        <input type="text" class="input-text" name="date" id="inputDate"
-                                               placeholder="برای انتخاب تاریخ کلیک کنید">
-                                    </div>
-                                    <div class="flex justify-end items-center space-x-4 space-x-reverse">
-                                        <button type="submit" class="form-submit-btn">
-                                            ثبت
                                         </button>
                                     </div>
-                                </form>
+                                    <form method="POST" action="{{ route('packings.store', $contract->id) }}">
+                                        @csrf
+
+                                        <div class="mb-4">
+                                            <label for="inputDate" class="form-label">
+                                                تاریخ پکینگ
+                                            </label>
+                                            <input type="text" class="input-text" name="date" id="inputDate"
+                                                   placeholder="برای انتخاب تاریخ کلیک کنید">
+                                        </div>
+                                        <div class="flex justify-end items-center space-x-4 space-x-reverse">
+                                            <button type="submit" class="form-submit-btn">
+                                                ثبت
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <a href="{{ route('contracts.show', $contract->id) }}" class="page-warning-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                     stroke="currentColor" class="w-6 h-6 ml-1">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"></path>
+                </svg>
+                داشبورد قرارداد
+            </a>
         </div>
     </div>
 
@@ -178,10 +188,10 @@
                         تاریخ
                     </th>
                     <th scope="col" class="p-4">
-                        شماره
+                        شماره پکینگ لیست
                     </th>
                     <th scope="col" class="p-4">
-                        پک ها
+                        تعداد بسته های داخل پکینگ لیست
                     </th>
                     <th scope="col" class="p-4 rounded-tl-lg">
                         <span class="sr-only">اقدامات</span>
@@ -201,7 +211,11 @@
                             PL-{{ $contract->number }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            <div class="flex justify-center items-center">
+                            {{ count($packing->packs) }}
+
+                        </td>
+                        <td class="table-tr-td border-t-0 border-r-0 whitespace-nowrap">
+                            <div class="flex items-center justify-center space-x-4 space-x-reverse">
                                 <a href="{{ route('packs.index', [$contract->id, $packing->id]) }}"
                                    class="table-warning-btn">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -211,12 +225,8 @@
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                               d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                                     </svg>
-                                    مشاهده ({{ count($packing->packs) }})
+                                    مشاهده
                                 </a>
-                            </div>
-                        </td>
-                        <td class="table-tr-td border-t-0 border-r-0 whitespace-nowrap">
-                            <div class="flex items-center justify-center space-x-4 space-x-reverse">
                                 <div x-data="{open:false}" class="flex justify-center items-center">
                                     <button type="button" class="table-dropdown-edit text-xs" @click="open = !open">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
@@ -279,7 +289,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <form action="{{ route('packings.destroy', [$contract->id, $packing->id]) }}"
                                       method="POST">
                                     @csrf

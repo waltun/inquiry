@@ -114,7 +114,7 @@
     </div>
 
     <!-- Form -->
-    <form method="POST" action="{{ route('main-factors.store', $contract->id) }}" class="mt-4">
+    <form method="POST" action="{{ route('main-factors.store', $contract->id) }}" class="mt-4" enctype="multipart/form-data">
         @csrf
 
         <div class="card">
@@ -134,6 +134,10 @@
                     شماره فاکتور
                 </label>
                 <input type="text" id="inputNumber" name="number" class="input-text" value="{{ old('number') }}" placeholder="مثلا : 14020202">
+            </div>
+            <div class="mb-4">
+                <label for="inputFile" class="form-label">انتخاب فایل</label>
+                <input type="file" class="input-file" id="inputFile" name="file" value="{{ old('file') }}">
             </div>
         </div>
 

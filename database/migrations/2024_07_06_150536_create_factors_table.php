@@ -19,6 +19,7 @@ return new class extends Migration {
 
             $table->string('description')->nullable();
             $table->string('number');
+            $table->boolean('confirm')->default(false);
 
             $table->unsignedBigInteger('contract_id');
             $table->unsignedBigInteger('user_id');

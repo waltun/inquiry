@@ -43,6 +43,7 @@ use App\Http\Controllers\InformationController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\LetterTermController;
 use App\Http\Controllers\MarketingController as AllMarketings;
+use App\Http\Controllers\FactorController as AllFactors;
 use App\Http\Controllers\Contract\MarketPaymentController;
 use App\Http\Controllers\Contract\PaymentController;
 use App\Http\Controllers\MarketerAccountController;
@@ -635,6 +636,8 @@ Route::middleware(['auth', 'web'])->group(function () {
 
         Route::get('/marketings', [AllMarketings::class, 'index'])->name('marketings.index');
 
+        Route::get('/factors', [AllFactors::class, 'index'])->name('all-factors.index');
+
         Route::get('/contracts/{contract}/parts', [ContractPartController::class, 'index'])->name('contracts.parts.index');
         Route::post('/contracts/{contract}/parts', [ContractPartController::class, 'storeAmounts'])->name('contracts.parts.store-amounts');
         Route::post('/contracts/{contract}/parts-recipe', [ContractPartController::class, 'storeRecipe'])->name('contracts.parts.store-recipe');
@@ -681,6 +684,8 @@ Route::middleware(['auth', 'web'])->group(function () {
             'destroy' => 'contracts.packs.products.destroy',
             'show' => 'contracts.packs.products.show',
         ]);
+        Route::get('/contracts/{contract}/packings/packs/{pack}/add-new-part', [PackProductController::class, 'addPart'])->name('contracts.packings.packs.add-new-part');
+        Route::post('/contracts/{contract}/packings/packs/{pack}/add-new-part', [PackProductController::class, 'storePart'])->name('contracts.packings.packs.store-new-part');
 
         Route::resource('contracts/{contract}/loadings', LoadingController::class)->except(['show']);
 
@@ -731,7 +736,9 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::get('/contract-notifications/{contract}', [NotificationController::class, 'index'])->name('contract-notifications.index');
         Route::post('/contract-notifications/{contract}/mark-as-done/{notification}', [NotificationController::class, 'markAsDone'])->name('contract-notifications.mark-as-done');
 
-        Route::resource('contracts/{contract}/main-factors', MainFactorController::class)->except(['show']);
+        Route::post('/contracts/{contract}/confirm-main-factors', [MainFactorController::class, 'confirm'])->name('contracts.main-factors.confirm');
+        Route::post('/contracts/delete-main-factors', [MainFactorController::class, 'destroy'])->name('contracts.main-factors.destroy');
+        Route::resource('contracts/{contract}/main-factors', MainFactorController::class)->except(['show', 'destroy']);
         Route::resource('contracts/{contract}/main-factors/{main_factor}/products', MainFactorProductController::class)->names([
             'index' => 'contracts.main-factors.products.index',
             'create' => 'contracts.main-factors.products.create',

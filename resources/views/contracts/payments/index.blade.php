@@ -346,17 +346,20 @@
                 $taxf = 0;
                 $taxItem = 0;
 
-                foreach ($factor->contractProducts as $product) {
-                    $taxItem = \App\Models\Tax::where('year', jdate($factor->date)->getYear())->first();
-                    $price += $product->price * $product->pivot->quantity;
+                if (!$factor->contractProducts->isEmpty()) {
+                    foreach ($factor->contractProducts as $product) {
+                        $taxItem = \App\Models\Tax::where('year', jdate($factor->date)->getYear())->first();
+                        $price += $product->price * $product->pivot->quantity;
+                    }
+
+                    $taxf = $price * $taxItem->rate / 100.0;
+                    $tax += $taxf;
+
+                    $contractTaxPrice += $price + $taxf;
+                    $leftTaxPrice = $contractTaxPrice - $paymentPrice;
+                    $contractPrice += $price;
                 }
 
-                $taxf = $price * $taxItem->rate / 100.0;
-                $tax += $taxf;
-
-                $contractTaxPrice += $price + $taxf;
-                $leftTaxPrice = $contractTaxPrice - $paymentPrice;
-                $contractPrice += $price;
             }
         }
     @endphp
@@ -365,46 +368,46 @@
         <div class="p-4 rounded-lg shadow bg-indigo-500">
             @if($contract->type == 'official')
                 <p class="text-base text-white text-center font-bold">
-                    مبلغ کل قرارداد با ارزش افزوده : {{ number_format($contractTaxPrice) }} تومان
+                    مبلغ کل قرارداد با ارزش افزوده : {{ number_format($contractTaxPrice ?? 0) }} تومان
                 </p>
             @else
                 <p class="text-base text-white text-center font-bold">
-                    مبلغ کل قرارداد : {{ number_format($contractPrice) }} تومان
+                    مبلغ کل قرارداد : {{ number_format($contractPrice ?? 0) }} تومان
                 </p>
             @endif
         </div>
 
         <div class="p-4 rounded-lg shadow bg-green-500">
             <p class="text-base text-white text-center font-bold">
-                مجموع پرداخت‌ها : {{ number_format($paymentPrice) }} تومان
+                مجموع پرداخت‌ها : {{ number_format($paymentPrice ?? 0) }} تومان
             </p>
         </div>
 
         <div class="p-4 rounded-lg shadow bg-red-500">
             @if($contract->type == 'official')
                 <p class="text-base text-white text-center font-bold">
-                    بدهی مشتری : {{ number_format($leftTaxPrice) }} تومان
+                    بدهی مشتری : {{ number_format($leftTaxPrice ?? 0) }} تومان
                 </p>
             @else
                 <p class="text-base text-white text-center font-bold">
-                    بدهی مشتری : {{ number_format($leftPrice) }} تومان
+                    بدهی مشتری : {{ number_format($leftPrice ?? 0) }} تومان
                 </p>
             @endif
         </div>
 
         <div class="p-4 rounded-lg shadow bg-yellow-500">
             <p class="text-base text-white text-center font-bold">
-                وصول نشده‌ها : {{ number_format($collectionPrice) }} تومان
+                وصول نشده‌ها : {{ number_format($collectionPrice ?? 0) }} تومان
             </p>
         </div>
 
         @if($contract->type == 'official')
             <div class="space-y-4">
                 <p class="text-center text-sm underline underline-offset-4 text-gray-600">
-                    مبلغ کل قرارداد بدون ارزش افزوده : {{ number_format($contractPrice) }} تومان
+                    مبلغ کل قرارداد بدون ارزش افزوده : {{ number_format($contractPrice ?? 0) }} تومان
                 </p>
                 <p class="text-center text-sm underline underline-offset-4 text-gray-600">
-                    مبلغ ارزش افزوده : {{ number_format($tax) }} تومان
+                    مبلغ ارزش افزوده : {{ number_format($tax ?? 0) }} تومان
                 </p>
             </div>
         @endif

@@ -10,7 +10,7 @@ class Factor extends Model
     use HasFactory;
 
     protected $fillable = [
-        'date', 'description', 'number', 'contract_id', 'user_id'
+        'date', 'description', 'number', 'contract_id', 'user_id', 'file', 'confirm'
     ];
 
     public function contract()
