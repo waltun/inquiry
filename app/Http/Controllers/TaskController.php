@@ -60,7 +60,9 @@ class TaskController extends Controller
             'level' => 'required|in:high,medium,low',
             'receivers' => 'required|array',
             'description' => 'nullable',
-            'file' => 'nullable|file'
+            'file' => 'nullable|file',
+            'extension_days' => 'required|numeric',
+            'extension_count' => 'required|numeric',
         ]);
 
         if (!is_null($data['date'])) {
@@ -92,7 +94,9 @@ class TaskController extends Controller
                 'file' => $data['file'] ?? null,
                 'user_id' => auth()->user()->id,
                 'done' => false,
-                'done_at' => null
+                'done_at' => null,
+                'extension_days' => $data['extension_days'],
+                'extension_count' => $data['extension_count'],
             ]);
         }
 
@@ -120,7 +124,9 @@ class TaskController extends Controller
             'date' => 'required|string|max:255',
             'level' => 'required|in:high,medium,low',
             'receiver_id' => 'required|integer',
-            'description' => 'nullable'
+            'description' => 'nullable',
+            'extension_days' => 'required|numeric',
+            'extension_count' => 'required|numeric',
         ]);
 
         if (!is_null($data['date'])) {
@@ -184,5 +190,25 @@ class TaskController extends Controller
         alert()->success('ثبت موفق', 'ثبت پاسخ وظیفه با موفقیت انجام شد');
 
         return redirect()->route('tasks.index');
+    }
+
+    public function extension(Request $request, Task $task)
+    {
+        $data = $request->validate([
+            'extension_days_request' => 'required|integer'
+        ]);
+
+        if ($task->extension_usage <= $task->extension_count) {
+            $task->extension_days_request = $data['extension_days_request'];
+            $task->extension_days_request_at = now();
+            $task->extension_usage++;
+            $task->save();
+
+            alert()->success('تمدید موفق', 'تمدید وظیفه با موفقیت انجام شد');
+
+            return back();
+        }
+
+        alert()->error('خطا', 'تعداد دفعات تمدیدی شما به پایان رسیده!');
     }
 }

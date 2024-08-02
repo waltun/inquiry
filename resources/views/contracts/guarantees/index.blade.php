@@ -183,7 +183,7 @@
                 </thead>
                 <tbody>
                 @foreach($contract->guarantees as $guarantee)
-                    <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
+                    <tr class="table-tb-tr group {{ $guarantee->final_return_date ? 'bg-green-400 text-white' : ($loop->even ? 'bg-sky-100' : '') }}">
                         <td class="table-tr-td border-t-0 border-l-0">
                             {{ $loop->index + 1 }}
                         </td>
@@ -301,7 +301,7 @@
             </table>
 
             <div class="mt-4 flex justify-between items-center">
-                <a href="" class="page-warning-btn">
+                <a href="{{ route('guarantee.index') }}" class="page-warning-btn">
                     همه تضامین
                 </a>
                 @if(!$contract->guarantees->isEmpty())

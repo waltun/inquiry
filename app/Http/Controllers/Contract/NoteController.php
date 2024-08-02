@@ -56,7 +56,7 @@ class NoteController extends Controller
         return redirect()->route('notes.index', $contract->id);
     }
 
-    public function destroy(ContractNote $note)
+    public function destroy(Contract $contract, ContractNote $note)
     {
         $note->delete();
 

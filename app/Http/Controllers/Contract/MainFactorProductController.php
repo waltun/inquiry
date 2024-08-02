@@ -48,11 +48,32 @@ class MainFactorProductController extends Controller
         return back();
     }
 
-    public function destroy(Contract $contract, Factor $main_factor, ContractProduct $product)
+    public function destroy(Request $request)
     {
+        $main_factor = Factor::find($request->factor_id);
+        $product = ContractProduct::find($request->product_id);
+
         $main_factor->contractProducts()->detach($product->id);
 
         alert()->success('حذف موفق', 'محصول با موفقیت از فاکتور حذف شد');
+    }
+
+    public function storePrice(Request $request, Contract $contract, Factor $main_factor)
+    {
+        $request->validate([
+            'products' => 'required|array',
+            'prices' => 'required|array',
+            'products.*' => 'required|integer',
+            'prices.*' => 'required|numeric',
+        ]);
+
+        foreach ($request->products as $index => $id) {
+            $product = ContractProduct::find($id);
+            $product->price = $request->prices[$index];
+            $product->save();
+        }
+
+        alert()->success('ثبت موفق', 'قیمت ها با موفقیت ثبت شد');
 
         return back();
     }

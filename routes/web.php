@@ -745,9 +745,10 @@ Route::middleware(['auth', 'web'])->group(function () {
             'store' => 'contracts.main-factors.products.store',
             'edit' => 'contracts.main-factors.products.edit',
             'update' => 'contracts.main-factors.products.update',
-            'destroy' => 'contracts.main-factors.products.destroy',
             'show' => 'contracts.main-factors.products.show',
-        ]);
+        ])->except(['destroy']);
+        Route::post('/contracts/main-factors/product/destroy', [MainFactorProductController::class, 'destroy'])->name('contracts.main-factors.products.destroy');
+        Route::post('/contracts/{contract}/main-factors/{main_factor}/store-product-prices', [MainFactorProductController::class, 'storePrice'])->name('contracts.main-factors.products.store-price');
 
         Route::resource('todos', TodoController::class)->except('show');
         Route::post('todos/{todo}/mark-as-done', [TodoController::class, 'markAsDone'])->name('todos.mark-as-done');
@@ -758,6 +759,7 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::get('/tasks/sent', [TaskController::class, 'sent'])->name('tasks.sent');
         Route::get('/tasks/{task}/reply', [TaskController::class, 'reply'])->name('tasks.reply');
         Route::patch('/tasks/{task}/reply', [TaskController::class, 'storeReply'])->name('tasks.storeReply');
+        Route::post('tasks/{task}/extension', [TaskController::class, 'extension'])->name('tasks.extension');
 
         Route::resource('leaves', LeaveController::class)->except(['show']);
 

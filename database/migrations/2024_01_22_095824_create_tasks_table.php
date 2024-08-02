@@ -23,6 +23,12 @@ return new class extends Migration {
             $table->string('file')->nullable();
             $table->string('reply')->nullable();
 
+            $table->integer('extension_count')->default(2);
+            $table->integer('extension_days')->default(7);
+            $table->integer('extension_usage')->default(0);
+            $table->integer('extension_days_request')->default(0);
+            $table->timestamp('extension_days_request_at')->nullable();
+
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 

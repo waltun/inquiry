@@ -125,6 +125,9 @@
                         شماره قرارداد
                     </th>
                     <th scope="col" class="p-4">
+                        تاریخ
+                    </th>
+                    <th scope="col" class="p-4">
                         شماره قرارداد قبلی
                     </th>
                     <th scope="col" class="p-4">
@@ -139,9 +142,6 @@
                     <th scope="col" class="p-4">
                         بازاریاب
                     </th>
-                    <th scope="col" class="p-4">
-                        تاریخ
-                    </th>
                     <th scope="col" class="p-4 rounded-tl-lg">
                         <span class="sr-only">اقدامات</span>
                     </th>
@@ -152,6 +152,13 @@
                     <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
                         <td class="table-tr-td border-t-0 border-l-0">
                             {{ "CNT-" . $contract->number }}
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            @if($contract->start_contract_date)
+                                {{ jdate($contract->start_contract_date)->format('Y/m/d') }}
+                            @else
+                                {{ jdate($contract->created_at)->format('Y/m/d') }}
+                            @endif
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             {{ $contract->old_number ?? '-' }}
@@ -167,9 +174,6 @@
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             {{ $contract->marketer ?? '-' }}
-                        </td>
-                        <td class="table-tr-td border-t-0 border-x-0">
-                            {{ jdate($contract->start_contract_date)->format('%A, %d %B %Y') }}
                         </td>
                         <td class="table-tr-td border-t-0 border-r-0">
                             <div class="flex items-center justify-center space-x-4 space-x-reverse">

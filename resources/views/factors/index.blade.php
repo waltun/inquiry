@@ -58,6 +58,12 @@
                 <thead>
                 <tr class="table-th-tr">
                     <th scope="col" class="p-4 rounded-tr-lg">
+                        شماره فاکتور
+                    </th>
+                    <th scope="col" class="p-4">
+                        تاریخ
+                    </th>
+                    <th scope="col" class="p-4">
                         شماره قرارداد
                     </th>
                     <th scope="col" class="p-4">
@@ -106,9 +112,15 @@
                     @endphp
                     <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
                         <td class="table-tr-td border-t-0 border-l-0">
+                            {{ $factor->number }}
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
                             {{ jdate($factor->date)->format('Y/m/d') }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
+                            CNT-{{ $factor->contract->number }}
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0 whitespace-normal">
                             {{ $factor->contract->name }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
@@ -158,6 +170,7 @@
                             </div>
                         </td>
                     </tr>
+
                 @endforeach
                 </tbody>
             </table>

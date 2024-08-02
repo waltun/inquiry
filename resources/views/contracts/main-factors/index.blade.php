@@ -284,7 +284,7 @@
                                     </option>
                                 </select>
                             @else
-                                {{ $marketing->confirm ? 'تایید شده' : 'تایید نشده' }}
+                                {{ $factor->confirm ? 'تایید شده' : 'تایید نشده' }}
                             @endif
                         </td>
                         <td class="table-tr-td border-t-0 border-r-0 whitespace-nowrap">

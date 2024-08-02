@@ -1,4 +1,31 @@
 <x-layout>
+    <x-slot name="js">
+        <script src="{{ asset('plugins/jquery.min.js') }}"></script>
+        <script>
+            function deleteProduct(factor_id, product_id) {
+                if (confirm('محصول حذف شود ؟')) {
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '{{ route('contracts.main-factors.products.destroy') }}',
+                        data: {
+                            factor_id: factor_id,
+                            product_id: product_id
+                        },
+                        success: function () {
+                            location.reload();
+                        }
+                    });
+                }
+            }
+        </script>
+    </x-slot>
+
     <!-- Breadcrumb -->
     <div class="flex items-center space-x-2 space-x-reverse whitespace-nowrap overflow-x-auto custom_nav pb-2">
         <a href="{{ route('dashboard') }}" class="flex items-center">
@@ -126,7 +153,8 @@
     <div class="mt-4 space-y-4">
         <div class="p-4 rounded-md border-2 border-indigo-500">
             @if(!$main_factor->contractProducts()->where('group_id','!=',0)->where('model_id','!=',0)->get()->isEmpty())
-                <div class="mt-8 overflow-x-auto rounded-lg">
+                <form method="POST" action="{{ route('contracts.main-factors.products.store-price', [$contract->id, $main_factor->id]) }}" class="mt-8 overflow-x-auto rounded-lg">
+                    @csrf
                     <table class="w-full border-collapse">
                         <thead>
                         <tr class="table-th-tr">
@@ -164,6 +192,7 @@
                             $totalTaxPrice = 0;
                         @endphp
                         @foreach($main_factor->contractProducts()->where('group_id','!=',0)->where('model_id','!=',0)->where('packing', false)->get() as $product)
+                            <input type="hidden" value="{{ $product->id }}" name="products[]">
                             @php
                                 $modell = \App\Models\Modell::find($product->model_id);
 
@@ -193,34 +222,34 @@
                                     {{ $product->pivot->quantity }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
-                                    {{ number_format($product->price) }}
+                                    <input type="text" value="{{ $product->price }}" name="prices[]" class="input-text text-center w-36">
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     {{ number_format($product->price * $product->quantity) }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-r-0">
                                     <div class="flex items-center justify-center">
-                                        <form action="{{ route('contracts.main-factors.products.destroy', [$contract->id, $main_factor->id, $product->id]) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-
-                                            <button class="table-delete-btn" type="submit"
-                                                    onclick="return confirm('محصول از فاکتور حذف شود ؟')">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                     stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                          d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"/>
-                                                </svg>
-                                                حذف
-                                            </button>
-                                        </form>
+                                        <button class="table-delete-btn" type="button" onclick="deleteProduct({{ $main_factor->id }}, {{ $product->id }})">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                 stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                      d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"/>
+                                            </svg>
+                                            حذف
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
                         @endforeach
                         </tbody>
                     </table>
-                </div>
+
+                    <div class="flex justify-end mt-4">
+                        <button type="submit" class="form-submit-btn">
+                            ثبت قیمت ها
+                        </button>
+                    </div>
+                </form>
 
                 <div class="mt-4 grid grid-cols-3 gap-4 mb-6">
                     <div>
@@ -273,7 +302,8 @@
                     $products = $main_factor->contractProducts()->where('part_id','!=',0)->where('packing', false)->where('type',$type)->get();
                 @endphp
                 @if(!$products->isEmpty())
-                    <div class="card">
+                    <form method="POST" action="{{ route('contracts.main-factors.products.store-price', [$contract->id, $main_factor->id]) }}" class="card">
+                        @csrf
                         <div class="card-header">
                             <p class="card-title text-lg">
                                 @switch($type)
@@ -357,6 +387,7 @@
                                 $totalPartTaxPrice = 0;
                             @endphp
                             @foreach($products as $product)
+                                <input type="hidden" value="{{ $product->id }}" name="products[]">
                                 @php
                                     $part = \App\Models\Part::find($product->part_id);
                                     $price = 0;
@@ -382,35 +413,34 @@
                                         {{ $product->pivot->quantity }}
                                     </td>
                                     <td class="table-tr-td border-t-0 border-x-0">
-                                        {{ number_format($product->price) }}
+                                        <input type="text" value="{{ $product->price }}" name="prices[]" class="input-text text-center w-36">
                                     </td>
                                     <td class="table-tr-td border-t-0 border-x-0">
                                         {{ number_format($product->price * $product->pivot->quantity) }}
                                     </td>
                                     <td class="table-tr-td border-t-0 border-r-0">
                                         <div class="flex items-center justify-center">
-                                            <form action="{{ route('contracts.packs.products.destroy', [$contract->id, $main_factor->id, $product->id]) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <input type="hidden" name="product_id" value="{{ $product->id }}">
-
-                                                <button class="table-delete-btn" type="submit"
-                                                        onclick="return confirm('محصول از فاکتور حذف شود ؟')">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                         stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                              d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"/>
-                                                    </svg>
-                                                    حذف
-                                                </button>
-                                            </form>
+                                            <button class="table-delete-btn" type="button" onclick="deleteProduct({{ $main_factor->id }}, {{ $product->id }})">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                     stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"/>
+                                                </svg>
+                                                حذف
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
                             @endforeach
                             </tbody>
                         </table>
-                    </div>
+
+                        <div class="flex justify-end mt-4 mb-4">
+                            <button type="submit" class="form-submit-btn">
+                                ثبت قیمت ها
+                            </button>
+                        </div>
+                    </form>
 
                     <div class="grid grid-cols-3 gap-4 mb-6">
                         <div>
@@ -474,6 +504,7 @@
                 $totalPrice2 += $price2 + $tax2;
             }
         @endphp
+
         <div class="border-2 border-indigo-500 p-4 rounded-md mt-8 shadow-lg bg-sky-100">
             <div class="mb-4">
                 <p class="text-xl font-bold text-black">

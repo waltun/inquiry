@@ -125,6 +125,18 @@
                 </select>
             </div>
 
+            <div class="mt-4">
+                <label for="inputExtensionDays" class="form-label">حداکثر روز هایی که کاربر می تواند انجام دهد (روز)</label>
+                <input type="text" id="inputExtensionDays" name="extension_days" class="input-text"
+                       placeholder="مثلا : 7" value="{{ old('extension_days') }}">
+            </div>
+
+            <div class="mt-4">
+                <label for="inputExtensionCount" class="form-label">حداکثر دفعاتی که کاربر می تواند انجام وظیفه را تمدید کند (عدد)</label>
+                <input type="text" id="inputExtensionCount" name="extension_count" class="input-text"
+                       placeholder="مثلا : 2" value="{{ old('extension_count') }}">
+            </div>
+
         </div>
 
         <div class="card">

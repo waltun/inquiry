@@ -13,6 +13,16 @@ class InvoiceController extends Controller
     {
         $invoices = $contract->invoices;
 
+        if ($keyword = request('search')) {
+            $invoices->where('name', 'LIKE', "%{$keyword}%")
+                ->orWhere('marketer', 'LIKE', "%{$keyword}%")
+                ->orWhere('inquiry_number', 'LIKE', "%{$keyword}%");
+        }
+
+        if (request()->has('user_id') && !is_null(request('user_id'))) {
+            $invoices = $invoices->where('user_id', request('user_id'));
+        }
+
         if (auth()->user()->role == 'admin') {
             $selectInvoices = Invoice::latest()->where('complete', true)->paginate(20);
         } else {

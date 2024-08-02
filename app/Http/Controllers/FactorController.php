@@ -14,7 +14,13 @@ class FactorController extends Controller
 
     public function index()
     {
-        $factors = Factor::latest()->with(['contract', 'contractProducts', 'user'])->paginate(20);
+        if (auth()->user()->role == 'admin') {
+            $factors = Factor::latest()->with(['contract', 'contractProducts', 'user'])->paginate(20);
+        } else {
+            $factors = Factor::latest()->with(['contract', 'contractProducts', 'user'])->whereHas('contract', function ($query) {
+                $query->where('user_id', auth()->id());
+            })->paginate(20);
+        }
         return view('factors.index', compact('factors'));
     }
 }

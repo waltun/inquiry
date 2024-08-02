@@ -142,6 +142,9 @@
                             شماره قرارداد
                         </th>
                         <th scope="col" class="p-2">
+                            تاریخ
+                        </th>
+                        <th scope="col" class="p-2">
                             شماره قرارداد قبلی
                         </th>
                         <th scope="col" class="p-2">
@@ -155,9 +158,6 @@
                         </th>
                         <th scope="col" class="p-2">
                             بازاریاب
-                        </th>
-                        <th scope="col" class="p-2">
-                            تاریخ
                         </th>
                         @can('contract-price')
                             <th scope="col" class="p-2">
@@ -230,13 +230,14 @@
                                     $taxf = 0;
                                     $taxItem = 0;
 
-                                    foreach ($factor->contractProducts as $product) {
-                                        $taxItem = \App\Models\Tax::where('year', jdate($factor->date)->getYear())->first();
-                                        $price += $product->price * $product->pivot->quantity;
+                                    if (!$factor->contractProducts->isEmpty()) {
+                                        foreach ($factor->contractProducts as $product) {
+                                            $taxItem = \App\Models\Tax::where('year', jdate($factor->date)->getYear())->first();
+                                            $price += $product->price * $product->pivot->quantity;
+                                        }
+                                        $taxf = $price * $taxItem->rate / 100;
+                                        $tax += $taxf;
                                     }
-
-                                    $taxf = $price * $taxItem->rate / 100;
-                                    $tax += $taxf;
 
                                     $contractTaxPrice += $price + $taxf;
                                     $leftTaxPrice = $contractTaxPrice - $paymentPrice;
@@ -250,6 +251,15 @@
                                 <a href="{{ route('contracts.show', $contract->id) }}">
                                     {{ "CNT-" . $contract->number }}
                                 </a>
+                            </td>
+                            <td class="table-tr-td border-t-0 border-x-0 group-hover:scale-110">
+                                @if(!is_null($contract->start_contract_date))
+                                    <a href="{{ route('contracts.show', $contract->id) }}">
+                                        {{ jdate($contract->start_contract_date)->format('Y/m/d') }}
+                                    </a>
+                                @else
+                                    {{ jdate($contract->created_at)->format('Y/m/d') }}
+                                @endif
                             </td>
                             <td class="table-tr-td border-t-0 border-x-0 group-hover:scale-110">
                                 <a href="{{ route('contracts.show', $contract->id) }}">
@@ -278,11 +288,6 @@
                                     @else
                                         ندارد
                                     @endif
-                                </a>
-                            </td>
-                            <td class="table-tr-td border-t-0 border-x-0 group-hover:scale-110">
-                                <a href="{{ route('contracts.show', $contract->id) }}">
-                                    {{ jdate($contract->start_contract_date)->format('Y/m/d') }}
                                 </a>
                             </td>
                             @can('contract-price')

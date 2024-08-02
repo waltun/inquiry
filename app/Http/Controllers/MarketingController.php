@@ -15,7 +15,14 @@ class MarketingController extends Controller
 
     public function index()
     {
-        $marketings = Marketing::latest()->where('confirm', 1)->with(['marketer', 'contract', 'payments'])->paginate(20);
+        if (auth()->user()->role == 'admin') {
+            $marketings = Marketing::latest()->where('confirm', 1)->with(['marketer', 'contract', 'payments'])->paginate(20);
+        } else {
+            $marketings = Marketing::latest()->with(['contract', 'payments', 'marketer'])->whereHas('contract', function ($query) {
+                $query->where('user_id', auth()->id());
+            })->paginate(20);
+        }
+
         return view('marketings.index', compact('marketings'));
     }
 }
