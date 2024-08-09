@@ -54,4 +54,9 @@ class ContractProduct extends Model
     {
         return $this->belongsToMany(Factor::class)->withPivot(['quantity']);
     }
+
+    public function attributeValues()
+    {
+        return $this->belongsToMany(AttributeValue::class);
+    }
 }

@@ -27,4 +27,9 @@ class AttributeValue extends Model
     {
         return $this->belongsToMany(Product::class);
     }
+
+    public function contractProducts()
+    {
+        return $this->belongsToMany(ContractProduct::class);
+    }
 }

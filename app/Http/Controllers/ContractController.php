@@ -342,6 +342,11 @@ class ContractController extends Controller
         return back();
     }
 
+    public function datasheet(Contract $contract)
+    {
+        return view('contracts.datasheet', compact('contract'));
+    }
+
     public function getOfficialCode()
     {
         $startOfYear = jdate()->getFirstDayOfYear()->toCarbon();

@@ -567,6 +567,11 @@ Route::middleware(['auth', 'web'])->group(function () {
 
         Route::get('/contracts', [ContractController::class, 'index'])->name('contracts.index');
         Route::get('/contracts/{contract}/products', [ContractController::class, 'products'])->name('contracts.products');
+
+        Route::get('/contracts/{contract}/datasheet', [ContractController::class, 'datasheet'])->name('contracts.datasheet');
+        Route::get('/contracts/{contract}/products/{contractProduct}/attributes', [\App\Http\Controllers\Contract\ProductAttributeController::class, 'index'])->name('contracts.products.attributes.index');
+        Route::post('/contracts/{contract}/products/{contractProduct}/attributes', [\App\Http\Controllers\Contract\ProductAttributeController::class, 'store'])->name('contracts.products.attributes.store');
+
         Route::delete('/contracts/products/{contractProduct}/delete', [ContractController::class, 'destroyProduct'])->name('contracts.destroy-product');
         Route::post('/contracts/products/update', [ContractController::class, 'updateProducts'])->name('contracts.update-products');
         Route::get('/contracts/{contract}', [ContractController::class, 'show'])->name('contracts.show');
