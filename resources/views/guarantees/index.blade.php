@@ -92,7 +92,7 @@
                 <tbody>
                 @foreach($contracts as $contract)
                     @if($contract->guarantees->isNotEmpty())
-                        @foreach($contract->guarantees as $guarantee)
+                        @foreach($contract->guarantees()->where('final_return_date', null)->get() as $guarantee)
                             <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
                                 <td class="table-tr-td border-t-0 border-l-0">
                                     {{ $contract->number ? "CNT-" . $contract->number : 'در حال انجام' }}

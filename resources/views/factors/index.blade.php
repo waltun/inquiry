@@ -29,7 +29,7 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p-active">
-                    مدیریت همه فاکتور ها
+                    مدیریت فاکتور ها
                 </p>
             </div>
         </div>
@@ -45,157 +45,220 @@
             </svg>
             <div class="mr-2">
                 <p class="font-bold text-2xl text-black dark:text-white">
-                    لیست همه فاکتور ها
+                    لیست فاکتور ها
                 </p>
             </div>
         </div>
+
+        <a href="{{ route('all-factors.success') }}" class="page-warning-btn">
+            لیست فاکتور های صادر شده
+        </a>
     </div>
 
     <!-- Content -->
     <div class="mt-4 space-y-4">
-        <div class="mt-8 overflow-x-auto rounded-lg hidden md:block">
-            <table class="w-full border-collapse">
-                <thead>
-                <tr class="table-th-tr">
-                    <th scope="col" class="p-4 rounded-tr-lg">
-                        شماره فاکتور
-                    </th>
-                    <th scope="col" class="p-4">
-                        تاریخ
-                    </th>
-                    <th scope="col" class="p-4">
-                        شماره قرارداد
-                    </th>
-                    <th scope="col" class="p-4">
-                        نام پروژه
-                    </th>
-                    <th scope="col" class="p-4">
-                        مسئول پروژه
-                    </th>
-                    <th scope="col" class="p-4">
-                        نام خریدار
-                    </th>
-                    <th scope="col" class="p-4">
-                        قیمت کل فاکتور (با ارزش افزوده)
-                    </th>
-                    <th scope="col" class="p-4">
-                        مبلغ ارزش افزوده
-                    </th>
-                    <th scope="col" class="p-4">
-                        مبلغ فاکتور (بدون ارزش افزوده)
-                    </th>
-                    <th scope="col" class="p-4 rounded-tl-lg">
-                        <span class="sr-only">اقدامات</span>
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                @php
-                    $totalPrice = 0;
-                    $totalTaxPrice = 0;
-                @endphp
-                @foreach($factors as $factor)
-                    @php
-                        $price = 0;
-                        $tax = 0;
-                        $taxItem = 0;
-                        if (!$factor->contractProducts->isEmpty()) {
-                            foreach ($factor->contractProducts as $product) {
-                            $taxItem = \App\Models\Tax::where('year', jdate($factor->date)->getYear())->first();
-                            $price += $product->price * $product->pivot->quantity;
-                        }
-                            $tax = $price * $taxItem->rate / 100.0;
-                            $totalTaxPrice += $tax;
-
-                            $totalPrice += $price + $tax;
-                        }
-                    @endphp
-                    <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
-                        <td class="table-tr-td border-t-0 border-l-0">
-                            {{ $factor->number }}
-                        </td>
-                        <td class="table-tr-td border-t-0 border-x-0">
-                            {{ jdate($factor->date)->format('Y/m/d') }}
-                        </td>
-                        <td class="table-tr-td border-t-0 border-x-0">
-                            CNT-{{ $factor->contract->number }}
-                        </td>
-                        <td class="table-tr-td border-t-0 border-x-0 whitespace-normal">
-                            {{ $factor->contract->name }}
-                        </td>
-                        <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $factor->contract->user->name }}
-                        </td>
-                        <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $factor->contract->customer->name }}
-                        </td>
-                        <td class="table-tr-td border-t-0 border-x-0">
-                            <p class="text-green-600">
-                                {{ number_format($price + $tax) }}
-                            </p>
-                        </td>
-                        <td class="table-tr-td border-t-0 border-x-0">
-                            <p class="text-green-600">
-                                {{ number_format($tax) }}
-                            </p>
-                        </td>
-                        <td class="table-tr-td border-t-0 border-x-0">
-                            <p class="text-green-600">
-                                {{ number_format($price) }}
-                            </p>
-                        </td>
-                        <td class="table-tr-td border-t-0 border-r-0">
-                            <div class="flex items-center justify-center space-x-4 space-x-reverse">
-                                <a href="{{ route('main-factors.index', $factor->contract->id) }}"
-                                   class="table-dropdown-copy">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                         stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                              d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/>
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                    </svg>
-                                    جزئیات
-                                </a>
-
-                                @if($factor->confirm)
-                                    <p class="py-1 px-2 rounded-lg bg-green-500 text-white shadow-sm">
-                                        تایید شده
-                                    </p>
-                                @else
-                                    <p class="p-1 rounded-lg bg-red-500 text-white shadow-sm">
-                                        در انتظار تایید
-                                    </p>
-                                @endif
-                            </div>
-                        </td>
+        <div class="p-4 border border-indigo-500 rounded-lg mt-8">
+            <div class="mb-4">
+                <p class="text-lg font-bold">
+                    لیست درخواست صدور فاکتور
+                </p>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full border-collapse">
+                    <thead>
+                    <tr class="table-th-tr">
+                        <th scope="col" class="p-4 rounded-tr-lg">
+                            شماره فاکتور
+                        </th>
+                        <th scope="col" class="p-4">
+                            تاریخ
+                        </th>
+                        <th scope="col" class="p-4">
+                            شماره قرارداد
+                        </th>
+                        <th scope="col" class="p-4">
+                            نام پروژه
+                        </th>
+                        <th scope="col" class="p-4">
+                            مسئول پروژه
+                        </th>
+                        <th scope="col" class="p-4">
+                            نام خریدار
+                        </th>
+                        <th scope="col" class="p-4">
+                            قیمت کل فاکتور (با ارزش افزوده)
+                        </th>
+                        <th scope="col" class="p-4">
+                            مبلغ ارزش افزوده
+                        </th>
+                        <th scope="col" class="p-4">
+                            مبلغ فاکتور (بدون ارزش افزوده)
+                        </th>
+                        <th scope="col" class="p-4 rounded-tl-lg">
+                            <span class="sr-only">اقدامات</span>
+                        </th>
                     </tr>
+                    </thead>
+                    <tbody>
+                    @php
+                        $totalPrice = 0;
+                        $totalTaxPrice = 0;
+                    @endphp
+                    @foreach($factors as $factor)
+                        @php
+                            $price = 0;
+                            $tax = 0;
+                            $taxItem = 0;
+                            if (!$factor->contractProducts->isEmpty()) {
+                                foreach ($factor->contractProducts as $product) {
+                                $taxItem = \App\Models\Tax::where('year', jdate($factor->date)->getYear())->first();
+                                $price += $product->price * $product->pivot->quantity;
+                            }
+                                $tax = $price * $taxItem->rate / 100.0;
+                                $totalTaxPrice += $tax;
 
-                @endforeach
-                </tbody>
-            </table>
+                                $totalPrice += $price + $tax;
+                            }
+                        @endphp
+                        <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
+                            <td class="table-tr-td border-t-0 border-l-0">
+                                {{ $factor->number }}
+                            </td>
+                            <td class="table-tr-td border-t-0 border-x-0">
+                                {{ jdate($factor->date)->format('Y/m/d') }}
+                            </td>
+                            <td class="table-tr-td border-t-0 border-x-0">
+                                CNT-{{ $factor->contract->number }}
+                            </td>
+                            <td class="table-tr-td border-t-0 border-x-0 whitespace-normal">
+                                {{ $factor->contract->name }}
+                            </td>
+                            <td class="table-tr-td border-t-0 border-x-0">
+                                {{ $factor->contract->user->name }}
+                            </td>
+                            <td class="table-tr-td border-t-0 border-x-0">
+                                {{ $factor->contract->customer->name }}
+                            </td>
+                            <td class="table-tr-td border-t-0 border-x-0">
+                                <p class="text-green-600">
+                                    {{ number_format($price + $tax) }}
+                                </p>
+                            </td>
+                            <td class="table-tr-td border-t-0 border-x-0">
+                                <p class="text-green-600">
+                                    {{ number_format($tax) }}
+                                </p>
+                            </td>
+                            <td class="table-tr-td border-t-0 border-x-0">
+                                <p class="text-green-600">
+                                    {{ number_format($price) }}
+                                </p>
+                            </td>
+                            <td class="table-tr-td border-t-0 border-r-0">
+                                <div class="flex items-center justify-center space-x-4 space-x-reverse">
+                                    <a href="{{ route('main-factors.index', $factor->contract->id) }}"
+                                       class="table-dropdown-copy">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                             stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                  d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/>
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                        </svg>
+                                        جزئیات
+                                    </a>
+
+                                    @if($factor->confirm)
+                                        <p class="py-1 px-2 rounded-lg bg-green-500 text-white shadow-sm">
+                                            تایید شده
+                                        </p>
+                                    @else
+                                        <p class="p-1 rounded-lg bg-red-500 text-white shadow-sm">
+                                            در انتظار تایید
+                                        </p>
+                                    @endif
+                                </div>
+                            </td>
+                        </tr>
+
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="mt-4">
+                {{ $factors->links() }}
+            </div>
         </div>
 
-        <div class="mt-4">
-            {{ $factors->links() }}
+        <div class="p-4 border border-indigo-500 rounded-lg mt-8">
+            <div class="mb-4">
+                <p class="text-lg font-bold">
+                    لیست قرارداد های فاقد فاکتور
+                </p>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full border-collapse">
+                    <thead>
+                    <tr class="table-th-tr">
+                        <th scope="col" class="p-4 rounded-tr-lg">
+                            شماره قرارداد
+                        </th>
+                        <th scope="col" class="p-4">
+                            تاریخ
+                        </th>
+                        <th scope="col" class="p-4">
+                            نام پروژه
+                        </th>
+                        <th scope="col" class="p-4">
+                            مسئول پروژه
+                        </th>
+                        <th scope="col" class="p-4">
+                            نام خریدار
+                        </th>
+                        <th scope="col" class="p-4 rounded-tl-lg">
+                            <span class="sr-only">اقدامات</span>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($contracts as $contract)
+                        @if($contract->factors->isEmpty())
+                            <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
+                                <td class="table-tr-td border-t-0 border-l-0">
+                                    CNT-{{ $contract->number }}
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    {{ jdate($contract->created_at)->format('Y/m/d') }}
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0 whitespace-normal">
+                                    {{ $contract->name ?? '-' }}
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    {{ $contract->user->name }}
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    {{ $contract->customer->name }}
+                                </td>
+                                <td class="table-tr-td border-t-0 border-r-0">
+                                    <div class="flex items-center justify-center">
+                                        <a href="{{ route('main-factors.index', $contract->id) }}" class="table-dropdown-copy">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                 stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                      d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/>
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                            </svg>
+                                            جزئیات
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endif
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-
-    {{--    <div class="mt-8 grid grid-cols-3 gap-4">--}}
-    {{--        <div class="p-4 rounded-lg shadow bg-indigo-500">--}}
-    {{--            <p class="text-base text-white text-center font-bold">--}}
-    {{--                مبلغ کل فاکتورها : {{ number_format($factors->sum('price')) }} تومان--}}
-    {{--            </p>--}}
-    {{--        </div>--}}
-    {{--        <div class="p-4 rounded-lg shadow bg-green-500">--}}
-    {{--            <p class="text-base text-white text-center font-bold">--}}
-    {{--                مجموع همه پرداخت‌ها : {{ number_format($paymentPrice) }} تومان--}}
-    {{--            </p>--}}
-    {{--        </div>--}}
-    {{--        <div class="p-4 rounded-lg shadow bg-red-500">--}}
-    {{--            <p class="text-base text-white text-center font-bold">--}}
-    {{--                مانده همه حساب‌ها : {{ number_format($marketings->sum('price') - $paymentPrice) }} تومان--}}
-    {{--            </p>--}}
-    {{--        </div>--}}
-    {{--    </div>--}}
 </x-layout>

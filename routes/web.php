@@ -637,6 +637,7 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::get('/marketings', [AllMarketings::class, 'index'])->name('marketings.index');
 
         Route::get('/factors', [AllFactors::class, 'index'])->name('all-factors.index');
+        Route::get('/success-factors', [AllFactors::class, 'success'])->name('all-factors.success');
 
         Route::get('/contracts/{contract}/parts', [ContractPartController::class, 'index'])->name('contracts.parts.index');
         Route::post('/contracts/{contract}/parts', [ContractPartController::class, 'storeAmounts'])->name('contracts.parts.store-amounts');
