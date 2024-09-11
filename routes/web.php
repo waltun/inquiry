@@ -38,6 +38,7 @@ use App\Http\Controllers\Contract\RecipeController;
 use App\Http\Controllers\Contract\ProductController as ContractProduct;
 use App\Http\Controllers\Contract\CustomerController as ContractCustomerController;
 use App\Http\Controllers\Contract\RecoupmentController;
+use App\Http\Controllers\Contract\WarrantyController;
 use App\Http\Controllers\GroupChecklistController;
 use App\Http\Controllers\InformationController;
 use App\Http\Controllers\LeaveController;
@@ -86,6 +87,7 @@ use App\Http\Controllers\SeparateCalculateDamperController;
 use App\Http\Controllers\SeparateCalculateElectricalController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\System\CodingController;
+use App\Http\Controllers\System\CodingExitController;
 use App\Http\Controllers\System\LetterController;
 use App\Http\Controllers\System\PhonebookController;
 use App\Http\Controllers\System\PurchaseController;
@@ -756,6 +758,9 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::post('/contracts/main-factors/product/destroy', [MainFactorProductController::class, 'destroy'])->name('contracts.main-factors.products.destroy');
         Route::post('/contracts/{contract}/main-factors/{main_factor}/store-product-prices', [MainFactorProductController::class, 'storePrice'])->name('contracts.main-factors.products.store-price');
 
+        Route::get('/contracts/{contract}/warranty', [WarrantyController::class, 'index'])->name('contracts.warranty.index');
+        Route::post('/contracts/{contract}/warranty', [WarrantyController::class, 'store'])->name('contracts.warranty.store');
+
         Route::resource('todos', TodoController::class)->except('show');
         Route::post('todos/{todo}/mark-as-done', [TodoController::class, 'markAsDone'])->name('todos.mark-as-done');
 
@@ -798,6 +803,14 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::patch('/stores/edit/change-status', [StoreController::class, 'changeStatus'])->name('stores.changeStatus');
         Route::post('/stores/search/category', [StoreController::class, 'searchCategory'])->name('stores.searchCategory');
         Route::post('/stores/search/text', [StoreController::class, 'searchText'])->name('stores.searchText');
+
+        Route::get('/coding-exits', [CodingExitController::class, 'index'])->name('coding-exits.index');
+        Route::get('/coding-exits/{coding_exit}/edit', [CodingExitController::class, 'edit'])->name('coding-exits.edit');
+        Route::post('/coding-exits', [CodingExitController::class, 'store'])->name('coding-exits.store');
+        Route::patch('/coding-exits/{coding_exit}', [CodingExitController::class, 'update'])->name('coding-exits.update');
+        Route::delete('/coding-exits/delete-store', [CodingExitController::class, 'destroy'])->name('coding-exits.destroy');
+        Route::post('/coding-exits/search/category', [CodingExitController::class, 'searchCategory'])->name('coding-exits.searchCategory');
+        Route::post('/coding-exits/search/text', [CodingExitController::class, 'searchText'])->name('coding-exits.searchText');
 
         Route::get('/purchase', [PurchaseController::class, 'index'])->name('purchase.index');
         Route::get('/purchase/{purchase}/edit', [PurchaseController::class, 'edit'])->name('purchase.edit');

@@ -4,28 +4,26 @@ namespace App\Http\Controllers\System;
 
 use App\Http\Controllers\Controller;
 use App\Models\System\Coding;
-use App\Models\System\Store;
+use App\Models\System\CodingExit;
 use App\Models\System\SystemCategory;
 use Illuminate\Http\Request;
 use Morilog\Jalali\Jalalian;
 
-class StoreController extends Controller
+class CodingExitController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:all-stores')->only(['index']);
-        $this->middleware('can:edit-all-stores')->only(['edit', 'update']);
-        $this->middleware('can:delete-all-stores')->only(['destroy']);
-        $this->middleware('can:change-status-all-stores')->only(['changeStatus']);
-        $this->middleware('can:export-all-stores')->only(['export']);
+        $this->middleware('can:coding-exits')->only(['index']);
+        $this->middleware('can:edit-coding-exits')->only(['edit', 'update']);
+        $this->middleware('can:delete-coding-exits')->only(['destroy']);
     }
 
     public function index()
     {
-        $stores = Store::query();
+        $exits = CodingExit::query();
 
         if (request()->has('search2') && !is_null($keyword = request('search2'))) {
-            $stores = $stores->where(function ($query) use ($keyword) {
+            $exits = $exits->where(function ($query) use ($keyword) {
                 $query->where(function ($query) use ($keyword) {
                     $query->where('name', 'LIKE', "%{$keyword}%")
                         ->orWhere('unit', 'LIKE', "%{$keyword}%")
@@ -33,36 +31,18 @@ class StoreController extends Controller
                 })->orWhere(function ($query) use ($keyword) {
                     $query->whereNotNull('coding_id')->whereHas('coding', function ($query) use ($keyword) {
                         $query->where('name', 'LIKE', "%{$keyword}%")
-                            ->orWhere('unit', 'LIKE', "%{$keyword}%")
-                            ->orWhere('code', 'LIKE', "%{$keyword}%");
+                            ->orWhere('unit', 'LIKE', "%{$keyword}%");
                     });
                 });
             });
         }
 
-        if (request()->has('status') && !is_null(request('status'))) {
-            $stores = $stores->where('status', request('status'));
-        }
-
-        if (request()->has('qc') && !is_null(request('qc'))) {
-            $stores = $stores->where('qc', request('qc'));
-        }
-
-        if (request()->has('start_date') && !is_null(request('start_date')) && request()->has('end_date') && !is_null(request('end_date'))) {
-            $explodeStartDate = explode('/', request('start_date'));
-            $startDate = (new Jalalian($explodeStartDate[0], $explodeStartDate[1], $explodeStartDate[2]))->toCarbon()->toDateTimeString();
-            $explodeEndDate = explode('/', request('end_date'));
-            $endDate = (new Jalalian($explodeEndDate[0], $explodeEndDate[1], $explodeEndDate[2]))->toCarbon()->toDateTimeString();
-
-            $stores = $stores->where('created_at', '>=', $startDate)->where('created_at', '<=', $endDate);
-        }
-
         if (request()->has('code') && !is_null(request('code'))) {
             if (request('code') == '0') {
-                $stores = $stores->where('coding_id', '=', null);
+                $exits = $exits->where('coding_id', '=', null);
             }
             if (request('code') == '1') {
-                $stores = $stores->where('coding_id', '!=', null);
+                $exits = $exits->where('coding_id', '!=', null);
             }
         }
 
@@ -90,9 +70,9 @@ class StoreController extends Controller
         $categories = SystemCategory::where('parent_id', 0)->with(['children'])->get();
         $date = Jalalian::now();
         $today = $date->getYear() . "-" . $date->getMonth() . "-" . $date->getDay();
-        $stores = $stores->orderBy('date', 'DESC')->paginate(50)->withQueryString();
+        $exits = $exits->orderBy('return_date', 'DESC')->paginate(50)->withQueryString();
 
-        return view('systems.stores.index', compact('stores', 'categories', 'today', 'codings'));
+        return view('systems.coding-exits.index', compact('exits', 'categories', 'today', 'codings'));
     }
 
     public function store(Request $request)
@@ -102,34 +82,31 @@ class StoreController extends Controller
             'name' => 'required_if:coding_id,null|string|max:255',
             'unit' => 'required_if:coding_id,null|string|max:255',
             'quantity' => 'required|numeric',
-            'date' => 'nullable|string|max:255',
-            'store' => 'required|integer',
-            'delivery' => 'nullable|string|max:255',
-            'seller' => 'nullable|string|max:255',
-            'code' => 'required|numeric',
+            'return_date' => 'nullable|string|max:255',
+            'getter_name' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:255',
+            'car_number' => 'nullable|string|max:255',
             'description' => 'nullable'
         ]);
-
-        $data['status'] = 'registering';
-        $data['qc'] = 'pending';
 
         if (!is_null($data['coding_id'])) {
             $data['name'] = null;
             $data['unit'] = null;
         }
 
-        if (!is_null($data['date'])) {
-            $explodeDate = explode('-', $data['date']);
-            $data['date'] = (new Jalalian($explodeDate[0], $explodeDate[1], $explodeDate[2]))->toCarbon()->toDateTimeString();
+        if (!is_null($data['return_date'])) {
+            $explodeDate = explode('-', $data['return_date']);
+            $data['return_date'] = (new Jalalian($explodeDate[0], $explodeDate[1], $explodeDate[2]))->toCarbon()->toDateTimeString();
         }
 
-        Store::create($data);
+        CodingExit::create($data);
 
-        alert()->success('ثبت موفق', 'اقلام ورودی با موفقیت ثبت شد');
-        return redirect()->route('stores.index');
+        alert()->success('ثبت موفق', 'خروج موقت با موفقیت ثبت شد');
+
+        return redirect()->route('coding-exits.index');
     }
 
-    public function edit(Store $store)
+    public function edit(CodingExit $coding_exit)
     {
         $codings = Coding::query();
         if (!is_null(request('category3'))) {
@@ -154,26 +131,25 @@ class StoreController extends Controller
 
         $categories = SystemCategory::where('parent_id', 0)->with(['children'])->get();
 
-        $year = jdate($store->date)->getYear();
-        $month = jdate($store->date)->getMonth();
-        $day = jdate($store->date)->getDay();
+        $year = jdate($coding_exit->return_date)->getYear();
+        $month = jdate($coding_exit->return_date)->getMonth();
+        $day = jdate($coding_exit->return_date)->getDay();
         $date = $year . '-' . $month . '-' . $day;
 
-        return view('systems.stores.edit', compact('store', 'codings', 'categories', 'date'));
+        return view('systems.coding-exits.edit', compact('coding_exit', 'codings', 'categories', 'date'));
     }
 
-    public function update(Request $request, Store $store)
+    public function update(Request $request, CodingExit $coding_exit)
     {
         $data = $request->validate([
             'coding_id' => 'nullable',
             'name' => 'required_if:coding_id,null|string|max:255',
             'unit' => 'required_if:coding_id,null|string|max:255',
             'quantity' => 'required|numeric',
-            'date' => 'nullable|string|max:255',
-            'store' => 'required|integer',
-            'delivery' => 'nullable|string|max:255',
-            'seller' => 'nullable|string|max:255',
-            'code' => 'required|numeric',
+            'return_date' => 'nullable|string|max:255',
+            'getter_name' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:255',
+            'car_number' => 'nullable|string|max:255',
             'description' => 'nullable'
         ]);
 
@@ -182,42 +158,25 @@ class StoreController extends Controller
             $data['unit'] = null;
         }
 
-        if (!is_null($data['date'])) {
-            $explodeDate = explode('-', $data['date']);
-            $data['date'] = (new Jalalian($explodeDate[0], $explodeDate[1], $explodeDate[2]))->toCarbon()->toDateTimeString();
+        if (!is_null($data['return_date'])) {
+            $explodeDate = explode('-', $data['return_date']);
+            $data['return_date'] = (new Jalalian($explodeDate[0], $explodeDate[1], $explodeDate[2]))->toCarbon()->toDateTimeString();
         }
 
-        $store->update($data);
+        $coding_exit->update($data);
 
         alert()->success('بروزرسانی موفق', 'کالای مورد نظر با موفقیت بروزرسانی شد');
 
-        return redirect()->route('stores.index');
+        return redirect()->route('coding-exits.index');
     }
 
     public function destroy(Request $request)
     {
-        $store = Store::find($request->id);
+        $exit = CodingExit::find($request->id);
 
-        $store->delete();
+        $exit->delete();
 
         alert()->success('حذف موفق', 'اقلام ورودی با موفقیت حذف شد');
-    }
-
-    public function changeStatus(Request $request)
-    {
-        foreach ($request->store_ids as $index => $id) {
-            $store = Store::find($id);
-
-            $store->update([
-                'status' => $request->status[$index],
-                'qc' => $request->qc[$index],
-                'store_code' => $request->store_code[$index]
-            ]);
-        }
-
-        alert()->success('ثبت موفق', 'وضعیت و QC با موفقیت تغییر کردند');
-
-        return back();
     }
 
     public function searchCategory(Request $request)

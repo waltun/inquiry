@@ -33,11 +33,11 @@
         </script>
         <script>
             function deleteStore(id) {
-                if (confirm('اقلام ورودی حذف شود ؟')) {
-                    if (confirm('آیا مطمئن هستید که اقلام ورودی حذف شود ؟')) {
+                if (confirm('خروج کالا حذف شود ؟')) {
+                    if (confirm('آیا مطمئن هستید که خروج کالا حذف شود ؟')) {
                         if (confirm('لطفا حذف را تایید کنید!')) {
                             $.ajax({
-                                url: '{{ route('stores.destroy') }}',
+                                url: '{{ route('coding-exits.destroy') }}',
                                 type: 'DELETE',
                                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                                 data: {
@@ -133,7 +133,7 @@
                 let category3 = document.getElementById('inputCategory3');
 
                 $.ajax({
-                    url: '{{ route('stores.searchCategory') }}',
+                    url: '{{ route('coding-exits.searchCategory') }}',
                     type: 'POST',
                     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                     data: {
@@ -158,7 +158,7 @@
                 let text = document.getElementById('inputSearch2');
 
                 $.ajax({
-                    url: '{{ route('stores.searchText') }}',
+                    url: '{{ route('coding-exits.searchText') }}',
                     type: 'POST',
                     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                     data: {
@@ -211,7 +211,7 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p-active">
-                    همه اقلام ورودی کارخانه
+                    خروج موقت کالا
                 </p>
             </div>
         </div>
@@ -228,10 +228,10 @@
             </svg>
             <div class="mr-2 flex items-center space-x-4 space-x-reverse">
                 <p class="font-bold text-lg text-black dark:text-white">
-                    لیست همه اقلام ورودی کارخانه
+                    لیست همه خروج موقت کالا ها
                 </p>
                 @if(request()->has('search') || request()->has('status') || request()->has('qc'))
-                    <a href="{{ route('stores.index') }}"
+                    <a href="{{ route('coding-exits.index') }}"
                        class="text-sm font-bold underline underline-offset-4 text-indigo-500">
                         پاکسازی فیلتر
                     </a>
@@ -245,7 +245,7 @@
                          stroke="currentColor" class="w-5 h-5 ml-1">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
                     </svg>
-                    ایجاد اقلام ورودی
+                    ایجاد خروج موقت
                 </button>
 
                 <!-- Create Store Modal -->
@@ -258,7 +258,7 @@
                                     <div class="mb-4 flex justify-between items-center">
                                         <div class="flex items-center space-x-4 space-x-reverse">
                                             <h3 class="text-lg font-bold text-gray-900 dark:text-white">
-                                                ایجاد کالای جدید
+                                                ایجاد خروج موقت جدید
                                             </h3>
                                         </div>
                                         <button type="button" @click="open = false">
@@ -273,7 +273,7 @@
                                             </span>
                                         </button>
                                     </div>
-                                    <form method="POST" action="{{ route('stores.store') }}"
+                                    <form method="POST" action="{{ route('coding-exits.store') }}"
                                           class="mt-6 space-y-4">
                                         @csrf
                                         <input type="hidden" name="coding_id"
@@ -283,9 +283,9 @@
                                                 <div class="flex items-center">
                                                     <label for="inputDate"
                                                            class="form-label whitespace-nowrap ml-2 mt-2">
-                                                        تاریخ ورود به کارخانه
+                                                        تاریخ عودت
                                                     </label>
-                                                    <input type="text" name="date" id="inputDate" class="input-text"
+                                                    <input type="text" name="return_date" id="inputDate" class="input-text"
                                                            value="{{ $today }}" placeholder="تاریخ ثبت">
                                                 </div>
                                             </div>
@@ -495,7 +495,7 @@
                                                                                                     <td class="table-tr-td border-t-0 border-r-0">
                                                                                                         <div
                                                                                                             class="flex justify-center">
-                                                                                                            <a href="{{ route('stores.index') }}?coding={{ $coding->id }}"
+                                                                                                            <a href="{{ route('coding-exits.index') }}?coding={{ $coding->id }}"
                                                                                                                class="table-dropdown-copy">
                                                                                                                 <svg
                                                                                                                     xmlns="http://www.w3.org/2000/svg"
@@ -607,28 +607,20 @@
 
                                                     </td>
                                                     <td class="p-1 border border-gray-400">
-                                                        <input type="text" name="delivery" id="inputDelivery"
-                                                               class="input-text" placeholder="تحویل دهنده">
+                                                        <input type="text" name="getter_name" id="inputDelivery"
+                                                               class="input-text" placeholder="تحویل گیرنده">
                                                     </td>
                                                     <td class="p-1 border border-gray-400">
-                                                        <input type="text" name="seller" id="inputSeller"
-                                                               class="input-text" placeholder="فروشنده">
+                                                        <input type="text" name="car_number" id="inputCarNumber"
+                                                               class="input-text" placeholder="شماره خودرو">
                                                     </td>
                                                     <td class="p-1 border border-gray-400">
-                                                        <input type="text" name="code" id="inputCode"
-                                                               class="input-text" placeholder="شماره فاکتور">
+                                                        <input type="text" name="phone" id="inputPhone"
+                                                               class="input-text" placeholder="شماره تلفن">
                                                     </td>
                                                 </tr>
                                                 <tr class="text-xs text-center">
-                                                    <td colspan="2" class="p-1 border border-gray-400">
-                                                        <select name="store" id="inputStore"
-                                                                class="input-text py-1.5">
-                                                            <option value="10">انبار مواد اولیه | 10</option>
-                                                            <option value="12">انبار ملزومات | 12</option>
-                                                            <option value="14">انبار محصولات | 14</option>
-                                                        </select>
-                                                    </td>
-                                                    <td colspan="2" class="p-1 border border-gray-400">
+                                                    <td class="p-1 border border-gray-400">
                                                         <input type="text" name="description" id="inputDescription"
                                                                class="input-text" placeholder="توضیحات">
                                                     </td>
@@ -639,7 +631,7 @@
 
                                         <div class="flex justify-end">
                                             <button type="submit" class="form-submit-btn">
-                                                ثبت اقلام
+                                                ثبت خروج موقت
                                             </button>
                                         </div>
                                     </form>
@@ -659,37 +651,6 @@
                    placeholder="جستجو + اینتر" value="{{ request('search2') }}">
         </div>
         <div>
-            <select name="status" id="inputStatus" class="input-text" onchange="submitForm()">
-                <option value="">انتخاب وضعیت</option>
-                <option value="receipt" {{ request('status') == 'receipt' ? 'selected' : '' }}>
-                    رسید انبار شد
-                </option>
-                <option value="cost" {{ request('status') == 'cost' ? 'selected' : '' }}>
-                    هزینه
-                </option>
-                <option value="trust" {{ request('status') == 'trust' ? 'selected' : '' }}>
-                    امانی
-                </option>
-                <option value="registering" {{ request('status') == 'registering' ? 'selected' : '' }}>
-                    در حال ثبت
-                </option>
-            </select>
-        </div>
-        <div>
-            <select name="qc" id="inputQc" class="input-text" onchange="submitForm()">
-                <option value="">انتخاب نظر QC</option>
-                <option value="pending" {{ request('qc') == 'pending' ? 'selected' : '' }}>
-                    در حال بررسی
-                </option>
-                <option value="confirmed" {{ request('qc') == 'confirmed' ? 'selected' : '' }}>
-                    تایید شد
-                </option>
-                <option value="canceled" {{ request('qc') == 'canceled' ? 'selected' : '' }}>
-                    رد شده
-                </option>
-            </select>
-        </div>
-        <div>
             <select name="code" id="inputCode" class="input-text" onchange="submitForm()">
                 <option value="">انتخاب کد</option>
                 <option value="0" {{ request('code') == '0' ? 'selected' : '' }}>
@@ -699,14 +660,6 @@
                     اقلام کد دار
                 </option>
             </select>
-        </div>
-        <div class="flex rounded-md shadow-sm">
-            <input type="text" name="start_date" id="inputStartDate" class="input-text"
-                   placeholder="جستجو تاریخ شروع + اینتر" value="{{ request('start_date') }}">
-        </div>
-        <div class="flex rounded-md shadow-sm">
-            <input type="text" name="end_date" id="inputEndDate" class="input-text"
-                   placeholder="جستجو تاریخ پایان + اینتر" value="{{ request('end_date') }}">
         </div>
         <div>
             <button type="submit" class="flex items-center justify-center w-8 h-8 rounded-md bg-gray-400">
@@ -740,9 +693,6 @@
                     کد
                 </th>
                 <th scope="col" class="p-2">
-                    انبار
-                </th>
-                <th scope="col" class="p-2">
                     شرح
                 </th>
                 <th scope="col" class="p-2">
@@ -752,25 +702,19 @@
                     واحد
                 </th>
                 <th scope="col" class="p-2">
-                    تحویل دهنده
+                    تحویل گیرنده
                 </th>
                 <th scope="col" class="p-2">
-                    فروشنده
+                    شماره خودرو
                 </th>
                 <th scope="col" class="p-2">
-                    وضعیت
-                </th>
-                <th scope="col" class="p-2">
-                    کنترل کیفیت
-                </th>
-                <th scope="col" class="p-2">
-                    رسید انبار
-                </th>
-                <th scope="col" class="p-2">
-                    شماره فاکتور
+                    شماره موبایل
                 </th>
                 <th scope="col" class="p-2">
                     توضیحات
+                </th>
+                <th scope="col" class="p-2">
+                    تاریخ عودت
                 </th>
                 <th scope="col" class="p-2">
                     <span class="sr-only">
@@ -780,118 +724,50 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($stores as $store)
+            @foreach($exits as $exit)
                 @php
-                    if (!is_null($store->coding_id)) {
-                        $coding = \App\Models\System\Coding::find($store->coding_id);
-                    }
-
-                    $color = '';
-                    if ($store->status == 'receipt' || $store->status == 'cost' || $store->status == 'trust') {
-                        $color = 'bg-green-200';
-                    }else if ($store->status == 'registering') {
-                        $color = 'bg-yellow-200';
-                    } else if ($store->status == 'purchase') {
-                        $color = 'bg-sky-200';
-                    } else {
-                        $color = 'bg-white';
-                    }
-
-                    if ($store->qc == 'canceled') {
-                        $color = 'bg-red-200';
+                    if (!is_null($exit->coding_id)) {
+                        $coding = \App\Models\System\Coding::find($exit->coding_id);
                     }
                 @endphp
-                <tr class="table-tb-tr whitespace-normal group {{ $color }}">
+                <tr class="table-tb-tr whitespace-normal group">
                     <td class="table-tr-td border-t-0">
                         {{ $loop->index + 1 }}
                     </td>
                     <td class="table-tr-td border-t-0 border-x-0">
-                        {{ jdate($store->date)->format('Y/m/d') }}
+                        {{ jdate($exit->created_at)->format('Y/m/d') }}
                     </td>
                     <td class="table-tr-td border-t-0 border-x-0">
-                        {{ !is_null($store->coding_id) ? $coding->code : '-' }}
+                        {{ !is_null($exit->coding_id) ? $coding->code : '-' }}
                     </td>
                     <td class="table-tr-td border-t-0 border-x-0">
-                        @switch($store->store)
-                            @case('10')
-                                مواد اولیه
-                                @break
-                            @case('12')
-                                ملزومات
-                                @break
-                            @case('14')
-                                مواد محصولات
-                                @break
-                            @case('')
-                                -
-                                @break
-                        @endswitch
+                        {{ !is_null($exit->coding_id) ? $coding->name : $exit->name }}
                     </td>
                     <td class="table-tr-td border-t-0 border-x-0">
-                        {{ !is_null($store->coding_id) ? $coding->name : $store->name }}
+                        {{ $exit->quantity }}
                     </td>
                     <td class="table-tr-td border-t-0 border-x-0">
-                        {{ $store->quantity }}
+                        {{ !is_null($exit->coding_id) ? $coding->unit : $exit->unit }}
                     </td>
                     <td class="table-tr-td border-t-0 border-x-0">
-                        {{ !is_null($store->coding_id) ? $coding->unit : $store->unit }}
+                        {{ $exit->getter_name }}
                     </td>
                     <td class="table-tr-td border-t-0 border-x-0">
-                        {{ $store->delivery }}
+                        {{ $exit->car_number }}
                     </td>
                     <td class="table-tr-td border-t-0 border-x-0">
-                        {{ $store->seller }}
+                        {{ $exit->phone }}
                     </td>
                     <td class="table-tr-td border-t-0 border-x-0">
-                        <select name="status[]" id="inputStatus{{ $store->id }}" class="input-text py-1 status">
-                            <option value="receipt" {{ $store->status == 'receipt' ? 'selected' : '' }}>
-                                رسید انبار شد
-                            </option>
-                            <option value="cost" {{ $store->status == 'cost' ? 'selected' : '' }}>
-                                هزینه
-                            </option>
-                            <option value="trust" {{ $store->status == 'trust' ? 'selected' : '' }}>
-                                امانی
-                            </option>
-                            <option value="registering" {{ $store->status == 'registering' ? 'selected' : '' }}>
-                                در حال ثبت
-                            </option>
-                            <option value="purchase" {{ $store->status == 'purchase' ? 'selected' : '' }}>
-                                خریداری شده (بخش خرید اقلام)
-                            </option>
-                        </select>
+                        {{ $exit->description }}
                     </td>
                     <td class="table-tr-td border-t-0 border-x-0">
-                        <select name="qc[]" id="inputQc{{ $store->id }}" class="input-text py-1 qc">
-                            <option value="confirmed" {{ $store->qc == 'confirmed' ? 'selected' : '' }}>
-                                تایید شده
-                            </option>
-                            <option value="pending" {{ $store->qc == 'pending' ? 'selected' : '' }}>
-                                در حال بررسی
-                            </option>
-                            <option value="canceled" {{ $store->qc == 'canceled' ? 'selected' : '' }}>
-                                رد شده
-                            </option>
-                        </select>
-                    </td>
-                    <td class="table-tr-td border-t-0 border-x-0">
-                        @if($store->status == 'receipt' || $store->status == 'trust')
-                            <input type="number" class="input-text w-16 text-center" id="inputStoreCode{{ $store->id }}"
-                                   value="{{ $store->store_code }}" name="store_code[]">
-                        @else
-                            <input type="hidden" name="store_code[]" value="">
-                        @endif
-                    </td>
-                    <td class="table-tr-td border-t-0 border-x-0">
-                        {{ $store->code ?? '-' }}
-                    </td>
-                    <td class="table-tr-td border-t-0 border-x-0">
-                        {{ $store->description }}
+                        {{ jdate($exit->return_date)->format('Y/m/d') }}
                     </td>
                     <td class="table-tr-td border-t-0 border-r-0">
                         <div class="flex items-center justify-center space-x-2 space-x-reverse">
-                            @can('delete-all-stores')
-                                <a href="{{ route('stores.edit',$store->id) }}" class="table-dropdown-edit">
+                            @can('edit-coding-exits')
+                                <a href="{{ route('coding-exits.edit',$exit->id) }}" class="table-dropdown-edit">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                          stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -899,9 +775,9 @@
                                     </svg>
                                 </a>
                             @endcan
-                            @can('delete-all-stores')
+                            @can('delete-coding-exits')
                                 <button class="table-dropdown-delete" type="button"
-                                        onclick="deleteStore({{ $store->id }})">
+                                        onclick="deleteStore({{ $exit->id }})">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                          stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -911,24 +787,14 @@
                             @endcan
                         </div>
                     </td>
-                    <input type="hidden" name="store_ids[]" value="{{ $store->id }}" class="store-ids">
+                    <input type="hidden" name="exit_ids[]" value="{{ $exit->id }}" class="exit-ids">
                 </tr>
             @endforeach
             </tbody>
         </table>
-
-        <div class="mt-4 flex items-center justify-between">
-            @can('change-status-all-stores')
-                <div>
-                    <button type="submit" class="form-submit-btn">
-                        ثبت
-                    </button>
-                </div>
-            @endcan
-        </div>
     </form>
 
     <div class="mt-4">
-        {{ $stores->links() }}
+        {{ $exits->links() }}
     </div>
 </x-layout>

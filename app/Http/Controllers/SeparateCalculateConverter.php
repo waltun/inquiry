@@ -62,7 +62,8 @@ class SeparateCalculateConverter extends Controller
             'tedad_bafel' => 'required',
             'zanooyi' => 'nullable',
             'tonaj' => 'required',
-            'gaz' => 'required'
+            'gaz' => 'required',
+            'pass' => 'required'
         ]);
 
         //Ids
@@ -94,6 +95,7 @@ class SeparateCalculateConverter extends Controller
         $tooleLooleMessi = $tooleLoolePooste;
         $tonaj = $request['tonaj'];
         $gaz = $request['gaz'];
+        $pass = $request['pass'];
 
         //--------------------------------------------------------
         $looleMessiPart = Part::find($looleMessiId);
@@ -188,7 +190,11 @@ class SeparateCalculateConverter extends Controller
 
         $vaznLoolePooste = $tooleLoolePooste * $sizeLoolePoostePart->formula1;
 
-        $navdani = ($ghotreLoolePooste * 2.54 / 100) * 2 * $navdaniPart->formula1;
+        if ($navdaniId == '9' || $navdaniId == '10' || $navdaniId == '11' || $navdaniId == '12') {
+            $navdani = (($ghotreLoolePooste * 2.54 / 100) * 0.3) * 2 * $navdaniPart->formula1;
+        } else {
+            $navdani = ($ghotreLoolePooste * 2.54 / 100) * 2 * $navdaniPart->formula1;
+        }
 
         $electrodBargh = ($ghotreLoolePooste * 2.54 * 3.14 * 16 * 3);
 
@@ -208,16 +214,24 @@ class SeparateCalculateConverter extends Controller
         if ($spacerId == '0' || is_null($spacerId)) {
             $cap = 2;
             $varaghPolyEtilenBafelA = (($ghotreLoolePooste * 2.54) + 6) / 100;
-            $varaghPolyEtilenBafel = $varaghPolyEtilenBafelA * $varaghPolyEtilenBafelA * ($tedadBafel + 2) * $noeBafelPart->formula1;
+            if ($spacerId == '1151' || $spacerId == '1152' || $spacerId == '1153' || $spacerId == '1154') {
+                $varaghPolyEtilenBafel = $varaghPolyEtilenBafelA * $varaghPolyEtilenBafelA * ($tedadBafel + 2) * $noeBafelPart->formula1;
+            } else {
+                $varaghPolyEtilenBafel = $varaghPolyEtilenBafelA * $varaghPolyEtilenBafelA * ($tedadBafel + 4) * $noeBafelPart->formula1;
+            }
         } else {
             $cap = 0;
             $varaghPolyEtilenBafelA = (($ghotreLoolePooste * 2.54) + 6) / 100;
-            $varaghPolyEtilenBafel = $varaghPolyEtilenBafelA * $varaghPolyEtilenBafelA * $tedadBafel * $noeBafelPart->formula1;
+            if ($spacerId == '1151' || $spacerId == '1152' || $spacerId == '1153' || $spacerId == '1154') {
+                $varaghPolyEtilenBafel = $varaghPolyEtilenBafelA * $varaghPolyEtilenBafelA * ($tedadBafel) * $noeBafelPart->formula1;
+            } else {
+                $varaghPolyEtilenBafel = $varaghPolyEtilenBafelA * $varaghPolyEtilenBafelA * ($tedadBafel + 4) * $noeBafelPart->formula1;
+            }
         }
 
         if ($capId == '0' || is_null($capId)) {
             $varaghPolyEtilenSpacerA = (($ghotreLoolePooste * 2.54) + 12) / 100;
-            $varaghPolyEtilenSpacer = $varaghPolyEtilenSpacerA * $varaghPolyEtilenSpacerA * $spacerPart->formula1;
+            $varaghPolyEtilenSpacer = ($varaghPolyEtilenSpacerA * $varaghPolyEtilenSpacerA * $spacerPart->formula1) * 2;
         } else {
             $varaghPolyEtilenSpacer = 0;
         }
@@ -399,8 +413,8 @@ class SeparateCalculateConverter extends Controller
             $looleMessiName = '12';
         }
 
-        $name = 'STE-' . $tonaj . "TR-" . $gaz . "-" . $ghotreLoolePooste . 'inch-' . $tooleLooleMessi . 'm-' . $tedadLooleMessi . 'T-'
-            . $looleMessiName . '-' . $tedadMadar . 'C';
+        $name = 'TA-STE-' . $tonaj . "TR-" . $gaz . "-" . $ghotreLoolePooste . 'inch-' . $tooleLooleMessi . 'm-' . $tedadLooleMessi . 'T-'
+            . $looleMessiName . '-' . $tedadMadar . 'C-' . $pass . 'P' . '-' . $tedadBafel . 'B';
 
         return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs' => $inputs, 'name' => $name]);
     }
@@ -423,7 +437,8 @@ class SeparateCalculateConverter extends Controller
             'tedad_loole_messi' => 'required',
             'toole_loole_pooste' => 'required',
             'tonaj' => 'required',
-            'gaz' => 'required'
+            'gaz' => 'required',
+            'pass' => 'required',
         ]);
 
         //Ids
@@ -446,6 +461,7 @@ class SeparateCalculateConverter extends Controller
         $tooleLooleMessi = $tooleLoolePooste;
         $tonaj = $request['tonaj'];
         $gaz = $request['gaz'];
+        $pass = $request['pass'];
 
         //--------------------------------------------------------
         $looleMessiPart = Part::find($looleMessiId);
@@ -520,13 +536,18 @@ class SeparateCalculateConverter extends Controller
         }
 
         $vaznLoolePooste = $tooleLoolePooste * $sizeLoolePoostePart->formula1;
+        $vaznLoolePooste2 = 0.14 * $sizeLoolePoostePart->formula1;
 
-        $navdani = ($ghotreLoolePooste * 2.54 / 100) * 2 * $navdaniPart->formula1;
+        if ($navdaniId == '9' || $navdaniId == '10' || $navdaniId == '11' || $navdaniId == '12') {
+            $navdani = (($ghotreLoolePooste * 2.54 / 100) * 0.3) * 2 * $navdaniPart->formula1;
+        } else {
+            $navdani = ($ghotreLoolePooste * 2.54 / 100) * 2 * $navdaniPart->formula1;
+        }
 
         $electrodBargh = ($ghotreLoolePooste * 2.54 * 3.14 * 10 * 3);
 
-        $boshenAir = 1;
-        $boshenFreeze = 1;
+        $boshenAir = 0.1;
+        $boshenFreeze = 0.1;
         $sensor = 2;
 
         $varaghMasrafiTubeA = (($ghotreLoolePooste * 2.54) + 12) / 100;
@@ -636,21 +657,23 @@ class SeparateCalculateConverter extends Controller
 
         $selectedParts = [
             '0' => $sizeLoolePoostePart,
-            '1' => $looleMessiPart,
-            '2' => $tubePart,
-            '3' => $ringPart,
-            '4' => $pichPart,
-            '5' => $looleMessiSucshenPart,
-            '6' => $looleMessiMayePart,
-            '7' => $sensorPart,
-            '8' => $boshenAirPart,
-            '9' => $boshenFreezePart,
-            '10' => $navdaniPart,
+            '1' => $sizeLoolePoostePart,
+            '2' => $looleMessiPart,
+            '3' => $tubePart,
+            '4' => $ringPart,
+            '5' => $pichPart,
+            '6' => $looleMessiSucshenPart,
+            '7' => $looleMessiMayePart,
+            '8' => $sensorPart,
+            '9' => $boshenAirPart,
+            '10' => $boshenFreezePart,
+            '11' => $navdaniPart,
             '17' => $flanchPart,
         ];
 
         $values = [
             $vaznLoolePooste,
+            $vaznLoolePooste2,
             $looleMessi,
             $varaghMasrafiTube,
             $varaghMasrafiRing,
@@ -679,12 +702,12 @@ class SeparateCalculateConverter extends Controller
         if ($looleMessiId == '78' || $looleMessiId == '1326') {
             $looleMessiName = '12';
         }
-        if ($looleMessiId == '1882') {
+        if ($looleMessiId == '1882' || $looleMessiId == '10181') {
             $looleMessiName = '34';
         }
 
-        $name = 'STC-' . $tonaj . "TR-" . $gaz . "-" . $ghotreLoolePooste . 'inch-' . $tooleLooleMessi . 'm-' . $tedadLooleMessi . 'T-'
-            . $looleMessiName;
+        $name = 'TA-STC-' . $tonaj . "TR-" . $gaz . "-" . $ghotreLoolePooste . 'inch-' . $tooleLooleMessi . 'm-' . $tedadLooleMessi . 'T-'
+            . $looleMessiName . '-' . $pass . 'P';
 
         return back()->with(['values' => $values, 'selectedParts' => $selectedParts, 'inputs' => $inputs, 'name' => $name]);
     }

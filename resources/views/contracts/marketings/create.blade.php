@@ -1,5 +1,11 @@
 <x-layout>
     <x-slot name="js">
+        <script src="{{ asset('plugins/jquery.min.js') }}"></script>
+        <script src="{{ asset('plugins/select2/select2.min.js') }}"></script>
+        <script>
+            $("#inputMarketer").select2();
+        </script>
+
         <script>
             function showPrice(event) {
                 let value = event.target.value;
@@ -8,6 +14,10 @@
             }
         </script>
     </x-slot>
+    <x-slot name="css">
+        <link rel="stylesheet" href="{{ asset('plugins/select2/select2.min.css') }}">
+    </x-slot>
+
     <!-- Breadcrumb -->
     <div class="flex items-center space-x-2 space-x-reverse whitespace-nowrap">
         <a href="{{ route('dashboard') }}" class="flex items-center">

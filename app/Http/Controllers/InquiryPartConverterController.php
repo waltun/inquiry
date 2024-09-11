@@ -186,7 +186,11 @@ class InquiryPartConverterController extends Controller
 
         $vaznLoolePooste = $tooleLoolePooste * $sizeLoolePoostePart->formula1;
 
-        $navdani = ($ghotreLoolePooste * 2.54 / 100) * 2 * $navdaniPart->formula1;
+        if ($navdaniId == '9' || $navdaniId == '10' || $navdaniId == '11' || $navdaniId == '12') {
+            $navdani = (($ghotreLoolePooste * 2.54 / 100) * 0.3) * 2 * $navdaniPart->formula1;
+        } else {
+            $navdani = ($ghotreLoolePooste * 2.54 / 100) * 2 * $navdaniPart->formula1;
+        }
 
         $electrodBargh = ($ghotreLoolePooste * 2.54 * 3.14 * 16 * 3);
 
@@ -206,16 +210,24 @@ class InquiryPartConverterController extends Controller
         if ($spacerId == '0' || is_null($spacerId)) {
             $cap = 2;
             $varaghPolyEtilenBafelA = (($ghotreLoolePooste * 2.54) + 6) / 100;
-            $varaghPolyEtilenBafel = $varaghPolyEtilenBafelA * $varaghPolyEtilenBafelA * ($tedadBafel + 2) * $noeBafelPart->formula1;
+            if ($spacerId == '1151' || $spacerId == '1152' || $spacerId == '1153' || $spacerId == '1154') {
+                $varaghPolyEtilenBafel = $varaghPolyEtilenBafelA * $varaghPolyEtilenBafelA * ($tedadBafel + 2) * $noeBafelPart->formula1;
+            } else {
+                $varaghPolyEtilenBafel = $varaghPolyEtilenBafelA * $varaghPolyEtilenBafelA * ($tedadBafel + 4) * $noeBafelPart->formula1;
+            }
         } else {
             $cap = 0;
             $varaghPolyEtilenBafelA = (($ghotreLoolePooste * 2.54) + 6) / 100;
-            $varaghPolyEtilenBafel = $varaghPolyEtilenBafelA * $varaghPolyEtilenBafelA * $tedadBafel * $noeBafelPart->formula1;
+            if ($spacerId == '1151' || $spacerId == '1152' || $spacerId == '1153' || $spacerId == '1154') {
+                $varaghPolyEtilenBafel = $varaghPolyEtilenBafelA * $varaghPolyEtilenBafelA * ($tedadBafel) * $noeBafelPart->formula1;
+            } else {
+                $varaghPolyEtilenBafel = $varaghPolyEtilenBafelA * $varaghPolyEtilenBafelA * ($tedadBafel + 4) * $noeBafelPart->formula1;
+            }
         }
 
         if ($capId == '0' || is_null($capId)) {
             $varaghPolyEtilenSpacerA = (($ghotreLoolePooste * 2.54) + 12) / 100;
-            $varaghPolyEtilenSpacer = $varaghPolyEtilenSpacerA * $varaghPolyEtilenSpacerA * $spacerPart->formula1;
+            $varaghPolyEtilenSpacer = ($varaghPolyEtilenSpacerA * $varaghPolyEtilenSpacerA * $spacerPart->formula1) * 2;
         } else {
             $varaghPolyEtilenSpacer = 0;
         }

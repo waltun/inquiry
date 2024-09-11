@@ -159,7 +159,7 @@
                 <div class="grid grid-cols-4 gap-4">
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputLooleMessi">لوله مسی اواپراتور</label>
-                        <select name="loole_messi" id="inputLooleMessi" class="input-text bg-yellow-300">
+                        <select name="loole_messi" id="inputLooleMessi" class="input-text bg-sky-100">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::find('1324')->id }}"
                                 {{ is_null($inputs) ? (old('loole_messi') == '1324' ? 'selected' : '') : ($inputs['loole_messi'] == "1324" ? 'selected' : (old('loole_messi') == '1324' ? 'selected' : '')) }}>
@@ -190,7 +190,7 @@
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputLooleMessiSucshen">لوله مسی خط
                             ساکشن</label>
-                        <select name="loole_messi_sucshen" id="inputLooleMessiSucshen" class="input-text bg-yellow-300">
+                        <select name="loole_messi_sucshen" id="inputLooleMessiSucshen" class="input-text bg-sky-100">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::find('77')->id }}"
                                 {{ is_null($inputs) ? (old('loole_messi_sucshen') == '77' ? 'selected' : '') : ($inputs['loole_messi_sucshen'] == "77" ? 'selected' : (old('loole_messi_sucshen') == '77' ? 'selected' : '')) }}>
@@ -244,7 +244,7 @@
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputLooleMessiMaye">لوله مسی خط مایع</label>
-                        <select name="loole_messi_maye" id="inputLooleMessiMaye" class="input-text bg-yellow-300">
+                        <select name="loole_messi_maye" id="inputLooleMessiMaye" class="input-text bg-sky-100">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::find('77')->id }}"
                                 {{ is_null($inputs) ? (old('loole_messi_maye') == '77' ? 'selected' : '') : ($inputs['loole_messi_maye'] == "77" ? 'selected' : (old('loole_messi_maye') == '77' ? 'selected' : '')) }}>
@@ -298,7 +298,7 @@
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputSizeLoolePooste">سایز لوله پوسته</label>
-                        <select name="size_loole_pooste" id="inputSizeLoolePooste" class="input-text bg-yellow-300">
+                        <select name="size_loole_pooste" id="inputSizeLoolePooste" class="input-text bg-sky-100">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::find('975')->id }}"
                                 {{ is_null($inputs) ? (old('size_loole_pooste') == '975' ? 'selected' : '') : ($inputs['size_loole_pooste'] == "975" ? 'selected' : (old('size_loole_pooste') == '975' ? 'selected' : '')) }}>
@@ -364,7 +364,7 @@
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputPichoMohre">پیچ و مهره</label>
-                        <select name="picho_mohre" id="inputPichoMohre" class="input-text bg-yellow-300">
+                        <select name="picho_mohre" id="inputPichoMohre" class="input-text bg-sky-100">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::find('1180')->id }}"
                                 {{ is_null($inputs) ? (old('picho_mohre') == '1180' ? 'selected' : '') : ($inputs['picho_mohre'] == "1180" ? 'selected' : (old('picho_mohre') == '1180' ? 'selected' : '')) }}>
@@ -402,7 +402,7 @@
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputAyegh">عایق</label>
-                        <select name="ayegh" id="inputAyegh" class="input-text bg-yellow-300">
+                        <select name="ayegh" id="inputAyegh" class="input-text bg-sky-100">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::find('885')->id }}"
                                 {{ is_null($inputs) ? (old('ayegh') == '885' ? 'selected' : '') : ($inputs['ayegh'] == "885" ? 'selected' : (old('ayegh') == '885' ? 'selected' : '')) }}>
@@ -445,7 +445,7 @@
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputSensor">کانکشن سنسور های ورودی و
                             خروجی</label>
-                        <select name="sensor" id="inputSensor" class="input-text bg-yellow-300">
+                        <select name="sensor" id="inputSensor" class="input-text bg-sky-100">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::find('995')->id }}"
                                 {{ is_null($inputs) ? (old('sensor') == '995' ? 'selected' : '') : ($inputs['sensor'] == "995" ? 'selected' : (old('sensor') == '995' ? 'selected' : '')) }}>
@@ -463,9 +463,9 @@
                     </div>
 
                     <div>
-                        <label class="block mb-2 text-sm font-bold" for="inputNavdani">ناودانی</label>
-                        <select name="navdani" id="inputNavdani" class="input-text bg-yellow-300">
-                            <option value="">انتخاب کنید</option>
+                        <label class="block mb-2 text-sm font-bold" for="inputNavdani">پایه</label>
+                        <select name="navdani" id="inputNavdani" class="input-text bg-sky-100">
+                            <option value="">انتخاب متریال پایه</option>
                             <option value="{{ \App\Models\Part::find('302')->id }}"
                                 {{ is_null($inputs) ? (old('navdani') == '302' ? 'selected' : '') : ($inputs['navdani'] == "302" ? 'selected' : (old('navdani') == '302' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::find('302')->name }}
@@ -498,11 +498,27 @@
                                 {{ is_null($inputs) ? (old('navdani') == '309' ? 'selected' : '') : ($inputs['navdani'] == "309" ? 'selected' : (old('navdani') == '309' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::find('309')->name }}
                             </option>
+                            <option value="{{ \App\Models\Part::find('9')->id }}"
+                                {{ is_null($inputs) ? (old('navdani') == '9' ? 'selected' : '') : ($inputs['navdani'] == "9" ? 'selected' : (old('navdani') == '9' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('9')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('10')->id }}"
+                                {{ is_null($inputs) ? (old('navdani') == '10' ? 'selected' : '') : ($inputs['navdani'] == "10" ? 'selected' : (old('navdani') == '10' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('10')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('11')->id }}"
+                                {{ is_null($inputs) ? (old('navdani') == '11' ? 'selected' : '') : ($inputs['navdani'] == "11" ? 'selected' : (old('navdani') == '11' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('11')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('12')->id }}"
+                                {{ is_null($inputs) ? (old('navdani') == '12' ? 'selected' : '') : ($inputs['navdani'] == "12" ? 'selected' : (old('navdani') == '12' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('12')->name }}
+                            </option>
                         </select>
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputBoshen">بوشن فشار قوی ایرونت</label>
-                        <select name="boshen1" id="inputBoshen" class="input-text bg-yellow-300">
+                        <select name="boshen1" id="inputBoshen" class="input-text bg-sky-100">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::find('995')->id }}"
                                 {{ is_null($inputs) ? (old('boshen1') == '995' ? 'selected' : '') : ($inputs['boshen1'] == "995" ? 'selected' : (old('boshen1') == '995' ? 'selected' : '')) }}>
@@ -520,7 +536,7 @@
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputBoshen2">بوشن فشار قوی آنتی فریز</label>
-                        <select name="boshen2" id="inputBoshen2" class="input-text bg-yellow-300">
+                        <select name="boshen2" id="inputBoshen2" class="input-text bg-sky-100">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::find('995')->id }}"
                                 {{ is_null($inputs) ? (old('boshen2') == '995' ? 'selected' : '') : ($inputs['boshen2'] == "995" ? 'selected' : (old('boshen2') == '995' ? 'selected' : '')) }}>
@@ -538,7 +554,7 @@
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputFlanch">فلنچ ورودی و خروجی</label>
-                        <select name="flanch" id="inputFlanch" class="input-text bg-yellow-300">
+                        <select name="flanch" id="inputFlanch" class="input-text bg-sky-100">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::find('1155')->id }}"
                                 {{ is_null($inputs) ? (old('flanch') == '1155' ? 'selected' : '') : ($inputs['flanch'] == "1155" ? 'selected' : (old('flanch') == '1155' ? 'selected' : '')) }}>
@@ -589,7 +605,7 @@
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputSizeLooleAb">سایز لوله ورودی و خروجی
                             آب</label>
-                        <select name="size_loole_ab" id="inputSizeLooleAb" class="input-text bg-yellow-300">
+                        <select name="size_loole_ab" id="inputSizeLooleAb" class="input-text bg-sky-100">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::find('71')->id }}"
                                 {{ is_null($inputs) ? (old('size_loole_ab') == '71' ? 'selected' : '') : ($inputs['size_loole_ab'] == "71" ? 'selected' : (old('size_loole_ab') == '71' ? 'selected' : '')) }}>
@@ -631,7 +647,7 @@
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputTube">تیوپ شیت</label>
-                        <select name="tube" id="inputTube" class="input-text bg-yellow-300">
+                        <select name="tube" id="inputTube" class="input-text bg-sky-100">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::find('1170')->id }}"
                                 {{ is_null($inputs) ? (old('tube') == '1170' ? 'selected' : '') : ($inputs['tube'] == "1170" ? 'selected' : (old('tube') == '1170' ? 'selected' : '')) }}>
@@ -669,7 +685,7 @@
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputRing">رینگ روبند</label>
-                        <select name="ring" id="inputRing" class="input-text bg-yellow-300">
+                        <select name="ring" id="inputRing" class="input-text bg-sky-100">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::find('1170')->id }}"
                                 {{ is_null($inputs) ? (old('ring') == '1170' ? 'selected' : '') : ($inputs['ring'] == "1170" ? 'selected' : (old('ring') == '1170' ? 'selected' : '')) }}>
@@ -709,7 +725,7 @@
                         <label class="block mb-2 text-sm font-bold" for="inputTedadMadar">
                             تعداد مدار
                         </label>
-                        <select name="tedad_madar" id="inputTedadMadar" class="input-text bg-yellow-300">
+                        <select name="tedad_madar" id="inputTedadMadar" class="input-text bg-sky-100">
                             <option value="">انتخاب کنید</option>
                             <option value="1"
                                 {{ is_null($inputs) ? (old('tedad_madar') == '1' ? 'selected' : '') : ($inputs['tedad_madar'] == "1" ? 'selected' : (old('tedad_madar') == '1' ? 'selected' : '')) }}>
@@ -733,7 +749,7 @@
                         <label class="block mb-2 text-sm font-bold" for="inputSetare">
                             ستاره آلومینیومی
                         </label>
-                        <select name="setare" id="inputSetare" class="input-text bg-yellow-300">
+                        <select name="setare" id="inputSetare" class="input-text bg-sky-100">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::find('1107')->id }}"
                                 {{ is_null($inputs) ? (old('setare') == '1107' ? 'selected' : '') : ($inputs['setare'] == "1107" ? 'selected' : (old('setare') == '1107' ? 'selected' : '')) }}>
@@ -753,7 +769,7 @@
                         <label class="block mb-2 text-sm font-bold" for="inputNoeBafel">
                             ضخامت (نوع) بفل
                         </label>
-                        <select name="noe_bafel" id="inputNoeBafel" class="input-text bg-yellow-300">
+                        <select name="noe_bafel" id="inputNoeBafel" class="input-text bg-sky-100">
                             <option value="">انتخاب کنید</option>
                             <option value="{{ \App\Models\Part::find('1148')->id }}"
                                 {{ is_null($inputs) ? (old('noe_bafel') == '1148' ? 'selected' : '') : ($inputs['noe_bafel'] == "1148" ? 'selected' : (old('noe_bafel') == '1148' ? 'selected' : '')) }}>
@@ -771,9 +787,9 @@
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputSpacer">
-                            اسپیسر (Spacer)
+                            اسپیسر / تقسیم کننده (Spacer)
                         </label>
-                        <select name="spacer" id="inputSpacer" class="input-text bg-yellow-300"
+                        <select name="spacer" id="inputSpacer" class="input-text bg-sky-100"
                                 onchange="checkSpacer()">
                             <option value="">انتخاب کنید</option>
                             <option value="0">ندارد</option>
@@ -793,11 +809,43 @@
                                 {{ is_null($inputs) ? (old('spacer') == '1154' ? 'selected' : '') : ($inputs['spacer'] == "1154" ? 'selected' : (old('spacer') == '1154' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::find('1154')->name }}
                             </option>
+                            <option value="{{ \App\Models\Part::find('1170')->id }}"
+                                {{ is_null($inputs) ? (old('spacer') == '1170' ? 'selected' : '') : ($inputs['spacer'] == "1170" ? 'selected' : (old('spacer') == '1170' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1170')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('1171')->id }}"
+                                {{ is_null($inputs) ? (old('spacer') == '1171' ? 'selected' : '') : ($inputs['spacer'] == "1171" ? 'selected' : (old('spacer') == '1171' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1171')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('1172')->id }}"
+                                {{ is_null($inputs) ? (old('spacer') == '1172' ? 'selected' : '') : ($inputs['spacer'] == "1172" ? 'selected' : (old('spacer') == '1172' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1172')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('1173')->id }}"
+                                {{ is_null($inputs) ? (old('spacer') == '1173' ? 'selected' : '') : ($inputs['spacer'] == "1173" ? 'selected' : (old('spacer') == '1173' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1173')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('1174')->id }}"
+                                {{ is_null($inputs) ? (old('spacer') == '1174' ? 'selected' : '') : ($inputs['spacer'] == "1174" ? 'selected' : (old('spacer') == '1174' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1174')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('1175')->id }}"
+                                {{ is_null($inputs) ? (old('spacer') == '1175' ? 'selected' : '') : ($inputs['spacer'] == "1175" ? 'selected' : (old('spacer') == '1175' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1175')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('1176')->id }}"
+                                {{ is_null($inputs) ? (old('spacer') == '1176' ? 'selected' : '') : ($inputs['spacer'] == "1176" ? 'selected' : (old('spacer') == '1176' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1176')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('1177')->id }}"
+                                {{ is_null($inputs) ? (old('spacer') == '1177' ? 'selected' : '') : ($inputs['spacer'] == "1177" ? 'selected' : (old('spacer') == '1177' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1177')->name }}
+                            </option>
                         </select>
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputCap">کپ</label>
-                        <select name="cap" id="inputCap" class="input-text bg-yellow-300" onchange="checkCap()">
+                        <select name="cap" id="inputCap" class="input-text bg-sky-100" onchange="checkCap()">
                             <option value="">انتخاب کنید</option>
                             <option value="0">ندارد</option>
                             <option value="{{ \App\Models\Part::find('960')->id }}"
@@ -868,7 +916,7 @@
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputZanooyi">زانویی</label>
-                        <select name="zanooyi" id="inputZanooyi" class="input-text bg-yellow-300">
+                        <select name="zanooyi" id="inputZanooyi" class="input-text bg-sky-100">
                             <option value="">انتخاب کنید</option>
                             <option value="0">ندارد</option>
                             <option value="{{ \App\Models\Part::find('1198')->id }}"
@@ -919,13 +967,13 @@
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputTedadLooleMessi">تعداد لوله مسی</label>
-                        <input name="tedad_loole_messi" type="text" class="input-text bg-yellow-300"
+                        <input name="tedad_loole_messi" type="text" class="input-text bg-sky-100"
                                id="inputTedadLooleMessi"
                                value="{{ !is_null($inputs) ? $inputs['tedad_loole_messi'] : old('tedad_loole_messi') }}">
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputTooleLoolePooste">طول لوله پوسته</label>
-                        <select name="toole_loole_pooste" id="inputTooleLoolePooste" class="input-text bg-yellow-300">
+                        <select name="toole_loole_pooste" id="inputTooleLoolePooste" class="input-text bg-sky-100">
                             <option value="">انتخاب کنید</option>
                             <option value="0.75"
                                 {{ is_null($inputs) ? (old('toole_loole_pooste') == '0.75' ? 'selected' : '') : ($inputs['toole_loole_pooste'] == "0.75" ? 'selected' : (old('toole_loole_pooste') == '0.75' ? 'selected' : '')) }}>
@@ -963,19 +1011,19 @@
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputTedadBafel">تعداد بفل</label>
-                        <input name="tedad_bafel" type="text" class="input-text bg-yellow-300"
+                        <input name="tedad_bafel" type="text" class="input-text bg-sky-100"
                                id="inputTedadBafel"
                                value="{{ !is_null($inputs) ? $inputs['tedad_bafel'] : old('tedad_bafel') }}">
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputTonaj">تناژ واقعی</label>
-                        <input name="tonaj" type="text" class="input-text bg-yellow-300"
+                        <input name="tonaj" type="text" class="input-text bg-sky-100"
                                id="inputTonaj"
                                value="{{ !is_null($inputs) ? $inputs['tonaj'] : old('tonaj') }}">
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputGaz">گاز مبرد</label>
-                        <select name="gaz" id="inputGaz" class="input-text bg-yellow-300">
+                        <select name="gaz" id="inputGaz" class="input-text bg-sky-100">
                             <option value="">انتخاب کنید</option>
                             <option value="R22"
                                 {{ is_null($inputs) ? (old('gaz') == 'R22' ? 'selected' : '') : ($inputs['gaz'] == "R22" ? 'selected' : (old('gaz') == 'R22' ? 'selected' : '')) }}>
@@ -992,6 +1040,28 @@
                             <option value="R410a"
                                 {{ is_null($inputs) ? (old('gaz') == 'R410a' ? 'selected' : '') : ($inputs['gaz'] == "R410a" ? 'selected' : (old('gaz') == 'R410a' ? 'selected' : '')) }}>
                                 R410a
+                            </option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-bold" for="inputGaz">تعداد پاس</label>
+                        <select name="pass" id="inputPass" class="input-text bg-sky-100">
+                            <option value="">انتخاب کنید</option>
+                            <option value="1"
+                                {{ is_null($inputs) ? (old('pass') == '1' ? 'selected' : '') : ($inputs['pass'] == "1" ? 'selected' : (old('pass') == '1' ? 'selected' : '')) }}>
+                                1 پاس
+                            </option>
+                            <option value="2"
+                                {{ is_null($inputs) ? (old('pass') == '2' ? 'selected' : '') : ($inputs['pass'] == "2" ? 'selected' : (old('pass') == '2' ? 'selected' : '')) }}>
+                                2 پاس
+                            </option>
+                            <option value="3"
+                                {{ is_null($inputs) ? (old('pass') == '3' ? 'selected' : '') : ($inputs['pass'] == "3" ? 'selected' : (old('pass') == '3' ? 'selected' : '')) }}>
+                                3 پاس
+                            </option>
+                            <option value="4"
+                                {{ is_null($inputs) ? (old('pass') == '4' ? 'selected' : '') : ($inputs['pass'] == "4" ? 'selected' : (old('pass') == '4' ? 'selected' : '')) }}>
+                                4 پاس
                             </option>
                         </select>
                     </div>

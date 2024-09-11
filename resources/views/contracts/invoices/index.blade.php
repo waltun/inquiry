@@ -596,6 +596,9 @@
                     </tr>
                     </thead>
                     <tbody>
+                    @php
+                        $contractIds = \App\Models\Contract::pluck('invoice_id')->toArray();
+                    @endphp
                     @foreach($selectInvoices as $selectInvoice)
                         <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
                             <td class="table-tr-td border-t-0 border-l-0">
@@ -627,21 +630,24 @@
                                         </svg>
                                         قیمت
                                     </a>
-                                    <form action="{{ route('contracts.select-invoice', $contract->id) }}"
-                                          method="POST">
-                                        @csrf
-                                        <input type="hidden" name="invoice_id" value="{{ $selectInvoice->id }}">
-                                        <button class="table-success-btn" type="submit"
-                                                onclick="return confirm('پیش فاکتور به قرارداد اضافه شود ؟')">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                 stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                      d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/>
-                                            </svg>
-                                            افزودن به قرارداد
-                                        </button>
-                                    </form>
-
+                                    @if(!in_array($selectInvoice->id, $contractIds))
+                                        <form action="{{ route('contracts.select-invoice', $contract->id) }}"
+                                              method="POST">
+                                            @csrf
+                                            <input type="hidden" name="invoice_id" value="{{ $selectInvoice->id }}">
+                                            <button class="table-success-btn" type="submit"
+                                                    onclick="return confirm('پیش فاکتور به قرارداد اضافه شود ؟')">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                     stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                          d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"/>
+                                                </svg>
+                                                افزودن به قرارداد
+                                            </button>
+                                        </form>
+                                    @else
+                                        اضافه شده
+                                    @endif
                                 </div>
                             </td>
                         </tr>

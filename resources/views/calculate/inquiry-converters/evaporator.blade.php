@@ -452,9 +452,9 @@
                     </div>
 
                     <div>
-                        <label class="block mb-2 text-sm font-bold" for="inputNavdani">ناودانی</label>
+                        <label class="block mb-2 text-sm font-bold" for="inputNavdani">پایه</label>
                         <select name="navdani" id="inputNavdani" class="input-text bg-yellow-300">
-                            <option value="">انتخاب کنید</option>
+                            <option value="">انتخاب متریال پایه</option>
                             <option value="{{ \App\Models\Part::find('302')->id }}"
                                 {{ is_null($inputs) ? (old('navdani') == '302' ? 'selected' : '') : ($inputs['navdani'] == "302" ? 'selected' : (old('navdani') == '302' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::find('302')->name }}
@@ -486,6 +486,22 @@
                             <option value="{{ \App\Models\Part::find('309')->id }}"
                                 {{ is_null($inputs) ? (old('navdani') == '309' ? 'selected' : '') : ($inputs['navdani'] == "309" ? 'selected' : (old('navdani') == '309' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::find('309')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('9')->id }}"
+                                {{ is_null($inputs) ? (old('navdani') == '9' ? 'selected' : '') : ($inputs['navdani'] == "9" ? 'selected' : (old('navdani') == '9' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('9')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('10')->id }}"
+                                {{ is_null($inputs) ? (old('navdani') == '10' ? 'selected' : '') : ($inputs['navdani'] == "10" ? 'selected' : (old('navdani') == '10' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('10')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('11')->id }}"
+                                {{ is_null($inputs) ? (old('navdani') == '11' ? 'selected' : '') : ($inputs['navdani'] == "11" ? 'selected' : (old('navdani') == '11' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('11')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('12')->id }}"
+                                {{ is_null($inputs) ? (old('navdani') == '12' ? 'selected' : '') : ($inputs['navdani'] == "12" ? 'selected' : (old('navdani') == '12' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('12')->name }}
                             </option>
                         </select>
                     </div>
@@ -553,13 +569,13 @@
                                 {{ is_null($inputs) ? (old('flanch') == '1160' ? 'selected' : '') : ($inputs['flanch'] == "1160" ? 'selected' : (old('flanch') == '1160' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::find('1160')->name }}
                             </option>
-                            <option value="{{ \App\Models\Part::find('2647')->id }}"
-                                {{ is_null($inputs) ? (old('flanch') == '2647' ? 'selected' : '') : ($inputs['flanch'] == "2647" ? 'selected' : (old('flanch') == '2647' ? 'selected' : '')) }}>
-                                {{ \App\Models\Part::find('2647')->name }}
-                            </option>
                             <option value="{{ \App\Models\Part::find('1161')->id }}"
                                 {{ is_null($inputs) ? (old('flanch') == '1161' ? 'selected' : '') : ($inputs['flanch'] == "1161" ? 'selected' : (old('flanch') == '1161' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::find('1161')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('2647')->id }}"
+                                {{ is_null($inputs) ? (old('flanch') == '2647' ? 'selected' : '') : ($inputs['flanch'] == "2647" ? 'selected' : (old('flanch') == '2647' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('2647')->name }}
                             </option>
                             <option value="{{ \App\Models\Part::find('1162')->id }}"
                                 {{ is_null($inputs) ? (old('flanch') == '1162' ? 'selected' : '') : ($inputs['flanch'] == "1162" ? 'selected' : (old('flanch') == '1162' ? 'selected' : '')) }}>
@@ -760,7 +776,7 @@
                     </div>
                     <div>
                         <label class="block mb-2 text-sm font-bold" for="inputSpacer">
-                            اسپیسر (Spacer)
+                            اسپیسر / تقسیم کننده (Spacer)
                         </label>
                         <select name="spacer" id="inputSpacer" class="input-text bg-yellow-300"
                                 onchange="checkSpacer()">
@@ -781,6 +797,38 @@
                             <option value="{{ \App\Models\Part::find('1154')->id }}"
                                 {{ is_null($inputs) ? (old('spacer') == '1154' ? 'selected' : '') : ($inputs['spacer'] == "1154" ? 'selected' : (old('spacer') == '1154' ? 'selected' : '')) }}>
                                 {{ \App\Models\Part::find('1154')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('1170')->id }}"
+                                {{ is_null($inputs) ? (old('spacer') == '1170' ? 'selected' : '') : ($inputs['spacer'] == "1170" ? 'selected' : (old('spacer') == '1170' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1170')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('1171')->id }}"
+                                {{ is_null($inputs) ? (old('spacer') == '1171' ? 'selected' : '') : ($inputs['spacer'] == "1171" ? 'selected' : (old('spacer') == '1171' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1171')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('1172')->id }}"
+                                {{ is_null($inputs) ? (old('spacer') == '1172' ? 'selected' : '') : ($inputs['spacer'] == "1172" ? 'selected' : (old('spacer') == '1172' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1172')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('1173')->id }}"
+                                {{ is_null($inputs) ? (old('spacer') == '1173' ? 'selected' : '') : ($inputs['spacer'] == "1173" ? 'selected' : (old('spacer') == '1173' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1173')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('1174')->id }}"
+                                {{ is_null($inputs) ? (old('spacer') == '1174' ? 'selected' : '') : ($inputs['spacer'] == "1174" ? 'selected' : (old('spacer') == '1174' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1174')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('1175')->id }}"
+                                {{ is_null($inputs) ? (old('spacer') == '1175' ? 'selected' : '') : ($inputs['spacer'] == "1175" ? 'selected' : (old('spacer') == '1175' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1175')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('1176')->id }}"
+                                {{ is_null($inputs) ? (old('spacer') == '1176' ? 'selected' : '') : ($inputs['spacer'] == "1176" ? 'selected' : (old('spacer') == '1176' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1176')->name }}
+                            </option>
+                            <option value="{{ \App\Models\Part::find('1177')->id }}"
+                                {{ is_null($inputs) ? (old('spacer') == '1177' ? 'selected' : '') : ($inputs['spacer'] == "1177" ? 'selected' : (old('spacer') == '1177' ? 'selected' : '')) }}>
+                                {{ \App\Models\Part::find('1177')->name }}
                             </option>
                         </select>
                     </div>

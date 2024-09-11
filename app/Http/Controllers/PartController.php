@@ -145,7 +145,7 @@ class PartController extends Controller
             'name_title' => 'nullable|string|max:255',
             'extract' => 'required|in:0,1',
             'analyzee' => 'required|in:0,1',
-            'factory_code' => 'nullable|numeric'
+            'factory_code' => 'nullable|numeric',
         ]);
 
         if ($data['collection'] == 'true') {

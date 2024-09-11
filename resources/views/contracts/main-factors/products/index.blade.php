@@ -168,6 +168,9 @@
                                 مدل محصول
                             </th>
                             <th scope="col" class="p-4">
+                                کد اختصاصی
+                            </th>
+                            <th scope="col" class="p-4">
                                 تگ
                             </th>
                             <th scope="col" class="p-4">
@@ -214,6 +217,9 @@
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     {{ $product->model_custom_name ?? $modell->name }}
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    {{ $product->code }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     {{ $product->description ?? '-' }}
@@ -372,6 +378,7 @@
                             <tr class="table-th-tr">
                                 <th class="p-4 rounded-tr-lg">ردیف</th>
                                 <th class="p-4">نام قطعه</th>
+                                <th class="p-4">کد اختصاصی</th>
                                 <th class="p-4">واحد</th>
                                 <th class="p-4">تعداد</th>
                                 <th class="p-4">قیمت (تومان)</th>
@@ -405,6 +412,9 @@
                                     </td>
                                     <td class="table-tr-td border-t-0 border-x-0">
                                         {{ $part->name }}
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-x-0">
+                                        {{ $product->code }}
                                     </td>
                                     <td class="table-tr-td border-t-0 border-x-0">
                                         {{ $part->unit }}

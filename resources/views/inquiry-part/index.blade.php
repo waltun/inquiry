@@ -943,7 +943,7 @@
                                         @endif
                                     </td>
                                     <td class="table-tr-td border-t-0 border-x-0">
-                                        @if($type == 'transport' || $type  == 'supervision' || $type == 'setup_price' || $type == 'install_setup_price')
+                                        @if($type == 'transport' || $type  == 'supervision' || $type == 'setup_price' || $type == 'install_setup_price' || $type == 'carbon_piping' || $type == 'copper_piping')
                                             <div class="flex justify-center">
                                                 <input type="text" name="prices[]"
                                                        class="input-text w-28 text-center"
