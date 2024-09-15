@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Contract;
 use App\Models\ContractProduct;
 use App\Models\Product;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Morilog\Jalali\Jalalian;
 
@@ -21,8 +22,8 @@ class WarrantyController extends Controller
         $data = $request->validate([
             'warranty_start' => 'required|array',
             'warranty_start.*' => 'nullable|string|max:255',
-            'warranty_end' => 'required|array',
-            'warranty_end.*' => 'nullable|string|max:255',
+            'warranty_days' => 'required|array',
+            'warranty_days.*' => 'nullable|numeric',
             'products' => 'required|array',
             'products.*' => 'required|integer',
         ]);
@@ -36,14 +37,13 @@ class WarrantyController extends Controller
                 $warrantyStart = (new Jalalian($explodeStartDate[0], $explodeStartDate[1], $explodeStartDate[2]))->toCarbon()->toDateTimeString();
             }
 
-            $warrantyEnd = null;
-            if (!is_null($request->warranty_end[$index])) {
-                $explodeEndDate = explode('/', $request->warranty_end[$index]);
-                $warrantyEnd = (new Jalalian($explodeEndDate[0], $explodeEndDate[1], $explodeEndDate[2]))->toCarbon()->toDateTimeString();
-            }
+            $warrantyStartParse = Carbon::parse($warrantyStart);
+
+            $warrantyEnd = $warrantyStartParse->addDays((int)$data['warranty_days'][$index]);
 
             $product->warranty_start = $warrantyStart;
             $product->warranty_end = $warrantyEnd;
+            $product->warranty_days = $data['warranty_days'][$index];
             $product->save();
         }
 

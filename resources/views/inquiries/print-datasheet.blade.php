@@ -1003,9 +1003,9 @@
                             }
                         @endphp
                         @if($display)
-                            <div class="border border-indigo-500 p-4 rounded-md mb-4 mx-4">
-                                <div class="mb-4 bg-green-800 py-3">
-                                    <p class="text-sm font-bold text-white text-center">
+                            <div class="border border-indigo-500 mb-4 mx-4 pb-4" style="border-radius: 10px !important;">
+                                <div class="mb-4 bg-[#005a96] py-1.5 rounded-t-lg">
+                                    <p class="text-base font-extrabold text-white text-center">
                                         @switch($type)
                                             @case('setup')
                                                 Commissioning Spare Parts
@@ -1079,9 +1079,8 @@
                                             }
                                         @endphp
                                         @if(!$part->children->isEmpty())
-                                            <div class="rounded-xl mx-4 border border-myBlue-100 mb-2 pb-2"
-                                                 style="page-break-before: always">
-                                                <div class="bg-[#005a96] p-1.5 rounded-t-lg">
+                                            <div class="mx-4 border border-green-800 mb-2 pb-2" style="page-break-before: always">
+                                                <div class="bg-[#005a96] p-1.5">
                                                     <p class="text-center text-white font-extrabold text-base">
                                                         Datasheet for : {{ $part->name }}
                                                     </p>
@@ -1153,9 +1152,9 @@
                                             </div>
                                         @else
                                             @if(!$lastCategory->attributes->isEmpty())
-                                                <div class="rounded-xl mx-4 border border-myBlue-100 mb-2 pb-2">
-                                                    <div class="bg-[#005a96] p-1.5 rounded-t-lg">
-                                                        <p class="text-center text-white font-extrabold text-base">
+                                                <div class="mx-4 border border-green-800 mb-2 pb-2">
+                                                    <div class="bg-green-800 p-1.5">
+                                                        <p class="text-center text-white font-bold text-sm">
                                                             {{ $part->name_en ?? $part->name }}
                                                         </p>
                                                     </div>
