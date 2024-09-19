@@ -32,12 +32,28 @@ class AuthController extends Controller
 
         if (!is_null($user)) {
             $code = ActiveCode::generateCode($user);
+
 //            $api = new Melipayamak\MelipayamakApi('9022228553', '@2047507881Pp');
 //            $smsSoap = $api->sms('soap');
 //            $to = $request->phone;
 //            $smsSoap->sendByBaseNumber([$code], $to, '125970');
+
+//            $data = array('username' => "9022228553", 'password' => "@2047507881Pp", 'text' => $code, 'to' => $request->phone, "bodyId" => 125970);
+//            $post_data = http_build_query($data);
+//            $handle = curl_init('https://rest.payamak-panel.com/api/SendSMS/BaseServiceNumber');
+//            curl_setopt($handle, CURLOPT_HTTPHEADER, array(
+//                'content-type' => 'application/x-www-form-urlencoded'
+//            ));
+//            curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
+//            curl_setopt($handle, CURLOPT_SSL_VERIFYHOST, false);
+//            curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, false);
+//            curl_setopt($handle, CURLOPT_POST, true);
+//            curl_setopt($handle, CURLOPT_POSTFIELDS, $post_data);
+//            $response = curl_exec($handle);
+
             $request->session()->flash('phone', $user->phone);
             $request->session()->flash('success-login', 'کد تایید با موفقیت به شماره وارد شده ارسال شد.');
+
             $activeCode = ActiveCode::where('user_id', $user->id)->orderBy('expired_at', 'desc')->first();
         } else {
             $createdUser = User::create([
@@ -46,7 +62,7 @@ class AuthController extends Controller
             ]);
             $code = ActiveCode::generateCode($createdUser);
             $api = new Melipayamak\MelipayamakApi('9022228553', '0PM@N');
-            $smsSoap = $api->sms('soap');
+            $smsSoap = $api->sms();
             $to = $request->phone;
             $smsSoap->sendByBaseNumber([$code], $to, '123453');
             $request->session()->flash('phone', $createdUser->phone);

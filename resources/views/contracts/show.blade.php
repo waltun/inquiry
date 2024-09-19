@@ -668,7 +668,7 @@
 
                 @if($contract->type == 'official')
                     <a href="{{ route('main-factors.index', $contract->id) }}"
-                        class="p-2 rounded-2xl shadow border border-gray-300 {{ $contract->factors->isEmpty() || $contract->factors->contains('file', '!=' ,null) ? 'bg-opacity-50 border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
+                       class="p-2 rounded-2xl shadow border border-gray-300 {{ $contract->factors->isEmpty() || $contract->factors->contains('file', '!=' ,null) ? 'bg-opacity-50 border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
                         <div class="flex items-center justify-between border-b border-white pb-2">
                             <div class="flex items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
@@ -1124,7 +1124,7 @@
                     </div>
                 </a>
 
-                <a href="{{ route('contracts.invoices.index', $contract->id) }}"
+                <a href="{{ route('contracts.warranty-condition.index', $contract->id) }}"
                    class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 bg-opacity-50 border-opacity-50">
                     <div class="flex items-center">
                         <div class="mr-4">

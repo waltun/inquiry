@@ -107,6 +107,14 @@
                 <label for="inputImage" class="form-label">تصویر دسته بندی</label>
                 <input type="file" id="inputImage" name="image" class="input-text" value="{{ old('image', $category->image) }}">
             </div>
+
+            <div class="mt-4">
+                <label for="inputGuarantee" class="form-label">نمایش گارانتی</label>
+                <select name="show_guarantee" id="inputGuarantee" class="input-text">
+                    <option value="0" {{ !$category->show_guarantee ? 'selected' : '' }}>عدم نمایش</option>
+                    <option value="1" {{ $category->show_guarantee ? 'selected' : '' }}>نمایش</option>
+                </select>
+            </div>
         </div>
 
         <div class="flex items-center space-x-4 space-x-reverse">

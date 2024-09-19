@@ -50,6 +50,7 @@ class CategoryController extends Controller
             'name_en' => 'nullable|string|max:255',
             'parent_id' => 'required',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:1024',
+            'show_guarantee' => 'required|boolean|in:0,1',
         ]);
 
         if ($request['parent_id'] == 0) {
@@ -80,6 +81,7 @@ class CategoryController extends Controller
             'code' => $request['code'],
             'parent_id' => $request['parent_id'],
             'image' => $finalFile,
+            'show_guarantee' => $request['show_guarantee'],
         ]);
 
         alert()->success('ثبت موفق', 'ثبت دسته بندی با موفقیت انجام شد');
@@ -106,6 +108,7 @@ class CategoryController extends Controller
             'name' => 'required|string|max:255',
             'name_en' => 'nullable|string|max:255',
             'parent_id' => 'required',
+            'show_guarantee' => 'required|boolean|in:0,1',
         ]);
 
         if ($request['parent_id'] == 0) {
@@ -141,6 +144,7 @@ class CategoryController extends Controller
             'code' => $request['code'],
             'parent_id' => $request['parent_id'],
             'image' => $finalFile,
+            'show_guarantee' => $request['show_guarantee'],
         ]);
 
         alert()->success('ویرایش موفق', 'ویرایش دسته بندی با موفقیت انجام شد');

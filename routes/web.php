@@ -39,6 +39,7 @@ use App\Http\Controllers\Contract\ProductController as ContractProduct;
 use App\Http\Controllers\Contract\CustomerController as ContractCustomerController;
 use App\Http\Controllers\Contract\RecoupmentController;
 use App\Http\Controllers\Contract\WarrantyController;
+use App\Http\Controllers\Contract\WarrantyConditionController as ContractWarrantyConditionController;
 use App\Http\Controllers\GroupChecklistController;
 use App\Http\Controllers\InformationController;
 use App\Http\Controllers\LeaveController;
@@ -98,6 +99,7 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TaxController;
 use App\Http\Controllers\TodoController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WarrantyConditionController;
 use Illuminate\Support\Facades\Route;
 
 //Auth routes
@@ -382,6 +384,13 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::get('/settings/inquiry-terms/{inquiryTerm}/edit', [InquiryTermController::class, 'edit'])->name('settings.inquiryTerms.edit');
         Route::patch('/settings/inquiry-terms/{inquiryTerm}', [InquiryTermController::class, 'update'])->name('settings.inquiryTerms.update');
         Route::delete('/settings/inquiry-terms/{inquiryTerm}', [InquiryTermController::class, 'destroy'])->name('settings.inquiryTerms.destroy');
+
+        Route::get('/settings/warranty-conditions', [WarrantyConditionController::class, 'index'])->name('settings.warrantyCondition.index');
+        Route::get('/settings/warranty-conditions/create', [WarrantyConditionController::class, 'create'])->name('settings.warrantyCondition.create');
+        Route::post('/settings/warranty-conditions', [WarrantyConditionController::class, 'store'])->name('settings.warrantyCondition.store');
+        Route::get('/settings/warranty-conditions/{warrantyCondition}/edit', [WarrantyConditionController::class, 'edit'])->name('settings.warrantyCondition.edit');
+        Route::patch('/settings/warranty-conditions/{warrantyCondition}', [WarrantyConditionController::class, 'update'])->name('settings.warrantyCondition.update');
+        Route::delete('/settings/warranty-conditions/{warrantyCondition}', [WarrantyConditionController::class, 'destroy'])->name('settings.warrantyCondition.destroy');
 
         Route::resource('settings/letter-terms', LetterTermController::class)->except(['show']);
 
@@ -760,6 +769,8 @@ Route::middleware(['auth', 'web'])->group(function () {
 
         Route::get('/contracts/{contract}/warranty', [WarrantyController::class, 'index'])->name('contracts.warranty.index');
         Route::post('/contracts/{contract}/warranty', [WarrantyController::class, 'store'])->name('contracts.warranty.store');
+
+        Route::get('/contracts/{contract}/warranty-conditions', [ContractWarrantyConditionController::class, 'index'])->name('contracts.warranty-condition.index');
 
         Route::resource('todos', TodoController::class)->except('show');
         Route::post('todos/{todo}/mark-as-done', [TodoController::class, 'markAsDone'])->name('todos.mark-as-done');

@@ -368,6 +368,23 @@
                                                                                 </p>
                                                                             </div>
                                                                         @endforeach
+                                                                            @if($lastCategoryPart->show_count)
+                                                                                <div class="p-0 col-span-4">
+                                                                                    <p class="text-xs font-medium text-black">
+                                                                                        Quantity :
+                                                                                    </p>
+                                                                                </div>
+                                                                                <div class="p-0 col-span-2">
+                                                                                    <p class="text-xs font-medium text-black">
+                                                                                        No.
+                                                                                    </p>
+                                                                                </div>
+                                                                                <div class="p-0 col-span-6">
+                                                                                    <p class="text-xs font-medium text-black">
+                                                                                        {{ number_format($amount->value) }}
+                                                                                    </p>
+                                                                                </div>
+                                                                            @endif
                                                                     </div>
                                                                 </div>
                                                             @endif
@@ -430,8 +447,7 @@
                                                                                     class="col-span-2 grid grid-cols-4">
                                                                                     <div
                                                                                         class="p-0 col-span-2 flex items-center {{ $loop->first ? 'mt-2' : '' }}">
-                                                                                        <div
-                                                                                            class="w-2 h-2 rounded-full border-2 border-black mb-1 mr-1"></div>
+                                                                                        <div class="w-2 h-2 rounded-full border-2 border-black mb-1 mr-1"></div>
                                                                                         <p class="text-xs font-medium text-black">
                                                                                             Quantity
                                                                                             :

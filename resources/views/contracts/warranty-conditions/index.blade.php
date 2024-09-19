@@ -98,9 +98,7 @@
     <div class="mt-4 space-y-4">
         @if(!$contract->products->isEmpty())
             @if(!$contract->products()->where('group_id','!=',0)->where('model_id','!=',0)->get()->isEmpty())
-                <form method="POST" action="{{ route('contracts.warranty.store', $contract->id) }}" class="card">
-                    @csrf
-
+                <div class="card">
                     <div class="card-header">
                         <p class="card-title text-lg">لیست محصولات</p>
                     </div>
@@ -125,45 +123,14 @@
                                     تعداد
                                 </th>
                                 <th scope="col" class="p-4">
-                                    تاریخ پایان ساخت
-                                </th>
-                                <th scope="col" class="p-4">
-                                    تاریخ شروع گارانتی
-                                </th>
-                                <th scope="col" class="p-4">
-                                    تعداد روز های گارانتی
-                                </th>
-                                <th scope="col" class="p-4">
-                                    تاریخ پایان گارانتی
+                                    شرایط گارانتی
                                 </th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($contract->products()->orderBy('sort', 'ASC')->where('group_id','!=',0)->where('model_id','!=',0)->get() as $product)
-                                <input type="hidden" name="products[]" value="{{ $product->id }}">
                                 @php
                                     $modell = \App\Models\Modell::find($product->model_id);
-
-                                    $startDate = '';
-                                    if (!is_null($product->warranty_start)) {
-                                        $startDay = jdate($product->warranty_start)->getDay();
-                                        $startMonth = jdate($product->warranty_start)->getMonth();
-                                        $startYear = jdate($product->warranty_start)->getYear();
-                                        $startDate = $startYear . '/' . $startMonth . '/' . $startDay;
-                                    }
-
-                                    $endDate = '';
-                                    if (!is_null($product->warranty_end)) {
-                                        $endDay = jdate($product->warranty_end)->getDay();
-                                        $endMonth = jdate($product->warranty_end)->getMonth();
-                                        $endYear = jdate($product->warranty_end)->getYear();
-                                        $endDate = $endYear . '/' . $endMonth . '/' . $endDay;
-                                    }
-
-                                    $newEndDate = \Carbon\Carbon::parse($product->warranty_end);
-                                    $now = \Carbon\Carbon::now();
-                                    $daysRemaining = $now->diffInDays($newEndDate, false);
-
                                 @endphp
                                 <tr class="table-tb-tr group whitespace-normal {{ $loop->even ? 'bg-sky-100' : '' }}">
                                     <td class="table-tr-td border-t-0 border-l-0">
@@ -182,38 +149,18 @@
                                         {{ $product->quantity }}
                                     </td>
                                     <td class="table-tr-td border-t-0 border-x-0">
-                                        @if(!is_null($product->end_at))
-                                            {{ jdate($product->end_at)->format('Y/m/d') }}
-                                        @endif
-                                    </td>
-                                    <td class="table-tr-td border-t-0 border-x-0">
-                                        <input type="text" class="input-text text-center dates" name="warranty_start[]"
-                                               value="{{ $startDate != "" ? $startDate : jdate($product->packs->first()->packing->date)->format('Y/m/d') }}"
-                                               placeholder="برای انتخاب تاریخ کلیک کنید">
-                                    </td>
-                                    <td class="table-tr-td border-t-0 border-x-0">
-                                        <input type="text" class="input-text text-center" name="warranty_days[]" value="{{ $product->warranty_days }}"
-                                               placeholder="تعداد روز های گارانتی">
-                                    </td>
-                                    <td class="table-tr-td border-t-0 border-r-0">
-                                        @if(!is_null($product->warranty_end))
-                                            {{ jdate($product->warranty_end)->format('Y/m/d')  }}
-                                        @else
-                                            -
-                                        @endif
+                                        <div class="flex justify-center items-center">
+                                            <a href="#" class="table-success-btn">
+                                                شرایط گارانتی
+                                            </a>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
                             </tbody>
                         </table>
                     </div>
-
-                    <div class="mt-4 flex justify-end">
-                        <button class="form-submit-btn">
-                            ثبت مقادیر
-                        </button>
-                    </div>
-                </form>
+                </div>
             @endif
 
             <!-- Part List -->
@@ -225,9 +172,7 @@
                     $products = $contract->products()->where('part_id','!=',0)->where('type',$type)->get();
                 @endphp
                 @if(!$products->isEmpty())
-                    <form method="POST" action="{{ route('contracts.warranty.store', $contract->id) }}" class="card">
-                        @csrf
-
+                    <div class="card">
                         <div class="card-header">
                             <p class="card-title text-lg">
                                 @switch($type)
@@ -298,38 +243,14 @@
                                 <th class="p-4">نام قطعه</th>
                                 <th class="p-4">واحد</th>
                                 <th class="p-4">تعداد</th>
-                                <th class="p-4">تاریخ پایان ساخت</th>
-                                <th class="p-4">تاریخ شروع گارانتی</th>
-                                <th class="p-4">تعداد روز های گارانتی</th>
-                                <th class="p-4 rounded-tl-lg">تاریخ پایان گارانتی</th>
+                                <th class="p-4 rounded-tl-lg">شرایط گارانتی</th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($products as $product)
-                                <input type="hidden" name="products[]" value="{{ $product->id }}">
                                 @php
                                     $part = \App\Models\Part::find($product->part_id);
                                     $lastCategory = $part->categories()->latest()->first();
-
-                                    $startDate = '';
-                                    if (!is_null($product->warranty_start)) {
-                                        $startDay = jdate($product->warranty_start)->getDay();
-                                        $startMonth = jdate($product->warranty_start)->getMonth();
-                                        $startYear = jdate($product->warranty_start)->getYear();
-                                        $startDate = $startYear . '/' . $startMonth . '/' . $startDay;
-                                    }
-
-                                    $endDate = '';
-                                    if (!is_null($product->warranty_end)) {
-                                        $endDay = jdate($product->warranty_end)->getDay();
-                                        $endMonth = jdate($product->warranty_end)->getMonth();
-                                        $endYear = jdate($product->warranty_end)->getYear();
-                                        $endDate = $endYear . '/' . $endMonth . '/' . $endDay;
-                                    }
-
-                                    $newEndDate = \Carbon\Carbon::parse($product->warranty_end);
-                                    $now = \Carbon\Carbon::now();
-                                    $daysRemaining = $now->diffInDays($newEndDate, false);
                                 @endphp
                                 <tr class="table-tb-tr group whitespace-normal {{ $loop->even ? 'bg-sky-100' : '' }}">
                                     <td class="table-tr-td border-t-0 border-l-0">
@@ -344,46 +265,22 @@
                                     <td class="table-tr-td border-t-0 border-x-0">
                                         {{ $product->quantity }}
                                     </td>
-                                    <td class="table-tr-td border-t-0 border-x-0">
-                                        @if(!is_null($product->end_at))
-                                            {{ jdate($product->end_at)->format('Y/m/d') }}
-                                        @endif
-                                    </td>
-                                    <td class="table-tr-td border-t-0 border-x-0">
-                                        @if($lastCategory->show_guarantee)
-                                            <input type="text" class="input-text text-center dates" name="warranty_start[]"
-                                                   value="{{ !is_null($startDate) ? $startDate : jdate($product->packs->first()->packing->date)->format('Y/m/d') }}"
-                                                   placeholder="برای انتخاب تاریخ کلیک کنید">
-                                        @else
-                                            فاقد گارانتی
-                                        @endif
-                                    </td>
-                                    <td class="table-tr-td border-t-0 border-x-0">
-                                        @if($lastCategory->show_guarantee)
-                                            <input type="text" class="input-text text-center" name="warranty_days[]" value="{{ $product->warranty_days }}"
-                                                   placeholder="تعداد روز های گارانتی">
-                                        @else
-                                            فاقد گارانتی
-                                        @endif
-                                    </td>
                                     <td class="table-tr-td border-t-0 border-r-0">
-                                        @if(!is_null($product->warranty_end))
-                                            {{ jdate($product->warranty_end)->format('Y/m/d')  }}
+                                        @if($lastCategory->show_guarantee)
+                                            <div class="flex justify-center items-center">
+                                                <a href="#" class="table-success-btn">
+                                                    شرایط گارانتی
+                                                </a>
+                                            </div>
                                         @else
-                                            -
+                                            فاقد گارانتی
                                         @endif
                                     </td>
                                 </tr>
                             @endforeach
                             </tbody>
                         </table>
-
-                        <div class="mt-4 flex justify-end">
-                            <button class="form-submit-btn" type="submit">
-                                ثبت مقادیر
-                            </button>
-                        </div>
-                    </form>
+                    </div>
                 @endif
             @endforeach
         @else
