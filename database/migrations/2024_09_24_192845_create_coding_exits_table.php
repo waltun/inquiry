@@ -16,16 +16,14 @@ return new class extends Migration {
             $table->id();
 
             $table->string('name')->nullable();
-            $table->decimal('quantity');
+            $table->integer('quantity');
             $table->string('unit')->nullable();
+            $table->integer('return_quantity')->nullable();
+            $table->integer('return_date')->nullable();
             $table->string('description')->nullable();
-            $table->string('getter_name')->nullable();
-            $table->string('car_number')->nullable();
-            $table->string('phone')->nullable();
-
-            $table->timestamp('return_date')->nullable();
 
             $table->unsignedBigInteger('coding_id')->nullable();
+            $table->unsignedBigInteger('exitt_id');
 
             $table->timestamps();
         });

@@ -23,11 +23,6 @@ class Coding extends Model
         return $this->hasMany(Store::class);
     }
 
-    public function codingExits()
-    {
-        return $this->hasMany(CodingExit::class);
-    }
-
     public function purchase()
     {
         return $this->hasMany(Purchase::class);

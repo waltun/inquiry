@@ -10,11 +10,11 @@ class CodingExit extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'quantity', 'unit', 'description', 'getter_name', 'car_number', 'phone', 'return_date', 'coding_id'
+        'name', 'quantity', 'unit', 'return_quantity', 'return_date', 'description', 'coding_id', 'exitt_id'
     ];
 
-    public function coding()
+    public function exitt()
     {
-        return $this->belongsTo(Coding::class);
+        return $this->belongsTo(Exitt::class);
     }
 }

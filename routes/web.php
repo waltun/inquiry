@@ -89,6 +89,7 @@ use App\Http\Controllers\SeparateCalculateElectricalController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\System\CodingController;
 use App\Http\Controllers\System\CodingExitController;
+use App\Http\Controllers\System\ExitController as SystemExitController;
 use App\Http\Controllers\System\LetterController;
 use App\Http\Controllers\System\PhonebookController;
 use App\Http\Controllers\System\PurchaseController;
@@ -815,13 +816,15 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::post('/stores/search/category', [StoreController::class, 'searchCategory'])->name('stores.searchCategory');
         Route::post('/stores/search/text', [StoreController::class, 'searchText'])->name('stores.searchText');
 
-        Route::get('/coding-exits', [CodingExitController::class, 'index'])->name('coding-exits.index');
-        Route::get('/coding-exits/{coding_exit}/edit', [CodingExitController::class, 'edit'])->name('coding-exits.edit');
-        Route::post('/coding-exits', [CodingExitController::class, 'store'])->name('coding-exits.store');
-        Route::patch('/coding-exits/{coding_exit}', [CodingExitController::class, 'update'])->name('coding-exits.update');
-        Route::delete('/coding-exits/delete-store', [CodingExitController::class, 'destroy'])->name('coding-exits.destroy');
-        Route::post('/coding-exits/search/category', [CodingExitController::class, 'searchCategory'])->name('coding-exits.searchCategory');
-        Route::post('/coding-exits/search/text', [CodingExitController::class, 'searchText'])->name('coding-exits.searchText');
+        Route::resource('exits', SystemExitController::class)->except(['show']);
+
+        Route::get('/exits/{exitt}/codings', [CodingExitController::class, 'index'])->name('exit-coding.index');
+        Route::get('/exits/{exitt}/codings/create', [CodingExitController::class, 'create'])->name('exit-coding.create');
+        Route::post('/exits/{exitt}/codings/create', [CodingExitController::class, 'store'])->name('exit-coding.store');
+        Route::get('/exits/{exitt}/codings/{codingExit}/edit', [CodingExitController::class, 'edit'])->name('exit-coding.edit');
+        Route::patch('/exits/{exitt}/codings/{codingExit}/edit', [CodingExitController::class, 'update'])->name('exit-coding.update');
+        Route::delete('/exits/{exitt}/codings/{codingExit}/destroy', [CodingExitController::class, 'destroy'])->name('exit-coding.destroy');
+        Route::post('/exits/{exitt}/codings/{codingExit}/store-return', [CodingExitController::class, 'storeReturn'])->name('exit-coding.store-return');
 
         Route::get('/purchase', [PurchaseController::class, 'index'])->name('purchase.index');
         Route::get('/purchase/{purchase}/edit', [PurchaseController::class, 'edit'])->name('purchase.edit');

@@ -1690,7 +1690,7 @@
                             @endcan
 
                             @can('coding-exits')
-                                <a href="{{ route('coding-exits.index') }}" class="dashboard-cards group">
+                                <a href="{{ route('exits.index') }}" class="dashboard-cards group">
                                     <div class="flex items-center">
                                         <div class="dashboard-card-icon bg-red-500 dark:bg-slate-800">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-white group-hover:text-myBlue-100">
