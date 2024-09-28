@@ -816,7 +816,10 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::post('/stores/search/category', [StoreController::class, 'searchCategory'])->name('stores.searchCategory');
         Route::post('/stores/search/text', [StoreController::class, 'searchText'])->name('stores.searchText');
 
-        Route::resource('exits', SystemExitController::class)->except(['show']);
+        Route::resource('exits', SystemExitController::class)->except(['show', 'destroy']);
+        Route::post('/exits/accepted/submit', [SystemExitController::class, 'accepted'])->name('exits.accepted');
+        Route::post('/exits/destroy/submit', [SystemExitController::class, 'destroy'])->name('exits.destroy');
+        Route::get('/exits/{exit}/print', [SystemExitController::class, 'print'])->name('exits.print');
 
         Route::get('/exits/{exitt}/codings', [CodingExitController::class, 'index'])->name('exit-coding.index');
         Route::get('/exits/{exitt}/codings/create', [CodingExitController::class, 'create'])->name('exit-coding.create');

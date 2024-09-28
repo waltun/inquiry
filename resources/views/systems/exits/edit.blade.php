@@ -100,12 +100,6 @@
             </div>
 
             <div class="mb-4">
-                <label for="inputNumber" class="form-label">شماره سند</label>
-                <input type="text" id="inputNumber" name="number" class="input-text"
-                       placeholder="شماره سند" value="{{ old('number', $exit->number) }}">
-            </div>
-
-            <div class="mb-4">
                 <label for="inputExitAt" class="form-label">تاریخ خروج</label>
                 <input type="text" id="inputExitAt" name="exit_at" class="input-text"
                        placeholder="برای انتخاب تاریخ کلیک کنید" value="{{ old('exit_at', $date) }}">
@@ -160,6 +154,19 @@
                     <label for="inputMissionUsers" class="form-label">اشخاص اعزامی به ماموریت</label>
                     <input type="text" id="inputMissionUsers" name="mission_users" class="input-text" placeholder="افراد اعزامی را تایپ کنید" value="{{ old('mission_users', $exit->mission_users) }}">
                 </div>
+            </div>
+
+            <div class="mb-4 mt-4">
+                <label for="inputConfirmQuantity" class="form-label">تایید تعداد عودت شده / نشده</label>
+                <select name="confirm_quantity" id="inputConfirmQuantity" class="input-text">
+                    <option value="">انتخاب کنید</option>
+                    <option value="0" {{ old('confirm_quantity', $exit->confirm_quantity) == '0' ? 'selected' : '' }}>
+                        عدم تایید
+                    </option>
+                    <option value="1" {{ old('confirm_quantity', $exit->confirm_quantity) == '1' ? 'selected' : '' }}>
+                        تایید شده
+                    </option>
+                </select>
             </div>
         </div>
 

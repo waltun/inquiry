@@ -185,7 +185,7 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p">
-                    محصولات خروج موقت سند {{ $exitt->number }}
+                    اقلام خروجی خروج موقت سند {{ $exitt->number }}
                 </p>
             </div>
         </a>
@@ -204,7 +204,7 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p-active">
-                    افزودن محصول جدید به خروج موقت
+                    افزودن اقلام خروجی جدید به خروج موقت
                 </p>
             </div>
         </div>
@@ -514,8 +514,8 @@
         </div>
 
         <div class="flex items-center space-x-4 space-x-reverse">
-            <button type="submit" class="form-edit-btn">
-                افزودن محصول
+            <button type="submit" class="form-submit-btn">
+                افزودن اقلام خروجی
             </button>
             <a href="{{ route('exit-coding.index', $exitt->id) }}" class="form-cancel-btn">
                 انصراف

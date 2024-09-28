@@ -1,4 +1,30 @@
 <x-layout>
+    <x-slot name="js">
+        <script src="{{ asset('plugins/jquery.min.js') }}"></script>
+        <script>
+            function destroyExit(id) {
+                if (confirm('خروج موقت حذف شود ؟')) {
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '{{ route('exits.destroy') }}',
+                        data: {
+                            id: id
+                        },
+                        success: function () {
+                            location.reload();
+                        }
+                    });
+                }
+            }
+        </script>
+    </x-slot>
+
     <!-- Breadcrumb -->
     <div class="flex items-center space-x-2 space-x-reverse">
         <a href="{{ route('dashboard') }}" class="flex items-center">
@@ -100,7 +126,9 @@
     </div>
 
     <!-- Table -->
-    <div class="overflow-x-auto rounded-lg">
+    <form method="POST" action="{{ route('exits.accepted') }}" class="overflow-x-auto rounded-lg">
+        @csrf
+
         <table class="w-full border-collapse">
             <thead>
             <tr class="table-th-tr whitespace-normal">
@@ -132,13 +160,16 @@
                     اشخاص اعزامی
                 </th>
                 <th scope="col" class="p-2">
-                    محصولات
+                    اقلام خروجی
                 </th>
                 <th scope="col" class="p-2">
                     عودت شده
                 </th>
                 <th scope="col" class="p-2">
                     منتظر عودت
+                </th>
+                <th scope="col" class="p-2">
+                    تاییدیه
                 </th>
                 <th scope="col" class="p-2">
                     <span class="sr-only">
@@ -149,7 +180,35 @@
             </thead>
             <tbody>
             @foreach($exits as $exit)
-                <tr class="table-tb-tr whitespace-normal group">
+                @php
+                    $noReturn = $exit->codingExits()->select('quantity')->sum('quantity') - $exit->codingExits()->where('return_quantity', '>', 0)->sum('return_quantity');
+                    $returned = $exit->codingExits()->where('return_quantity', '>', 0)->sum('return_quantity');
+
+                    $color = '';
+
+                    if ($noReturn > $returned) {
+                        $color = 'bg-red-200';
+                    }
+
+                    if ($noReturn == 0) {
+                        $color = 'bg-green-200';
+                    }
+
+                    if ($noReturn > 0 && $exit->confirm_quantity == '1') {
+                        $color = 'bg-green-200';
+                    }
+
+                    if ($noReturn > 0 && $exit->confirm_quantity == '0') {
+                        $color = 'bg-red-200';
+                    }
+
+                    if ($exit->codingExits->isEmpty()) {
+                        $color = 'bg-yellow-200';
+                    }
+                @endphp
+                <input type="hidden" name="exits[]" value="{{ $exit->id }}">
+
+                <tr class="table-tb-tr whitespace-normal group {{ $color }}">
                     <td class="table-tr-td border-t-0">
                         {{ $exit->number }}
                     </td>
@@ -187,24 +246,40 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
                                     </svg>
                                     <p class="text-xs mr-1">
-                                        محصولات
+                                        اقلام خروجی
                                     </p>
                                 </a>
                             </div>
                         @endcan
                     </td>
-                    @php
-                        $noReturn = $exit->codingExits()->select('quantity')->sum('quantity') - $exit->codingExits()->where('return_quantity', '>', 0)->sum('return_quantity');
-                        $returned = $exit->codingExits()->where('return_quantity', '>', 0)->sum('return_quantity');
-                    @endphp
                     <td class="table-tr-td border-t-0 border-x-0">
                         {{ $returned }}
                     </td>
                     <td class="table-tr-td border-t-0 border-x-0">
                         {{ $noReturn }}
                     </td>
+                    <td class="table-tr-td border-t-0 border-x-0">
+                        <select name="accepted[]" id="inputAccepted{{ $exit->id }}" class="input-text">
+                            <option value="0" {{ $exit->accepted == '0' ? 'selected' : '' }}>
+                                تایید نشده
+                            </option>
+                            <option value="1" {{ $exit->accepted == '1' ? 'selected' : '' }}>
+                                تایید شده
+                            </option>
+                        </select>
+                    </td>
                     <td class="table-tr-td border-t-0 border-r-0">
                         <div class="flex items-center justify-center space-x-2 space-x-reverse">
+                            @if($exit->accepted)
+                                @can('print-exit')
+                                    <a href="{{ route('exits.print', $exit->id) }}" class="table-dropdown-restore" target="_blank">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                  d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0 1 10.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0 .229 2.523a1.125 1.125 0 0 1-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0 0 21 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 0 0-1.913-.247M6.34 18H5.25A2.25 2.25 0 0 1 3 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 0 1 1.913-.247m10.5 0a48.536 48.536 0 0 0-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659M18 10.5h.008v.008H18V10.5Zm-3 0h.008v.008H15V10.5Z"/>
+                                        </svg>
+                                    </a>
+                                @endcan
+                            @endif
                             @can('edit-exit')
                                 <a href="{{ route('exits.edit', $exit->id) }}" class="table-dropdown-edit">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -215,18 +290,13 @@
                                 </a>
                             @endcan
                             @can('delete-exit')
-                                <form action="{{ route('exits.destroy', $exit->id) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-
-                                    <button class="table-dropdown-delete" type="submit" onclick="return confirm('خروج موقت حذف شود ؟')">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                             stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                  d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
-                                        </svg>
-                                    </button>
-                                </form>
+                                <button class="table-dropdown-delete" type="button" onclick="destroyExit({{ $exit->id }})">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                              d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
+                                    </svg>
+                                </button>
                             @endcan
                         </div>
                     </td>
@@ -234,7 +304,13 @@
             @endforeach
             </tbody>
         </table>
-    </div>
+
+        <div class="mt-4 flex justify-end">
+            <button type="submit" class="form-submit-btn">
+                ثبت تاییدیه
+            </button>
+        </div>
+    </form>
 
     <div class="mt-4">
         {{ $exits->links() }}

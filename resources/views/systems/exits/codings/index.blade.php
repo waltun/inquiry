@@ -62,7 +62,7 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p-active">
-                    محصولات خروج موقت سند {{ $exitt->number }}
+                    اقلام خروجی خروج موقت سند {{ $exitt->number }}
                 </p>
             </div>
         </div>
@@ -79,7 +79,7 @@
             </svg>
             <div class="mr-2 flex items-center space-x-4 space-x-reverse">
                 <p class="font-bold text-lg text-black dark:text-white">
-                    لیست محصولات خروج موقت سند {{ $exitt->number }}
+                    لیست اهلام خروجی خروج موقت سند {{ $exitt->number }}
                 </p>
             </div>
         </div>
@@ -89,7 +89,7 @@
                      stroke="currentColor" class="w-5 h-5 ml-1">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
                 </svg>
-                افزودن محصول جدید
+                افزودن اقلام خروجی جدید
             </a>
             <a href="{{ route('exits.index') }}" class="page-warning-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 ml-1">
@@ -110,7 +110,7 @@
                         #
                     </th>
                     <th scope="col" class="p-2">
-                        نام محصول
+                        نام اقلام خروجی
                     </th>
                     <th scope="col" class="p-2">
                         تعداد تحویل شده

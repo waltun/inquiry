@@ -99,12 +99,6 @@
             </div>
 
             <div class="mb-4">
-                <label for="inputNumber" class="form-label">شماره سند</label>
-                <input type="text" id="inputNumber" name="number" class="input-text"
-                       placeholder="شماره سند" value="{{ old('number') }}">
-            </div>
-
-            <div class="mb-4">
                 <label for="inputExitAt" class="form-label">تاریخ خروج</label>
                 <input type="text" id="inputExitAt" name="exit_at" class="input-text"
                        placeholder="برای انتخاب تاریخ کلیک کنید" value="{{ old('exit_at') }}">
