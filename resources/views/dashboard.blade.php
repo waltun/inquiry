@@ -2604,7 +2604,7 @@
     @else
         <div class="mb-4 bg-red-500 shadow-lg border border-red-800 p-4 rounded-xl">
             <p class="text-lg text-white text-center font-bold">
-                شما تسک های انجام نشده ای دارید، لطفا ابتدا وظعیت آن ها را مشخص کنید تا دسترسی شما باز شود.
+                شما تسک های انجام نشده ای دارید، لطفا ابتدا وضعیت آن ها را مشخص کنید تا دسترسی شما باز شود.
             </p>
         </div>
         <div class="overflow-x-auto rounded-lg">

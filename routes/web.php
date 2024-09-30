@@ -772,6 +772,8 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::post('/contracts/{contract}/warranty', [WarrantyController::class, 'store'])->name('contracts.warranty.store');
 
         Route::get('/contracts/{contract}/warranty-conditions', [ContractWarrantyConditionController::class, 'index'])->name('contracts.warranty-condition.index');
+        Route::get('/contracts/{contract}/warranty-conditions/{contractProduct}', [ContractWarrantyConditionController::class, 'product'])->name('contracts.warranty-condition.product');
+        Route::patch('/contracts/{contract}/warranty-conditions/{contractProduct}', [ContractWarrantyConditionController::class, 'storeDescription'])->name('contracts.warranty-condition.storeDescription');
 
         Route::resource('todos', TodoController::class)->except('show');
         Route::post('todos/{todo}/mark-as-done', [TodoController::class, 'markAsDone'])->name('todos.mark-as-done');

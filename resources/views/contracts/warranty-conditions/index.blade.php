@@ -150,9 +150,15 @@
                                     </td>
                                     <td class="table-tr-td border-t-0 border-x-0">
                                         <div class="flex justify-center items-center">
-                                            <a href="#" class="table-success-btn">
-                                                شرایط گارانتی
-                                            </a>
+                                            @if(is_null($product->description))
+                                                <a href="{{ route('contracts.warranty-condition.product', [$contract->id, $product->id]) }}" class="table-success-btn">
+                                                    شرایط گارانتی
+                                                </a>
+                                            @else
+                                                ثبت شده (<a href="{{ route('contracts.warranty-condition.product', [$contract->id, $product->id]) }}" class="table-success-btn">
+                                                    مشاهده
+                                                </a>)
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>
@@ -268,9 +274,15 @@
                                     <td class="table-tr-td border-t-0 border-r-0">
                                         @if($lastCategory->show_guarantee)
                                             <div class="flex justify-center items-center">
-                                                <a href="#" class="table-success-btn">
-                                                    شرایط گارانتی
-                                                </a>
+                                                @if(is_null($product->description))
+                                                    <a href="{{ route('contracts.warranty-condition.product', [$contract->id, $product->id]) }}" class="table-success-btn">
+                                                        شرایط گارانتی
+                                                    </a>
+                                                @else
+                                                    ثبت شده (<a href="{{ route('contracts.warranty-condition.product', [$contract->id, $product->id]) }}" class="table-success-btn">
+                                                        مشاهده
+                                                    </a>)
+                                                @endif
                                             </div>
                                         @else
                                             فاقد گارانتی
