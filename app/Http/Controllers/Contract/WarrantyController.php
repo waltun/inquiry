@@ -14,7 +14,13 @@ class WarrantyController extends Controller
 {
     public function index(Contract $contract)
     {
-        return view('contracts.warranty.index', compact('contract'));
+        if (!$contract->packings->isEmpty()) {
+            return view('contracts.warranty.index', compact('contract'));
+        }
+
+        alert()->success('خطا', 'پکینگ لیست ایجاد نشده!');
+
+        return back();
     }
 
     public function store(Request $request, Contract $contract)

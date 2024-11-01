@@ -207,7 +207,7 @@
                                         </td>
                                         <td class="table-tr-td border-t-0 border-x-0">
                                             <a href="#product{{ $product->id }}">
-                                                {{ $modell->parent->name }}
+                                                {{ $modell->parent->name ?? '-' }}
                                             </a>
                                         </td>
                                         <td class="table-tr-td border-t-0 border-x-0">
@@ -462,7 +462,7 @@
                                 <p class="card-title text-lg">
                                     {{ $loop->index + 1 }} -
                                     لیست قطعات محصول
-                                    <span class="text-red-600">{{ $modell->parent->name }}</span> -
+                                    <span class="text-red-600">{{ $modell->parent->name ?? '-' }}</span> -
                                     <span class="text-red-600">{{ $product->description }}</span> -
                                     <span class="text-red-600">{{ $product->model_custom_name ?? $modell->name }}</span> -
                                     <span class="text-red-600">تعداد :  {{ number_format($product->quantity) }} دستگاه</span>

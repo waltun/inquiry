@@ -79,18 +79,20 @@
             </svg>
             <div class="mr-2 flex items-center space-x-4 space-x-reverse">
                 <p class="font-bold text-lg text-black dark:text-white">
-                    لیست اهلام خروجی خروج موقت سند {{ $exitt->number }}
+                    لیست اقلام خروجی خروج موقت سند {{ $exitt->number }}
                 </p>
             </div>
         </div>
         <div class="flex items-center space-x-4 space-x-reverse">
-            <a href="{{ route('exit-coding.create', $exitt->id) }}" class="page-success-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                     stroke="currentColor" class="w-5 h-5 ml-1">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
-                </svg>
-                افزودن اقلام خروجی جدید
-            </a>
+            @if(!$exitt->accepted)
+                <a href="{{ route('exit-coding.create', $exitt->id) }}" class="page-success-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                         stroke="currentColor" class="w-5 h-5 ml-1">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+                    </svg>
+                    افزودن اقلام خروجی جدید
+                </a>
+            @endif
             <a href="{{ route('exits.index') }}" class="page-warning-btn">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 ml-1">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3"/>
@@ -100,12 +102,18 @@
         </div>
     </div>
 
-    <div class="mt-4">
+    <div class="mt-4 p-4 rounded-md border border-indigo-500">
+        <div class="mb-4">
+            <p class="text-lg font-bold text-black">
+                سند شماره {{ $exitt->number }}
+            </p>
+        </div>
+
         <!-- Table -->
         <div class="overflow-x-auto rounded-lg">
             <table class="w-full border-collapse">
                 <thead>
-                <tr class="table-th-tr whitespace-normal">
+                <tr class="table-th-tr whitespace-normal bg-yellow-500">
                     <th scope="col" class="p-2">
                         #
                     </th>

@@ -215,6 +215,9 @@
                         <th scope="col" class="p-4">
                             نام خریدار
                         </th>
+                        <th scope="col" class="p-4">
+                            جمع قیمت بدون ارزش افزوده
+                        </th>
                         <th scope="col" class="p-4 rounded-tl-lg">
                             <span class="sr-only">اقدامات</span>
                         </th>
@@ -223,6 +226,12 @@
                     <tbody>
                     @foreach($contracts as $contract)
                         @if($contract->factors->isEmpty())
+                            @php
+                                $partTotalPrice = 0;
+                                foreach ($contract->products as $product) {
+                                    $partTotalPrice += $product->price * $product->quantity;
+                                }
+                            @endphp
                             <tr class="table-tb-tr group {{ $loop->even ? 'bg-sky-100' : '' }}">
                                 <td class="table-tr-td border-t-0 border-l-0">
                                     CNT-{{ $contract->number }}
@@ -238,6 +247,9 @@
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     {{ $contract->customer->name }}
+                                </td>
+                                <td class="table-tr-td border-t-0 border-x-0">
+                                    {{ number_format($partTotalPrice) }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-r-0">
                                     <div class="flex items-center justify-center">

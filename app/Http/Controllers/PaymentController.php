@@ -14,7 +14,12 @@ class PaymentController extends Controller
 
     public function index()
     {
-        $contracts = Contract::orderBy('number', 'DESC')->with(['payments', 'products'])->paginate(20);
+        if (auth()->user()->role == 'admin') {
+            $contracts = Contract::orderBy('number', 'DESC')->with(['payments', 'products'])->paginate(20);
+        } else {
+            $contracts = Contract::where('user_id', auth()->user()->id)->orderBy('number', 'DESC')->with(['payments', 'products'])->paginate(20);
+        }
+
         return view('payments.index', compact('contracts'));
     }
 }

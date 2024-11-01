@@ -12,27 +12,22 @@ class WarrantyConditionController extends Controller
 {
     public function index(Contract $contract)
     {
-        return view('contracts.warranty-conditions.index', compact('contract'));
-    }
-
-    public function product(Contract $contract, ContractProduct $contractProduct)
-    {
         $terms = WarrantyCondition::all();
 
-        return view('contracts.warranty-conditions.product', compact('contract', 'contractProduct', 'terms'));
+        return view('contracts.warranty-conditions.index', compact('contract', 'terms'));
     }
 
-    public function storeDescription(Request $request, Contract $contract, ContractProduct $contractProduct)
+    public function store(Request $request, Contract $contract)
     {
         $request->validate([
             'description' => 'required|string',
         ]);
 
-        $contractProduct->update([
+        $contract->update([
             'description' => $request['description']
         ]);
 
-        alert()->success('ثبت موفق', 'شرایط گارانتی محصول با موفقیت ثبت شد');
+        alert()->success('ثبت موفق', 'شرایط گارانتی با موفقیت ثبت شد');
 
         return redirect()->route('contracts.warranty-condition.index', $contract->id);
     }

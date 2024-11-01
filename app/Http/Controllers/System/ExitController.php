@@ -22,7 +22,23 @@ class ExitController extends Controller
 
     public function index()
     {
-        $exits = Exitt::latest()->paginate(20);
+        $exits = Exitt::query();
+
+        if ($keyword = request('search2')) {
+            $exits->where('number', 'LIKE', "%$keyword%")
+                ->orWhere('exiter', 'LIKE', "%$keyword%")
+                ->orWhere('car_number', 'LIKE', "%$keyword%");
+        }
+
+        if (request()->has('accepted') && !is_null(request('accepted'))) {
+            $exits = $exits->where('accepted', request('accepted'));
+        }
+
+        if (request()->has('type') && !is_null(request('type'))) {
+            $exits = $exits->where('type', request('type'));
+        }
+
+        $exits = $exits->latest()->paginate(20);
 
         return view('systems.exits.index', compact('exits'));
     }
@@ -40,10 +56,11 @@ class ExitController extends Controller
             'exiter' => 'required|string|max:255',
             'car_number' => 'nullable|string|max:255',
             'phone' => 'nullable|numeric|digits:11',
-            'type' => 'required|in:personal,mission',
+            'type' => 'required|in:personal,mission,example,repair,other',
             'mission_location' => 'nullable|string|max:255',
             'mission_reason' => 'nullable|string|max:255',
             'mission_users' => 'nullable|string|max:255',
+            'description' => 'nullable|string|max:255'
         ]);
 
         $allExits = Exitt::all();
@@ -84,11 +101,12 @@ class ExitController extends Controller
             'exiter' => 'required|string|max:255',
             'car_number' => 'nullable|string|max:255',
             'phone' => 'nullable|numeric|digits:11',
-            'type' => 'required|in:personal,mission',
+            'type' => 'required|in:personal,mission,example,repair,other',
             'mission_location' => 'nullable|string|max:255',
             'mission_reason' => 'nullable|string|max:255',
             'mission_users' => 'nullable|string|max:255',
-            'confirm_quantity' => 'required|integer|in:0,1'
+            'confirm_quantity' => 'required|integer|in:0,1',
+            'description' => 'nullable|string|max:255'
         ]);
 
         if (!is_null($data['exit_at'])) {

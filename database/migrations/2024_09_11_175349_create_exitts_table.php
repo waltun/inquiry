@@ -17,7 +17,7 @@ return new class extends Migration {
 
             $table->string('number')->unique();
             $table->timestamp('exit_at')->nullable();
-            $table->enum('type', ['persoanl', 'mission']);
+            $table->enum('type', ['personal', 'mission', 'example', 'repair', 'other']);
             $table->string('exiter');
             $table->string('car_number')->nullable();
             $table->string('phone')->nullable();
@@ -28,6 +28,8 @@ return new class extends Migration {
 
             $table->boolean('accepted')->default(false);
             $table->boolean('confirm_quantity')->default(false);
+
+            $table->string('description')->nullable();
 
             $table->timestamps();
         });

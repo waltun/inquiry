@@ -136,10 +136,19 @@
                     <option value="mission" {{ old('type', $exit->type) == 'mission' ? 'selected' : '' }}>
                         ماموریت
                     </option>
+                    <option value="example" {{ old('type', $exit->type) == 'example' ? 'selected' : '' }}>
+                        ارسال نمونه
+                    </option>
+                    <option value="repair" {{ old('type', $exit->type) == 'repair' ? 'selected' : '' }}>
+                        ارسال جهت تعمیر
+                    </option>
+                    <option value="other" {{ old('type', $exit->type) == 'other' ? 'selected' : '' }}>
+                        سایر
+                    </option>
                 </select>
             </div>
 
-            <div class="{{ $exit->type == 'personal' ? 'hidden' : '' }}" id="missionSection">
+            <div class="{{ $exit->type != 'mission' ? 'hidden' : '' }}" id="missionSection">
                 <div class="mt-4">
                     <label for="inputMissionLocation" class="form-label">محل ماموریت</label>
                     <input type="text" id="inputMissionLocation" name="mission_location" class="input-text" placeholder="محل ماموریت را وارد کنید"
@@ -167,6 +176,11 @@
                         تایید شده
                     </option>
                 </select>
+            </div>
+
+            <div class="mt-4">
+                <label for="inputDescription" class="form-label">علت خروج</label>
+                <input type="text" id="inputDescription" name="description" class="input-text" placeholder="توضیحات اضافی" value="{{ old('description', $exit->description) }}">
             </div>
         </div>
 

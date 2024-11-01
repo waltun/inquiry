@@ -204,7 +204,7 @@
                                                         {{ $part->unit }}
                                                     </td>
                                                     <td class="border border-black border-t-0 border-l p-1">
-                                                        {{ $product->quantity }}
+                                                        {{ $product->pivot->quantity }}
                                                     </td>
                                                     <td class="border border-black border-t-0 border-l-2 p-1">
                                                         <div class="mx-auto w-4 h-4 border border-black">

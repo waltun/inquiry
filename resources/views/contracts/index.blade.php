@@ -359,7 +359,7 @@
                                                                         <div
                                                                                 class="space-x-4 space-x-reverse flex items-center">
                                                                             <p class="text-sm font-medium">
-                                                                                {{ $modell->parent->name }}
+                                                                                {{ $modell->parent->name ?? '' }}
                                                                                 - {{ $product->model_custom_name ?? $modell->name }}
                                                                             </p>
                                                                             <p class="text-sm font-medium">

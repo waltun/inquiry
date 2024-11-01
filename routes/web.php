@@ -4,6 +4,10 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AttributeGroupController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CalculateCoilController;
+use App\Http\Controllers\Contract\Calculation\CalculateCoilController as ContractCalculateCoilController;
+use App\Http\Controllers\Contract\Calculation\CalculateConverterController as ContractCalculateConverterController;
+use App\Http\Controllers\Contract\Calculation\CalculateDamperController as ContractCalculateDamperController;
+use App\Http\Controllers\Contract\Calculation\CalculateElectricalController as ContractCalculateElectricalController;
 use App\Http\Controllers\CalculateConverterController;
 use App\Http\Controllers\CalculateDamperController;
 use App\Http\Controllers\CalculateElectricalController;
@@ -307,7 +311,6 @@ Route::middleware(['auth', 'web'])->group(function () {
             ->name('calculateEvaporatorConverter');
         Route::post('/calculate/converter/{part}/{product}/post-evaporator', [CalculateConverterController::class, 'storeEvaporator'])
             ->name('calculateConverter.storeEvaporator');
-
         Route::get('/calculate/converter/{part}/{product}/condensor', [CalculateConverterController::class, 'condensor'])
             ->name('calculateConverter.condensor.index');
         Route::post('/calculate/condensor-converter', [CalculateConverterController::class, 'calculateCondensor'])
@@ -322,28 +325,24 @@ Route::middleware(['auth', 'web'])->group(function () {
             ->name('calculatePanelElectrical');
         Route::post('/calculate/electrical/{part}/{product}/post-panel', [CalculateElectricalController::class, 'storePanel'])
             ->name('calculateElectrical.storePanel');
-
         Route::get('/calculate/electrical/{part}/{product}/chiller', [CalculateElectricalController::class, 'chiller'])
             ->name('calculateElectrical.chiller.index');
         Route::post('/calculate/chiller-electrical', [CalculateElectricalController::class, 'calculateChiller'])
             ->name('calculateChillerElectrical');
         Route::post('/calculate/electrical/{part}/{product}/post-chiller', [CalculateElectricalController::class, 'storeChiller'])
             ->name('calculateElectrical.storeChiller');
-
         Route::get('/calculate/electrical/{part}/{product}/air-condition', [CalculateElectricalController::class, 'air'])
             ->name('calculateElectrical.air.index');
         Route::post('/calculate/air-condition-electrical', [CalculateElectricalController::class, 'calculateAir'])
             ->name('calculateAirElectrical');
         Route::post('/calculate/electrical/{part}/{product}/post-air-condition', [CalculateElectricalController::class, 'storeAir'])
             ->name('calculateElectrical.storeAir');
-
         Route::get('/calculate/electrical/{part}/{product}/zent', [CalculateElectricalController::class, 'zent'])
             ->name('calculateElectrical.zent.index');
         Route::post('/calculate/zent-electrical', [CalculateElectricalController::class, 'calculateZent'])
             ->name('calculateZentElectrical');
         Route::post('/calculate/electrical/{part}/{product}/post-zent', [CalculateElectricalController::class, 'storeZent'])
             ->name('calculateElectrical.storeZent');
-
         Route::get('/calculate/electrical/{part}/{product}/mini-chiller', [CalculateElectricalController::class, 'mini'])
             ->name('calculateElectrical.mini.index');
         Route::post('/calculate/mini-chiller-electrical', [CalculateElectricalController::class, 'calculateMini'])
@@ -772,8 +771,87 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::post('/contracts/{contract}/warranty', [WarrantyController::class, 'store'])->name('contracts.warranty.store');
 
         Route::get('/contracts/{contract}/warranty-conditions', [ContractWarrantyConditionController::class, 'index'])->name('contracts.warranty-condition.index');
-        Route::get('/contracts/{contract}/warranty-conditions/{contractProduct}', [ContractWarrantyConditionController::class, 'product'])->name('contracts.warranty-condition.product');
-        Route::patch('/contracts/{contract}/warranty-conditions/{contractProduct}', [ContractWarrantyConditionController::class, 'storeDescription'])->name('contracts.warranty-condition.storeDescription');
+        Route::patch('/contracts/{contract}/warranty-conditions', [ContractWarrantyConditionController::class, 'store'])->name('contracts.warranty-condition.store');
+
+        //Calculate coil routes
+        Route::get('/contracts/{contract}/coil-evaperator/{part}/{product}/{part2}', [ContractCalculateCoilController::class, 'evaperator'])->name('contracts.calculateCoil.evaperator.index');
+        Route::get('/contracts/{contract}/coil-water-cold/{part}/{product}/{part2}', [ContractCalculateCoilController::class, 'waterCold'])->name('contracts.calculateCoil.waterCold.index');
+        Route::get('/contracts/{contract}/coil-water-warm/{part}/{product}/{part2}', [ContractCalculateCoilController::class, 'waterWarm'])->name('contracts.calculateCoil.waterWarm.index');
+        Route::get('/contracts/{contract}/coil-condensor/{part}/{product}/{part2}', [ContractCalculateCoilController::class, 'condensor'])->name('contracts.calculateCoil.condensor.index');
+        Route::get('/contracts/{contract}/coil-fancoil/{part}/{product}/{part2}', [ContractCalculateCoilController::class, 'fancoil'])->name('contracts.calculateCoil.fancoil.index');
+        Route::post('/contracts/{contract}/coil/{part}/{product}/{part2}/post-evaperator', [ContractCalculateCoilController::class, 'storeEvaperator'])
+            ->name('contracts.calculateCoil.storeEvaperator');
+        Route::post('/contracts/{contract}/coil/{part}/{product}/{part2}/post-condensor', [ContractCalculateCoilController::class, 'storeCondensor'])
+            ->name('contracts.calculateCoil.storeCondensor');
+        Route::post('/contracts/{contract}/coil/{part}/{product}/{part2}/post-fancoil', [ContractCalculateCoilController::class, 'storeFancoil'])
+            ->name('contracts.calculateCoil.storeFancoil');
+        Route::post('/contracts/{contract}/coil/{part}/{product}/{part2}/post-water-cold', [ContractCalculateCoilController::class, 'storeWaterCold'])
+            ->name('contracts.calculateCoil.storeWaterCold');
+        Route::post('/contracts/{contract}/coil/{part}/{product}/{part2}/post-water-warm', [ContractCalculateCoilController::class, 'storeWaterWarm'])
+            ->name('contracts.calculateCoil.storeWaterWarm');
+        Route::post('/contracts/{contract}/coil/getData', [ContractCalculateCoilController::class, 'getData'])->name('contracts.calculateCoil.getData');
+        Route::post('/contracts/{contract}/fancoil-coil', [ContractCalculateCoilController::class, 'calculateFancoilCoil'])->name('contracts.calculateFancoilCoil');
+        Route::post('/contracts/{contract}/condensor-coil', [ContractCalculateCoilController::class, 'calculateCondensorCoil'])->name('contracts.calculateCondensorCoil');
+        Route::post('/contracts/{contract}/evaperator-coil', [ContractCalculateCoilController::class, 'calculateEvaperatorCoil'])->name('contracts.calculateEvaperatorCoil');
+        Route::post('/contracts/{contract}/coldWater-coil', [ContractCalculateCoilController::class, 'calculateColdCoil'])->name('contracts.calculateColdCoil');
+        Route::post('/contracts/{contract}/warmWater-coil', [ContractCalculateCoilController::class, 'calculateWarmCoil'])->name('contracts.calculateWarmCoil');
+
+        //Calculate damper routes
+        Route::get('/contracts/{contract}/damperTaze/{part}/{product}/{part2}', [ContractCalculateDamperController::class, 'taze'])->name('contracts.calculateDamper.taze.index');
+        Route::get('/contracts/{contract}/damperRaft/{part}/{product}/{part2}', [ContractCalculateDamperController::class, 'raft'])->name('contracts.calculateDamper.raft.index');
+        Route::get('/contracts/{contract}/damperBargasht/{part}/{product}/{part2}', [ContractCalculateDamperController::class, 'bargasht'])->name('contracts.calculateDamper.bargasht.index');
+        Route::get('/contracts/{contract}/damperExast/{part}/{product}/{part2}', [ContractCalculateDamperController::class, 'exast'])->name('contracts.calculateDamper.exast.index');
+        Route::post('/contracts/{contract}/damper/{part}/{product}/{part2}/post', [ContractCalculateDamperController::class, 'store'])->name('contracts.calculateDamper.store');
+        Route::post('/contracts/{contract}/damper-taze', [ContractCalculateDamperController::class, 'calculateTaze'])->name('contracts.calculateTazeDamper');
+        Route::post('/contracts/{contract}/damper-exast', [ContractCalculateDamperController::class, 'calculateExast'])->name('contracts.calculateExastDamper');
+        Route::post('/contracts/{contract}/damper-raft', [ContractCalculateDamperController::class, 'calculateRaft'])->name('contracts.calculateRaftDamper');
+        Route::post('/contracts/{contract}/damper-bargasht', [ContractCalculateDamperController::class, 'calculateBargasht'])->name('contracts.calculateBargashtDamper');
+
+        //Calculate converter routes
+        Route::get('/contracts/{contract}/converter/{part}/{product}/{part2}/evaporator', [ContractCalculateConverterController::class, 'evaporator'])
+            ->name('contracts.calculateConverter.evaporator.index');
+        Route::post('/contracts/{contract}/evaporator-converter', [ContractCalculateConverterController::class, 'calculateEvaporator'])
+            ->name('contracts.calculateEvaporatorConverter');
+        Route::post('/contracts/{contract}/converter/{part}/{product}/{part2}/post-evaporator', [ContractCalculateConverterController::class, 'storeEvaporator'])
+            ->name('contracts.calculateConverter.storeEvaporator');
+        Route::get('/contracts/{contract}/converter/{part}/{product}/{part2}/condensor', [ContractCalculateConverterController::class, 'condensor'])
+            ->name('contracts.calculateConverter.condensor.index');
+        Route::post('/contracts/{contract}/condensor-converter', [ContractCalculateConverterController::class, 'calculateCondensor'])
+            ->name('contracts.calculateCondensorConverter');
+        Route::post('/contracts/{contract}/converter/{part}/{product}/{part2}/post-condensor', [ContractCalculateConverterController::class, 'storeCondensor'])
+            ->name('contracts.calculateConverter.storeCondensor');
+
+        //Calculate Electrical routes
+        Route::get('/contracts/{contract}/electrical/{part}/{product}/{part2}/panel', [ContractCalculateElectricalController::class, 'panel'])
+            ->name('contracts.calculateElectrical.panel.index');
+        Route::post('/contracts/{contract}/panel-electrical', [ContractCalculateElectricalController::class, 'calculatePanel'])
+            ->name('contracts.calculatePanelElectrical');
+        Route::post('/contracts/{contract}/electrical/{part}/{product}/{part2}/post-panel', [ContractCalculateElectricalController::class, 'storePanel'])
+            ->name('contracts.calculateElectrical.storePanel');
+        Route::get('/contracts/{contract}/electrical/{part}/{product}/{part2}/chiller', [ContractCalculateElectricalController::class, 'chiller'])
+            ->name('contracts.calculateElectrical.chiller.index');
+        Route::post('/contracts/{contract}/chiller-electrical', [ContractCalculateElectricalController::class, 'calculateChiller'])
+            ->name('contracts.calculateChillerElectrical');
+        Route::post('/contracts/{contract}/electrical/{part}/{product}/{part2}/post-chiller', [ContractCalculateElectricalController::class, 'storeChiller'])
+            ->name('contracts.calculateElectrical.storeChiller');
+        Route::get('/contracts/{contract}/electrical/{part}/{product}/{part2}/air-condition', [ContractCalculateElectricalController::class, 'air'])
+            ->name('contracts.calculateElectrical.air.index');
+        Route::post('/contracts/{contract}/air-condition-electrical', [ContractCalculateElectricalController::class, 'calculateAir'])
+            ->name('contracts.calculateAirElectrical');
+        Route::post('/contracts/{contract}/electrical/{part}/{product}/{part2}/post-air-condition', [ContractCalculateElectricalController::class, 'storeAir'])
+            ->name('contracts.calculateElectrical.storeAir');
+        Route::get('/contracts/{contract}/electrical/{part}/{product}/{part2}/zent', [ContractCalculateElectricalController::class, 'zent'])
+            ->name('contracts.calculateElectrical.zent.index');
+        Route::post('/contracts/{contract}/zent-electrical', [ContractCalculateElectricalController::class, 'calculateZent'])
+            ->name('contracts.calculateZentElectrical');
+        Route::post('/contracts/{contract}/electrical/{part}/{product}/{part2}/post-zent', [ContractCalculateElectricalController::class, 'storeZent'])
+            ->name('contracts.calculateElectrical.storeZent');
+        Route::get('/contracts/{contract}/electrical/{part}/{product}/{part2}/mini-chiller', [ContractCalculateElectricalController::class, 'mini'])
+            ->name('contracts.calculateElectrical.mini.index');
+        Route::post('/contracts/{contract}/mini-chiller-electrical', [ContractCalculateElectricalController::class, 'calculateMini'])
+            ->name('contracts.calculateMiniElectrical');
+        Route::post('/contracts/{contract}/electrical/{part}/{product}/{part2}/post-mini-chiller', [ContractCalculateElectricalController::class, 'storeMini'])
+            ->name('contracts.calculateElectrical.storeMini');
 
         Route::resource('todos', TodoController::class)->except('show');
         Route::post('todos/{todo}/mark-as-done', [TodoController::class, 'markAsDone'])->name('todos.mark-as-done');

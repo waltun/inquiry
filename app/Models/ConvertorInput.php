@@ -11,6 +11,6 @@ class ConvertorInput extends Model
 
     protected $fillable = [
         'loole_messi', 'size_loole_pooste', 'ayegh', 'flanch', 'tedad_madar', 'noe_bafel', 'toole_loole_pooste',
-        'tedad_bafel', 'tonaj', 'gaz', 'type', 'part_id', 'inquiry_id',
+        'tedad_bafel', 'tonaj', 'gaz', 'type', 'part_id', 'inquiry_id', 'contract_id'
     ];
 }

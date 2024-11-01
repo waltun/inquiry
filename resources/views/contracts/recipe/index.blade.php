@@ -163,7 +163,7 @@
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     <a href="#product{{ $product->id }}">
-                                        {{ $modell->parent->name }}
+                                        {{ $modell->parent->name ?? '-' }}
                                     </a>
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
@@ -198,7 +198,7 @@
                                                             <div class="bg-white dark:bg-slate-800 p-4">
                                                                 <div class="mb-4 flex justify-between items-center">
                                                                     <h3 class="text-lg font-bold text-gray-900 dark:text-white">
-                                                                        تغییرات قطعات محصول {{ $modell->parent->name }}
+                                                                        تغییرات قطعات محصول {{ $modell->parent->name ?? '-' }}
                                                                         - {{ $product->model_custom_name ?? $modell->name }}
                                                                     </h3>
                                                                     <button type="button" @click="open = false">
@@ -469,7 +469,7 @@
                     <p class="card-title text-lg">
                         {{ $loop->index + 1 }} -
                         لیست قطعات
-                        <span class="text-red-600">{{ $modell->parent->name }}</span> -
+                        <span class="text-red-600">{{ $modell->parent->name ?? '-' }}</span> -
                         <span class="text-red-600">{{ $product->tag }}</span> -
                         <span class="text-red-600">{{ $product->model_custom_name ?? $modell->name }}</span> -
                         <span class="text-red-600">تعداد :  {{ $product->quantity }} دستگاه</span>
@@ -487,7 +487,7 @@
                                     <div class="bg-white dark:bg-slate-800 p-4">
                                         <div class="mb-4 flex justify-between items-center">
                                             <h3 class="text-lg font-bold text-gray-900 dark:text-white">
-                                                تغییرات قطعات محصول {{ $modell->parent->name }}
+                                                تغییرات قطعات محصول {{ $modell->parent->name ?? '-' }}
                                                 - {{ $product->model_custom_name ?? $modell->name }}
                                             </h3>
                                             <button type="button" @click="open = false">

@@ -30,36 +30,40 @@ class AnalyzePartController extends Controller
             $amounts = $amounts->whereIn('part_id', $partIds);
         }
 
-        if (auth()->user()->role != 'admin') {
-            $amounts = $amounts->where('status', '=', 'ordered')
-                ->orWhere('status', '=', null)->where('value', '>', 0)
-                ->where('shopper', auth()->user()->id)->where('buy_status', null)->get();
-        } else {
+        if (auth()->user()->role == 'admin' || auth()->user()->id == 21) {
             $amounts = $amounts->where('status', '=', 'ordered')
                 ->orWhere('status', '=', null)->where('buy_status', '=', null)
                 ->where('value', '>', 0)->get();
+        } else {
+            $amounts = $amounts->where('status', '=', 'ordered')
+                ->orWhere('status', '=', null)->where('value', '>', 0)
+                ->where('shopper', auth()->user()->id)->where('buy_status', null)->get();
         }
 
         $values = [];
 
         foreach ($amounts as $amount) {
-            if ($amount->product->contract->recipe) {
-                $values[$amount->part_id] = [
-                    'value' => 0,
-                    'value2' => 0,
-                    'buyer' => $amount->buyer,
-                    'buyer_manage' => $amount->buyer_manage,
-                    'status' => $amount->status,
-                    'shopper' => $amount->shopper,
-                    'buy_status' => $amount->buy_status
-                ];
+            if ($amount->product && $amount->product->contract) {
+                if ($amount->product->contract->recipe) {
+                    $values[$amount->part_id] = [
+                        'value' => 0,
+                        'value2' => 0,
+                        'buyer' => $amount->buyer,
+                        'buyer_manage' => $amount->buyer_manage,
+                        'status' => $amount->status,
+                        'shopper' => $amount->shopper,
+                        'buy_status' => $amount->buy_status
+                    ];
+                }
             }
         }
 
         foreach ($amounts as $amount) {
-            if ($amount->product->contract->recipe) {
-                $values[$amount->part_id]['value'] += $amount->value * $amount->product->quantity;
-                $values[$amount->part_id]['value2'] += $amount->value2 * $amount->product->quantity;
+            if ($amount->product && $amount->product->contract) {
+                if ($amount->product->contract->recipe) {
+                    $values[$amount->part_id]['value'] += $amount->value * $amount->product->quantity;
+                    $values[$amount->part_id]['value2'] += $amount->value2 * $amount->product->quantity;
+                }
             }
         }
 
@@ -67,7 +71,9 @@ class AnalyzePartController extends Controller
         $searchContracts = collect();
 
         foreach ($uniqueAmounts as $uniqueAmount) {
-            $searchContracts->push($uniqueAmount->product->contract);
+            if ($uniqueAmount->product && $uniqueAmount->product->contract) {
+                $searchContracts->push($uniqueAmount->product->contract);
+            }
         }
 
         $searchContracts = $searchContracts->unique('id');

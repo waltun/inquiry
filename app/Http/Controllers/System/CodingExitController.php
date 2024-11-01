@@ -12,6 +12,14 @@ use Morilog\Jalali\Jalalian;
 
 class CodingExitController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:exit-codings')->only(['index', 'storeReturn']);
+        $this->middleware('can:create-exit-coding')->only(['create', 'store']);
+        $this->middleware('can:edit-exit-coding')->only(['edit', 'update']);
+        $this->middleware('can:delete-exit-coding')->only(['destroy']);
+    }
+
     public function index(Exitt $exitt)
     {
         $codings = $exitt->codingExits;
@@ -121,8 +129,8 @@ class CodingExitController extends Controller
     public function storeReturn(Request $request, Exitt $exitt, CodingExit $codingExit)
     {
         $data = $request->validate([
-            'return_quantity' => 'required|numeric',
-            'return_date' => 'required|string|max:255',
+            'return_quantity' => 'nullable|numeric',
+            'return_date' => 'nullable|string|max:255',
             'description' => 'nullable|string|max:255'
         ]);
 

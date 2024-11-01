@@ -156,7 +156,7 @@
                                     {{ $loop->index + 1 }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
-                                    {{ $modell->parent->name }}
+                                    {{ $modell->parent->name ?? '-' }}
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     {{ $product->model_custom_name ?? $modell->name }}

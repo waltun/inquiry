@@ -1689,7 +1689,7 @@
                                 </a>
                             @endcan
 
-                            @can('coding-exits')
+                            @can('exits')
                                 <a href="{{ route('exits.index') }}" class="dashboard-cards group">
                                     <div class="flex items-center">
                                         <div class="dashboard-card-icon bg-red-500 dark:bg-slate-800">

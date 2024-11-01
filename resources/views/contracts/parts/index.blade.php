@@ -373,7 +373,7 @@
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
                                     <a href="#product{{ $product->id }}">
-                                        {{ $modell->parent->name }}
+                                        {{ $modell->parent->name ?? '-' }}
                                     </a>
                                 </td>
                                 <td class="table-tr-td border-t-0 border-x-0">
@@ -407,21 +407,22 @@
                 $specials = \App\Models\Special::all()->pluck('part_id')->toArray();
             @endphp
 
-                    <!-- Product Part List -->
+                <!-- Product Part List -->
             @if(!$products->isEmpty())
                 @foreach($products as $product)
                     @php
                         $modell = \App\Models\Modell::find($product->model_id);
                         $weight = 0;
                     @endphp
-                    <form method="POST" action="{{ route('contracts.parts.store-amounts', $contract->id) }}" class="card" id="product{{ $product->id }}">
+                    <form method="POST" action="{{ route('contracts.parts.store-amounts', $contract->id) }}"
+                          class="card" id="product{{ $product->id }}">
                         @csrf
                         <input type="hidden" name="product_id" value="{{ $product->id }}">
                         <div class="card-header">
                             <p class="card-title text-lg">
                                 {{ $loop->index + 1 }} -
                                 لیست قطعات
-                                <span class="text-red-600">{{ $modell->parent->name }}</span> -
+                                <span class="text-red-600">{{ $modell->parent->name ?? '-' }}</span> -
                                 <span class="text-red-600">{{ $product->tag }}</span> -
                                 <span class="text-red-600">{{ $product->model_custom_name ?? $modell->name }}</span> -
                                 <span class="text-red-600">تعداد :  {{ $product->quantity }} دستگاه</span>
@@ -461,7 +462,7 @@
                                                 onchange="changePart(event,{{ $part->id }}, {{ $product->id }})">
                                             @foreach($category->children as $child)
                                                 <option
-                                                        value="{{ $child->id }}" {{ $child->id == $selectedCategory->id ? 'selected' : '' }}>
+                                                    value="{{ $child->id }}" {{ $child->id == $selectedCategory->id ? 'selected' : '' }}>
                                                     {{ $child->name }}
                                                 </option>
                                             @endforeach
@@ -470,6 +471,8 @@
                                     @php
                                         $lastCategory = $part->categories()->latest()->first();
                                         $categoryParts = $lastCategory->parts;
+
+                                        $contractCalculatedPart = \App\Models\Part::where('contract_id', $contract->id)->where('coil', true)->latest()->first();
                                     @endphp
                                     <td class="table-tr-td border-t-0 border-x-0">
                                         <div class="flex items-center justify-center space-x-2 space-x-reverse">
@@ -481,16 +484,248 @@
                                                 @else
                                                     @foreach($categoryParts as $part2)
                                                         <option
-                                                                value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
+                                                            value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
                                                             {{ $part2->name }}
                                                         </option>
                                                     @endforeach
                                                 @endif
                                             </select>
+                                            @if($part->coil == '1' && $part->collection == '1' && !$part->standard)
+                                                @switch($lastCategory->id)
+                                                    @case('400')
+                                                        <span class="hidden">DX Coil</span>
+                                                        <a href="{{ route('contracts.calculateCoil.evaperator.index',[$contract->id, 150, $product->id, $part->id]) }}"
+                                                           class="table-success-btn">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                 viewBox="0 0 24 24"
+                                                                 stroke-width="1.5" stroke="currentColor"
+                                                                 class="w-4 h-4 ml-1">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                      d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"/>
+                                                            </svg>
+                                                            محاسبه
+                                                        </a>
+                                                        @break
+                                                    @case('402')
+                                                        <span class="hidden">Condensor Coil</span>
+                                                        <a href="{{ route('contracts.calculateCoil.condensor.index',[$contract->id, 167, $product->id, $part->id]) }}"
+                                                           class="table-success-btn">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                 viewBox="0 0 24 24"
+                                                                 stroke-width="1.5" stroke="currentColor"
+                                                                 class="w-4 h-4 ml-1">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                      d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"/>
+                                                            </svg>
+                                                            محاسبه
+                                                        </a>
+                                                        @break
+                                                    @case('404')
+                                                        <span class="hidden">Water Cold Coil</span>
+                                                        <a href="{{ route('contracts.calculateCoil.waterCold.index',[$contract->id, 168, $product->id, $part->id]) }}"
+                                                           class="table-success-btn">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                 viewBox="0 0 24 24"
+                                                                 stroke-width="1.5" stroke="currentColor"
+                                                                 class="w-4 h-4 ml-1">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                      d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"/>
+                                                            </svg>
+                                                            محاسبه
+                                                        </a>
+                                                        @break
+                                                    @case('406')
+                                                        <span class="hidden">Water Warm Coil</span>
+                                                        <a href="{{ route('contracts.calculateCoil.waterWarm.index',[$contract->id, 169, $product->id, $part->id]) }}"
+                                                           class="table-success-btn">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                 viewBox="0 0 24 24"
+                                                                 stroke-width="1.5" stroke="currentColor"
+                                                                 class="w-4 h-4 ml-1">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                      d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"/>
+                                                            </svg>
+                                                            محاسبه
+                                                        </a>
+                                                        @break
+                                                    @case('408')
+                                                        <span class="hidden">Fancoil Coil</span>
+                                                        <a href="{{ route('contracts.calculateCoil.fancoil.index',[$contract->id, 170, $product->id, $part->id]) }}"
+                                                           class="table-success-btn">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                 viewBox="0 0 24 24"
+                                                                 stroke-width="1.5" stroke="currentColor"
+                                                                 class="w-4 h-4 ml-1">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                      d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"/>
+                                                            </svg>
+                                                            محاسبه
+                                                        </a>
+                                                        @break
+
+                                                    @case('469')
+                                                        <span class="hidden">Evaporator Converter</span>
+                                                        <a href="{{ route('contracts.calculateConverter.evaporator.index',[$contract->id, 1194, $product->id, $part->id]) }}"
+                                                           class="table-success-btn">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                 viewBox="0 0 24 24"
+                                                                 stroke-width="1.5" stroke="currentColor"
+                                                                 class="w-4 h-4 ml-1">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                      d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"/>
+                                                            </svg>
+                                                            محاسبه
+                                                        </a>
+                                                        @break
+                                                    @case('531')
+                                                        <span class="hidden">Condensor Converter</span>
+                                                        <a href="{{ route('contracts.calculateConverter.condensor.index',[$contract->id, 1301, $product->id, $part->id]) }}"
+                                                           class="table-success-btn">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                 viewBox="0 0 24 24"
+                                                                 stroke-width="1.5" stroke="currentColor"
+                                                                 class="w-4 h-4 ml-1">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                      d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"/>
+                                                            </svg>
+                                                            محاسبه
+                                                        </a>
+                                                        @break
+
+                                                    @case('232')
+                                                        <span class="hidden">Damper Raft</span>
+                                                        <a href="{{ route('contracts.calculateDamper.raft.index',[$contract->id, 148, $product->id, $part->id]) }}"
+                                                           class="table-success-btn">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                 viewBox="0 0 24 24"
+                                                                 stroke-width="1.5" stroke="currentColor"
+                                                                 class="w-4 h-4 ml-1">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                      d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"/>
+                                                            </svg>
+                                                            محاسبه
+                                                        </a>
+                                                        @break
+                                                    @case('275')
+                                                        <span class="hidden">Damper Taze</span>
+                                                        <a href="{{ route('contracts.calculateDamper.taze.index',[$contract->id, 146, $product->id, $part->id]) }}"
+                                                           class="table-success-btn">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                 viewBox="0 0 24 24"
+                                                                 stroke-width="1.5" stroke="currentColor"
+                                                                 class="w-4 h-4 ml-1">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                      d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"/>
+                                                            </svg>
+                                                            محاسبه
+                                                        </a>
+                                                        @break
+                                                    @case('276')
+                                                        <span class="hidden">Damper Bargasht</span>
+                                                        <a href="{{ route('contracts.calculateDamper.bargasht.index',[$contract->id, 147, $product->id, $part->id]) }}"
+                                                           class="table-success-btn">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                 viewBox="0 0 24 24"
+                                                                 stroke-width="1.5" stroke="currentColor"
+                                                                 class="w-4 h-4 ml-1">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                      d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"/>
+                                                            </svg>
+                                                            محاسبه
+                                                        </a>
+                                                        @break
+                                                    @case('277')
+                                                        <span class="hidden">Damper Exast</span>
+                                                        <a href="{{ route('contracts.calculateDamper.exast.index',[$contract->id, 149, $product->id, $part->id]) }}"
+                                                           class="table-success-btn">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                 viewBox="0 0 24 24"
+                                                                 stroke-width="1.5" stroke="currentColor"
+                                                                 class="w-4 h-4 ml-1">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                      d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"/>
+                                                            </svg>
+                                                            محاسبه
+                                                        </a>
+                                                        @break
+
+                                                    @case('492')
+                                                        <span class="hidden">Chiller Electrical</span>
+                                                        <a href="{{ route('contracts.calculateElectrical.chiller.index',[$contract->id, 2144, $product->id, $part->id]) }}"
+                                                           class="table-success-btn">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                 viewBox="0 0 24 24"
+                                                                 stroke-width="1.5" stroke="currentColor"
+                                                                 class="w-4 h-4 ml-1">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                      d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"/>
+                                                            </svg>
+                                                            محاسبه
+                                                        </a>
+                                                        @break
+                                                    @case('493')
+                                                        <span class="hidden">Mini Chiller Electrical</span>
+                                                        <a href="{{ route('contracts.calculateElectrical.mini.index',[$contract->id, 2264, $product->id, $part->id]) }}"
+                                                           class="table-success-btn">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                 viewBox="0 0 24 24"
+                                                                 stroke-width="1.5" stroke="currentColor"
+                                                                 class="w-4 h-4 ml-1">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                      d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"/>
+                                                            </svg>
+                                                            محاسبه
+                                                        </a>
+                                                        @break
+                                                    @case('494')
+                                                        <span class="hidden">Panel Electrical</span>
+                                                        <a href="{{ route('contracts.calculateElectrical.panel.index',[$contract->id, 1879, $product->id, $part->id]) }}"
+                                                           class="table-success-btn">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                 viewBox="0 0 24 24"
+                                                                 stroke-width="1.5" stroke="currentColor"
+                                                                 class="w-4 h-4 ml-1">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                      d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"/>
+                                                            </svg>
+                                                            محاسبه
+                                                        </a>
+                                                        @break
+                                                    @case('495')
+                                                        <span class="hidden">Air Condition Electrical</span>
+                                                        <a href="{{ route('contracts.calculateElectrical.air.index',[$contract->id, 2249, $product->id, $part->id]) }}"
+                                                           class="table-success-btn">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                 viewBox="0 0 24 24"
+                                                                 stroke-width="1.5" stroke="currentColor"
+                                                                 class="w-4 h-4 ml-1">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                      d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"/>
+                                                            </svg>
+                                                            محاسبه
+                                                        </a>
+                                                        @break
+                                                    @case('496')
+                                                        <span class="hidden">Zent Electrical</span>
+                                                        <a href="{{ route('contracts.calculateElectrical.zent.index',[$contract->id, 2256, $product->id, $part->id]) }}"
+                                                           class="table-success-btn">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                 viewBox="0 0 24 24"
+                                                                 stroke-width="1.5" stroke="currentColor"
+                                                                 class="w-4 h-4 ml-1">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                      d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"/>
+                                                            </svg>
+                                                            محاسبه
+                                                        </a>
+                                                        @break
+                                                @endswitch
+                                            @endif
                                             @if($part->coil == '1' && !$part->standard && !in_array($part->id,$specials))
                                                 <a href="{{ route('collections.amounts',$part->id) }}" target="_blank"
                                                    class="table-info-btn">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                         viewBox="0 0 24 24"
                                                          stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
                                                               d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/>
@@ -671,7 +906,7 @@
                                                 onchange="changePart(event,{{ $part->id }}, {{ $product->id }})">
                                             @foreach($category->children as $child)
                                                 <option
-                                                        value="{{ $child->id }}" {{ $child->id == $selectedCategory->id ? 'selected' : '' }}>
+                                                    value="{{ $child->id }}" {{ $child->id == $selectedCategory->id ? 'selected' : '' }}>
                                                     {{ $child->name }}
                                                 </option>
                                             @endforeach
@@ -685,7 +920,7 @@
                                         <select name="part_ids[]" class="input-text" id="partList{{ $part->id }}">
                                             @foreach($categoryParts as $part2)
                                                 <option
-                                                        value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
+                                                    value="{{ $part2->id }}" {{ $part2->id == $part->id ? 'selected' : '' }}>
                                                     {{ $part2->name }}
                                                 </option>
                                             @endforeach

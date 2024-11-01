@@ -136,6 +136,9 @@
                                 <th scope="col" class="p-4">
                                     تاریخ پایان گارانتی
                                 </th>
+                                <th scope="col" class="p-4">
+                                    روز های مانده گارانتی
+                                </th>
                             </tr>
                             </thead>
                             <tbody>
@@ -187,20 +190,27 @@
                                         @endif
                                     </td>
                                     <td class="table-tr-td border-t-0 border-x-0">
-                                        <input type="text" class="input-text text-center dates" name="warranty_start[]"
-                                               value="{{ $startDate != "" ? $startDate : jdate($product->packs->first()->packing->date)->format('Y/m/d') }}"
-                                               placeholder="برای انتخاب تاریخ کلیک کنید">
+                                        @if(!$product->packs->isEmpty())
+                                            <input type="text" class="input-text text-center dates" name="warranty_start[]"
+                                                   value="{{ $startDate != "" ? $startDate : jdate($product->packs->first()->packing->date)->format('Y/m/d') }}"
+                                                   placeholder="برای انتخاب تاریخ کلیک کنید">
+                                        @else
+                                            <input type="text" class="input-text text-center dates" name="warranty_start[]" value="" placeholder="برای انتخاب تاریخ کلیک کنید">
+                                        @endif
                                     </td>
                                     <td class="table-tr-td border-t-0 border-x-0">
                                         <input type="text" class="input-text text-center" name="warranty_days[]" value="{{ $product->warranty_days }}"
                                                placeholder="تعداد روز های گارانتی">
                                     </td>
-                                    <td class="table-tr-td border-t-0 border-r-0">
+                                    <td class="table-tr-td border-t-0 border-x-0">
                                         @if(!is_null($product->warranty_end))
                                             {{ jdate($product->warranty_end)->format('Y/m/d')  }}
                                         @else
                                             -
                                         @endif
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-r-0">
+                                        {{ $daysRemaining }}
                                     </td>
                                 </tr>
                             @endforeach
@@ -301,7 +311,8 @@
                                 <th class="p-4">تاریخ پایان ساخت</th>
                                 <th class="p-4">تاریخ شروع گارانتی</th>
                                 <th class="p-4">تعداد روز های گارانتی</th>
-                                <th class="p-4 rounded-tl-lg">تاریخ پایان گارانتی</th>
+                                <th class="p-4">تاریخ پایان گارانتی</th>
+                                <th class="p-4 rounded-tl-lg">روز های مانده گارانتی</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -366,12 +377,15 @@
                                             فاقد گارانتی
                                         @endif
                                     </td>
-                                    <td class="table-tr-td border-t-0 border-r-0">
+                                    <td class="table-tr-td border-t-0 border-x-0">
                                         @if(!is_null($product->warranty_end))
                                             {{ jdate($product->warranty_end)->format('Y/m/d')  }}
                                         @else
                                             -
                                         @endif
+                                    </td>
+                                    <td class="table-tr-td border-t-0 border-r-0">
+                                        {{ $daysRemaining }}
                                     </td>
                                 </tr>
                             @endforeach

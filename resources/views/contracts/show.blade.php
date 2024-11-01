@@ -81,8 +81,10 @@
                     قرارداد {{ $contract->name }}
                 </p>
                 <a href="{{ route('contracts.index') }}" class="page-warning-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"></path>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                         stroke="currentColor" class="w-4 h-4 ml-1">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                              d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"></path>
                     </svg>
                     بازگشت
                 </a>
@@ -107,20 +109,23 @@
             </a>
             <a href="{{ route('notes.index', $contract->id) }}" class="page-info-btn relative">
                 @if(!$contract->contractNotes->isEmpty())
-                    <span class="w-4 h-4 rounded-full bg-myRed-200 absolute -right-0.5 -top-0.5 text-center grid place-content-center">
+                    <span
+                        class="w-4 h-4 rounded-full bg-myRed-200 absolute -right-0.5 -top-0.5 text-center grid place-content-center">
                         {{ $contract->contractNotes->count() }}
                     </span>
                     <span class="w-4 h-4 rounded-full bg-myRed-200 absolute -right-0.5 -top-0.5 animate-ping"></span>
                 @endif
 
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 ml-1">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                     stroke="currentColor" class="w-5 h-5 ml-1">
                     <path stroke-linecap="round" stroke-linejoin="round"
                           d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"/>
                 </svg>
                 یادداشت ها
             </a>
             <a href="{{ route('contracts.datasheet', $contract->id) }}" class="page-success-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 ml-1">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                     stroke="currentColor" class="w-5 h-5 ml-1">
                     <path stroke-linecap="round" stroke-linejoin="round"
                           d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75"/>
                 </svg>
@@ -140,11 +145,13 @@
                 <span class="px-6 py-1 rounded-md text-center bg-yellow-400 text-xs font-bold text-black">
                     فروش
                 </span>
-                <div class="flex items-center justify-between space-x-4 space-x-reverse px-2 py-1 rounded-md border border-yellow-400 w-full">
+                <div
+                    class="flex items-center justify-between space-x-4 space-x-reverse px-2 py-1 rounded-md border border-yellow-400 w-full">
                     <p class="text-xs font-bold text-black">وضعیت</p>
                     <div class="w-full bg-gray-200 rounded-full">
-                        <div class="bg-blue-600 text-xs font-medium text-white text-center p-0.5 leading-none rounded-full"
-                             style="width: {{ $salePercent }}%">
+                        <div
+                            class="bg-blue-600 text-xs font-medium text-white text-center p-0.5 leading-none rounded-full"
+                            style="width: {{ $salePercent }}%">
                             {{ number_format($salePercent) }}%
                         </div>
                     </div>
@@ -667,22 +674,30 @@
                 @endif
 
                 @if($contract->type == 'official')
+                    @php
+                        if ($contract->factors->isEmpty() || $contract->factors->contains('file' , null) || $contract->factors->contains('confirm', 0)) {
+                            $factorTrue = true;
+                        } else {
+                            $factorTrue = false;
+                        }
+                    @endphp
                     <a href="{{ route('main-factors.index', $contract->id) }}"
-                       class="p-2 rounded-2xl shadow border border-gray-300 {{ $contract->factors->isEmpty() || $contract->factors->contains('file', '!=' ,null) ? 'bg-opacity-50 border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
+                       class="p-2 rounded-2xl shadow border border-gray-300 {{ $factorTrue ? 'bg-opacity-50 border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
                         <div class="flex items-center justify-between border-b border-white pb-2">
                             <div class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                           d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/>
                                 </svg>
                                 <div class="mr-2">
-                                    <p class="font-bold text-black text-xs {{ $contract->factors->isEmpty() || $contract->factors->contains('file', '!=' ,null) ? 'text-opacity-40' : '' }}">
+                                    <p class="font-bold text-black text-xs {{ $factorTrue ? 'text-opacity-40' : '' }}">
                                         فاکتور ها
                                     </p>
                                 </div>
                             </div>
                             <div>
-                                @if($contract->factors->isEmpty() || $contract->factors->contains('file', '!=' ,null))
+                                @if($factorTrue)
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
                                          class="w-5 h-5 text-gray-600 text-opacity-40">
                                         <path fill-rule="evenodd"
@@ -693,7 +708,8 @@
                                     @php
                                         $saleSuccessCount++;
                                     @endphp
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         stroke-width="1.5"
                                          stroke="currentColor" class="w-5 h-5 text-gray-600">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
                                     </svg>
@@ -767,11 +783,13 @@
                     کارخانه
                 </span>
 
-                <div class="flex items-center justify-between space-x-4 space-x-reverse px-2 py-1 rounded-md border border-yellow-400 w-full">
+                <div
+                    class="flex items-center justify-between space-x-4 space-x-reverse px-2 py-1 rounded-md border border-yellow-400 w-full">
                     <p class="text-xs font-bold text-black">وضعیت</p>
                     <div class="w-full bg-gray-200 rounded-full">
-                        <div class="bg-blue-600 text-xs font-medium text-white text-center p-0.5 leading-none rounded-full"
-                             style="width: 15%">
+                        <div
+                            class="bg-blue-600 text-xs font-medium text-white text-center p-0.5 leading-none rounded-full"
+                            style="width: 15%">
                             15%
                         </div>
                     </div>
@@ -901,7 +919,8 @@
                     <a href="{{ route('contracts.exits.index', $contract->id) }}"
                        class="p-2 rounded-2xl shadow flex items-center justify-between border border-gray-300 {{ $contract->packings->contains('exit_at', null) ? 'bg-opacity-50 border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
                         <div class="flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                 stroke="currentColor" class="w-4 h-4">
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                       d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"/>
                             </svg>
@@ -966,7 +985,8 @@
                 <a href="{{ route('loadings.index', $contract->id) }}"
                    class="p-2 rounded-2xl shadow flex items-center justify-between border border-gray-300 {{ $contract->contractLoadings->isEmpty() ? 'bg-opacity-50 border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
                     <div class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" class="w-4 h-4">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                   d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/>
                         </svg>
@@ -997,7 +1017,8 @@
                 <a href="{{ route('pictures.index', $contract->id) }}"
                    class="p-2 rounded-2xl shadow flex items-center justify-between border border-gray-300 {{ $contract->contractPictures->isEmpty() ? 'bg-opacity-50 border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
                     <div class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" class="w-4 h-4">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                   d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"/>
                         </svg>
@@ -1044,11 +1065,13 @@
                     مشتری
                 </span>
 
-                <div class="flex items-center justify-between space-x-4 space-x-reverse px-2 py-1 rounded-md border border-yellow-400 w-full">
+                <div
+                    class="flex items-center justify-between space-x-4 space-x-reverse px-2 py-1 rounded-md border border-yellow-400 w-full">
                     <p class="text-xs font-bold text-black">وضعیت</p>
                     <div class="w-full bg-gray-200 rounded-full">
-                        <div class="bg-blue-600 text-xs font-medium text-white text-center p-0.5 leading-none rounded-full"
-                             style="width: 90%">
+                        <div
+                            class="bg-blue-600 text-xs font-medium text-white text-center p-0.5 leading-none rounded-full"
+                            style="width: 90%">
                             90%
                         </div>
                     </div>
@@ -1058,7 +1081,8 @@
                 <a href="#"
                    class="p-2 rounded-2xl shadow flex items-center justify-between border border-gray-300 {{ !$contract->recipe ? 'bg-gray-300 bg-opacity-50 border-opacity-50' : 'bg-green-400' }}">
                     <div class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                             stroke="currentColor" class="w-4 h-4">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                   d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 12h.007v.008H3.75V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm-.375 5.25h.007v.008H3.75v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"/>
                         </svg>
@@ -1106,17 +1130,17 @@
                 </a>
 
                 <a href="{{ route('contracts.warranty.index', $contract->id) }}"
-                   class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 bg-opacity-50 border-opacity-50">
+                   class="p-2 rounded-2xl shadow flex items-center justify-between border border-gray-300 {{ $contract->products->contains('warranty_start', null) ? 'bg-opacity-50 border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
                     <div class="flex items-center">
                         <div class="mr-4">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white text-opacity-40">
+                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white {{ $contract->products->contains('warranty_start', null) ? 'text-opacity-40' : '' }}">
                                 زمان شروع و پایان گارانتی
                             </p>
                         </div>
                     </div>
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white text-opacity-40">
+                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white {{ $contract->products->contains('warranty_start', null) ? 'text-opacity-40' : '' }}">
                             <path fill-rule="evenodd"
                                   d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
                                   clip-rule="evenodd"/>
@@ -1125,17 +1149,17 @@
                 </a>
 
                 <a href="{{ route('contracts.warranty-condition.index', $contract->id) }}"
-                   class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 bg-opacity-50 border-opacity-50">
+                   class="p-2 rounded-2xl shadow flex items-center justify-between border border-gray-300 {{ is_null($contract->description) ? 'bg-opacity-50 border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
                     <div class="flex items-center">
                         <div class="mr-4">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white text-opacity-40">
+                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white {{ is_null($contract->description) ? 'text-opacity-40' : '' }}">
                                 شرایط گارانتی
                             </p>
                         </div>
                     </div>
                     <div>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white text-opacity-40">
+                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white {{ is_null($contract->description) ? 'text-opacity-40' : '' }}">
                             <path fill-rule="evenodd"
                                   d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
                                   clip-rule="evenodd"/>

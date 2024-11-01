@@ -10,7 +10,7 @@ class Exitt extends Model
     use HasFactory;
 
     protected $fillable = [
-        'number', 'exit_at', 'type', 'exiter', 'car_number', 'phone', 'mission_location', 'mission_reason', 'mission_users', 'accepted', 'confirm_quantity'
+        'number', 'exit_at', 'type', 'exiter', 'car_number', 'phone', 'mission_location', 'mission_reason', 'mission_users', 'accepted', 'confirm_quantity', 'description'
     ];
 
     public function codingExits()

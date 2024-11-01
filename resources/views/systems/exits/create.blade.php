@@ -12,12 +12,10 @@
                 let value = event.target.value;
                 let missionSection = document.getElementById('missionSection');
 
-                if (value === 'personal') {
-                    missionSection.classList.add('hidden');
-                }
-
                 if (value === 'mission') {
                     missionSection.classList.remove('hidden');
+                } else {
+                    missionSection.classList.add('hidden');
                 }
             }
         </script>
@@ -135,6 +133,15 @@
                     <option value="mission" {{ old('type') == 'mission' ? 'selected' : '' }}>
                         ماموریت
                     </option>
+                    <option value="example" {{ old('type') == 'example' ? 'selected' : '' }}>
+                        ارسال نمونه
+                    </option>
+                    <option value="repair" {{ old('type') == 'repair' ? 'selected' : '' }}>
+                        ارسال جهت تعمیر
+                    </option>
+                    <option value="other" {{ old('type') == 'other' ? 'selected' : '' }}>
+                        سایر
+                    </option>
                 </select>
             </div>
 
@@ -151,6 +158,11 @@
                     <label for="inputMissionUsers" class="form-label">اشخاص اعزامی به ماموریت</label>
                     <input type="text" id="inputMissionUsers" name="mission_users" class="input-text" placeholder="افراد اعزامی را تایپ کنید" value="{{ old('mission_users') }}">
                 </div>
+            </div>
+
+            <div class="mt-4">
+                <label for="inputDescription" class="form-label">علت خروج</label>
+                <input type="text" id="inputDescription" name="description" class="input-text" placeholder="توضیحات اضافی" value="{{ old('description') }}">
             </div>
         </div>
 

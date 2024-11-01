@@ -9,13 +9,16 @@ use App\Models\ContractNotification;
 use App\Models\ContractPartHistory;
 use App\Models\ContractProduct;
 use App\Models\Part;
+use App\Models\Special;
 use Illuminate\Http\Request;
 
 class PartController extends Controller
 {
     public function index(Contract $contract)
     {
-        return view('contracts.parts.index', compact('contract'));
+        $specials = Special::all()->pluck('part_id')->toArray();
+
+        return view('contracts.parts.index', compact('contract', 'specials'));
     }
 
     public function storeAmounts(Request $request, Contract $contract)
