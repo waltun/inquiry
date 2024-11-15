@@ -24,6 +24,7 @@ class PackingController extends Controller
     {
         $data = $request->validate([
             'date' => 'required|string|max:255',
+            'name' => 'required|string|max:255'
         ]);
 
         if (!is_null($data['date'])) {
@@ -58,6 +59,7 @@ class PackingController extends Controller
     {
         $data = $request->validate([
             'date' => 'required|string|max:255',
+            'name' => 'required|string|max:255'
         ]);
 
         if (!is_null($data['date'])) {

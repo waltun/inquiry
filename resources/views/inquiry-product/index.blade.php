@@ -290,7 +290,7 @@
                             {{ $product->sort }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $modell->parent->name }}
+                            {{ $modell->parent->name ?? '-' }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             {{ $product->model_custom_name ?? $modell->name }}
@@ -480,7 +480,7 @@
                                                                 <div class="mb-4 flex justify-between items-center">
                                                                     <h3 class="text-lg font-bold text-gray-900 dark:text-white">
                                                                         ثبت ضریب
-                                                                        برای {{ $modell->parent->name }} {{ $product->model_custom_name ?? $modell->name }}
+                                                                        برای {{ $modell->parent->name ?? '-' }} {{ $product->model_custom_name ?? $modell->name }}
                                                                     </h3>
                                                                     <button type="button" @click="open = false">
                                                                         <span class="modal-close">

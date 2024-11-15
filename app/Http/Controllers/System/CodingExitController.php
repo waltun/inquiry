@@ -64,6 +64,7 @@ class CodingExitController extends Controller
             'name' => 'required_if:coding_id,null|string|max:255',
             'unit' => 'required_if:coding_id,null|string|max:255',
             'quantity' => 'required|numeric',
+            'first_description' => 'nullable|string|max:255',
         ]);
 
         $exitt->codingExits()->create($data);
@@ -108,6 +109,7 @@ class CodingExitController extends Controller
             'name' => 'required_if:coding_id,null|string|max:255',
             'unit' => 'required_if:coding_id,null|string|max:255',
             'quantity' => 'required|numeric',
+            'first_description' => 'nullable|string|max:255',
         ]);
 
         $codingExit->update($data);

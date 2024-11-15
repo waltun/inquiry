@@ -109,7 +109,7 @@ class ContractController extends Controller
             $day = jdate($contract->start_contract_date)->getDay();
             $month = jdate($contract->start_contract_date)->getMonth();
             $year = jdate($contract->start_contract_date)->getYear();
-            $date = $year . '-' . $month . '-' . $day;
+            $date = $year . '/' . $month . '/' . $day;
         }
 
         return view('contracts.edit', compact('contract', 'users', 'date'));
@@ -118,14 +118,14 @@ class ContractController extends Controller
     public function update(Request $request, Contract $contract)
     {
         $data = $request->validate([
-            'start_contract_date' => 'required|string|max:255',
+            'start_contract_date' => 'nullable|string|max:255',
             'user_id' => 'required|integer',
             'old_number' => 'nullable|string|max:255',
             'name' => 'required|string|max:255'
         ]);
 
         if (!is_null($data['start_contract_date'])) {
-            $explodeDate = explode('-', $data['start_contract_date']);
+            $explodeDate = explode('/', $data['start_contract_date']);
             $data['start_contract_date'] = (new Jalalian($explodeDate[0], $explodeDate[1], $explodeDate[2]))->toCarbon()->toDateTimeString();
         }
 

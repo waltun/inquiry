@@ -146,6 +146,13 @@
                                         @csrf
 
                                         <div class="mb-4">
+                                            <label for="inputName" class="form-label">
+                                                نام پکینگ
+                                            </label>
+                                            <input type="text" class="input-text" name="name" id="inputName"
+                                                   placeholder="یک اسم دلخواه برای پکینگ انتخاب کنید">
+                                        </div>
+                                        <div class="mb-4">
                                             <label for="inputDate" class="form-label">
                                                 تاریخ پکینگ
                                             </label>
@@ -185,6 +192,9 @@
                         #
                     </th>
                     <th scope="col" class="p-4">
+                        نام
+                    </th>
+                    <th scope="col" class="p-4">
                         تاریخ
                     </th>
                     <th scope="col" class="p-4">
@@ -203,6 +213,9 @@
                     <tr class="table-tb-tr group whitespace-normal {{ $loop->even ? 'bg-sky-100' : '' }}">
                         <td class="table-tr-td border-t-0 border-l-0">
                             {{ $loop->index + 1 }}
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            {{ $packing->name }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             {{ jdate($packing->date)->format('Y/m/d') }}
@@ -229,7 +242,8 @@
                                 </a>
                                 <div x-data="{open:false}" class="flex justify-center items-center">
                                     <button type="button" class="table-dropdown-edit text-xs" @click="open = !open">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                             stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                   d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"/>
                                         </svg>
@@ -266,18 +280,33 @@
                                                             $year = jdate($packing->date)->getYear();
                                                             $date = $year . '/' . $month . '/' . $day;
                                                         @endphp
-                                                        <form method="POST" action="{{ route('packings.update', [$contract->id, $packing->id]) }}">
+                                                        <form method="POST"
+                                                              action="{{ route('packings.update', [$contract->id, $packing->id]) }}">
                                                             @csrf
                                                             @method('PATCH')
 
                                                             <div class="mb-4">
-                                                                <label for="inputDate{{ $packing->id }}" class="form-label">
+                                                                <label for="inputName{{ $packing->id }}"
+                                                                       class="form-label">
+                                                                    نام پکینگ
+                                                                </label>
+                                                                <input type="text" class="input-text" name="name"
+                                                                       id="inputName{{ $packing->id }}"
+                                                                       placeholder="یک نام دلخواه برای پکینگ"
+                                                                       value="{{ $packing->name }}">
+                                                            </div>
+                                                            <div class="mb-4">
+                                                                <label for="inputDate{{ $packing->id }}"
+                                                                       class="form-label">
                                                                     تاریخ پکینگ
                                                                 </label>
-                                                                <input type="text" class="input-text date" name="date" id="inputDate{{ $packing->id }}"
-                                                                       placeholder="برای انتخاب تاریخ کلیک کنید" value="{{ $date }}">
+                                                                <input type="text" class="input-text date" name="date"
+                                                                       id="inputDate{{ $packing->id }}"
+                                                                       placeholder="برای انتخاب تاریخ کلیک کنید"
+                                                                       value="{{ $date }}">
                                                             </div>
-                                                            <div class="flex justify-end items-center space-x-4 space-x-reverse">
+                                                            <div
+                                                                    class="flex justify-end items-center space-x-4 space-x-reverse">
                                                                 <button type="submit" class="form-submit-btn">
                                                                     ثبت
                                                                 </button>
@@ -293,7 +322,8 @@
                                       method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="table-delete-btn" onclick="return confirm('پکینگ حذف شود ؟')">
+                                    <button type="submit" class="table-delete-btn"
+                                            onclick="return confirm('پکینگ حذف شود ؟')">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                              stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
                                             <path stroke-linecap="round" stroke-linejoin="round"

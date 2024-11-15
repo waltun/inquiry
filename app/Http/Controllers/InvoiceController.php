@@ -7,6 +7,7 @@ use App\Models\Invoice;
 use App\Models\InvoiceProduct;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Morilog\Jalali\Jalalian;
 
 class InvoiceController extends Controller
 {
@@ -188,7 +189,13 @@ class InvoiceController extends Controller
             'user_ids' => 'required|array',
             'buyer_position' => 'required|string|max:255',
             'buyer_name' => 'required|string|max:255',
+            'created_at' => 'required|string|max:255',
         ]);
+
+        if (!is_null($data['created_at'])) {
+            $explodeDate = explode('/', $data['created_at']);
+            $data['created_at'] = (new Jalalian($explodeDate[0], $explodeDate[1], $explodeDate[2]))->toCarbon()->toDateTimeString();
+        }
 
         $invoice->update([
             'tax' => $request->tax,
@@ -196,6 +203,9 @@ class InvoiceController extends Controller
             'buyer_name' => $request->buyer_name,
             'buyer_position' => $request->buyer_position,
         ]);
+
+        $invoice->created_at = $data['created_at'];
+        $invoice->save();
 
         $invoice->users()->sync($data['user_ids']);
 

@@ -795,7 +795,7 @@
                     </div>
                 </div>
             </div>
-            <div class="grid grid-cols-6 gap-4">
+            <div class="grid grid-cols-5 gap-4">
                 <a href="{{ route('contracts.recipe.index', $contract->id) }}"
                    class="p-2 rounded-2xl shadow flex items-center justify-between border border-gray-300 {{ !$contract->recipe ? 'bg-opacity-50 border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
                     <div class="flex items-center">
@@ -829,6 +829,83 @@
                     </div>
                 </a>
 
+                <a href="{{ route('documents.index', $contract->id) }}"
+                   class="p-2 rounded-2xl shadow flex items-center justify-between border border-gray-300 {{ $contract->contractDocuments->isEmpty() ? 'bg-opacity-50 border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
+                    <div class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" class="w-4 h-4">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M10.125 2.25h-4.5c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-9M10.125 2.25h.375a9 9 0 0 1 9 9v.375M10.125 2.25A3.375 3.375 0 0 1 13.5 5.625v1.5c0 .621.504 1.125 1.125 1.125h1.5a3.375 3.375 0 0 1 3.375 3.375M9 15l2.25 2.25L15 12"></path>
+                        </svg>
+                        <div class="mr-2">
+                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white {{ $contract->contractDocuments->isEmpty() ? 'text-opacity-40' : '' }}">
+                                مدارک تایید شده
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        @if($contract->contractDocuments->isEmpty())
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                 class="w-5 h-5 text-gray-600 text-opacity-40">
+                                <path fill-rule="evenodd"
+                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        @else
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                 stroke-width="1.5"
+                                 stroke="currentColor" class="w-5 h-5 text-gray-600">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                            </svg>
+                        @endif
+                    </div>
+                </a>
+
+                <a href="{{ route('pictures.index', $contract->id) }}"
+                   class="p-2 rounded-2xl shadow flex items-center justify-between border border-gray-300 {{ $contract->contractPictures->isEmpty() ? 'bg-opacity-50 border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
+                    <div class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" class="w-4 h-4">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"/>
+                        </svg>
+                        <div class="mr-2">
+                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white {{ $contract->contractPictures->isEmpty() ? 'text-opacity-40' : '' }}">
+                                آپلود تصاویر ساخت
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white {{ $contract->contractPictures->isEmpty() ? 'text-opacity-40' : '' }}">
+                            <path fill-rule="evenodd"
+                                  d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                  clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                </a>
+
+                <a href="#"
+                   class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 bg-opacity-50 border-opacity-50">
+                    <div class="flex items-center">
+                        <div class="mr-4">
+                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white text-opacity-40">
+                                کنترل کیفیت
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white text-opacity-40">
+                            <path fill-rule="evenodd"
+                                  d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                  clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-5 gap-4 mt-4">
                 <a href="{{ route('contracts.construction.index', $contract->id) }}"
                    class="p-2 rounded-2xl shadow flex items-center justify-between border border-gray-300 {{ $contract->products()->get()->contains('end_at', null) ? 'bg-opacity-50
                    border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
@@ -915,6 +992,38 @@
                     </div>
                 </a>
 
+                <a href="{{ route('loadings.index', $contract->id) }}"
+                   class="p-2 rounded-2xl shadow flex items-center justify-between border border-gray-300 {{ $contract->contractLoadings->isEmpty() ? 'bg-opacity-50 border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
+                    <div class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" class="w-4 h-4">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/>
+                        </svg>
+                        <div class="mr-2">
+                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white {{ $contract->contractLoadings->isEmpty() ? 'text-opacity-40' : '' }}">
+                                بارگیری و حمل
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        @if($contract->contractLoadings->isEmpty())
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                 class="w-5 h-5 text-gray-600 text-opacity-40">
+                                <path fill-rule="evenodd"
+                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        @else
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                 stroke-width="1.5"
+                                 stroke="currentColor" class="w-5 h-5 text-gray-600">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                            </svg>
+                        @endif
+                    </div>
+                </a>
+
                 @if(!$contract->packings->isEmpty())
                     <a href="{{ route('contracts.exits.index', $contract->id) }}"
                        class="p-2 rounded-2xl shadow flex items-center justify-between border border-gray-300 {{ $contract->packings->contains('exit_at', null) ? 'bg-opacity-50 border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
@@ -949,113 +1058,6 @@
                         </div>
                     </a>
                 @endif
-
-                <a href="{{ route('documents.index', $contract->id) }}"
-                   class="p-2 rounded-2xl shadow flex items-center justify-between border border-gray-300 {{ $contract->contractDocuments->isEmpty() ? 'bg-opacity-50 border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
-                    <div class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                             stroke="currentColor" class="w-4 h-4">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M10.125 2.25h-4.5c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-9M10.125 2.25h.375a9 9 0 0 1 9 9v.375M10.125 2.25A3.375 3.375 0 0 1 13.5 5.625v1.5c0 .621.504 1.125 1.125 1.125h1.5a3.375 3.375 0 0 1 3.375 3.375M9 15l2.25 2.25L15 12"></path>
-                        </svg>
-                        <div class="mr-2">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white {{ $contract->contractDocuments->isEmpty() ? 'text-opacity-40' : '' }}">
-                                مدارک تایید شده
-                            </p>
-                        </div>
-                    </div>
-                    <div>
-                        @if($contract->contractDocuments->isEmpty())
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                 class="w-5 h-5 text-gray-600 text-opacity-40">
-                                <path fill-rule="evenodd"
-                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                                      clip-rule="evenodd"/>
-                            </svg>
-                        @else
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                 stroke-width="1.5"
-                                 stroke="currentColor" class="w-5 h-5 text-gray-600">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
-                            </svg>
-                        @endif
-                    </div>
-                </a>
-
-                <a href="{{ route('loadings.index', $contract->id) }}"
-                   class="p-2 rounded-2xl shadow flex items-center justify-between border border-gray-300 {{ $contract->contractLoadings->isEmpty() ? 'bg-opacity-50 border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
-                    <div class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                             stroke="currentColor" class="w-4 h-4">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12"/>
-                        </svg>
-                        <div class="mr-2">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white {{ $contract->contractLoadings->isEmpty() ? 'text-opacity-40' : '' }}">
-                                بارگیری و حمل
-                            </p>
-                        </div>
-                    </div>
-                    <div>
-                        @if($contract->contractLoadings->isEmpty())
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                 class="w-5 h-5 text-gray-600 text-opacity-40">
-                                <path fill-rule="evenodd"
-                                      d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                                      clip-rule="evenodd"/>
-                            </svg>
-                        @else
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                 stroke-width="1.5"
-                                 stroke="currentColor" class="w-5 h-5 text-gray-600">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
-                            </svg>
-                        @endif
-                    </div>
-                </a>
-
-                <a href="{{ route('pictures.index', $contract->id) }}"
-                   class="p-2 rounded-2xl shadow flex items-center justify-between border border-gray-300 {{ $contract->contractPictures->isEmpty() ? 'bg-opacity-50 border-opacity-50 bg-gray-300' : 'bg-green-400' }}">
-                    <div class="flex items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                             stroke="currentColor" class="w-4 h-4">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z"/>
-                        </svg>
-                        <div class="mr-2">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white {{ $contract->contractPictures->isEmpty() ? 'text-opacity-40' : '' }}">
-                                آپلود تصاویر ساخت
-                            </p>
-                        </div>
-                    </div>
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white {{ $contract->contractPictures->isEmpty() ? 'text-opacity-40' : '' }}">
-                            <path fill-rule="evenodd"
-                                  d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                                  clip-rule="evenodd"/>
-                        </svg>
-                    </div>
-                </a>
-
-                <a href="#"
-                   class="p-2 rounded-2xl bg-gray-300 shadow flex items-center justify-between border border-gray-300 bg-opacity-50 border-opacity-50">
-                    <div class="flex items-center">
-                        <div class="mr-4">
-                            <p class="font-bold text-black text-xs group-hover:text-white dark:text-white text-opacity-40">
-                                کنترل کیفیت
-                            </p>
-                        </div>
-                    </div>
-                    <div>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                             class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white text-opacity-40">
-                            <path fill-rule="evenodd"
-                                  d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
-                                  clip-rule="evenodd"/>
-                        </svg>
-                    </div>
-                </a>
             </div>
         </div>
 

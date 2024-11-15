@@ -4,7 +4,7 @@
         <script src="{{ asset('plugins/date-picker/persianDatepicker.min.js') }}"></script>
         <script>
             $("#inputDate").persianDatepicker({
-                formatDate: "YYYY-MM-DD",
+                formatDate: "YYYY/MM/DD",
             });
         </script>
     </x-slot>
@@ -93,7 +93,7 @@
             <div class="mb-4">
                 <label for="inputDate" class="form-label">تاریخ قرارداد</label>
                 <input type="text" id="inputDate" name="start_contract_date" class="input-text"
-                       value="{{ old('date', $date) }}" placeholder="برای انتخاب تاریخ کلیک کنید">
+                       value="{{ old('date', $date == '' ? jdate($contract->created_at)->format('Y/m/d') : $date)  }}" placeholder="برای انتخاب تاریخ کلیک کنید">
             </div>
 
             <div class="mb-4">
@@ -111,9 +111,9 @@
 
             <div class="mb-4">
                 <label for="inputOldNumber" class="form-label">
-                    شماره قرارداد قبلی
+                    شماره قرارداد مشتری
                 </label>
-                <input type="text" class="input-text" name="old_number"
+                <input type="text" class="input-text" name="old_number" dir="ltr"
                        value="{{ old('old_number', $contract->old_number) }}"
                        id="inputOldNumber" placeholder="شماره قرارداد سیستم قبلی را وارد کنید">
             </div>

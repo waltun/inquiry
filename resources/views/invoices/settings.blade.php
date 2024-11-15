@@ -3,6 +3,12 @@
         <script src="{{ asset('plugins/tinymce/tinymce.min.js') }}"></script>
         <script src="{{ asset('plugins/jquery.min.js') }}"></script>
         <script src="{{ asset('plugins/select2/select2.min.js') }}"></script>
+        <script src="{{ asset('plugins/date-picker/persianDatepicker.min.js') }}"></script>
+        <script>
+            $("#inputCreatedAt").persianDatepicker({
+                formatDate: "YYYY/MM/DD",
+            });
+        </script>
         <script>
             $("#inputUser").select2()
         </script>
@@ -28,6 +34,9 @@
     </x-slot>
     <x-slot name="css">
         <link rel="stylesheet" href="{{ asset('plugins/select2/select2.min.css') }}">
+
+            <link rel="stylesheet" href="{{ asset('plugins/date-picker/persianDatepicker-default.css') }}">
+
     </x-slot>
 
     <!-- Breadcrumb -->
@@ -100,6 +109,12 @@
         <div class="card">
             <div class="card-header">
                 <p class="card-title">مالیات</p>
+            </div>
+
+            <div class="mb-4">
+                <label for="inputCreatedAt" class="form-label">تاریخ قرارداد</label>
+                <input type="text" id="inputCreatedAt" name="created_at" class="input-text"
+                       value="{{ jdate($invoice->created_at)->format('Y/m/d') }}" placeholder="برای انتخاب تاریخ کلیک کنید">
             </div>
 
             <div class="mt-4">

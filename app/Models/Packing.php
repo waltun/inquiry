@@ -11,7 +11,7 @@ class Packing extends Model
 
     protected $fillable = [
         'date', 'contract_id', 'address', 'receiver', 'exit_at', 'driver_name', 'driver_nation', 'driver_type', 'driver_number',
-        'user_id'
+        'user_id', 'name'
     ];
 
     public function contract()

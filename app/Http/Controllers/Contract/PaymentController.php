@@ -89,6 +89,11 @@ class PaymentController extends Controller
         return back();
     }
 
+    public function print(Contract $contract)
+    {
+        return view('contracts.payments.print', compact('contract'));
+    }
+
     /**
      * @param Request $request
      * @return array

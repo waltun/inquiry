@@ -23,6 +23,12 @@
                 }
             }
         </script>
+        <script>
+            function submitPrint(id) {
+                let value = document.getElementById('inputPrintType' + id).value;
+                location.href = '/exits/' + id + '/print?type=' + value;
+            }
+        </script>
     </x-slot>
 
     <!-- Breadcrumb -->
@@ -147,8 +153,10 @@
         </div>
         <div>
             <button type="submit" class="flex items-center justify-center w-8 h-8 rounded-md bg-gray-400">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5 text-white">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                     stroke="currentColor" class="w-5 h-5 text-white">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/>
                 </svg>
             </button>
         </div>
@@ -290,10 +298,12 @@
                         @can('exit-codings')
                             <div class="flex justify-center">
                                 <a href="{{ route('exit-coding.index', $exit->id) }}" class="table-dropdown-copy">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                               d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/>
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                              d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
                                     </svg>
                                     <p class="text-xs mr-1">
                                         اقلام خروجی
@@ -321,12 +331,66 @@
                     <td class="table-tr-td border-t-0 border-r-0">
                         <div class="flex items-center justify-center space-x-2 space-x-reverse">
                             @if($exit->accepted)
-                                <a href="{{ route('exits.print', $exit->id) }}" class="table-dropdown-restore" target="_blank">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                              d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0 1 10.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0 .229 2.523a1.125 1.125 0 0 1-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0 0 21 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 0 0-1.913-.247M6.34 18H5.25A2.25 2.25 0 0 1 3 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 0 1 1.913-.247m10.5 0a48.536 48.536 0 0 0-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659M18 10.5h.008v.008H18V10.5Zm-3 0h.008v.008H15V10.5Z"/>
-                                    </svg>
-                                </a>
+                                <div x-data="{open : false}">
+                                    <button @click="open = !open" type="button">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                             stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                  d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0 1 10.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0 .229 2.523a1.125 1.125 0 0 1-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0 0 21 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 0 0-1.913-.247M6.34 18H5.25A2.25 2.25 0 0 1 3 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 0 1 1.913-.247m10.5 0a48.536 48.536 0 0 0-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659M18 10.5h.008v.008H18V10.5Zm-3 0h.008v.008H15V10.5Z"/>
+                                        </svg>
+                                    </button>
+
+                                    <!-- Print Type Modal -->
+                                    <div class="relative z-10" x-show="open" x-cloak>
+                                        <div class="modal-backdrop"></div>
+                                        <div class="fixed z-50 inset-0 overflow-y-auto">
+                                            <div class="modal">
+                                                <div class="modal-body bg-sky-200">
+                                                    <div class="bg-sky-100 dark:bg-slate-800 p-4">
+                                                        <div class="mb-4 flex justify-between items-center">
+                                                            <div class="flex items-center space-x-4 space-x-reverse">
+                                                                <h3 class="text-lg font-bold text-gray-900 dark:text-white">
+                                                                    انتخاب نوع پرینت
+                                                                </h3>
+                                                            </div>
+                                                            <button type="button" @click="open = false">
+                                                            <span class="modal-close">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                     viewBox="0 0 24 24"
+                                                                     stroke-width="1.5" stroke="currentColor"
+                                                                     class="w-5 h-5 dark:text-white">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                          d="M6 18L18 6M6 6l12 12"/>
+                                                                </svg>
+                                                            </span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="mt-6 space-y-4">
+                                                            <div class="mb-4">
+                                                                <label for="inputPrintType{{ $exit->id }}"
+                                                                       class="form-label">
+                                                                    انتخاب سایز پرینت
+                                                                </label>
+                                                                <select name="type" id="inputPrintType{{ $exit->id }}"
+                                                                        class="input-text">
+                                                                    <option value="">انتخاب کنید</option>
+                                                                    <option value="a4">پرینت در سایز A4</option>
+                                                                    <option value="a5">پرینت در سایز A5</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="flex justify-end">
+                                                                <button type="button" class="form-submit-btn"
+                                                                        onclick="submitPrint({{ $exit->id }})">
+                                                                    ثبت و ادامه
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             @endif
                             @can('edit-exit')
                                 <a href="{{ route('exits.edit', $exit->id) }}" class="table-dropdown-edit">
@@ -338,7 +402,8 @@
                                 </a>
                             @endcan
                             @can('delete-exit')
-                                <button class="table-dropdown-delete" type="button" onclick="destroyExit({{ $exit->id }})">
+                                <button class="table-dropdown-delete" type="button"
+                                        onclick="destroyExit({{ $exit->id }})">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                          stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                                         <path stroke-linecap="round" stroke-linejoin="round"

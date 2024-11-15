@@ -156,6 +156,9 @@ class ExitController extends Controller
 
     public function print(Exitt $exit)
     {
+        if (request()->has('type') && request('type') == 'a4') {
+            return view('systems.exits.print-a4', compact('exit'));
+        }
         return view('systems.exits.print', compact('exit'));
     }
 }

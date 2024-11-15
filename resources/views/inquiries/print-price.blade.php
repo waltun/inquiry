@@ -75,7 +75,7 @@
                             </svg>
                             <p class="text-xs text-white font-medium mr-1 text-justify">
                                 پونک، ضلع شمالی مجتمع تجاری بوستان، خیابان کربلایی احمد، نبش کوچه اول، پلاک 2، طبقه
-                                چهار، واحد 7
+                                چهار، واحد 8
                             </p>
                         </div>
                     </div>
@@ -174,7 +174,7 @@
                                                 {{ $loop->index + 1 }}
                                             </td>
                                             <td class="border border-black border-t-0 border-l p-1">
-                                                {{ $modell->parent->name }}
+                                                {{ $modell->parent->name ?? '-' }}
                                             </td>
                                             <td class="border border-black border-t-0 border-l p-1">
                                                 {{ $product->model_custom_name ?? $modell->name }}

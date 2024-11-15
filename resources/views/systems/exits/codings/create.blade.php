@@ -236,7 +236,7 @@
                     <td class="p-1">
                         <!-- Select Coding -->
                         <div
-                                class="flex justify-center items-center" {{ request()->has('page') || request()->has('category1') || request()->has('search') ? 'x-data={open:true}' : 'x-data={open:false}' }}>
+                            class="flex justify-center items-center" {{ request()->has('page') || request()->has('category1') || request()->has('search') ? 'x-data={open:true}' : 'x-data={open:false}' }}>
                             <button type="button"
                                     class="flex items-center text-xs font-bold text-indigo-500"
                                     @click="open = !open">
@@ -289,11 +289,11 @@
                                                             <button type="button" onclick="searchText()"
                                                                     class="inline-flex items-center rounded-l-lg border border-gray-200 border-r-0 bg-white px-3 text-sm text-gray-500">
                                                                 <svg
-                                                                        xmlns="http://www.w3.org/2000/svg"
-                                                                        fill="none" viewBox="0 0 24 24"
-                                                                        stroke-width="1.5"
-                                                                        stroke="currentColor"
-                                                                        class="w-6 h-6">
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    fill="none" viewBox="0 0 24 24"
+                                                                    stroke-width="1.5"
+                                                                    stroke="currentColor"
+                                                                    class="w-6 h-6">
                                                                     <path stroke-linecap="round"
                                                                           stroke-linejoin="round"
                                                                           d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"></path>
@@ -312,7 +312,7 @@
                                                                 </option>
                                                                 @foreach($categories as $category)
                                                                     <option
-                                                                            value="{{ $category->id }}" {{ request('category1') == $category->id ? 'selected' : '' }}>
+                                                                        value="{{ $category->id }}" {{ request('category1') == $category->id ? 'selected' : '' }}>
                                                                         {{ $category->code }}
                                                                         - {{ $category->name }}
                                                                     </option>
@@ -332,7 +332,7 @@
                                                                     </option>
                                                                     @foreach($category2 as $category)
                                                                         <option
-                                                                                value="{{ $category->id }}" {{ request('category2') == $category->id ? 'selected' : '' }}>
+                                                                            value="{{ $category->id }}" {{ request('category2') == $category->id ? 'selected' : '' }}>
                                                                             {{ $category->code }}
                                                                             - {{ $category->name }}
                                                                         </option>
@@ -353,7 +353,7 @@
                                                                     </option>
                                                                     @foreach($category3 as $category)
                                                                         <option
-                                                                                value="{{ $category->id }}" {{ request('category3') == $category->id ? 'selected' : '' }}>
+                                                                            value="{{ $category->id }}" {{ request('category3') == $category->id ? 'selected' : '' }}>
                                                                             {{ $category->code }}
                                                                             - {{ $category->name }}
                                                                         </option>
@@ -404,20 +404,20 @@
                                                                     </td>
                                                                     <td class="table-tr-td border-t-0 border-r-0">
                                                                         <div
-                                                                                class="flex justify-center">
+                                                                            class="flex justify-center">
                                                                             <a href="{{ route('exit-coding.create', $exitt->id) }}?coding={{ $coding2->id }}"
                                                                                class="table-dropdown-copy">
                                                                                 <svg
-                                                                                        xmlns="http://www.w3.org/2000/svg"
-                                                                                        fill="none"
-                                                                                        viewBox="0 0 24 24"
-                                                                                        stroke-width="1.5"
-                                                                                        stroke="currentColor"
-                                                                                        class="w-4 h-4 ml-1">
+                                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                                    fill="none"
+                                                                                    viewBox="0 0 24 24"
+                                                                                    stroke-width="1.5"
+                                                                                    stroke="currentColor"
+                                                                                    class="w-4 h-4 ml-1">
                                                                                     <path
-                                                                                            stroke-linecap="round"
-                                                                                            stroke-linejoin="round"
-                                                                                            d="M12 4.5v15m7.5-7.5h-15"/>
+                                                                                        stroke-linecap="round"
+                                                                                        stroke-linejoin="round"
+                                                                                        d="M12 4.5v15m7.5-7.5h-15"/>
                                                                                 </svg>
                                                                                 انتخاب
                                                                             </a>
@@ -441,7 +441,8 @@
                         </div>
                     </td>
                     <td class="p-1 border-r border-gray-400">
-                        <input type="text" name="name" id="inputName" value="{{ $selectedCoding->name ?? '' }}" class="input-text" placeholder="نام قطعه / کالا">
+                        <input type="text" name="name" id="inputName" value="{{ $selectedCoding->name ?? '' }}"
+                               class="input-text" placeholder="نام قطعه / کالا">
                     </td>
                     <td class="p-1 border-r border-gray-400">
                         <input type="text" name="quantity" id="inputQuantity" class="input-text w-20 text-center"
@@ -451,59 +452,59 @@
                         <select name="unit" id="inputUnit"
                                 class="input-text py-1.5 w-20">
                             <option
-                                    value="عدد" {{ $selectedCoding ? ($selectedCoding->unit == 'عدد' ? 'selected' : '') : '' }}>
+                                value="عدد" {{ $selectedCoding ? ($selectedCoding->unit == 'عدد' ? 'selected' : '') : '' }}>
                                 عدد
                             </option>
                             <option
-                                    value="دستگاه" {{ $selectedCoding ? ($selectedCoding->unit == 'دستگاه' ? 'selected' : '') : '' }}>
+                                value="دستگاه" {{ $selectedCoding ? ($selectedCoding->unit == 'دستگاه' ? 'selected' : '') : '' }}>
                                 دستگاه
                             </option>
                             <option
-                                    value="متر" {{ $selectedCoding ? ($selectedCoding->unit == 'متر' ? 'selected' : '') : '' }}>
+                                value="متر" {{ $selectedCoding ? ($selectedCoding->unit == 'متر' ? 'selected' : '') : '' }}>
                                 متر
                             </option>
                             <option
-                                    value="کیلوگرم" {{ $selectedCoding ? ($selectedCoding->unit == 'کیلوگرم' ? 'selected' : '') : '' }}>
+                                value="کیلوگرم" {{ $selectedCoding ? ($selectedCoding->unit == 'کیلوگرم' ? 'selected' : '') : '' }}>
                                 کیلوگرم
                             </option>
                             <option
-                                    value="شاخه" {{ $selectedCoding ? ($selectedCoding->unit == 'شاخه' ? 'selected' : '') : '' }}>
+                                value="شاخه" {{ $selectedCoding ? ($selectedCoding->unit == 'شاخه' ? 'selected' : '') : '' }}>
                                 شاخه
                             </option>
                             <option
-                                    value="برگ" {{ $selectedCoding ? ($selectedCoding->unit == 'برگ' ? 'selected' : '') : '' }}>
+                                value="برگ" {{ $selectedCoding ? ($selectedCoding->unit == 'برگ' ? 'selected' : '') : '' }}>
                                 برگ
                             </option>
                             <option
-                                    value="بسته" {{ $selectedCoding ? ($selectedCoding->unit == 'بسته' ? 'selected' : '') : '' }}>
+                                value="بسته" {{ $selectedCoding ? ($selectedCoding->unit == 'بسته' ? 'selected' : '') : '' }}>
                                 بسته
                             </option>
                             <option
-                                    value="لیتر" {{ $selectedCoding ? ($selectedCoding->unit == 'لیتر' ? 'selected' : '') : '' }}>
+                                value="لیتر" {{ $selectedCoding ? ($selectedCoding->unit == 'لیتر' ? 'selected' : '') : '' }}>
                                 لیتر
                             </option>
                             <option
-                                    value="کپسول" {{ $selectedCoding ? ($selectedCoding->unit == 'کپسول' ? 'selected' : '') : '' }}>
+                                value="کپسول" {{ $selectedCoding ? ($selectedCoding->unit == 'کپسول' ? 'selected' : '') : '' }}>
                                 کپسول
                             </option>
                             <option
-                                    value="مترمربع" {{ $selectedCoding ? ($selectedCoding->unit == 'مترمربع' ? 'selected' : '') : '' }}>
+                                value="مترمربع" {{ $selectedCoding ? ($selectedCoding->unit == 'مترمربع' ? 'selected' : '') : '' }}>
                                 مترمربع
                             </option>
                             <option
-                                    value="حلقه" {{ $selectedCoding ? ($selectedCoding->unit == 'حلقه' ? 'selected' : '') : '' }}>
+                                value="حلقه" {{ $selectedCoding ? ($selectedCoding->unit == 'حلقه' ? 'selected' : '') : '' }}>
                                 حلقه
                             </option>
                             <option
-                                    value="جفت" {{ $selectedCoding ? ($selectedCoding->unit == 'جفت' ? 'selected' : '') : '' }}>
+                                value="جفت" {{ $selectedCoding ? ($selectedCoding->unit == 'جفت' ? 'selected' : '') : '' }}>
                                 جفت
                             </option>
                             <option
-                                    value="دست" {{ $selectedCoding ? ($selectedCoding->unit == 'دست' ? 'selected' : '') : '' }}>
+                                value="دست" {{ $selectedCoding ? ($selectedCoding->unit == 'دست' ? 'selected' : '') : '' }}>
                                 دست
                             </option>
                             <option
-                                    value="سری" {{ $selectedCoding ? ($selectedCoding->unit == 'سری' ? 'selected' : '') : '' }}>
+                                value="سری" {{ $selectedCoding ? ($selectedCoding->unit == 'سری' ? 'selected' : '') : '' }}>
                                 سری
                             </option>
                         </select>
@@ -511,6 +512,14 @@
                 </tr>
                 </tbody>
             </table>
+
+            <div class="mt-4">
+                <label for="inputFirstDescription" class="form-label">
+                    توضیحات برای رفت
+                </label>
+                <input type="text" class="input-text" id="inputFirstDescription" name="first_description"
+                       placeholder="توضیحاتی که زمان ارسال قطعات نیاز هست (در فرم پرینت)">
+            </div>
         </div>
 
         <div class="flex items-center space-x-4 space-x-reverse">

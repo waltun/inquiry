@@ -69,6 +69,7 @@ class PackController extends Controller
             'width' => 'nullable|numeric',
             'height' => 'nullable|numeric',
             'type' => 'required|string|max:255',
+            'packing_id' => 'required|integer|exists:packings,id'
         ]);
 
         alert()->success('بروزرسانی موفق', 'پکینگ با موفقیت بروزرسانی شد');

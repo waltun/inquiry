@@ -9,6 +9,8 @@
             $("#inputType").select2({
                 tags: true
             });
+
+            $("#inputPacking").select2();
         </script>
     </x-slot>
     <x-slot name="css">
@@ -154,6 +156,18 @@
             <div class="mb-4 grid grid-cols-3 gap-4">
                 <div>
                     <label for="inputName" class="form-label">
+                        انتخاب پکینگ مورد نظر
+                    </label>
+                    <select name="packing_id" id="inputPacking" class="input-text">
+                        @foreach($contract->packings as $packing)
+                            <option value="{{ $packing->id }}" {{ old('packing_id', $pack->packing_id) == $packing->id ? 'selected' : '' }}>
+                                {{ $packing->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <label for="inputName" class="form-label">
                         نام ردیف
                     </label>
                     <select name="name" id="inputName" class="input-text">
@@ -246,15 +260,15 @@
                         @endif
                     </select>
                 </div>
+            </div>
+
+            <div class="mb-4 grid grid-cols-4 gap-4">
                 <div>
                     <label for="inputWeight" class="form-label">وزن (کیلوگرم)</label>
                     <input type="text" id="inputWeight" name="weight" class="input-text"
                            value="{{ old('weight', $pack->weight) }}"
                            placeholder="1452">
                 </div>
-            </div>
-
-            <div class="mb-4 grid grid-cols-3 gap-4">
                 <div>
                     <label for="inputLength" class="form-label">طول (CM)</label>
                     <input type="text" id="inputLength" name="length" class="input-text"

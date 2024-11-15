@@ -98,7 +98,7 @@
                                         <label class="form-label" for="inputSort">
                                             Sort
                                         </label>
-                                        <input type="text" name="srot" id="inputSort" class="input-text py-2"
+                                        <input type="text" name="sort" id="inputSort" class="input-text py-2"
                                                value="{{ old('sort') }}"
                                                placeholder="اولویت نمایش">
                                     </div>
@@ -114,6 +114,11 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Errors -->
+    <div class="mt-4">
+        <x-errors/>
     </div>
 
     <!-- Content -->

@@ -136,7 +136,7 @@
                         تاریخ عودت
                     </th>
                     <th scope="col" class="p-2">
-                        توضیحات
+                        توضیحات رفت
                     </th>
                     <th scope="col" class="p-2">
                     <span class="sr-only">
@@ -256,7 +256,7 @@
                             @endif
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $myCoding->description ?? '-' }}
+                            {{ $myCoding->first_description ?? '-' }}
                         </td>
                         <td class="table-tr-td border-t-0 border-r-0">
                             <div class="flex items-center justify-center space-x-2 space-x-reverse">

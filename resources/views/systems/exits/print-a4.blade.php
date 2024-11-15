@@ -12,7 +12,7 @@
 <body class="font-IRANSans">
 
 <!-- Content -->
-<div class="mx-auto" style="width: 14.85cm">
+<div class="mx-auto" style="width: 21cm">
     <table style="page-break-after: always" class="w-full relative">
         <!-- Header -->
         <thead style="display: table-header-group">

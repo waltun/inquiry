@@ -168,7 +168,7 @@
             </svg>
             <div class="mr-2">
                 <p class="breadcrumb-p-active">
-                    ویرایش محصول {{ $modell->parent->name }} - {{ $product->model_custom_name ?? $modell->name }}
+                    ویرایش محصول {{ $modell->parent->name ?? '-' }} - {{ $product->model_custom_name ?? $modell->name }}
                 </p>
             </div>
         </div>
