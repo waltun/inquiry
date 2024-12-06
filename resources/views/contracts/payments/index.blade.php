@@ -151,6 +151,9 @@
                         تاریخ وصول
                     </th>
                     <th scope="col" class="p-4">
+                        نوع پرداخت
+                    </th>
+                    <th scope="col" class="p-4">
                         شرح
                     </th>
                     <th scope="col" class="p-4">
@@ -184,7 +187,26 @@
                             @endif
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
-                            {{ $payment->text }}
+                            @switch($payment->cash_type)
+                                @case('check')
+                                    چک
+                                    @break
+                                @case('cash')
+                                    نقدی
+                                    @break
+                                @case('no_cash')
+                                    غیر نقدی
+                                    @break
+                                @case('clearing')
+                                    تهاتر
+                                    @break
+                                @case('currency')
+                                    ارزی
+                                    @break
+                            @endswitch
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            {{ $payment->text ?? '-' }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             <div class="flex items-center justify-center">

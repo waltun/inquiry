@@ -142,6 +142,15 @@
                     <option value="cash" {{ old('cash_type', $payment->cash_type) == 'cash' ? 'selected' : '' }}>
                         نقدی
                     </option>
+                    <option value="no_cash" {{ old('cash_type', $payment->cash_type) == 'no_cash' ? 'selected' : '' }}>
+                        غیر نقدی
+                    </option>
+                    <option value="clearing" {{ old('cash_type', $payment->cash_type) == 'clearing' ? 'selected' : '' }}>
+                        تهاتر
+                    </option>
+                    <option value="currency" {{ old('cash_type', $payment->cash_type) == 'currency' ? 'selected' : '' }}>
+                        ارزی
+                    </option>
                 </select>
             </div>
 

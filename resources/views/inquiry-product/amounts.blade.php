@@ -143,7 +143,7 @@
                     success: function (res) {
                         let parts = res.data;
                         section.innerHTML = `
-                        <select class="input-text" onchange="changePart(event,${part}) changePrice(event,${part})" id="inputCategory${part}">
+                        <select name="part_ids[]" class="input-text" onchange="changePart(event,${part}) changePrice(event,${part})" id="inputCategory${part}">
                             ${
                             parts.map(function (part) {
                                 return `<option value="${part.id}">${part.name}</option>`

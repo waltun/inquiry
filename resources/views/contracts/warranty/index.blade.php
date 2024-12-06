@@ -192,7 +192,7 @@
                                     <td class="table-tr-td border-t-0 border-x-0">
                                         @if(!$product->packs->isEmpty())
                                             <input type="text" class="input-text text-center dates" name="warranty_start[]"
-                                                   value="{{ $startDate != "" ? $startDate : jdate($product->packs->first()->packing->date)->format('Y/m/d') }}"
+                                                   value="{{ $startDate ?? '' }}"
                                                    placeholder="برای انتخاب تاریخ کلیک کنید">
                                         @else
                                             <input type="text" class="input-text text-center dates" name="warranty_start[]" value="" placeholder="برای انتخاب تاریخ کلیک کنید">

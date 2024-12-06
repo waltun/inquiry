@@ -237,7 +237,7 @@
                                                                 {{ $product->model_custom_name ?? $modell->name }}
                                                             </td>
                                                             <td class="border border-black border-t-0 border-l p-1">
-                                                                {{ $product->description ?? '-' }}
+                                                                {{ $product->tag ?? '-' }}
                                                             </td>
                                                             <td class="border border-black border-t-0 border-l p-1">
                                                                 دستگاه

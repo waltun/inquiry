@@ -93,6 +93,7 @@ use App\Http\Controllers\SeparateCalculateElectricalController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\System\CodingController;
 use App\Http\Controllers\System\CodingExitController;
+use App\Http\Controllers\System\EmployeeController;
 use App\Http\Controllers\System\ExitController as SystemExitController;
 use App\Http\Controllers\System\LetterController;
 use App\Http\Controllers\System\PhonebookController;
@@ -689,6 +690,7 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::post('/contracts/{contract}/products/{contractProduct}/recipe', [ContractProduct::class, 'storeRecipe'])->name('contracts.products.recipe');
 
         Route::resource('contracts/{contract}/packings', PackingController::class)->except(['create', 'edit']);
+        Route::get('/contracts/{contract}/print-packing', [PackingController::class, 'print'])->name('contracts.packings.print');
 
         Route::get('/contracts/{contract}/packings/{packing}/packs/{pack}/marking', [PackController::class, 'marking'])->name('packs.marking');
         Route::resource('contracts/{contract}/packings/{packing}/packs', PackController::class)->except(['show']);
@@ -930,6 +932,8 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::post('/groups/{group}/checklist', [GroupChecklistController::class, 'store'])->name('groups.checklist.store');
         Route::post('/groups/{group}/checklist-sort', [GroupChecklistController::class, 'storeSort'])->name('groups.checklist.storeSort');
         Route::post('/groups/qc-checklist/delete', [GroupChecklistController::class, 'destroy'])->name('groups.checklist.destroy');
+
+        Route::resource('employees', EmployeeController::class)->except(['show']);
     });
 
     Route::middleware('client')->group(function () {

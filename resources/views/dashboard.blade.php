@@ -41,7 +41,8 @@
         @if(is_null($tax))
             <div class="bg-red-500 p-4 rounded-md shadow">
                 <p class="text-center text-white font-medium text-sm">
-                    برای سال جدید ({{ jdate(now())->getYear() }}) ارزش افزوده جدیدی ثبت نشده، لطفا برای ثبت ارزش افزوده به
+                    برای سال جدید ({{ jdate(now())->getYear() }}) ارزش افزوده جدیدی ثبت نشده، لطفا برای ثبت ارزش افزوده
+                    به
                     لینک زیر مراجعه کنید.
                 </p>
                 <div class="flex justify-center mt-2">
@@ -1330,7 +1331,8 @@
                                 <a href="{{ route('all-factors.index') }}" class="dashboard-cards group">
                                     <div class="flex items-center">
                                         <div class="dashboard-card-icon bg-black dark:bg-slate-800">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                 stroke-width="1.5" stroke="currentColor"
                                                  class="w-6 h-6 text-white group-hover:text-myBlue-100">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                       d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/>
@@ -1693,7 +1695,9 @@
                                 <a href="{{ route('exits.index') }}" class="dashboard-cards group">
                                     <div class="flex items-center">
                                         <div class="dashboard-card-icon bg-red-500 dark:bg-slate-800">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-white group-hover:text-myBlue-100">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                 stroke-width="1.5" stroke="currentColor"
+                                                 class="w-6 h-6 text-white group-hover:text-myBlue-100">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                       d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15"/>
                                             </svg>
@@ -1771,6 +1775,32 @@
                                     </div>
                                 </a>
                             @endcan
+
+                            <a href="{{ route('employees.index') }}" class="dashboard-cards group">
+                                <div class="flex items-center">
+                                    <div class="dashboard-card-icon bg-yellow-600 dark:bg-slate-800">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                             stroke-width="1.5" stroke="currentColor"
+                                             class="w-6 h-6 text-white group-hover:text-myBlue-100">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                  d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="mr-4">
+                                        <p class="font-bold text-black text-sm group-hover:text-white dark:text-white">
+                                            کارکنان
+                                        </p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                         class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                                        <path fill-rule="evenodd"
+                                              d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                                              clip-rule="evenodd"/>
+                                    </svg>
+                                </div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -2067,8 +2097,11 @@
                                             @if(!is_null($receivedTask->file))
                                                 @if($extension[1] == 'pdf' || $extension[1] == 'docx' || $extension[1] == 'doc')
                                                     <div class="flex justify-center items-center">
-                                                        <a href="{{ $receivedTask->file }}" class="table-dropdown-copy" download>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                        <a href="{{ $receivedTask->file }}" class="table-dropdown-copy"
+                                                           download>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                 viewBox="0 0 24 24" stroke-width="1.5"
+                                                                 stroke="currentColor" class="w-4 h-4 ml-1">
                                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                                       d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/>
                                                             </svg>
@@ -2076,12 +2109,16 @@
                                                         </a>
                                                     </div>
                                                 @elseif($extension[1] == 'jpg' || $extension[1] == 'png' || $extension[1] == 'jpeg')
-                                                    <img src="{{ $receivedTask->file }}" alt="" class="w-10 h-10 rounded-md mx-auto border border-gray-200 cursor-pointer"
+                                                    <img src="{{ $receivedTask->file }}" alt=""
+                                                         class="w-10 h-10 rounded-md mx-auto border border-gray-200 cursor-pointer"
                                                          onclick="this.requestFullscreen()">
                                                 @else
                                                     <div class="flex justify-center items-center">
-                                                        <a href="{{ $receivedTask->file }}" class="table-dropdown-copy" download>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                        <a href="{{ $receivedTask->file }}" class="table-dropdown-copy"
+                                                           download>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                 viewBox="0 0 24 24" stroke-width="1.5"
+                                                                 stroke="currentColor" class="w-4 h-4 ml-1">
                                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                                       d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/>
                                                             </svg>
@@ -2103,8 +2140,11 @@
                                         <td class="table-tr-td border-t-0 border-r-0 whitespace-nowrap">
                                             <div class="flex items-center space-x-4 space-x-reverse justify-center">
                                                 @if(!$receivedTask->done)
-                                                    <a href="{{ route('tasks.reply', $receivedTask->id) }}" class="table-dropdown-restore text-xs">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                    <a href="{{ route('tasks.reply', $receivedTask->id) }}"
+                                                       class="table-dropdown-restore text-xs">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                             viewBox="0 0 24 24" stroke-width="1.5"
+                                                             stroke="currentColor" class="w-4 h-4 ml-1">
                                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                                   d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 0 1-.825-.242m9.345-8.334a2.126 2.126 0 0 0-.476-.095 48.64 48.64 0 0 0-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0 0 11.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155"/>
                                                         </svg>
@@ -2153,10 +2193,12 @@
                     <form method="get" action="" class="flex justify-end mb-4" id="taskForm">
                         <div class="grid grid-cols-3 gap-4">
                             <div>
-                                <select name="receiver_id" id="inputReciever" class="input-text" onchange="filterTask()">
+                                <select name="receiver_id" id="inputReciever" class="input-text"
+                                        onchange="filterTask()">
                                     <option value="">انتخاب کاربر</option>
                                     @foreach($users as $user)
-                                        <option value="{{ $user->id }}" {{ request('receiver_id') == $user->id ? 'selected' : '' }}>
+                                        <option
+                                            value="{{ $user->id }}" {{ request('receiver_id') == $user->id ? 'selected' : '' }}>
                                             {{ $user->name }}
                                         </option>
                                     @endforeach
@@ -2178,7 +2220,8 @@
                             </div>
                             @if(request()->has('receiver_id') || request()->has('level'))
                                 <div>
-                                    <a href="{{ route('dashboard') }}" class="text-indigo-500 underline underline-offset-4 text-xs">
+                                    <a href="{{ route('dashboard') }}"
+                                       class="text-indigo-500 underline underline-offset-4 text-xs">
                                         پاکسازی فیلتر
                                     </a>
                                 </div>
@@ -2260,8 +2303,11 @@
                                             @if(!is_null($sentTask->file))
                                                 @if($extension[1] == 'pdf' || $extension[1] == 'docx' || $extension[1] == 'doc')
                                                     <div class="flex justify-center items-center">
-                                                        <a href="{{ $sentTask->file }}" class="table-dropdown-copy" download>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                        <a href="{{ $sentTask->file }}" class="table-dropdown-copy"
+                                                           download>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                 viewBox="0 0 24 24" stroke-width="1.5"
+                                                                 stroke="currentColor" class="w-4 h-4 ml-1">
                                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                                       d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/>
                                                             </svg>
@@ -2269,12 +2315,16 @@
                                                         </a>
                                                     </div>
                                                 @elseif($extension[1] == 'jpg' || $extension[1] == 'png' || $extension[1] == 'jpeg')
-                                                    <img src="{{ $sentTask->file }}" alt="" class="w-10 h-10 rounded-md mx-auto border border-gray-200 cursor-pointer"
+                                                    <img src="{{ $sentTask->file }}" alt=""
+                                                         class="w-10 h-10 rounded-md mx-auto border border-gray-200 cursor-pointer"
                                                          onclick="this.requestFullscreen()">
                                                 @else
                                                     <div class="flex justify-center items-center">
-                                                        <a href="{{ $sentTask->file }}" class="table-dropdown-copy" download>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                        <a href="{{ $sentTask->file }}" class="table-dropdown-copy"
+                                                           download>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                 viewBox="0 0 24 24" stroke-width="1.5"
+                                                                 stroke="currentColor" class="w-4 h-4 ml-1">
                                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                                       d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/>
                                                             </svg>
@@ -2299,10 +2349,13 @@
                                                     <div x-data="{open: false}">
                                                         <button type="button" @click="open = !open"
                                                                 class="table-info-btn">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                                 viewBox="0 0 24 24" stroke-width="1.5"
+                                                                 stroke="currentColor" class="w-4 h-4 ml-1">
                                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                                       d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/>
-                                                                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                      d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
                                                             </svg>
                                                             مشاهده پاسخ
                                                         </button>
@@ -2314,18 +2367,21 @@
                                                                 <div class="modal">
                                                                     <div class="modal-body">
                                                                         <div class="bg-white dark:bg-slate-800 p-4">
-                                                                            <div class="mb-4 flex justify-between items-center">
+                                                                            <div
+                                                                                class="mb-4 flex justify-between items-center">
                                                                                 <h3 class="text-lg font-bold text-gray-900 dark:text-white">
                                                                                     مشاهده پاسخ وظیفه
                                                                                 </h3>
-                                                                                <button type="button" @click="open = false">
+                                                                                <button type="button"
+                                                                                        @click="open = false">
                                                                                 <span class="modal-close">
-                                                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                                                         fill="none"
-                                                                                         viewBox="0 0 24 24"
-                                                                                         stroke-width="1.5"
-                                                                                         stroke="currentColor"
-                                                                                         class="w-5 h-5 dark:text-white">
+                                                                                    <svg
+                                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                                        fill="none"
+                                                                                        viewBox="0 0 24 24"
+                                                                                        stroke-width="1.5"
+                                                                                        stroke="currentColor"
+                                                                                        class="w-5 h-5 dark:text-white">
                                                                                         <path stroke-linecap="round"
                                                                                               stroke-linejoin="round"
                                                                                               d="M6 18L18 6M6 6l12 12"/>
@@ -2334,7 +2390,8 @@
                                                                                 </button>
                                                                             </div>
                                                                             <div class="mt-6 whitespace-normal">
-                                                                                <div class="mt-4 p-4 rounded-lg border border-gray-200 leading-6">
+                                                                                <div
+                                                                                    class="mt-4 p-4 rounded-lg border border-gray-200 leading-6">
                                                                                     <p class="text-sm font-medium text-black">
                                                                                         {{ $sentTask->reply }}
                                                                                     </p>
@@ -2411,7 +2468,8 @@
                     <a href="{{ route('todos.index') }}" class="dashboard-cards group">
                         <div class="flex items-center">
                             <div class="dashboard-card-icon bg-red-500 dark:bg-slate-800">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5"
                                      stroke="currentColor" class="w-6 h-6 text-white group-hover:text-myBlue-100">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                           d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"></path>
@@ -2439,7 +2497,8 @@
                     <a href="{{ route('tasks.index') }}" class="dashboard-cards group">
                         <div class="flex items-center">
                             <div class="dashboard-card-icon bg-yellow-600 dark:bg-slate-800">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5"
                                      stroke="currentColor" class="w-6 h-6 text-white group-hover:text-myBlue-100">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                           d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"></path>
@@ -2466,7 +2525,8 @@
                     <a href="{{ route('tasks.sent') }}" class="dashboard-cards group">
                         <div class="flex items-center">
                             <div class="dashboard-card-icon bg-yellow-600 dark:bg-slate-800">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5"
                                      stroke="currentColor" class="w-6 h-6 text-white group-hover:text-myBlue-100">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                           d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"></path>
@@ -2493,7 +2553,8 @@
                     <a href="{{ route('leaves.index') }}" class="dashboard-cards group">
                         <div class="flex items-center">
                             <div class="dashboard-card-icon bg-indigo-600 dark:bg-slate-800">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5"
                                      stroke="currentColor" class="w-6 h-6 text-white group-hover:text-myBlue-100">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                           d="M10.125 2.25h-4.5c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-9M10.125 2.25h.375a9 9 0 0 1 9 9v.375M10.125 2.25A3.375 3.375 0 0 1 13.5 5.625v1.5c0 .621.504 1.125 1.125 1.125h1.5a3.375 3.375 0 0 1 3.375 3.375M9 15l2.25 2.25L15 12"></path>
@@ -2577,7 +2638,8 @@
                     <a href="{{ route('purchase.index') }}" class="dashboard-cards group">
                         <div class="flex items-center">
                             <div class="dashboard-card-icon bg-yellow-600 dark:bg-slate-800">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5"
                                      stroke="currentColor" class="w-6 h-6 text-white group-hover:text-myBlue-100">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                           d="M11.35 3.836c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m8.9-4.414c.376.023.75.05 1.124.08 1.131.094 1.976 1.057 1.976 2.192V16.5A2.25 2.25 0 0 1 18 18.75h-2.25m-7.5-10.5H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V18.75m-7.5-10.5h6.375c.621 0 1.125.504 1.125 1.125v9.375m-8.25-3 1.5 1.5 3-3.75"></path>
@@ -2679,7 +2741,8 @@
                                 @if($extension[1] == 'pdf' || $extension[1] == 'docx' || $extension[1] == 'doc')
                                     <div class="flex justify-center items-center">
                                         <a href="{{ $uncompletedTask->file }}" class="table-dropdown-copy" download>
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                 stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                       d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/>
                                             </svg>
@@ -2687,12 +2750,14 @@
                                         </a>
                                     </div>
                                 @elseif($extension[1] == 'jpg' || $extension[1] == 'png' || $extension[1] == 'jpeg')
-                                    <img src="{{ $uncompletedTask->file }}" alt="" class="w-10 h-10 rounded-md mx-auto border border-gray-200 cursor-pointer"
+                                    <img src="{{ $uncompletedTask->file }}" alt=""
+                                         class="w-10 h-10 rounded-md mx-auto border border-gray-200 cursor-pointer"
                                          onclick="this.requestFullscreen()">
                                 @else
                                     <div class="flex justify-center items-center">
                                         <a href="{{ $receivedTask->file }}" class="table-dropdown-copy" download>
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                 stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                       d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/>
                                             </svg>
@@ -2706,18 +2771,22 @@
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             @if($uncompletedTask->extension_days_request_at <= now()->addDays($uncompletedTask->extension_days_request))
-                                <form method="POST" action="{{ route('tasks.extension', $uncompletedTask->id) }}" class="flex items-center space-x-4 space-x-reverse">
+                                <form method="POST" action="{{ route('tasks.extension', $uncompletedTask->id) }}"
+                                      class="flex items-center space-x-4 space-x-reverse">
                                     @csrf
-                                    <select name="extension_days_request" id="inputExtensionDayRequest{{ $uncompletedTask->id }}" class="input-text">
+                                    <select name="extension_days_request"
+                                            id="inputExtensionDayRequest{{ $uncompletedTask->id }}" class="input-text">
                                         <option value="">انتخاب کنید</option>
                                         @for($i = 1; $i <= $uncompletedTask->extension_days; $i++)
-                                            <option value="{{ $i }}" {{ $uncompletedTask->extension_days_request == $i ? 'selected' : '' }}>
+                                            <option
+                                                value="{{ $i }}" {{ $uncompletedTask->extension_days_request == $i ? 'selected' : '' }}>
                                                 {{ $i }} روز
                                             </option>
                                         @endfor
                                     </select>
                                     <button class="table-warning-btn">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                             stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-1">
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                   d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"/>
                                         </svg>
@@ -2732,7 +2801,8 @@
                             @if($uncompletedTask->extension_days_request_at <= now()->addDays($uncompletedTask->extension_days_request))
                                 <div class="flex items-center space-x-4 space-x-reverse justify-center">
                                     @if(!$uncompletedTask->done)
-                                        <form action="{{ route('tasks.mark-as-done', $uncompletedTask->id) }}" method="POST" class="table-success-btn">
+                                        <form action="{{ route('tasks.mark-as-done', $uncompletedTask->id) }}"
+                                              method="POST" class="table-success-btn">
                                             @csrf
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                  viewBox="0 0 24 24"

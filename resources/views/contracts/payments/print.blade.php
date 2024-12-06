@@ -302,6 +302,9 @@
                                             تاریخ وصول
                                         </th>
                                         <th scope="col" class="p-1" style="border-left: 1px solid black">
+                                            نوع پرداخت
+                                        </th>
+                                        <th scope="col" class="p-1" style="border-left: 1px solid black">
                                             شرح
                                         </th>
                                         <th scope="col" class="p-1" style="border-left: 1px solid black">
@@ -329,7 +332,26 @@
                                                 @endif
                                             </td>
                                             <td class="border border-black border-t-0 border-l p-1">
-                                                {{ $payment->text }}
+                                                @switch($payment->cash_type)
+                                                    @case('check')
+                                                        چک
+                                                        @break
+                                                    @case('cash')
+                                                        نقدی
+                                                        @break
+                                                    @case('no_cash')
+                                                        غیر نقدی
+                                                        @break
+                                                    @case('clearing')
+                                                        تهاتر
+                                                        @break
+                                                    @case('currency')
+                                                        ارزی
+                                                        @break
+                                                @endswitch
+                                            </td>
+                                            <td class="border border-black border-t-0 border-l p-1">
+                                                {{ $payment->text ?? '-' }}
                                             </td>
                                             <td class="border border-black border-t-0 border-l p-1">
                                                 <div class="flex items-center justify-center">

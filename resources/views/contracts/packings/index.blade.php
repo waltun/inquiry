@@ -306,7 +306,7 @@
                                                                        value="{{ $date }}">
                                                             </div>
                                                             <div
-                                                                    class="flex justify-end items-center space-x-4 space-x-reverse">
+                                                                class="flex justify-end items-center space-x-4 space-x-reverse">
                                                                 <button type="submit" class="form-submit-btn">
                                                                     ثبت
                                                                 </button>
@@ -338,6 +338,13 @@
                 @endforeach
                 </tbody>
             </table>
+        </div>
+
+        <div class="mt-4 flex justify-end">
+            <a href="{{ route('contracts.packings.print', $contract->id) }}"
+               class="text-sm font-medium text-indigo-500 underline underline-offset-4" target="_blank">
+                برای پرینت کلی پکینگ لیست ها کلیک کنید
+            </a>
         </div>
     </div>
 </x-layout>
