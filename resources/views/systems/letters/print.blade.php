@@ -134,7 +134,7 @@
                     </div>
                     <div class="flex justify-end items-center space-x-4 space-x-reverse">
                         <img src="{{ asset('images/sign/mohr.jpg') }}" alt="" class="w-20">
-                        <img src="{{ asset('images/sign/hashemi.jpg') }}" alt="" class="w-20">
+                        <img src="{{ $letter->user->sign }}" alt="" class="w-20">
                     </div>
                     <div class="mt-4">
                         <p class="text-sm font-bold">

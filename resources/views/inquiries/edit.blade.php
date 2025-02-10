@@ -97,6 +97,17 @@
                 </select>
             </div>
 
+            <div class="mt-4">
+                <label for="inputUser2" class="form-label">انتخاب مسئول پروژه دوم</label>
+                <select name="second_user_id" id="inputUser2" class="input-text">
+                    @foreach($staffs as $staff)
+                        <option value="{{ $staff->id }}" {{ old('second_user_id', $inquiry->second_user_id) == $staff->id ? 'selected' : '' }}>
+                            {{ $staff->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
         </div>
 
         <div class="card">
@@ -117,7 +128,7 @@
                 <select name="user_ids[]" id="inputUser" class="input-text" multiple>
                     @foreach($users as $user)
                         <option
-                            value="{{ $user->id }}" {{ in_array($user->id, $userIds) ? 'selected' : '' }}>
+                                value="{{ $user->id }}" {{ in_array($user->id, $userIds) ? 'selected' : '' }}>
                             {{ $user->name }}
                         </option>
                     @endforeach

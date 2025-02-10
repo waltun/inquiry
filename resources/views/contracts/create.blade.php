@@ -116,6 +116,18 @@
                        id="inputOldNumber" placeholder="شماره قرارداد سیستم قبلی را وارد کنید">
             </div>
 
+            <div class="mt-4">
+                <label for="inputUser2" class="form-label">انتخاب مسئول پروژه دوم</label>
+                <select name="second_user_id" id="inputUser2" class="input-text">
+                    <option value="">انتخاب کنید</option>
+                    @foreach($staffs as $staff)
+                        <option value="{{ $staff->id }}" {{ old('second_user_id') == $staff->id ? 'selected' : '' }}>
+                            {{ $staff->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
         </div>
 
         <div class="flex items-center space-x-4 space-x-reverse">

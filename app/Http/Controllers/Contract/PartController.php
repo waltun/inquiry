@@ -27,7 +27,7 @@ class PartController extends Controller
 
         if (!$product->spareAmounts->isEmpty()) {
             if ($contract->recipe) {
-                foreach ($product->spareAmounts()->orderBy('sort', 'ASC')->get() as $index => $spareAmount) {
+                foreach ($product->spareAmounts()->orderByRaw('CONVERT(sort, SIGNED) asc')->get() as $index => $spareAmount) {
                     if ($spareAmount->part_id != $request->part_ids[$index]) {
                         ContractPartHistory::create([
                             'old_part_id' => $spareAmount->part_id,
@@ -388,7 +388,7 @@ class PartController extends Controller
         foreach ($products as $product) {
             if (!$product->spareAmounts->isEmpty()) {
                 if ($contract->recipe) {
-                    foreach ($product->spareAmounts()->orderBy('sort', 'ASC')->get() as $index => $spareAmount) {
+                    foreach ($product->spareAmounts()->orderByRaw('CONVERT(sort, SIGNED) asc')->get() as $index => $spareAmount) {
                         if ($spareAmount->part_id != $request->part_ids[$index]) {
                             ContractPartHistory::create([
                                 'old_part_id' => $spareAmount->part_id,

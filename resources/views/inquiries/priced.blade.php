@@ -6,6 +6,54 @@
                 form.submit();
             }
         </script>
+
+        <script>
+            document.getElementById('select-all').addEventListener('change', function (e) {
+                const checkboxes = document.querySelectorAll('input[name="inquiries[]"]');
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = e.target.checked;
+                });
+            });
+
+            document.getElementById('delete-selected-btn').addEventListener('click', function (e) {
+                if (confirm('استعلام ها حذف شوند ؟')) {
+                    let selected = [];
+                    document.querySelectorAll('input[name="inquiries[]"]:checked').forEach(checkbox => {
+                        selected.push(checkbox.value);
+                    });
+
+                    if (selected.length === 0) {
+                        alert('هیچ استعلامی انتخاب نشده است.');
+                        return;
+                    }
+
+                    let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                    fetch('{{ route("inquiries.delete-all") }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': token,
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        body: JSON.stringify({inquiries: selected})
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert(data.message);
+                                location.reload();
+                            } else {
+                                alert(data.message);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('خطا در ارتباط با سرور.');
+                        });
+                }
+            });
+        </script>
     </x-slot>
 
     <!-- Breadcrumb -->
@@ -122,7 +170,10 @@
             <table class="w-full border-collapse">
                 <thead>
                 <tr class="table-th-tr">
-                    <th scope="col" class="p-4 rounded-tr-lg">
+                    <th scope="col" class="p-2 rounded-tr-lg">
+                        <input type="checkbox" name="select-all" id="select-all">
+                    </th>
+                    <th scope="col" class="p-4">
                         شماره استعلام
                     </th>
                     <th scope="col" class="p-4">
@@ -137,6 +188,9 @@
                     <th scope="col" class="p-4">
                         تاریخ
                     </th>
+                    <th scope="col" class="p-4">
+                        پیش فاکتور
+                    </th>
                     <th scope="col" class="p-4 rounded-tl-lg">
                         <span class="sr-only">اقدامات</span>
                     </th>
@@ -145,6 +199,9 @@
                 <tbody>
                 @foreach($inquiries as $inquiry)
                     <tr class="table-tb-tr group hover:font-bold hover:text-red-600 {{ $loop->even ? 'bg-sky-100' : '' }}">
+                        <td class="table-tr-td border-t-0 border-l-0">
+                            <input type="checkbox" name="inquiries[]" value="{{ $inquiry->id }}">
+                        </td>
                         <td class="table-tr-td border-t-0 border-l-0">
                             <a href="{{ route('inquiries.products',$inquiry->id) }}">
                                 {{ "INQ-" . $inquiry->inquiry_number }}
@@ -172,6 +229,23 @@
                             <a href="{{ route('inquiries.products',$inquiry->id) }}">
                                 {{ jdate($inquiry->created_at)->format('%A, Y/m/d') }}
                             </a>
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            @if(!$inquiry->invoices->isEmpty())
+                                <div class="flex items-center justify-center space-x-2 space-x-reverse">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         stroke-width="2" stroke="currentColor" class="w-5 h-5 text-green-600">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                                    </svg>
+                                </div>
+                            @else
+                                <div class="flex items-center justify-center space-x-2 space-x-reverse">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-red-500">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
+                                    </svg>
+                                </div>
+                            @endif
                         </td>
                         <td class="table-tr-td border-r-0 whitespace-nowrap">
                             <div class="flex items-center justify-center space-x-4 space-x-reverse relative"
@@ -428,6 +502,12 @@
                 @endforeach
                 </tbody>
             </table>
+        </div>
+
+        <div class="mt-4">
+            <button class="form-cancel-btn" type="button" id="delete-selected-btn">
+                حذف انتخاب شده ها
+            </button>
         </div>
 
         <div class="mt-4">

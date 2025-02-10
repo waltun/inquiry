@@ -72,7 +72,8 @@ class InquiryController extends Controller
             $inquiries = $inquiries->where('submit', 0)->latest()->paginate(25);
 
         } else {
-            $inquiries = $inquiries->where('submit', 0)->where('user_id', auth()->user()->id)->latest()->paginate(25);
+            $inquiries = $inquiries->where('submit', 0)->where('user_id', auth()->user()->id)
+                ->orWhere('second_user_id', auth()->user()->id)->latest()->paginate(25);
         }
 
         $modells = Modell::where('parent_id', '!=', 0)->get();
@@ -84,7 +85,8 @@ class InquiryController extends Controller
     public function create()
     {
         $users = User::where('role', 'client')->orWhere('role', 'staff')->get();
-        return view('inquiries.create', compact('users'));
+        $staffs = User::where('role', 'staff')->orWhere('role', 'admin')->get();
+        return view('inquiries.create', compact('users', 'staffs'));
     }
 
     public function store(Request $request)
@@ -93,7 +95,8 @@ class InquiryController extends Controller
             'name' => 'required|string|max:255',
             'marketer' => 'required|string|max:255',
             'type' => 'required|in:product,part,both',
-            'user_ids' => 'required|array'
+            'user_ids' => 'required|array',
+            'second_user_id' => 'nullable|integer'
         ]);
 
         $data['user_id'] = $request->user()->id;
@@ -135,7 +138,8 @@ class InquiryController extends Controller
     public function edit(Inquiry $inquiry)
     {
         $users = User::where('role', 'client')->orWhere('role', 'staff')->get();
-        return view('inquiries.edit', compact('inquiry', 'users'));
+        $staffs = User::where('role', 'staff')->orWhere('role', 'admin')->get();
+        return view('inquiries.edit', compact('inquiry', 'users', 'staffs'));
     }
 
     public function update(Request $request, Inquiry $inquiry)
@@ -144,7 +148,8 @@ class InquiryController extends Controller
             'name' => 'required|string|max:255',
             'marketer' => 'required|string|max:255',
             'type' => 'required|in:product,part,both',
-            'user_ids' => 'required|array'
+            'user_ids' => 'required|array',
+            'second_user_id' => 'nullable|integer'
         ]);
 
         $inquiry->update($data);
@@ -237,7 +242,8 @@ class InquiryController extends Controller
         if (auth()->user()->role === 'admin') {
             $inquiries = $inquiries->where('submit', 1)->where('archive_at', null)->latest()->paginate(25);
         } else {
-            $inquiries = $inquiries->where('submit', 1)->where('archive_at', null)->where('user_id', auth()->user()->id)->latest()->paginate(25);
+            $inquiries = $inquiries->where('submit', 1)->where('archive_at', null)->where('user_id', auth()->user()->id)
+                ->orWhere('second_user_id', auth()->user()->id)->latest()->paginate(25);
         }
 
         $modells = Modell::where('parent_id', '!=', 0)->get();
@@ -445,7 +451,8 @@ class InquiryController extends Controller
         if (auth()->user()->role === 'admin') {
             $inquiries = $inquiries->where('archive_at', '!=', null)->orderBy('inquiry_number', 'DESC')->paginate(25)->withQueryString();
         } else {
-            $inquiries = $inquiries->where('archive_at', '!=', null)->where('user_id', auth()->user()->id)->orderBy('inquiry_number', 'DESC')->paginate(25)->withQueryString();
+            $inquiries = $inquiries->where('archive_at', '!=', null)->where('user_id', auth()->user()->id)
+                ->orWhere('second_user_id', auth()->user()->id)->orderBy('inquiry_number', 'DESC')->paginate(25)->withQueryString();
         }
 
         $modells = Modell::where('parent_id', '!=', 0)->get();
@@ -1438,5 +1445,60 @@ class InquiryController extends Controller
     public function printPrice(Inquiry $inquiry)
     {
         return view('inquiries.print-price', compact('inquiry'));
+    }
+
+    public function deleteAll(Request $request)
+    {
+        $specials = Special::all()->pluck('id')->toArray();
+
+        foreach ($request->inquiries as $id) {
+            $inquiry = Inquiry::find($id);
+
+            $inquiryInvoices = Invoice::where('inquiry_id', $inquiry->id)->get();
+
+            if (!$inquiryInvoices->isEmpty()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'یکی از استعلام های انتخاب شده در پیش فاکتور ها استفاده شده است'
+                ], 422);
+            } else {
+                if (!$inquiry->products->isEmpty()) {
+                    foreach ($inquiry->products as $product) {
+                        $modell = Modell::find($product->model_id);
+                        if ($modell) {
+                            if (!$modell->parts->isEmpty()) {
+                                foreach ($modell->parts as $part) {
+                                    if (in_array($part->id, $specials)) {
+                                        session()->forget('selectedPart' . $part->id);
+                                        session()->forget('price' . $part->id);
+                                    }
+                                }
+                            }
+                        }
+                        $product->amounts()->delete();
+                    }
+
+                    $inquiry->products()->delete();
+                }
+
+                $collectionParts = Part::where('inquiry_id', $inquiry->id)->get();
+                foreach ($collectionParts as $collectionPart) {
+                    if (!$collectionPart->standard) {
+                        $collectionPart->delete();
+                    }
+                }
+
+                if (!$inquiry->users->isEmpty()) {
+                    $inquiry->users()->detach();
+                }
+
+                $inquiry->delete();
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'استعلام های انتخاب شده با موفقیت حذف شدند.'
+        ], 200);
     }
 }

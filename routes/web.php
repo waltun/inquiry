@@ -208,6 +208,7 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::post('/inquiries/{inquiry}/restore', [InquiryController::class, 'restore'])->name('inquiries.restore');
         Route::post('/inquiries/{inquiry}/final-submit', [InquiryController::class, 'finalSubmit'])->name('inquiries.finalSubmit');
         Route::post('/inquiries/{product}/add-product-to-inquiry', [InquiryController::class, 'addProductToInquiry'])->name('inquiries.addProductToInquiry');
+        Route::post('/inquiries/delete-all', [InquiryController::class, 'deleteAll'])->name('inquiries.delete-all');
 
         //Inquiry Product routes
         Route::get('/inquiries/{inquiry}/products', [InquiryProductController::class, 'index'])->name('inquiries.product.index');
@@ -574,6 +575,8 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::post('/final-invoices/{invoice}/sms/{user}', [FinalInvoiceController::class, 'invoiceSMS'])->name('invoices.final.sms');
         Route::post('/final-invoices/{invoice}/referral', [FinalInvoiceController::class, 'referral'])->name('invoices.final.referral');
         Route::post('/final-invoices/{invoice}/store-show-invoice', [FinalInvoiceController::class, 'storeShowInvoice'])->name('invoices.final.storeShowInvoice');
+
+        Route::post('/final-invoices/delete-all', [FinalInvoiceController::class, 'deleteAll'])->name('invoices.final.delete-all');
 
         Route::resource('attribute-groups', AttributeGroupController::class)->except(['create', 'edit', 'show']);
 

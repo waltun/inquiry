@@ -12,7 +12,7 @@ Inquiry extends Model
 
     protected $fillable = [
         'name', 'submit', 'inquiry_number', 'price', 'archive_at', 'user_id', 'marketer', 'message',
-        'description', 'type', 'copy_id', 'correction_id'
+        'description', 'type', 'copy_id', 'correction_id', 'second_user_id'
     ];
 
     public function products()

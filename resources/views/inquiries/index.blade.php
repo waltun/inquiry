@@ -6,6 +6,54 @@
                 form.submit();
             }
         </script>
+
+        <script>
+            document.getElementById('select-all').addEventListener('change', function (e) {
+                const checkboxes = document.querySelectorAll('input[name="inquiries[]"]');
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = e.target.checked;
+                });
+            });
+
+            document.getElementById('delete-selected-btn').addEventListener('click', function (e) {
+                if (confirm('استعلام ها حذف شوند ؟')) {
+                    let selected = [];
+                    document.querySelectorAll('input[name="inquiries[]"]:checked').forEach(checkbox => {
+                        selected.push(checkbox.value);
+                    });
+
+                    if (selected.length === 0) {
+                        alert('هیچ استعلامی انتخاب نشده است.');
+                        return;
+                    }
+
+                    let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                    fetch('{{ route("inquiries.delete-all") }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': token,
+                            'X-Requested-With': 'XMLHttpRequest'
+                        },
+                        body: JSON.stringify({inquiries: selected})
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert(data.message);
+                                location.reload();
+                            } else {
+                                alert(data.message);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('خطا در ارتباط با سرور.');
+                        });
+                }
+            });
+        </script>
     </x-slot>
 
     <!-- Breadcrumb -->
@@ -99,7 +147,7 @@
                     <option value="">جستجو براساس دسته</option>
                     @foreach($groups as $group)
                         <option
-                                value="{{ $group->id }}" {{ $group->id == request()->get('group_id') ? 'selected' : '' }}>
+                            value="{{ $group->id }}" {{ $group->id == request()->get('group_id') ? 'selected' : '' }}>
                             {{ $group->name }}
                         </option>
                     @endforeach
@@ -110,7 +158,7 @@
                     <option value="">جستجو براساس مدل</option>
                     @foreach($modells as $modell)
                         <option
-                                value="{{ $modell->id }}" {{ $modell->id == request()->get('model_id') ? 'selected' : '' }}>
+                            value="{{ $modell->id }}" {{ $modell->id == request()->get('model_id') ? 'selected' : '' }}>
                             {{ $modell->name }}
                         </option>
                     @endforeach
@@ -125,6 +173,9 @@
                     <thead>
                     <tr class="table-th-tr">
                         <th scope="col" class="p-2 rounded-tr-lg">
+                            <input type="checkbox" name="select-all" id="select-all">
+                        </th>
+                        <th scope="col" class="p-2">
                             شماره استعلام
                         </th>
                         <th scope="col" class="p-2">
@@ -154,6 +205,9 @@
                             }
                         @endphp
                         <tr class="table-tb-tr group hover:font-bold hover:text-red-600 {{ $loop->even ? 'bg-sky-100' : '' }}">
+                            <td class="table-tr-td border-t-0 border-l-0">
+                                <input type="checkbox" name="inquiries[]" value="{{ $inquiry->id }}">
+                            </td>
                             <td class="table-tr-td border-t-0 border-l-0">
                                 <a href="{{ $route }}" class="text-gray-500">
                                     @if($inquiry->inquiry_number)
@@ -259,12 +313,12 @@
                                                                                     class="input-text">
                                                                                 @foreach(\App\Models\User::all() as $user)
                                                                                     <option
-                                                                                            value="{{ $user->id }}">{{ $user->name }}</option>
+                                                                                        value="{{ $user->id }}">{{ $user->name }}</option>
                                                                                 @endforeach
                                                                             </select>
                                                                         </div>
                                                                         <div
-                                                                                class="flex justify-end items-center space-x-4 space-x-reverse">
+                                                                            class="flex justify-end items-center space-x-4 space-x-reverse">
                                                                             <button type="submit"
                                                                                     class="form-submit-btn">
                                                                                 ثبت
@@ -325,12 +379,12 @@
                                                                                     class="input-text">
                                                                                 @foreach(\App\Models\User::where('role', 'staff')->orWhere('role', 'admin')->get() as $user)
                                                                                     <option
-                                                                                            value="{{ $user->id }}">{{ $user->name }}</option>
+                                                                                        value="{{ $user->id }}">{{ $user->name }}</option>
                                                                                 @endforeach
                                                                             </select>
                                                                         </div>
                                                                         <div
-                                                                                class="flex justify-end items-center space-x-4 space-x-reverse">
+                                                                            class="flex justify-end items-center space-x-4 space-x-reverse">
                                                                             <button type="submit"
                                                                                     class="form-submit-btn">
                                                                                 ثبت
@@ -381,6 +435,12 @@
                     @endforeach
                     </tbody>
                 </table>
+            </div>
+
+            <div class="mt-4">
+                <button class="form-cancel-btn" type="button" id="delete-selected-btn">
+                    حذف انتخاب شده ها
+                </button>
             </div>
 
             <div class="mt-4">

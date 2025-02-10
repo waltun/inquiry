@@ -48,7 +48,8 @@ class ContractController extends Controller
         if (auth()->user()->role == 'admin') {
             $contracts = $contracts->orderBy('number', 'DESC')->with(['invoices', 'products'])->where('complete', 0)->paginate(20)->withQueryString();
         } else {
-            $contracts = $contracts->orderBy('number', 'DESC')->with(['invoices', 'products'])->where('complete', 0)->where('user_id', auth()->user()->id)->paginate(20)->withQueryString();
+            $contracts = $contracts->orderBy('number', 'DESC')->with(['invoices', 'products'])->where('complete', 0)
+                ->where('user_id', auth()->user()->id)->orWhere('second_user_id', auth()->user()->id)->paginate(20)->withQueryString();
         }
 
         $customers = Customer::latest()->get();
@@ -59,7 +60,9 @@ class ContractController extends Controller
     {
         $customers = Customer::all();
 
-        return view('contracts.create', compact('customers'));
+        $staffs = User::where('role', 'staff')->orWhere('role', 'admin')->get();
+
+        return view('contracts.create', compact('customers', 'staffs'));
     }
 
     public function store(Request $request)
@@ -67,7 +70,8 @@ class ContractController extends Controller
         $data = $request->validate([
             'customer_id' => 'required|integer',
             'type' => 'required|string|in:official,operational',
-            'old_number' => 'nullable|string|max:255'
+            'old_number' => 'nullable|string|max:255',
+            'second_user_id' => 'nullable|integer'
         ]);
 
         $number = '';
@@ -112,7 +116,9 @@ class ContractController extends Controller
             $date = $year . '/' . $month . '/' . $day;
         }
 
-        return view('contracts.edit', compact('contract', 'users', 'date'));
+        $staffs = User::where('role', 'staff')->orWhere('role', 'admin')->get();
+
+        return view('contracts.edit', compact('contract', 'users', 'date', 'staffs'));
     }
 
     public function update(Request $request, Contract $contract)
@@ -121,7 +127,8 @@ class ContractController extends Controller
             'start_contract_date' => 'nullable|string|max:255',
             'user_id' => 'required|integer',
             'old_number' => 'nullable|string|max:255',
-            'name' => 'required|string|max:255'
+            'name' => 'required|string|max:255',
+            'second_user_id' => 'nullable|integer'
         ]);
 
         if (!is_null($data['start_contract_date'])) {

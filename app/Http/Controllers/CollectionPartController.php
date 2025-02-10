@@ -22,7 +22,7 @@ class CollectionPartController extends Controller
         $this->middleware('can:collection-add-part')->only(['create', 'store']);
         $this->middleware('can:delete-collection')->only(['destroy']);
         $this->middleware('can:collection-delete-part')->only(['destroyPart']);
-        $this->middleware('can:collection-amounts')->only(['amounts', 'storeAmounts']);
+        //$this->middleware('can:collection-amounts')->only(['amounts', 'storeAmounts']);
         $this->middleware('can:replicate-collection')->only(['replicate']);
         $this->middleware('can:print-collection')->only(['print']);
     }

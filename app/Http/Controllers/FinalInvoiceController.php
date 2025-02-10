@@ -335,4 +335,28 @@ class FinalInvoiceController extends Controller
         }
         return $year . '-2-' . $contractNumber;
     }
+
+    public function deleteAll(Request $request)
+    {
+        foreach ($request->invoices as $id) {
+            $invoice = Invoice::find($id);
+
+            if ($invoice->contract) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'یکی از پیش فاکتور های انتخاب شده در قرارداد ها استفاده شده است'
+                ], 422);
+            } else {
+                foreach ($invoice->products as $product) {
+                    $product->delete();
+                }
+                $invoice->delete();
+            }
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'پیش فاکتور های انتخاب شده با موفقیت حذف شدند.'
+        ], 200);
+    }
 }

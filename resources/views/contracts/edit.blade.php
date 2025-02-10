@@ -93,7 +93,8 @@
             <div class="mb-4">
                 <label for="inputDate" class="form-label">تاریخ قرارداد</label>
                 <input type="text" id="inputDate" name="start_contract_date" class="input-text"
-                       value="{{ old('date', $date == '' ? jdate($contract->created_at)->format('Y/m/d') : $date)  }}" placeholder="برای انتخاب تاریخ کلیک کنید">
+                       value="{{ old('date', $date == '' ? jdate($contract->created_at)->format('Y/m/d') : $date)  }}"
+                       placeholder="برای انتخاب تاریخ کلیک کنید">
             </div>
 
             <div class="mb-4">
@@ -102,7 +103,7 @@
                     <option value="">انتخاب کنید</option>
                     @foreach($users as $user)
                         <option
-                            value="{{ $user->id }}" {{ old('user_id', $contract->user_id) == $user->id ? 'selected' : '' }}>
+                                value="{{ $user->id }}" {{ old('user_id', $contract->user_id) == $user->id ? 'selected' : '' }}>
                             {{ $user->name }}
                         </option>
                     @endforeach
@@ -116,6 +117,18 @@
                 <input type="text" class="input-text" name="old_number" dir="ltr"
                        value="{{ old('old_number', $contract->old_number) }}"
                        id="inputOldNumber" placeholder="شماره قرارداد سیستم قبلی را وارد کنید">
+            </div>
+
+            <div class="mt-4">
+                <label for="inputUser2" class="form-label">انتخاب مسئول پروژه دوم</label>
+                <select name="second_user_id" id="inputUser2" class="input-text">
+                    <option value="">انتخاب کنید</option>
+                    @foreach($staffs as $staff)
+                        <option value="{{ $staff->id }}" {{ old('second_user_id', $contract->second_user_id) == $staff->id ? 'selected' : '' }}>
+                            {{ $staff->name }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
         </div>
 
