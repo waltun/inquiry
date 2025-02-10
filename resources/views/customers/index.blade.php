@@ -115,7 +115,7 @@
                         ایمیل
                     </th>
                     <th scope="col" class="p-4">
-                        کدملی
+                        کدملی / شناسه ملی
                     </th>
                     <th scope="col" class="p-4">
                         قرارداد ها

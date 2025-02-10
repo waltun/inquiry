@@ -17,7 +17,12 @@ class MarketerController extends Controller
 
     public function index()
     {
-        $marketers = Marketer::latest()->paginate(20);
+        if (auth()->user()->role == 'admin') {
+            $marketers = Marketer::latest()->paginate(20);
+        } else {
+            $marketers = auth()->user()->marketers()->latest()->paginate(20);
+        }
+
         return view('marketers.index', compact('marketers'));
     }
 

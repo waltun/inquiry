@@ -90,6 +90,9 @@
                         ایمیل
                     </th>
                     <th scope="col" class="p-4">
+                        نام شرکت
+                    </th>
+                    <th scope="col" class="p-4">
                         تعداد استعلام ها
                     </th>
                     <th scope="col" class="p-4">
@@ -108,6 +111,9 @@
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             {{ $user->email ?? '-' }}
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            {{ $user->company ?? '-' }}
                         </td>
                         <td class="table-tr-td border-t-0 border-x-0">
                             {{ count($user->inquiries) }}

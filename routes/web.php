@@ -595,6 +595,7 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::post('contracts/{contract}/change-user', [ContractController::class, 'changeUser'])->name('contracts.change-user');
 
         Route::get('final-contracts', [FinalContractController::class, 'index'])->name('final-contracts.index');
+        Route::post('final-contracts/{contract}/restore', [FinalContractController::class, 'restore'])->name('final-contracts.restore');
 
         Route::get('/contracts/{contract}/payments', [PaymentController::class, 'index'])->name('contracts.payments.index');
         Route::get('/contracts/{contract}/create-payments', [PaymentController::class, 'create'])->name('contracts.payments.create');

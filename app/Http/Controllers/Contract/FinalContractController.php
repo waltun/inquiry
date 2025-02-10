@@ -35,4 +35,14 @@ class FinalContractController extends Controller
         $customers = Customer::latest()->get();
         return view('contracts.final.index', compact('contracts', 'customers'));
     }
+
+    public function restore(Contract $contract)
+    {
+        $contract->complete = 0;
+        $contract->save();
+
+        alert()->success('بازگردانی موفق', 'قرارداد با موفقیت بازگردانی شد');
+
+        return back();
+    }
 }

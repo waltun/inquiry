@@ -194,15 +194,72 @@
     </div>
 
     <!-- Submitted & List inquiries -->
-    <div class="mt-6 md:grid grid-cols-3 gap-4 space-y-4 md:space-y-0">
+    <div class="grid grid-cols-5 gap-4 sticky bottom-4 mt-6">
+        @can('submitted-inquiries')
+            <a href="{{ route('inquiries.index') }}" class="dashboard-cards group bg-sky-200">
+                <div class="flex items-center">
+                    <div class="dashboard-card-icon bg-yellow-600 dark:bg-slate-800">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             class="w-6 h-6 text-white group-hover:text-myBlue-100"
+                             fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <div class="mr-4">
+                        <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
+                            لیست استعلام ها
+                        </p>
+                    </div>
+                </div>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                         class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                        <path fill-rule="evenodd"
+                              d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                              clip-rule="evenodd"/>
+                    </svg>
+                </div>
+            </a>
+        @endcan
+
+        @can('submitted-inquiries')
+            <a href="{{ route('inquiries.submitted') }}" class="dashboard-cards group bg-sky-200">
+                <div class="flex items-center">
+                    <div class="dashboard-card-icon bg-yellow-600 dark:bg-slate-800">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             class="w-6 h-6 text-white group-hover:text-myBlue-100"
+                             fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <div class="mr-4">
+                        <p class="font-bold text-black text-base group-hover:text-white dark:text-white">
+                            استعلام های منتظر قیمت
+                        </p>
+                    </div>
+                </div>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                         class="w-5 h-5 text-gray-600 group-hover:text-gray-200 dark:text-white">
+                        <path fill-rule="evenodd"
+                              d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z"
+                              clip-rule="evenodd"/>
+                    </svg>
+                </div>
+            </a>
+        @endcan
+
         @can('priced-inquiries')
             <a href="{{ route('inquiries.priced') }}" class="dashboard-cards group bg-sky-200">
                 <div class="flex items-center">
                     <div class="dashboard-card-icon bg-yellow-600 dark:bg-slate-800">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
-                             stroke="currentColor" class="w-6 h-6 text-white group-hover:text-myBlue-100">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             class="w-6 h-6 text-white group-hover:text-myBlue-100"
+                             fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
                     </div>
                     <div class="mr-4">
