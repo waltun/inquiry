@@ -145,7 +145,7 @@
                 <option value="">جستجو براساس دسته</option>
                 @foreach($groups as $group)
                     <option
-                        value="{{ $group->id }}" {{ $group->id == request()->get('group_id') ? 'selected' : '' }}>
+                            value="{{ $group->id }}" {{ $group->id == request()->get('group_id') ? 'selected' : '' }}>
                         {{ $group->name }}
                     </option>
                 @endforeach
@@ -156,7 +156,7 @@
                 <option value="">جستجو براساس مدل</option>
                 @foreach($modells as $modell)
                     <option
-                        value="{{ $modell->id }}" {{ $modell->id == request()->get('model_id') ? 'selected' : '' }}>
+                            value="{{ $modell->id }}" {{ $modell->id == request()->get('model_id') ? 'selected' : '' }}>
                         {{ $modell->name }}
                     </option>
                 @endforeach
@@ -190,6 +190,9 @@
                     </th>
                     <th scope="col" class="p-4">
                         پیش فاکتور
+                    </th>
+                    <th scope="col" class="p-4">
+                        قرارداد
                     </th>
                     <th scope="col" class="p-4 rounded-tl-lg">
                         <span class="sr-only">اقدامات</span>
@@ -236,6 +239,34 @@
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                          stroke-width="2" stroke="currentColor" class="w-5 h-5 text-green-600">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/>
+                                    </svg>
+                                </div>
+                            @else
+                                <div class="flex items-center justify-center space-x-2 space-x-reverse">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-red-500">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
+                                    </svg>
+                                </div>
+                            @endif
+                        </td>
+                        <td class="table-tr-td border-t-0 border-x-0">
+                            @php
+                                $isContract = false;
+                                if (!$inquiry->invoices->isEmpty()) {
+                                    foreach($inquiry->invoices as $invoice) {
+                                    if (!is_null($invoice->contract)) {
+                                        $isContract = true;
+                                    }
+                                }
+                                }
+                            @endphp
+                            @if($isContract)
+                                <div class="flex items-center justify-center space-x-2 space-x-reverse">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                         stroke-width="2" stroke="currentColor" class="w-5 h-5 text-green-600">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                              d="m4.5 12.75 6 6 9-13.5"/>
                                     </svg>
                                 </div>
                             @else
@@ -333,7 +364,7 @@
                                                                                   class="input-text h-32 resize-none"></textarea>
                                                                     </div>
                                                                     <div
-                                                                        class="flex justify-end items-center space-x-4 space-x-reverse">
+                                                                            class="flex justify-end items-center space-x-4 space-x-reverse">
                                                                         <button type="submit" class="form-submit-btn">
                                                                             ثبت
                                                                         </button>
@@ -391,12 +422,12 @@
                                                                                 class="input-text">
                                                                             @foreach(\App\Models\User::all() as $user)
                                                                                 <option
-                                                                                    value="{{ $user->id }}">{{ $user->name }}</option>
+                                                                                        value="{{ $user->id }}">{{ $user->name }}</option>
                                                                             @endforeach
                                                                         </select>
                                                                     </div>
                                                                     <div
-                                                                        class="flex justify-end items-center space-x-4 space-x-reverse">
+                                                                            class="flex justify-end items-center space-x-4 space-x-reverse">
                                                                         <button type="submit" class="form-submit-btn">
                                                                             ثبت
                                                                         </button>
@@ -457,12 +488,12 @@
                                                                                     class="input-text">
                                                                                 @foreach(\App\Models\User::where('role', 'staff')->orWhere('role', 'admin')->get() as $user)
                                                                                     <option
-                                                                                        value="{{ $user->id }}">{{ $user->name }}</option>
+                                                                                            value="{{ $user->id }}">{{ $user->name }}</option>
                                                                                 @endforeach
                                                                             </select>
                                                                         </div>
                                                                         <div
-                                                                            class="flex justify-end items-center space-x-4 space-x-reverse">
+                                                                                class="flex justify-end items-center space-x-4 space-x-reverse">
                                                                             <button type="submit"
                                                                                     class="form-submit-btn">
                                                                                 ثبت

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\CoilInput;
+use App\Models\ConvertorInput;
+use App\Models\DamperInput;
 use App\Models\DeleteButton;
 use App\Models\Group;
 use App\Models\Inquiry;
@@ -1476,6 +1478,33 @@ class InquiryController extends Controller
                             }
                         }
                         $product->amounts()->delete();
+                    }
+
+                    $dampers = DamperInput::where('inquiry_id', $inquiry->id)->get();
+                    if (!$dampers->isEmpty()) {
+                        foreach ($dampers as $damper) {
+                            if (is_null($damper->contract_id) && !is_null($damper->inquiry_id)) {
+                                $damper->delete();
+                            }
+                        }
+                    }
+
+                    $coils = CoilInput::where('inquiry_id', $inquiry->id)->get();
+                    if (!$coils->isEmpty()) {
+                        foreach ($coils as $coil) {
+                            if (is_null($coil->contract_id) && !is_null($coil->inquiry_id)) {
+                                $coil->delete();
+                            }
+                        }
+                    }
+
+                    $convertors = ConvertorInput::where('inquiry_id', $inquiry->id)->get();
+                    if (!$convertors->isEmpty()) {
+                        foreach ($convertors as $convertor) {
+                            if (is_null($convertor->contract_id) && !is_null($convertor->inquiry_id)) {
+                                $convertor->delete();
+                            }
+                        }
                     }
 
                     $inquiry->products()->delete();

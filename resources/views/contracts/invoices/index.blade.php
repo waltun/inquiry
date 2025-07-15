@@ -207,7 +207,7 @@
                                         </td>
                                         <td class="table-tr-td border-t-0 border-x-0">
                                             <a href="#product{{ $product->id }}">
-                                                {{ $modell->parent->name ?? '-' }}
+                                                {{ $modell->parent->name ?? '(احتمالا حذف شده)' }}
                                             </a>
                                         </td>
                                         <td class="table-tr-td border-t-0 border-x-0">
@@ -362,10 +362,10 @@
                                             {{ $loop->index + 1 }}
                                         </td>
                                         <td class="table-tr-td border-t-0 border-x-0">
-                                            {{ $part->name }}
+                                            {{ $part->name ?? '(احتمالا حذف شده)' }}
                                         </td>
                                         <td class="table-tr-td border-t-0 border-x-0">
-                                            {{ $part->unit }}
+                                            {{ $part->unit ?? '(احتمالا حذف شده)' }}
                                         </td>
                                         <td class="table-tr-td border-t-0 border-x-0">
                                             {{ $product->quantity }}

@@ -48,38 +48,40 @@ class InquiryPartController extends Controller
         foreach ($inquiry->products()->where('part_id', '!=', 0)->get() as $product) {
             $part = \App\Models\Part::find($product->part_id);
 
-            if (!$part->children->isEmpty()) {
-                foreach ($part->children as $child) {
-                    if (!$child->children->isEmpty()) {
-                        foreach ($child->children as $ch) {
-                            if (!in_array($ch->id, $partIds)) {
-                                if (($ch->price_updated_at < $lastTime && $ch->price > 0) || ($ch->price_updated_at < $lastTime && $ch->price == 0)) {
+            if ($part) {
+                if (!$part->children->isEmpty()) {
+                    foreach ($part->children as $child) {
+                        if (!$child->children->isEmpty()) {
+                            foreach ($child->children as $ch) {
+                                if (!in_array($ch->id, $partIds)) {
+                                    if (($ch->price_updated_at < $lastTime && $ch->price > 0) || ($ch->price_updated_at < $lastTime && $ch->price == 0)) {
+                                        auth()->user()->inquiryPrices()->create([
+                                            'part_id' => $ch->id,
+                                            'inquiry_id' => $inquiry->id
+                                        ]);
+                                    }
+                                }
+                            }
+                        } else {
+                            if (!in_array($child->id, $partIds)) {
+                                if (($child->price_updated_at < $lastTime && $child->price > 0) || ($child->price_updated_at < $lastTime && $child->price == 0)) {
+
                                     auth()->user()->inquiryPrices()->create([
-                                        'part_id' => $ch->id,
+                                        'part_id' => $child->id,
                                         'inquiry_id' => $inquiry->id
                                     ]);
                                 }
                             }
                         }
-                    } else {
-                        if (!in_array($child->id, $partIds)) {
-                            if (($child->price_updated_at < $lastTime && $child->price > 0) || ($child->price_updated_at < $lastTime && $child->price == 0)) {
-
-                                auth()->user()->inquiryPrices()->create([
-                                    'part_id' => $child->id,
-                                    'inquiry_id' => $inquiry->id
-                                ]);
-                            }
-                        }
                     }
-                }
-            } else {
-                if (!in_array($part->id, $partIds)) {
-                    if (($part->price_updated_at < $lastTime && $part->price > 0) || ($part->price_updated_at < $lastTime && $part->price == 0)) {
-                        auth()->user()->inquiryPrices()->create([
-                            'part_id' => $part->id,
-                            'inquiry_id' => $inquiry->id
-                        ]);
+                } else {
+                    if (!in_array($part->id, $partIds)) {
+                        if (($part->price_updated_at < $lastTime && $part->price > 0) || ($part->price_updated_at < $lastTime && $part->price == 0)) {
+                            auth()->user()->inquiryPrices()->create([
+                                'part_id' => $part->id,
+                                'inquiry_id' => $inquiry->id
+                            ]);
+                        }
                     }
                 }
             }
